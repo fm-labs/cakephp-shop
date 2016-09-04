@@ -81,6 +81,16 @@ class AppController extends BaseAdminAppController
                         'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
                         'icon' => 'users'
                     ],
+                    'Stocks' => [
+                        'title' => 'Stock',
+                        'url' => ['plugin' => 'Shop', 'controller' => 'Stocks', 'action' => 'index'],
+                        'icon' => 'truck'
+                    ],
+                    'StockTransfers' => [
+                        'title' => 'StockTransfers',
+                        'url' => ['plugin' => 'Shop', 'controller' => 'StockTransfers', 'action' => 'index'],
+                        'icon' => 'truck'
+                    ],
                 ]
             ]
         ];
