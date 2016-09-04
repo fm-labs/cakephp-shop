@@ -50,10 +50,10 @@ $this->loadHelper('Media.Media');
                 }
             ],
             'parent_id' => [
-                'title' => __('Parent Category'),
+                'title' => __d('shop','Parent Category'),
                 'formatter' => function($val, $entity) {
                     if (!$entity->parent_id) {
-                        return __('Root Page');
+                        return __d('shop','Root Page');
                     }
 
                     $title = ($entity->parent_shop_category->name) ? $entity->parent_shop_category->name : $entity->parent_id;

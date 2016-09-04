@@ -30,7 +30,6 @@ class CartController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Banana.Frontend');
         $this->Frontend->setRefScope('Shop.Cart');
 
         $this->cart = $this->_getCart();

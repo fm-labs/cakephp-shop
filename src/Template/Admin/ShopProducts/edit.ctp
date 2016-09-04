@@ -101,7 +101,7 @@ $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
         <div class="col-md-3">
             <?= $this->Form->button(__d('shop', 'Save Changes'), ['class' => 'btn btn-primary btn-block']) ?>
 
-            <?= $this->Form->fieldsetStart(['legend' => __('Publish')]); ?>
+            <?= $this->Form->fieldsetStart(['legend' => __d('shop','Publish')]); ?>
             <?php
             echo $this->Form->input('is_published');
             //echo $this->Form->input('publish_start_date', ['type' => 'datepicker']);
@@ -110,14 +110,14 @@ $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
             <?= $this->Form->fieldsetEnd(); ?>
 
 
-            <?= $this->Form->fieldsetStart(['legend' => __('Shop Options')]); ?>
+            <?= $this->Form->fieldsetStart(['legend' => __d('shop','Shop Options')]); ?>
             <?php
             echo $this->Form->input('is_buyable');
             ?>
             <?= $this->Form->fieldsetEnd(); ?>
 
 
-            <?= $this->Form->fieldsetStart(['legend' => __('Media')]); ?>
+            <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
             <?= $this->cell('Media.ImageSelect', [[
                 'label' => 'Preview Image',
                 'model' => 'Shop.ShopProducts',
@@ -142,7 +142,7 @@ $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
 
 
 
-            <?= $this->Form->fieldsetStart(['legend' => __('Advanced'), 'collapsed' => true]); ?>
+            <?= $this->Form->fieldsetStart(['legend' => __d('shop','Advanced'), 'collapsed' => true]); ?>
             <?php
             echo $this->Form->input('view_template');
             ?>

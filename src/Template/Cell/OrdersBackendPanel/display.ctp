@@ -24,7 +24,7 @@
         ?>
     </div>
     <div class="panel-footer">
-        <?= $this->Html->link(__('View all orders'),
+        <?= $this->Html->link(__d('shop','View all orders'),
             ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             ['class' => 'btn btn-default link-frame']); ?>
     </div>

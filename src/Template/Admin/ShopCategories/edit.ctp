@@ -104,7 +104,7 @@ use Cake\Routing\Router;
                 <?= $this->Form->button(__d('shop', 'Save Changes'), ['class' => 'btn btn-primary btn-block']) ?>
 
                 <?= $this->Form->fieldsetStart([
-                    'legend' => sprintf("%s %s", __('Published'), $this->Ui->statusLabel($shopCategory->is_published)),
+                    'legend' => sprintf("%s %s", __d('shop','Published'), $this->Ui->statusLabel($shopCategory->is_published)),
                     'collapsed' => false
                 ]); ?>
                 <?php
@@ -115,7 +115,7 @@ use Cake\Routing\Router;
                 <?= $this->Form->fieldsetEnd(); ?>
 
 
-                <?= $this->Form->fieldsetStart(['legend' => __('Media'), 'collapsed' => false]); ?>
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media'), 'collapsed' => false]); ?>
                 <?= $this->cell('Media.ImageSelect', [[
                     'label' => 'Preview Image',
                     'model' => 'Shop.ShopCategories',
@@ -139,7 +139,7 @@ use Cake\Routing\Router;
                 <?= $this->Form->fieldsetEnd(); ?>
 
 
-                <?= $this->Form->fieldsetStart(['legend' => __('Structure'), 'collapsed' => false]); ?>
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Structure'), 'collapsed' => false]); ?>
                     <?= $this->Form->input('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']); ?>
                     <?php if ($shopCategory->parent_id): ?>
                         <?= $this->Html->link(
@@ -148,13 +148,13 @@ use Cake\Routing\Router;
                     <?php endif; ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
-                <?= $this->Form->fieldsetStart(['legend' => __('Layout'), 'collapsed' => false]); ?>
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Layout'), 'collapsed' => false]); ?>
                     <?= $this->Form->input('teaser_template'); ?>
                     <?= $this->Form->input('view_template'); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
 
-                <?= $this->Form->fieldsetStart(['legend' => __('Advanced'), 'collapsed' => true]); ?>
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Advanced'), 'collapsed' => true]); ?>
                     <?= $this->Form->input('is_alias'); ?>
                     <?= $this->Form->input('alias_id', ['empty' => '- Not selected -', 'options' => $parentShopCategories]); ?>
                 <?= $this->Form->fieldsetEnd(); ?>

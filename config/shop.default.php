@@ -8,6 +8,10 @@ return [
             'en' => 'English',
         ],
 
+        'Layout' => [
+          'default' => 'default'
+        ],
+
         'Router' => [
             'enablePrettyUrls' => true,
             'forceCanonical' => true,

@@ -18,8 +18,10 @@ class ShopProductsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Banana.Frontend');
+
         $this->loadComponent('Banana.Locale');
+
+        $this->Frontend->setRefScope('Shop.ShopProducts');
     }
 
     public function index($categoryId = null)

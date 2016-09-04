@@ -137,7 +137,7 @@ class ShopImportShell extends Shell
         fclose($file);
 
 
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
+        $this->out(__d('shop',"Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
             $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean']));
 
     }
@@ -266,7 +266,7 @@ class ShopImportShell extends Shell
         fclose($file);
 
 
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5} | Updated Pass {6}",
+        $this->out(__d('shop',"Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5} | Updated Pass {6}",
             $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean'], $this->_import['updatepass']));
 
     }
@@ -483,7 +483,7 @@ class ShopImportShell extends Shell
         fclose($file);
 
 
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
+        $this->out(__d('shop',"Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
             $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean']));
     }
 

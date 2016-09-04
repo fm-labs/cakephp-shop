@@ -23,7 +23,8 @@ class ShopCategoriesController extends AppController
 
     public function initialize()
     {
-        $this->loadComponent('Banana.Frontend');
+        parent::initialize();
+
         $this->Frontend->setRefScope('Shop.ShopCategories');
     }
 
@@ -49,7 +50,7 @@ class ShopCategoriesController extends AppController
         }
 
         if (!$shopCategory) {
-            $this->Flash->error(__('Category not found'));
+            $this->Flash->error(__d('shop','Category not found'));
             $this->redirect(['controller' => 'Catalogue', 'action' => 'index']);
         }
 

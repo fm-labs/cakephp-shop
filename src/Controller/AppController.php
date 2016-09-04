@@ -3,24 +3,32 @@
 namespace Shop\Controller;
 
 use App\Controller\AppController as BaseAppController;
+use Banana\Controller\Component\FrontendComponent;
+use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
 use Shop\Lib\LibShopCart;
 use Shop\Model\Table\ShopOrdersTable;
 
+/**
+ * Class AppController
+ *
+ * @package Shop\Controller
+ * @property FrontendComponent $Frontend
+ * @property AuthComponent $Auth
+ */
 class AppController extends BaseAppController
 {
 
     public function initialize()
     {
+        parent::initialize();
 
         $this->helpers['Paginator'] = [
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
-
         $this->loadComponent('Banana.Frontend');
-
-        parent::initialize();
+        $this->loadComponent('Shop.Shop');
 
         if ($this->components()->has('Auth')) {
             $this->Auth->allow();

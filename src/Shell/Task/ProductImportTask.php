@@ -16,7 +16,7 @@ class ProductImportTask extends BaseShopTask
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__("Import products from CSV file"))
+            ->description(__d('shop',"Import products from CSV file"))
             /*
             ->addOption('path', [
                 'help' => 'File path',
@@ -364,7 +364,7 @@ class ProductImportTask extends BaseShopTask
         fclose($file);
 
 
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
+        $this->out(__d('shop',"Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
             $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean']));
 
 

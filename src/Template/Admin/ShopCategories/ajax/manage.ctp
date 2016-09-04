@@ -66,26 +66,26 @@ use Cake\Routing\Router;
                     <div class="actions right grouped">
                         <ul>
                             <li><?= $this->Ui->link(
-                                    __('Edit'),
+                                    __d('shop','Edit'),
                                     ['action' => 'edit', $shopCategory->id],
                                     ['class' => 'link-frame-modal btn btn-default btn-sm btn-primary', 'icon' => 'edit']);
                                 ?>
                             </li>
-                            <li><?= $this->Html->link(__('Preview'),
+                            <li><?= $this->Html->link(__d('shop','Preview'),
                                     [ 'action' => 'preview', $shopCategory->id ],
                                     [ 'class' => 'preview link-frame-modal btn btn-default btn-sm', 'data-icon' => 'eye', 'target' => '_preview']);
                                 ?>
                             </li>
-                            <li><?= $this->Html->link(__('Open'),
+                            <li><?= $this->Html->link(__d('shop','Open'),
                                     $shopCategory->url,
                                     [ 'class' => 'link-external btn btn-default btn-sm', 'data-icon' => 'external-link', 'target' => '_blank']);
                                 ?>
                             </li>
-                            <li><?= $this->Html->link(__('Delete'),
+                            <li><?= $this->Html->link(__d('shop','Delete'),
                                     [ 'action' => 'delete', $shopCategory->id ],
                                     [ 'class' => 'delete btn btn-danger btn-sm',
                                         'data-icon' => 'trash-o',
-                                        'confirm' => __('Sure ?'),
+                                        'confirm' => __d('shop','Sure ?'),
                                     ]);
                                 ?>
                             </li>

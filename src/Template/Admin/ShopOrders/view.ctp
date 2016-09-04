@@ -2,7 +2,7 @@
 <?php $this->loadHelper('Backend.Tabs'); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__('Order #{0}', $shopOrder->id)); ?>
+<?php $this->Html->addCrumb(__d('shop','Order #{0}', $shopOrder->id)); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],
@@ -15,12 +15,12 @@
 
 <div class="shopOrders view">
     <h1>
-        <?= __('Order #{0}', $shopOrder->id); ?>
+        <?= __d('shop','Order #{0}', $shopOrder->id); ?>
     </h1>
 
     <?= $this->Tabs->start(); ?>
 
-    <?= $this->Tabs->add(__('Order #{0}', $shopOrder->id)); ?>
+    <?= $this->Tabs->add(__d('shop','Order #{0}', $shopOrder->id)); ?>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -71,7 +71,7 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <?= __('Billing Address'); ?>
+                    <?= __d('shop','Billing Address'); ?>
                 </div>
                 <div class="panel-body">
                     <?= nl2br(h($shopOrder->shipping_address->formatted)) ?>
@@ -81,7 +81,7 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <?= __('Shipping Address'); ?>
+                    <?= __d('shop','Shipping Address'); ?>
                 </div>
                 <div class="panel-body">
                     <?= nl2br(h($shopOrder->shipping_address->formatted)) ?>
