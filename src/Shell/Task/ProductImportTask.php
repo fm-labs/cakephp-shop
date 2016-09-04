@@ -17,11 +17,13 @@ class ProductImportTask extends BaseShopTask
         $parser = parent::getOptionParser();
         $parser
             ->description(__("Import products from CSV file"))
+            /*
             ->addOption('path', [
                 'help' => 'File path',
                 'short' => 'p',
                 'default' => null,
             ])
+            */
             ->addOption('price-net', [
                 'boolean' => true,
                 'help' => 'The price column holds net price values (Default: false)',
@@ -30,6 +32,11 @@ class ProductImportTask extends BaseShopTask
             ->addOption('image-pathprefix', [
                 'help' => 'The image path prefix WITHOUT starting slash and WITH trailing slash',
                 'default' => null
+            ])
+            ->addOption('dry-run', [
+                'boolean' => true,
+                'help' => 'Run without writing changes to the database (Default: false)',
+                'default' => false
             ])
             ->addOption('force-parent', [
                 'boolean' => true,
@@ -51,9 +58,19 @@ class ProductImportTask extends BaseShopTask
                 'help' => 'Force published (Default: false)',
                 'default' => false
             ])
+            ->addOption('clean-text', [
+                'boolean' => true,
+                'help' => "Stip HTML tags from text (Default: false)",
+                'default' => false
+            ])
             ->addOption('wrap-text', [
                 'boolean' => true,
                 'help' => "Convert newline characters to <br> tags and wrap in <p> tag (Default: false)",
+                'default' => false
+            ])
+            ->addOption('skip-priority', [
+                'boolean' => true,
+                'help' => "Skip setting the priority field (Default: false)",
                 'default' => false
             ])
             ->addOption('subcategories', [
@@ -82,13 +99,16 @@ class ProductImportTask extends BaseShopTask
         //$this->_stop(0);
 
         $fileName = $this->args[0];
+        $dryRun = (isset($this->params['dry-run'])) ? $this->params['dry-run'] : false;
         $forceParent = (isset($this->params['force-parent'])) ? $this->params['force-parent'] : false;
         $forceText = (isset($this->params['force-text'])) ? $this->params['force-text'] : false;
         $forceBuyable = (isset($this->params['force-buyable'])) ? $this->params['force-buyable'] : false;
         $forcePublished = (isset($this->params['force-published'])) ? $this->params['force-published'] : false;
+        $cleanText = (isset($this->params['clean-text'])) ? $this->params['clean-text'] : false;
         $wrapText = (isset($this->params['wrap-text'])) ? $this->params['wrap-text'] : false;
         $usePriceNet = (isset($this->params['price-net'])) ? $this->params['price-net'] : false;
         $subcategories = (isset($this->params['subcategories'])) ? $this->params['subcategories'] : false;
+        $skipPriority = (isset($this->params['skip-priority'])) ? $this->params['skip-priority'] : false;
         $imagePathPrefix = (isset($this->params['image-pathprefix'])) ? $this->params['image-pathprefix'] : ''; // $fileName . '/';
 
         $this->loadModel('Shop.ShopCategories');
@@ -185,7 +205,7 @@ class ProductImportTask extends BaseShopTask
                 $this->_importError($i, 'Row error: Artikelnummer MISSING');
                 continue;
             }
-            $skuId = $row['Artikelnummer'];
+            $skuId = strtoupper($row['Artikelnummer']);
             // article variant root check
             if ($this->_variantRootSku && preg_match('/^' . $this->_variantRootSku . '/', $skuId, $matches)) {
                 $skuId = $skuId;
@@ -214,6 +234,9 @@ class ProductImportTask extends BaseShopTask
                 continue;
             }
             $desc = $row['Text'];
+            if ($cleanText) {
+                $desc = strip_tags($desc);
+            }
             if ($wrapText) {
                 $desc = '<p>' . nl2br($row['Text']) . '</p>';
             }
@@ -221,7 +244,7 @@ class ProductImportTask extends BaseShopTask
 
             $image = null;
             if ($row['Bild']) {
-                $image = $categoryImagePath . $row['Bild'];
+                $image = trim($categoryImagePath, '/') . '/' . ltrim($row['Bild'], '/');
             }
 
             if (!$row['Preis']) {
@@ -236,12 +259,15 @@ class ProductImportTask extends BaseShopTask
             }
 
 
-
-            if (!$row['Reihung']) {
-                $this->_importError($i, 'Row error: Reihung MISSING');
-                continue;
+            if ($skipPriority) {
+                $priority = 1;
+            } else {
+                if (!$row['Reihung']) {
+                    $this->_importError($i, 'Row error: Reihung MISSING');
+                    continue;
+                }
+                $priority = $row['Reihung'];
             }
-            $orderPos = $row['Reihung'];
 
 
 
@@ -259,7 +285,7 @@ class ProductImportTask extends BaseShopTask
                     //'featured_image_file' => $image,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $orderPos
+                    'priority' => $priority
                 ];
 
             } else {
@@ -277,7 +303,7 @@ class ProductImportTask extends BaseShopTask
                     'is_published' => false,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $orderPos
+                    'priority' => $priority
                 ];
 
             }
@@ -321,7 +347,7 @@ class ProductImportTask extends BaseShopTask
             continue;
             */
 
-            if (!$this->ShopProducts->save($product)) {
+            if (!$dryRun && !$this->ShopProducts->save($product)) {
                 $this->_importError($i, 'Saving failed', 'fail');
                 continue;
             }
