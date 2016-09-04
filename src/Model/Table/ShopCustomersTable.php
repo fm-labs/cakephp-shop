@@ -1,0 +1,271 @@
+<?php
+namespace Shop\Model\Table;
+
+use Cake\Log\Log;
+use Cake\ORM\Entity;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+use Shop\Model\Entity\ShopCustomer;
+
+/**
+ * ShopCustomers Model
+ *
+ * @property \Cake\ORM\Association\HasMany $ShopAddresses
+ * @property \Cake\ORM\Association\HasMany $ShopOrders
+ */
+class ShopCustomersTable extends Table
+{
+    /**
+     * @var int Minimum length of passwords
+     */
+    public static $minPasswordLength = 8;
+
+    public static $passwordRegex = '/^(\w)+$/';
+
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        parent::initialize($config);
+
+        $this->table('shop_customers');
+        $this->displayField('display_name');
+        $this->primaryKey('id');
+
+        $this->addBehavior('Timestamp');
+
+        $this->hasMany('ShopAddresses', [
+            'foreignKey' => 'shop_customer_id',
+            'className' => 'Shop.ShopAddresses'
+        ]);
+        $this->hasMany('ShopOrders', [
+            'foreignKey' => 'shop_customer_id',
+            'className' => 'Shop.ShopOrders'
+        ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create');
+
+        $validator
+            ->add('email', 'valid', ['rule' => 'email'])
+            ->requirePresence('email', 'create')
+            ->notEmpty('email')
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
+            ->allowEmpty('password');
+
+        $validator
+            ->allowEmpty('first_name');
+
+        $validator
+            ->allowEmpty('last_name');
+
+        $validator
+            ->allowEmpty('email_verification_code');
+
+        $validator
+            ->add('email_verified', 'valid', ['rule' => 'boolean'])
+            ->allowEmpty('email_verified');
+
+        $validator
+            ->add('is_guest', 'valid', ['rule' => 'boolean'])
+            ->allowEmpty('is_guest');
+
+        $validator
+            ->add('is_blocked', 'valid', ['rule' => 'boolean'])
+            ->allowEmpty('is_blocked');
+
+        return $validator;
+    }
+
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['email']));
+        return $rules;
+    }
+
+
+    /**
+     * Validation rules for adding new users
+     *
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationAdd(Validator $validator)
+    {
+        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
+            ->requirePresence('email', 'create')
+            ->notEmpty('email')
+            ->requirePresence('is_guest', 'create');
+
+        $validator
+            ->requirePresence('password1', 'create')
+            ->notEmpty('password1')
+            //->allowEmpty('password1')
+            ->add('password1', 'password', [
+                'rule' => 'validateNewPassword1',
+                'provider' => 'table',
+                'message' => __d('shop','Invalid password')
+            ])
+            ->requirePresence('password2', 'create')
+            ->notEmpty('password2')
+            //->allowEmpty('password2')
+            ->add('password2', 'password', [
+                'rule' => 'validateNewPassword2',
+                'provider' => 'table',
+                'message' => __d('shop','Passwords do not match')
+            ]);
+
+
+        return $validator;
+    }
+
+
+
+    /**
+     * Validation rules for adding new users
+     *
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationAddGuest(Validator $validator)
+    {
+        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
+            ->requirePresence('email', 'create')
+            ->notEmpty('email')
+            ->requirePresence('is_guest', 'create');
+            //->notEmpty('is_guest');
+
+        return $validator;
+    }
+
+
+    /**
+     * Add new user
+     *
+     * @param array $data
+     * @return \Cake\Datasource\EntityInterface|Entity
+     */
+    public function add(ShopCustomer $customer, array $data)
+    {
+        if (!$customer) {
+            $customer = $this->newEntity(null);
+            $customer->accessible('*', true);
+        }
+
+        $email = (isset($data['email'])) ? $data['email'] : null;
+
+        $isGuest = isset($data['is_guest']) && (bool) $data['is_guest'];
+
+        if ($email) {
+            // check if email already exists for a known guest
+            $_existent = $this->find()->where(['email' => $email, 'is_guest' => true])->first();
+            if ($_existent) {
+                $customer = $_existent;
+            }
+        }
+
+
+        if ($isGuest) {
+            $validate = 'addGuest';
+            $customer->accessible(['password1', 'password2'], false);
+            $customer->accessible('password', false);
+        } else {
+            $validate = 'add';
+            $customer->accessible(['password1', 'password2'], true);
+            $customer->accessible('password', true);
+        }
+
+        $this->patchEntity($customer, $data, ['validate' => $validate]);
+        if ($customer->errors()) {
+            return $customer;
+        }
+
+        if ($customer->password1) {
+            $customer->password = $customer->password1;
+        }
+
+        $customer->is_new = true;
+
+        if (!$this->save($customer)) {
+            return false;
+        }
+        Log::info('Customer added with ID ' . $customer->id);
+        return $customer;
+    }
+
+    /**
+     * Password Validation Rule
+     *
+     * @param $value
+     * @param $context
+     * @return bool|string
+     */
+    public function validateNewPassword1($value, $context)
+    {
+        $value = trim($value);
+
+        // Check password length
+        if (strlen($value) < static::$minPasswordLength) {
+            return __d('shop','Password too short. Minimum {0} characters', static::$minPasswordLength);
+        }
+
+        // Check for illegal characters
+        if (!preg_match(static::$passwordRegex, $value)) {
+            return __d('shop','Password contains illegal characters');
+        }
+
+        return true;
+    }
+
+    /**
+     * Password Verification Validation Rule
+     * @param $value
+     * @param $context
+     * @return bool
+     */
+    public function validateNewPassword2($value, $context)
+    {
+        $value = trim($value);
+
+        if (!isset($context['data']['password1'])) {
+            return false;
+        }
+
+        if ($context['data']['password1'] === $value) {
+            return true;
+        }
+
+        return __d('shop','The passwords do not match');
+    }
+
+}
