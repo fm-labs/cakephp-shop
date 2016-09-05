@@ -20,7 +20,7 @@
                     <?= $this->Form->input('email'); ?>
                     <?= $this->Form->input('password'); ?>
                     <div class="actions" style="margin-top: 1em;">
-                        <?= $this->Form->submit(__d('shop','Login'), ['class' => 'ui primary submit button']); ?>
+                        <?= $this->Form->submit(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
                     </div>
                     <?= $this->Form->end(); ?>
                 </div>
@@ -57,7 +57,7 @@
                 </h3>
 
                 <div class="ui actions" style="text-align: right;">
-                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'ui primary button']); ?>
+                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
 
@@ -84,13 +84,12 @@
                 </p>
 
                 <div class="ui actions" style="text-align: right;">
-                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'ui primary button']); ?>
+                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
         <?php endif; ?>
     </div>
 
     <?php debug($customer); ?>
-
     <?php debug($this->request->session()->read('Shop')); ?>
 </div>

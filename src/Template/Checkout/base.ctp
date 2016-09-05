@@ -16,45 +16,43 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
 
     <hr />
 
-    <div class="ui grid">
-        <div class="row">
-            <div class="col-md-4">
-                <ul class="list-group">
+    <div class="row">
+        <div class="col-md-4">
+            <ul class="list-group">
 
-                    <?php foreach ($steps as $method => $step): ?>
-                        <?php
-                        $class = 'list-group-item';
-                        if ($method == $this->fetch('step_active')) {
-                            $class .= ' active';
-                        }
-                        if ($step['complete'] == true) {
-                            $class .= ' completed';
-                        }
-                        ?>
-                        <li class="<?= $class ?>">
-                            <h4 class="list-group-item-heading">
-                                <i class="fa fa-<?= $step['icon']; ?>"></i>
-                                <?= $this->Html->link($step['title'], ['action' => $method]); ?>
-                            </h4>
-                            <p class="list-group-item-text">
-                            </p>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php foreach ($steps as $method => $step): ?>
+                    <?php
+                    $class = 'list-group-item';
+                    if ($method == $this->fetch('step_active')) {
+                        $class .= ' active';
+                    }
+                    if ($step['complete'] == true) {
+                        $class .= ' completed';
+                    }
+                    ?>
+                    <li class="<?= $class ?>">
+                        <h4 class="list-group-item-heading">
+                            <i class="fa fa-<?= $step['icon']; ?>"></i>
+                            <?= $this->Html->link($step['title'], ['action' => $method]); ?>
+                        </h4>
+                        <p class="list-group-item-text">
+                        </p>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
 
 
-                <?php if (\Cake\Core\Configure::read('debug')): ?>
-                    <hr />
-                    CartID: <br />
-                    <?= h($cartId); ?>
-                <?php endif; ?>
+            <?php if (\Cake\Core\Configure::read('debug')): ?>
+                <hr />
+                CartID: <br />
+                <?= h($cartId); ?>
+            <?php endif; ?>
 
-            </div>
+        </div>
 
-            <div class="col-md-8">
-                <?= $this->fetch('content'); ?>
+        <div class="col-md-8">
+            <?= $this->fetch('content'); ?>
 
-            </div>
         </div>
     </div>
 

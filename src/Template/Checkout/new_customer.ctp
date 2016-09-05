@@ -18,7 +18,7 @@
                 <?= $this->Form->input('password2', ['type' => 'password', 'label' => __d('shop','Password')]); ?>
             </div>
             <div class="actions" style="margin-top: 1em;">
-                <?= $this->Form->submit(__d('shop','Continue'), ['class' => 'ui primary submit button']); ?>
+                <?= $this->Form->submit(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
             </div>
             <?= $this->Form->end(); ?>
         </div>
