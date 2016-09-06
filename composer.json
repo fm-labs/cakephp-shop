@@ -11,14 +11,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Cake\\": "./vendor/cakephp/cakephp/src",
-            "Backend\\": "src"
+            "Shop\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Backend\\Test\\": "tests",
-            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+            "Shop\\Test\\": "tests"
         }
     }
 }
