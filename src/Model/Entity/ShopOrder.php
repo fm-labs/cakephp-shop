@@ -98,10 +98,10 @@ class ShopOrder extends Entity
     {
         if (isset($this->_properties['nr'])) {
 
-            $prefix = "ORDER";
+            $prefix = "BE";
             $suffix = "";
             $nr = $this->_properties['nr'];
-            $zeroFill = 5;
+            $zeroFill = 8;
 
             if ($zeroFill > 0) {
                 $nrFill = str_repeat("0", $zeroFill) . (string) $nr;

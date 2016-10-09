@@ -32,7 +32,9 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
                     ?>
                     <li class="<?= $class ?>">
                         <h4 class="list-group-item-heading">
-                            <i class="fa fa-<?= $step['data-icon']; ?>"></i>
+                            <span class="icon" style="width: 25px; display: inline-block; text-align: right; padding-right: 5px;">
+                            <i class="fa fa-<?= $step['icon']; ?>"></i>
+                            </span>
                             <?= $this->Html->link($step['title'], ['action' => $method]); ?>
                         </h4>
                         <p class="list-group-item-text">

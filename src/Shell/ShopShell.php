@@ -33,6 +33,9 @@ class ShopShell extends Shell
         $parser->addSubcommand('patch_product_price', [
             'help' => 'Execute patchProductPrice'
         ]);
+        $parser->addSubcommand('patch_order_numbers', [
+            'help' => 'Execute patchOrderNumbers'
+        ]);
         return $parser;
     }
 
@@ -112,9 +115,9 @@ class ShopShell extends Shell
         $this->loadModel('Shop.ShopOrders');
 
         $orders = $this->ShopOrders->find()
-            ->contain()
-            ->where(['ShopOrders.is_temporary' => false])
-            ->order(['ShopOrders.id' => 'DESC'])
+            ->contain([])
+            ->where(['ShopOrders.is_temporary' => false, 'ShopOrders.nr IS NULL'])
+            ->order(['ShopOrders.submitted' => 'ASC'])
             ->all();
 
         foreach ($orders as $order) {
@@ -125,11 +128,12 @@ class ShopShell extends Shell
 
             $nr = $this->ShopOrders->getNextOrderNr();
             $order->nr = $nr;
+            $this->out("Next number for order with id " . $order->id . " -> " . $nr);
 
             if ($this->ShopOrders->save($order)) {
                 $this->out('Patched!');
             } else {
-                $this->err('Failed!');
+                $this->error('Failed!');
             }
         }
     }
