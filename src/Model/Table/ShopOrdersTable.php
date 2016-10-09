@@ -387,6 +387,26 @@ class ShopOrdersTable extends Table
         return $rules;
     }
 
+    public function getNextOrderNr()
+    {
+        //@TODO Read from config
+        //@TODO Support filtering from multiple fields
+        $orderNr = $orderNrStart = 1;
+
+        $lastOrder = $this->find()
+            ->contain()
+            ->select(['id', 'nr'])
+            ->where(['ShopOrders.is_temporary' => false, 'Shop.nr IS NOT NULL'])
+            ->order(['ShopOrders.nr' => 'DESC', 'ShopOrders.id' => 'DESC'])
+            ->all();
+
+        if ($lastOrder && $lastOrder->nr) {
+            $orderNr = (int) $lastOrder->nr + 1;
+        }
+
+        return $orderNr;
+    }
+
 
     public function calculate($id, $update = true)
     {
@@ -452,9 +472,30 @@ class ShopOrdersTable extends Table
             $this->eventManager()->dispatch($event);
         }
 
+        // assign order nr
+        if (!$this->assignOrderNr($order, true)) {
+            debug("Failed to assign order nr");
+        }
+
         // store addresses
         if (!$order->billing_address_id) {
             $billingAddr = $this->BillingAddresses->newEntity();
+        }
+
+        return $order;
+    }
+
+    public function assignOrderNr($order, $save = false)
+    {
+        // check if an order number has already been assigned
+        if ($order->nr) {
+            return;
+        }
+
+        $order->nr = $this->getNextOrderNr();
+
+        if ($save) {
+            return $this->save($order);
         }
 
         return $order;

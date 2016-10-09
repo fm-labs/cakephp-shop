@@ -3,43 +3,44 @@ use Backend\View\Widget\ImageSelectWidget;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 ?>
-<?php $this->loadHelper('Backend.Tabs'); ?>
+<?php $this->loadHelper('Bootstrap.Tabs'); ?>
+<?php $this->loadHelper('Backend.TinyMce'); ?>
 <?php $this->Html->addCrumb(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
 <?php $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Category'))); ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCategory->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
 )
 ?>
 <!--
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 -->
 <?= $this->Toolbar->addLink(
     __d('shop', 'Add {0}', __d('shop', 'Shop Category')),
     ['action' => 'add', 'parent_id' => $shopCategory->parent_id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Add {0}', __d('shop', 'Sub Category')),
     ['action' => 'add', 'parent_id' => $shopCategory->id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <!--
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 -->
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <?php $this->assign('title', $shopCategory->name); ?>

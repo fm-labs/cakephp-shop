@@ -1,20 +1,20 @@
 <?php $this->Html->addCrumb(__d('shop','Shop Orders')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['controller' => 'ShopCustomers', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Customer')),
     ['controller' => 'ShopCustomers', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Order Items')),
     ['controller' => 'ShopOrderItems', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <div class="shopOrders index">
     <table class="table table-striped table-hover table-condensed">
@@ -51,17 +51,17 @@
                 $dropdown->getChildren()->add(
                     __d('shop','Edit'),
                     ['action' => 'edit', $shopOrder->id],
-                    ['icon' => 'edit']
+                    ['data-icon' => 'edit']
                 );
                 $dropdown->getChildren()->add(
                     __d('shop','Send Owner Order Notification'),
                     ['action' => 'emailOwnerOrderNotify', $shopOrder->id],
-                    ['icon' => 'edit']
+                    ['data-icon' => 'edit']
                 );
                 $dropdown->getChildren()->add(
                     __d('shop','Delete'),
                     ['action' => 'delete', $shopOrder->id],
-                    ['icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]
+                    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]
                 );
                 ?>
                 <?= $this->element('Backend.Table/table_row_actions', ['menu' => $menu]); ?>

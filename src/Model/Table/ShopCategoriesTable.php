@@ -55,7 +55,7 @@ class ShopCategoriesTable extends Table
             'propertyName' => 'tags',
             'joinTable' => 'shop_categories_tags',
         ]);
-        $this->addBehavior('Banana.ContentModule', [
+        $this->addBehavior('Content.ContentModule', [
             'alias' => 'ContentModules',
             'scope' => 'Shop.ShopCategories'
         ]);

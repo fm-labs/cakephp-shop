@@ -8,7 +8,7 @@
 
 namespace Shop\View\Cell;
 
-use Banana\View\Cell\ModuleCell;
+use Content\View\Cell\ModuleCell;
 use Cake\ORM\TableRegistry;
 
 class RandomCategoryProductModuleCell extends ModuleCell

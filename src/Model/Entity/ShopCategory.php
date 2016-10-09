@@ -1,9 +1,9 @@
 <?php
 namespace Shop\Model\Entity;
 
-use Banana\Model\Behavior\PageMeta\PageMetaTrait;
-use Banana\Model\Entity\Page\PageInterface;
-use Banana\Model\Entity\PageTypeTrait;
+use Content\Model\Behavior\PageMeta\PageMetaTrait;
+use Content\Model\Entity\Page\PageInterface;
+use Content\Model\Entity\PageTypeTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;

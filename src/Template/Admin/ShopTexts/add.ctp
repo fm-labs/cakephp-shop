@@ -3,7 +3,7 @@
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Texts')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?php $this->Toolbar->endGroup(); ?>

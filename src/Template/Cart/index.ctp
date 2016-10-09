@@ -1,4 +1,4 @@
-<?php $this->loadHelper('Backend.Ui'); ?>
+<?php $this->loadHelper('Bootstrap.Ui'); ?>
 <?php $this->assign('title', __d('shop', 'Cart')); ?>
 <?php $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]); ?>
 <div class="shop cart index">
@@ -25,7 +25,7 @@
                     <?= $this->Form->end(); ?>
                 </td>
                 <td class="title"><?= h($item->title); ?><br />
-                    <?= $this->Ui->link(__d('shop','Remove from cart'), ['action' => 'remove', $cart->order->id, $item->id], ['icon' => 'trash']); ?></td>
+                    <?= $this->Ui->link(__d('shop','Remove from cart'), ['action' => 'remove', $cart->order->id, $item->id], ['data-icon' => 'trash']); ?></td>
                 <td class="number currency"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
                 <td class="number currency"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>
             </tr>

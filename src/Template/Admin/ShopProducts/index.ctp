@@ -1,15 +1,15 @@
 <?php $this->Html->addCrumb(__d('shop', 'Shop Products')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Product')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Product')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['controller' => 'ShopCategories', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Category')),
     ['controller' => 'ShopCategories', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <div class="shopProducts index">
     <h2>Products (<?= h($locale); ?>)</h2>

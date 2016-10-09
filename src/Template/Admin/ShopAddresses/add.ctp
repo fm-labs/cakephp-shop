@@ -3,19 +3,19 @@
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Addresses')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['controller' => 'ShopCustomers', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Customer')),
     ['controller' => 'ShopCustomers', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">

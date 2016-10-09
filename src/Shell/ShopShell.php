@@ -106,4 +106,31 @@ class ShopShell extends Shell
 
         $this->out("Failed: $failed");
     }
+
+    public function patchOrderNumbers()
+    {
+        $this->loadModel('Shop.ShopOrders');
+
+        $orders = $this->ShopOrders->find()
+            ->contain()
+            ->where(['ShopOrders.is_temporary' => false])
+            ->order(['ShopOrders.id' => 'DESC'])
+            ->all();
+
+        foreach ($orders as $order) {
+            $this->out(sprintf("Patching order [ID:%s] #%s", $order->id, $order->nr_formatted));
+            if ($order->nr) {
+                continue;
+            }
+
+            $nr = $this->ShopOrders->getNextOrderNr();
+            $order->nr = $nr;
+
+            if ($this->ShopOrders->save($order)) {
+                $this->out('Patched!');
+            } else {
+                $this->err('Failed!');
+            }
+        }
+    }
 }

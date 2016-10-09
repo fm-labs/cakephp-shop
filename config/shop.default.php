@@ -20,8 +20,8 @@ return [
         'HtmlEditor' => [
             'default' => [
                 'convert_urls' => false,
-                '_image_list' => ['plugin' => 'Banana', 'controller' => 'HtmlEditor', 'action' => 'imageList', 'shop'],
-                '_link_list' => ['plugin' => 'Banana', 'controller' => 'HtmlEditor', 'action' => 'linkList']
+                '_image_list' => ['plugin' => 'Content', 'controller' => 'HtmlEditor', 'action' => 'imageList', 'shop'],
+                '_link_list' => ['plugin' => 'Content', 'controller' => 'HtmlEditor', 'action' => 'linkList']
             ]
         ],
 

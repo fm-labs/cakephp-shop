@@ -1,7 +1,7 @@
 <?php
 use Cake\Core\Configure;
 
-$this->loadHelper('Backend.Tabs');
+$this->loadHelper('Bootstrap.Tabs');
 $this->loadHelper('Media.Media');
 ?>
 <?php $this->Html->addCrumb(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
@@ -9,33 +9,33 @@ $this->loadHelper('Media.Media');
 <?= $this->Toolbar->addLink(
     __d('shop', 'Edit {0}', __d('shop', 'Shop Category')),
     ['action' => 'edit', $shopCategory->id],
-    ['icon' => 'edit']
+    ['data-icon' => 'edit']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Delete {0}', __d('shop', 'Shop Category')),
     ['action' => 'delete', $shopCategory->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]) ?>
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Category')),
     ['action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->startGroup(__d('shop', 'More')); ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->endGroup(); ?>
 <div class="shopCategories view">

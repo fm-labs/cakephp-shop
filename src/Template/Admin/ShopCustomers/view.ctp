@@ -3,43 +3,43 @@
 <?= $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Customer')),
     ['action' => 'edit', $shopCustomer->id],
-    ['icon' => 'edit']
+    ['data-icon' => 'edit']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Delete {0}', __d('shop','Shop Customer')),
     ['action' => 'delete', $shopCustomer->id],
-    ['icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopCustomer->id)]) ?>
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopCustomer->id)]) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Customer')),
     ['action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->startGroup(__d('shop','More')); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Addresses')),
     ['controller' => 'ShopAddresses', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Address')),
     ['controller' => 'ShopAddresses', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Orders')),
     ['controller' => 'ShopOrders', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Order')),
     ['controller' => 'ShopOrders', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->endGroup(); ?>
 <div class="shopCustomers view">

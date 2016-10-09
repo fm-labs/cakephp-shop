@@ -2,7 +2,7 @@
 
 namespace Shop\View;
 
-use Banana\View\ContentView;
+use Content\View\ContentView;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 

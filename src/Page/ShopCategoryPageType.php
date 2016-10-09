@@ -8,8 +8,8 @@
 
 namespace Shop\Page;
 
-use Banana\Model\Entity\Page;
-use Banana\Page\AbstractPageType;
+use Content\Model\Entity\Page;
+use Content\Page\AbstractPageType;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Entity\ShopCategory;

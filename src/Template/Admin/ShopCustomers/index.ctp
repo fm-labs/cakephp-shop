@@ -1,25 +1,25 @@
 <?php $this->Html->addCrumb(__d('shop','Shop Customers')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Customer')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Customer')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Addresses')),
     ['controller' => 'ShopAddresses', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Address')),
     ['controller' => 'ShopAddresses', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Orders')),
     ['controller' => 'ShopOrders', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Order')),
     ['controller' => 'ShopOrders', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <div class="shopCustomers index">
     <?= $this->cell('Backend.DataTable', [[

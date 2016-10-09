@@ -87,6 +87,33 @@ class ShopOrder extends Entity
         'id' => false,
     ];
 
+    protected $_virtual = [
+        'nr_formatted',
+        'is_billing_selected',
+        'is_shipping_selected',
+        'is_payment_selected'
+    ];
+
+    protected function _getNrFormatted()
+    {
+        if (isset($this->_properties['nr'])) {
+
+            $prefix = "ORDER";
+            $suffix = "";
+            $nr = $this->_properties['nr'];
+            $zeroFill = 5;
+
+            if ($zeroFill > 0) {
+                $nrFill = str_repeat("0", $zeroFill) . (string) $nr;
+                $nr = substr($nrFill, $zeroFill * -1);
+            }
+
+            return sprintf("%s%s%s", $prefix, $nr, $suffix);
+        }
+
+        return null;
+    }
+
     protected function _getIsBillingSelected()
     {
         if (

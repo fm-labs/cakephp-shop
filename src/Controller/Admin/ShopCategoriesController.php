@@ -1,7 +1,7 @@
 <?php
 namespace Shop\Controller\Admin;
 
-use Banana\Core\Banana;
+use Content\Lib\ContentManager;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
@@ -64,7 +64,6 @@ class ShopCategoriesController extends AppController
 
     public function index()
     {
-
     }
 
     public function treeData()
@@ -166,7 +165,7 @@ class ShopCategoriesController extends AppController
 
     public function relatedPageMeta($id = null)
     {
-        $PageMetas = TableRegistry::get('Banana.PageMetas');
+        $PageMetas = TableRegistry::get('Content.PageMetas');
 
         $content = $this->ShopCategories->get($id, [
             'contain' => []
@@ -207,7 +206,7 @@ class ShopCategoriesController extends AppController
         $sections = ['main', 'top', 'bottom', 'before', 'after', 'left', 'right'];
         $sections = array_combine($sections, $sections);
 
-        //$sectionsModules = $this->Pages->ContentModules->find()->where(['refscope' => 'Banana.Pages', 'refid' => $id]);
+        //$sectionsModules = $this->Pages->ContentModules->find()->where(['refscope' => 'Content.Pages', 'refid' => $id]);
         //debug($sectionsModules);
 
         $availableModules = $this->ShopCategories->ContentModules->Modules->find('list');
@@ -297,7 +296,7 @@ class ShopCategoriesController extends AppController
 
         //$availableModules = $this->ShopCategories->ContentModules->Modules->find('list');
         //$this->set('availableModules', $availableModules);
-        //$this->set('contentSections', Banana::getContentSections());
+        //$this->set('contentSections', ContentManager::getContentSections());
 
         $this->set(compact('shopCategory', 'parentShopCategories', 'galleryList', 'descShort', 'descLong', 'tags'));
         $this->set('_serialize', ['shopCategory']);

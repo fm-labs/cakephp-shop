@@ -1,7 +1,7 @@
 <?php
 namespace Shop\Controller;
 
-use Banana\Controller\Component\FrontendComponent;
+use Content\Controller\Component\FrontendComponent;
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Network\Exception\BadRequestException;

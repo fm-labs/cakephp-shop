@@ -1,15 +1,15 @@
 <?php $this->Html->addCrumb(__d('shop','Shop Addresses')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Address')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Address')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['controller' => 'ShopCustomers', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Customer')),
     ['controller' => 'ShopCustomers', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <div class="shopAddresses index">
     <?= $this->cell('Backend.DataTable', [[

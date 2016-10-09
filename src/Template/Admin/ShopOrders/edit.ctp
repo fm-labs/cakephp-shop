@@ -5,58 +5,58 @@
 <?= $this->Toolbar->addPostLink(
     __d('shop','Delete'),
     ['action' => 'delete', $shopOrder->id],
-    ['icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]
 )
 ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Orders')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['controller' => 'ShopCustomers', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Customer')),
     ['controller' => 'ShopCustomers', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Billing Addresses')),
     ['controller' => 'ShopAddresses', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Billing Address')),
     ['controller' => 'ShopAddresses', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Carts')),
     ['controller' => 'ShopCarts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Cart')),
     ['controller' => 'ShopCarts', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Order Items')),
     ['controller' => 'ShopOrderItems', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Order Item')),
     ['controller' => 'ShopOrderItems', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">

@@ -3,7 +3,7 @@
 namespace Shop\Controller;
 
 use App\Controller\AppController as BaseAppController;
-use Banana\Controller\Component\FrontendComponent;
+use Content\Controller\Component\FrontendComponent;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
 use Shop\Lib\LibShopCart;
@@ -27,7 +27,7 @@ class AppController extends BaseAppController
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
-        $this->loadComponent('Banana.Frontend');
+        $this->loadComponent('Content.Frontend');
         $this->loadComponent('Shop.Shop');
 
         if ($this->components()->has('Auth')) {

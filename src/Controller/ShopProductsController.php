@@ -19,7 +19,7 @@ class ShopProductsController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Banana.Locale');
+        $this->loadComponent('Content.Locale');
 
         $this->Frontend->setRefScope('Shop.ShopProducts');
     }

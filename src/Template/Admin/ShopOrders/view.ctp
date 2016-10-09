@@ -1,17 +1,17 @@
 <?php $this->extend('/Admin/Base/index'); ?>
-<?php $this->loadHelper('Backend.Tabs'); ?>
+<?php $this->loadHelper('Bootstrap.Tabs'); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Order #{0}', $shopOrder->id)); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],
-    ['icon' => 'edit']
+    ['data-icon' => 'edit']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Delete {0}', __d('shop','Shop Order')),
     ['action' => 'delete', $shopOrder->id],
-    ['icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]) ?>
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]) ?>
 
 <div class="shopOrders view">
     <h1>

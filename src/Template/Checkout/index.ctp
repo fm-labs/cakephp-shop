@@ -1,4 +1,4 @@
-<?php $this->loadHelper('Backend.Ui'); ?>
+<?php $this->loadHelper('Bootstrap.Ui'); ?>
 <?php //$this->extend('Shop.Checkout/base'); ?>
 <?php //$this->assign('heading', __d('shop','Helllo')); ?>
 <div class="shop checkout step index compact container">

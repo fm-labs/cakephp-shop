@@ -3,43 +3,46 @@ use Backend\View\Widget\ImageSelectWidget;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 ?>
-<?php $this->loadHelper('Backend.Tabs'); ?>
+<?php $this->loadHelper('Bootstrap.Tabs'); ?>
+<?php $this->loadHelper('Backend.Datepicker'); ?>
+<?= $this->Html->css('Backend.jstree/themes/backend/style.min', ['block' => true]); ?>
+<?= $this->Html->script('Backend.jstree/jstree.min', ['block' => true]); ?>
 <?php $this->Html->addCrumb(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
 <?php $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Category'))); ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCategory->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
 )
 ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Add {0}', __d('shop', 'Shop Category')),
     ['action' => 'add', 'parent_id' => $shopCategory->parent_id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Add {0}', __d('shop', 'Sub Category')),
     ['action' => 'add', 'parent_id' => $shopCategory->id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
-<?php $this->assign('title', '[ShopCategory] ' . $shopCategory->name); ?>
+<?php $this->assign('title', $shopCategory->name); ?>
 <div class="shop categories form">
 
 
@@ -65,12 +68,6 @@ use Cake\Routing\Router;
                 <div class="col-md-4">
                     <div class="actions right grouped">
                         <ul>
-                            <li><?= $this->Ui->link(
-                                    __d('shop','Edit'),
-                                    ['action' => 'edit', $shopCategory->id],
-                                    ['class' => 'link-frame-modal btn btn-default btn-sm btn-primary', 'icon' => 'edit']);
-                                ?>
-                            </li>
                             <li><?= $this->Html->link(__d('shop','Preview'),
                                     [ 'action' => 'preview', $shopCategory->id ],
                                     [ 'class' => 'preview link-frame-modal btn btn-default btn-sm', 'data-icon' => 'eye', 'target' => '_preview']);
@@ -94,20 +91,21 @@ use Cake\Routing\Router;
                 </div>
             </div>
 
+
+
+
             <hr />
             <?php $this->Tabs->start(); ?>
 
-            <?php $this->Tabs->add(__d('shop','Shop Category'), [
+            <?php $this->Tabs->add($shopCategory->name, [
+                'url' => ['action' => 'edit', $shopCategory->id]
+            ]); ?>
+
+            <?php $this->Tabs->add(__d('shop','Details'), [
                 'url' => ['action' => 'view', $shopCategory->id]
             ]); ?>
 
-            <?php
-            //$this->Tabs->add(__d('shop','Edit'), [
-            //    'url' => ['action' => 'edit', $shopCategory->id]
-            //]);
-            ?>
 
-            <!-- RELATED PRODUCTS -->
             <?php $this->Tabs->add(__d('shop', 'Products'), [
                 'url' => ['action' => 'relatedProducts', $shopCategory->id]
             ]); ?>
@@ -120,10 +118,16 @@ use Cake\Routing\Router;
                 'url' => ['action' => 'relatedContentModules', $shopCategory->id]
             ]); ?>
 
+            <?php if (Configure::read('debug')): ?>
+            <?php $this->Tabs->add('Debug'); ?>
+            <?php debug($shopCategory); ?>
+            <?php endif; ?>
+
+
+
             <?php echo $this->Tabs->render(); ?>
 
         </div>
     </div>
 
-    <?php debug($shopCategory); ?>
 </div>

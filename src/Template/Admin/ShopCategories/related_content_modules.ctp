@@ -1,14 +1,14 @@
 <div class="related content-modules">
 
-    <?= $this->element('Banana.Admin/Content/related_content_modules', compact('content', 'sections')); ?>
+    <?= $this->element('Content.Admin/Content/related_content_modules', compact('content', 'sections')); ?>
     <br />
     <?= $this->Ui->link('Build a new module for this page', [
-        'plugin' => 'Banana',
+        'plugin' => 'Content',
         'controller' => 'ModuleBuilder',
         'action' => 'build2',
         'refscope' => 'Shop.ShopCategories',
         'refid' => $content->id
-    ], ['class' => 'ui button', 'icon' => 'plus']); ?>
+    ], ['class' => 'ui button', 'data-icon' => 'plus']); ?>
 
     <div class="ui divider"></div>
 

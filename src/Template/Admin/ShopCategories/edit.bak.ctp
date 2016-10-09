@@ -3,52 +3,52 @@ use Backend\View\Widget\ImageSelectWidget;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 ?>
-<?php $this->loadHelper('Backend.Tabs'); ?>
+<?php $this->loadHelper('Bootstrap.Tabs'); ?>
 <?php $this->Html->addCrumb(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
 <?php $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Category'))); ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCategory->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
 )
 ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Add {0}', __d('shop', 'Shop Category')),
     ['action' => 'add', 'parent_id' => $shopCategory->parent_id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Add {0}', __d('shop', 'Sub Category')),
     ['action' => 'add', 'parent_id' => $shopCategory->id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Parent Shop Categories')),
     ['controller' => 'ShopCategories', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Parent Shop Category')),
     ['controller' => 'ShopCategories', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <?php $this->assign('title', '[ShopCategory] ' . $shopCategory->name); ?>
@@ -101,15 +101,15 @@ use Cake\Routing\Router;
                     echo $this->Form->input('teaser_html', [
                         'type' => 'htmleditor',
                         'editor' => [
-                            'image_list_url' => '@Banana.HtmlEditor.shop.imageList',
-                            'link_list_url' => '@Banana.HtmlEditor.shop.linkList'
+                            'image_list_url' => '@Content.HtmlEditor.shop.imageList',
+                            'link_list_url' => '@Content.HtmlEditor.shop.linkList'
                         ]
                     ]);
                     echo $this->Form->input('desc_html', [
                         'type' => 'htmleditor',
                         'editor' => [
-                            'image_list_url' => '@Banana.HtmlEditor.shop.imageList',
-                            'link_list_url' => '@Banana.HtmlEditor.shop.linkList'
+                            'image_list_url' => '@Content.HtmlEditor.shop.imageList',
+                            'link_list_url' => '@Content.HtmlEditor.shop.linkList'
                         ]
                     ]);
                     echo $this->Form->input('is_published');
@@ -226,7 +226,7 @@ use Cake\Routing\Router;
                 <td class="actions">
                     <?= $this->Ui->link('Edit',
                         ['controller' => 'ShopProducts', 'action' => 'edit', $product->id],
-                        ['class' => 'ui mini button', 'icon' => 'edit']
+                        ['class' => 'ui mini button', 'data-icon' => 'edit']
                     ); ?>
                 </td>
             </tr>
@@ -236,7 +236,7 @@ use Cake\Routing\Router;
     <div class="actions">
         <?= $this->Ui->link('Add Product',
             ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
-            ['class' => 'ui button', 'icon' => 'plus']
+            ['class' => 'ui button', 'data-icon' => 'plus']
         ); ?>
     </div>
 
@@ -244,14 +244,14 @@ use Cake\Routing\Router;
     <?php $this->Tabs->add('Related Content Modules'); ?>
     <!-- RELATED CONTENT MODULES -->
     <h3>Related content modules</h3>
-    <?= $this->element('Banana.Admin/Content/related_content_modules', ['content' => $shopCategory]); ?>
+    <?= $this->element('Content.Admin/Content/related_content_modules', ['content' => $shopCategory]); ?>
     <br />
     <?= $this->Ui->link('Build a new module for this shop category', [
         'controller' => 'ModuleBuilder',
         'action' => 'build2',
         'refscope' => 'Shop.ShopCategories',
         'refid' => $shopCategory->id
-    ], ['class' => 'ui button', 'icon' => 'plus']); ?>
+    ], ['class' => 'ui button', 'data-icon' => 'plus']); ?>
 
 
     <?php $this->Tabs->add('Link existing module'); ?>

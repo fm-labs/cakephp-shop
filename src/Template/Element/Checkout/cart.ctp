@@ -1,4 +1,4 @@
-<?php $this->loadHelper('Backend.Ui'); ?>
+<?php $this->loadHelper('Bootstrap.Ui'); ?>
 <?php if (empty($order->shop_order_items)): ?>
     <h2><?= __d('shop','No items in cart'); ?></h2>
     <div class="ui divider"></div>

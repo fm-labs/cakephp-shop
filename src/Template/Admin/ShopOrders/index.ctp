@@ -2,21 +2,21 @@
 <?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop Orders')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['controller' => 'ShopCustomers', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Customer')),
     ['controller' => 'ShopCustomers', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Order Items')),
     ['controller' => 'ShopOrderItems', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <div class="shopOrders index">
 
@@ -26,7 +26,9 @@
         'model' => 'Shop.ShopOrders',
         'data' => $shopOrders,
         'fields' => [
-            'id',
+            'id' => [
+                'formatter' => ['link', ['url' => ['action' => 'edit', ':id']]]
+            ],
             'submitted',
             'nr',
             'shop_customer.email',

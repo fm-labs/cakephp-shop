@@ -1,30 +1,30 @@
 <?php
 
-$this->loadHelper('Backend.Tabs');
+$this->loadHelper('Bootstrap.Tabs');
 $this->Html->addCrumb(__d('shop', 'Shop Products'), ['action' => 'index']);
 $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
 ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopProduct->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopProduct->id)]
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopProduct->id)]
 )
 ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopProduct->shop_category_id],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <?php $this->assign('title', $shopProduct->title); ?>

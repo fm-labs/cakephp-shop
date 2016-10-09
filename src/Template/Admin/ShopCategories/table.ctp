@@ -1,20 +1,20 @@
 <?php $this->Html->addCrumb(__d('shop', 'Shop Categories')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Category')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Category')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Repair'),
     ['action' => 'repair'],
-    ['icon' => 'configure', 'confirm' => __d('shop', 'Do you really want to repair the category tree?')]
+    ['data-icon' => 'configure', 'confirm' => __d('shop', 'Do you really want to repair the category tree?')]
 ) ?>
 <div class="shopCategories index">
 
@@ -68,22 +68,22 @@
                 $dropdown->getChildren()->add(
                     __d('shop', 'Preview'),
                     ['action' => 'preview', $shopCategory->id],
-                    ['icon' => 'eye', 'target' => 'preview']
+                    ['data-icon' => 'eye', 'target' => 'preview']
                 );
                 $dropdown->getChildren()->add(
                     __d('shop', 'Move Up'),
                     ['action' => 'moveUp', $shopCategory->id],
-                    ['icon' => 'arrow up']
+                    ['data-icon' => 'arrow up']
                 );
                 $dropdown->getChildren()->add(
                     __d('shop', 'Move Down'),
                     ['action' => 'moveDown', $shopCategory->id],
-                    ['icon' => 'arrow down']
+                    ['data-icon' => 'arrow down']
                 );
                 $dropdown->getChildren()->add(
                     __d('shop', 'Delete'),
                     ['action' => 'delete', $shopCategory->id],
-                    ['icon' => 'trash', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
+                    ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
                 );
                 ?>
                 <?= $this->element('Backend.Table/table_row_actions', ['menu' => $menu]); ?>

@@ -3,47 +3,47 @@
 <?= $this->Toolbar->addPostLink(
     __('Delete'),
     ['action' => 'delete', $stockTransfer->id],
-    ['icon' => 'trash', 'confirm' => __('Are you sure you want to delete # {0}?', $stockTransfer->id)]
+    ['data-icon' => 'trash', 'confirm' => __('Are you sure you want to delete # {0}?', $stockTransfer->id)]
 )
 ?>
 <?= $this->Toolbar->addLink(
     __('List {0}', __('Stock Transfers')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?= $this->Toolbar->addLink(
     __('List {0}', __('Parent Stock Transfers')),
     ['controller' => 'StockTransfers', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __('New {0}', __('Parent Stock Transfer')),
     ['controller' => 'StockTransfers', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __('List {0}', __('Shop Stocks')),
     ['controller' => 'ShopStocks', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __('New {0}', __('Shop Stock')),
     ['controller' => 'ShopStocks', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
     __('List {0}', __('Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
 <?= $this->Toolbar->addLink(
     __('New {0}', __('Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">

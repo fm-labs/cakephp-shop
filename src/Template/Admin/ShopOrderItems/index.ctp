@@ -1,15 +1,15 @@
 <?php $this->Html->addCrumb(__d('shop','Shop Order Items')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order Item')), ['action' => 'add'], ['icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order Item')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Orders')),
     ['controller' => 'ShopOrders', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Order')),
     ['controller' => 'ShopOrders', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <div class="shopOrderItems index">
     <table class="table table-striped table-hover table-condensed">
@@ -46,12 +46,12 @@
                 $dropdown->getChildren()->add(
                     __d('shop','Edit'),
                     ['action' => 'edit', $shopOrderItem->id],
-                    ['icon' => 'edit']
+                    ['data-icon' => 'edit']
                 );
                 $dropdown->getChildren()->add(
                     __d('shop','Delete'),
                     ['action' => 'delete', $shopOrderItem->id],
-                    ['icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItem->id)]
+                    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItem->id)]
                 );
                 ?>
                 <?= $this->element('Backend.Table/table_row_actions', ['menu' => $menu]); ?>
