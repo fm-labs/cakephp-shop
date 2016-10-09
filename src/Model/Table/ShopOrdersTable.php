@@ -394,9 +394,9 @@ class ShopOrdersTable extends Table
         $orderNr = $orderNrStart = 1;
 
         $lastOrder = $this->find()
-            ->contain()
+            ->contain([])
             ->select(['id', 'nr'])
-            ->where(['ShopOrders.is_temporary' => false, 'Shop.nr IS NOT NULL'])
+            ->where(['ShopOrders.is_temporary' => false, 'ShopOrders.nr IS NOT NULL'])
             ->order(['ShopOrders.nr' => 'DESC', 'ShopOrders.id' => 'DESC'])
             ->all();
 
