@@ -2,7 +2,7 @@
 <?php $this->loadHelper('Bootstrap.Tabs'); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop','Order #{0}', $shopOrder->id)); ?>
+<?php $this->Html->addCrumb(__d('shop','Order #{0}', $shopOrder->nr_formatted)); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],
@@ -15,12 +15,77 @@
 
 <div class="shopOrders view">
     <h1>
-        <?= __d('shop','Order #{0}', $shopOrder->id); ?>
+        <?= __d('shop','Order {0}', $shopOrder->nr_formatted); ?>
     </h1>
 
     <?= $this->Tabs->start(); ?>
 
-    <?= $this->Tabs->add(__d('shop','Order #{0}', $shopOrder->id)); ?>
+    <?= $this->Tabs->add(__d('shop','Order details')); ?>
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?= __d('shop','Billing Address'); ?>
+                </div>
+                <div class="panel-body">
+                    <?= nl2br(h($shopOrder->billing_address_formatted)) ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?= __d('shop','Shipping Address'); ?>
+                </div>
+                <div class="panel-body">
+                    <?= nl2br(h($shopOrder->shipping_address_formatted)) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <?= __d('shop','Related {0}', __d('shop','ShopOrderItems')) ?>
+        </div>
+        <div class="panel-body">
+
+            <?php if (!empty($shopOrder->shop_order_items)): ?>
+                <table class="table">
+                    <tr>
+                        <th><?= __d('shop','Id') ?></th>
+                        <th><?= __d('shop','Title') ?></th>
+                        <th><?= __d('shop','Amount') ?></th>
+                        <th><?= __d('shop','Unit') ?></th>
+                        <th><?= __d('shop','Tax Rate') ?></th>
+                        <th><?= __d('shop','Value Total') ?></th>
+                        <th class="actions"><?= __d('shop','Actions') ?></th>
+                    </tr>
+                    <?php foreach ($shopOrder->shop_order_items as $shopOrderItems): ?>
+                        <tr>
+                            <td><?= h($shopOrderItems->id) ?></td>
+                            <td><?= h($shopOrderItems->title) ?></td>
+                            <td><?= h($shopOrderItems->amount) ?></td>
+                            <td><?= h($shopOrderItems->unit) ?></td>
+                            <td><?= h($shopOrderItems->tax_rate) ?></td>
+                            <td><?= h($shopOrderItems->value_total) ?></td>
+
+                            <td class="actions">
+                                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopOrderItems', 'action' => 'view', $shopOrderItems->id]) ?>
+                                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopOrderItems', 'action' => 'edit', $shopOrderItems->id]) ?>
+                                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopOrderItems', 'action' => 'delete', $shopOrderItems->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItems->id)]) ?>
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
+
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -66,70 +131,7 @@
         </div>
     </div>
 
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <?= __d('shop','Billing Address'); ?>
-                </div>
-                <div class="panel-body">
-                    <?= nl2br(h($shopOrder->shipping_address->formatted)) ?>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <?= __d('shop','Shipping Address'); ?>
-                </div>
-                <div class="panel-body">
-                    <?= nl2br(h($shopOrder->shipping_address->formatted)) ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?= __d('shop','Related {0}', __d('shop','ShopOrderItems')) ?>
-        </div>
-        <div class="panel-body">
-
-            <?php if (!empty($shopOrder->shop_order_items)): ?>
-                <table class="table">
-                    <tr>
-                        <th><?= __d('shop','Id') ?></th>
-                        <th><?= __d('shop','Title') ?></th>
-                        <th><?= __d('shop','Amount') ?></th>
-                        <th><?= __d('shop','Unit') ?></th>
-                        <th><?= __d('shop','Tax Rate') ?></th>
-                        <th><?= __d('shop','Value Total') ?></th>
-                        <th class="actions"><?= __d('shop','Actions') ?></th>
-                    </tr>
-                    <?php foreach ($shopOrder->shop_order_items as $shopOrderItems): ?>
-                        <tr>
-                            <td><?= h($shopOrderItems->id) ?></td>
-                            <td><?= h($shopOrderItems->title) ?></td>
-                            <td><?= h($shopOrderItems->amount) ?></td>
-                            <td><?= h($shopOrderItems->unit) ?></td>
-                            <td><?= h($shopOrderItems->tax_rate) ?></td>
-                            <td><?= h($shopOrderItems->value_total) ?></td>
-
-                            <td class="actions">
-                                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopOrderItems', 'action' => 'view', $shopOrderItems->id]) ?>
-                                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopOrderItems', 'action' => 'edit', $shopOrderItems->id]) ?>
-                                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopOrderItems', 'action' => 'delete', $shopOrderItems->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItems->id)]) ?>
-                            </td>
-                        </tr>
-
-                    <?php endforeach; ?>
-                </table>
-            <?php endif; ?>
-        </div>
-    </div>
-
-    <?= $this->Tabs->add('Table'); ?>
+    <?= $this->Tabs->add('Data Table'); ?>
 
 
     <table class="table">
@@ -381,111 +383,112 @@
         </tr>
     </table>
 
+    <div class="related">
+        <div class="ui basic segment">
+            <h4 class="ui header"><?= __d('shop','Related {0}', __d('shop','ShopCarts')) ?></h4>
+            <?php if (!empty($shopOrder->shop_carts)): ?>
+                <table class="ui table">
+                    <tr>
+                        <th><?= __d('shop','Id') ?></th>
+                        <th><?= __d('shop','Sessionid') ?></th>
+                        <th><?= __d('shop','Userid') ?></th>
+                        <th><?= __d('shop','Refscope') ?></th>
+                        <th><?= __d('shop','Refid') ?></th>
+                        <th><?= __d('shop','Shop Order Id') ?></th>
+                        <th><?= __d('shop','Token') ?></th>
+                        <th><?= __d('shop','Items Value') ?></th>
+                        <th><?= __d('shop','Items Count') ?></th>
+                        <th><?= __d('shop','Created') ?></th>
+                        <th><?= __d('shop','Modified') ?></th>
+                        <th class="actions"><?= __d('shop','Actions') ?></th>
+                    </tr>
+                    <?php foreach ($shopOrder->shop_carts as $shopCarts): ?>
+                        <tr>
+                            <td><?= h($shopCarts->id) ?></td>
+                            <td><?= h($shopCarts->sessionid) ?></td>
+                            <td><?= h($shopCarts->userid) ?></td>
+                            <td><?= h($shopCarts->refscope) ?></td>
+                            <td><?= h($shopCarts->refid) ?></td>
+                            <td><?= h($shopCarts->shop_order_id) ?></td>
+                            <td><?= h($shopCarts->token) ?></td>
+                            <td><?= h($shopCarts->items_value) ?></td>
+                            <td><?= h($shopCarts->items_count) ?></td>
+                            <td><?= h($shopCarts->created) ?></td>
+                            <td><?= h($shopCarts->modified) ?></td>
+
+                            <td class="actions">
+                                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopCarts', 'action' => 'view', $shopCarts->id]) ?>
+
+                                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopCarts', 'action' => 'edit', $shopCarts->id]) ?>
+
+                                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopCarts', 'action' => 'delete', $shopCarts->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopCarts->id)]) ?>
+
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="related">
+        <div class="ui basic segment">
+            <h4 class="ui header"><?= __d('shop','Related {0}', __d('shop','ShopOrderItems')) ?></h4>
+            <?php if (!empty($shopOrder->shop_order_items)): ?>
+                <table class="ui table">
+                    <tr>
+                        <th><?= __d('shop','Id') ?></th>
+                        <th><?= __d('shop','Shop Order Id') ?></th>
+                        <th><?= __d('shop','Refscope') ?></th>
+                        <th><?= __d('shop','Refid') ?></th>
+                        <th><?= __d('shop','Title') ?></th>
+                        <th><?= __d('shop','Amount') ?></th>
+                        <th><?= __d('shop','Unit') ?></th>
+                        <th><?= __d('shop','Item Value Net') ?></th>
+                        <th><?= __d('shop','Tax Rate') ?></th>
+                        <th><?= __d('shop','Value Net') ?></th>
+                        <th><?= __d('shop','Value Tax') ?></th>
+                        <th><?= __d('shop','Value Total') ?></th>
+                        <th><?= __d('shop','Options') ?></th>
+                        <th><?= __d('shop','Created') ?></th>
+                        <th><?= __d('shop','Modified') ?></th>
+                        <th class="actions"><?= __d('shop','Actions') ?></th>
+                    </tr>
+                    <?php foreach ($shopOrder->shop_order_items as $shopOrderItems): ?>
+                        <tr>
+                            <td><?= h($shopOrderItems->id) ?></td>
+                            <td><?= h($shopOrderItems->shop_order_id) ?></td>
+                            <td><?= h($shopOrderItems->refscope) ?></td>
+                            <td><?= h($shopOrderItems->refid) ?></td>
+                            <td><?= h($shopOrderItems->title) ?></td>
+                            <td><?= h($shopOrderItems->amount) ?></td>
+                            <td><?= h($shopOrderItems->unit) ?></td>
+                            <td><?= h($shopOrderItems->item_value_net) ?></td>
+                            <td><?= h($shopOrderItems->tax_rate) ?></td>
+                            <td><?= h($shopOrderItems->value_net) ?></td>
+                            <td><?= h($shopOrderItems->value_tax) ?></td>
+                            <td><?= h($shopOrderItems->value_total) ?></td>
+                            <td><?= h($shopOrderItems->options) ?></td>
+                            <td><?= h($shopOrderItems->created) ?></td>
+                            <td><?= h($shopOrderItems->modified) ?></td>
+
+                            <td class="actions">
+                                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopOrderItems', 'action' => 'view', $shopOrderItems->id]) ?>
+
+                                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopOrderItems', 'action' => 'edit', $shopOrderItems->id]) ?>
+
+                                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopOrderItems', 'action' => 'delete', $shopOrderItems->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItems->id)]) ?>
+
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
     <?= $this->Tabs->render(); ?>
 
 
 </div>
-<div class="related">
-    <div class="ui basic segment">
-    <h4 class="ui header"><?= __d('shop','Related {0}', __d('shop','ShopCarts')) ?></h4>
-    <?php if (!empty($shopOrder->shop_carts)): ?>
-    <table class="ui table">
-        <tr>
-            <th><?= __d('shop','Id') ?></th>
-            <th><?= __d('shop','Sessionid') ?></th>
-            <th><?= __d('shop','Userid') ?></th>
-            <th><?= __d('shop','Refscope') ?></th>
-            <th><?= __d('shop','Refid') ?></th>
-            <th><?= __d('shop','Shop Order Id') ?></th>
-            <th><?= __d('shop','Token') ?></th>
-            <th><?= __d('shop','Items Value') ?></th>
-            <th><?= __d('shop','Items Count') ?></th>
-            <th><?= __d('shop','Created') ?></th>
-            <th><?= __d('shop','Modified') ?></th>
-            <th class="actions"><?= __d('shop','Actions') ?></th>
-        </tr>
-        <?php foreach ($shopOrder->shop_carts as $shopCarts): ?>
-        <tr>
-            <td><?= h($shopCarts->id) ?></td>
-            <td><?= h($shopCarts->sessionid) ?></td>
-            <td><?= h($shopCarts->userid) ?></td>
-            <td><?= h($shopCarts->refscope) ?></td>
-            <td><?= h($shopCarts->refid) ?></td>
-            <td><?= h($shopCarts->shop_order_id) ?></td>
-            <td><?= h($shopCarts->token) ?></td>
-            <td><?= h($shopCarts->items_value) ?></td>
-            <td><?= h($shopCarts->items_count) ?></td>
-            <td><?= h($shopCarts->created) ?></td>
-            <td><?= h($shopCarts->modified) ?></td>
 
-            <td class="actions">
-                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopCarts', 'action' => 'view', $shopCarts->id]) ?>
-
-                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopCarts', 'action' => 'edit', $shopCarts->id]) ?>
-
-                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopCarts', 'action' => 'delete', $shopCarts->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopCarts->id)]) ?>
-
-            </td>
-        </tr>
-
-        <?php endforeach; ?>
-    </table>
-    <?php endif; ?>
-    </div>
-</div>
-<div class="related">
-    <div class="ui basic segment">
-    <h4 class="ui header"><?= __d('shop','Related {0}', __d('shop','ShopOrderItems')) ?></h4>
-    <?php if (!empty($shopOrder->shop_order_items)): ?>
-    <table class="ui table">
-        <tr>
-            <th><?= __d('shop','Id') ?></th>
-            <th><?= __d('shop','Shop Order Id') ?></th>
-            <th><?= __d('shop','Refscope') ?></th>
-            <th><?= __d('shop','Refid') ?></th>
-            <th><?= __d('shop','Title') ?></th>
-            <th><?= __d('shop','Amount') ?></th>
-            <th><?= __d('shop','Unit') ?></th>
-            <th><?= __d('shop','Item Value Net') ?></th>
-            <th><?= __d('shop','Tax Rate') ?></th>
-            <th><?= __d('shop','Value Net') ?></th>
-            <th><?= __d('shop','Value Tax') ?></th>
-            <th><?= __d('shop','Value Total') ?></th>
-            <th><?= __d('shop','Options') ?></th>
-            <th><?= __d('shop','Created') ?></th>
-            <th><?= __d('shop','Modified') ?></th>
-            <th class="actions"><?= __d('shop','Actions') ?></th>
-        </tr>
-        <?php foreach ($shopOrder->shop_order_items as $shopOrderItems): ?>
-        <tr>
-            <td><?= h($shopOrderItems->id) ?></td>
-            <td><?= h($shopOrderItems->shop_order_id) ?></td>
-            <td><?= h($shopOrderItems->refscope) ?></td>
-            <td><?= h($shopOrderItems->refid) ?></td>
-            <td><?= h($shopOrderItems->title) ?></td>
-            <td><?= h($shopOrderItems->amount) ?></td>
-            <td><?= h($shopOrderItems->unit) ?></td>
-            <td><?= h($shopOrderItems->item_value_net) ?></td>
-            <td><?= h($shopOrderItems->tax_rate) ?></td>
-            <td><?= h($shopOrderItems->value_net) ?></td>
-            <td><?= h($shopOrderItems->value_tax) ?></td>
-            <td><?= h($shopOrderItems->value_total) ?></td>
-            <td><?= h($shopOrderItems->options) ?></td>
-            <td><?= h($shopOrderItems->created) ?></td>
-            <td><?= h($shopOrderItems->modified) ?></td>
-
-            <td class="actions">
-                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopOrderItems', 'action' => 'view', $shopOrderItems->id]) ?>
-
-                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopOrderItems', 'action' => 'edit', $shopOrderItems->id]) ?>
-
-                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopOrderItems', 'action' => 'delete', $shopOrderItems->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItems->id)]) ?>
-
-            </td>
-        </tr>
-
-        <?php endforeach; ?>
-    </table>
-    <?php endif; ?>
-    </div>
-</div>

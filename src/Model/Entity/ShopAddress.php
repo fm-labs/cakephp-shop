@@ -2,6 +2,7 @@
 namespace Shop\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Utility\Hash;
 
 /**
  * ShopAddress Entity.
@@ -85,6 +86,7 @@ class ShopAddress extends Entity
 
     protected function _getFormatted()
     {
+        //@TODO Refactor with self::formatAddress()
         if ($this->_properties['is_company']) {
             return sprintf("%s\n%s\n%s %s\n%s",
                 $this->_properties['company_name'],
@@ -103,5 +105,51 @@ class ShopAddress extends Entity
             $this->_properties['city'],
             $this->_properties['country']
         );
+
+    }
+
+    public static function formatAddress($address) {
+
+        $is_company = $company_name = $first_name = $last_name = $street = $zipcode = $city = $country = null;
+        extract($address, EXTR_IF_EXISTS);
+
+        if ($is_company) {
+            return sprintf("%s\n%s\n%s %s\n%s",
+                $company_name,
+                $street,
+                $zipcode,
+                $city,
+                $country
+            );
+        }
+
+        return sprintf("%s %s\n%s\n%s %s\n%s",
+            $first_name,
+            $last_name,
+            $street,
+            $zipcode,
+            $city,
+            $country
+        );
+    }
+
+    public static function extractAddress($array, $prefix = null)
+    {
+        $address = [];
+        foreach (['is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country'] as $field) {
+            $_field = $field;
+            if ($prefix) {
+                $_field = $prefix . $field;
+            }
+
+            $value = null;
+            if (array_key_exists($_field, $array)) {
+                $value = $array[$_field];
+            }
+
+            $address[$field] = $value;
+        }
+
+        return $address;
     }
 }

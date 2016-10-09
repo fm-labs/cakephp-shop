@@ -91,7 +91,9 @@ class ShopOrder extends Entity
         'nr_formatted',
         'is_billing_selected',
         'is_shipping_selected',
-        'is_payment_selected'
+        'is_payment_selected',
+        'billing_address_formatted',
+        'selected_address_formatted'
     ];
 
     protected function _getNrFormatted()
@@ -112,6 +114,16 @@ class ShopOrder extends Entity
         }
 
         return null;
+    }
+
+    protected function _getBillingAddressFormatted()
+    {
+        return ShopAddress::formatAddress(ShopAddress::extractAddress($this->_properties, 'billing_'));
+    }
+
+    protected function _getShippingAddressFormatted()
+    {
+        return ShopAddress::formatAddress(ShopAddress::extractAddress($this->_properties, 'shipping_'));
     }
 
     protected function _getIsBillingSelected()
