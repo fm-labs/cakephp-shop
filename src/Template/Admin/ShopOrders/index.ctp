@@ -1,4 +1,5 @@
 <?php $this->extend('/Admin/Base/index'); ?>
+<?php $this->loadHelpers('Number'); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 
@@ -39,10 +40,11 @@
                     return $this->Html->link($val, ['action' => 'view', $row->id]);
                 }
             ],
-            'shop_customer.email',
             'billing_address.name',
+            'order_value_total' => [
+                'formatter' => ['currency' => ['currency' =>  'EUR']],
+            ],
             'status' => [
-                'type' => 'boolean',
                 'formatter' => function($val) {
                     return $this->Ui->statusLabel($val);
                 }
