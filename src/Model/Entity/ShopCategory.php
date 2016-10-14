@@ -37,6 +37,10 @@ class ShopCategory extends Entity implements PageInterface
 
     public function getPath($for = null)
     {
+        if ($for === null) {
+            $for = $this->get('id');
+        }
+
         return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $for]);
     }
 

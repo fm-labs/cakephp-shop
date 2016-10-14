@@ -43,6 +43,13 @@ class ShopProduct extends Entity
     }
     */
 
+    public function getPath()
+    {
+        if (isset($this->_properties['shop_category_id'])) {
+            return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $this->_properties['shop_category_id']]);
+        }
+    }
+
     protected function _getShopText($model, $id, $field, $locale = null)
     {
         $ShopTexts = TableRegistry::get('Shop.ShopTexts');

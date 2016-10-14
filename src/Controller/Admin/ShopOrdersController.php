@@ -62,7 +62,7 @@ class ShopOrdersController extends AppController
             }
         }
         $shopCustomers = $this->ShopOrders->ShopCustomers->find('list', ['limit' => 200]);
-        $billingAddresses = $this->ShopOrders->BillingAddresses->find('list', ['limit' => 200]);
+        $billingAddresses = $this->ShopOrders->BillingAddresses->find('list', ['limit' => 200])->toArray();
         $shippingAddresses = $this->ShopOrders->ShippingAddresses->find('list', ['limit' => 200]);
         $this->set(compact('shopOrder', 'shopCustomers', 'billingAddresses', 'shippingAddresses'));
         $this->set('_serialize', ['shopOrder']);
@@ -89,10 +89,9 @@ class ShopOrdersController extends AppController
                 $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order')));
             }
         }
-        $shopCustomers = $this->ShopOrders->ShopCustomers->find('list', ['limit' => 200]);
-        $billingAddresses = $this->ShopOrders->BillingAddresses->find('list', ['limit' => 200]);
-        $shippingAddresses = $this->ShopOrders->ShippingAddresses->find('list', ['limit' => 200]);
-        $this->set(compact('shopOrder', 'shopCustomers', 'billingAddresses', 'shippingAddresses'));
+        //$billingAddresses = $this->ShopOrders->BillingAddresses->find('list', ['limit' => 200])->where(['BillingAddresses.shop_customer_id' => $shopOrder->shop_customer_id])->toArray();
+        //$shippingAddresses = $this->ShopOrders->ShippingAddresses->find('list', ['limit' => 200])->toArray();
+        $this->set(compact('shopOrder', 'shopCustomers' /*, 'billingAddresses', 'shippingAddresses' */));
         $this->set('_serialize', ['shopOrder']);
     }
 

@@ -59,6 +59,8 @@ class ShopProductsController extends AppController
      */
     public function view($id = null)
     {
+        $this->viewBuilder()->className('Shop.ShopProduct');
+
         if ($id === null) {
 
             if ($this->request->query('id')) {
@@ -70,12 +72,12 @@ class ShopProductsController extends AppController
             }
         }
 
-
         $this->ShopProducts->locale($this->Locale->getLocale());
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ShopCategories'],
             'media' => true,
         ]);
+
 
         // force canonical url
         if (Configure::read('Shop.Router.forceCanonical')) {

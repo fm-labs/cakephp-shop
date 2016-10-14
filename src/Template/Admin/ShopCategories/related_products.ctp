@@ -22,16 +22,16 @@
                 }
             ],
             'is_buyable' => [
-                'formatter' => function($val, $row, $field) {
-                    $toggleUrl = ['controller' => 'ShopProducts', 'action' => 'toggle', $row->id, $field];
+                'formatter' => function($val, $row) {
+                    $toggleUrl = ['controller' => 'ShopProducts', 'action' => 'toggle', $row->id, 'is_buyable'];
                     return $this->Ui->statusLabel($val, [
                         'data-toggle-url' => $this->Html->Url->build($toggleUrl)
                     ]);
                 }
             ],
             'is_published' => [
-                'formatter' => function($val, $row, $field) {
-                    $toggleUrl = ['controller' => 'ShopProducts', 'action' => 'toggle', $row->id, $field];
+                'formatter' => function($val, $row) {
+                    $toggleUrl = ['controller' => 'ShopProducts', 'action' => 'toggle', $row->id, 'is_published'];
                     return $this->Ui->statusLabel($val, [
                         'data-toggle-url' => $this->Html->Url->build($toggleUrl)
                     ]);

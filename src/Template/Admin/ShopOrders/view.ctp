@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-primary">
                 <div class="panel-heading">
                     <?= __d('shop','Billing Address'); ?>
                 </div>
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-primary">
                 <div class="panel-heading">
                     <?= __d('shop','Shipping Address'); ?>
                 </div>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default panel-primary">
         <div class="panel-heading">
             <?= __d('shop','Related {0}', __d('shop','ShopOrderItems')) ?>
         </div>
