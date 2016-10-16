@@ -59,9 +59,23 @@ use Cake\Routing\Router;
 
         <?= $this->Form->create($shopCategory, ['class' => 'no-ajax']); ?>
 
+        <div class="actions">
+            <div class="btn-group">
+                <?= $this->Form->button(__d('shop', 'Save Changes'), ['class' => 'btn btn-primary']) ?>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-md-9">
 
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','General'), 'collapsed' => false]); ?>
+                <?= $this->Form->input('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']); ?>
+                <!--
+                <?php if ($shopCategory->parent_id): ?>
+                    <?= $this->Html->link(
+                        __d('shop', 'Manage Parent: {0}', $shopCategory->parent_shop_category->name),
+                        ['action' => 'manage', $shopCategory->parent_id]); ?>
+                <?php endif; ?>
+                -->
                 <?php
                 echo $this->Form->input('name');
                 echo $this->Form->input('slug');
@@ -94,15 +108,26 @@ use Cake\Routing\Router;
                     ]
                 ]); ?>
 
+                <?= $this->Form->fieldsetEnd(); ?>
 
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Layout'), 'collapsed' => true]); ?>
+                <?= $this->Form->input('teaser_template'); ?>
+                <?= $this->Form->input('view_template'); ?>
+                <?= $this->Form->fieldsetEnd(); ?>
+
+
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Advanced'), 'collapsed' => true]); ?>
+                <?= $this->Form->input('is_alias'); ?>
+                <?= $this->Form->input('alias_id', ['empty' => '- Not selected -', 'options' => $parentShopCategories]); ?>
+                <?= $this->Form->fieldsetEnd(); ?>
+
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Tags'), 'collapsed' => true]); ?>
                 <?php
                 echo $this->Form->input('tags._ids', ['multiple' => 'checkbox']);
                 ?>
-
+                <?= $this->Form->fieldsetEnd(); ?>
             </div>
-            <div class="col-lg-4">
-
-                <?= $this->Form->button(__d('shop', 'Save Changes'), ['class' => 'btn btn-primary btn-block']) ?>
+            <div class="col-md-3">
 
                 <?= $this->Form->fieldsetStart([
                     'legend' => sprintf("%s %s", __d('shop','Published'), $this->Ui->statusLabel($shopCategory->is_published)),
@@ -139,26 +164,6 @@ use Cake\Routing\Router;
                 ]]); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
-
-                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Structure'), 'collapsed' => false]); ?>
-                    <?= $this->Form->input('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']); ?>
-                    <?php if ($shopCategory->parent_id): ?>
-                        <?= $this->Html->link(
-                            __d('shop', 'Manage Parent: {0}', $shopCategory->parent_shop_category->name),
-                            ['action' => 'manage', $shopCategory->parent_id]); ?>
-                    <?php endif; ?>
-                <?= $this->Form->fieldsetEnd(); ?>
-
-                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Layout'), 'collapsed' => false]); ?>
-                    <?= $this->Form->input('teaser_template'); ?>
-                    <?= $this->Form->input('view_template'); ?>
-                <?= $this->Form->fieldsetEnd(); ?>
-
-
-                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Advanced'), 'collapsed' => true]); ?>
-                    <?= $this->Form->input('is_alias'); ?>
-                    <?= $this->Form->input('alias_id', ['empty' => '- Not selected -', 'options' => $parentShopCategories]); ?>
-                <?= $this->Form->fieldsetEnd(); ?>
             </div>
         </div>
 

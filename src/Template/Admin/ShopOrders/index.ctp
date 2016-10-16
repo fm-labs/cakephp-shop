@@ -1,5 +1,4 @@
 <?php $this->extend('/Admin/Base/index'); ?>
-<?php $this->loadHelpers('Number'); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 
@@ -26,6 +25,7 @@
         'paginate' => true,
         'model' => 'Shop.ShopOrders',
         'data' => $shopOrders,
+        'class' => 'table table-condensed table-striped table-hover',
         'fields' => [
             'id' => [
                 'formatter' => function($val, $row) {
@@ -33,7 +33,7 @@
                 }
             ],
             'submitted' => [
-                'formatter' => ['date' => ['format' => 'dd.MM.yyyy']]
+                //'formatter' => ['date' => ['_format' => 'd.M.y']]
             ],
             'nr_formatted' => [
                 'formatter' => function($val, $row) {
@@ -42,13 +42,10 @@
             ],
             'billing_address.name',
             'order_value_total' => [
+                'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
             ],
-            'status' => [
-                'formatter' => function($val) {
-                    return $this->Ui->statusLabel($val);
-                }
-            ]
+            'status' => []
         ],
         'rowActions' => [
             [__d('shop','View'), ['action' => 'view', ':id'], ['class' => 'view']],
