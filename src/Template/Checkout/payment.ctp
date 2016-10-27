@@ -22,6 +22,7 @@
             'options' => $paymentOptions,
             'label' => false,
             'escape' => false,
+            'class' => 'wide'
         ]); ?>
 
         <div class="ui divider"></div>
