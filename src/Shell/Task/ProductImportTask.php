@@ -308,12 +308,14 @@ class ProductImportTask extends BaseShopTask
 
             }
 
-            if ($this->_variantRootSku == $product->sku) {
-                $entityData['parent_id'] = null;
-                $entityData['type'] = 'parent';
-            } elseif ($this->_variantRootSku && $this->_variantRootId) {
-                $entityData['parent_id'] = $this->_variantRootId;
-                $entityData['type'] = 'child';
+            if ($this->_variantRootSku) {
+                if ($this->_variantRootSku == $product->sku) {
+                    $entityData['parent_id'] = null;
+                    $entityData['type'] = 'parent';
+                } elseif ($this->_variantRootSku && $this->_variantRootId) {
+                    $entityData['parent_id'] = $this->_variantRootId;
+                    $entityData['type'] = 'child';
+                }
             }
 
             if ($image) {
