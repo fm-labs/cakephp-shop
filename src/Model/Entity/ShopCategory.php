@@ -2,11 +2,13 @@
 namespace Shop\Model\Entity;
 
 use Content\Model\Behavior\PageMeta\PageMetaTrait;
+use Content\Model\Entity\MenuItem;
 use Content\Model\Entity\Page\PageInterface;
 use Content\Model\Entity\PageTypeTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Content\Post\PostHandlerEntityTrait;
 
 /**
  * ShopCategory Entity.
@@ -15,6 +17,7 @@ class ShopCategory extends Entity implements PageInterface
 {
     use PageMetaTrait;
     //use PageTypeTrait;
+    use PostHandlerEntityTrait;
 
     /**
      * @var string PageMetaTrait model definition
@@ -34,6 +37,22 @@ class ShopCategory extends Entity implements PageInterface
         'id' => false,
     ];
 
+    protected function _getType()
+    {
+        return 'shop_category';
+    }
+
+    /**
+     * @return MenuItem
+     */
+    public function toMenuItem()
+    {
+        return TableRegistry::get('Content.MenuItems')->newEntity([
+            'title' => $this->name,
+            'type' => 'shop_category',
+            'typeid' => $this->id,
+        ]);
+    }
 
     public function getPath($for = null)
     {
@@ -150,21 +169,34 @@ class ShopCategory extends Entity implements PageInterface
 
 
     /** PAGE AWARE **/
+
+    /**
+     * @deprecated
+     */
     public function getPageId() {
         return $this->id;
     }
 
+    /**
+     * @deprecated
+     */
     public function getPageTitle()
     {
         return $this->name;
     }
 
 
+    /**
+     * @deprecated
+     */
     public function getPageType()
     {
         return 'shop_category';
     }
 
+    /**
+     * @deprecated
+     */
     public function getPageUrl()
     {
         return [
@@ -178,6 +210,9 @@ class ShopCategory extends Entity implements PageInterface
         ];
     }
 
+    /**
+     * @deprecated
+     */
     public function getPageAdminUrl()
     {
         return [
@@ -189,6 +224,9 @@ class ShopCategory extends Entity implements PageInterface
         ];
     }
 
+    /**
+     * @deprecated
+     */
     public function getPageChildren()
     {
         return TableRegistry::get('Shop.ShopCategories')
@@ -199,11 +237,17 @@ class ShopCategory extends Entity implements PageInterface
             ->all();
     }
 
+    /**
+     * @deprecated
+     */
     public function isPagePublished()
     {
         return $this->is_published;
     }
 
+    /**
+     * @deprecated
+     */
     public function isPageHiddenInNav()
     {
         return null;
