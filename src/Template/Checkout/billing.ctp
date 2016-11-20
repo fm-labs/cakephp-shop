@@ -36,7 +36,7 @@
 
         <div class="ui form">
             <h4><?= __d('shop', 'Add new billing address'); ?></h4>
-            <?= $this->Form->create($billingAddress); ?>
+            <?= $this->Form->create($billingAddress, ['horizontal' => true]); ?>
             <?= $this->Form->input('first_name', ['label' => __d('shop','First Name')]); ?>
             <?= $this->Form->input('last_name', ['label' => __d('shop','Last Name')]); ?>
             <?= '' // $this->Form->input('name', ['label' => __d('shop','Name')]); ?>

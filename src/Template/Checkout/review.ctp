@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <?= $this->Form->create($order, ['action' => 'submit']); ?>
+    <?= $this->Form->create($order, ['url' => ['action' => 'submit']]); ?>
     <?= $this->Form->hidden('_x_checkout', ['value' => 'submit']); ?>
     <?= $this->Form->hidden('_x_tkn', ['value' => uniqid('ckkout')]); ?>
 
