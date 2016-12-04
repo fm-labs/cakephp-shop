@@ -18,6 +18,14 @@ class ShopCategoryPostHandler implements PostHandlerInterface
      */
     protected $category;
 
+    public static function describe()
+    {
+        return [
+            'title' => 'Shop Category',
+            'modelClass' => 'Shop.ShopCategories'
+        ];
+    }
+
     public function __construct(EntityInterface $entity)
     {
         $this->category = $entity;

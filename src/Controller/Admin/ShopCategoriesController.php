@@ -124,9 +124,9 @@ class ShopCategoriesController extends AppController
 
     public function manage($id = null)
     {
-        if (!$this->request->is('ajax')) {
-            $this->redirect(['action' => 'index', 'id' => $id]);
-        }
+        //if (!$this->request->is('ajax')) {
+        //    $this->redirect(['action' => 'index', 'id' => $id]);
+        //}
 
         $shopCategory = $this->ShopCategories->get($id, [
             'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts'],
