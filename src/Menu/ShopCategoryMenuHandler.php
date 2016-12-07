@@ -56,7 +56,7 @@ class ShopCategoryMenuHandler extends BaseMenuHandler implements MenuHandlerInte
 
     public function isHiddenInNav()
     {
-        return !$this->shopCategory->isPublished();
+        return (parent::isHiddenInNav() || !$this->shopCategory->isPublished()) ? true : false;
     }
 
 }

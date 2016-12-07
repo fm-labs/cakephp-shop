@@ -61,8 +61,7 @@ class ShopCategoryPostHandler implements PostHandlerInterface
             ->find()
             ->where(['parent_id' => $this->category->id])
             ->contain([])
-            ->orderAsc('lft')
-            ->all();
+            ->orderAsc('lft');
     }
 
     public function isPublished()
