@@ -2,9 +2,9 @@
 <?php $this->assign('step_active', 'cart'); ?>
 <?php $this->assign('heading', __d('shop','Cart')); ?>
 <?php
-$this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index']);
-$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index']);
-$this->Breadcrumbs->add(__('Cart'), ['controller' => 'Checkout', 'action' => 'cart']);
+$this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__('Cart'), ['controller' => 'Checkout', 'action' => 'cart', 'ref' => 'breadcrumb']);
 ?>
 <?php $this->start('active_step'); ?>
 ACTIVE STEP!

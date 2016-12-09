@@ -4,8 +4,8 @@
 
 <?php
 $this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index']);
-$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index']);
-$this->Breadcrumbs->add(__('Shipping'), ['controller' => 'Checkout', 'action' => 'shipping']);
+$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__('Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
 ?>
 <div class="shop checkout step shipping">
 

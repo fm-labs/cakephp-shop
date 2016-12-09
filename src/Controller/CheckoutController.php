@@ -109,6 +109,7 @@ class CheckoutController extends AppController
 
         // check customer
         if (!$this->cart->customer && $this->request->session()->check('Auth.User.id')) {
+            // user login detected
             $userId = $this->request->session()->read('Auth.User.id');
             debug("detected user");
             $customer = $this->ShopOrders->ShopCustomers->find()
@@ -121,6 +122,11 @@ class CheckoutController extends AppController
             } else {
                 Log::alert('User without shop customer detected: UserID ' . $userId);
             }
+        }
+        elseif ($this->cart->customer && $this->cart->customer->user_id && !$this->request->session()->check('Auth.User.id')) {
+            // user logout detected
+            $this->cart->resetCustomer();
+            $this->cart->resetPayment();
         }
     }
 
@@ -161,11 +167,18 @@ class CheckoutController extends AppController
         return 'review';
     }
 
-    protected function _redirectNext($checkSteps = true)
+    protected function _redirectNext($checkSteps = true, $checkRef = true)
     {
         if ($checkSteps) {
             $this->_checkSteps();
         }
+
+        if ($checkRef) {
+            if ($this->request->query('ref') == 'step' ||  $this->request->query('ref') == 'breadcrumb') {
+                return;
+            }
+        }
+
         $next = $this->_getNextStep();
         $this->redirect(['action' => $next]);
     }
@@ -173,7 +186,7 @@ class CheckoutController extends AppController
 
     public function index()
     {
-        $this->_redirectNext();
+        $this->_redirectNext(true, false);
     }
 
     public function next()
@@ -216,7 +229,7 @@ class CheckoutController extends AppController
             }
         }
 
-        if ($this->Auth->user() && !$this->request->query('ref')) {
+        if ($this->Auth->user()) {
             $this->_redirectNext();
         }
     }

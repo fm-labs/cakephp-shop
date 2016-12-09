@@ -180,6 +180,37 @@ class ShopOrder extends Entity
         return false;
     }
 
+
+    protected function _getCcBrand()
+    {
+        if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
+            list($brand,$number) = explode(':', $this->payment_info_1);
+            return $brand;
+        }
+    }
+
+    protected function _getCcNumber()
+    {
+        if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
+            list($brand,$number) = explode(':', $this->payment_info_1);
+            return $number;
+        }
+    }
+
+    protected function _getCcHolderName()
+    {
+        if ($this->payment_type == 'credit_card_internal') {
+            return $this->payment_info_2;
+        }
+    }
+
+    protected function _getCcExpiresAt()
+    {
+        if ($this->payment_type == 'credit_card_internal') {
+            return $this->payment_info_3;
+        }
+    }
+
     public function update()
     {
         $orderItems = TableRegistry::get('Shop.ShopOrderItems')

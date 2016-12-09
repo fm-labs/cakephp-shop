@@ -451,15 +451,6 @@ class ShopOrdersTable extends Table
             }
         }
 
-        if ($entity->has('cc_brand') && $entity->has('cc_number')) {
-            $entity->payment_info_1 = sprintf("%s:%s", $entity->cc_brand, $entity->cc_number);
-        }
-        if ($entity->has('cc_holder_name')) {
-            $entity->payment_info_2 = $entity->cc_holder_name;
-        }
-        if ($entity->has('cc_expires_at')) {
-            $entity->payment_info_3 = $entity->cc_expires_at;
-        }
     }
 
     public function submit($order)

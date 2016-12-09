@@ -3,8 +3,8 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
 $this->assign('title', $this->fetch('heading'));
 ?>
 <div class="shop checkout index">
-    <h1><?= __d('shop', 'Your Order'); ?>: <?= $this->fetch('heading'); ?></h1>
     <!--
+    <h1><?= __d('shop', 'Your Order'); ?>: <?= $this->fetch('heading'); ?></h1>
     <div class="cart panel panel-default">
         <div class="panel-heading">
             Ihre Bestellung: <?= $this->Number->currency($order->items_value_taxed, 'EUR') ?>
@@ -20,9 +20,26 @@ $this->assign('title', $this->fetch('heading'));
     <div class="row">
 
         <div class="col-md-8">
-            <?= $this->fetch('content'); ?>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <?= $this->fetch('heading'); ?>
+                </div>
+                <div class="panel-body">
+                    <?= $this->fetch('content'); ?>
+                </div>
+            </div>
 
-            <?php // debug($this->request->session()->read('Shop')); ?>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                   Debug
+                </div>
+                <div class="panel-body">
+                    <?php
+                    debug($this->request->session()->read('Shop'))
+                    ?>
+                </div>
+            </div>
+
         </div>
         <div class="col-md-4 hidden-xs">
             <ul class="list-group">

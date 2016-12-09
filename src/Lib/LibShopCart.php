@@ -164,6 +164,7 @@ class LibShopCart
         if ($this->order) {
             $this->order->shop_customer_id = null;
 
+            $this->order->billing_address_id = null;
             $this->order->billing_first_name = null;
             $this->order->billing_last_name = null;
             $this->order->billing_street = null;
@@ -171,14 +172,14 @@ class LibShopCart
             $this->order->billing_city = null;
             $this->order->billing_country = null;
 
-            //$this->order->shipping_use_billing = true;
+            $this->order->shipping_use_billing = true;
+            $this->order->shipping_address_id = null;
             $this->order->shipping_first_name = null;
             $this->order->shipping_last_name = null;
             $this->order->shipping_street = null;
             $this->order->shipping_zipcode = null;
             $this->order->shipping_city = null;
             $this->order->shipping_country = null;
-            $this->saveOrder();
 
             if (!$this->saveOrder()) {
                 return false;
@@ -186,6 +187,21 @@ class LibShopCart
         }
 
         $this->customer = null;
+        return true;
+    }
+
+    public function resetPayment()
+    {
+        if ($this->order) {
+            $this->order->payment_type = null;
+            $this->order->payment_info_1 = null;
+            $this->order->payment_info_2 = null;
+            $this->order->payment_info_3 = null;
+
+            if (!$this->saveOrder()) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -319,8 +335,10 @@ class LibShopCart
             'country',
         ];
 
-        $_idKey = $scope . '_address_id';
-        $addr[$_idKey] = $address['id'];
+        if (isset($address['id'])) {
+            $_idKey = $scope . '_address_id';
+            $addr[$_idKey] = $address['id'];
+        }
 
         array_walk($address, function($val, $key) use (&$addr, $fields, $scope) {
 
@@ -370,6 +388,16 @@ class LibShopCart
 
         switch ($paymentType) {
             case "credit_card_internal":
+                if (isset($data['cc_brand']) && isset($data['cc_number'])) {
+                    $data['payment_info_1'] = sprintf("%s:%s", $data['cc_brand'], $data['cc_number']);
+                }
+                if (isset($data['cc_holder_name'])) {
+                    $data['payment_info_2'] = $data['cc_holder_name'];
+                }
+                if (isset($data['cc_expires_at'])) {
+                    $data['payment_info_3'] = $data['cc_expires_at'];
+                }
+
                 $validate = 'paymentCreditCardInternal';
                 break;
 
