@@ -11,6 +11,8 @@ namespace Shop\Controller;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Log\Log;
+use Cake\Routing\Router;
 use Shop\Lib\LibShopCart;
 use Shop\Model\Table\ShopAddressesTable;
 use Shop\Model\Table\ShopOrdersTable;
@@ -89,6 +91,52 @@ class CheckoutController extends AppController
         ];
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Auth->allow(['cart', 'customer', 'billing', 'shipping', 'payment', 'review']);
+
+        if ($this->request->param('action') !== 'success') {
+
+            $this->_checkSteps();
+
+            if (!$this->cart || !$this->cart->order) {
+                $this->Flash->set(__d('shop','Order process canceled. No order found.'));
+                $this->redirect(['controller' => 'Catalogue', 'action' => 'index']);
+            }
+        }
+
+        // check customer
+        if (!$this->cart->customer && $this->request->session()->check('Auth.User.id')) {
+            $userId = $this->request->session()->read('Auth.User.id');
+            debug("detected user");
+            $customer = $this->ShopOrders->ShopCustomers->find()
+                ->where(['ShopCustomers.user_id' => $userId])
+                ->first();
+
+            if ($customer) {
+                $this->cart->resetCustomer();
+                $this->cart->setCustomer($customer);
+            } else {
+                Log::alert('User without shop customer detected: UserID ' . $userId);
+            }
+        }
+    }
+
+    public function beforeRender(Event $event)
+    {
+        $this->_checkSteps();
+
+        $this->set('cartId', $this->cart->cartId);
+        $this->set('sessionId', $this->cart->sessionId);
+        $this->set('order', $this->cart->order);
+        $this->set('customer', $this->cart->customer);
+        $this->set('steps', $this->steps);
+
+        $this->_writeCartToSession();
+    }
+
     protected function _checkSteps()
     {
         foreach ($this->steps as $method => &$step) {
@@ -122,33 +170,6 @@ class CheckoutController extends AppController
         $this->redirect(['action' => $next]);
     }
 
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-
-        if ($this->request->param('action') !== 'success') {
-
-            $this->_checkSteps();
-
-            if (!$this->cart || !$this->cart->order) {
-                $this->Flash->set(__d('shop','Order process canceled. No order found.'));
-                $this->redirect(['controller' => 'Catalogue', 'action' => 'index']);
-            }
-        }
-    }
-
-    public function beforeRender(Event $event)
-    {
-        $this->_checkSteps();
-
-        $this->set('cartId', $this->cart->cartId);
-        $this->set('sessionId', $this->cart->sessionId);
-        $this->set('order', $this->cart->order);
-        $this->set('customer', $this->cart->customer);
-        $this->set('steps', $this->steps);
-
-        $this->_writeCartToSession();
-    }
 
     public function index()
     {
@@ -162,6 +183,46 @@ class CheckoutController extends AppController
 
 
     public function customer()
+    {
+        $this->loadModel('Shop.ShopCustomers');
+        $this->loadModel('User.Users');
+
+        //$this->Auth->config('loginRedirect', ['action' => 'customer', 'login' => true]);
+        $this->request->session()->write('Auth.redirect', Router::url(['action' => 'customer', 'login' => true]));
+
+        if ($this->request->is(['put', 'post'])) {
+            $redirect = $this->Auth->login();
+
+            if ($this->Auth->user()) {
+                $customer = $this->ShopCustomers
+                    ->find()
+                    ->where([
+                        'ShopCustomers.user_id' => $this->Auth->user('id'),
+                    ])
+                    ->first();
+
+                if ($customer) {
+                    $this->cart->setCustomer($customer);
+                    $this->_writeCartToSession();
+                    $this->_redirectNext();
+                    //$this->redirect(['action' => 'billing']);
+                }
+                $this->Flash->success(__('Logged in as {0}', $this->Auth->user('username')));
+                //if ($redirect) {
+                //    $this->redirect($redirect);
+                //}
+            } else {
+                $this->Flash->error(__('Login failed :('));
+            }
+        }
+
+        if ($this->Auth->user() && !$this->request->query('ref')) {
+            $this->_redirectNext();
+        }
+    }
+
+
+    public function customer_Bak()
     {
         $this->loadModel('Shop.ShopCustomers');
 

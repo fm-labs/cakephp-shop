@@ -3,9 +3,6 @@
 <?php $this->assign('heading', __d('shop','Review your order')); ?>
 <div class="shop checkout step index ui form">
 
-    <h2><?= __d('shop','Review your order'); ?></h2>
-
-    <?= $this->element('Shop.Checkout/cart'); ?>
 
     <div class="row">
         <div class="col-md-6">
@@ -37,21 +34,38 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><strong><?= __d('shop','Shipping') ?></strong></div>
-        <div class="panel-body">
-            <?php $shippingMethods = \Cake\Core\Configure::read('Shop.ShippingMethods') ?>
-            <h5><?= h($shippingMethods[$order->shipping_type]['name']); ?></h5>
-            <p><?= h($shippingMethods[$order->shipping_type]['desc']); ?></p>
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong><?= __d('shop','Payment') ?></strong></div>
+                <div class="panel-body">
+                    <?php $paymentMethods = \Cake\Core\Configure::read('Shop.PaymentMethods') ?>
+                    <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
+                    <p><?= h($paymentMethods[$order->payment_type]['desc']); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong><?= __d('shop','Shipping') ?></strong></div>
+                <div class="panel-body">
+                    <?php $shippingMethods = \Cake\Core\Configure::read('Shop.ShippingMethods') ?>
+                    <h5><?= h($shippingMethods[$order->shipping_type]['name']); ?></h5>
+                    <p><?= h($shippingMethods[$order->shipping_type]['desc']); ?></p>
+                </div>
+            </div>
+
         </div>
     </div>
 
+
+
     <div class="panel panel-default">
-        <div class="panel-heading"><strong><?= __d('shop','Payment') ?></strong></div>
+        <div class="panel-heading"><strong><?= __d('shop','Order Items') ?></strong></div>
         <div class="panel-body">
-            <?php $paymentMethods = \Cake\Core\Configure::read('Shop.PaymentMethods') ?>
-            <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
-            <p><?= h($paymentMethods[$order->payment_type]['desc']); ?></p>
+            <?= $this->element('Shop.Checkout/cart'); ?>
         </div>
     </div>
 

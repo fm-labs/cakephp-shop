@@ -2,7 +2,8 @@
 
 namespace Shop\Controller;
 
-use App\Controller\AppController as BaseAppController;
+use Cake\Event\Event;
+use Content\Controller\AppController as ContentAppController;
 use Content\Controller\Component\FrontendComponent;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
@@ -16,7 +17,7 @@ use Shop\Model\Table\ShopOrdersTable;
  * @property FrontendComponent $Frontend
  * @property AuthComponent $Auth
  */
-class AppController extends BaseAppController
+class AppController extends ContentAppController
 {
 
     public function initialize()
@@ -27,12 +28,14 @@ class AppController extends BaseAppController
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
-        $this->loadComponent('Content.Frontend');
         $this->loadComponent('Shop.Shop');
+    }
 
-        if ($this->components()->has('Auth')) {
-            $this->Auth->allow();
-        }
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+        $this->Auth->config('logoutRedirect', '/');
     }
 
     /**

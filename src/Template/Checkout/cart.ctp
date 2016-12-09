@@ -1,6 +1,10 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'cart'); ?>
 <?php $this->assign('heading', __d('shop','Cart')); ?>
+
+<?php $this->start('active_step'); ?>
+ACTIVE STEP!
+<?php $this->end(); ?>
 <div class="shop checkout step cart">
     <?= $this->element('Shop.Checkout/cart'); ?>
 

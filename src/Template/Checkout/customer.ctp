@@ -14,16 +14,15 @@
         ?>
         <?php if (!isset($customer->id)): ?>
             <div class="col-xs-12 col-md-6"style="border-right: 1px solid #e8e8e8;">
+                <?= $this->Flash->render('auth'); ?>
                 <h2><?= __d('shop','Already registered?'); ?></h2>
-                <div class="ui form">
-                    <?= $this->Form->create($customer); ?>
-                    <?= $this->Form->input('email'); ?>
-                    <?= $this->Form->input('password'); ?>
-                    <div class="actions" style="margin-top: 1em;">
-                        <?= $this->Form->submit(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
-                    </div>
-                    <?= $this->Form->end(); ?>
+                <?= $this->Form->create(null); ?>
+                <?= $this->Form->input('username', ['label' => __('Email')]); ?>
+                <?= $this->Form->input('password'); ?>
+                <div class="actions" style="margin-top: 1em;">
+                    <?= $this->Form->submit(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
                 </div>
+                <?= $this->Form->end(); ?>
             </div>
             <div class="col-xs-12 col-md-6">
 

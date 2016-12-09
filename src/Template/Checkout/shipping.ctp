@@ -19,7 +19,7 @@
             <hr />
 
             <h2>Versandart</h2>
-            <div class="ui form">
+            <div class="form">
                 <?= $this->Form->create($order, ['url' => ['action' => 'shipping_type']]); ?>
                 <?= $this->Form->input('shipping_type', ['options' => $shippingOptions, 'label' => false, 'empty' => false]); ?>
 
@@ -57,39 +57,31 @@
                             ['action' => 'shipping_select', $address->id], ['class' => 'btn btn-default']); ?>
                     </div>
                 <?php endforeach; ?>
-
                 <hr />
             <?php endif; ?>
 
-            <div class="ui form">
-                <h4><?= __d('shop', 'Add new shipping address'); ?></h4>
-                <?= $this->Form->create($shippingAddress, []); ?>
-                <?= $this->Form->input('first_name', ['label' => __d('shop','First Name')]); ?>
-                <?= $this->Form->input('last_name', ['label' => __d('shop','Last Name')]); ?>
-                <?= '' // $this->Form->input('name', ['label' => __d('shop','Name')]); ?>
-                <?= $this->Form->input('street', ['label' => __d('shop','Street')]); ?>
-                <?= '' //$this->Form->input('taxid', ['label' => __d('shop','Tax Id')]); ?>
-                <?= $this->Form->input('zipcode', ['label' => __d('shop','Zipcode')]); ?>
-                <?= $this->Form->input('city', ['label' => __d('shop','City')]); ?>
-                <?= $this->Form->input('country', ['label' => __d('shop','Country')]); ?>
+            <h4><?= __d('shop', 'Add new shipping address'); ?></h4>
+            <?= $this->Form->create($shippingAddress, []); ?>
+            <?= $this->Form->input('first_name', ['label' => __d('shop','First Name')]); ?>
+            <?= $this->Form->input('last_name', ['label' => __d('shop','Last Name')]); ?>
+            <?= '' // $this->Form->input('name', ['label' => __d('shop','Name')]); ?>
+            <?= $this->Form->input('street', ['label' => __d('shop','Street')]); ?>
+            <?= '' //$this->Form->input('taxid', ['label' => __d('shop','Tax Id')]); ?>
+            <?= $this->Form->input('zipcode', ['label' => __d('shop','Zipcode')]); ?>
+            <?= $this->Form->input('city', ['label' => __d('shop','City')]); ?>
+            <?= $this->Form->input('country', ['label' => __d('shop','Country')]); ?>
 
-
-                <div class="actions" style="text-align: right; margin-top: 1em;">
-                    <?= $this->Form->submit(__d('shop','Add shipping address and continue'), ['class' => 'ui primary button']); ?>
-                </div>
-
-
-                <?= $this->Form->end(); ?>
+            <div class="actions" style="text-align: right; margin-top: 1em;">
+                <?= $this->Form->submit(__d('shop','Add shipping address and continue'), ['class' => 'ui primary button']); ?>
             </div>
+            <?= $this->Form->end(); ?>
 
 
         <?php endif; ?>
-        
-
-
-
+    </div>
 </div>
 <script>
+    /*
     $(document).ready(function() {
         var $toggle = $('#toggle-shipping-use-billing');
         var $container = $('#shipping-newaddress');
@@ -105,4 +97,5 @@
             }
         }).trigger('change');
     });
+    */
 </script>

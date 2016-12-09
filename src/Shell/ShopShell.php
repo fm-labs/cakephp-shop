@@ -36,6 +36,9 @@ class ShopShell extends Shell
         $parser->addSubcommand('patch_order_numbers', [
             'help' => 'Execute patchOrderNumbers'
         ]);
+        $parser->addSubcommand('patch_order_customer_email', [
+            'help' => 'Execute patchOrderCustomerEmail'
+        ]);
         return $parser;
     }
 
@@ -112,8 +115,9 @@ class ShopShell extends Shell
 
     public function patchOrderNumbers()
     {
-        $this->loadModel('Shop.ShopOrders');
+        $this->out('<info>Patching order numbers</info>');
 
+        $this->loadModel('Shop.ShopOrders');
         $orders = $this->ShopOrders->find()
             ->contain([])
             ->where(['ShopOrders.is_temporary' => false, 'ShopOrders.nr IS NULL'])
@@ -136,5 +140,35 @@ class ShopShell extends Shell
                 $this->error('Failed!');
             }
         }
+    }
+
+    public function patchOrderCustomerEmail()
+    {
+        $this->out('<info>Patching order numbers</info>');
+
+        $this->loadModel('Shop.ShopOrders');
+        $orders = $this->ShopOrders->find()
+            ->contain(['ShopCustomers'])
+            ->all();
+
+        $patched = $failed = 0;
+        foreach ($orders as $order) {
+            if (!$order->shop_customer || $order->customer_email) {
+                continue;
+            }
+
+            $order->customer_email = $order->shop_customer->email;
+
+            $out = "Customer email for order with id " . $order->id . " -> " . $order->customer_email;
+            if ($this->ShopOrders->save($order)) {
+                $this->out($out . ': Patched!');
+                $patched++;
+            } else {
+                $this->abort($out . ': Failed!');
+                $failed++;
+            }
+        }
+
+        $this->out("<info>Patched: $patched - Failed: $failed</info>");
     }
 }
