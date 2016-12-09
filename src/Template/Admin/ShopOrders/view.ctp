@@ -1,8 +1,8 @@
 <?php $this->extend('/Admin/Base/index'); ?>
 <?php $this->loadHelper('Bootstrap.Tabs'); ?>
-<?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
-<?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop','Order #{0}', $shopOrder->nr_formatted)); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Order #{0}', $shopOrder->nr_formatted)); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],

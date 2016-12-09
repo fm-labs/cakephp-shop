@@ -1,4 +1,4 @@
-<?php $this->Html->addCrumb(__('Stocks')); ?>
+<?php $this->Breadcrumbs->add(__('Stocks')); ?>
 
 <?php $this->Toolbar->addLink(__('New {0}', __('Stock')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(

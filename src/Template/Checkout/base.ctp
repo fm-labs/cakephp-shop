@@ -1,6 +1,6 @@
 <?php
-$this->assign('title', $this->fetch('heading'));
 $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
+$this->assign('title', $this->fetch('heading'));
 ?>
 <div class="shop checkout index">
     <h1><?= __d('shop', 'Your Order'); ?>: <?= $this->fetch('heading'); ?></h1>
@@ -24,7 +24,7 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
 
             <?php // debug($this->request->session()->read('Shop')); ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 hidden-xs">
             <ul class="list-group">
 
                 <?php foreach ($steps as $method => $step): ?>

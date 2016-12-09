@@ -1,6 +1,12 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'shipping'); ?>
 <?php $this->assign('heading', __d('shop','Shipping')); ?>
+
+<?php
+$this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index']);
+$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index']);
+$this->Breadcrumbs->add(__('Shipping'), ['controller' => 'Checkout', 'action' => 'shipping']);
+?>
 <div class="shop checkout step shipping">
 
     <div class="shipping address">

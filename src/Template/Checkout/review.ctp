@@ -1,4 +1,9 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
+<?php
+$this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index']);
+$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index']);
+$this->Breadcrumbs->add(__('Review'), ['controller' => 'Checkout', 'action' => 'review']);
+?>
 <?php $this->assign('step_active', 'review'); ?>
 <?php $this->assign('heading', __d('shop','Review your order')); ?>
 <div class="shop checkout step index ui form">
@@ -14,6 +19,7 @@
                 </div>
                 <div class="panel-body">
                     <?= $this->element('Shop.Order/billing_address', ['order' => $order]); ?>
+                    > <?= $this->Html->link(__('Edit'), ['action' => 'billing', 'ref' => 'review']); ?>
                 </div>
             </div>
 
@@ -27,6 +33,7 @@
                 </div>
                 <div class="panel-body">
                     <?= $this->element('Shop.Order/shipping_address', ['order' => $order]); ?>
+                    > <?= $this->Html->link(__('Edit'), ['action' => 'shipping', 'ref' => 'review']); ?>
 
                 </div>
             </div>
@@ -43,6 +50,7 @@
                     <?php $paymentMethods = \Cake\Core\Configure::read('Shop.PaymentMethods') ?>
                     <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
                     <p><?= h($paymentMethods[$order->payment_type]['desc']); ?></p>
+                    > <?= $this->Html->link(__('Edit'), ['action' => 'payment', 'ref' => 'review']); ?>
                 </div>
             </div>
         </div>
@@ -54,6 +62,7 @@
                     <?php $shippingMethods = \Cake\Core\Configure::read('Shop.ShippingMethods') ?>
                     <h5><?= h($shippingMethods[$order->shipping_type]['name']); ?></h5>
                     <p><?= h($shippingMethods[$order->shipping_type]['desc']); ?></p>
+                    > <?= $this->Html->link(__('Edit'), ['action' => 'shipping', 'ref' => 'review']); ?>
                 </div>
             </div>
 
@@ -85,7 +94,7 @@
     <div class="panel panel-default">
         <div class="panel-heading"><strong><?= __d('shop','Terms') ?></strong></div>
         <div class="panel-body">
-            <?= $this->Form->input('agree_terms', ['label' => __d('shop','Agree Terms') . '*']); ?>
+            <?= $this->Form->input('agree_terms', ['label' => __d('shop','Agree to Terms & Conditions') . '*']); ?>
             <?= '' //$this->Form->input('agree_newsletter', ['label' => __d('shop','Agree Newsletter')]); ?>
         </div>
     </div>

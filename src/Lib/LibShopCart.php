@@ -109,7 +109,7 @@ class LibShopCart
             $order = $this->ShopOrders
                 ->find()
                 ->where([
-                    'sessionid' => $this->sessionId,
+                    //'sessionid' => $this->sessionId,
                     'cartid' => $this->cartId,
                     'is_temporary' => true,
                 ])

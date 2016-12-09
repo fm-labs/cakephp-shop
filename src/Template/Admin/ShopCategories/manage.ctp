@@ -7,8 +7,8 @@ use Cake\Routing\Router;
 <?php $this->loadHelper('Backend.Datepicker'); ?>
 <?= $this->Html->css('Backend.jstree/themes/backend/style.min', ['block' => true]); ?>
 <?= $this->Html->script('Backend.jstree/jstree.min', ['block' => true]); ?>
-<?php $this->Html->addCrumb(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Category'))); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category'))); ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCategory->id],

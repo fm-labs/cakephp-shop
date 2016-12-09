@@ -1,5 +1,5 @@
-<?php $this->Html->addCrumb(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb($shopText->id); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add($shopText->id); ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Edit {0}', __d('shop', 'Shop Text')),
     ['action' => 'edit', $shopText->id],

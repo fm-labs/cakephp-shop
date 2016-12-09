@@ -1,4 +1,4 @@
-<?php $this->Html->addCrumb(__d('shop', 'Shop Texts')); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Texts')); ?>
 
 <?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Text')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <div class="shopTexts index">

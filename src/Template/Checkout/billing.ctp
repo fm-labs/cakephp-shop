@@ -1,6 +1,11 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'billing'); ?>
 <?php $this->assign('heading', __d('shop','Billing')); ?>
+<?php
+$this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index']);
+$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index']);
+$this->Breadcrumbs->add(__('Billing'), ['controller' => 'Checkout', 'action' => 'billing']);
+?>
 <div class="shop checkout step billing">
 
     <?php if ($order->billing_address_id && !$this->request->query('change')): ?>

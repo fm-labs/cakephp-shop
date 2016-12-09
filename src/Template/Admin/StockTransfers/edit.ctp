@@ -1,5 +1,5 @@
-<?php $this->Html->addCrumb(__('Stock Transfers'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__('Edit {0}', __('Stock Transfer'))); ?>
+<?php $this->Breadcrumbs->add(__('Stock Transfers'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__('Edit {0}', __('Stock Transfer'))); ?>
 <?= $this->Toolbar->addPostLink(
     __('Delete'),
     ['action' => 'delete', $stockTransfer->id],

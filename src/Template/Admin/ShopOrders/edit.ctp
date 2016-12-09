@@ -1,8 +1,8 @@
 <?php $this->extend('/Admin/Base/index'); ?>
-<?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
-<?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop','Order {0}', $shopOrder->nr_formatted), ['action' => 'view', $shopOrder->id]); ?>
-<?php $this->Html->addCrumb(__d('shop','Edit')); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Order {0}', $shopOrder->nr_formatted), ['action' => 'view', $shopOrder->id]); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Edit')); ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop','Delete'),
     ['action' => 'delete', $shopOrder->id],

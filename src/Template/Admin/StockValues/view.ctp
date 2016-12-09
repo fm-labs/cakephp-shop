@@ -1,5 +1,5 @@
-<?php $this->Html->addCrumb(__('Stock Values'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb($stockValue->id); ?>
+<?php $this->Breadcrumbs->add(__('Stock Values'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add($stockValue->id); ?>
 <?= $this->Toolbar->addLink(
     __('Edit {0}', __('Stock Value')),
     ['action' => 'edit', $stockValue->id],

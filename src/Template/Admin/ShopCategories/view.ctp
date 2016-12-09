@@ -4,8 +4,8 @@ use Cake\Core\Configure;
 $this->loadHelper('Bootstrap.Tabs');
 $this->loadHelper('Media.Media');
 ?>
-<?php $this->Html->addCrumb(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb($shopCategory->name); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add($shopCategory->name); ?>
 <?= $this->Toolbar->addLink(
     __d('shop', 'Edit {0}', __d('shop', 'Shop Category')),
     ['action' => 'edit', $shopCategory->id],

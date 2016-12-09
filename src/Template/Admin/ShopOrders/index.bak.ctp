@@ -1,4 +1,4 @@
-<?php $this->Html->addCrumb(__d('shop','Shop Orders')); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop Orders')); ?>
 
 <?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(

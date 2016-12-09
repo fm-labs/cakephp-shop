@@ -2,8 +2,8 @@
 $this->loadHelper('Bootstrap.Tabs');
 $this->loadHelper('Media.Media');
 
-$this->Html->addCrumb(__d('shop', 'Shop Products'), ['action' => 'index']);
-$this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
+$this->Breadcrumbs->add(__d('shop', 'Shop Products'), ['action' => 'index']);
+$this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
 ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),

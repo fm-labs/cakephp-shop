@@ -1,7 +1,7 @@
 <?php $this->extend('/Admin/Base/index'); ?>
-<?php $this->Html->addCrumb(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
-<?php $this->Html->addCrumb(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb($shopOrder->uuid); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add($shopOrder->uuid); ?>
 <?= $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],

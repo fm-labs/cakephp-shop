@@ -1,6 +1,10 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'payment'); ?>
-<?php $this->assign('heading', __d('shop','Payment')); ?>
+<?php $this->assign('heading', __d('shop','Payment')); ?><?php
+$this->Breadcrumbs->add(__('Shop'), ['_name' => 'shop:index']);
+$this->Breadcrumbs->add(__('Checkout'), ['controller' => 'Checkout', 'action' => 'index']);
+$this->Breadcrumbs->add(__('Payment'), ['controller' => 'Checkout', 'action' => 'payment']);
+?>
 <div class="shop checkout step payment">
 
     <?php

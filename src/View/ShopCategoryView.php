@@ -68,7 +68,7 @@ class ShopCategoryView extends ContentView
             // bread crumbs
             $path = $shopCategory->getPath($shopCategory->id)->toArray();
             array_walk($path, function($category) {
-               $this->Content->addCrumb($category->name, $category->url);
+               $this->Breadcrumbs->add($category->name, $category->url);
             });
         }
 
