@@ -49,10 +49,10 @@ class StocksController extends AppController
         if ($this->request->is('post')) {
             $stock = $this->Stocks->patchEntity($stock, $this->request->data);
             if ($this->Stocks->save($stock)) {
-                $this->Flash->success(__('The {0} has been saved.', __('stock')));
+                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','stock')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('stock')));
+                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','stock')));
             }
         }
         $this->set(compact('stock'));
@@ -74,10 +74,10 @@ class StocksController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $stock = $this->Stocks->patchEntity($stock, $this->request->data);
             if ($this->Stocks->save($stock)) {
-                $this->Flash->success(__('The {0} has been saved.', __('stock')));
+                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','stock')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('stock')));
+                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','stock')));
             }
         }
         $this->set(compact('stock'));
@@ -96,9 +96,9 @@ class StocksController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $stock = $this->Stocks->get($id);
         if ($this->Stocks->delete($stock)) {
-            $this->Flash->success(__('The {0} has been deleted.', __('stock')));
+            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','stock')));
         } else {
-            $this->Flash->error(__('The {0} could not be deleted. Please, try again.', __('stock')));
+            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','stock')));
         }
         return $this->redirect(['action' => 'index']);
     }

@@ -9,9 +9,8 @@ $this->Form->context(new \Cake\View\Form\EntityContext($this->request, [
     'entity' => $order,
     'table' => 'Shop.ShopOrders'
 ]));
-debug($order);
 ?>
-<span class="label"><?= __('Credit card'); ?></span>
+<span class="label"><?= __d('shop','Credit card'); ?></span>
 <div class="payment method element form">
     <?= $this->Form->input('cc_brand', ['label' => __d('shop','Card Type'), 'options' => $ccBrands, 'empty' => __d('shop','Please select')]); ?>
     <?= $this->Form->input('cc_holder_name', ['label' => __d('shop','Card Holder'), 'placeholder' => __d('shop','Firstname Lastname')]); ?>

@@ -7,6 +7,7 @@ use Content\Controller\AppController as ContentAppController;
 use Content\Controller\Component\FrontendComponent;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
+use Shop\Controller\Component\CartComponent;
 use Shop\Lib\LibShopCart;
 use Shop\Model\Table\ShopOrdersTable;
 
@@ -16,6 +17,7 @@ use Shop\Model\Table\ShopOrdersTable;
  * @package Shop\Controller
  * @property FrontendComponent $Frontend
  * @property AuthComponent $Auth
+ * @property CartComponent $Cart
  */
 class AppController extends ContentAppController
 {
@@ -29,6 +31,8 @@ class AppController extends ContentAppController
         ];
 
         $this->loadComponent('Shop.Shop');
+        $this->loadComponent('Shop.Cart');
+        $this->loadComponent('Shop.Checkout');
     }
 
     public function beforeFilter(Event $event)
@@ -39,29 +43,27 @@ class AppController extends ContentAppController
     }
 
     /**
-     * @return LibShopCart
+     * @return CartComponent
+     * @deprecated Use CartComponent directly instead
      */
     protected function _getCart($cartid = null)
     {
-        $sessionid = $this->request->session()->id();
-
-        if ($cartid === null) {
-            $cartid = $this->request->session()->read('Shop.Checkout.cartId');
-        }
-
-        return new LibShopCart($sessionid, $cartid);
+        return $this->Cart;
     }
 
     /**
-     *
+     * @deprecated Use CartComponent directly instead
      */
     protected function _writeCartToSession()
     {
-        $this->request->session()->write('Shop.Checkout', $this->cart->toArray());
+        $this->Cart->updateSession();
     }
 
+    /**
+     * @deprecated Use CartComponent directly instead
+     */
     protected function _resetCartSession()
     {
-        $this->request->session()->delete('Shop.Checkout');
+        $this->Cart->resetSession();
     }
 }

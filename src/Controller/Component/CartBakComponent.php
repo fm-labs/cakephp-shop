@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 14.12.15
- * Time: 15:51
- */
 
-namespace Shop\Lib;
+namespace Shop\Controller\Component;
 
 
+use Cake\Controller\Component;
 use Cake\Core\Exception\Exception;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventDispatcherTrait;
@@ -18,20 +13,24 @@ use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
 use Shop\Event\ShopEventListener;
+use Shop\Model\Entity\ShopAddress;
 use Shop\Model\Entity\ShopCustomer;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Table\ShopAddressesTable;
 use Shop\Model\Table\ShopOrdersTable;
+use Shop\Model\Table\ShopProductsTable;
 
 /**
- * Class LibShopCart
- * @package Shop\Lib
+ * Class CartComponent
+ * @package Shop\Controller\Component
  *
  * @property ShopOrdersTable $ShopOrders
  * @property ShopProductsTable $ShopProducts
  */
-class LibShopCart
+class CartBakComponent extends Component
 {
+
+    protected static $sessionKey = 'Shop.Checkout';
 
     use EventDispatcherTrait;
 
@@ -55,16 +54,14 @@ class LibShopCart
      */
     public $cartId;
 
-    public function __construct($sessionId, $cartId)
+    public function initialize(array $config)
     {
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
 
         $this->eventManager()->on(new ShopEventListener());
 
-        $this->sessionId = $sessionId;
-        $this->cartId = $cartId;
-
-        $this->getOrder();
+        $this->sessionId = $this->request->session()->id();
+        $this->cartId = $this->request->session()->read('Shop.Checkout.cartId');
     }
 
     public function reset()
@@ -135,30 +132,64 @@ class LibShopCart
         return $this->order;
     }
 
-
-    public function setCustomer(ShopCustomer $customer)
+    /**
+     * @param ShopCustomer $customer
+     * @return bool
+     */
+    public function checkoutAsGuest(ShopCustomer $customer)
     {
-        $this->getOrder(true);
-        $this->order->shop_customer_id = $customer->id;
+        $customer->user_id = null;
+        $customer->user = null;
 
-        /*
-        $this->order->billing_first_name = ($this->order->billing_first_name) ?: $customer->first_name;
-        $this->order->billing_last_name = ($this->order->billing_last_name) ?: $customer->last_name;
-        $this->order->billing_street = ($this->order->billing_street) ?: $customer->street;
-        $this->order->billing_zipcode = ($this->order->billing_zipcode) ?: $customer->zipcode;
-        $this->order->billing_city = ($this->order->billing_city) ?: $customer->city;
-        $this->order->billing_country = ($this->order->billing_country) ?: $customer->country;
-        */
-
-        if ($this->saveOrder()) {
-            $this->customer = $customer;
-            $this->getOrder(false, true);
-            return true;
-        }
-
-        return false;
+        $this->resetCustomer();
+        return $this->setCustomer($customer);
     }
 
+    /**
+     * @param ShopCustomer $customer
+     * @return bool
+     */
+    public function checkoutAsCustomer(ShopCustomer $customer)
+    {
+        if ($customer->is_guest) {
+            return $this->checkoutAsGuest($customer);
+        }
+
+        $this->resetCustomer();
+        return $this->setCustomer($customer);
+    }
+
+    /**
+     * @param ShopCustomer $customer
+     * @return $this
+     * @throws \Exception
+     */
+    public function setCustomer(ShopCustomer $customer)
+    {
+        if ($customer->isNew() || $customer->dirty()) {
+            if (!$this->ShopOrders->ShopCustomers->save($customer)) {
+                throw new \Exception('Failed to update customer');
+            }
+        }
+
+
+        $this->resetCustomer();
+        $this->customer = $customer;
+
+        if ($this->order) {
+            $this->order->shop_customer_id = $customer->id;
+
+            $this->saveOrder();
+            // reload order
+            $this->getOrder(false, true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
     public function resetCustomer()
     {
         if ($this->order) {
@@ -190,6 +221,9 @@ class LibShopCart
         return true;
     }
 
+    /**
+     * @return $this
+     */
     public function resetPayment()
     {
         if ($this->order) {
@@ -198,22 +232,43 @@ class LibShopCart
             $this->order->payment_info_2 = null;
             $this->order->payment_info_3 = null;
 
-            if (!$this->saveOrder()) {
-                return false;
-            }
+            return $this->saveOrder();
         }
-        return true;
+
+        return $this;
     }
 
+    /**
+     * @return $this
+     */
+    public function resetShipping()
+    {
+        if ($this->order) {
+            $this->order->shipping_type = null;
+
+            return $this->saveOrder();
+        }
+
+        return $this;
+    }
+
+
+        /**
+     * @return ShopCustomer
+     */
     public function getCustomer()
     {
         return $this->customer;
     }
 
+    /**
+     * @return $this|bool|CartComponent
+     * @throws \Exception
+     */
     public function refresh()
     {
         if (!$this->order) {
-            return false;
+            return $this;
         }
 
         //$this->ShopOrders->calculate($this->order->id);
@@ -221,6 +276,9 @@ class LibShopCart
         return $this->saveOrder();
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [
@@ -231,21 +289,29 @@ class LibShopCart
         ];
     }
 
+    /**
+     * @return $this
+     * @throws \Exception
+     */
     public function saveOrder()
     {
         if (!$this->order) {
-            return false;
+            return $this;
         }
 
         $saved = $this->ShopOrders->save($this->order);
         if (!$saved) {
-            debug("FAiled to save order");
-            return false;
+            throw new \Exception('Failed to save order');
         }
 
-        return $this->order = $saved;
+        return $this;
     }
 
+    /**
+     * @param array $data
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     * @throws \Exception
+     */
     public function submitOrder(array $data)
     {
         if (!$this->order) {
@@ -269,6 +335,49 @@ class LibShopCart
 
     }
 
+    public function getBillingAddress()
+    {
+        $address = $this->ShopOrders->BillingAddresses->newEntity();
+        $this->_fillAddress($address, 'billing');
+        return $address;
+    }
+
+    /**
+     * @param ShopAddress $address
+     * @return $this
+     */
+    public function setBillingAddress(ShopAddress $address)
+    {
+        $this->patchOrderBilling($this->_prefixAddress($address->toArray(), 'billing'));
+
+        if ($this->order->shipping_use_billing) {
+            $this->setShippingAddress($address);
+        }
+        return $this;
+    }
+
+    public function getShippingAddress()
+    {
+        $address = $this->ShopOrders->ShippingAddresses->newEntity();
+        $this->_fillAddress($address, 'shipping');
+        return $address;
+    }
+
+    /**
+     * @param ShopAddress $address
+     * @return $this
+     */
+    public function setShippingAddress(ShopAddress $address)
+    {
+        $this->patchOrderShipping($this->_prefixAddress($address->toArray(), 'shipping'));
+        return $this;
+    }
+
+    /**
+     * @param $addressId
+     * @return $this
+     * @throws \Exception
+     */
     public function setBillingAddressById($addressId)
     {
 
@@ -282,8 +391,7 @@ class LibShopCart
             ->first();
 
         if (!$address) {
-            debug('address not found for customer with id ' . $this->order->shop_customer_id);
-            return false;
+            throw new \Exception('Address not found for customer with id ' . $this->order->shop_customer_id);
         }
 
         $this->patchOrderBilling($this->_prefixAddress($address->toArray(), 'billing'));
@@ -296,6 +404,11 @@ class LibShopCart
         return $this->saveOrder();
     }
 
+    /**
+     * @param $addressId
+     * @return $this
+     * @throws \Exception
+     */
     public function setShippingAddressById($addressId)
     {
         $address = $this->ShopOrders->BillingAddresses
@@ -308,8 +421,7 @@ class LibShopCart
             ->first();
 
         if (!$address) {
-            debug('address not found for customer with id ' . $this->order->shop_customer_id);
-            return false;
+            throw new \Exception('Address not found for customer with id ' . $this->order->shop_customer_id);
         }
 
         $shippingAddr = $this->_prefixAddress($address->toArray(), 'shipping');
@@ -348,6 +460,30 @@ class LibShopCart
             $addr[$_key] = $val;
         });
         return $addr;
+    }
+
+    protected function _fillAddress(&$address, $scope = 'billing')
+    {
+        $fields = [
+            'first_name',
+            'last_name',
+            'name',
+            'is_company',
+            'street',
+            'taxid',
+            'zipcode',
+            'city',
+            'country',
+        ];
+
+        $_idKey = $scope . '_address_id';
+        $address['id'] = $this->order->get($_idKey);
+
+        array_walk($fields, function($field) use ($address, $scope) {
+
+            $_key = $scope . '_' . $field;
+            $address[$field] = $this->order->get($_key);
+        });
     }
 
     public function patchOrderBilling(array $data)
@@ -473,5 +609,19 @@ class LibShopCart
         $orderItem->accessible('amount', true);
         $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $data);
         return $this->ShopOrders->ShopOrderItems->save($orderItem);
+    }
+
+
+    /**
+     *
+     */
+    public function updateSession()
+    {
+        $this->request->session()->write(self::$sessionKey, $this->toArray());
+    }
+
+    public function resetSession()
+    {
+        $this->request->session()->delete(self::$sessionKey);
     }
 }

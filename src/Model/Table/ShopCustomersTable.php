@@ -14,6 +14,7 @@ use Shop\Model\Entity\ShopCustomer;
  *
  * @property \Cake\ORM\Association\HasMany $ShopAddresses
  * @property \Cake\ORM\Association\HasMany $ShopOrders
+ * @property \Cake\ORM\Association\BelongsTo $Users
  */
 class ShopCustomersTable extends Table
 {
@@ -48,6 +49,10 @@ class ShopCustomersTable extends Table
             'foreignKey' => 'shop_customer_id',
             'className' => 'Shop.ShopOrders'
         ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'className' => 'User.Users'
+        ]);
     }
 
     /**
@@ -65,8 +70,8 @@ class ShopCustomersTable extends Table
         $validator
             ->add('email', 'valid', ['rule' => 'email'])
             ->requirePresence('email', 'create')
-            ->notEmpty('email')
-            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->notEmpty('email');
+            //->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->allowEmpty('password');
@@ -121,27 +126,32 @@ class ShopCustomersTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create')
+
+            ->requirePresence('first_name', 'create')
+            ->notEmpty('first_name')
+
+            ->requirePresence('last_name', 'create')
+            ->notEmpty('last_name')
+
+            ->add('email', 'valid', ['rule' => 'email'])
             ->requirePresence('email', 'create')
             ->notEmpty('email')
-            ->requirePresence('is_guest', 'create');
 
-        $validator
-            ->requirePresence('password1', 'create')
-            ->notEmpty('password1')
-            //->allowEmpty('password1')
             ->add('password1', 'password', [
                 'rule' => 'validateNewPassword1',
                 'provider' => 'table',
                 'message' => __d('shop','Invalid password')
             ])
-            ->requirePresence('password2', 'create')
-            ->notEmpty('password2')
-            //->allowEmpty('password2')
+            ->requirePresence('password1', 'create')
+            ->notEmpty('password1')
+
             ->add('password2', 'password', [
                 'rule' => 'validateNewPassword2',
                 'provider' => 'table',
                 'message' => __d('shop','Passwords do not match')
-            ]);
+            ])
+            ->requirePresence('password2', 'create')
+            ->notEmpty('password2');
 
 
         return $validator;
@@ -160,10 +170,16 @@ class ShopCustomersTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create')
+
+            ->requirePresence('first_name', 'create')
+            ->notEmpty('first_name')
+
+            ->requirePresence('last_name', 'create')
+            ->notEmpty('last_name')
+
+            ->add('email', 'valid', ['rule' => 'email'])
             ->requirePresence('email', 'create')
-            ->notEmpty('email')
-            ->requirePresence('is_guest', 'create');
-            //->notEmpty('is_guest');
+            ->notEmpty('email');
 
         return $validator;
     }
@@ -172,55 +188,76 @@ class ShopCustomersTable extends Table
     /**
      * Add new user
      *
-     * @param array $data
      * @return \Cake\Datasource\EntityInterface|Entity
      */
-    public function add(ShopCustomer $customer, array $data)
+    public function add(array $data)
     {
-        if (!$customer) {
-            $customer = $this->newEntity(null);
-            $customer->accessible('*', true);
-        }
-
-        $email = (isset($data['email'])) ? $data['email'] : null;
-
-        $isGuest = isset($data['is_guest']) && (bool) $data['is_guest'];
-
-        if ($email) {
-            // check if email already exists for a known guest
-            $_existent = $this->find()->where(['email' => $email, 'is_guest' => true])->first();
-            if ($_existent) {
-                $customer = $_existent;
-            }
-        }
-
-
-        if ($isGuest) {
-            $validate = 'addGuest';
-            $customer->accessible(['password1', 'password2'], false);
-            $customer->accessible('password', false);
-        } else {
-            $validate = 'add';
-            $customer->accessible(['password1', 'password2'], true);
-            $customer->accessible('password', true);
-        }
-
-        $this->patchEntity($customer, $data, ['validate' => $validate]);
+        $customer = $this->newEntity();
+        $customer->accessible(['password1', 'password2'], true);
+        $customer = $this->patchEntity($customer, $data, ['validate' => 'add']);
         if ($customer->errors()) {
             return $customer;
         }
 
-        if ($customer->password1) {
-            $customer->password = $customer->password1;
+        if ($this->save($customer)) {
+            Log::info('Added shop customer with ID ' . $customer->id);
+            $this->_syncUser($customer, [
+                'name' => $customer->display_name,
+                'username' => $customer->email,
+                'login_enabled' => true,
+                'password' => $customer->password1
+            ]);
         }
-
-        $customer->is_new = true;
-
-        if (!$this->save($customer)) {
-            return false;
-        }
-        Log::info('Customer added with ID ' . $customer->id);
         return $customer;
+    }
+
+    protected function _syncUser(ShopCustomer &$customer, array $userData = [])
+    {
+        if (!$customer->user_id) {
+            $user = $this->Users->newEntity();
+            $user->name = $customer->email;
+            $user->username = $customer->email;
+            $user->email = $customer->email;
+            $user->login_enabled = true;
+
+            $user->accessible('*', true);
+            $user = $this->Users->patchEntity($user, $userData);
+            $user->accessible('*', false);
+
+
+            if (!$this->Users->save($user)) {
+                debug($user->errors());
+                Log::error('ShopCustomers user sync failed');
+                return;
+            }
+
+            Log::info('ShopCustomers user sync linked CustomerID ' . $customer->id . ' to UserID ' . $user->id);
+            $customer->user_id = $user->id;
+            $this->save($customer);
+        }
+        elseif (!empty($userData)) {
+            $user = $this->Users->get($customer->user_id);
+
+            $user->accessible('*', true);
+            $user = $this->Users->patchEntity($user, $userData);
+            $user->accessible('*', false);
+
+            if (!$this->Users->save($user)) {
+                debug($user->errors());
+                Log::error('ShopCustomers user sync failed');
+                return;
+            }
+
+            Log::info('ShopCustomers user sync linked CustomerID ' . $customer->id . ' to UserID ' . $user->id);
+        }
+    }
+
+    public function addGuest(ShopCustomer $customer)
+    {
+
+        $validate = 'addGuest';
+        $customer->accessible(['password1', 'password2'], false);
+        $customer->accessible('password', false);
     }
 
     /**

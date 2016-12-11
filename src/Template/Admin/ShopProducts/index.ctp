@@ -15,7 +15,7 @@
 <?php
 $this->loadHelper('AdminLte.Box');
 ?>
-<?= $this->assign('title', __('Shop Products ({0})', $locale)); ?>
+<?= $this->assign('title', __d('shop','Shop Products ({0})', $locale)); ?>
 <div class="shopProducts index">
     <div class="row">
         <div class="col-md-4">

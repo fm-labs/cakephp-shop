@@ -1,23 +1,23 @@
-<?php $this->Breadcrumbs->add(__('Stocks')); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Stocks')); ?>
 
-<?php $this->Toolbar->addLink(__('New {0}', __('Stock')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Stock')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Shop Stock Transfers')),
+    __d('shop','List {0}', __d('shop','Shop Stock Transfers')),
     ['controller' => 'ShopStockTransfers', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Shop Stock Transfer')),
+    __d('shop','New {0}', __d('shop','Shop Stock Transfer')),
     ['controller' => 'ShopStockTransfers', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Shop Stock Values')),
+    __d('shop','List {0}', __d('shop','Shop Stock Values')),
     ['controller' => 'ShopStockValues', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Shop Stock Value')),
+    __d('shop','New {0}', __d('shop','Shop Stock Value')),
     ['controller' => 'ShopStockValues', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>

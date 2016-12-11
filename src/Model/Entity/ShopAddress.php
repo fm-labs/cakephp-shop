@@ -56,7 +56,7 @@ class ShopAddress extends Entity
 
     protected function _getName()
     {
-        if ($this->_properties['is_company']) {
+        if ($this->is_company) {
             return $this->_properties['company_name'];
         }
         return sprintf("%s, %s", $this->_properties['last_name'], $this->_properties['first_name']);
@@ -66,7 +66,7 @@ class ShopAddress extends Entity
     {
 
 
-        if ($this->_properties['is_company']) {
+        if ($this->is_company) {
             return sprintf("%s, %s, %s %s (Company)",
                 $this->_properties['company_name'],
                 $this->_properties['street'],
@@ -87,7 +87,7 @@ class ShopAddress extends Entity
     protected function _getFormatted()
     {
         //@TODO Refactor with self::formatAddress()
-        if ($this->_properties['is_company']) {
+        if ($this->is_company) {
             return sprintf("%s\n%s\n%s %s\n%s",
                 $this->_properties['company_name'],
                 $this->_properties['street'],

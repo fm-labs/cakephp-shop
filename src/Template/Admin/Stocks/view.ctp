@@ -1,43 +1,43 @@
-<?php $this->Breadcrumbs->add(__('Stocks'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Stocks'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($stock->title); ?>
 <?= $this->Toolbar->addLink(
-    __('Edit {0}', __('Stock')),
+    __d('shop','Edit {0}', __d('shop','Stock')),
     ['action' => 'edit', $stock->id],
     ['data-icon' => 'edit']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('Delete {0}', __('Stock')),
+    __d('shop','Delete {0}', __d('shop','Stock')),
     ['action' => 'delete', $stock->id],
-    ['data-icon' => 'trash', 'confirm' => __('Are you sure you want to delete # {0}?', $stock->id)]) ?>
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $stock->id)]) ?>
 
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Stocks')),
+    __d('shop','List {0}', __d('shop','Stocks')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Stock')),
+    __d('shop','New {0}', __d('shop','Stock')),
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__('More')); ?>
+<?= $this->Toolbar->startGroup(__d('shop','More')); ?>
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Shop Stock Transfers')),
+    __d('shop','List {0}', __d('shop','Shop Stock Transfers')),
     ['controller' => 'ShopStockTransfers', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Shop Stock Transfer')),
+    __d('shop','New {0}', __d('shop','Shop Stock Transfer')),
     ['controller' => 'ShopStockTransfers', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Shop Stock Values')),
+    __d('shop','List {0}', __d('shop','Shop Stock Values')),
     ['controller' => 'ShopStockValues', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Shop Stock Value')),
+    __d('shop','New {0}', __d('shop','Shop Stock Value')),
     ['controller' => 'ShopStockValues', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
@@ -59,40 +59,40 @@
 
 
         <tr>
-            <td><?= __('Title') ?></td>
+            <td><?= __d('shop','Title') ?></td>
             <td><?= h($stock->title) ?></td>
         </tr>
 
 
         <tr>
-            <td><?= __('Id') ?></td>
+            <td><?= __d('shop','Id') ?></td>
             <td><?= $this->Number->format($stock->id) ?></td>
         </tr>
 
         <tr class="boolean">
-            <td><?= __('Is Default') ?></td>
-            <td><?= $stock->is_default ? __('Yes') : __('No'); ?></td>
+            <td><?= __d('shop','Is Default') ?></td>
+            <td><?= $stock->is_default ? __d('shop','Yes') : __d('shop','No'); ?></td>
         </tr>
     </table>
 </div>
 -->
 <div class="related">
     <div class="ui basic segment">
-    <h4 class="ui header"><?= __('Related {0}', __('ShopStockTransfers')) ?></h4>
+    <h4 class="ui header"><?= __d('shop','Related {0}', __d('shop','ShopStockTransfers')) ?></h4>
     <?php if (!empty($stock->shop_stock_transfers)): ?>
     <table class="ui table">
         <tr>
-            <th><?= __('Id') ?></th>
-            <th><?= __('Parent Id') ?></th>
-            <th><?= __('Shop Stock Id') ?></th>
-            <th><?= __('Shop Product Id') ?></th>
-            <th><?= __('Op') ?></th>
-            <th><?= __('Amount') ?></th>
-            <th><?= __('Date') ?></th>
-            <th><?= __('Comment') ?></th>
-            <th><?= __('Created') ?></th>
-            <th><?= __('Modified') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
+            <th><?= __d('shop','Id') ?></th>
+            <th><?= __d('shop','Parent Id') ?></th>
+            <th><?= __d('shop','Shop Stock Id') ?></th>
+            <th><?= __d('shop','Shop Product Id') ?></th>
+            <th><?= __d('shop','Op') ?></th>
+            <th><?= __d('shop','Amount') ?></th>
+            <th><?= __d('shop','Date') ?></th>
+            <th><?= __d('shop','Comment') ?></th>
+            <th><?= __d('shop','Created') ?></th>
+            <th><?= __d('shop','Modified') ?></th>
+            <th class="actions"><?= __d('shop','Actions') ?></th>
         </tr>
         <?php foreach ($stock->shop_stock_transfers as $shopStockTransfers): ?>
         <tr>
@@ -108,11 +108,11 @@
             <td><?= h($shopStockTransfers->modified) ?></td>
 
             <td class="actions">
-                <?= $this->Html->link(__('View'), ['controller' => 'ShopStockTransfers', 'action' => 'view', $shopStockTransfers->id]) ?>
+                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopStockTransfers', 'action' => 'view', $shopStockTransfers->id]) ?>
 
-                <?= $this->Html->link(__('Edit'), ['controller' => 'ShopStockTransfers', 'action' => 'edit', $shopStockTransfers->id]) ?>
+                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopStockTransfers', 'action' => 'edit', $shopStockTransfers->id]) ?>
 
-                <?= $this->Form->postLink(__('Delete'), ['controller' => 'ShopStockTransfers', 'action' => 'delete', $shopStockTransfers->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopStockTransfers->id)]) ?>
+                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopStockTransfers', 'action' => 'delete', $shopStockTransfers->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopStockTransfers->id)]) ?>
 
             </td>
         </tr>
@@ -124,19 +124,19 @@
 </div>
 <div class="related">
     <div class="ui basic segment">
-    <h4 class="ui header"><?= __('Related {0}', __('ShopStockValues')) ?></h4>
+    <h4 class="ui header"><?= __d('shop','Related {0}', __d('shop','ShopStockValues')) ?></h4>
     <?php if (!empty($stock->shop_stock_values)): ?>
     <table class="ui table">
         <tr>
-            <th><?= __('Id') ?></th>
-            <th><?= __('Shop Stock Id') ?></th>
-            <th><?= __('Shop Product Id') ?></th>
-            <th><?= __('Value') ?></th>
-            <th><?= __('Last Transfer In') ?></th>
-            <th><?= __('Last Transfer Out') ?></th>
-            <th><?= __('Created') ?></th>
-            <th><?= __('Modified') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
+            <th><?= __d('shop','Id') ?></th>
+            <th><?= __d('shop','Shop Stock Id') ?></th>
+            <th><?= __d('shop','Shop Product Id') ?></th>
+            <th><?= __d('shop','Value') ?></th>
+            <th><?= __d('shop','Last Transfer In') ?></th>
+            <th><?= __d('shop','Last Transfer Out') ?></th>
+            <th><?= __d('shop','Created') ?></th>
+            <th><?= __d('shop','Modified') ?></th>
+            <th class="actions"><?= __d('shop','Actions') ?></th>
         </tr>
         <?php foreach ($stock->shop_stock_values as $shopStockValues): ?>
         <tr>
@@ -150,11 +150,11 @@
             <td><?= h($shopStockValues->modified) ?></td>
 
             <td class="actions">
-                <?= $this->Html->link(__('View'), ['controller' => 'ShopStockValues', 'action' => 'view', $shopStockValues->id]) ?>
+                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopStockValues', 'action' => 'view', $shopStockValues->id]) ?>
 
-                <?= $this->Html->link(__('Edit'), ['controller' => 'ShopStockValues', 'action' => 'edit', $shopStockValues->id]) ?>
+                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopStockValues', 'action' => 'edit', $shopStockValues->id]) ?>
 
-                <?= $this->Form->postLink(__('Delete'), ['controller' => 'ShopStockValues', 'action' => 'delete', $shopStockValues->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopStockValues->id)]) ?>
+                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopStockValues', 'action' => 'delete', $shopStockValues->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopStockValues->id)]) ?>
 
             </td>
         </tr>

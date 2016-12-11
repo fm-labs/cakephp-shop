@@ -38,7 +38,6 @@ class ShopCustomer extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
-        'password' => false,
         'password1' => false,
         'password2' => false,
     ];
@@ -47,9 +46,9 @@ class ShopCustomer extends Entity
         'display_name'
     ];
 
-    protected function _setPassword($password)
+    protected function _setEmail($email)
     {
-        return $this->getPasswordHasher()->hash($password);
+        return strtolower($email);
     }
 
     /**
@@ -60,8 +59,13 @@ class ShopCustomer extends Entity
         return (new static::$passwordHasherClass());
     }
 
-    public function _getDisplayName()
+    protected function _getDisplayName()
     {
         return $this->_properties['email'];
+    }
+
+    protected function _getIsGuest()
+    {
+        return (isset($this->_properties['user_id'])) ? false : true;
     }
 }

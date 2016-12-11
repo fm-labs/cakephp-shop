@@ -3,11 +3,13 @@ namespace Shop\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\Mailer\Email;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use Shop\Model\Entity\ShopOrder;
 
@@ -59,6 +61,12 @@ class ShopOrdersTable extends Table
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderItems'
         ]);
+    }
+
+    public function afterSave(Event $event)
+    {
+        //@TODO save billing address in address book
+        //@TODO save shipping address in address book
     }
 
     /**
@@ -345,6 +353,11 @@ class ShopOrdersTable extends Table
      */
     public function validationSubmit(Validator $validator)
     {
+        $validator = $this->validationDefault($validator);
+        $validator = $this->validationBilling($validator);
+        $validator = $this->validationShipping($validator);
+        $validator = $this->validationPayment($validator);
+
         $validator
             ->isPresenceRequired('submitted', true);
 
@@ -362,6 +375,9 @@ class ShopOrdersTable extends Table
             ])
             ->isPresenceRequired('agree_terms', true);
 
+        $validator
+            ->requirePresence('customer_email')
+            ->notEmpty('customer_email');
 
         $validator
             ->notEmpty('customer_phone')
@@ -444,17 +460,35 @@ class ShopOrdersTable extends Table
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         // before 'submit'
+        /*
         if ($entity->dirty('status') && $entity->status == 1) {
             if (!$entity->is_billing_selected) {
                 $entity->errors('is_billing_selected', ['notempty' => __d('shop','Billing not selected')]);
                 return false;
             }
         }
+        */
 
     }
 
+    /**
+     * @param $order
+     * @return bool|EntityInterface|mixed
+     * @throws \Exception
+     */
     public function submit($order)
     {
+
+        if ($order->status > 0) {
+            debug("Warning: Order already submitted");
+            //throw new \Exception("Order already submitted");
+        }
+
+        $order['uuid'] = Text::uuid();
+        $order['submitted'] = Time::now();
+        $order['is_temporary'] = false;
+        $order['status'] = 1;
+
         $order = $this->save($order);
         if ($order) {
             $event = new Event('Shop.Model.Order.afterSubmit', $this, [
@@ -465,12 +499,31 @@ class ShopOrdersTable extends Table
 
         // assign order nr
         if (!$this->assignOrderNr($order, true)) {
-            debug("Failed to assign order nr");
+            Log::error("Shop Order: Failed to assign order nr");
         }
 
-        // store addresses
-        if (!$order->billing_address_id) {
-            $billingAddr = $this->BillingAddresses->newEntity();
+        // @TODO move to eventlistener
+        if (!$order->billing_address_id && $order->shop_customer_id) {
+            $addr = $this->BillingAddresses->newEntity();
+            $addr->accessible('*', true);
+            $addr = $this->BillingAddresses->patchEntity($addr, self::extractAddress($order, 'billing'));
+            if (!$addr->errors() && $this->BillingAddresses->save($addr)) {
+                Log::info('Shop billing address added for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
+            } else {
+                Log::error('Failed to add shop billing address for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
+            }
+        }
+
+        // @TODO move to eventlistener
+        if (!$order->shipping_use_billing && !$order->shipping_address_id && $order->shop_customer_id) {
+            $addr = $this->ShippingAddresses->newEntity();
+            $addr->accessible('*', true);
+            $addr = $this->ShippingAddresses->patchEntity($addr, self::extractAddress($order, 'shipping'));
+            if (!$addr->errors() && $this->ShippingAddresses->save($addr)) {
+                Log::info('Shop shipping address added for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
+            } else {
+                Log::error('Failed to add shop shipping address for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
+            }
         }
 
         return $order;
@@ -492,11 +545,38 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
-    protected function _extractAddress($scope = 'billing')
+    static public function extractAddress($order, $scope = 'billing')
     {
+
+        $addr = [];
+
         $fields = [
-
+            'first_name',
+            'last_name',
+            'name',
+            'is_company',
+            'street',
+            'taxid',
+            'zipcode',
+            'city',
+            'country',
         ];
-    }
 
+        $_idKey = $scope . '_address_id';
+        if (isset($order[$_idKey])) {
+            $addr['id'] = $order[$_idKey];
+        }
+
+        if (isset($order['shop_customer_id'])) {
+            $addr['shop_customer_id'] = $order['shop_customer_id'];
+        }
+
+        foreach ($fields as $field) {
+
+            $_key = $scope . '_' . $field;
+            $addr[$field] = (isset($order[$_key])) ? $order[$_key] : null;
+        }
+        return $addr;
+
+    }
 }

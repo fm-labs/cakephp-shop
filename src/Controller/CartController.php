@@ -1,50 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 12/8/15
- * Time: 8:42 AM
- */
 
 namespace Shop\Controller;
 
-use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
-use Cake\Utility\Text;
-use Shop\Lib\LibShopCart;
+use Shop\Controller\Component\CartComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class CartController
  * @package Shop\Controller
  * @property ShopOrdersTable $ShopOrders
+ * @property CartComponent $Cart
  */
 class CartController extends AppController
 {
 
     public $modelClass = "Shop.ShopOrders";
 
-    public $cart;
-
     public function initialize()
     {
         parent::initialize();
 
         $this->Frontend->setRefScope('Shop.Cart');
-
-        $this->cart = $this->_getCart();
-        $this->cart->getOrder();
-    }
-
-    public function beforeRender(Event $event)
-    {
-        $this->set('cart', $this->cart);
-        $this->set('cartId', $this->cart->cartId);
-        $this->set('sessionId', $this->cart->sessionId);
-        $this->set('order', $this->cart->order);
-        $this->set('customer', $this->cart->customer);
-
-        $this->_writeCartToSession();
     }
 
     public function index()
@@ -53,8 +30,7 @@ class CartController extends AppController
 
     public function refresh()
     {
-
-        if ($this->cart->refresh()) {
+        if ($this->Cart->refresh()) {
             $this->Flash->success(__d('shop', 'Cart refreshed'));
         } else {
             $this->Flash->error(__d('shop', 'Failed to refresh cart'));
@@ -69,7 +45,7 @@ class CartController extends AppController
             $amount = $this->request->data('amount');
         }
 
-        if ($this->cart->addItem($refid, $amount)) {
+        if ($this->Cart->addItem($refid, $amount)) {
             $this->_writeCartToSession();
             $this->Flash->success(__d('shop', 'Added item to cart'));
         } else {
@@ -91,8 +67,8 @@ class CartController extends AppController
                 'refscope' => 'Shop.ShopProducts',
                 ])
             ) {
-                //$this->cart = $this->_getCart();
-                $this->cart->refresh();
+                //$this->Cart = $this->_getCart();
+                $this->Cart->refresh();
                 $this->_writeCartToSession();
 
                 $this->Flash->success(__d('shop','Item has been removed from cart'));
@@ -108,7 +84,7 @@ class CartController extends AppController
     {
 
         if ($this->request->is(['post', 'put'])) {
-            if ($this->cart->updateItem($orderItemId, $this->request->data)) {
+            if ($this->Cart->updateItem($orderItemId, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'Updated item'));
             } else {
                 $this->Flash->error(__d('shop', 'Failed to update item'));
@@ -118,4 +94,36 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    public function cartUpdate()
+    {
+        if (!$this->Cart->getOrder()) {
+            $this->redirect(['action' => 'index']);
+        }
+
+        if ($this->request->is(['post', 'put'])) {
+            $order = $this->Cart->getOrder();
+
+            $changed = [];
+            foreach($order->shop_order_items as $item) {
+                $amountKey = 'amount_' . $item->id;
+                if ($this->request->data($amountKey)) {
+                    $newAmount = $this->request->data($amountKey);
+                    if ($newAmount != $item->amount) {
+                        $this->Cart->updateItem($item->id, ['amount' => $newAmount]);
+                        $changed[$item->id] = true;
+                    }
+                }
+            }
+
+            if (count($changed) > 0) {
+                $this->Flash->success(__d('shop', '{0} items updated', count($changed)));
+                $this->Cart->reloadOrder();
+                $this->redirect(['action' => 'index']);
+            }
+        }
+
+
+        $this->autoRender = false;
+        $this->render('index');
+    }
 }

@@ -20,31 +20,18 @@ $this->assign('title', $this->fetch('heading'));
     <div class="row">
 
         <div class="col-md-8">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <?= $this->fetch('heading'); ?>
-                </div>
-                <div class="panel-body">
-                    <?= $this->fetch('content'); ?>
-                </div>
-            </div>
+            <h2><?= $this->fetch('heading'); ?></h2>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                   Debug
-                </div>
-                <div class="panel-body">
-                    <?php
-                    debug($this->request->session()->read('Shop'))
-                    ?>
-                </div>
-            </div>
+            <?= $this->fetch('content'); ?>
+            <?php
+            debug($this->request->session()->read('Shop'))
+            ?>
 
         </div>
         <div class="col-md-4 hidden-xs">
             <ul class="list-group">
 
-                <?php foreach ($steps as $method => $step): ?>
+                <?php foreach ((array) $this->get('steps') as $method => $step): ?>
                     <?php
                     $element = 'Shop.Checkout/' . \Cake\Utility\Inflector::camelize($method) . '/step';
                     $class = 'list-group-item';
@@ -77,7 +64,7 @@ $this->assign('title', $this->fetch('heading'));
             <?php if (\Cake\Core\Configure::read('debug')): ?>
                 <hr />
                 CartID: <br />
-                <?= h($cartId); ?>
+                <?= h($this->get('cartId')); ?>
             <?php endif; ?>
 
         </div>

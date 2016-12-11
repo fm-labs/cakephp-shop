@@ -93,8 +93,20 @@ class ShopOrder extends Entity
         'is_shipping_selected',
         'is_payment_selected',
         'billing_address_formatted',
-        'selected_address_formatted'
+        'selected_address_formatted',
+        'order_value_tax'
     ];
+
+    protected function _getShopCustomer()
+    {
+        if (!isset($this->_properties['shop_customer'])) {
+            $this->_properties['shop_customer'] = TableRegistry::get('Shop.ShopCustomers')
+                ->find()
+                ->where(['ShopCustomers.id' => $this->shop_customer_id])
+                ->first();
+        }
+        return $this->_properties['shop_customer'];
+    }
 
     protected function _getNrFormatted()
     {
@@ -211,7 +223,19 @@ class ShopOrder extends Entity
         }
     }
 
-    public function update()
+    protected function _setOrderValueTax($val)
+    {
+        return $val;
+    }
+
+    protected function _getOrderValueTax()
+    {
+        if (isset($this->_properties['order_value_tax'])) {
+            return $this->_properties['order_value_tax'];
+        }
+    }
+
+    public function calculateItems()
     {
         $orderItems = TableRegistry::get('Shop.ShopOrderItems')
             ->find()

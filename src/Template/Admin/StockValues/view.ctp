@@ -1,43 +1,43 @@
-<?php $this->Breadcrumbs->add(__('Stock Values'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Stock Values'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($stockValue->id); ?>
 <?= $this->Toolbar->addLink(
-    __('Edit {0}', __('Stock Value')),
+    __d('shop','Edit {0}', __d('shop','Stock Value')),
     ['action' => 'edit', $stockValue->id],
     ['data-icon' => 'edit']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('Delete {0}', __('Stock Value')),
+    __d('shop','Delete {0}', __d('shop','Stock Value')),
     ['action' => 'delete', $stockValue->id],
-    ['data-icon' => 'trash', 'confirm' => __('Are you sure you want to delete # {0}?', $stockValue->id)]) ?>
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $stockValue->id)]) ?>
 
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Stock Values')),
+    __d('shop','List {0}', __d('shop','Stock Values')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Stock Value')),
+    __d('shop','New {0}', __d('shop','Stock Value')),
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__('More')); ?>
+<?= $this->Toolbar->startGroup(__d('shop','More')); ?>
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Shop Stocks')),
+    __d('shop','List {0}', __d('shop','Shop Stocks')),
     ['controller' => 'ShopStocks', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Shop Stock')),
+    __d('shop','New {0}', __d('shop','Shop Stock')),
     ['controller' => 'ShopStocks', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('List {0}', __('Shop Products')),
+    __d('shop','List {0}', __d('shop','Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?= $this->Toolbar->addLink(
-    __('New {0}', __('Shop Product')),
+    __d('shop','New {0}', __d('shop','Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
@@ -59,39 +59,39 @@
 
 
         <tr>
-            <td><?= __('Shop Stock') ?></td>
+            <td><?= __d('shop','Shop Stock') ?></td>
             <td><?= $stockValue->has('shop_stock') ? $this->Html->link($stockValue->shop_stock->title, ['controller' => 'ShopStocks', 'action' => 'view', $stockValue->shop_stock->id]) : '' ?></td>
         </tr>
         <tr>
-            <td><?= __('Shop Product') ?></td>
+            <td><?= __d('shop','Shop Product') ?></td>
             <td><?= $stockValue->has('shop_product') ? $this->Html->link($stockValue->shop_product->title, ['controller' => 'ShopProducts', 'action' => 'view', $stockValue->shop_product->id]) : '' ?></td>
         </tr>
 
 
         <tr>
-            <td><?= __('Id') ?></td>
+            <td><?= __d('shop','Id') ?></td>
             <td><?= $this->Number->format($stockValue->id) ?></td>
         </tr>
         <tr>
-            <td><?= __('Value') ?></td>
+            <td><?= __d('shop','Value') ?></td>
             <td><?= $this->Number->format($stockValue->value) ?></td>
         </tr>
 
 
         <tr class="date">
-            <td><?= __('Last Transfer In') ?></td>
+            <td><?= __d('shop','Last Transfer In') ?></td>
             <td><?= h($stockValue->last_transfer_in) ?></td>
         </tr>
         <tr class="date">
-            <td><?= __('Last Transfer Out') ?></td>
+            <td><?= __d('shop','Last Transfer Out') ?></td>
             <td><?= h($stockValue->last_transfer_out) ?></td>
         </tr>
         <tr class="date">
-            <td><?= __('Created') ?></td>
+            <td><?= __d('shop','Created') ?></td>
             <td><?= h($stockValue->created) ?></td>
         </tr>
         <tr class="date">
-            <td><?= __('Modified') ?></td>
+            <td><?= __d('shop','Modified') ?></td>
             <td><?= h($stockValue->modified) ?></td>
         </tr>
 

@@ -4,8 +4,10 @@ use Cake\Routing\Router;
 // Shop frontend routes
 Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function ($routes) {
 
+    $routes->routeClass('Cake\Routing\Route\DashedRoute');
+
     $routes->connect('/',
-        ['plugin' => 'Shop', 'controller' => 'Catalogue', 'action' => 'index'],
+        ['controller' => 'Catalogue', 'action' => 'index'],
         ['_name' => 'index']
     );
     $routes->connect('/catalogue/:action/*',
@@ -19,13 +21,19 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['controller' => 'Cart']
     );
 
+    $routes->connect('/checkout/:step/*',
+        ['controller' => 'Checkout', 'action' => 'step'],
+        ['pass' => ['step']]
+    );
+    $routes->connect('/checkout/:step',
+        ['controller' => 'Checkout', 'action' => 'step'],
+        ['pass' => ['step']]
+    );
     $routes->connect('/checkout',
         ['controller' => 'Checkout', 'action' => 'index'],
         ['_name' => 'checkout']
     );
-    $routes->connect('/checkout/:action/*',
-        ['controller' => 'Checkout']
-    );
+
 
     if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')):
 
@@ -66,7 +74,7 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     endif;
 
 
-    //$routes->connect('/:controller');
+    $routes->connect('/:controller');
     $routes->fallbacks('DashedRoute');
 });
 

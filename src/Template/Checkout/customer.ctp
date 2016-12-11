@@ -16,11 +16,12 @@
             <div class="col-xs-12 col-md-6"style="border-right: 1px solid #e8e8e8;">
                 <?= $this->Flash->render('auth'); ?>
                 <h2><?= __d('shop','Already registered?'); ?></h2>
-                <?= $this->Form->create(null); ?>
-                <?= $this->Form->input('username', ['label' => __('Email')]); ?>
-                <?= $this->Form->input('password'); ?>
+                <?= $this->Form->create(null, ['url' => ['step' => 'customer', 'login' => true]]); ?>
+                <?= $this->Form->input('username', ['required' => true, 'label' => __d('shop','Email')]); ?>
+                <?= $this->Form->input('password', ['required' => true]); ?>
                 <div class="actions" style="margin-top: 1em;">
-                    <?= $this->Form->submit(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Form->button(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Html->link(__d('shop','Forgot password?'), ['plugin' => 'User', 'controller' => 'User', 'action' => 'password_reset']); ?>
                 </div>
                 <?= $this->Form->end(); ?>
             </div>
@@ -29,14 +30,14 @@
                 <h2><?= __d('shop','I\'m a new customer'); ?></h2>
                 <div style="text-align: center; margin-top: 4em;">
                     <?= $this->Html->link(__d('shop','Als Neukunde Registrieren'),
-                        ['action' => 'newCustomer'],
+                        ['step' => 'customer', 'signup' => true],
                         ['class' => 'btn btn-large btn-primary']); ?>
                 </div>
 
                 <div style="text-align: center; margin-top: 2em;">
                 <?= $this->Html->link(__d('shop','Weiter ohne Anmeldung'),
-                    ['action' => 'newCustomer', 'guest' => true],
-                    ['class' => 'btn btn-default']); ?>
+                    ['step' => 'customer', 'guest' => true],
+                    ['class' => 'btn']); ?>
                 </div>
             </div>
             </div>
