@@ -80,8 +80,7 @@ class ShopProductsTable extends Table
             'field' => 'title'
         ]);
 
-        $this->addBehavior('Eav.Attributes', [
-        ]);
+        //$this->addBehavior('Eav.Attributes');
 
         $this->addBehavior('Banana.Publishable');
 

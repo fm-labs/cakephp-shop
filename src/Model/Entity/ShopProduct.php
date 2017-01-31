@@ -6,8 +6,8 @@ use Cake\Database\Query;
 use Cake\ORM\Behavior\Translate\TranslateTrait;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Eav\Model\EntityAttributesInterface;
-use Eav\Model\EntityAttributesTrait;
+//use Eav\Model\EntityAttributesInterface;
+//use Eav\Model\EntityAttributesTrait;
 use Shop\Core\Product\ShopProductInterface;
 
 /**

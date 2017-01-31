@@ -3,8 +3,8 @@ namespace Shop\Model\Entity;
 
 use Banana\Model\EntityTypeHandlerInterface;
 use Content\Model\EntityPostTypeHandlerTrait;
-use Eav\Model\EntityAttributesInterface;
-use Eav\Model\EntityAttributesTrait;
+//use Eav\Model\EntityAttributesInterface;
+//use Eav\Model\EntityAttributesTrait;
 use Content\Model\Behavior\PageMeta\PageMetaTrait;
 use Content\Model\Entity\MenuItem;
 use Content\Model\Entity\Page\PageInterface;

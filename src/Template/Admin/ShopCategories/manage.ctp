@@ -67,7 +67,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
         <div class="row">
             <div class="col-md-9">
 
-                <?php echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
+                <?php //echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
 
                 <?= $this->Form->input('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']); ?>
                 <!--
@@ -165,8 +165,8 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
         <?= $this->Form->end() ?>
 
     <!-- Related Attributes -->
-    <?php $this->Tabs->add(__d('shop', 'Attributes')); ?>
-    <?= $this->cell('Eav.AttributesFormInputs', [$shopCategory, 'Shop.ShopCategories']); ?>
+    <?php // $this->Tabs->add(__d('shop', 'Attributes')); ?>
+    <?php // echo $this->cell('Eav.AttributesFormInputs', [$shopCategory, 'Shop.ShopCategories']); ?>
 
     <!-- Related Products -->
     <?php $this->Tabs->add(__d('shop', 'Products'), [

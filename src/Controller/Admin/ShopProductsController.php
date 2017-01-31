@@ -148,7 +148,7 @@ class ShopProductsController extends AppController
         $this->set('shopCategories', $this->_getCategoriesList());
         $this->set('galleryList', $this->_getGalleryList());
         $this->set('locales', Configure::read('Shop.locales'));
-        $this->set('attributeSets', $this->ShopProducts->EavAttributeSets->find('list')->toArray());
+        //$this->set('attributeSets', $this->ShopProducts->EavAttributeSets->find('list')->toArray());
         $this->set('_serialize', ['shopProduct']);
     }
 

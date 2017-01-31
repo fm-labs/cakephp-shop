@@ -181,7 +181,7 @@ class ShopCategoriesController extends AppController
         $this->set(compact('teaserTemplates', 'viewTemplates'));
 
         $this->set(compact('shopCategory', 'parentShopCategories', 'galleryList', 'descShort', 'descLong', 'tags'));
-        $this->set('attributeSets', TableRegistry::get('Eav.EavAttributeSets')->find('list')->toArray());
+        //$this->set('attributeSets', TableRegistry::get('Eav.EavAttributeSets')->find('list')->toArray());
         $this->set('_serialize', ['shopCategory']);
     }
 
