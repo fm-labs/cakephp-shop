@@ -7,11 +7,8 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     $routes->routeClass('Cake\Routing\Route\DashedRoute');
 
     $routes->connect('/',
-        ['controller' => 'Catalogue', 'action' => 'index'],
+        ['plugin' => 'Shop', 'controller' => 'Categories', 'action' => 'index'],
         ['_name' => 'index']
-    );
-    $routes->connect('/catalogue/:action/*',
-        ['controller' => 'Catalogue']
     );
 
     $routes->connect('/cart',
@@ -34,33 +31,44 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['_name' => 'checkout']
     );
 
+    $routes->connect('/checkout/debug',
+        ['controller' => 'Checkout', 'action' => 'debug'],
+        ['_name' => 'debug_checkout']
+    );
 
     if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')):
 
         // shop product routes
+        //@TODO add product_id regex pattern
+        //@TODO add product regex pattern
         $routes->connect('/:category/:product/product/:product_id',
-            ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'view'],
+            ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => ['product_id'], 'category' => '[\w\/\-\_]+']
         );
 
+        //@TODO add product regex pattern
+        //@TODO add product regex pattern
         $routes->connect('/:category/:product/product',
-            ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'view'],
-            ['pass' => ['product_id'], 'category' => '[\w\/\-\_]+']
+            ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
+            ['pass' => [], 'category' => '[\w\/\-\_]+']
         );
 
+        //@TODO add product_id regex pattern
+        //@TODO add product regex pattern
         $routes->connect('/:product/product/:product_id',
-            ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'view'],
+            ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => ['product_id']]
         );
 
+        //@TODO add product_id regex pattern
         $routes->connect('/product/:product_id',
-            ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'view'],
+            ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => ['product_id']]
         );
 
         // shop category routes
         $routes->connect('/:category/:category_id',
-            ['plugin' => 'Shop', 'controller' => 'ShopCategories', 'action' => 'view'],
+            ['plugin' => 'Shop', 'controller' => 'Categories', 'action' => 'view'],
             ['pass' => ['category_id'], 'category' => '[\w\/\-\_]+']
         );
 

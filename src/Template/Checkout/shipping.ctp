@@ -3,9 +3,9 @@
 <?php $this->assign('heading', __d('shop','Select shipping address')); ?>
 <?php $this->loadHelper('Content.Content'); ?>
 <?php
-$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
-$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
-$this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
+//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
+//$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
+//$this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
 ?>
 <div class="shop checkout step shipping">
 
@@ -50,7 +50,7 @@ $this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'ac
             <?= '' //$this->Form->input('taxid', ['label' => __d('shop','Tax Id')]); ?>
             <?= $this->Form->input('zipcode', ['label' => __d('shop','Zipcode')]); ?>
             <?= $this->Form->input('city', ['label' => __d('shop','City')]); ?>
-            <?= $this->Form->input('country', ['label' => __d('shop','Country')]); ?>
+            <?= $this->Form->input('country_id', ['label' => __d('shop','Country')]); ?>
 
             <div class="actions" style="text-align: right; margin-top: 1em;">
                 <?= $this->Form->submit(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>

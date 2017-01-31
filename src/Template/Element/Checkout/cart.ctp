@@ -31,7 +31,7 @@
         </tr>
         <tr style="">
             <td colspan="4">&nbsp;</td>
-            <td class="text-right"><?= __('includes 20% Tax'); ?></td>
+            <td class="text-right"><?= __d('shop', 'includes 20% Tax'); ?></td>
             <td class="text-right"><?= $this->Number->currency($order->order_value_tax, 'EUR'); ?></td>
         </tr>
     <?php endif; ?>

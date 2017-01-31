@@ -64,8 +64,6 @@ class ShopAddress extends Entity
 
     protected function _getOneline()
     {
-
-
         if ($this->is_company) {
             return sprintf("%s, %s, %s %s (Company)",
                 $this->_properties['company_name'],
@@ -136,7 +134,7 @@ class ShopAddress extends Entity
     public static function extractAddress($array, $prefix = null)
     {
         $address = [];
-        foreach (['is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country'] as $field) {
+        foreach (['is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country', 'taxid'] as $field) {
             $_field = $field;
             if ($prefix) {
                 $_field = $prefix . $field;

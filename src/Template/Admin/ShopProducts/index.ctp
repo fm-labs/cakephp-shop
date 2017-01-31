@@ -18,19 +18,21 @@ $this->loadHelper('AdminLte.Box');
 <?= $this->assign('title', __d('shop','Shop Products ({0})', $locale)); ?>
 <div class="shopProducts index">
     <div class="row">
-        <div class="col-md-4">
-            <?= $this->Box->create('Quick Selection'); ?>
-            <?= $this->Form->create(null, ['id' => 'quickfinder','url' => ['action' => 'quick']]); ?>
+        <?php $this->Form->create(null); ?>
+        <div class="col-md-5">
             <?= $this->Form->input('shop_product_id', [
                 'options' => $shopProductsList,
                 'label' => false,
                 'empty' => '- Quick Search -'
             ]); ?>
-            <?= $this->Form->button('Go'); ?>
-            <?= $this->Form->end() ?>
-            <?= $this->Box->render(); ?>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-1">
+            <?= $this->Form->button('Go'); ?>
+        </div>
+        <?= $this->Form->end() ?>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <?= $this->cell('Backend.DataTable', [[
                 'paginate' => true,
                 'model' => 'Shop.ShopProducts',

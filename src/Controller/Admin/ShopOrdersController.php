@@ -20,7 +20,7 @@ class ShopOrdersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopCustomers', 'BillingAddresses', 'ShippingAddresses'],
+            'contain' => ['ShopCustomers', 'BillingAddress', 'ShippingAddress'],
             'conditions' => ['ShopOrders.is_temporary' => false],
             'order' => ['ShopOrders.id' => 'DESC']
         ];
@@ -38,7 +38,7 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'BillingAddresses', 'ShippingAddresses', 'ShopCarts', 'ShopOrderItems']
+            'contain' => ['ShopCustomers', 'ShopCarts', 'ShopOrderItems', 'BillingAddress' => ['Countries'], 'ShippingAddress' => ['Countries']]
         ]);
         $this->set('shopOrder', $shopOrder);
         $this->set('_serialize', ['shopOrder']);
@@ -62,8 +62,8 @@ class ShopOrdersController extends AppController
             }
         }
         $shopCustomers = $this->ShopOrders->ShopCustomers->find('list', ['limit' => 200]);
-        $billingAddresses = $this->ShopOrders->BillingAddresses->find('list', ['limit' => 200])->toArray();
-        $shippingAddresses = $this->ShopOrders->ShippingAddresses->find('list', ['limit' => 200]);
+        $billingAddresses = $this->ShopOrders->ShopCustomerAddresses->find('list', ['limit' => 200])->toArray();
+        $shippingAddresses = $this->ShopOrders->ShopCustomerAddresses->find('list', ['limit' => 200])->toArray();
         $this->set(compact('shopOrder', 'shopCustomers', 'billingAddresses', 'shippingAddresses'));
         $this->set('_serialize', ['shopOrder']);
     }

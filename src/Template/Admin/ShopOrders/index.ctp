@@ -1,4 +1,4 @@
-<?php $this->extend('/Admin/Base/index'); ?>
+<?php $this->extend('Backend./Base/index'); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 
@@ -40,12 +40,16 @@
                     return $this->Html->link($val, ['action' => 'view', $row->id]);
                 }
             ],
-            'billing_address.name',
+            'billing_address' => [
+                'formatter' => function($val, $row) {
+                    return $val->short;
+                }
+            ],
             'order_value_total' => [
                 'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
             ],
-            'status' => []
+            'status' => [],
         ],
         'rowActions' => [
             [__d('shop','View'), ['action' => 'view', ':id'], ['class' => 'view']],

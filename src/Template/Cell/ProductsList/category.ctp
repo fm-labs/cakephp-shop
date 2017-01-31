@@ -7,10 +7,17 @@ try {
     echo "ProductsListCell: " . $ex->getMessage();
 }
 */
+use Cake\Core\Configure;
+
 $this->loadHelper('Number');
 $this->loadHelper('Paginator');
 $this->loadHelper('Media.Media');
 ?>
+<?php if (Configure::read('debug')): ?>
+<div class="alert alert-warning">
+    This cell view is deprecated. Use cell Shop.Category::products() instead!
+</div>
+<?php endif; ?>
 <?php $i = 0; ?>
 <div class="shop products index grid">
     <div class="ui grid">

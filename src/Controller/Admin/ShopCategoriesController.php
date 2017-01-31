@@ -64,6 +64,8 @@ class ShopCategoriesController extends AppController
 
     public function index()
     {
+        $shopCategories = $this->paginate($this->ShopCategories);
+        $this->set(compact('shopCategories'));
     }
 
     public function treeData()
@@ -121,20 +123,76 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['shopCategory']);
     }
 
+    public function edit($id = null) {
+        $this->redirect(['action' => 'manage', $id]);
+    }
 
+    /**
+     * Manage method
+     *
+     * @param string|null $id Shop Category id.
+     * @return void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
     public function manage($id = null)
     {
-        //if (!$this->request->is('ajax')) {
-        //    $this->redirect(['action' => 'index', 'id' => $id]);
-        //}
 
-        $shopCategory = $this->ShopCategories->get($id, [
-            'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts'],
-            'media' => true
-        ]);
+        $shopCategory = $this->ShopCategories
+            ->find()
+            ->find('media')
+            //->find('attributes')
+            ->where(['ShopCategories.id' => $id])
+            ->contain(['ParentShopCategories', 'ShopTags', 'ShopProducts', 'ContentModules' => ['Modules']])
+            ->first();
 
-        $this->set('shopCategory', $shopCategory);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
+            if ($this->ShopCategories->save($shopCategory)) {
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+                return $this->redirect(['action' => 'edit', $id]);
+            } else {
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
+            }
+        }
+        $parentShopCategories = $this->ShopCategories->find('treeList');
+        $galleryList = $this->_getGalleryList();
+
+        $descShort = $this->_getShopText($id, 'desc_short_text');
+        $descLong = $this->_getShopText($id, 'desc_long_text');
+
+        $tags = $this->ShopCategories->ShopTags->find('list');
+
+
+        //$availableModules = $this->ShopCategories->ContentModules->Modules->find('list');
+        //$this->set('availableModules', $availableModules);
+        //$this->set('contentSections', ContentManager::getContentSections());
+
+
+        //$teaserTemplates = ContentManager::getAvailableViewTemplates('ShopCategories');
+        $viewTemplates = $teaserTemplates = ContentManager::getAvailableViewTemplates('Categories', function($val) {
+            /*
+            if (preg_match('/^view_/', $val)) {
+                return true;
+            }
+            return false;
+            */
+            return true;
+        });
+        $this->set(compact('teaserTemplates', 'viewTemplates'));
+
+        $this->set(compact('shopCategory', 'parentShopCategories', 'galleryList', 'descShort', 'descLong', 'tags'));
+        $this->set('attributeSets', TableRegistry::get('Eav.EavAttributeSets')->find('list')->toArray());
         $this->set('_serialize', ['shopCategory']);
+    }
+
+    protected function _getShopText($id, $scope)
+    {
+        return $this->ShopCategories->ShopTexts->find()->where([
+            'model' => 'Shop.Categories',
+            'model_id' => $id,
+            'model_scope' => $scope,
+            'locale' => $this->locale,
+        ])->first();
     }
 
     public function relatedCustomTexts($id = null)
@@ -265,55 +323,6 @@ class ShopCategoriesController extends AppController
             }
             return $this->redirect(['action' => 'edit', $id]);
         }
-    }
-    /**
-     * Edit method
-     *
-     * @param string|null $id Shop Category id.
-     * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-
-        $shopCategory = $this->ShopCategories->get($id, [
-            'contain' => ['ParentShopCategories', 'ShopTags', 'ShopProducts', 'ContentModules' => ['Modules']],
-            'media' => true
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
-            if ($this->ShopCategories->save($shopCategory)) {
-                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
-                return $this->redirect(['action' => 'edit', $id]);
-            } else {
-                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
-            }
-        }
-        $parentShopCategories = $this->ShopCategories->find('treeList');
-        $galleryList = $this->_getGalleryList();
-
-        $descShort = $this->_getShopText($id, 'desc_short_text');
-        $descLong = $this->_getShopText($id, 'desc_long_text');
-
-        $tags = $this->ShopCategories->ShopTags->find('list');
-
-
-        //$availableModules = $this->ShopCategories->ContentModules->Modules->find('list');
-        //$this->set('availableModules', $availableModules);
-        //$this->set('contentSections', ContentManager::getContentSections());
-
-        $this->set(compact('shopCategory', 'parentShopCategories', 'galleryList', 'descShort', 'descLong', 'tags'));
-        $this->set('_serialize', ['shopCategory']);
-    }
-
-    protected function _getShopText($id, $scope)
-    {
-        return $this->ShopCategories->ShopTexts->find()->where([
-            'model' => 'Shop.Categories',
-            'model_id' => $id,
-            'model_scope' => $scope,
-            'locale' => $this->locale,
-        ])->first();
     }
 
     /**

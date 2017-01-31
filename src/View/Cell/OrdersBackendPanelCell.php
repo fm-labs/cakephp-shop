@@ -32,7 +32,7 @@ class OrdersBackendPanelCell extends Cell
         $orders = $this->ShopOrders
             ->find()
             ->where(['ShopOrders.is_temporary' => false])
-            ->contain(['ShopCustomers', 'BillingAddresses', 'ShippingAddresses'])
+            ->contain(['ShopCustomers'])
             ->limit(5)
             ->orderDesc('ShopOrders.id');
 

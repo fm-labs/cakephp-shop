@@ -9,48 +9,57 @@ use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
-use Shop\Checkout\CheckoutStepInterface;
+use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Model\Entity\ShopAddress;
 use Shop\Model\Entity\ShopCustomer;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderAddress;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class CheckoutComponent
+ *
  * @package Shop\Controller\Component
  * @property ShopComponent $Shop
  * @property CartComponent $Cart
  */
 class CheckoutComponent extends Component
 {
+    /**
+     * @var array
+     */
     public $components = ['Shop.Shop', 'Shop.Cart'];
 
+    /**
+     * @var array
+     */
     public $steps = [
-        'Shop.Cart',
-        'Shop.Customer',
+        //'Shop.Cart',
+        //'Shop.Customer',
         'Shop.Billing',
         'Shop.Shipping',
         'Shop.Payment',
-        'Shop.Review'
+        'Shop.Review',
+        'Shop.Finish'
     ];
-
-    public $billingAddress;
-    public $shippingAddress;
 
     /**
      * @var ShopOrdersTable
      */
     public $ShopOrders;
 
+    /**
+     * @var CheckoutStepInterface[]
+     */
     protected $_stepRegistry = [];
-    protected $_stepUrls = [];
 
     public function initialize(array $config)
     {
         $this->ShopOrders = $this->_registry->getController()->loadModel('Shop.ShopOrders');
+        //$this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
 
         foreach ($this->steps as $stepClass) {
-            $class = App::className($stepClass, 'Checkout/Step', 'Step');
+            $class = App::className($stepClass, 'Core/Checkout/Step', 'Step');
             if (!$class) {
                 throw new \InvalidArgumentException('Checkout step class not found: ' . $stepClass);
             }
@@ -62,26 +71,45 @@ class CheckoutComponent extends Component
 
             $stepId = $step->getId();
             $this->_stepRegistry[$stepId] = $step;
-            $this->_stepUrls[$stepId] = $step->getUrl();
         }
     }
 
     public function beforeFilter()
     {
-        $this->billingAddress = $this->request->session()->read('Shop.BillingAddress');
-        $this->shippingAddress = $this->request->session()->read('Shop.ShippingAddress');
     }
 
     public function beforeRender()
     {
-        $this->_writeSession();
     }
 
+    public function describeSteps()
+    {
+        $steps = [];
+        foreach ($this->_stepRegistry as $stepId => $step) {
+            $steps[$stepId] = [
+                'step' => $stepId,
+                'title' => $step->getTitle(),
+                'is_complete' => ($this->getOrder()) ? $step->isComplete() : false,
+                'url' => $step->getUrl(),
+                'icon' => null
+            ];
+        }
+        return $steps;
+    }
+
+    /**
+     * @return array
+     * @deprecated Use describeSteps() instead
+     */
     public function getStepList()
     {
         return $this->_stepUrls;
     }
 
+    /**
+     * @param $stepId
+     * @return CheckoutStepInterface
+     */
     public function getStep($stepId)
     {
         if (!isset($this->_stepRegistry[$stepId])) {
@@ -91,6 +119,9 @@ class CheckoutComponent extends Component
         return $this->_stepRegistry[$stepId];
     }
 
+    /**
+     * @return CheckoutStepInterface
+     */
     public function nextStep()
     {
         foreach ($this->_stepRegistry as $stepId => $step) {
@@ -100,6 +131,9 @@ class CheckoutComponent extends Component
         }
     }
 
+    /**
+     * @return void
+     */
     public function redirectNext()
     {
         $step = $this->nextStep();
@@ -113,9 +147,18 @@ class CheckoutComponent extends Component
 
     public function reset()
     {
-        $this->billingAddress = null;
-        $this->shippingAddress = null;
-        $this->_writeSession();
+        if (!$this->getOrder()) {
+            return false;
+        }
+
+        $order = $this->getOrder();
+        $order->shipping_type = null;
+        $order->shipping_use_billing = false;
+        $order->payment_type = null;
+        $order->payment_info_1 = null;
+        $order->payment_info_2 = null;
+        $order->payment_info_3 = null;
+        $this->setOrder($order);
     }
 
     public function getOrder()
@@ -132,25 +175,48 @@ class CheckoutComponent extends Component
      * @param ShopAddress $address
      * @return $this
      */
-    public function setBillingAddress(ShopAddress $address)
+    public function setBillingAddress(ShopOrderAddress $address)
     {
-        $this->billingAddress = $address;
+        //$this->billingAddress = $address;
+        //$this->_patchOrderBillingAddress($this->_prefixAddress($address->toArray(), 'billing'));
 
-        $this->_patchOrderBillingAddress($this->_prefixAddress($address->toArray(), 'billing'));
-
-        if (!$this->shippingAddress) {
-            $this->setShippingAddress($address);
+        $address->type = 'B';
+        $address->shop_order_id = $this->getOrder()->id;
+        if (!$this->ShopOrders->OrderAddresses->save($address)) {
+            //throw new \Exception('Checkout:setBillingAddress failed');
+            return false;
         }
-        return $this;
+
+        if (!$this->getOrder()->getShippingAddress()) {
+            $order = $this->ShopOrders->patchEntity($this->getOrder(), ['shipping_use_billing' => true]);
+            if (!$this->ShopOrders->save($order)) {
+                //throw new \Exception('Checkout: Order update failed');
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    public function setShippingAddress(ShopAddress $address)
+    public function setShippingAddress(ShopOrderAddress $address)
     {
-        $this->shippingAddress = $address;
+        //$this->shippingAddress = $address;
+        //$this->_patchOrderShippingAddress($this->_prefixAddress($address->toArray(), 'shipping'));
 
-        $this->_patchOrderShippingAddress($this->_prefixAddress($address->toArray(), 'shipping'));
+        $address->type = 'S';
+        $address->shop_order_id = $this->getOrder()->id;
+        if (!$this->ShopOrders->OrderAddresses->save($address)) {
+            //throw new \Exception('Checkout:setShippingAddress failed');
+            return false;
+        }
 
-        return $this;
+        $order = $this->ShopOrders->patchEntity($this->getOrder(), ['shipping_use_billing' => false]);
+        if (!$this->ShopOrders->save($order)) {
+            //throw new \Exception('Checkout: Order update failed');
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -200,7 +266,10 @@ class CheckoutComponent extends Component
             return false;
         }
 
-        $data['customer_email'] = $this->Shop->getCustomer()->email;
+        if ($this->Shop->getCustomer()) {
+            $data['shop_customer_id'] = $this->Shop->getCustomer()->id;
+            $data['customer_email'] = $this->Shop->getCustomer()->email;
+        }
 
         $order = $this->ShopOrders->patchEntity($this->getOrder(), $data, ['validate' => 'submit']);
         if ($order->errors()) {
@@ -212,8 +281,6 @@ class CheckoutComponent extends Component
 
     protected function _writeSession()
     {
-        $this->request->session()->write('Shop.BillingAddress', $this->billingAddress);
-        $this->request->session()->write('Shop.ShippingAddress', $this->shippingAddress);
     }
 
     protected function _patchOrderShippingType($type)

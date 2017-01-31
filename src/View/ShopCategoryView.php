@@ -66,10 +66,12 @@ class ShopCategoryView extends ContentView
 
 
             // bread crumbs
+            $this->Breadcrumbs->add(__d('shop', 'Shop'), ['_name' => 'shop:index']);
             $path = $shopCategory->getPath($shopCategory->id)->toArray();
             array_walk($path, function($category) {
                $this->Breadcrumbs->add($category->name, $category->url);
             });
+            //$this->Breadcrumbs->add($shopCategory->name);
         }
 
         return parent::render($view, $layout);

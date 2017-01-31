@@ -11,10 +11,8 @@ namespace Shop\Controller;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Log\Log;
-use Cake\Routing\Router;
-use Shop\Lib\LibShopCart;
-use Shop\Model\Table\ShopAddressesTable;
+use Cake\Network\Exception\NotFoundException;
+use Shop\Controller\Component\CheckoutComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -22,6 +20,7 @@ use Shop\Model\Table\ShopOrdersTable;
  * @package Shop\Controller
  *
  * @property ShopOrdersTable $ShopOrders
+ * @property CheckoutComponent $Checkout
  */
 class CheckoutController extends AppController
 {
@@ -37,14 +36,32 @@ class CheckoutController extends AppController
         parent::beforeFilter($event);
 
         //$this->Auth->allow(['cart', 'customer','customerSignup', 'customerGuest', 'billing', 'shipping', 'payment', 'review', 'success']);
+        $this->viewBuilder()->layout(Configure::read('Shop.Checkout.layout'));
     }
 
     public function beforeRender(Event $event)
     {
+        $this->set('steps', $this->Checkout->describeSteps());
+    }
+
+    public function debug()
+    {
+        if (!Configure::read('debug')) {
+            throw new NotFoundException();
+        }
+
     }
 
     public function index()
     {
+        $op = $this->request->query('op');
+
+        if ($op == 'cancel') {
+            $this->Checkout->reset();
+            $this->Flash->success(__d('shop', 'The order has been aborted'));
+            $this->redirect(['_name' => 'shop:cart']);
+        }
+
         $this->Checkout->redirectNext();
     }
 
@@ -63,7 +80,12 @@ class CheckoutController extends AppController
             return $this->Checkout->redirectNext();
         }
 
+        if (!$this->Checkout->getOrder()) {
+            return $this->redirect(['_name' => 'shop:cart']);
+        }
+
         $step = $this->Checkout->getStep($step);
+        $this->render('index');
         $step->execute($this);
     }
 

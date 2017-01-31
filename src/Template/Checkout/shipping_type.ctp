@@ -3,9 +3,9 @@
 <?php $this->assign('heading', __d('shop','Select shipping method')); ?>
 <?php $this->loadHelper('Content.Content'); ?>
 <?php
-$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
-$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
-$this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
+//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
+//$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
+//$this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
 ?>
 <div class="shop checkout step shipping">
     <div class="form">

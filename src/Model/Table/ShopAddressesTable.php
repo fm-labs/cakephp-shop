@@ -28,7 +28,7 @@ class ShopAddressesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_addresses');
+        $this->table('shop_customer_addresses');
         $this->displayField('oneline');
         $this->primaryKey('id');
 

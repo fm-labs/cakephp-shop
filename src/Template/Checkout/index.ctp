@@ -14,7 +14,7 @@
         <h2><?= __d('shop','No items in cart'); ?></h2>
         <div class="ui divider"></div>
         <div class="actions" style="text-align: right;">
-            <?= $this->Html->link(__d('shop','Continue shopping'), ['controller' => 'Catalogue', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
+            <?= $this->Html->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
         </div>
 
         <?php else: ?>

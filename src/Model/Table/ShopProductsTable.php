@@ -1,6 +1,8 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Core\Plugin;
+use Cake\ORM\Exception\RolledbackTransactionException;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -44,6 +46,7 @@ class ShopProductsTable extends Table
             'foreignKey' => 'parent_id'
         ]);
 
+        /*
         $this->addBehavior('Attachment.Attachment', [
             'dataDir' =>  MEDIA . 'shop' . DS,
             'dataUrl' => MEDIA_URL . '/shop',
@@ -54,23 +57,30 @@ class ShopProductsTable extends Table
                 ]
             ]
         ]);
+        */
 
-        $this->addBehavior('Media.Media', [
-            'fields' => [
-                'preview_image_file' => [
-                    'config' => 'shop'
-                ],
-                'featured_image_file' => [
-                    'config' => 'shop'
-                ],
-                'image_files' => [
-                    'config' => 'shop',
-                    'multiple' => true
+        if (Plugin::loaded('Media')) {
+            $this->addBehavior('Media.Media', [
+                'fields' => [
+                    'preview_image_file' => [
+                        'config' => 'shop'
+                    ],
+                    'featured_image_file' => [
+                        'config' => 'shop'
+                    ],
+                    'image_files' => [
+                        'config' => 'shop',
+                        'multiple' => true
+                    ]
                 ]
-            ]
-        ]);
+            ]);
+        }
+
         $this->addBehavior('Banana.Sluggable', [
             'field' => 'title'
+        ]);
+
+        $this->addBehavior('Eav.Attributes', [
         ]);
 
         $this->addBehavior('Banana.Publishable');
@@ -153,6 +163,11 @@ class ShopProductsTable extends Table
         return $rules;
     }
 
+    public function findProduct(Query $query) {
+        $query->find('media');
+        return $query;
+    }
+
     public function add(ShopProduct $entity, array $data = [])
     {
         if ($data) {
@@ -163,16 +178,24 @@ class ShopProductsTable extends Table
 
     public function edit(ShopProduct $entity, array $data = [])
     {
-        if ($data) {
-            $this->patchEntity($entity, $data);
+        try {
+            if ($data) {
+                $this->patchEntity($entity, $data);
+            }
+            return $this->save($entity);
+
+        } catch (RolledbackTransactionException $ex) {
+            return false;
         }
-        return $this->save($entity);
     }
 
-    public function findChildProducts($id)
+    /**
+     * @param $id
+     * @return Query
+     */
+    public function findPublishedChildren($id)
     {
-        return $this
-            ->find('list')
+        return $this->find()
             ->where(['parent_id' => $id, 'is_published' => true]);
     }
 }

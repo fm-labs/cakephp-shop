@@ -35,7 +35,7 @@
 </div>
 
 
-<?php $this->append('scriptBottom'); ?>
+<?php $this->append('script'); ?>
 <script>
 
     $('#imagepicker-on').click(function(e) {

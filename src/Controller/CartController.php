@@ -46,7 +46,6 @@ class CartController extends AppController
         }
 
         if ($this->Cart->addItem($refid, $amount)) {
-            $this->_writeCartToSession();
             $this->Flash->success(__d('shop', 'Added item to cart'));
         } else {
             $this->Flash->error(__d('shop', 'Failed to add item to cart'));
@@ -69,7 +68,6 @@ class CartController extends AppController
             ) {
                 //$this->Cart = $this->_getCart();
                 $this->Cart->refresh();
-                $this->_writeCartToSession();
 
                 $this->Flash->success(__d('shop','Item has been removed from cart'));
             } else {
@@ -97,10 +95,12 @@ class CartController extends AppController
     public function cartUpdate()
     {
         if (!$this->Cart->getOrder()) {
+            $this->Flash->warning(__d('shop', 'Order not found'));
             $this->redirect(['action' => 'index']);
         }
 
         if ($this->request->is(['post', 'put'])) {
+            debug($this->request->data);
             $order = $this->Cart->getOrder();
 
             $changed = [];
@@ -115,11 +115,12 @@ class CartController extends AppController
                 }
             }
 
-            if (count($changed) > 0) {
-                $this->Flash->success(__d('shop', '{0} items updated', count($changed)));
+            //if (count($changed) > 0) {
+                $this->Flash->success(__d('shop', '{0} item(s) updated', count($changed)));
                 $this->Cart->reloadOrder();
                 $this->redirect(['action' => 'index']);
-            }
+                return;
+            //}
         }
 
 

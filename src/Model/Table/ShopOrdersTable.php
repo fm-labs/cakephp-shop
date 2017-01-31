@@ -45,6 +45,7 @@ class ShopOrdersTable extends Table
             'foreignKey' => 'shop_customer_id',
             'className' => 'Shop.ShopCustomers'
         ]);
+        /*
         $this->belongsTo('BillingAddresses', [
             'foreignKey' => 'billing_address_id',
             'className' => 'Shop.ShopAddresses'
@@ -53,6 +54,7 @@ class ShopOrdersTable extends Table
             'foreignKey' => 'shipping_address_id',
             'className' => 'Shop.ShopAddresses'
         ]);
+        */
         $this->hasMany('ShopCarts', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopCarts'
@@ -60,6 +62,23 @@ class ShopOrdersTable extends Table
         $this->hasMany('ShopOrderItems', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderItems'
+        ]);
+        $this->hasMany('OrderAddresses', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderAddresses',
+        ]);
+
+        $this->hasOne('BillingAddress', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderAddresses',
+            'propertyName' => 'billing_address',
+            'conditions' => ['BillingAddress.type' => 'B']
+        ]);
+        $this->hasOne('ShippingAddress', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderAddresses',
+            'propertyName' => 'shipping_address',
+            'conditions' => ['ShippingAddress.type' => 'S']
         ]);
     }
 
@@ -326,20 +345,20 @@ class ShopOrdersTable extends Table
     {
         $validator
             ->notEmpty('cc_brand')
-            ->isPresenceRequired('cc_brand', true);
+            ->requirePresence('cc_brand');
 
         $validator
             ->notEmpty('cc_holder_name')
-            ->isPresenceRequired('cc_holder_name', true);
+            ->requirePresence('cc_holder_name');
 
         $validator
             ->add('cc_number', 'valid', ['rule' => 'numeric'])
             ->notEmpty('cc_number')
-            ->isPresenceRequired('cc_number', true);
+            ->requirePresence('cc_number');
 
         $validator
             ->notEmpty('cc_expires_at')
-            ->isPresenceRequired('cc_expires_at', true);
+            ->requirePresence('cc_expires_at');
 
         return $validator;
     }
@@ -398,8 +417,8 @@ class ShopOrdersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
-        $rules->add($rules->existsIn(['billing_address_id'], 'BillingAddresses'));
-        $rules->add($rules->existsIn(['shipping_address_id'], 'ShippingAddresses'));
+        //$rules->add($rules->existsIn(['billing_address_id'], 'BillingAddresses'));
+        //$rules->add($rules->existsIn(['shipping_address_id'], 'ShippingAddresses'));
         return $rules;
     }
 
@@ -502,6 +521,7 @@ class ShopOrdersTable extends Table
             Log::error("Shop Order: Failed to assign order nr");
         }
 
+        /*
         // @TODO move to eventlistener
         if (!$order->billing_address_id && $order->shop_customer_id) {
             $addr = $this->BillingAddresses->newEntity();
@@ -525,6 +545,7 @@ class ShopOrdersTable extends Table
                 Log::error('Failed to add shop shipping address for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
             }
         }
+        */
 
         return $order;
     }
@@ -545,6 +566,12 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
+    /**
+     * @param $order
+     * @param string $scope
+     * @return array
+     * @deprecated Use ShopOrderAddresses model instead
+     */
     static public function extractAddress($order, $scope = 'billing')
     {
 

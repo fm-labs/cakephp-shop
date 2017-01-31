@@ -1,10 +1,10 @@
 <?php $this->loadHelper('Bootstrap.Ui'); ?>
+<?php $this->loadHelper('Media.Media'); ?>
 <?php $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Cart'), ['action' => 'index']); ?>
 <?php $this->assign('title', __d('shop', 'Cart')); ?>
 <div class="shop cart index">
-    <h1>Warenkorb</h1>
 
     <?php if ($order && count($order->shop_order_items) > 0): ?>
         <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $order->id]]); ?>
@@ -14,7 +14,7 @@
             <tr>
                 <th class="number" style="width: 100px;"><?= __d('shop','Amount'); ?></th>
                 <th style="width: 20px;">&nbsp;</th>
-                <th><?= __d('shop','Product'); ?></th>
+                <th colspan="2"><?= __d('shop','Product'); ?></th>
                 <th class="number currency"><?= __d('shop','Item Price'); ?></th>
                 <th class="number currency"><?= __d('shop','Price'); ?></th>
             </tr>
@@ -32,24 +32,39 @@
                     ]); ?>
                 </td>
                 <td><?= h($item->unit); ?></td>
-                <td class="title"><?= h($item->title); ?><br />
-                    <?= $this->Ui->link(__d('shop','Remove from cart'), ['action' => 'remove', $order->id, $item->id], ['data-icon' => 'trash']); ?></td>
+                <td class="image" style="width: 50px;">
+                    <?php if ($item->getProduct()->featured_image_file): ?>
+                    <?php echo $this->Media->thumbnail($item->getProduct()->featured_image_file->filepath, ['width' => 45, 'height' => 45]); ?>
+                    <?php endif; ?>
+                </td>
+                <td class="title">
+                    <?= $this->Html->link($item->title, $item->getProduct()->url); ?>
+                    <br />
+                    <small>
+                        <?= $this->Ui->link(
+                            __d('shop','Remove from cart'),
+                            ['action' => 'remove', $order->id, $item->id],
+                            ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure?')]
+                        ); ?>
+                    </small>
+                </td>
                 <td class="number currency"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
                 <td class="number currency"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>
             </tr>
             <?php endforeach; ?>
-            <tr style="font-weight: bold;">
+            <tr style="font-weight: bold; font-size: 1.3em;">
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td>Gesamt</td>
                 <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td style="text-align: right;"><?= __d('shop', 'Order total'); ?></td>
                 <td class="currency"><?= $this->Number->currency($order->items_value_taxed, 'EUR'); ?></td>
             </tr>
         </table>
 
         <div class="actions" style="text-align: right;">
             <?= $this->Form->button(__d('shop','Update cart'), ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
-            <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Catalogue', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
+            <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
             <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
         </div>
 
@@ -59,15 +74,23 @@
         <?= $this->Form->end(); ?>
 
     <?php else: ?>
-        <div class="alert alert-warning">
-            <h2><?= h(__d('shop', 'No items in cart')); ?></h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h1><?= __d('shop', 'Cart'); ?></h1>
+                <p style="font-size: 1.3em;"><?= __d('shop', 'You don\'t have any products in your cart'); ?></p>
+                <div class="actions" style="">
+                    <?= $this->Ui->link(__d('shop','Browse shop'),
+                        ['controller' => 'Shop', 'action' => 'index'],
+                        ['class' => 'btn btn-primary']); ?>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <?= $this->cell('Shop.RandomCategoryProductModule'); ?>
+            </div>
         </div>
         <hr />
-        <div class="actions text-right" style="">
-                <?= $this->Ui->link(__d('shop','Browse shop'),
-                    ['controller' => 'Catalogue', 'action' => 'index'],
-                    ['class' => 'btn btn-primary']); ?>
-        </div>
+
     <?php endif; ?>
     <?php debug($order); ?>
     <?php debug($this->request->session()->read('Shop')); ?>

@@ -1,4 +1,5 @@
 <?php
+use Banana\Lib\ClassRegistry;
 use Cake\Core\Plugin;
 use Backend\Lib\Backend;
 use Content\Lib\ContentManager;
@@ -8,25 +9,27 @@ if (Plugin::loaded('Backend')) {
 }
 
 
-if (Plugin::loaded('Content')) {
-    ContentManager::register('PostType', [
-        'shop_category' => 'Shop\Post\ShopCategoryPostHandler'
+if (Plugin::loaded('Banana')) {
+    ClassRegistry::register('PostType', [
+        'shop_category' => 'Shop\Model\Entity\Post\ShopCategoryPostType'
     ]);
-    ContentManager::register('MenuItemType', [
-        'shop_category' => 'Shop\Menu\ShopCategoryMenuHandler',
+
+    ClassRegistry::register('NodeType', [
+        'shop_category' => 'Shop\Model\Entity\Node\ShopCategoryNodeType',
+    ]);
+
+    ClassRegistry::register('ContentModule', [
+        'shop_random_category_product' => 'Shop\View\Cell\RandomCategoryProductModuleCell'
     ]);
 
     // @deprecated
-    ContentManager::register('PageType', [
-        'shop_category' => [
-            'name' => 'Shop Category',
-            'class' => 'Shop\Page\ShopCategoryPageType'
-        ]
+    ClassRegistry::register('PageType', [
+        'shop_category' => 'Shop\Page\ShopCategoryPageType'
     ]);
-
-    ContentManager::register('ContentModule', [
-        'RandomCategoryProduct' => [
-            'class' => 'Shop.RandomCategoryProduct'
-        ]
-    ]);
+} else {
+    trigger_error("Plugin banana not loaded");
 }
+
+//\Cake\Event\EventManager::instance()->on(new \Shop\Event\DebugListener());
+\Cake\Event\EventManager::instance()->on(new \Shop\Event\CartListener());
+\Cake\Event\EventManager::instance()->on(new \Shop\Event\CheckoutListener());

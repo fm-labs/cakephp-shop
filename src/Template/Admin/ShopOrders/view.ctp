@@ -1,4 +1,4 @@
-<?php $this->extend('/Admin/Base/index'); ?>
+<?php $this->extend('Backend./Base/index'); ?>
 <?php $this->loadHelper('Bootstrap.Tabs'); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
@@ -32,7 +32,7 @@
                         <?= __d('shop','Billing Address'); ?>
                     </div>
                     <div class="panel-body">
-                        <?= nl2br(h($shopOrder->billing_address_formatted)) ?>
+                        <?= $this->element('Shop.address', ['address' => $shopOrder->billing_address]) ?>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,11 @@
                         <?= __d('shop','Shipping Address'); ?>
                     </div>
                     <div class="panel-body">
-                        <?= nl2br(h($shopOrder->shipping_address_formatted)) ?>
+                        <?php if ($shopOrder->shipping_address): ?>
+                        <?= $this->element('Shop.address', ['address' => $shopOrder->shipping_address]) ?>
+                        <?php else: ?>
+                            <?= $this->element('Shop.address', ['address' => $shopOrder->billing_address]) ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -55,27 +59,27 @@
             <?php if (!empty($shopOrder->shop_order_items)): ?>
                 <table class="table">
                     <tr>
-                        <th><?= __d('shop','Id') ?></th>
-                        <th><?= __d('shop','Title') ?></th>
+                        <th><?= __d('shop','ArtikelNr') ?></th>
                         <th><?= __d('shop','Amount') ?></th>
                         <th><?= __d('shop','Unit') ?></th>
+                        <th><?= __d('shop','Title') ?></th>
                         <th><?= __d('shop','Tax Rate') ?></th>
                         <th><?= __d('shop','Value Total') ?></th>
                         <th class="actions"><?= __d('shop','Actions') ?></th>
                     </tr>
-                    <?php foreach ($shopOrder->shop_order_items as $shopOrderItems): ?>
+                    <?php foreach ($shopOrder->shop_order_items as $shopOrderItem): ?>
                         <tr>
-                            <td><?= h($shopOrderItems->id) ?></td>
-                            <td><?= h($shopOrderItems->title) ?></td>
-                            <td><?= h($shopOrderItems->amount) ?></td>
-                            <td><?= h($shopOrderItems->unit) ?></td>
-                            <td><?= h($shopOrderItems->tax_rate) ?></td>
-                            <td><?= h($shopOrderItems->value_total) ?></td>
+                            <td><?= h($shopOrderItem->getProduct()->getSku()) ?></td>
+                            <td><?= h($shopOrderItem->amount) ?></td>
+                            <td><?= h($shopOrderItem->unit) ?></td>
+                            <td><?= h($shopOrderItem->getProduct()->getTitle()) ?></td>
+                            <td><?= h($shopOrderItem->tax_rate) ?></td>
+                            <td class="right"><?= h($shopOrderItem->value_total) ?></td>
 
                             <td class="actions">
-                                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopOrderItems', 'action' => 'view', $shopOrderItems->id]) ?>
-                                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopOrderItems', 'action' => 'edit', $shopOrderItems->id]) ?>
-                                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopOrderItems', 'action' => 'delete', $shopOrderItems->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItems->id)]) ?>
+                                <?= $this->Html->link(__d('shop','View'), ['controller' => 'ShopOrderItems', 'action' => 'view', $shopOrderItem->id]) ?>
+                                <?= $this->Html->link(__d('shop','Edit'), ['controller' => 'ShopOrderItems', 'action' => 'edit', $shopOrderItem->id]) ?>
+                                <?= $this->Form->postLink(__d('shop','Delete'), ['controller' => 'ShopOrderItems', 'action' => 'delete', $shopOrderItem->id], ['confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrderItem->id)]) ?>
                             </td>
                         </tr>
 
@@ -123,7 +127,7 @@
 
 
     <!-- Data Table -->
-    <?= $this->Tabs->add('Data Table'); ?>
+    <?= $this->Tabs->add('Order Entity'); ?>
     <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
         'debug' => true,
         'model' => 'Shop.ShopOrders',
@@ -131,6 +135,33 @@
         ],
         'exclude' => []
     ]); ?>
+
+
+
+
+    <!-- Data Table -->
+    <?= $this->Tabs->add('Order Items Table', ['id' => 'order-items']); ?>
+    <?= $this->cell('Backend.DataTable', [[
+        'data' => $shopOrder->shop_order_items,
+        'debug' => true,
+        'model' => 'Shop.ShopOrderItems',
+        'fields' => [
+            'sku',
+            'title',
+            'amount',
+            'unit',
+            'value_net',
+            'value_tax'
+        ],
+        'exclude' => [],
+
+        'rowActions' => [
+            [__d('shop','Edit'), ['action' => 'item_edit', ':id'],
+                ['class' => 'edit']],
+            [__d('shop','Delete'), ['action' => 'item_delete', ':id'],
+                ['class' => 'delete', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', ':id')]]
+        ]
+    ]]); ?>
 
     <!-- @TODO Related data -->
     <?= $this->Tabs->render(); ?>

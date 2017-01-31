@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Core\Plugin;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -72,27 +73,32 @@ class ShopCategoriesTable extends Table
             ]
         ]);
         */
-        $this->addBehavior('Media.Media', [
-            'model' => 'Shop.ShopCategories',
-            'fields' => [
-                'preview_image_file' => [
-                    'config' => 'shop'
-                ],
-                'featured_image_file' => [
-                    'config' => 'shop'
-                ],
-                'image_files' => [
-                    'config' => 'shop',
-                    'multiple' => true
-                ],
-                'media_images' => [
-                    'mode' => 'table',
-                    'config' => 'shop',
-                    'multiple' => true
-                ]
 
-            ]
-        ]);
+        if (Plugin::loaded('Media')) {
+            $this->addBehavior('Media.Media', [
+                'model' => 'Shop.ShopCategories',
+                'fields' => [
+                    'preview_image_file' => [
+                        'config' => 'shop'
+                    ],
+                    'featured_image_file' => [
+                        'config' => 'shop'
+                    ],
+                    'image_files' => [
+                        'config' => 'shop',
+                        'multiple' => true
+                    ],
+                    'media_images' => [
+                        'mode' => 'table',
+                        'config' => 'shop',
+                        'multiple' => true
+                    ]
+                ]
+            ]);
+        }
+
+        //$this->addBehavior('Eav.Attributes');
+
         $this->addBehavior('Banana.Sluggable', [
             'field' => 'name'
         ]);

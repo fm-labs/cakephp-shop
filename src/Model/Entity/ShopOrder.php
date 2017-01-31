@@ -94,7 +94,8 @@ class ShopOrder extends Entity
         'is_payment_selected',
         'billing_address_formatted',
         'selected_address_formatted',
-        'order_value_tax'
+        'order_value_tax',
+        'billing_address'
     ];
 
     protected function _getShopCustomer()
@@ -106,6 +107,49 @@ class ShopOrder extends Entity
                 ->first();
         }
         return $this->_properties['shop_customer'];
+    }
+
+
+    public function getBillingAddress()
+    {
+        return TableRegistry::get('Shop.ShopOrderAddresses')
+            ->find()
+            ->contain(['Countries'])
+            ->where(['shop_order_id' => $this->id, 'type' => 'B'])
+            ->first();
+    }
+
+    public function getShippingAddress()
+    {
+        return TableRegistry::get('Shop.ShopOrderAddresses')
+            ->find()
+            ->contain(['Countries'])
+            ->where(['shop_order_id' => $this->id, 'type' => 'S'])
+            ->first();
+    }
+
+    public function calculateItems()
+    {
+        $orderItems = TableRegistry::get('Shop.ShopOrderItems')
+            ->find()
+            ->where(['shop_order_id' => $this->id])
+            ->all()
+            ->toArray();
+
+        // items value
+        $itemsNet = $itemsTax = $itemsTaxed = 0;
+        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
+            $itemsNet += $item->value_net;
+            $itemsTax += $item->value_tax;
+            $itemsTaxed += $item->value_total;
+        });
+
+        $this->items_value_net = $itemsNet;
+        $this->items_value_tax = $itemsTax;
+        $this->items_value_taxed = $itemsTaxed;
+
+        $this->order_value_tax = $itemsTax;
+        $this->order_value_total = $itemsTaxed;
     }
 
     protected function _getNrFormatted()
@@ -128,16 +172,28 @@ class ShopOrder extends Entity
         return null;
     }
 
+    /**
+     * @return string
+     * @deprecated
+     */
     protected function _getBillingAddressFormatted()
     {
         return ShopAddress::formatAddress(ShopAddress::extractAddress($this->_properties, 'billing_'));
     }
 
+    /**
+     * @return string
+     * @deprecated
+     */
     protected function _getShippingAddressFormatted()
     {
         return ShopAddress::formatAddress(ShopAddress::extractAddress($this->_properties, 'shipping_'));
     }
 
+    /**
+     * @return bool
+     * @deprecated
+     */
     protected function _getIsBillingSelected()
     {
         if (
@@ -154,6 +210,10 @@ class ShopOrder extends Entity
         return false;
     }
 
+    /**
+     * @return bool|mixed
+     * @deprecated
+     */
     protected function _getIsShippingSelected()
     {
         if (!isset($this->_properties['shipping_type']) || empty($this->_properties['shipping_type']) ) {
@@ -178,6 +238,10 @@ class ShopOrder extends Entity
         return false;
     }
 
+    /**
+     * @return bool
+     * @deprecated
+     */
     protected function _getIsPaymentSelected()
     {
         $paymentMethods = Configure::read('Shop.PaymentMethods');
@@ -235,27 +299,4 @@ class ShopOrder extends Entity
         }
     }
 
-    public function calculateItems()
-    {
-        $orderItems = TableRegistry::get('Shop.ShopOrderItems')
-            ->find()
-            ->where(['shop_order_id' => $this->id])
-            ->all()
-            ->toArray();
-
-        // items value
-        $itemsNet = $itemsTax = $itemsTaxed = 0;
-        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
-            $itemsNet += $item->value_net;
-            $itemsTax += $item->value_tax;
-            $itemsTaxed += $item->value_total;
-        });
-
-        $this->items_value_net = $itemsNet;
-        $this->items_value_tax = $itemsTax;
-        $this->items_value_taxed = $itemsTaxed;
-
-        $this->order_value_tax = $itemsTax;
-        $this->order_value_total = $itemsTaxed;
-    }
 }

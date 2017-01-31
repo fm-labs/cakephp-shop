@@ -30,6 +30,7 @@ class AppController extends ContentAppController
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
+        $this->loadComponent('Content.Frontend');
         $this->loadComponent('Shop.Shop');
         $this->loadComponent('Shop.Cart');
         $this->loadComponent('Shop.Checkout');
@@ -38,32 +39,10 @@ class AppController extends ContentAppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow();
-        $this->Auth->config('logoutRedirect', '/');
-    }
 
-    /**
-     * @return CartComponent
-     * @deprecated Use CartComponent directly instead
-     */
-    protected function _getCart($cartid = null)
-    {
-        return $this->Cart;
-    }
-
-    /**
-     * @deprecated Use CartComponent directly instead
-     */
-    protected function _writeCartToSession()
-    {
-        $this->Cart->updateSession();
-    }
-
-    /**
-     * @deprecated Use CartComponent directly instead
-     */
-    protected function _resetCartSession()
-    {
-        $this->Cart->resetSession();
+        if ($this->components()->has('Auth')) {
+            $this->Auth->allow();
+            $this->Auth->config('logoutRedirect', '/');
+        }
     }
 }

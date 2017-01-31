@@ -2,17 +2,22 @@
 namespace Shop\Model\Entity;
 
 use Cake\Core\Configure;
+use Cake\Database\Query;
 use Cake\ORM\Behavior\Translate\TranslateTrait;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Eav\Model\EntityAttributesInterface;
+use Eav\Model\EntityAttributesTrait;
+use Shop\Core\Product\ShopProductInterface;
 
 /**
  * ShopProduct Entity.
  */
-class ShopProduct extends Entity
+class ShopProduct extends Entity implements ShopProductInterface
 {
 
     use TranslateTrait;
+    //use EntityAttributesTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -42,6 +47,7 @@ class ShopProduct extends Entity
         return $this->_getShopText('Shop.ShopProducts', $this->id, 'desc_long_text', $locale);
     }
     */
+
 
     public function getPath()
     {
@@ -84,7 +90,7 @@ class ShopProduct extends Entity
         return [
             'prefix' => false,
             'plugin' => 'Shop',
-            'controller' => 'ShopProducts',
+            'controller' => 'Products',
             'action' => 'view',
             'product_id' => $this->id,
             'product' => $this->slug,
@@ -112,4 +118,22 @@ class ShopProduct extends Entity
 
         return round($priceNet * (1 + ($taxRate / 100)), 2);
     }
+
+    /*** Shop Product Interface ***/
+
+    public function getTitle()
+    {
+        return $this->get('title');
+    }
+
+    public function getSku()
+    {
+        return $this->get('sku');
+    }
+
+    public function isBuyable()
+    {
+        return $this->get('is_buyable');
+    }
+
 }

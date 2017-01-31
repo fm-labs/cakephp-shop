@@ -38,6 +38,8 @@ class ShopOrderItemsTable extends Table
             'joinType' => 'INNER',
             'className' => 'Shop.ShopOrders'
         ]);
+
+        $this->schema()->columnType('options', 'json');
     }
 
     /**

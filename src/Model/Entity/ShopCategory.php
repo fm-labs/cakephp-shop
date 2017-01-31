@@ -1,23 +1,26 @@
 <?php
 namespace Shop\Model\Entity;
 
+use Banana\Model\EntityTypeHandlerInterface;
+use Content\Model\EntityPostTypeHandlerTrait;
+use Eav\Model\EntityAttributesInterface;
+use Eav\Model\EntityAttributesTrait;
 use Content\Model\Behavior\PageMeta\PageMetaTrait;
 use Content\Model\Entity\MenuItem;
 use Content\Model\Entity\Page\PageInterface;
-use Content\Model\Entity\PageTypeTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Content\Post\PostHandlerEntityTrait;
 
 /**
  * ShopCategory Entity.
  */
-class ShopCategory extends Entity implements PageInterface
+class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInterface
 {
     use PageMetaTrait;
     //use PageTypeTrait;
-    use PostHandlerEntityTrait;
+    use EntityPostTypeHandlerTrait;
+    //use EntityAttributesTrait;
 
     /**
      * @var string PageMetaTrait model definition
@@ -129,7 +132,7 @@ class ShopCategory extends Entity implements PageInterface
      */
     protected function _getUrl()
     {
-        return $this->getPageUrl();
+        return $this->getViewUrl();
     }
 
     protected function _getPermaUrl()
@@ -137,7 +140,7 @@ class ShopCategory extends Entity implements PageInterface
         return [
             'prefix' => false,
             'plugin' => 'Shop',
-            'controller' => 'ShopCategories',
+            'controller' => 'Categories',
             'action' => 'view',
             $this->id
         ];

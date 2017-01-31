@@ -44,7 +44,6 @@ class CartComponent extends Component
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
 
-        //$this->eventManager()->on(new ShopEventListener());
         $this->_init();
     }
 
@@ -77,6 +76,8 @@ class CartComponent extends Component
     public function addItem($refid = null, $amount = 1)
     {
         $this->_resumeOrder(['create' => true]);
+
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.beforeAdd'));
 
         $item = null;
         foreach ($this->order->shop_order_items as $_item) {
@@ -119,6 +120,7 @@ class CartComponent extends Component
             return false;
         }
 
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.afterAdd'));
         Log::debug('Added order item to order with ID ' . $this->order->id);
         $this->_resumeOrder(['force' => true]);
         return true;
@@ -126,11 +128,17 @@ class CartComponent extends Component
 
     public function updateItem($orderItemId, $data = [])
     {
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.beforeUpdate'));
+
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
         $orderItem->accessible('*', false);
         $orderItem->accessible('amount', true);
         $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $data);
-        return $this->ShopOrders->ShopOrderItems->save($orderItem);
+        $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
+
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.afterUpdate'));
+
+        return $success;
     }
 
     public function getOrder()
@@ -234,7 +242,7 @@ class CartComponent extends Component
                 ->where([
                     //'sessionid' => $this->sessionId,
                     'cartid' => $this->cartId,
-                    //'is_temporary' => true,
+                    'is_temporary' => true,
                 ])
                 ->contain(['ShopOrderItems'])
                 ->first();

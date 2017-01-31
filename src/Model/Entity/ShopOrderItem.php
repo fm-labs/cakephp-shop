@@ -1,8 +1,10 @@
 <?php
 namespace Shop\Model\Entity;
 
+use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Shop\Core\Product\ShopProductInterface;
 
 /**
  * ShopOrderItem Entity.
@@ -41,6 +43,21 @@ class ShopOrderItem extends Entity
         'id' => false,
     ];
 
+    protected $_virtual = [
+        'product',
+        'title',
+        'sku',
+        'cur'
+    ];
+
+    /**
+     * @var ShopProductInterface
+     */
+    protected $_product;
+
+    /**
+     * @return EntityInterface
+     */
     protected function _getRef()
     {
         if (!isset($this->_properties['ref'])) {
@@ -49,18 +66,41 @@ class ShopOrderItem extends Entity
                 $refscope = $this->_properties['refscope'];
                 $refid = $this->_properties['refid'];
 
-                $ref = TableRegistry::get($refscope)->get($refid);
+                $ref = TableRegistry::get($refscope)->find('product')->where(['id' => $refid])->first();
             }
             $this->_properties['ref'] = $ref;
         }
         return $this->_properties['ref'];
     }
 
+    protected function _getSku()
+    {
+        return $this->getProduct()->getSku();
+    }
+
+    protected function _getTitle()
+    {
+        return $this->getProduct()->getTitle();
+    }
+
+    protected function _getCur()
+    {
+        //@TODO Implement shop order item currencies
+        return 'EUR';
+    }
+
+    /**
+     * @return float
+     */
     protected function _getItemValueTaxed()
     {
         return $this->item_value_net * (1 + $this->tax_rate/100);
     }
 
+    /**
+     * @param $val
+     * @return float
+     */
     protected function _setAmount($val)
     {
         if ($val < 0) {
@@ -70,6 +110,27 @@ class ShopOrderItem extends Entity
         return $val;
     }
 
+    /**
+     * @return ShopProductInterface
+     */
+    public function getProduct()
+    {
+        $this->_getRef();
+        if (!$this->_properties['ref']) {
+            throw new \RuntimeException(sprintf('ShopOrderItem: Referenced product item not loaded'));
+        }
+
+        if (!($this->_properties['ref'] instanceof ShopProductInterface)) {
+            throw new \RuntimeException(sprintf('ShopOrderItem: %s is not an instance of ShopProductInterface',
+                get_class($this->_properties['ref'])));
+        }
+        return $this->_properties['ref'];
+    }
+
+    /**
+     * Calculate totals
+     * @return void
+     */
     public function calculate()
     {
         $this->value_net = $this->item_value_net * $this->amount;

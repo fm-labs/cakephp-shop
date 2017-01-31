@@ -57,6 +57,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
     <div class="row">
         <div class="col-md-9">
             <?php
+            echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]);
             echo $this->Form->input('shop_category_id', ['options' => $shopCategories, 'empty' => true]);
             echo $this->Form->input('sku');
             echo $this->Form->input('title');
@@ -98,29 +99,6 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
             <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
             <?= $this->Form->input('preview_image_file', ['type' => 'media_picker']); ?>
             <?= $this->Form->input('featured_image_file', ['type' => 'media_picker']); ?>
-
-            <!--
-            <?= $this->cell('Media.ImageSelect', [[
-                'label' => 'Preview Image',
-                'model' => 'Shop.ShopProducts',
-                'id' => $shopProduct->id,
-                'scope' => 'preview_image_file',
-                'image' => $shopProduct->preview_image_file,
-                'imageOptions' => ['width' => 200],
-                'config' => 'shop'
-            ]]); ?>
-
-
-            <?= $this->cell('Media.ImageSelect', [[
-                'label' => 'Featured Image',
-                'model' => 'Shop.ShopProducts',
-                'id' => $shopProduct->id,
-                'scope' => 'featured_image_file',
-                'image' => $shopProduct->featured_image_file,
-                'imageOptions' => ['width' => 200],
-                'config' => 'shop'
-            ]]); ?>
-            -->
             <?= $this->Form->fieldsetEnd(); ?>
 
 
@@ -146,6 +124,15 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
         ],
         'files' => $galleryList
     ]); **/?>
+
+    <!-- Attributes -->
+    <?php $this->Tabs->add(__d('shop', 'Attributes')); ?>
+    <?= $this->cell('Eav.AttributesFormInputs', [$shopProduct, 'Shop.ShopProducts']); ?>
+
+    <!-- Debug -->
+    <?php $this->Tabs->add(__d('shop', 'Debug')); ?>
+    <?php debug($shopProduct); ?>
+    <?php debug($shopProduct->toArray()); ?>
 
     <?= $this->Tabs->render(); ?>
 
