@@ -26,28 +26,6 @@ class ShopCategoriesController extends AppController
         $this->ShopCategories->locale($this->locale);
     }
 
-    /**
-     * Index method
-     *
-     * @return void
-     */
-    public function table()
-    {
-        $this->paginate = [
-            'contain' => ['ParentShopCategories'],
-            'order' => ['ShopCategories.lft ASC'],
-            'limit' => 100,
-            'media' => true
-        ];
-        $shopCategories = $this->paginate($this->ShopCategories)->toArray();
-
-        $shopCategoriesTree = $this->ShopCategories->find('treeList')->toArray();
-
-        $this->set('shopCategories', $shopCategories);
-        $this->set('shopCategoriesTree', $shopCategoriesTree);
-        $this->set('_serialize', ['shopCategories']);
-    }
-
     public function quick()
     {
         if ($this->request->is(['post','put'])) {
@@ -64,8 +42,28 @@ class ShopCategoriesController extends AppController
 
     public function index()
     {
+        $view = ($this->request->query('view')) ?: 'tree';
+        if ($view == 'tree') {
+            $this->setAction('indexTree');
+            return;
+        }
+
+        $this->paginate = [
+            'contain' => ['ParentShopCategories'],
+            'order' => ['ShopCategories.lft ASC'],
+            'limit' => 100,
+            'media' => true
+        ];
+
         $shopCategories = $this->paginate($this->ShopCategories);
         $this->set(compact('shopCategories'));
+
+        $shopCategoriesTree = $this->ShopCategories->find('treeList')->toArray();
+        $this->set('shopCategoriesTree', $shopCategoriesTree);
+    }
+
+    public function indexTree()
+    {
     }
 
     public function treeData()
@@ -88,20 +86,14 @@ class ShopCategoriesController extends AppController
                 'icon' => 'shop_category ' . $publishedClass,
                 'parent' => ($val->parent_id) ?: '#',
                 'data' => [
-                    'type' => $val->getPageType(),
-                    'viewUrl' => Router::url($val->getPageAdminUrl()),
+                    'type' => 'shop_category',
+                    'viewUrl' => Router::url(['action' => 'view', $val->id], true),
                 ]
             ];
         });
 
         $this->set('treeData', $treeData);
         $this->set('_serialize', 'treeData');
-    }
-
-    public function treeView()
-    {
-        $id = $this->request->query('id');
-        $this->setAction('manage', $id);
     }
 
 

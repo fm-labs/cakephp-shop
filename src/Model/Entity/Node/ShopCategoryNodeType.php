@@ -41,22 +41,14 @@ class ShopCategoryNodeType extends Node\DefaultNodeType
         return $this->shopCategory->getAdminUrl();
     }
 
-    public function getChildren()
-    {
-        $childNodes = parent::getChildren();
-
-        if (empty($childNodes)) {
-            $subCategories = $this->shopCategory->getChildren();
-            foreach ($subCategories as $cat) {
-                $childNodes[] = $cat->toNode();
-            }
-        }
-        return $childNodes;
-    }
-
     public function isHiddenInNav()
     {
         return (parent::isHiddenInNav() || !$this->shopCategory->isPublished()) ? true : false;
+    }
+
+    public function getChildNodes()
+    {
+        return $this->shopCategory->getChildNodes();
     }
 
 }

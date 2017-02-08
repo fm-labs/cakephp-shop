@@ -106,7 +106,7 @@ class ShopProductsController extends AppController
      */
     public function add()
     {
-        $shopProduct = $this->ShopProducts->newEntity();
+        $shopProduct = $this->ShopProducts->newEntity($this->request->query, ['validate' => false]);
         if ($this->request->is('post')) {
             //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
             if ($this->ShopProducts->add($shopProduct, $this->request->data)) {

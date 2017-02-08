@@ -44,4 +44,11 @@
         ]
     ]]);
     ?>
+
+    <hr />
+    <?= $this->Html->link(
+        __d('shop', 'New {0}', __d('shop', 'Shop Product')),
+        ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
+        ['data-icon' => 'plus', 'class' => 'btn btn-default btn-add']
+    ) ?>
 </div>

@@ -2,6 +2,8 @@
 namespace Shop\Model\Entity;
 
 use Banana\Model\EntityTypeHandlerInterface;
+use Banana\Model\EntityTypeInterface;
+use Content\Model\Entity\Node\NodeInterface;
 use Content\Model\EntityPostTypeHandlerTrait;
 //use Eav\Model\EntityAttributesInterface;
 //use Eav\Model\EntityAttributesTrait;
@@ -15,7 +17,7 @@ use Cake\ORM\TableRegistry;
 /**
  * ShopCategory Entity.
  */
-class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInterface
+class ShopCategory extends Entity implements PageInterface, NodeInterface, EntityTypeHandlerInterface
 {
     use PageMetaTrait;
     //use PageTypeTrait;
@@ -254,5 +256,25 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     public function isPageHiddenInNav()
     {
         return null;
+    }
+
+    public function getNodeLabel()
+    {
+        return $this->name;
+    }
+
+    public function getNodeUrl()
+    {
+        return $this->getViewUrl();
+    }
+
+    public function isNodeEnabled()
+    {
+        return $this->get('is_published');
+    }
+
+    public function getChildNodes()
+    {
+        return $this->getChildren()->toArray();
     }
 }

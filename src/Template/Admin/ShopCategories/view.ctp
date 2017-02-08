@@ -26,19 +26,11 @@ $this->loadHelper('Media.Media');
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__d('shop', 'More')); ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Products')),
-    ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'New {0}', __d('shop', 'Shop Product')),
-    ['controller' => 'ShopProducts', 'action' => 'add'],
-    ['data-icon' => 'plus']
-) ?>
-<?= $this->Toolbar->endGroup(); ?>
 <div class="shopCategories view">
+
+    <div class="actions text-right">
+        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $shopCategory->id], ['class' => 'btn btn-primary btn-edit']); ?>
+    </div>
 
     <?= $this->cell('Backend.EntityView', [ $shopCategory ], [
         'title' => false,
@@ -62,6 +54,8 @@ $this->loadHelper('Media.Media');
             ],
             'is_published' => ['formatter' => 'boolean'],
             'url' => ['formatter' => 'link'],
+            'teaser_html' => ['formatter' => 'html'],
+            'desc_html' => ['formatter' => 'html'],
             'preview_image_file' => [
                 'formatter' => function($val, $entity) {
                     return (is_object($val)) ? $this->Media->thumbnail($val->filepath, ['width' => 100, 'height' => 100]) : $val;

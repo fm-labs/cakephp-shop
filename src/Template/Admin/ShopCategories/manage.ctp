@@ -10,42 +10,17 @@ $this->loadHelper('Bootstrap.Tabs');
 $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']);
 $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 ?>
+<?= $this->Toolbar->addLink(
+    __d('shop', 'New {0}', __d('shop', 'Shop Product')),
+    ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
+    ['data-icon' => 'plus']
+) ?>
 <?= $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCategory->id],
     ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
 )
 ?>
-<!--
-<?= $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
-    ['action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
--->
-<?= $this->Toolbar->addLink(
-    __d('shop', 'Add {0}', __d('shop', 'Shop Category')),
-    ['action' => 'add', 'parent_id' => $shopCategory->parent_id],
-    ['data-icon' => 'plus']
-) ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'Add {0}', __d('shop', 'Sub Category')),
-    ['action' => 'add', 'parent_id' => $shopCategory->id],
-    ['data-icon' => 'plus']
-) ?>
-<!--
-<?= $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Products')),
-    ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
--->
-<?= $this->Toolbar->addLink(
-    __d('shop', 'New {0}', __d('shop', 'Shop Product')),
-    ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
-    ['data-icon' => 'plus']
-) ?>
-<?php $this->Toolbar->endGroup(); ?>
 <?php $this->assign('title', $shopCategory->name); ?>
 <div class="shop categories form">
 

@@ -11,44 +11,9 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
     ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopProduct->id)]
 )
 ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Products')),
-    ['action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Products')),
-    ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
-
-<?= $this->Toolbar->addLink(
-    __d('shop', 'New {0}', __d('shop', 'Shop Product')),
-    ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopProduct->shop_category_id],
-    ['data-icon' => 'plus']
-) ?>
-<?php $this->Toolbar->endGroup(); ?>
 <?php $this->assign('title', $shopProduct->title); ?>
 <div class="form">
-    <dl class="dl-horizontal">
-        <dt>Category</dt>
-        <dd>
-            <?php if ($shopProduct->shop_category): ?>
-                 <?= $this->Html->link(
-                        $shopProduct->shop_category->name,
-                        ['controller' => 'ShopCategories', 'action' => 'edit', $shopProduct->shop_category->id]
-                    ); ?>
-            <?php endif; ?>
-        </dd>
-        <dt>Published</dt>
-        <dd><?= $this->Ui->statusLabel($shopProduct->is_published); ?></dd>
-        <dt>Languages</dt>
-        <dd>
-            <?php foreach($this->get('locales') as $_locale => $_localeName): ?>
-                <?= $this->Html->link($_localeName, ['action' => 'edit', $shopProduct->id, 'locale' => $_locale]) ?>
-            <?php endforeach; ?>
-        </dd>
-    </dl>
+
 
     <?php $this->Tabs->start(__d('shop','Edit {0}', __d('shop','Product'))); ?>
     <?php $this->Tabs->add(__d('shop','Edit {0}', __d('shop','Product'))); ?>
@@ -81,10 +46,15 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
             echo $this->Form->input('price', ['readonly' => true]);
             //echo $this->Form->input('view_template');
             ?>
-            <?= $this->Form->button(__d('shop', 'Submit')) ?>
+            <?= $this->Form->button(__d('shop', 'Save Changes'), ['class' => 'btn btn-primary']) ?>
         </div>
         <div class="col-md-3">
-            <?= $this->Form->button(__d('shop', 'Save Changes'), ['class' => 'btn btn-primary btn-block']) ?>
+
+            <?= $this->Form->fieldsetStart(__('Languages')); ?>
+            <?php foreach($this->get('locales') as $_locale => $_localeName): ?>
+                <?= $this->Html->link($_localeName, ['action' => 'edit', $shopProduct->id, 'locale' => $_locale]) ?>
+            <?php endforeach; ?>
+            <?= $this->Form->fieldsetEnd(); ?>
 
             <?= $this->Form->fieldsetStart(['legend' => __d('shop','Publish')]); ?>
             <?php

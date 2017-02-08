@@ -7,38 +7,17 @@
     ['controller' => 'ShopProducts', 'action' => 'add'],
     ['data-icon' => 'plus', 'class' => 'link-frame-modal']
 ) ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Products')),
-    ['controller' => 'ShopProducts', 'action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
-<?php //$this->extend('Backend./Base/index_2col'); ?>
 <?php $this->assign('title', __d('shop','Shop Categories')); ?>
-
-<?php $this->start('col-left'); ?>
-Hello from Left column
-<?php $this->end(); ?>
-
+<?php $shopCategoriesTree = $this->get('shopCategoriesTree', []); ?>
 
 <?= $this->cell('Backend.DataTable', [[
     'paginate' => true,
     'model' => 'Shop.ShopCategories',
     'data' => $shopCategories,
     'fields' => [
-        /*
-        'id',
-        'level',
-        'parent_id' => [
-            'formatter' => function($val, $row) {
-                return $row->has('parent_category')
-                    ? $this->Html->link($row->parent_category->name, ['controller' => 'ShopCategories', 'action' => 'view', $row->parent_id]) :
-                    '';
-            }
-        ],
-        */
         'name' => [
-            'formatter' => function($val, $row) {
-                return $this->Html->link($row->name,
+            'formatter' => function($val, $row) use ($shopCategoriesTree) {
+                return $this->Html->link($shopCategoriesTree[$row->id],
                     ['action' => 'manage', $row->id],
                     ['title' => $this->Url->build($row->url)]
                 );
