@@ -131,7 +131,7 @@ class ShopCategoriesController extends AppController
 
         $shopCategory = $this->ShopCategories
             ->find()
-            ->find('media')
+            //->find('media')
             //->find('attributes')
             ->where(['ShopCategories.id' => $id])
             ->contain(['ParentShopCategories', 'ShopTags', 'ShopProducts', 'ContentModules' => ['Modules']])

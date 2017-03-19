@@ -209,7 +209,7 @@ class ShopProductsTable extends Table
     }
 
     public function findProduct(Query $query) {
-        $query->find('media');
+        //$query->find('media');
         return $query;
     }
 

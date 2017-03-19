@@ -108,16 +108,3 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
 
 
 </div>
-
-<script>
-    <?php
-    $mediapicker = [
-        'modal' => true,
-        'treeUrl' => $this->Url->build(['plugin' => 'Media', 'controller' => 'MediaManager', 'action' => 'treeData', 'config' => 'shop', '_ext' => 'json']),
-        'filesUrl' => $this->Url->build(['plugin' => 'Media', 'controller' => 'MediaManager', 'action' => 'filesData', 'config' => 'shop', '_ext' => 'json'])
-    ];
-    ?>
-    $(document).ready(function() {
-        $('.media-picker').mediapicker(<?= json_encode($mediapicker); ?>);
-    });
-</script>

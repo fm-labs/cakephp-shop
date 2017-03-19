@@ -49,7 +49,7 @@ class ShopProductsController extends AppController
         ];
 
         $query = $this->ShopProducts->find()
-            ->find('media')
+            //->find('media')
             ->contain(['ShopCategories'])
             ->order(['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC']);
 
