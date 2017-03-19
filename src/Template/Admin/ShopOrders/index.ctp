@@ -1,4 +1,5 @@
 <?php $this->extend('Backend./Base/index'); ?>
+<?php $this->loadHelper('Banana.Status'); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 
@@ -19,7 +20,6 @@
     ['data-icon' => 'list']
 ) ?>
 <div class="shopOrders index">
-
 
     <?= $this->cell('Backend.DataTable', [[
         'paginate' => true,
@@ -42,14 +42,22 @@
             ],
             'billing_address' => [
                 'formatter' => function($val, $row) {
-                    return $val->short;
+                    return ($val) ? $val->short : __('*Data missing*');
                 }
             ],
             'order_value_total' => [
                 'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
             ],
-            'status' => [],
+            'status' => ['formatter' => function($val) {
+                return $this->Status->label($val);
+            }],
+            'payment_status' => ['formatter' => function($val) {
+                return $this->Status->label($val);
+            }],
+            'shipping_status' => ['formatter' => function($val) {
+                return $this->Status->label($val);
+            }],
         ],
         'rowActions' => [
             [__d('shop','View'), ['action' => 'view', ':id'], ['class' => 'view']],

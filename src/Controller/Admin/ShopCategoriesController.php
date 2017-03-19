@@ -71,7 +71,7 @@ class ShopCategoriesController extends AppController
         $this->viewBuilder()->className('Json');
 
         $id = $this->request->query('id');
-        $conditions = ($id == '#') ? ['parent_id IS NULL'] : ['parent_id' => $id];
+        $conditions = (!$id || $id == '#') ? ['parent_id IS NULL'] : ['parent_id' => $id];
         $nodes = $this->ShopCategories->find()->where($conditions)->orderAsc('lft')->all()->toArray();
 
         //debug($pages);
@@ -82,12 +82,12 @@ class ShopCategoriesController extends AppController
             $treeData[] = [
                 'id' => $val->id,
                 'text' => $val->name . " (". $val->id . ")",
-                'children' => true,
+                'children' => ($val->getChildNodes()) ? true : false,
                 'icon' => 'shop_category ' . $publishedClass,
                 'parent' => ($val->parent_id) ?: '#',
                 'data' => [
                     'type' => 'shop_category',
-                    'viewUrl' => Router::url(['action' => 'view', $val->id], true),
+                    'viewUrl' => Router::url(['action' => 'manage', $val->id], true),
                 ]
             ];
         });

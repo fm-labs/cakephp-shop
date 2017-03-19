@@ -31,9 +31,8 @@ class AppController extends ContentAppController
         ];
 
         $this->loadComponent('Content.Frontend');
+        $this->loadComponent('Content.Locale');
         $this->loadComponent('Shop.Shop');
-        $this->loadComponent('Shop.Cart');
-        $this->loadComponent('Shop.Checkout');
     }
 
     public function beforeFilter(Event $event)

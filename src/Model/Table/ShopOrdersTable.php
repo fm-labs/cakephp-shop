@@ -1,6 +1,8 @@
 <?php
 namespace Shop\Model\Table;
 
+use Banana\Lib\Status;
+use Cake\Core\Plugin;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\I18n\Time;
@@ -13,6 +15,19 @@ use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use Shop\Model\Entity\ShopOrder;
 
+
+define('ORDER_STATUS_TEMP', 0);
+define('ORDER_STATUS_SUBMITTED', 1);
+define('ORDER_STATUS_PENDING', 2);
+define('ORDER_STATUS_CONFIRMED', 3);
+define('ORDER_STATUS_PAYED', 4);
+define('ORDER_STATUS_DELIVERED', 5);
+define('ORDER_STATUS_CLOSED', 6);
+define('ORDER_STATUS_STORNO', 80);
+define('ORDER_STATUS_ERROR', 90);
+define('ORDER_STATUS_ERROR_DELIVERY', 91);
+
+
 /**
  * ShopOrders Model
  *
@@ -24,6 +39,20 @@ use Shop\Model\Entity\ShopOrder;
  */
 class ShopOrdersTable extends Table
 {
+
+    const ORDER_STATUS_QUOTE = 0;
+    const ORDER_STATUS_PURCHASED = 1;
+    const ORDER_STATUS_CONFIRMED = 2;
+    const ORDER_STATUS_INVOICED = 3;
+    const ORDER_STATUS_COMPLETE = 10;
+
+    const SHIPPING_STATUS_STANDBY = 0;
+    const SHIPPING_STATUS_PENDING = 1;
+    const SHIPPING_STATUS_DELIVERED = 10;
+
+    const PAYMENT_STATUS_PENDING = 0;
+    const PAYMENT_STATUS_PARTIAL = 1;
+    const PAYMENT_STATUS_PAYED = 10;
 
     /**
      * Initialize method
@@ -80,6 +109,49 @@ class ShopOrdersTable extends Table
             'propertyName' => 'shipping_address',
             'conditions' => ['ShippingAddress.type' => 'S']
         ]);
+
+        $this->addBehavior('Banana.Statusable');
+
+
+        if (Plugin::loaded('Search')) {
+
+            // Add the behaviour to your table
+            $this->addBehavior('Search.Search');
+
+            // Setup search filter using search manager
+            $this->searchManager()
+                //->value('author_id')
+                // Here we will alias the 'q' query param to search the `Articles.title`
+                // field and the `Articles.content` field, using a LIKE match, with `%`
+                // both before and after.
+                ->add('nr', 'Search.Like', [
+                    'before' => true,
+                    'after' => true,
+                    'fieldMode' => 'OR',
+                    'comparison' => 'LIKE',
+                    'wildcardAny' => '*',
+                    'wildcardOne' => '?',
+                    'field' => ['title']
+                ])
+                ->value('shop_customer_id', [
+                    'filterEmpty' => true
+                ])
+                ->value('status', [
+                    'filterEmpty' => true
+                ])
+                ->value('payment_status', [
+                    'filterEmpty' => true
+                ])
+                ->value('shipping_status', [
+                    'filterEmpty' => true
+                ])
+                ->add('nr_formatted', 'Search.Callback', [
+                    'callback' => function ($query, $args, $filter) {
+                         return $query;
+                    }
+                ]);
+        }
+
     }
 
     public function afterSave(Event $event)
@@ -564,6 +636,29 @@ class ShopOrdersTable extends Table
         }
 
         return $order;
+    }
+
+    public function implementedStati()
+    {
+        return [
+            'status' => [
+                new Status(self::ORDER_STATUS_QUOTE, __('Quote'), 'default'),
+                new Status(self::ORDER_STATUS_PURCHASED, __('Purchased'), 'default'),
+                new Status(self::ORDER_STATUS_CONFIRMED, __('Confirmed'), 'success'),
+                new Status(self::ORDER_STATUS_INVOICED, __('Invoiced'), 'success'),
+                new Status(self::ORDER_STATUS_COMPLETE, __('Complete'), 'success'),
+            ],
+            'shipping_status' => [
+                new Status(self::SHIPPING_STATUS_STANDBY, __('Not delivered'), 'danger'),
+                new Status(self::SHIPPING_STATUS_PENDING, __('Pending'), 'warning'),
+                new Status(self::SHIPPING_STATUS_DELIVERED, __('Delivered'), 'success'),
+            ],
+            'payment_status' => [
+                new Status(self::PAYMENT_STATUS_PENDING, __('Waiting for payment'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PARTIAL, __('Teilzahlung erhalten'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PAYED, __('Payed'), 'success')
+            ],
+        ];
     }
 
     /**

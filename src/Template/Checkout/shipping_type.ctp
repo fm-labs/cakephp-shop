@@ -9,7 +9,7 @@
 ?>
 <div class="shop checkout step shipping">
     <div class="form">
-        <?= $this->Form->create($order, ['url' => ['step' => 'shipping', 'change_type' => 1]]); ?>
+        <?= $this->Form->create($order, ['url' => ['action' => 'shipping', 'change_type' => 1]]); ?>
         <?= ''//$this->Form->input('shipping_type', ['options' => $shippingOptions, 'label' => false, 'empty' => false]); ?>
 
         <?php foreach ($shippingMethods as $type => $shippingMethod): ?>

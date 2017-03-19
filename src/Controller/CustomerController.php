@@ -15,7 +15,9 @@ class CustomerController extends AppController
 {
     public function index()
     {
+        //$this->autoRender = false;
         $customer = $this->request->session()->read('Shop.Customer');
+        debug($customer);
         $this->set(compact('customer'));
     }
 }

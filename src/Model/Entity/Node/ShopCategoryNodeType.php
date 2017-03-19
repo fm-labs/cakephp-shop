@@ -20,6 +20,9 @@ class ShopCategoryNodeType extends Node\DefaultNodeType
     {
         parent::setEntity($entity);
         $this->shopCategory = ContentManager::getPostByType($entity->type, $entity->typeid);
+        if (!$this->shopCategory) {
+            die("Shop category not found");
+        }
     }
 
     public function getLabel()
@@ -46,9 +49,9 @@ class ShopCategoryNodeType extends Node\DefaultNodeType
         return (parent::isHiddenInNav() || !$this->shopCategory->isPublished()) ? true : false;
     }
 
-    public function getChildNodes()
-    {
-        return $this->shopCategory->getChildNodes();
-    }
+    //public function getChildNodes()
+    //{
+    //    return $this->shopCategory->getChildNodes();
+    //}
 
 }

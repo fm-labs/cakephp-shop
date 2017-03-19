@@ -2,6 +2,8 @@
 namespace Shop\Controller;
 
 use Cake\Core\Configure;
+use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * ShopOrders Controller
@@ -10,6 +12,8 @@ use Cake\Core\Configure;
  */
 class OrdersController extends AppController
 {
+
+    public $modelClass = "Shop.ShopOrders";
 
     public function initialize()
     {
@@ -41,12 +45,22 @@ class OrdersController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($uuid = null)
     {
-        $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'ShopOrderItems', 'BillingAddress', 'ShippingAddress']
-        ]);
-        $this->set('shopOrder', $shopOrder);
+        if (!$uuid) {
+            throw new BadRequestException();
+        }
+
+        $shopOrder = $this->ShopOrders->find()
+            ->where(['ShopOrders.uuid' => $uuid])
+            ->contain(['ShopCustomers', 'ShopOrderItems', 'BillingAddress', 'ShippingAddress'])
+            ->first();
+
+        if (!$shopOrder) {
+            throw new NotFoundException();
+        }
+
+        $this->set('order', $shopOrder);
         $this->set('_serialize', ['shopOrder']);
     }
 

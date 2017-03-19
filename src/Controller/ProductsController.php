@@ -18,7 +18,7 @@ class ProductsController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Content.Locale');
+        $this->loadComponent('Shop.Cart');
 
         $this->Frontend->setRefScope('Shop.ShopProducts');
     }

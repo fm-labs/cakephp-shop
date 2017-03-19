@@ -99,6 +99,11 @@ class ShopProduct extends Entity implements ShopProductInterface
         ];
     }
 
+    protected function _getAdminUrl()
+    {
+        return ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'edit', $this->id];
+    }
+
     protected function _getPreviewImage()
     {
         return ($this->_properties['preview_image_file']) ?: $this->featured_image_file;
@@ -136,4 +141,8 @@ class ShopProduct extends Entity implements ShopProductInterface
         return $this->get('is_buyable');
     }
 
+    public function getAdminUrl()
+    {
+        return $this->_getAdminUrl();
+    }
 }

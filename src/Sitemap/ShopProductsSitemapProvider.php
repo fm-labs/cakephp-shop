@@ -4,11 +4,14 @@ namespace Shop\Sitemap;
 
 use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
-use Sitemap\Lib\ModelSitemapProvider;
+use Sitemap\Sitemap\AbstractTableSitemapProvider;
+use Sitemap\Sitemap\SitemapLocation;
 
-class ShopProductsSitemapProvider extends ModelSitemapProvider
+class ShopProductsSitemapProvider extends AbstractTableSitemapProvider
 {
     public $modelClass = 'Shop.ShopProducts';
+
+    public $name = 'shop_products';
 
     public function find(Query $query)
     {
@@ -27,11 +30,8 @@ class ShopProductsSitemapProvider extends ModelSitemapProvider
 
     public function compile(ResultSetInterface $result)
     {
-        $locations = [];
         foreach ($result as $product) {
-            $locations[] = [ 'url' => $product->url];
+            $this->_addLocation(new SitemapLocation($product->url, null, $product->modified));
         }
-
-        return $locations;
     }
 }

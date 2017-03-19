@@ -13,6 +13,7 @@ use Shop\Model\Entity\ShopProduct;
  * ShopProducts Model
  *
  * @property \Cake\ORM\Association\BelongsTo $ShopCategories
+ * @property \Search\Manager $searchManager
  */
 class ShopProductsTable extends Table
 {
@@ -88,6 +89,51 @@ class ShopProductsTable extends Table
             'fields' => ['title', 'slug', 'desc_long_text', 'desc_short_text'],
             'translationTable' => 'ShopI18n'
         ]);
+
+        if (Plugin::loaded('Search')) {
+
+            // Add the behaviour to your table
+            $this->addBehavior('Search.Search');
+
+            // Setup search filter using search manager
+            $this->searchManager()
+                //->value('author_id')
+                // Here we will alias the 'q' query param to search the `Articles.title`
+                // field and the `Articles.content` field, using a LIKE match, with `%`
+                // both before and after.
+                ->add('title', 'Search.Like', [
+                    'before' => true,
+                    'after' => true,
+                    'fieldMode' => 'OR',
+                    'comparison' => 'LIKE',
+                    'wildcardAny' => '*',
+                    'wildcardOne' => '?',
+                    'field' => ['title']
+                ])
+                ->add('sku', 'Search.Like', [
+                    'before' => true,
+                    'after' => true,
+                    'fieldMode' => 'OR',
+                    'comparison' => 'LIKE',
+                    'wildcardAny' => '*',
+                    'wildcardOne' => '?',
+                    'field' => ['sku']
+                ])
+                ->value('shop_category_id', [
+                    'filterEmpty' => true
+                ])
+                ->value('is_buyable', [
+                    'filterEmpty' => true
+                ])
+                ->value('is_published', [
+                    'filterEmpty' => true
+                ])
+                ->add('foo', 'Search.Callback', [
+                    'callback' => function ($query, $args, $filter) {
+                        // Modify $query as required
+                    }
+                ]);
+        }
 
     }
 

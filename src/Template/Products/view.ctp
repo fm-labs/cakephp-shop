@@ -26,12 +26,15 @@
                         <strong><?= __d('theme_lederleitner','Category'); ?>:</strong>
                         <?= $this->Html->link($shopProduct->shop_category->name, $shopProduct->shop_category->url); ?>
                     <?php endif; ?>
+
+                    <?php if ($shopProduct->is_buyable): ?>
                     <div class="price" itemprop="price" style="text-align: right;">
                         <strong><?= __d('shop', 'per unit'); ?></strong>
                         <span style="font-size: 3em; font-weight: bold;">
                             <?= $this->Number->currency($shopProduct->price, 'EUR'); ?>
                         </span>
                     </div>
+                    <?php endif; ?>
 
 
                     <hr />
@@ -39,11 +42,13 @@
                         <?= $this->Content->userHtml($shopProduct->teaser_html); ?>
                     </div>
 
+                    <!--
                     <hr />
                     <div class="availability">
                         <strong><?= __d('shop', 'Availability'); ?></strong>
                         <?= __d('shop', 'Store only'); ?>
                     </div>
+                    -->
 
                     <hr />
                     <?php echo $this->cell('Shop.AddToCart::form', [['qty' => true]], compact('shopProduct')); ?>

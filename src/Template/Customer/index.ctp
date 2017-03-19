@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <h2><?= h($customer->display_name); ?></h2>
+            <h2><?= '' // h($customer->display_name); ?></h2>
             <?= $this->cell('Backend.EntityView', [ $customer ], [
                 'title' => false,
                 'model' => 'Shop.ShopCustomers',

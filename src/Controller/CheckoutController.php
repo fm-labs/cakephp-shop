@@ -9,9 +9,12 @@
 namespace Shop\Controller;
 
 
+use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\NotFoundException;
+use LogicException;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
@@ -29,6 +32,8 @@ class CheckoutController extends AppController
     public function initialize()
     {
         parent::initialize();
+
+        $this->loadComponent('Shop.Checkout');
     }
 
     public function beforeFilter(Event $event)
@@ -62,31 +67,56 @@ class CheckoutController extends AppController
             $this->redirect(['_name' => 'shop:cart']);
         }
 
-        $this->Checkout->redirectNext();
+        //debug($this->Checkout->describeSteps());
+        //$this->Checkout->redirectNext();
     }
 
-    public function next()
+    public function invokeAction()
     {
-        $this->Checkout->redirectNext();
+        try {
+            return parent::invokeAction();
+        } catch (MissingActionException $ex) {
+            $stepId = $this->request->params['action'];
+
+            if ($stepId === 'next') {
+                return $this->Checkout->redirectNext();
+            }
+
+            //@TODO throw MissingOrderException instead, or silently create order
+            if (!$this->Checkout->getOrder()) {
+                return $this->redirect(['_name' => 'shop:cart']);
+            }
+
+            if (!$this->Checkout->checkStep($stepId)) {
+                return $this->Checkout->redirectNext();
+            }
+
+            $step = $this->Checkout->getStep($stepId);
+            return $step->execute($this);
+        }
+
+        throw new MissingActionException([
+            'controller' => $this->name . "Controller",
+            'action' => $request->params['action'],
+            'prefix' => isset($request->params['prefix']) ? $request->params['prefix'] : '',
+            'plugin' => $request->params['plugin'],
+        ]);
     }
 
-    public function step($step = null)
+    public function complete()
     {
-        if (!$step) {
-            throw new \InvalidArgumentException('Checkout step not defined');
+        $uuid = $this->request->query('uuid');
+        if (!$uuid) {
+            throw new BadRequestException();
         }
 
-        if ($step === 'next') {
-            return $this->Checkout->redirectNext();
-        }
+        debug($uuid);
 
-        if (!$this->Checkout->getOrder()) {
-            return $this->redirect(['_name' => 'shop:cart']);
-        }
+        $order = $this->ShopOrders->find()
+            ->where(['ShopOrders.uuid' => $uuid])
+            ->first();
 
-        $step = $this->Checkout->getStep($step);
-        $this->render('index');
-        $step->execute($this);
+        $this->set('shopOrder', $order);
     }
 
 }

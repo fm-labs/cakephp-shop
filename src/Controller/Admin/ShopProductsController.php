@@ -21,6 +21,10 @@ class ShopProductsController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Backend.Toggle');
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['index', 'search']
+        ]);
+
     }
 
 
@@ -40,25 +44,37 @@ class ShopProductsController extends AppController
     {
 
         $this->paginate = [
-            'contain' => ['ShopCategories'],
             'limit' => 200,
             'maxLimit' => 200,
-            'order' => ['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC'],
-            'media' => true
         ];
 
-        /*
+        $query = $this->ShopProducts->find()
+            ->find('media')
+            ->contain(['ShopCategories'])
+            ->order(['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC']);
+
+
         if ($this->request->is(['post','put'])) {
-            $search = $this->request->data('search');
-            $this->paginate['conditions'] = ['ShopProducts.title LIKE' => '%' . $search];
+            $query->find('search', ['search' => $this->request->data]);
+        } elseif ($this->request->query) {
+            $query->find('search', ['search' => $this->request->query]);
         }
-        */
+
 
         $this->set('shopProductsList', $this->ShopProducts->find('list')->order(['title' => 'ASC']));
 
-        $this->set('shopProducts', $this->paginate($this->ShopProducts));
+        $this->set('shopProducts', $this->paginate($query));
+        $this->set('shopCategories', $this->ShopProducts->ShopCategories->find('list')->order(['name' => 'ASC'])->toArray());
         $this->set('_serialize', ['shopProducts']);
 
+    }
+
+    public function search()
+    {
+        $query = $this->ShopProducts->find('search', ['search' => $this->request->query]);
+        $this->set('shopProducts', $this->paginate($query));
+        $this->set('_serialize', ['shopProducts']);
+        $this->render('index');
     }
 
     public function toggle($id = null, $field)

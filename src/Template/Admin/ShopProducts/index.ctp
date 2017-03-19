@@ -34,6 +34,8 @@ $this->loadHelper('AdminLte.Box');
     <div class="row">
         <div class="col-md-12">
             <?= $this->cell('Backend.DataTable', [[
+                'viewVars' => ['shopCategories' => $this->get('shopCategories')],
+                'filter' => true,
                 'paginate' => true,
                 'model' => 'Shop.ShopProducts',
                 'data' => $shopProducts,

@@ -8,7 +8,7 @@
 
 namespace Shop\Page;
 
-use Content\Model\Entity\Page;
+use Cake\Controller\Controller;
 use Content\Page\AbstractPageType;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
@@ -21,9 +21,9 @@ class ShopCategoryPageType extends AbstractPageType
      */
     protected $category;
 
-    public function __construct(Page $page)
+    public function setEntity(EntityInterface $page)
     {
-        parent::__construct($page);
+        parent::setEntity($page);
 
         $categoryId = $page->redirect_location;
         $this->category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
@@ -54,4 +54,7 @@ class ShopCategoryPageType extends AbstractPageType
         return $this->category->isPageHiddenInNav();
     }
 
+    public function execute(Controller &$controller)
+    {
+    }
 }

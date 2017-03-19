@@ -40,7 +40,6 @@ class CheckoutComponent extends Component
         'Shop.Shipping',
         'Shop.Payment',
         'Shop.Review',
-        'Shop.Finish'
     ];
 
     /**
@@ -87,7 +86,7 @@ class CheckoutComponent extends Component
         $steps = [];
         foreach ($this->_stepRegistry as $stepId => $step) {
             $steps[$stepId] = [
-                'step' => $stepId,
+                'action' => $stepId,
                 'title' => $step->getTitle(),
                 'is_complete' => ($this->getOrder()) ? $step->isComplete() : false,
                 'url' => $step->getUrl(),
@@ -95,15 +94,6 @@ class CheckoutComponent extends Component
             ];
         }
         return $steps;
-    }
-
-    /**
-     * @return array
-     * @deprecated Use describeSteps() instead
-     */
-    public function getStepList()
-    {
-        return $this->_stepUrls;
     }
 
     /**
@@ -120,6 +110,23 @@ class CheckoutComponent extends Component
     }
 
     /**
+     * Checks if previous steps have been completed
+     * @param $stepId
+     * @return bool
+     */
+    public function checkStep($stepId)
+    {
+        $complete = true;
+        foreach ($this->_stepRegistry as $_stepId => $step) {
+            if ($stepId == $_stepId) {
+                break;
+            }
+            $complete = $complete && $step->isComplete();
+        }
+        return $complete;
+    }
+
+    /**
      * @return CheckoutStepInterface
      */
     public function nextStep()
@@ -132,7 +139,7 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @return void
+     * @return \Cake\Network\Response|null
      */
     public function redirectNext()
     {
@@ -142,7 +149,7 @@ class CheckoutComponent extends Component
         } else {
             $redirect = ['action' => 'index'];
         }
-        $this->_registry->getController()->redirect($redirect);
+        return $this->_registry->getController()->redirect($redirect);
     }
 
     public function reset()

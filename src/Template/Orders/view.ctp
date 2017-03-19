@@ -1,31 +1,29 @@
-<?php $this->extend('Shop.Checkout/base'); ?>
 <?php
-//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
-//$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
-//$this->Breadcrumbs->add(__d('shop','Review order'), ['controller' => 'Checkout', 'action' => 'review', 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__d('shop','My Orders'), ['controller' => 'Orders', 'action' => 'index', 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__d('shop','View order details and status'), ['controller' => 'Orders', 'action' => 'view', $order->uuid, 'ref' => 'breadcrumb']);
 ?>
-<?php $this->assign('step_active', 'review'); ?>
-<?php $this->assign('heading', __d('shop','Review your order')); ?>
-<div class="shop checkout step review">
+<?php $this->assign('title', __d('shop','Order {0}', $order->nr_formatted)); ?>
+<div class="shop order view">
+
+    <h1><?= __('Your Order #{0}', $order->nr_formatted); ?></h1>
+    <h3><?= __('Reference number'); ?>:&nbsp;<?= h($order->nr_formatted); ?></h3>
+    <hr />
 
     <div class="row">
         <div class="col-md-6">
-
             <h2>
                 <?= __d('shop','Billing address'); ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'billing', 'change' => true, 'ref' => 'review']); ?></small>
             </h2>
-            <?= $this->element('Shop.Order/billing_address'); ?>
+            <?php echo $this->element('Shop.Order/billing_address'); ?>
 
 
         </div>
         <div class="col-md-6">
-
             <h2>
                 <?= __d('shop','Shipping address'); ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping', 'change' => true, 'ref' => 'review']); ?></small>
             </h2>
-            <?= $this->element('Shop.Order/shipping_address'); ?>
+            <?php echo $this->element('Shop.Order/shipping_address'); ?>
 
         </div>
     </div>
@@ -35,7 +33,6 @@
 
             <h2>
                 <?= __d('shop','Payment Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', 'change_type' => true, 'ref' => 'review']); ?></small>
             </h2>
             <div class="inner">
                 <?php $paymentMethods = \Cake\Core\Configure::read('Shop.PaymentMethods') ?>
@@ -55,7 +52,6 @@
 
             <h2>
                 <?= __d('shop','Shipping Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping', 'change_type' => true, 'ref' => 'review']); ?></small>
             </h2>
             <div class="inner">
 
@@ -75,11 +71,6 @@
             <?= $this->element('Shop.Checkout/cart'); ?>
         </div>
     </div>
-
-
-    <?= $this->Form->create($order, ['url' => ['action' => 'review', 'submit' => true]]); ?>
-    <?= $this->Form->hidden('_x_checkout', ['value' => 'submit']); ?>
-    <?= $this->Form->hidden('_x_tkn', ['value' => uniqid('ckkout')]); ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -101,13 +92,6 @@
 
     <div class="ui actions" style="text-align: right;">
         <?php echo $this->Html->link(__d('shop', 'Cancel order'), ['action' => 'index', 'op' => 'cancel'], ['class' => 'btn']); ?>
-        <?= $this->Form->button(__d('shop','Order Now'), ['class' => 'btn btn-primary']); ?>
     </div>
-    <?= $this->Form->end(); ?>
 
-    <hr />
-    <small>Die mit einem * gekennzeichenten Felder sind Pflichtfelder</small>
-
-    <hr />
-    <?php debug($order->errors()); ?>
 </div>

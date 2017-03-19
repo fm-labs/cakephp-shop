@@ -41,6 +41,6 @@ abstract class BaseStep
 
     public function getUrl()
     {
-        return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'step', 'step' => $this->getId()];
+        return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $this->getId()];
     }
 }

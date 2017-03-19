@@ -19,8 +19,14 @@ class ShopOrderItemsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopOrders']
+            'contain' => ['ShopOrders'],
+            'conditions' => []
         ];
+
+        if ($this->request->query('order_id')) {
+            $this->paginate['conditions']['shop_order_id'] = $this->request->query('order_id');
+        }
+
         $this->set('shopOrderItems', $this->paginate($this->ShopOrderItems));
         $this->set('_serialize', ['shopOrderItems']);
     }

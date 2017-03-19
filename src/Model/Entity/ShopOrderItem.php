@@ -83,9 +83,26 @@ class ShopOrderItem extends Entity
         return $this->getProduct()->getTitle();
     }
 
-    protected function _getCur()
+    /**
+     * Get the currency for this order
+     *
+     * @return string
+     * @todo Implement currency support for orders
+     */
+    protected function _getCurrency()
     {
         //@TODO Implement shop order item currencies
+        return 'EUR';
+    }
+
+    /**
+     * Get the currency for this order
+     *
+     * @return string
+     * @todo Implement currency support for orders
+     */
+    protected function _getBaseCurrency()
+    {
         return 'EUR';
     }
 

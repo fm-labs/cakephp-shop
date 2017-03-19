@@ -3,21 +3,22 @@ namespace Shop\Model\Entity;
 
 use Banana\Model\EntityTypeHandlerInterface;
 use Banana\Model\EntityTypeInterface;
+use Cake\Controller\Controller;
 use Content\Model\Entity\Node\NodeInterface;
 use Content\Model\EntityPostTypeHandlerTrait;
 //use Eav\Model\EntityAttributesInterface;
 //use Eav\Model\EntityAttributesTrait;
 use Content\Model\Behavior\PageMeta\PageMetaTrait;
 use Content\Model\Entity\MenuItem;
-use Content\Model\Entity\Page\PageInterface;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Content\Page\PageInterface;
 
 /**
  * ShopCategory Entity.
  */
-class ShopCategory extends Entity implements PageInterface, NodeInterface, EntityTypeHandlerInterface
+class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInterface
 {
     use PageMetaTrait;
     //use PageTypeTrait;
@@ -45,18 +46,6 @@ class ShopCategory extends Entity implements PageInterface, NodeInterface, Entit
     protected function _getType()
     {
         return 'shop_category';
-    }
-
-    /**
-     * @return MenuItem
-     */
-    public function toMenuItem()
-    {
-        return TableRegistry::get('Content.MenuItems')->newEntity([
-            'title' => $this->name,
-            'type' => 'shop_category',
-            'typeid' => $this->id,
-        ]);
     }
 
     public function getPath($for = null)
@@ -207,7 +196,7 @@ class ShopCategory extends Entity implements PageInterface, NodeInterface, Entit
         return [
             'prefix' => false,
             'plugin' => 'Shop',
-            'controller' => 'ShopCategories',
+            'controller' => 'Categories',
             'action' => 'view',
             'category_id' => $this->id,
             //'category' => $this->slug,
@@ -247,6 +236,9 @@ class ShopCategory extends Entity implements PageInterface, NodeInterface, Entit
      */
     public function isPagePublished()
     {
+        if (!Configure::read('Plugin.Shop.enabled')) {
+            return false;
+        }
         return $this->is_published;
     }
 
@@ -270,11 +262,26 @@ class ShopCategory extends Entity implements PageInterface, NodeInterface, Entit
 
     public function isNodeEnabled()
     {
-        return $this->get('is_published');
+        return $this->is_published;
     }
 
     public function getChildNodes()
     {
         return $this->getChildren()->toArray();
+    }
+
+    public function getNodeType()
+    {
+        return 'shop_category';
+    }
+
+    public function isNodeExternal()
+    {
+        return true;
+    }
+
+    public function execute(Controller &$controller)
+    {
+        // TODO: Implement execute() method.
     }
 }

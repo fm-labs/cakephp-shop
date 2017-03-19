@@ -21,6 +21,7 @@ class CartController extends AppController
     {
         parent::initialize();
 
+        $this->loadComponent('Shop.Cart');
         $this->Frontend->setRefScope('Shop.Cart');
     }
 

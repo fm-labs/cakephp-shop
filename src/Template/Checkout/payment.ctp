@@ -21,7 +21,7 @@
                 <div class="payment-method-label">
                     <label for="payment_type"><?= $this->Form->postLink(
                             $paymentMethod['name'],
-                            ['plugin' => 'Shop', 'controller' => 'Checkout', 'step' => 'payment', 'change_type' => true],
+                            ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', 'change_type' => true],
                             ['data' => ['payment_type' => $alias]]
                         ); ?></label>
                 </div>
@@ -50,7 +50,7 @@
 
     ?>
     <div class="form">
-        <?= $this->Form->create($order, ['url' => ['action' => 'step', 'step' => 'payment', 'change_type' => true]]); ?>
+        <?= $this->Form->create($order, ['url' => ['action' => 'step', 'action' => 'payment', 'change_type' => true]]); ?>
         <?= $this->Form->input('payment_type', [
             'type' => 'radio',
             'options' => $paymentOptions,

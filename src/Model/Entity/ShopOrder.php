@@ -173,6 +173,28 @@ class ShopOrder extends Entity
     }
 
     /**
+     * Get the currency for this order
+     *
+     * @return string
+     * @todo Implement currency support for orders
+     */
+    protected function _getCurrency()
+    {
+        return 'EUR';
+    }
+
+    /**
+     * Get the base currency for this order
+     *
+     * @return string
+     * @todo Implement currency support for orders
+     */
+    protected function _getBaseCurrency()
+    {
+        return 'EUR';
+    }
+
+    /**
      * @return string
      * @deprecated
      */

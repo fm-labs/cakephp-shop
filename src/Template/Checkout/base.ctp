@@ -16,7 +16,7 @@ $this->assign('title', $this->fetch('heading'));
     }
     $this->Breadcrumbs->add(
         $step['title'],
-        ['controller' => 'Checkout', 'action' => 'step', 'step' => $stepId, 'ref' => 'breadcrumb'],
+        ['controller' => 'Checkout', 'action' => $stepId, 'ref' => 'breadcrumb'],
         ['class' => $class]
     ); ?>
 <?php endforeach; ?>

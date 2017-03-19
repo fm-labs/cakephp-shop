@@ -22,6 +22,7 @@ class CategoriesController extends AppController
     {
         parent::initialize();
 
+        $this->loadComponent('Shop.Cart');
         $this->Frontend->setRefScope('Shop.ShopCategories');
     }
 
@@ -169,8 +170,11 @@ class CategoriesController extends AppController
         $template = $this->request->query('template');
         $template = ($template) ?: $shopCategory->view_template;
         $template = ($template) ? strtolower($template) : null;
+        $template = ($template == 'index') ? 'subcategories_grid' : $template; // legacy support
+        $template = ($template == 'index2') ? 'subcategories' : $template; // legacy support
         $template = ($template == 'default') ? null : $template;
         //$template = ($template) ?: 'view_products_grid';
+
         if ($template && !preg_match('/^view\_/', $template)) {
             $template = 'view_' . $template;
         }
