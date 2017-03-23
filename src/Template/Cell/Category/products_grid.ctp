@@ -1,12 +1,4 @@
 <?php
-/*
-try {
-    $url = \Cake\Routing\Router::url(['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index', 'category_id' => $categoryId]);
-    echo $this->requestAction($url);
-} catch (\Exception $ex) {
-    echo "ProductsListCell: " . $ex->getMessage();
-}
-*/
 $this->loadHelper('Number');
 $this->loadHelper('Paginator');
 $this->loadHelper('Media.Media');
@@ -49,5 +41,4 @@ $this->loadHelper('Media.Media');
         <div class="clearfix"></div>
 
     <?= ''//$this->element('Shop.Pagination/default'); ?>
-    <?php debug($shopProducts); ?>
 </div>
