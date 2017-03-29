@@ -42,11 +42,13 @@ class ShopCategoriesController extends AppController
 
     public function index()
     {
+        /*
         $view = ($this->request->query('view')) ?: 'tree';
         if ($view == 'tree') {
             $this->setAction('indexTree');
             return;
         }
+        */
 
         $this->paginate = [
             'contain' => ['ParentShopCategories'],
@@ -58,7 +60,7 @@ class ShopCategoriesController extends AppController
         $shopCategories = $this->paginate($this->ShopCategories);
         $this->set(compact('shopCategories'));
 
-        $shopCategoriesTree = $this->ShopCategories->find('treeList')->toArray();
+        $shopCategoriesTree = $this->ShopCategories->find('treeList', ['spacer' => '_ '])->toArray();
         $this->set('shopCategoriesTree', $shopCategoriesTree);
     }
 

@@ -1,12 +1,15 @@
 <?php //$this->extend('base'); ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Categories')); ?>
-<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Category')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
-<?= $this->Toolbar->addLink(
-    __d('shop', 'New {0}', __d('shop', 'Shop Product')),
+<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Category')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(
+    __d('shop', 'New {0}', __d('shop', 'Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
     ['data-icon' => 'plus', 'class' => 'link-frame-modal']
 ) ?>
+<?php $this->Toolbar->addLink(__d('shop', 'Sort'),
+    ['plugin' => 'Backend', 'controller' => 'Tree', 'action' => 'index', 'model' => 'Shop.ShopCategories'],
+    ['class' => 'link-modal-frame', 'data-icon' => 'sitemap']); ?>
 <?php $this->assign('title', __d('shop','Shop Categories')); ?>
 <?php $shopCategoriesTree = $this->get('shopCategoriesTree', []); ?>
 

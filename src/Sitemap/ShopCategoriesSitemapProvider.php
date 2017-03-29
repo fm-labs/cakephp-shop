@@ -4,8 +4,8 @@ namespace Shop\Sitemap;
 
 use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
-use Sitemap\Sitemap\AbstractTableSitemapProvider;
-use Sitemap\Sitemap\SitemapLocation;
+use Seo\Sitemap\AbstractTableSitemapProvider;
+use Seo\Sitemap\SitemapLocation;
 
 class ShopCategoriesSitemapProvider extends AbstractTableSitemapProvider
 {

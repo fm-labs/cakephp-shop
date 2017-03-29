@@ -163,6 +163,25 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
             ->toArray();
     }
 
+    protected function _getModules()
+    {
+        $contentModules = TableRegistry::get('Content.ContentModules')
+            ->find()
+            //->find('published')
+            ->contain(['Modules'])
+            ->where(['refscope' => 'Shop.ShopCategories', 'refid' => $this->id])
+            ->all()
+            ->toArray();
+
+        $modules = [];
+        foreach ($contentModules as $contentModule) {
+            //$section = $contentModule->section;
+            $modules[$contentModule->module->id] = $contentModule->module;
+        }
+
+        return $modules;
+    }
+
 
     /** PAGE AWARE **/
 
