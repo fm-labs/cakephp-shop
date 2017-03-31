@@ -3,12 +3,11 @@
 namespace Shop\Controller;
 
 use Cake\Event\Event;
-use Content\Controller\AppController as ContentAppController;
+use Content\Controller\ContentController;
 use Content\Controller\Component\FrontendComponent;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
 use Shop\Controller\Component\CartComponent;
-use Shop\Lib\LibShopCart;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -19,7 +18,7 @@ use Shop\Model\Table\ShopOrdersTable;
  * @property AuthComponent $Auth
  * @property CartComponent $Cart
  */
-class AppController extends ContentAppController
+class AppController extends ContentController
 {
 
     public function initialize()
@@ -30,7 +29,6 @@ class AppController extends ContentAppController
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
-        $this->loadComponent('Content.Frontend');
         $this->loadComponent('Content.Locale');
         $this->loadComponent('Shop.Shop');
     }
@@ -41,7 +39,7 @@ class AppController extends ContentAppController
 
         if ($this->components()->has('Auth')) {
             $this->Auth->allow();
-            $this->Auth->config('logoutRedirect', '/');
+            $this->Auth->config('logoutRedirect', ['_name' => 'shop:index']);
         }
     }
 }
