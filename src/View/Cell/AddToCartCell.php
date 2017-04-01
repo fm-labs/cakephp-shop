@@ -3,6 +3,8 @@
 namespace Shop\View\Cell;
 
 
+use Cake\Core\Exception\Exception;
+use Cake\Form\Form;
 use Cake\ORM\Query;
 use Cake\View\Cell;
 use Shop\Core\Cart\Form\AddToCartForm;
@@ -26,12 +28,17 @@ class AddToCartCell extends Cell
     public $shopProduct;
 
     /**
+     * @var string Class path of AddToCartForm
+     */
+    public $formClass = '\Shop\Core\Cart\Form\AddToCartForm';
+
+    /**
      * List of valid options that can be passed into this
      * cell's constructor.
      *
      * @var array
      */
-    protected $_validCellOptions = ['shopProduct'];
+    protected $_validCellOptions = ['shopProduct', 'formClass'];
 
 
 
@@ -59,9 +66,10 @@ class AddToCartCell extends Cell
             'label' => false
         ];
 
-        $form = new AddToCartForm();
         $formOptions = ['url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]];
         $formInputsOptions = ['legend' => false, 'fieldset' => false];
+        //$form = new AddToCartForm();
+        $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
 
         $this->set('params', $params);
         $this->set('product', $this->shopProduct);
@@ -79,12 +87,14 @@ class AddToCartCell extends Cell
         $this->loadModel('Shop.ShopProducts');
         $params += ['qty' => null];
 
+        $formOptions = ['url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]];
+        $formInputsOptions = ['legend' => false, 'fieldset' => false];
         $inputs = [];
 
         // Product version
         $inputs['refscope'] = [
             'type' => 'hidden',
-            'value' => 'shop_product'
+            'value' => 'Shop.ShopProducts'
         ];
         $inputs['refid'] = [
             'type' => 'hidden',
@@ -116,12 +126,19 @@ class AddToCartCell extends Cell
                 'label' => __d('shop','Quantity')
             ];
         }
+        unset($params['qty']);
 
+        // Additional order item params
+        foreach ($params as $pKey => $pOpts) {
+            if (is_numeric($pKey)) {
+                $pKey = $pOpts;
+                $pOpts = [];
+            }
+            $inputs[$pKey] = $pOpts;
+        }
 
-        $form = new AddToCartForm();
-
-        $formOptions = ['url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]];
-        $formInputsOptions = ['legend' => false, 'fieldset' => false];
+        //$form = new AddToCartForm();
+        $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
 
         $this->set('params', $params);
         $this->set('product', $this->shopProduct);
@@ -131,6 +148,21 @@ class AddToCartCell extends Cell
         $this->set('formOptions', $formOptions);
         $this->set('formInputs', $inputs);
         $this->set('formInputsOptions', $formInputsOptions);
+    }
+
+    /**
+     * @param $formOptions
+     * @param $formInputOptions
+     * @return Form
+     */
+    protected function _buildForm($formOptions, $formInputs, $formInputOptions)
+    {
+        if (!class_exists($this->formClass)) {
+            throw new Exception('AddToCartForm class not found in ' . $this->formClass);
+        }
+
+        $form = new $this->formClass();
+        return $form;
     }
 
     protected function _checkProduct()

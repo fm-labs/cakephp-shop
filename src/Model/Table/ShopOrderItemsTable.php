@@ -61,9 +61,11 @@ class ShopOrderItemsTable extends Table
             ->add('refid', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('refid');
 
+        /*
         $validator
             ->requirePresence('title', 'create')
             ->notEmpty('title');
+        */
 
         $validator
             ->add('amount', 'valid', ['rule' => 'numeric'])
@@ -107,7 +109,28 @@ class ShopOrderItemsTable extends Table
 
     public function beforeRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
     {
+        debug("beforeRules");
+        //$entity->calculate();
+    }
+
+    public function beforeValidate(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        debug("beforeValidate");
+        //$entity->calculate();
+    }
+
+    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        debug("beforeSave");
         $entity->calculate();
+
+        $options = [];
+        foreach($entity->visibleProperties() as $prop) {
+            if (preg_match('/^options__(.*)$/', $prop, $matches)) {
+                $options[$matches[1]] = $entity->get($prop);
+            }
+        }
+        $entity->options = $options;
     }
 
     public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)

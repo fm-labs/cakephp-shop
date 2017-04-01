@@ -117,7 +117,6 @@ class ShopOrderItem extends Entity
     /**
      * @param $val
      * @return float
-     */
     protected function _setAmount($val)
     {
         if ($val < 0) {
@@ -126,6 +125,7 @@ class ShopOrderItem extends Entity
 
         return $val;
     }
+     */
 
     /**
      * @return ShopProductInterface

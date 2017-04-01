@@ -73,72 +73,110 @@ class CartComponent extends Component
         $this->_init();
     }
 
-    public function addItem($refid = null, $amount = 1)
+    public function addItem(array $item)
     {
         $this->_resumeOrder(['create' => true]);
 
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.beforeAdd'));
+        if (!isset($item['refid'])) {
+            throw new \InvalidArgumentException('CartComponent:addItem: RefId missing');
+        }
 
-        $item = null;
+        $item = array_merge([
+            'shop_order_id' => $this->order->id,
+            'refscope' => 'Shop.ShopProducts',
+            'refid' => null,
+            'amount' => 1,
+        ], $item);
+
+
+        if ($item['amount'] < 0) {
+            $item['amount'] = abs($item['amount']);
+        }
+
+        $orderItem = null;
         foreach ($this->order->shop_order_items as $_item) {
-            if ($_item->refid == $refid) {
-                $item = $_item;
+            //@TODO also compare order item options
+            if ($_item->refscope == $item['refscope'] && $_item->refid == $item['refid']) {
+                $orderItem = $_item;
                 break;
             }
         }
 
-        if ($item && $amount == 0) {
-            //return $this->removeItem($item->shop_order_id, $item->id);
-        } elseif ($amount < 0) {
-            $amount = abs($amount);
-        }
+        if (!$orderItem) {
 
-        if (!$item) {
-
-            $product = $this->ShopProducts->get($refid);
-
-
-            $item = $this->ShopOrders->ShopOrderItems->newEntity([
-                'refscope' => 'Shop.ShopProducts',
-                'refid' => $refid,
-                'shop_order_id' => $this->order->id,
-                'amount' => $amount,
+            $product = $this->ShopProducts->get($item['refid']);
+            $item += [
                 'title' => $product->title,
                 'unit' => ($product->unit) ?: 'x',
                 'item_value_net' => $product->price_net,
                 'tax_rate' => $product->tax_rate
-            ]);
+            ];
+
+            $orderItem = $this->ShopOrders->ShopOrderItems->newEntity($item, ['validate' => true]);
+
+        } elseif ($orderItem && $item['amount'] == 0) {
+            return $this->removeItem($orderItem);
+
         } else {
-            $item->amount += $amount;
+            $item['amount'] += $orderItem->amount;
+            return $this->updateItem($orderItem, $item);
         }
 
-        $item->calculate();
-
-        if (!$this->ShopOrders->ShopOrderItems->save($item)) {
-            debug($item->errors());
+        //$this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemAdd', $this, ['item' => $orderItem]));
+        $orderItem->calculate();
+        if (!$this->ShopOrders->ShopOrderItems->save($orderItem)) {
+            debug($orderItem->errors());
             Log::debug('Failed to add order item to order with ID ' . $this->order->id);
+            throw new Exception('Failed to add order item to order with ID ' . $this->order->id);
             return false;
         }
 
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.afterAdd'));
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, ['item' => $orderItem]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
         $this->_resumeOrder(['force' => true]);
         return true;
     }
 
-    public function updateItem($orderItemId, $data = [])
+
+    public function removeItem($orderItem)
     {
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.beforeUpdate'));
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.beforeRemove', $this, ['item' => $orderItem]));
 
-        $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
-        $orderItem->accessible('*', false);
-        $orderItem->accessible('amount', true);
-        $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $data);
-        $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
+        $success = $this->ShopOrders->ShopOrderItems->delete($orderItem);
+        $this->refresh();
 
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.afterUpdate'));
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.afterRemove', $this, ['item' => $orderItem]));
 
         return $success;
+    }
+
+    public function removeItemById($orderItemId)
+    {
+        $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
+        return $this->removeItem($orderItem);
+    }
+
+    public function updateItem($orderItem, $data = [])
+    {
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemUpdate', $this, ['item' => $orderItem]));
+
+        $orderItem->accessible('shop_order_id', false);
+        $orderItem->accessible('refscope', false);
+        $orderItem->accessible('refid', false);
+        $orderItem->accessible('amount', true);
+        $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $data);
+        //$orderItem->calculate();
+        $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
+
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemUpdate', $this, ['item' => $orderItem]));
+
+        return $success;
+    }
+
+    public function updateItemById($orderItemId, $data = [])
+    {
+        $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
+        return $this->updateItem($orderItem, $data);
     }
 
     public function getOrder()

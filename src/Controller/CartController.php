@@ -31,7 +31,15 @@ class CartController extends AppController
 
     public function refresh()
     {
-        if ($this->Cart->refresh()) {
+        $result = $this->Cart->refresh();
+
+        if ($this->request->is('ajax')) {
+            $this->viewBuilder()->className('Json');
+            $this->set('result', ['success' => $result]);
+            $this->set('_serialize', 'result');
+        }
+
+        if ($result) {
             $this->Flash->success(__d('shop', 'Cart refreshed'));
         } else {
             $this->Flash->error(__d('shop', 'Failed to refresh cart'));
@@ -39,41 +47,44 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
-    public function add($refid = null, $amount = 1)
+    public function add()
     {
-        if ($this->request->is(['put', 'post'])) {
-            $refid = $this->request->data('refid');
-            $amount = $this->request->data('amount');
+        if ($this->request->is('ajax')) {
+            $this->viewBuilder()->className('Json');
+
+            $result = ['success' => false];
+            try {
+                $this->Cart->addItem($this->request->data());
+                $result['success'] = true;
+            } catch (\Exception $ex) {
+                $result['error'] = $ex->getMessage();
+            }
+
+            $this->set('result', $result);
+            $this->set('_serialize', 'result');
+
+        } elseif ($this->request->is(['put', 'post'])) {
+
+            try {
+                $this->Cart->addItem($this->request->data());
+                $this->Flash->success(__d('shop', 'Added item to cart'));
+            } catch (\Exception $ex) {
+                $this->Flash->error(__d('shop', 'Adding item to cart failed: {0}', $ex->getMessage()));
+            }
+
+            $referer = $this->referer(['action' => 'index'], true);
+            $this->redirect(['action' => 'index', 'referer' => $referer]);
         }
 
-        if ($this->Cart->addItem($refid, $amount)) {
-            $this->Flash->success(__d('shop', 'Added item to cart'));
-        } else {
-            $this->Flash->error(__d('shop', 'Failed to add item to cart'));
-        }
-
-        $referer = $this->referer(['action' => 'index'], true);
-        $this->redirect(['action' => 'index', 'referer' => $referer]);
     }
 
     public function remove($orderId = null, $orderItemId = null)
     {
-        if (!$orderId || !$orderItemId) {
-            $this->Flash->error(__d('shop',"Failed to remove item from cart"));
+        //@TODO Allow POST only
+        if ($this->Cart->removeItemById($orderItemId)) {
+            $this->Flash->success(__d('shop', 'Item has been removed from cart'));
         } else {
-            if ($this->ShopOrders->ShopOrderItems->deleteAll([
-                'id' => $orderItemId,
-                'shop_order_id' => $orderId,
-                'refscope' => 'Shop.ShopProducts',
-                ])
-            ) {
-                //$this->Cart = $this->_getCart();
-                $this->Cart->refresh();
-
-                $this->Flash->success(__d('shop','Item has been removed from cart'));
-            } else {
-                $this->Flash->error(__d('shop','Failed to remove item from cart'));
-            }
+            $this->Flash->error(__d('shop', 'Failed to remove item from cart'));
         }
         $this->redirect($this->referer());
     }
@@ -83,7 +94,7 @@ class CartController extends AppController
     {
 
         if ($this->request->is(['post', 'put'])) {
-            if ($this->Cart->updateItem($orderItemId, $this->request->data)) {
+            if ($this->Cart->updateItemById($orderItemId, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'Updated item'));
             } else {
                 $this->Flash->error(__d('shop', 'Failed to update item'));
@@ -110,7 +121,7 @@ class CartController extends AppController
                 if ($this->request->data($amountKey)) {
                     $newAmount = $this->request->data($amountKey);
                     if ($newAmount != $item->amount) {
-                        $this->Cart->updateItem($item->id, ['amount' => $newAmount]);
+                        $this->Cart->updateItemById($item->id, ['amount' => $newAmount]);
                         $changed[$item->id] = true;
                     }
                 }

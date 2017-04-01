@@ -11,12 +11,12 @@ class CartListener extends ShopEventListener
     public function implementedEvents()
     {
         return [
-            'Shop.Cart.Item.beforeAdd' => 'beforeAdd',
-            'Shop.Cart.Item.afterAdd' => 'afterAdd',
-            'Shop.Cart.Item.beforeUpdate' => 'beforeUpdate',
-            'Shop.Cart.Item.afterUpdate' => 'afterUpdate',
-            'Shop.Cart.Item.beforeDelete' => 'beforeDelete',
-            'Shop.Cart.Item.afterDelete' => 'afterDelete'
+            'Shop.Cart.beforeItemAdd' => 'beforeAdd',
+            'Shop.Cart.afterItemAdd' => 'afterAdd',
+            'Shop.Cart.beforeItemUpdate' => 'beforeUpdate',
+            'Shop.Cart.afterItemUpdate' => 'afterUpdate',
+            'Shop.Cart.beforeItemDelete' => 'beforeDelete',
+            'Shop.Cart.afterItemDelete' => 'afterDelete'
         ];
     }
 
