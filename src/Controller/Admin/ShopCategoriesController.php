@@ -118,7 +118,27 @@ class ShopCategoriesController extends AppController
     }
 
     public function edit($id = null) {
-        $this->redirect(['action' => 'manage', $id]);
+        $shopCategory = $this->ShopCategories
+            ->find('all', ['media' => true])
+            //->find('media')
+            //->find('attributes')
+            ->where(['ShopCategories.id' => $id])
+            ->contain(['ParentShopCategories', 'ShopTags', 'ShopProducts', 'ContentModules' => ['Modules']])
+            ->first();
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
+            if ($this->ShopCategories->save($shopCategory)) {
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+                return $this->redirect(['action' => 'edit', $id]);
+            } else {
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
+            }
+        }
+        $parentShopCategories = $this->ShopCategories->find('treeList');
+        //$parentShopCategories = $this->ShopCategories->find('list');
+
+        $this->set(compact('shopCategory', 'parentShopCategories'));
     }
 
     /**

@@ -161,10 +161,21 @@ class ShopProductsController extends AppController
             }
         }
         $this->set(compact('shopProduct'));
+        $this->set('parentShopProducts', $this->ShopProducts->find('list'));
         $this->set('shopCategories', $this->_getCategoriesList());
         $this->set('galleryList', $this->_getGalleryList());
         $this->set('locales', Configure::read('Shop.locales'));
         //$this->set('attributeSets', $this->ShopProducts->EavAttributeSets->find('list')->toArray());
+        $this->set('_serialize', ['shopProduct']);
+    }
+
+    public function relatedProducts($id = null)
+    {
+        $shopProduct = $this->ShopProducts->get($id, [
+            'contain' => ['ChildShopProducts'],
+            'media' => true
+        ]);
+        $this->set(compact('shopProduct'));
         $this->set('_serialize', ['shopProduct']);
     }
 

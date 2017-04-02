@@ -184,6 +184,22 @@ class ShopCustomersTable extends Table
         return $validator;
     }
 
+    public function createFromUserId($userId, $save = true)
+    {
+        $user = $this->Users->get($userId);
+
+        $customer = $this->newEntity();
+        $customer->first_name = null;
+        $customer->last_name = null;
+        $customer->user_id = $user->id;
+        $customer->email = $user->email;
+
+        if ($save === true) {
+            $customer = $this->save($customer);
+        }
+
+        return $customer;
+    }
 
     /**
      * Add new user

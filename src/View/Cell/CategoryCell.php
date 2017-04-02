@@ -47,6 +47,7 @@ class CategoryCell extends Cell
 
         $this->loadModel('Shop.ShopProducts');
         $products = $this->ShopProducts
+            ->find('all', ['media' => true])
             ->find('published')
             //->find('media')
             ->where(['shop_category_id' => $categoryId, 'parent_id IS NULL']);

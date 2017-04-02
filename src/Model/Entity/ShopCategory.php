@@ -148,6 +148,7 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     protected function _getPublishedSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
+            ->find('all', ['media' => true])
             ->find('published')
             ->find('children', ['for' => $this->id, 'direct' => true])
             //->find('media')
@@ -157,6 +158,7 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     protected function _getProducts()
     {
         return TableRegistry::get('Shop.ShopProducts')
+            ->find('all', ['media' => true])
             ->find('published')
             //->find('media')
             ->where(['shop_category_id' => $this->id])

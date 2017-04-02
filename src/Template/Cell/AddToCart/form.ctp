@@ -1,3 +1,10 @@
+<?php if (!$auth): ?>
+    <div class="add-to-cart add-to-cart-noauth">
+        Please <?= $this->Html->link(__('login'), ['_name' => 'user:login', 'goto' => urlencode($this->Html->Url->build($product->url))]); ?>
+        to purchase this product<br />
+    </div>
+    <?php return; ?>
+<?php endif; ?>
 <?php if (!$product->isBuyable()): ?>
     <?= __('This item is currently not available in our online store') ?>
     <?php return; ?>

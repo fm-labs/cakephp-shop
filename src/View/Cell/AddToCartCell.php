@@ -3,6 +3,7 @@
 namespace Shop\View\Cell;
 
 
+use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Form\Form;
 use Cake\ORM\Query;
@@ -71,6 +72,7 @@ class AddToCartCell extends Cell
         //$form = new AddToCartForm();
         $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
 
+        $this->set('auth', $this->_checkAuth());
         $this->set('params', $params);
         $this->set('product', $this->shopProduct);
 
@@ -140,6 +142,7 @@ class AddToCartCell extends Cell
         //$form = new AddToCartForm();
         $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
 
+        $this->set('auth', $this->_checkAuth());
         $this->set('params', $params);
         $this->set('product', $this->shopProduct);
         $this->set('productVersions', $productVersions); // deprecated
@@ -174,6 +177,15 @@ class AddToCartCell extends Cell
         //if (!$this->shopProduct->isBuyable()) {
         //    throw new \LogicException('AddToCartCell: Product not buyable'); //@TODO Replace with ProductNotBuyableException
         //}
+    }
+
+    protected function _checkAuth()
+    {
+        if (Configure::read('Shop.Cart.requireAuth') && !$this->request->session()->read('Shop.Customer.id')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

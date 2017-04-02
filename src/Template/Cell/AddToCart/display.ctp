@@ -1,3 +1,4 @@
+<?php if (!$auth) return; ?>
 <?php if (!$product->isBuyable()): ?>
     <?= __('Not available') ?>
     <?php return; ?>

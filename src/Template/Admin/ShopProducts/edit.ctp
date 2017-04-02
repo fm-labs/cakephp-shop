@@ -21,11 +21,18 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
     <?= $this->Form->create($shopProduct); ?>
     <div class="row">
         <div class="col-md-9">
+
+            <?= $this->Form->input('parent_id', ['options' => $parentShopProducts, 'empty' => '- No parent -']); ?>
+                <?php if ($shopProduct->parent_id): ?>
+                    <?= $this->Html->link(
+                __d('shop', 'Edit Parent'),
+                ['action' => 'edit', $shopProduct->parent_id]); ?>
+                <?php endif; ?>
+
             <?php
             //echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]);
-            echo $this->Form->input('shop_category_id', ['options' => $shopCategories, 'empty' => true]);
-            echo $this->Form->input('sku');
             echo $this->Form->input('title');
+            echo $this->Form->input('sku');
             echo $this->Form->input('slug');
             echo $this->Form->input('teaser_html', [
                 'type' => 'htmleditor',
@@ -56,6 +63,14 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
             <?php endforeach; ?>
             <?= $this->Form->fieldsetEnd(); ?>
 
+
+            <?= $this->Form->fieldsetStart(['legend' => __d('shop','Shop Category')]); ?>
+            <?php
+            echo $this->Form->input('shop_category_id', ['options' => $shopCategories, 'empty' => true]);
+            ?>
+            <?= $this->Form->fieldsetEnd(); ?>
+
+
             <?= $this->Form->fieldsetStart(['legend' => __d('shop','Publish')]); ?>
             <?php
             echo $this->Form->input('is_buyable');
@@ -82,18 +97,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
     </div>
     <?= $this->Form->end() ?>
 
-    <?php // $this->Tabs->add(__d('shop','Attachments')); ?>
-
-
-    <?php /** echo $this->cell('Backend.AttachmentsEditor', [
-        'params' => [
-            'model' => 'ShopProducts',
-            'modelid' => $shopProduct->id,
-            'scope' => 'media_images',
-            'locale' => $locale
-        ],
-        'files' => $galleryList
-    ]); **/?>
+    <?php $this->Tabs->add(__d('shop','Related Products'), ['url' => ['action' => 'relatedProducts', $shopProduct->id]]); ?>
 
     <!-- Attributes -->
     <?php //$this->Tabs->add(__d('shop', 'Attributes')); ?>

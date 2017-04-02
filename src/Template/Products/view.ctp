@@ -4,52 +4,17 @@
         <div class="ui grid">
             <div class="row">
                 <div class="col-md-6 col-xs-12">
-                    <div class="image">
-                        <?php if ($shopProduct->featured_image_file): ?>
-                            <?php
-                            $img = $this->Html->image($shopProduct->featured_image_file->url, ['itemprop' => 'image']);
-                            //echo $this->Html->link($img, ['action' => 'view', $shopProduct->id], ['escape' => false]);
-                            echo $img;
-                            ?>
-                        <?php endif; ?>
-                    </div>
+                    <?php echo $this->element('Shop.Products/product_image'); ?>
                 </div>
                 <div class="col-md-6 col-xs-12">
 
                     <h1 class="title" itemprop="name"><?= h($shopProduct->title); ?></h1>
-                    <div class="text">
-                        <strong><?= __d('theme_lederleitner','Art-Nr.:'); ?></strong>
-                        <span itemprop="sku"><?= $shopProduct->sku; ?></span>
-                    </div>
 
-                    <?php if ($shopProduct->shop_category): ?>
-                        <strong><?= __d('theme_lederleitner','Category'); ?>:</strong>
-                        <?= $this->Html->link($shopProduct->shop_category->name, $shopProduct->shop_category->url); ?>
-                    <?php endif; ?>
+                    <?php echo $this->element('Shop.Products/product_info_teaser'); ?>
+                    <?php echo $this->element('Shop.Products/product_info_price'); ?>
 
-                    <?php if ($shopProduct->is_buyable): ?>
-                    <div class="price" itemprop="price" style="text-align: right;">
-                        <strong><?= __d('shop', 'per unit'); ?></strong>
-                        <span style="font-size: 3em; font-weight: bold;">
-                            <?= $this->Number->currency($shopProduct->price, 'EUR'); ?>
-                        </span>
-                    </div>
-                    <?php endif; ?>
-
-
-                    <hr />
-                    <div class="text desc-short" itemprop="description">
-                        <?= $this->Content->userHtml($shopProduct->teaser_html); ?>
-                    </div>
-
-                    <!--
-                    <hr />
-                    <div class="availability">
-                        <strong><?= __d('shop', 'Availability'); ?></strong>
-                        <?= __d('shop', 'Store only'); ?>
-                    </div>
-                    -->
-
+                    <?php //echo $this->element('Shop.Products/product_info'); ?>
+                    <?php echo $this->element('Shop.Products/product_info_availability'); ?>
                     <hr />
                     <?php echo $this->cell('Shop.AddToCart::form', [['qty' => true]], compact('shopProduct')); ?>
                 </div>
@@ -86,6 +51,4 @@
 
         </div>
     </article>
-
-    <?php debug($shopProduct); ?>
 </div>

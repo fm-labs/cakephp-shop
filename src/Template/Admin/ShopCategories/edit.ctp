@@ -21,18 +21,15 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
 )
 ?>
+
+<?php $_locales = Configure::read('Shop.locales'); ?>
+<?php foreach($_locales as $_locale => $_localeName): ?>
+    <?php if ($_locale === $locale) continue ;?>
+    <?= $this->Toolbar->addLink(__d('shop', '{0} version', $_localeName), ['action' => 'edit', $shopCategory->id, 'locale' => $_locale]) ?>
+<?php endforeach; ?>
+
 <?php $this->assign('title', $shopCategory->name); ?>
 <div class="shop categories form">
-
-    <div class="well">
-        <?php $_locales = Configure::read('Shop.locales'); ?>
-        <strong><?= __d('shop', '[{0}]', $_locales[$locale]); ?></strong> |
-        <?php foreach($_locales as $_locale => $_localeName): ?>
-            <?php if ($_locale === $locale) continue ;?>
-            <?= $this->Html->link(__d('shop', 'Edit {0} version', $_localeName), ['action' => 'edit', $shopCategory->id, 'locale' => $_locale]) ?> |
-        <?php endforeach; ?>
-    </div>
-
 
     <?php $this->Tabs->create(); ?>
     <!-- General -->
@@ -55,6 +52,9 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
                 <?php
                 echo $this->Form->input('name');
                 echo $this->Form->input('slug');
+
+                echo $this->Form->input('file1', ['type' => 'media_picker', 'config' => 'default']);
+                echo $this->Form->input('file2', ['type' => 'media_picker', 'config' => 'default']);
 
                 echo $this->Form->fieldsetStart(['legend' => __d('shop','Teaser'), 'collapsed' => true]);
                 echo $this->Form->input('teaser_html', [

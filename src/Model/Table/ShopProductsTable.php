@@ -39,7 +39,7 @@ class ShopProductsTable extends Table
 
         $this->belongsTo('ParentShopProducts', [
             'className' => 'Shop.ShopProducts',
-            'foreignKey' => 'shop_parent_id',
+            'foreignKey' => 'parent_id',
         ]);
 
         $this->hasMany('ChildShopProducts', [

@@ -35,10 +35,13 @@ class ShopComponent extends Component
         if (!$this->customer && $this->request->session()->check('Auth.User.id')) {
             // user login detected
             $userId = $this->request->session()->read('Auth.User.id');
-            debug("detected user");
             $customer = TableRegistry::get('Shop.ShopCustomers')->find()
                 ->where(['ShopCustomers.user_id' => $userId])
                 ->first();
+
+            if (!$customer) {
+                $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUserId($userId);
+            }
 
             if ($customer) {
                 $this->setCustomer($customer);
@@ -52,6 +55,7 @@ class ShopComponent extends Component
         elseif ($this->customer && $this->customer->user_id && !$this->request->session()->check('Auth.User.id')) {
             // user logout detected
             $this->resetCustomer();
+            $event->subject()->request->session()->write('Shop.Customer', null);
             $this->Cart->reset();
             $this->Checkout->reset();
         }
@@ -59,7 +63,7 @@ class ShopComponent extends Component
 
     public function beforeRender(Event $event)
     {
-        $this->request->session()->write('Shop.Customer', $this->getCustomer());
+        $event->subject()->request->session()->write('Shop.Customer', $this->getCustomer());
         $event->subject()->set('customer', $this->getCustomer());
     }
 

@@ -27,6 +27,15 @@ class CartController extends AppController
 
     public function index()
     {
+        $order = $this->Cart->getOrder();
+        $view = null;
+
+        if (!$order || count($order->shop_order_items) < 1) {
+            $view = 'empty';
+        }
+
+        $this->autoRender = false;
+        $this->render($view);
     }
 
     public function refresh()

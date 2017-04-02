@@ -71,9 +71,11 @@ class ProductsController extends AppController
             }
         }
 
+        $shopProductVersionId = $id;
+
         $this->ShopProducts->locale($this->Locale->getLocale());
         $shopProduct = $this->ShopProducts->get($id, [
-            'contain' => ['ShopCategories'],
+            'contain' => ['ShopCategories', 'ParentShopProducts'],
             'media' => true,
         ]);
 
@@ -97,7 +99,16 @@ class ProductsController extends AppController
             throw new NotFoundException();
         }
 
+        if ($shopProduct->parent_id) {
+            //$this->redirect($shopProduct->parent_shop_product->url);
+            $shopProductVersionId = $shopProduct->id;
+            $shopProduct = $shopProduct->parent_shop_product;
+            $this->request->data['refid'] = $shopProductVersionId;
+        }
+
+
         $this->set('shopProduct', $shopProduct);
+        $this->set('shopProductVersionId', $shopProductVersionId);
         $this->set('_serialize', ['shopProduct']);
     }
 }

@@ -21,7 +21,7 @@
         'name' => [
             'formatter' => function($val, $row) use ($shopCategoriesTree) {
                 return $this->Html->link($shopCategoriesTree[$row->id],
-                    ['action' => 'manage', $row->id],
+                    ['action' => 'edit', $row->id],
                     ['title' => $this->Url->build($row->url)]
                 );
             }
