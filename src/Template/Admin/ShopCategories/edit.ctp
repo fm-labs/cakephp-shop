@@ -53,8 +53,8 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
                 echo $this->Form->input('name');
                 echo $this->Form->input('slug');
 
-                echo $this->Form->input('file1', ['type' => 'media_picker', 'config' => 'default']);
-                echo $this->Form->input('file2', ['type' => 'media_picker', 'config' => 'default']);
+                //echo $this->Form->input('file1', ['type' => 'media_picker', 'config' => 'default']);
+                //echo $this->Form->input('file2', ['type' => 'media_picker', 'config' => 'default']);
 
                 echo $this->Form->fieldsetStart(['legend' => __d('shop','Teaser'), 'collapsed' => true]);
                 echo $this->Form->input('teaser_html', [
@@ -102,8 +102,8 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 
 
                 <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media'), 'collapsed' => false]); ?>
-                <?= $this->Form->input('preview_image_file', ['type' => 'media_picker']); ?>
-                <?= $this->Form->input('featured_image_file', ['type' => 'media_picker']); ?>
+                <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
+                <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
             </div>

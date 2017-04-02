@@ -5,6 +5,7 @@ namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Core\App;
+use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
@@ -77,8 +78,9 @@ class CheckoutComponent extends Component
     {
     }
 
-    public function beforeRender()
+    public function beforeRender(Event $event)
     {
+        $event->subject()->set('order', $this->getOrder());
     }
 
     public function describeSteps()

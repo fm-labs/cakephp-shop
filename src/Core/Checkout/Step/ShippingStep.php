@@ -17,6 +17,11 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
 
     public $shippingMethods = [];
 
+    public function getTitle()
+    {
+        return __('Shipping');
+    }
+
     public function initialize()
     {
         $this->shippingMethods = Configure::read('Shop.ShippingMethods');

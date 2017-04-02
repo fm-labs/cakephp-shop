@@ -17,7 +17,7 @@
 
                     <div class="ui hidden divider"></div>
                     <div class="link goback">
-                        <?= $this->Html->link(__d('theme_lederleitner', 'Go back'), 'javascript:history.go(-1)', ['class' => 'ui primary button']); ?>
+                        <?= $this->Html->link(__d('shop', 'Go back'), 'javascript:history.go(-1)', ['class' => 'ui primary button']); ?>
                     </div>
                 </article>
             </div>
@@ -26,8 +26,8 @@
                     <article class="subcategory" itemscope itemtype="http://schema.org/Product">
 
                         <div class="image">
-                            <?php if ($subCategory->preview_image_file): ?>
-                                <?= $this->Media->thumbnail($subCategory->preview_image_file->filepath, ['width' => 266, 'height' => 150], [
+                            <?php if ($subCategory->featured_image_file): ?>
+                                <?= $this->Media->thumbnail($subCategory->featured_image_file->filepath, ['width' => 266, 'height' => 150], [
                                     'height' => 150,
                                     'url' => $subCategory->url,
                                     'itemprop' => 'image'

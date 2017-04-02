@@ -1,32 +1,67 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'shipping'); ?>
-<?php $this->assign('heading', __d('shop','Select shipping method')); ?>
-<?php $this->loadHelper('Content.Content'); ?>
+<?php $this->assign('title', __d('shop','Checkout')); ?>
+<?php $this->assign('heading', __d('shop','Select your shipping method')); ?>
 <?php
-//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
+//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
 //$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
-//$this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
+//$this->Breadcrumbs->add(__d('shop','Payment'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
 ?>
 <div class="shop checkout step shipping">
-    <div class="form">
-        <?= $this->Form->create($order, ['url' => ['action' => 'shipping', 'change_type' => 1]]); ?>
-        <?= ''//$this->Form->input('shipping_type', ['options' => $shippingOptions, 'label' => false, 'empty' => false]); ?>
 
-        <?php foreach ($shippingMethods as $type => $shippingMethod): ?>
-            <div class="shipping-method" data-shipping-method="<?= $type; ?>">
-                <input name="shipping_type" type="radio" value="<?= $type; ?>" <?= ($order->shipping_type == $type) ? 'checked': '' ?>>
-                <label for="shipping_type" class="label"><?= h($shippingMethod['name']) ?></label>
-                <div class="desc" style="padding-left: 40px;">
-                    <?= $this->Content->userHtml($shippingMethod['desc']); ?>
-                </div>
+    <?php foreach ($shippingMethods as $alias => $shippingMethod): ?>
+        <?php
+        $element = 'Shop.Checkout/Shipping/' . $alias . '/select';
+        ?>
+        <div class="shipping-method row">
+            <div class="col-md-8">
+                <h3 style="margin-top: 0;"><?= h($shippingMethod['name']); ?></h3>
+                <?php if ($this->elementExists($element)): ?>
+                    <?= $this->element($element); ?>
+                <?php endif; ?>
             </div>
-        <?php endforeach; ?>
-        <?php echo $this->Form->error('shipping_type'); ?>
-
-        <div style="text-align: right; margin-top: 1em;">
-            <?= $this->Form->submit(__d('shop', 'Continue'), ['class' => 'btn btn-primary']); ?>
+            <div class="col-sm-4">
+                <?= $this->Form->postLink(
+                    __('Select'),
+                    ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'shipping', 'change_type' => true],
+                    ['class' => 'btn btn-primary', 'data' => ['shipping_type' => $alias]]
+                ); ?>
+            </div>
         </div>
+        <hr />
+    <?php endforeach; ?>
 
-        <?= $this->Form->end(); ?>
-    </div>
+
+    <?php debug($shippingMethods); ?>
+    <?php debug($shippingOptions); ?>
 </div>
+<script>
+    $(document).ready(function() {
+        return;
+
+        // hide all shipping method descriptions
+        $('.shipping-method-select:not(:checked)').hide();
+        // show selected shipping method description
+        $('input[name="shipping_type"]:checked')
+            .next('.shipping-method')
+            .addClass('checked')
+            .find('.shipping-method-select').show();
+        // toggle shipping method descriptions on click
+        $('input[name="shipping_type"]').click(function(ev) {
+
+            var $pm = $(this).next('.shipping-method');
+            if ($pm.hasClass('checked')) {
+                // Already active
+                $pm.find('.shipping-method-select').show();
+            } else {
+                $('.shipping-method').removeClass('checked');
+                $('.shipping-method-select').slideUp();
+                $pm.addClass('checked');
+                $pm.find('.shipping-method-select').slideDown();
+            }
+
+            //ev.preventDefault();
+            //return false;
+        });
+    });
+</script>

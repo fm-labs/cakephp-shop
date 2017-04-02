@@ -8,6 +8,11 @@ use Shop\Core\Checkout\CheckoutStepInterface;
 class ReviewStep extends BaseStep implements CheckoutStepInterface
 {
 
+    public function getTitle()
+    {
+        return __('Review');
+    }
+
     public function isComplete()
     {
         return ($this->Checkout->getOrder()->is_temporary) ? false : true;

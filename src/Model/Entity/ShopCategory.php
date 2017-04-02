@@ -140,7 +140,7 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     protected function _getSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
-            ->find('children', ['for' => $this->id, 'direct' => true])
+            ->find('children', ['for' => $this->id, 'direct' => true, 'media' => true])
             //->find('media')
             ;
     }
@@ -161,7 +161,8 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
             ->find('all', ['media' => true])
             ->find('published')
             //->find('media')
-            ->where(['shop_category_id' => $this->id])
+            ->where(['shop_category_id' => $this->id, ['parent_id IS' => null]])
+            ->order(['title' => 'ASC'])
             ->toArray();
     }
 

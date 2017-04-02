@@ -43,7 +43,7 @@ class CategoriesController extends AppController
         $this->paginate = [
             'contain' => ['ShopProducts' => []],
             'limit' => 100,
-            //'conditions' => ['ShopCategories.parent_id IS' => $id],
+            'conditions' => ['ShopCategories.parent_id IS' => $id],
             'published' => true,
             'media' => true
         ];

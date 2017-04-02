@@ -40,14 +40,14 @@
             <div class="inner">
                 <?php $paymentMethods = \Cake\Core\Configure::read('Shop.PaymentMethods') ?>
                 <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
-                <p>
+                <div class="desc payment-desc">
                     <?php
                     $element = 'Shop.Checkout/Payment/' . $order->payment_type . '/review';
                     if ($this->elementExists($element)) {
                         echo $this->element($element);
                     }
                     ?>
-                </p>
+                </div>
             </div>
 
         </div>
@@ -61,8 +61,13 @@
 
                 <?php $shippingMethods = \Cake\Core\Configure::read('Shop.ShippingMethods') ?>
                 <h5><?= h($shippingMethods[$order->shipping_type]['name']); ?></h5>
-                <div class="desc" style="font-size: 90%;">
-                    <?= $this->Content->userHtml($shippingMethods[$order->shipping_type]['desc']); ?>
+                <div class="desc shipping-desc">
+                    <?php
+                    $element = 'Shop.Checkout/Shipping/' . $order->shipping_type . '/review';
+                    if ($this->elementExists($element)) {
+                        echo $this->element($element);
+                    }
+                    ?>
                 </div>
             </div>
         </div>

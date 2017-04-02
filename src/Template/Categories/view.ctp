@@ -79,7 +79,7 @@
                 <div class="col-md-5">
                     <div class="ui hidden divider"></div>
                     <div class="link goback">
-                        <?= $this->Html->link(__d('theme_lederleitner', 'Go back'), 'javascript:history.go(-1)', ['class' => 'ui primary button']); ?>
+                        <?= $this->Html->link(__d('shop', 'Go back'), 'javascript:history.go(-1)', ['class' => 'ui primary button']); ?>
                     </div>
                 </div>
                 <div class="col-md-7">

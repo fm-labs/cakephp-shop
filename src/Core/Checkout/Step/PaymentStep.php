@@ -18,6 +18,11 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
 
     public $paymentMethods = [];
 
+    public function getTitle()
+    {
+        return __('Payment Type');
+    }
+
     public function initialize()
     {
         $this->paymentMethods = Configure::read('Shop.PaymentMethods');
@@ -44,20 +49,26 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
 
     public function execute(Controller $controller)
     {
-        if (!$this->_getAdapterType() || $controller->request->query('change_type')) {
-            $this->_executePaymentType($controller);
+        $adapterType = $this->_getAdapterType();
+        if (!$adapterType) {
+            $this->_executeSelectPaymentType($controller);
+        } elseif ($controller->request->query('change_type')) {
+            $this->_executeSelectPaymentType($controller);
+        } else {
+            $this->_adapter($adapterType)->checkout($controller);
         }
     }
 
-    protected function _executePaymentType(Controller $controller)
+    protected function _executeSelectPaymentType(Controller $controller)
     {
 
         if ($controller->request->is(['post', 'put'])) {
             $type = $controller->request->data('payment_type');
+
             if ($type) {
-                $this->_adapter($type)->checkout($controller);
+                return $this->_adapter($type)->checkout($controller);
             } else {
-                $controller->Flash->error(__d('shop','Please select your prefered payment method'));
+                $controller->Flash->error(__d('shop','Please select your preferred payment method'));
             }
         }
 

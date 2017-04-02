@@ -68,7 +68,7 @@ class CheckoutController extends AppController
         }
 
         //debug($this->Checkout->describeSteps());
-        //$this->Checkout->redirectNext();
+        $this->Checkout->redirectNext();
     }
 
     public function invokeAction()

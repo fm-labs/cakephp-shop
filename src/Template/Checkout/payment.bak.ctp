@@ -8,35 +8,69 @@
 ?>
 <div class="shop checkout step payment">
 
+    <!--
     <?php foreach ($paymentMethods as $alias => $paymentMethod): ?>
         <?php
         $element = 'Shop.Checkout/Payment/' . $alias . '/select';
         ?>
         <div class="payment-method row">
-            <div class="col-md-8">
-                <h3 style="margin-top: 0;"><?= h($paymentMethod['name']); ?></h3>
-                <?php if ($this->elementExists($element)): ?>
-                    <?= $this->element($element); ?>
-                <?php endif; ?>
+            <div class="col-md-1">
+                <input type="radio" name="payment_type" />
             </div>
-            <div class="col-sm-4">
-                <?= $this->Form->postLink(
-                    __('Select'),
-                    ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', 'change_type' => true],
-                    ['class' => 'btn btn-primary', 'data' => ['payment_type' => $alias]]
-                ); ?>
+            <div class="col-md-11">
+                <div class="payment-method-label">
+                    <label for="payment_type"><?= $this->Form->postLink(
+                            $paymentMethod['name'],
+                            ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', 'change_type' => true],
+                            ['data' => ['payment_type' => $alias]]
+                        ); ?></label>
+                </div>
+                <div class="payment-method-desc">
+                    <?php if ($this->elementExists($element)): ?>
+                        <?= $this->element($element); ?>
+                    <?php else: ?>
+                        <div class="payment-method-logo"><?= h($paymentMethod['logoUrl']); ?></div>
+                        <div class="payment-method-desc"><?= h($paymentMethod['desc']); ?></div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
-        <hr />
     <?php endforeach; ?>
+    -->
 
+
+    <?php
+    array_walk($paymentOptions, function (&$val, $idx) use ($order) {
+
+        $element = 'Shop.Checkout/Payment/' . $idx . '/select';
+        if ($this->elementExists($element)) {
+            $val = $this->element($element);
+        }
+    });
+
+    ?>
+    <div class="form">
+        <?= $this->Form->create($order, ['url' => ['action' => 'step', 'action' => 'payment', 'change_type' => true]]); ?>
+        <?= $this->Form->input('payment_type', [
+            'type' => 'radio',
+            'options' => $paymentOptions,
+            'label' => false,
+            'escape' => false,
+            'class' => 'wide'
+        ]); ?>
+
+        <div class="actions text-right">
+            <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
+        </div>
+
+        <?= $this->Form->end(); ?>
+    </div>
 
     <?php debug($paymentMethods); ?>
     <?php debug($paymentOptions); ?>
 </div>
 <script>
     $(document).ready(function() {
-        return;
 
         // hide all payment method descriptions
         $('.payment-method-select:not(:checked)').hide();

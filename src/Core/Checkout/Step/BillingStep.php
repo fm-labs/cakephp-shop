@@ -10,6 +10,11 @@ use Shop\Core\Checkout\CheckoutStepInterface;
 class BillingStep extends BaseStep implements CheckoutStepInterface
 {
 
+    public function getTitle()
+    {
+        return __('Billing Address');
+    }
+
     public function isComplete()
     {
         return ($this->Checkout->getOrder()->getBillingAddress()) ? true : false;
