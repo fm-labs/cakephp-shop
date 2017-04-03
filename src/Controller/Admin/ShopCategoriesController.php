@@ -62,6 +62,9 @@ class ShopCategoriesController extends AppController
 
         $shopCategoriesTree = $this->ShopCategories->find('treeList', ['spacer' => '_ '])->toArray();
         $this->set('shopCategoriesTree', $shopCategoriesTree);
+
+        $this->set('controller.actions', ['foo_bar']);
+        $this->set('controller_actions', ['foo_bar']);
     }
 
     public function indexTree()
@@ -115,6 +118,17 @@ class ShopCategoriesController extends AppController
 
         $this->set('shopCategory', $shopCategory);
         $this->set('_serialize', ['shopCategory']);
+    }
+
+    public function preview($id = null)
+    {
+        $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
+        $url = $shopCategory->view_url;
+        $url['prefix'] = false;
+        $url['admin'] = false;
+        $url['_token'] = uniqid('_tkn');
+
+        $this->redirect($url);
     }
 
     public function edit($id = null) {
@@ -380,12 +394,6 @@ class ShopCategoriesController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
-    public function preview($id = null)
-    {
-        $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
-        $this->redirect($shopCategory->url);
-    }
-
     public function repair()
     {
         $this->ShopCategories->recover();
@@ -394,7 +402,11 @@ class ShopCategoriesController extends AppController
     }
 
 
-
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     * @deprecated
+     */
     public function setImage($id = null)
     {
         $scope = $this->request->query('scope');
@@ -431,6 +443,12 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['content']);
     }
 
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     * @throws BadRequestException
+     * @deprecated
+     */
     public function deleteImage($id = null)
     {
         $scope = $this->request->query('scope');

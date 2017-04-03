@@ -36,6 +36,9 @@
     ],
     'rowActions' => [
         [__d('shop','Edit'), ['action' => 'edit', ':id'], ['class' => 'edit']],
+        [__d('shop','Preview'), ['action' => 'preview', ':id'], ['class' => 'preview external', 'target' => '_blank']],
+        [__d('shop','Move Up'), ['action' => 'moveUp', ':id'], ['class' => 'move-up']],
+        [__d('shop','Move Down'), ['action' => 'moveDown', ':id'], ['class' => 'move-down']],
         [__d('shop','Delete'), ['action' => 'delete', ':id'], ['class' => 'delete', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', ':id')]]
     ]
 ]]); ?>
