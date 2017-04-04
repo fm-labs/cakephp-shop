@@ -1,4 +1,4 @@
-<div class="shop categories view base">
+<div class="shop categories view base container">
     <div class="row">
         <div class="col-md-3">
             <?= $this->fetch('col-left', $this->element('Shop.Categories/view/sidebar')); ?>

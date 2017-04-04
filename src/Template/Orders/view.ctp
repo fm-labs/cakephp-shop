@@ -4,7 +4,7 @@ $this->Breadcrumbs->add(__d('shop','My Orders'), ['controller' => 'Orders', 'act
 $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controller' => 'Orders', 'action' => 'view', $order->uuid, 'ref' => 'breadcrumb']);
 ?>
 <?php $this->assign('title', __d('shop','Order {0}', $order->nr_formatted)); ?>
-<div class="shop order view">
+<div class="shop order view container">
 
     <h1><?= __('Your Order #{0}', $order->nr_formatted); ?></h1>
     <h3><?= __('Reference number'); ?>:&nbsp;<?= h($order->nr_formatted); ?></h3>

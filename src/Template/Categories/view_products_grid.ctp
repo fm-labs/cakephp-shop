@@ -1,7 +1,7 @@
 <?php //$this->extend('extend_view'); ?>
 <?php $this->loadHelper('Media.Media'); ?>
 <?php $i = 0; ?>
-<div class="shop categories view threecol productsgrid">
+<div class="shop categories view threecol productsgrid container">
 
     <div class="alert alert-info">products_grid</div>
     <div class="ui three column grid">

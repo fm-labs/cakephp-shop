@@ -1,5 +1,5 @@
 <?php //$this->extend('extend_view'); ?>
-<div class="shop categories view default">
+<div class="shop categories view default container">
     <article class="shop category" itemscope itemtype="http://schema.org/Product">
         <h1 class="title"><span itemprop="name"><?= h($shopCategory->name); ?></span></h1>
         <div class="ui grid">

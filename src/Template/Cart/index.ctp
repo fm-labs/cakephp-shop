@@ -4,7 +4,7 @@
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Cart'), ['action' => 'index']); ?>
 <?php $this->assign('title', __d('shop', 'Cart')); ?>
-<div class="shop cart index">
+<div class="shop cart index container">
 
     <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $order->id]]); ?>
     <?= $this->Form->hidden('id', ['value' => $order->id]); ?>

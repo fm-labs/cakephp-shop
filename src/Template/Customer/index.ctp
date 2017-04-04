@@ -1,5 +1,5 @@
 
-<div class="shop customer view">
+<div class="shop customer view container">
 
     <div class="row">
         <div class="col-md-6">

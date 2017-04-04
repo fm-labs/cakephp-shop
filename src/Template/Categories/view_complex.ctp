@@ -1,6 +1,6 @@
 <?php //$this->extend('extend_view'); ?>
 <?php $this->loadHelper('Media.Media'); ?>
-<div class="shop categories view complex subgrid">
+<div class="shop categories view complex subgrid container">
     
     <?php $subCategories = $shopCategory->published_subcategories->toArray(); ?>
     <?php for ($i = 0; $i < count($subCategories); $i += 3): ?>

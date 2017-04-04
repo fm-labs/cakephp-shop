@@ -1,5 +1,5 @@
 <?php //$this->extend('extend_view'); ?>
-<div class="shop categories index">
+<div class="shop categories index container">
     <div class="row">
         <?php $i = 0; ?>
         <?php foreach ($shopCategory->published_subcategories as $category): ?>

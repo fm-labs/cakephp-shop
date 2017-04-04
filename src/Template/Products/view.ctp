@@ -1,5 +1,5 @@
 <?php $this->assign('title', $shopProduct->title); ?>
-<div class="shop products view default">
+<div class="shop products view default container">
     <article class="shop product" itemscope itemtype="http://schema.org/Product">
         <div class="ui grid">
             <div class="row">

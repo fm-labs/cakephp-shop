@@ -1,6 +1,6 @@
 <?php //$this->extend('extend_view'); ?>
 <?php $this->loadHelper('Media.Media'); ?>
-<div class="shop categories view 2col subgrid">
+<div class="shop categories view 2col subgrid container">
     <div class="ui grid">
         <div class="row">
             <div class="col-md-6">

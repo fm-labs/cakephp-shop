@@ -1,7 +1,7 @@
 <?php $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Customer', 'action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 
-<div class="shopOrders index">
+<div class="shopOrders index container">
 
 
     <?= $this->cell('Backend.DataTable', [[

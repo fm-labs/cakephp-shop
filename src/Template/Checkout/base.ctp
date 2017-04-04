@@ -20,7 +20,7 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
         ['class' => $class]
     ); ?>
 <?php endforeach; ?>
-<div class="shop checkout index">
+<div class="shop checkout index container">
 
     <?= $this->fetch('content'); ?>
 

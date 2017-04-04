@@ -1,6 +1,6 @@
 <?php $this->loadHelper('Number'); ?>
 <?php $i = 0; ?>
-<div class="shop products index grid">
+<div class="shop products index grid container">
 
     <div class="ui three column grid">
         <div class="row">

@@ -1,4 +1,4 @@
-<div class="shop categories index">
+<div class="shop categories index container">
     <h1>Shop Categories</h1>
     <?php foreach($shopCategories as $shopCategory): ?>
     <?php //echo $this->element('Shop.debug_shop_category', ['shopCategory' => $shopCategory]); ?>

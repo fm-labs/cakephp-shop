@@ -1,6 +1,6 @@
 <?php //$this->extend('extend_view'); ?>
 <?php $this->loadHelper('Media.Media'); ?>
-<div class="shop categories view products">
+<div class="shop categories view products container">
     <div class="shop category">
         <h1>
             <?= h($shopCategory->name) ?>
