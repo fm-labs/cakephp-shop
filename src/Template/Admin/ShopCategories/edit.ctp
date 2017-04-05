@@ -25,7 +25,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 <?php $_locales = Configure::read('Shop.locales'); ?>
 <?php foreach($_locales as $_locale => $_localeName): ?>
     <?php if ($_locale === $locale) continue ;?>
-    <?= $this->Toolbar->addLink(__d('shop', '{0} version', $_localeName), ['action' => 'edit', $shopCategory->id, 'locale' => $_locale]) ?>
+    <?php $this->Toolbar->addLink(__d('shop', '{0} version', $_localeName), ['action' => 'edit', $shopCategory->id, 'locale' => $_locale]) ?>
 <?php endforeach; ?>
 
 <?php $this->assign('title', $shopCategory->name); ?>
@@ -101,7 +101,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
                 <?= $this->Form->fieldsetEnd(); ?>
 
 
-                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media'), 'collapsed' => false]); ?>
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
                 <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
                 <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
@@ -116,28 +116,37 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     <?php $this->Tabs->add(__d('shop', 'Custom Texts')); ?>
 
         <?= $this->Form->create($shopCategory); ?>
-        <?= $this->Form->fieldsetStart(['legend' => __d('shop','Custom Texts'), 'collapsed' => false]); ?>
-        <?= $this->Form->input('custom_text1', [
+        <?= $this->Form->fieldsetStart(['legend' => __d('shop','Custom Texts')]); ?>
+        <?php for($i = 1; $i <= 5; $i++): ?>
+            <?php
+            $_field = sprintf('custom_text%d', $i);
+            echo $this->Form->input($_field, [
             'type' => 'htmleditor',
-            'label' => 'Related ll',
-            'editor' => [
-                'relative_urls' => false,
-                'remove_script_host' => false,
-                'convert_urls' => false,
-            ]
+            'label' => Configure::read('Shop.Admin.Categories.Labels.' . $_field),
+            'editor' => ['lazy' => true]
         ]); ?>
-        <?= $this->Form->input('custom_text2', [
-            'type' => 'htmleditor',
-            'label' => 'Related stone',
-            'editor' => [
-                'relative_urls' => false,
-                'remove_script_host' => false,
-                'convert_urls' => false,
-            ]
-        ]); ?>
+        <?php endfor; ?>
         <?= $this->Form->button(__d('shop', 'Save Changes')) ?>
         <?= $this->Form->fieldsetEnd(); ?>
         <?= $this->Form->end() ?>
+
+    <!-- Related Custom Files -->
+    <?php $this->Tabs->add(__d('shop', 'Custom Files')); ?>
+
+    <?= $this->Form->create($shopCategory); ?>
+    <?= $this->Form->fieldsetStart(['legend' => __d('shop','Custom Files')]); ?>
+    <?php for($i = 1; $i <= 5; $i++): ?>
+        <?php
+        $_field = sprintf('custom_file%d', $i);
+        echo $this->Form->input($_field, [
+            'type' => 'media_picker',
+            'config' => 'default',
+            'label' => Configure::read('Shop.Admin.Categories.Labels.' . $_field),
+        ]); ?>
+    <?php endfor; ?>
+    <?= $this->Form->button(__d('shop', 'Save Changes')) ?>
+    <?= $this->Form->fieldsetEnd(); ?>
+    <?= $this->Form->end() ?>
 
     <!-- Related Attributes -->
     <?php // $this->Tabs->add(__d('shop', 'Attributes')); ?>
