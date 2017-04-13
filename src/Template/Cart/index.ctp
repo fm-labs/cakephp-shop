@@ -1,9 +1,13 @@
-<?php $this->loadHelper('Bootstrap.Ui'); ?>
-<?php $this->loadHelper('Media.Media'); ?>
-<?php $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]); ?>
-<?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']); ?>
-<?php $this->Breadcrumbs->add(__d('shop','Cart'), ['action' => 'index']); ?>
-<?php $this->assign('title', __d('shop', 'Cart')); ?>
+<?php
+use Cake\Core\Configure;
+
+$this->loadHelper('Bootstrap.Ui');
+$this->loadHelper('Media.Media');
+$this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
+$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
+$this->Breadcrumbs->add(__d('shop','Cart'), ['action' => 'index']);
+$this->assign('title', __d('shop', 'Cart'));
+?>
 <div class="shop cart index container">
 
     <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $order->id]]); ?>
@@ -47,8 +51,12 @@
                     ); ?>
                 </small>
             </td>
-            <td class="number currency"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
-            <td class="number currency"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>
+            <?php if (Configure::read('Shop.Price.requireAuth') && !$this->request->session()->read('Shop.Customer.id')): ?>
+                <td colspan="2" class="number currency"><small><?= __('Login required'); ?></small></td>
+            <?php else: ?>
+                <td class="number currency"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
+                <td class="number currency"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>
+            <?php endif; ?>
         </tr>
         <?php endforeach; ?>
         <tr style="font-weight: bold; font-size: 1.3em;">

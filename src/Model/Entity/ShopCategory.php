@@ -4,6 +4,7 @@ namespace Shop\Model\Entity;
 use Banana\Model\EntityTypeHandlerInterface;
 use Banana\Model\EntityTypeInterface;
 use Cake\Controller\Controller;
+use Cake\Routing\Router;
 use Content\Model\Entity\Node\NodeInterface;
 use Content\Model\EntityPostTypeHandlerTrait;
 //use Eav\Model\EntityAttributesInterface;
@@ -43,6 +44,16 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         'id' => false,
     ];
 
+    protected $_virtual = [
+        'url', 'url_full',
+        //'custom_file1_url', 'custom_file2_url'
+    ];
+
+    public function __construct(array $properties = [], array $options = []) {
+        parent::__construct($properties, $options);
+
+    }
+
     protected function _getType()
     {
         return 'shop_category';
@@ -56,6 +67,25 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
 
         return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $for]);
     }
+
+    /*
+    protected function _getCustomFile1Url()
+    {
+        $field = 'custom_file1';
+        debug($field);
+        return (isset($this->_properties[$field]) && $this->_properties[$field] instanceof MediaFile)
+            ? $this->_properties[$field]->getUrl(true)
+            : null;
+    }
+    protected function _getCustomFile2Url()
+    {
+        $field = 'custom_file2';
+        debug($field);
+        return (isset($this->_properties[$field]) && $this->_properties[$field] instanceof MediaFile)
+            ? $this->_properties[$field]->getUrl(true)
+            : null;
+    }
+    */
 
     protected function _getParent()
     {
@@ -119,12 +149,21 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
 
     /**
      * @return array
-     * @deprecated Use getPageUrl() instead
      */
     protected function _getUrl()
     {
         return $this->getViewUrl();
     }
+
+
+    /**
+     * @return array
+     */
+    protected function _getUrlFull()
+    {
+        return Router::url($this->_getUrl(), true);
+    }
+
 
     protected function _getPermaUrl()
     {
