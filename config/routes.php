@@ -36,6 +36,11 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['_name' => 'debug_checkout']
     );
 
+    $routes->connect('/customer',
+        ['controller' => 'Customer', 'action' => 'index'],
+        ['_name' => 'customer']
+    );
+
     if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')):
 
         // shop product routes

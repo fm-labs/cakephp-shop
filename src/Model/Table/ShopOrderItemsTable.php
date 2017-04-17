@@ -109,19 +109,19 @@ class ShopOrderItemsTable extends Table
 
     public function beforeRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
     {
-        debug("beforeRules");
+        //debug("beforeRules");
         //$entity->calculate();
     }
 
     public function beforeValidate(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
-        debug("beforeValidate");
+        //debug("beforeValidate");
         //$entity->calculate();
     }
 
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
-        debug("beforeSave");
+        //debug("beforeSave");
         $entity->calculate();
 
         $options = [];

@@ -5,7 +5,7 @@ namespace Shop\Controller\Admin;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Media\Lib\Media\MediaManager;
-use App\Controller\Admin\AppController as BaseAdminAppController;
+use Content\Controller\Admin\AppController as BaseAdminAppController;
 
 class AppController extends BaseAdminAppController
 {

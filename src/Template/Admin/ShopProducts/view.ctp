@@ -1,37 +1,37 @@
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Products'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($shopProduct->title); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'Edit {0}', __d('shop', 'Shop Product')),
     ['action' => 'edit', $shopProduct->id],
     ['data-icon' => 'edit']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'Delete {0}', __d('shop', 'Shop Product')),
     ['action' => 'delete', $shopProduct->id],
     ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopProduct->id)]) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__d('shop', 'More')); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->startGroup(__d('shop', 'More')); ?>
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['controller' => 'ShopCategories', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Category')),
     ['controller' => 'ShopCategories', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->endGroup(); ?>
+<?php $this->Toolbar->endGroup(); ?>
 <div class="shopProducts view">
     <h2 class="ui header">
         <?= h($shopProduct->title) ?>

@@ -6,22 +6,22 @@ $this->loadHelper('Media.Media');
 ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($shopCategory->name); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'Edit {0}', __d('shop', 'Shop Category')),
     ['action' => 'edit', $shopCategory->id],
     ['data-icon' => 'edit']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'Delete {0}', __d('shop', 'Shop Category')),
     ['action' => 'delete', $shopCategory->id],
     ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Category')),
     ['action' => 'add'],
     ['data-icon' => 'plus']

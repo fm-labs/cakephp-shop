@@ -16,8 +16,23 @@ class CartListener extends ShopEventListener
             'Shop.Cart.beforeItemUpdate' => 'beforeUpdate',
             'Shop.Cart.afterItemUpdate' => 'afterUpdate',
             'Shop.Cart.beforeItemDelete' => 'beforeDelete',
-            'Shop.Cart.afterItemDelete' => 'afterDelete'
+            'Shop.Cart.afterItemDelete' => 'afterDelete',
+            'User.login' => 'onUserLogin',
+            'User.logout' => 'onUserLogout'
         ];
+    }
+
+    public function onUserLogin(Event $event)
+    {
+        //@TODO restore user cart
+        $event->subject()->request->session()->delete('Shop.Customer');
+    }
+
+    public function onUserLogout(Event $event)
+    {
+        // save cart for user and delete from session
+        $event->subject()->request->session()->delete('Shop.Customer');
+        $this->_logEvent(__FUNCTION__, $event);
     }
 
     public function beforeAdd(Event $event)

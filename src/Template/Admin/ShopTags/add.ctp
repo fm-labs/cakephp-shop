@@ -1,18 +1,18 @@
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Tags'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'New {0}', __d('shop', 'Shop Tag'))); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Tags')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products Tags')),
     ['controller' => 'ShopProductsTags', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Products Tag')),
     ['controller' => 'ShopProductsTags', 'action' => 'add'],
     ['data-icon' => 'plus']

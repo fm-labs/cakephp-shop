@@ -16,10 +16,10 @@ $this->assign('title', __d('shop', 'Cart'));
         <thead>
         <tr>
             <th class="number" style="width: 100px;"><?= __d('shop','Amount'); ?></th>
-            <th style="width: 20px;">&nbsp;</th>
+            <th>&nbsp;</th>
             <th colspan="2"><?= __d('shop','Product'); ?></th>
-            <th class="number currency"><?= __d('shop','Item Price'); ?></th>
-            <th class="number currency"><?= __d('shop','Price'); ?></th>
+            <th class="number currency text-right"><?= __d('shop','Item Price'); ?></th>
+            <th class="number currency text-right"><?= __d('shop','Price'); ?></th>
         </tr>
         </thead>
         <?php foreach ($order->shop_order_items as $item): ?>
@@ -35,11 +35,6 @@ $this->assign('title', __d('shop', 'Cart'));
                 ]); ?>
             </td>
             <td><?= h($item->unit); ?></td>
-            <td class="image" style="width: 50px;">
-                <?php if ($item->getProduct()->featured_image_file): ?>
-                <?php echo $this->Media->thumbnail($item->getProduct()->featured_image_file->filepath, ['width' => 45, 'height' => 45]); ?>
-                <?php endif; ?>
-            </td>
             <td class="title">
                 <?= $this->Html->link($item->title, $item->getProduct()->url); ?>
                 <br />
@@ -51,11 +46,16 @@ $this->assign('title', __d('shop', 'Cart'));
                     ); ?>
                 </small>
             </td>
+            <td class="image" style="width: 50px;">
+                <?php if ($item->getProduct()->featured_image_file): ?>
+                    <?php echo $this->Media->thumbnail($item->getProduct()->featured_image_file->filepath, ['width' => 45, 'height' => 45]); ?>
+                <?php endif; ?>
+            </td>
             <?php if (Configure::read('Shop.Price.requireAuth') && !$this->request->session()->read('Shop.Customer.id')): ?>
-                <td colspan="2" class="number currency"><small><?= __('Login required'); ?></small></td>
+                <td colspan="2" class="number currency text-right"><small><?= __('Login required'); ?></small></td>
             <?php else: ?>
-                <td class="number currency"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
-                <td class="number currency"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>
+                <td class="number currency text-right"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
+                <td class="number currency text-right"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>
             <?php endif; ?>
         </tr>
         <?php endforeach; ?>
@@ -64,8 +64,8 @@ $this->assign('title', __d('shop', 'Cart'));
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td style="text-align: right;"><?= __d('shop', 'Order total'); ?></td>
-            <td class="currency"><?= $this->Number->currency($order->items_value_taxed, 'EUR'); ?></td>
+            <td class="currency text-right"><?= __d('shop', 'Order total'); ?></td>
+            <td class="currency text-right"><?= $this->Number->currency($order->items_value_taxed, 'EUR'); ?></td>
         </tr>
     </table>
 

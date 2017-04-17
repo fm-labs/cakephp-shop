@@ -8,6 +8,7 @@ use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\Mailer\Email;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -152,6 +153,31 @@ class ShopOrdersTable extends Table
                 ]);
         }
 
+    }
+
+    public function buildValidator(Event $event, Validator $validator, $name)
+    {
+    }
+
+    public function afterRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
+    {
+    }
+
+    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+
+        if ($entity->isNew() && !$entity->uuid) {
+            $entity->uuid = Text::uuid();
+        }
+        // before 'submit'
+        /*
+        if ($entity->dirty('status') && $entity->status == 1) {
+            if (!$entity->is_billing_selected) {
+                $entity->errors('is_billing_selected', ['notempty' => __d('shop','Billing not selected')]);
+                return false;
+            }
+        }
+        */
     }
 
     public function afterSave(Event $event)
@@ -540,28 +566,6 @@ class ShopOrdersTable extends Table
         }
     }
 
-    public function buildValidator(Event $event, Validator $validator, $name)
-    {
-    }
-
-    public function afterRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
-    {
-    }
-
-    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
-    {
-        // before 'submit'
-        /*
-        if ($entity->dirty('status') && $entity->status == 1) {
-            if (!$entity->is_billing_selected) {
-                $entity->errors('is_billing_selected', ['notempty' => __d('shop','Billing not selected')]);
-                return false;
-            }
-        }
-        */
-
-    }
-
     /**
      * @param $order
      * @return bool|EntityInterface|mixed
@@ -571,14 +575,15 @@ class ShopOrdersTable extends Table
     {
 
         if ($order->status > 0) {
+            //@TODO Prevent re-submission of already submitted orders
             debug("Warning: Order already submitted");
             //throw new \Exception("Order already submitted");
         }
 
-        $order['uuid'] = Text::uuid();
+        $order['uuid'] = ($order['uuid']) ?: Text::uuid(); //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
         $order['submitted'] = Time::now();
         $order['is_temporary'] = false;
-        $order['status'] = 1;
+        //$order['status'] = 1;
 
         $order = $this->save($order);
         if ($order) {
@@ -592,6 +597,10 @@ class ShopOrdersTable extends Table
         if (!$this->assignOrderNr($order, true)) {
             Log::error("Shop Order: Failed to assign order nr");
         }
+
+        // update order status to 'submitted'
+
+        $this->updateOrderStatus($order->id, self::ORDER_STATUS_PURCHASED);
 
         /*
         // @TODO move to eventlistener

@@ -1,39 +1,35 @@
-<?php $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Customer', 'action' => 'index']); ?>
-<?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-
+<?php $this->Breadcrumbs->add(__d('shop','My Account'), ['controller' => 'Customer', 'action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Latest Orders'), ['action' => 'index']); ?>
+<?php $this->loadHelper('Banana.Status'); ?>
 <div class="shopOrders index container">
 
+    <h1><?= __('Your latest orders'); ?></h1>
 
-    <?= $this->cell('Backend.DataTable', [[
-        'paginate' => true,
-        'model' => 'Shop.ShopOrders',
-        'data' => $shopOrders,
-        'class' => 'table table-condensed table-striped table-hover',
-        'fields' => [
-            'id' => [
-                'formatter' => function($val, $row) {
-                    return $this->Html->link($val, ['action' => 'view', $row->id]);
-                }
-            ],
-            'submitted' => [
-                //'formatter' => ['date' => ['_format' => 'd.M.y']]
-            ],
-            'nr_formatted' => [
-                'formatter' => function($val, $row) {
-                    return $this->Html->link($val, ['action' => 'view', $row->id]);
-                }
-            ],
-            'billing_address.name',
-            'order_value_total' => [
-                'class' => 'right',
-                'formatter' => ['currency' => ['currency' =>  'EUR']],
-            ],
-            'status' => []
-        ],
-        'rowActions' => [
-            [__d('shop','View'), ['action' => 'view', ':uuid'], ['class' => 'view']],
-            [__d('shop','Cancel'), ['action' => 'cancel', ':uuid'], ['class' => 'delete', 'confirm' => __d('shop','Are you sure you want to cancel order # {0}?', ':nr_formatted')]]
-        ]
-    ]]);
-    ?>
+    <?php if (count($shopOrders) < 1): ?>
+        <div class="alert alert-warning">
+            <h4><?= __('No orders found'); ?></h4>
+            <?= $this->Html->link(__('Browse shop'), ['_name' => 'shop:index'], ['class' => 'btn btn-primary']); ?>
+        </div>
+    <?php else: ?>
+        <table class="table">
+            <tr>
+                <th><?= $this->Paginator->sort('nr'); ?></th>
+                <th><?= $this->Paginator->sort('submitted'); ?></th>
+                <th><?= $this->Paginator->sort('order_value_total'); ?></th>
+                <th><?= $this->Paginator->sort('status'); ?></th>
+                <th class="actions">Actions</th>
+            </tr>
+            <?php foreach($shopOrders as $order): ?>
+            <tr>
+                <td><?= $this->Html->link($order->nr_formatted, ['action' => 'view', $order->uuid]); ?></td>
+                <td><?= h($order->submitted); ?></td>
+                <td><?= $this->Number->currency($order->order_value_total, $order->currency); ?></td>
+                <td><?= $this->Status->label($order->status); ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View details'), ['action' => 'view', $order->uuid]); ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 </div>

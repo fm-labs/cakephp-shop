@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 12/11/16
- * Time: 9:01 AM
- */
 
 namespace Shop\Core\Shipping;
 

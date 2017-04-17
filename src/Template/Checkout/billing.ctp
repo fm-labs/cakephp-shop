@@ -8,6 +8,8 @@
 ?>
 <div class="shop checkout step billing">
 
+    <?php debug($billingAddresses); ?>
+
     <div class="form">
         <?= $this->Form->create($billingAddress, ['horizontal' => false, 'novalidate' => true]); ?>
 

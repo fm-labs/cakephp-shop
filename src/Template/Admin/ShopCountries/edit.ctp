@@ -1,12 +1,12 @@
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Countries'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Country'))); ?>
-<?= $this->Toolbar->addPostLink(
+<?php $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCountry->id],
     ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCountry->id)]
 )
 ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Countries')),
     ['action' => 'index'],
     ['data-icon' => 'list']

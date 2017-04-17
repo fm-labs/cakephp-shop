@@ -15,7 +15,4 @@
             </div>
         </div>
     </div>
-
-    <?php debug($order); ?>
-    <?php debug($this->request->session()->read('Shop')); ?>
 </div>

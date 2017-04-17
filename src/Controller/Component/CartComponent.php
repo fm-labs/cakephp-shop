@@ -20,9 +20,12 @@ use Shop\Model\Table\ShopProductsTable;
  *
  * @property ShopOrdersTable $ShopOrders
  * @property ShopProductsTable $ShopProducts
+ * @property ShopComponent $Shop
  */
 class CartComponent extends Component
 {
+
+    public $components = ['Shop.Shop'];
 
     /**
      * @var ShopOrder
@@ -140,12 +143,12 @@ class CartComponent extends Component
 
     public function removeItem($orderItem)
     {
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.beforeRemove', $this, ['item' => $orderItem]));
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
 
         $success = $this->ShopOrders->ShopOrderItems->delete($orderItem);
         $this->refresh();
 
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.Item.afterRemove', $this, ['item' => $orderItem]));
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemRemove', $this, ['item' => $orderItem]));
 
         return $success;
     }
@@ -168,7 +171,7 @@ class CartComponent extends Component
         //$orderItem->calculate();
         $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
 
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemUpdate', $this, ['item' => $orderItem]));
+        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemUpdate', $this, ['item' => $orderItem]));
 
         return $success;
     }
@@ -254,6 +257,12 @@ class CartComponent extends Component
             'cartid' => $this->cartId,
             'is_temporary' => true
         ]);
+
+
+        if ($this->Shop->getCustomer()) {
+            $order->shop_customer_id = $this->Shop->getCustomer()['id'];
+        }
+
         if (!$this->ShopOrders->save($order)) {
             debug($order->errors());
             throw new Exception('Fatal error: Failed to create cart order');
@@ -275,13 +284,19 @@ class CartComponent extends Component
 
         if (!$this->order || $options['force']) {
 
+            $scope = [
+                //'sessionid' => $this->sessionId,
+                'cartid' => $this->cartId,
+                'is_temporary' => true,
+            ];
+
+            if ($this->Shop->getCustomer()) {
+                $scope['shop_customer_id'] = $this->Shop->getCustomer()['id'];
+            }
+
             $this->order = $this->ShopOrders
                 ->find()
-                ->where([
-                    //'sessionid' => $this->sessionId,
-                    'cartid' => $this->cartId,
-                    'is_temporary' => true,
-                ])
+                ->where($scope)
                 ->contain(['ShopOrderItems'])
                 ->first();
 

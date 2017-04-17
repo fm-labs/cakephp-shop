@@ -59,10 +59,10 @@ class BillingStep extends BaseStep implements CheckoutStepInterface
             }
         }
 
-        if ($controller->Shop->getCustomer() && !$controller->Shop->getCustomer()->is_guest) {
+        if ($this->Checkout->Shop->getCustomer() && !$this->Checkout->Shop->getCustomer()['is_guest']) {
             $billingAddresses = $controller->ShopCustomerAddresses
                 ->find()
-                ->where(['shop_customer_id' => $controller->Shop->getCustomer()->id])
+                ->where(['shop_customer_id' => $controller->Shop->getCustomer()['id']])
                 ->all()
                 ->toArray();
         }

@@ -1,57 +1,57 @@
 <?php $this->Breadcrumbs->add(__d('shop','Stock Transfers'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($stockTransfer->id); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Stock Transfer')),
     ['action' => 'edit', $stockTransfer->id],
     ['data-icon' => 'edit']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','Delete {0}', __d('shop','Stock Transfer')),
     ['action' => 'delete', $stockTransfer->id],
     ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $stockTransfer->id)]) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Stock Transfers')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Stock Transfer')),
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__d('shop','More')); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->startGroup(__d('shop','More')); ?>
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Parent Stock Transfers')),
     ['controller' => 'StockTransfers', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Parent Stock Transfer')),
     ['controller' => 'StockTransfers', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Stocks')),
     ['controller' => 'ShopStocks', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Stock')),
     ['controller' => 'ShopStocks', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->endGroup(); ?>
+<?php $this->Toolbar->endGroup(); ?>
 <div class="stockTransfers view">
     <h2 class="ui header">
         <?= h($stockTransfer->id) ?>

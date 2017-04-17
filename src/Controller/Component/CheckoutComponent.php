@@ -80,7 +80,7 @@ class CheckoutComponent extends Component
 
     public function beforeRender(Event $event)
     {
-        $event->subject()->set('order', $this->getOrder());
+        //$event->subject()->set('order', $this->getOrder());
     }
 
     public function describeSteps()
@@ -175,6 +175,10 @@ class CheckoutComponent extends Component
         return $this->Cart->getOrder();
     }
 
+    /**
+     * @param ShopOrder $order
+     * @deprecated Use CartComponent->setOrder() directly instead.
+     */
     public function setOrder(ShopOrder $order)
     {
         $this->Cart->setOrder($order);
@@ -276,8 +280,8 @@ class CheckoutComponent extends Component
         }
 
         if ($this->Shop->getCustomer()) {
-            $data['shop_customer_id'] = $this->Shop->getCustomer()->id;
-            $data['customer_email'] = $this->Shop->getCustomer()->email;
+            $data['shop_customer_id'] = $this->Shop->getCustomer()['id']; //@TODO Check if customer_id has already been set upon creation
+            $data['customer_email'] = $this->Shop->getCustomer()['email']; //@TODO This can be ommited, as we already know the customerId
         }
 
         $order = $this->ShopOrders->patchEntity($this->getOrder(), $data, ['validate' => 'submit']);

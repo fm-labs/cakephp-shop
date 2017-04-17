@@ -33,12 +33,20 @@ class CheckoutController extends AppController
     {
         parent::initialize();
 
+        $this->loadComponent('Shop.Cart');
         $this->loadComponent('Shop.Checkout');
     }
 
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+
+
+        if (!$this->Checkout->getOrder() || $this->Cart->getItemsCount() < 1) {
+            $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+            $this->redirect(['_name' => 'shop:cart']);
+            return;
+        }
 
         //$this->Auth->allow(['cart', 'customer','customerSignup', 'customerGuest', 'billing', 'shipping', 'payment', 'review', 'success']);
         $this->viewBuilder()->layout(Configure::read('Shop.Checkout.layout'));
@@ -59,14 +67,15 @@ class CheckoutController extends AppController
 
     public function index()
     {
+
         $op = $this->request->query('op');
 
         if ($op == 'cancel') {
             $this->Checkout->reset();
             $this->Flash->success(__d('shop', 'The order has been aborted'));
             $this->redirect(['_name' => 'shop:cart']);
+            return;
         }
-
         //debug($this->Checkout->describeSteps());
         $this->Checkout->redirectNext();
     }

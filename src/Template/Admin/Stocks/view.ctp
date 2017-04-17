@@ -1,47 +1,47 @@
 <?php $this->Breadcrumbs->add(__d('shop','Stocks'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($stock->title); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Stock')),
     ['action' => 'edit', $stock->id],
     ['data-icon' => 'edit']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','Delete {0}', __d('shop','Stock')),
     ['action' => 'delete', $stock->id],
     ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $stock->id)]) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Stocks')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Stock')),
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__d('shop','More')); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->startGroup(__d('shop','More')); ?>
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Stock Transfers')),
     ['controller' => 'ShopStockTransfers', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Stock Transfer')),
     ['controller' => 'ShopStockTransfers', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Stock Values')),
     ['controller' => 'ShopStockValues', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Stock Value')),
     ['controller' => 'ShopStockValues', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->endGroup(); ?>
+<?php $this->Toolbar->endGroup(); ?>
 <div class="stocks view">
     <h2 class="ui header">
         <?= h($stock->title) ?>

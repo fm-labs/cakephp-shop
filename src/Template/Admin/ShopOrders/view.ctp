@@ -5,12 +5,12 @@
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Order #{0}', $shopOrder->nr_formatted)); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],
     ['data-icon' => 'edit']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','Delete {0}', __d('shop','Shop Order')),
     ['action' => 'delete', $shopOrder->id],
     ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]) ?>
@@ -25,78 +25,42 @@
         <div class="row-header">
             <h1>
                 <?= __('Order No. {0}', $shopOrder->nr_formatted); ?>
+                <?= $this->Status->label($shopOrder->status); ?>
             </h1>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <dl class="dl-horizontal">
-                    <dt><i class="fa fa-circle"></i> Status</dt>
-                    <dd><?= $this->Status->label($shopOrder->status); ?></dd>
 
+        <div class="row">
+            <div class="col-md-10">
+                <dl class="dl-horizontal">
                     <dt><i class="fa fa-calendar"></i> Purchased on</dt>
                     <dd><?= $this->Time->nice($shopOrder->submitted); ?></dd>
                 </dl>
             </div>
-            <div class="col-md-6">
-                <dl class="dl-horizontal">
-                    <dt><i class="fa fa-user"></i> Customer</dt>
-                    <dd>Max Mustermann (<a href="#">max.mustermann@example.org</a>)</dd>
-                </dl>
-            </div>
             <div class="col-md-2">
+                <!--
                 <div class="actions action-vertical">
-                    <?= $this->Html->link(__('Confirm order'), '#', ['class' => 'btn btn-primary btn-block']); ?>
-                    <?= $this->Html->link(__('Hold order'), '#', ['class' => 'btn btn-default btn-block']); ?>
-                    <?= $this->Html->link(__('Cancel order'), '#', ['class' => 'btn btn-danger btn-block']); ?>
+                    <?= $this->Html->link(__('Confirm order'), '#', ['class' => 'btn btn-primary btn-sm']); ?>
+                    <?= $this->Html->link(__('Hold order'), '#', ['class' => 'btn btn-default btn-sm']); ?>
+                    <?= $this->Html->link(__('Cancel order'), '#', ['class' => 'btn btn-danger btn-sm']); ?>
                 </div>
+                -->
             </div>
         </div>
 
-        <div class="row-header">
-            <h1><?= __d('shop','Billing & Invoicing'); ?>
-            </h1>
-        </div>
         <div class="row">
-            <div class="col-md-4">
-                <dl class="dl-horizontal">
-                    <dt><i class="fa fa-circle"></i> Payment status</dt>
-                    <dd><?= $this->Status->label($shopOrder->payment_status); ?></dd>
-                    <dt><i class="fa fa-calendar"></i> Invoice To</dt>
-                    <dd><?= $this->element('Shop.address', ['address' => $shopOrder->billing_address]) ?></dd>
-                </dl>
+            <div class="col-md-6">
+                <h3>Billing Address</h3>
+                <?= $this->element('Shop.address', ['address' => $shopOrder->billing_address]) ?>
             </div>
             <div class="col-md-6">
-                <h2><i class="fa fa-search"></i> No invoices found</h2>
-            </div>
-            <div class="col-md-2">
-                <div class="actions action-vertical">
-                    <?= $this->Html->link(__('Create Invoice'), '#', ['class' => 'btn btn-primary btn-block']); ?>
-                    <?= $this->Html->link(__('Create Gutschrift'), '#', ['class' => 'btn btn-default btn-block']); ?>
-                    <?= $this->Html->link(__('Create Mahnung'), '#', ['class' => 'btn btn-default btn-block']); ?>
-                </div>
+                <h3>Shipping Address</h3>
+                <?= $this->element('Shop.address', ['address' => $shopOrder->shipping_address]) ?>
             </div>
         </div>
 
-        <div class="row-header">
-            <h1><?= __d('shop','Shipping & Delivery'); ?>
-            </h1>
-        </div>
         <div class="row">
-            <div class="col-md-4">
-                <dl class="dl-horizontal">
-                    <dt><i class="fa fa-circle"></i> Shipping Status</dt>
-                    <dd><?= $this->Status->label($shopOrder->shipping_status); ?></dd>
-                    <dt><i class="fa fa-calendar"></i> Ship To</dt>
-                    <dd>
-                        <?php if ($shopOrder->shipping_address): ?>
-                            <?= $this->element('Shop.address', ['address' => $shopOrder->shipping_address]) ?>
-                        <?php else: ?>
-                            <?= $this->element('Shop.address', ['address' => $shopOrder->billing_address]) ?>
-                        <?php endif; ?>
-                    </dd>
-                </dl>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
+                <h3>Order Items</h3>
                 <div class="order-items">
                     <?php $pos = 0; // index counter work-around ?>
                     <?= $this->cell('Backend.DataTable', [[
@@ -161,13 +125,8 @@
                     ?>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="actions action-vertical">
-                    <?= $this->Html->link(__('New Shippment'), '#', ['class' => 'btn btn-primary btn-block']); ?>
-                    <?= $this->Html->link(__('Check product availability'), '#', ['class' => 'btn btn-default btn-block']); ?>
-                </div>
-            </div>
         </div>
+
 
     </div>
 

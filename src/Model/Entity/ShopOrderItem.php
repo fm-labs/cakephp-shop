@@ -80,7 +80,10 @@ class ShopOrderItem extends Entity
 
     protected function _getTitle()
     {
-        return $this->getProduct()->getTitle();
+        if (!isset($this->_properties['title'])) {
+            $this->_properties['title'] = $this->getProduct()->getTitle();
+        }
+        return $this->_properties['title'];
     }
 
     /**

@@ -3,11 +3,22 @@ $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => '
 $this->Breadcrumbs->add(__d('shop','My Orders'), ['controller' => 'Orders', 'action' => 'index', 'ref' => 'breadcrumb']);
 $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controller' => 'Orders', 'action' => 'view', $order->uuid, 'ref' => 'breadcrumb']);
 ?>
+<?php $this->loadHelper('Banana.Status'); ?>
 <?php $this->assign('title', __d('shop','Order {0}', $order->nr_formatted)); ?>
 <div class="shop order view container">
 
-    <h1><?= __('Your Order #{0}', $order->nr_formatted); ?></h1>
-    <h3><?= __('Reference number'); ?>:&nbsp;<?= h($order->nr_formatted); ?></h3>
+    <h1><?= __('Order from {0}', $this->Time->nice($order->submitted)); ?></h1>
+    <h3><?= __('Reference number: #{0}', $order->nr_formatted); ?></h3>
+    <hr />
+    <h3>Status: <?= $this->Status->label($order->status); ?></h3>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2><?= __d('shop','Order Items') ?></h2>
+            <?= $this->element('Shop.Checkout/cart'); ?>
+        </div>
+    </div>
     <hr />
 
     <div class="row">
@@ -27,6 +38,8 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 
         </div>
     </div>
+
+    <hr />
 
     <div class="row">
         <div class="col-md-6">
@@ -64,34 +77,23 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
         </div>
     </div>
 
+    <hr />
 
-    <div class="row">
-        <div class="col-md-12">
-            <h2><?= __d('shop','Order Items') ?></h2>
-            <?= $this->element('Shop.Checkout/cart'); ?>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-md-12">
             <h2><?= __d('shop','Additional Information') ?></h2>
 
-            <?= $this->Form->input('customer_notes', ['label' => __d('shop','Additional Notes')]); ?>
-            <?= $this->Form->input('customer_email', [
-                //'required' => true,
-                'label' => __d('shop','Email for notifications') . '*',
-            ]); ?>
-            <?= $this->Form->input('customer_phone', [
-                'required' => true,
-                'label' => __d('shop','Callback phone number') . '*',
-            ]); ?>
-            <?= $this->Form->input('agree_terms', ['label' => __d('shop','Agree to Terms & Conditions') . '*']); ?>
-            <?= '' //$this->Form->input('agree_newsletter', ['label' => __d('shop','Agree Newsletter')]); ?>
-        </div>
-    </div>
+            <strong>Customer Notes</strong>
+            <p><?= h($order->customer_notes); ?></p>
 
-    <div class="ui actions" style="text-align: right;">
-        <?php echo $this->Html->link(__d('shop', 'Cancel order'), ['action' => 'index', 'op' => 'cancel'], ['class' => 'btn']); ?>
+            <strong>Customer Email</strong>
+            <p><?= h($order->customer_email); ?></p>
+
+            <strong>Customer Phone number</strong>
+            <p><?= h($order->customer_phone); ?></p>
+
+        </div>
     </div>
 
 </div>

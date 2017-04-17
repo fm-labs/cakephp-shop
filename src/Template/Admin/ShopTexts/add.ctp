@@ -1,6 +1,6 @@
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'New {0}', __d('shop', 'Shop Text'))); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Texts')),
     ['action' => 'index'],
     ['data-icon' => 'list']

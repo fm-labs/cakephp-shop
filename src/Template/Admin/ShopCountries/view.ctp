@@ -1,27 +1,27 @@
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Countries'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($shopCountry->name); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'Edit {0}', __d('shop', 'Shop Country')),
     ['action' => 'edit', $shopCountry->id],
     ['data-icon' => 'edit']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'Delete {0}', __d('shop', 'Shop Country')),
     ['action' => 'delete', $shopCountry->id],
     ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCountry->id)]) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Countries')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Country')),
     ['action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->startGroup(__d('shop', 'More')); ?>
-<?= $this->Toolbar->endGroup(); ?>
+<?php $this->Toolbar->startGroup(__d('shop', 'More')); ?>
+<?php $this->Toolbar->endGroup(); ?>
 <div class="shopCountries view">
     <h2 class="ui header">
         <?= h($shopCountry->name) ?>

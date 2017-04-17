@@ -17,7 +17,6 @@ class CustomerController extends AppController
     {
         //$this->autoRender = false;
         $customer = $this->request->session()->read('Shop.Customer');
-        debug($customer);
         $this->set(compact('customer'));
     }
 }
