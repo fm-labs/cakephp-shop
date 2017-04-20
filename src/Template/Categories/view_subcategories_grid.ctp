@@ -1,5 +1,6 @@
 <?php //$this->extend('extend_view'); ?>
 <div class="shop categories index container">
+    <h1 class="title"><?= h($shopCategory->name); ?></h1>
     <div class="row">
         <?php $i = 0; ?>
         <?php foreach ($shopCategory->published_subcategories as $category): ?>
