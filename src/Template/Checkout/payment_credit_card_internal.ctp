@@ -1,6 +1,6 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'payment'); ?>
-<?php $this->assign('heading', __('Pay with Credit Card')); ?>
+<?php $this->assign('heading', __d('shop','Pay with Credit Card')); ?>
 <?php
 $ccBrands = [
     'visa' => 'Visa',

@@ -62,10 +62,10 @@ class ShopOrderAddressesController extends AppController
         if ($this->request->is('post')) {
             $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->data);
             if ($this->ShopOrderAddresses->save($shopOrderAddress)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop order address')));
+                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop order address')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop order address')));
+                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order address')));
             }
         }
         $shopOrders = $this->ShopOrderAddresses->ShopOrders->find('list', ['limit' => 200]);
@@ -90,10 +90,10 @@ class ShopOrderAddressesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->data);
             if ($this->ShopOrderAddresses->save($shopOrderAddress)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop order address')));
+                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop order address')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop order address')));
+                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order address')));
             }
         }
         $shopOrders = $this->ShopOrderAddresses->ShopOrders->find('list', ['limit' => 200]);
@@ -115,9 +115,9 @@ class ShopOrderAddressesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopOrderAddress = $this->ShopOrderAddresses->get($id);
         if ($this->ShopOrderAddresses->delete($shopOrderAddress)) {
-            $this->Flash->success(__('The {0} has been deleted.', __('shop order address')));
+            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','shop order address')));
         } else {
-            $this->Flash->error(__('The {0} could not be deleted. Please, try again.', __('shop order address')));
+            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','shop order address')));
         }
         return $this->redirect(['action' => 'index']);
     }

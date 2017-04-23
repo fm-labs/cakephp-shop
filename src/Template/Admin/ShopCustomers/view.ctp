@@ -47,10 +47,10 @@
 <div class="shopCustomers view">
 
     <?php $this->Tabs->create(); ?>
-    <?php $this->Tabs->add(__('Customer')); ?>
+    <?php $this->Tabs->add(__d('shop','Customer')); ?>
 
     <div class="actions text-right">
-        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $shopCustomer->id], ['class' => 'btn btn-primary btn-edit']); ?>
+        <?= $this->Html->link(__d('shop','Edit'), ['action' => 'edit', $shopCustomer->id], ['class' => 'btn btn-primary btn-edit']); ?>
     </div>
 
     <?= $this->cell('Backend.EntityView', [ $shopCustomer ], [
@@ -66,8 +66,8 @@
         'exclude' => []
     ]); ?>
 
-    <?= $this->Tabs->add(__('Orders'), ['url' => ['controller' => 'ShopOrders', 'action' => 'index', 'shop_customer_id' => $shopCustomer->id]]); ?>
-    <?= $this->Tabs->add(__('Addresses'), ['url' => ['controller' => 'ShopCustomerAddresses', 'action' => 'index', 'shop_customer_id' => $shopCustomer->id]]); ?>
+    <?= $this->Tabs->add(__d('shop','Orders'), ['url' => ['controller' => 'ShopOrders', 'action' => 'index', 'shop_customer_id' => $shopCustomer->id]]); ?>
+    <?= $this->Tabs->add(__d('shop','Addresses'), ['url' => ['controller' => 'ShopCustomerAddresses', 'action' => 'index', 'shop_customer_id' => $shopCustomer->id]]); ?>
 
     <?= $this->Tabs->render(); ?>
 </div>

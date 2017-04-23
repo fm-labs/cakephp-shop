@@ -1,10 +1,10 @@
 <?php if (!$auth) return; ?>
 <?php if (!$product->isBuyable()): ?>
-    <?= __('Not available') ?>
+    <?= __d('shop','Not available') ?>
     <?php return; ?>
 <?php endif; ?>
 <?php if ($product->type == "parent"): ?>
-    <?= $this->Html->link(__('View product'), $product->url, ['class' => 'btn btn-primary']); ?>
+    <?= $this->Html->link(__d('shop','View product'), $product->url, ['class' => 'btn btn-primary']); ?>
     <?php return; ?>
 <?php endif; ?>
 <div class="add-to-cart-button">

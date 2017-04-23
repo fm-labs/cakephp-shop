@@ -20,7 +20,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
 
     public function getTitle()
     {
-        return __('Payment Type');
+        return __d('shop','Payment Type');
     }
 
     public function initialize()

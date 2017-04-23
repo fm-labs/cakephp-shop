@@ -12,7 +12,7 @@ class BillingStep extends BaseStep implements CheckoutStepInterface
 
     public function getTitle()
     {
-        return __('Billing Address');
+        return __d('shop','Billing Address');
     }
 
     public function isComplete()

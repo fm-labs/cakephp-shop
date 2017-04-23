@@ -24,7 +24,7 @@
 
         <div class="row-header">
             <h1>
-                <?= __('Order No. {0}', $shopOrder->nr_formatted); ?>
+                <?= __d('shop','Order No. {0}', $shopOrder->nr_formatted); ?>
                 <?= $this->Status->label($shopOrder->status); ?>
             </h1>
         </div>
@@ -39,9 +39,9 @@
             <div class="col-md-2">
                 <!--
                 <div class="actions action-vertical">
-                    <?= $this->Html->link(__('Confirm order'), '#', ['class' => 'btn btn-primary btn-sm']); ?>
-                    <?= $this->Html->link(__('Hold order'), '#', ['class' => 'btn btn-default btn-sm']); ?>
-                    <?= $this->Html->link(__('Cancel order'), '#', ['class' => 'btn btn-danger btn-sm']); ?>
+                    <?= $this->Html->link(__d('shop','Confirm order'), '#', ['class' => 'btn btn-primary btn-sm']); ?>
+                    <?= $this->Html->link(__d('shop','Hold order'), '#', ['class' => 'btn btn-default btn-sm']); ?>
+                    <?= $this->Html->link(__d('shop','Cancel order'), '#', ['class' => 'btn btn-danger btn-sm']); ?>
                 </div>
                 -->
             </div>
@@ -70,7 +70,7 @@
                         'class' => 'table table-condensed table-striped table-hover',
                         'fields' => [
                             'id' => [
-                                'title' => __('Pos'),
+                                'title' => __d('shop','Pos'),
                                 'formatter' => function($val, $row) use (&$pos) {
                                     return $this->Html->link(++$pos, ['action' => 'view', $row->id]);
                                 }
@@ -108,7 +108,7 @@
                             'value_net' => ['formatter' => function($val, $row) use ($shopOrder) {
                                 return $this->Number->currency($val, $shopOrder->currency);
                             }],
-                            'value' => ['title' => __('Total'), 'formatter' => function($val, $row) use ($shopOrder) {
+                            'value' => ['title' => __d('shop','Total'), 'formatter' => function($val, $row) use ($shopOrder) {
                                 $val = ($val) ?: $row->value_net + $row->value_tax;
                                 return $this->Number->currency($val, $shopOrder->currency);
 
@@ -135,18 +135,18 @@
     <?php $this->Tabs->add('Order Items', ['id' => 'order-items', 'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]]); ?>
 
     <!-- Tab:Billing -->
-    <?php // $this->Tabs->add(__('Billing Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
+    <?php // $this->Tabs->add(__d('shop','Billing Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
 
 
     <!-- Tab:Shipping -->
-    <?php // $this->Tabs->add(__('Shipping Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
+    <?php // $this->Tabs->add(__d('shop','Shipping Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
 
 
 
     <?php $this->Tabs->add('Billing'); ?>
     <div class="row">
         <div class="col-md-12">
-            <h2><?= __('Billing Address'); ?></h2>
+            <h2><?= __d('shop','Billing Address'); ?></h2>
             <?= $this->cell('Backend.EntityView', [ $shopOrder->billing_address ], [
                 'title' => false,
                 'model' => 'Shop.ShopOrderAddresses',
@@ -162,7 +162,7 @@
                 'exclude' => '*'
             ])->render('table'); ?>
             <hr />
-            <h2><?= __('Invoices') ?></h2>
+            <h2><?= __d('shop','Invoices') ?></h2>
         </div>
     </div>
 
@@ -170,7 +170,7 @@
     <?= $this->Tabs->add('Shipping', ['id' => 'order-shipping']); ?>
     <div class="row">
         <div class="col-md-12">
-            <h2><?= __('Shipping Address'); ?></h2>
+            <h2><?= __d('shop','Shipping Address'); ?></h2>
             <?= $this->cell('Backend.EntityView', [ ($shopOrder->shipping_address) ?: $shopOrder->billing_address ], [
                 'title' => false,
                 'model' => 'Shop.ShopOrderAddresses',
@@ -191,7 +191,7 @@
     <?= $this->Tabs->add('Payment', ['id' => 'order-payment']); ?>
     <div class="row">
         <div class="col-md-12">
-            <h2><?= __('Payment'); ?></h2>
+            <h2><?= __d('shop','Payment'); ?></h2>
             <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
                 'title' => false,
                 'model' => 'Shop.ShopOrders',

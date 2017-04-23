@@ -47,7 +47,7 @@
                 return $this->Number->currency($val, $shopOrder->currency);
             }],
             */
-            'value' => ['title' => __('Total'), 'formatter' => function($val, $row) {
+            'value' => ['title' => __d('shop','Total'), 'formatter' => function($val, $row) {
                 $val = ($val) ?: $row->value_net + $row->value_tax;
                 return $this->Number->currency($val, $row->currency);
 

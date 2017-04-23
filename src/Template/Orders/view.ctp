@@ -7,8 +7,8 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 <?php $this->assign('title', __d('shop','Order {0}', $order->nr_formatted)); ?>
 <div class="shop order view container">
 
-    <h1><?= __('Order from {0}', $this->Time->nice($order->submitted)); ?></h1>
-    <h3><?= __('Reference number: #{0}', $order->nr_formatted); ?></h3>
+    <h1><?= __d('shop','Order from {0}', $this->Time->nice($order->submitted)); ?></h1>
+    <h3><?= __d('shop','Reference number: #{0}', $order->nr_formatted); ?></h3>
     <hr />
     <h3>Status: <?= $this->Status->label($order->status); ?></h3>
     <hr />

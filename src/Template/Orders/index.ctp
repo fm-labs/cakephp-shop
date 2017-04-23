@@ -3,12 +3,12 @@
 <?php $this->loadHelper('Banana.Status'); ?>
 <div class="shopOrders index container">
 
-    <h1><?= __('Your latest orders'); ?></h1>
+    <h1><?= __d('shop','Your latest orders'); ?></h1>
 
     <?php if (count($shopOrders) < 1): ?>
         <div class="alert alert-warning">
-            <h4><?= __('No orders found'); ?></h4>
-            <?= $this->Html->link(__('Browse shop'), ['_name' => 'shop:index'], ['class' => 'btn btn-primary']); ?>
+            <h4><?= __d('shop','No orders found'); ?></h4>
+            <?= $this->Html->link(__d('shop','Browse shop'), ['_name' => 'shop:index'], ['class' => 'btn btn-primary']); ?>
         </div>
     <?php else: ?>
         <table class="table">
@@ -26,7 +26,7 @@
                 <td><?= $this->Number->currency($order->order_value_total, $order->currency); ?></td>
                 <td><?= $this->Status->label($order->status); ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View details'), ['action' => 'view', $order->uuid]); ?>
+                    <?= $this->Html->link(__d('shop','View details'), ['action' => 'view', $order->uuid]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

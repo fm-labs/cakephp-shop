@@ -668,26 +668,26 @@ class ShopOrdersTable extends Table
     {
         return [
             'status' => [
-                new Status(self::ORDER_STATUS_TEMP, __('Quote'), 'default'),
-                new Status(self::ORDER_STATUS_SUBMITTED, __('Purchased'), 'default'),
-                new Status(self::ORDER_STATUS_PENDING, __('Pending'), 'warning'),
-                new Status(self::ORDER_STATUS_CONFIRMED, __('Confirmed'), 'success'),
-                new Status(self::ORDER_STATUS_PAYED, __('Payed'), 'success'),
-                new Status(self::ORDER_STATUS_DELIVERED, __('Delivered'), 'success'),
-                new Status(self::ORDER_STATUS_CLOSED, __('Closed'), 'success'),
-                new Status(self::ORDER_STATUS_STORNO, __('Storno'), 'default'),
-                new Status(self::ORDER_STATUS_ERROR, __('Error'), 'danger'),
-                new Status(self::ORDER_STATUS_ERROR_DELIVERY, __('Error Delivery'), 'danger'),
+                new Status(self::ORDER_STATUS_TEMP, __d('shop','Quote'), 'default'),
+                new Status(self::ORDER_STATUS_SUBMITTED, __d('shop','Purchased'), 'default'),
+                new Status(self::ORDER_STATUS_PENDING, __d('shop','Pending'), 'warning'),
+                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop','Confirmed'), 'success'),
+                new Status(self::ORDER_STATUS_PAYED, __d('shop','Payed'), 'success'),
+                new Status(self::ORDER_STATUS_DELIVERED, __d('shop','Delivered'), 'success'),
+                new Status(self::ORDER_STATUS_CLOSED, __d('shop','Closed'), 'success'),
+                new Status(self::ORDER_STATUS_STORNO, __d('shop','Storno'), 'default'),
+                new Status(self::ORDER_STATUS_ERROR, __d('shop','Error'), 'danger'),
+                new Status(self::ORDER_STATUS_ERROR_DELIVERY, __d('shop','Error Delivery'), 'danger'),
             ],
             'shipping_status' => [
-                new Status(self::SHIPPING_STATUS_STANDBY, __('Not delivered'), 'danger'),
-                new Status(self::SHIPPING_STATUS_PENDING, __('Pending'), 'warning'),
-                new Status(self::SHIPPING_STATUS_DELIVERED, __('Delivered'), 'success'),
+                new Status(self::SHIPPING_STATUS_STANDBY, __d('shop','Not delivered'), 'danger'),
+                new Status(self::SHIPPING_STATUS_PENDING, __d('shop','Pending'), 'warning'),
+                new Status(self::SHIPPING_STATUS_DELIVERED, __d('shop','Delivered'), 'success'),
             ],
             'payment_status' => [
-                new Status(self::PAYMENT_STATUS_PENDING, __('Waiting for payment'), 'warning'),
-                new Status(self::PAYMENT_STATUS_PARTIAL, __('Teilzahlung erhalten'), 'warning'),
-                new Status(self::PAYMENT_STATUS_PAYED, __('Payed'), 'success')
+                new Status(self::PAYMENT_STATUS_PENDING, __d('shop','Waiting for payment'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PARTIAL, __d('shop','Teilzahlung erhalten'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PAYED, __d('shop','Payed'), 'success')
             ],
         ];
     }

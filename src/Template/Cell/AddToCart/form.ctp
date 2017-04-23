@@ -1,12 +1,12 @@
 <?php if (!$auth): ?>
     <div class="add-to-cart add-to-cart-noauth">
-        Please <?= $this->Html->link(__('login'), ['_name' => 'user:login', 'goto' => urlencode($this->Html->Url->build($product->url))]); ?>
+        Please <?= $this->Html->link(__d('shop','login'), ['_name' => 'user:login', 'goto' => urlencode($this->Html->Url->build($product->url))]); ?>
         to purchase this product<br />
     </div>
     <?php return; ?>
 <?php endif; ?>
 <?php if (!$product->isBuyable()): ?>
-    <?= __('This item is currently not available in our online store') ?>
+    <?= __d('shop','This item is currently not available in our online store') ?>
     <?php return; ?>
 <?php endif; ?>
 <?php if ($product->type == "parent" && empty($productVersions) && \Cake\Core\Configure::read('debug')): ?>

@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <h2>
                 <i class="fa fa-list"></i>
-                <?= __('Orders'); ?>
+                <?= __d('shop','Orders'); ?>
             </h2>
 
 
@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <h2>
                 <i class="fa fa-user-circle"></i>
-                <?= __('My profile'); ?>
+                <?= __d('shop','My profile'); ?>
             </h2>
 
             <p>Einstellung zu Ihrem persönlichen Profil.</p>

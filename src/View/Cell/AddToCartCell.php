@@ -109,7 +109,7 @@ class AddToCartCell extends Cell
             $inputs['refid'] = [
                 'type' => 'select',
                 'options' => $productVersions,
-                'label' => __('Product version')
+                'label' => __d('shop','Product version')
             ];
         }
 

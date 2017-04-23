@@ -52,7 +52,7 @@ $this->assign('title', __d('shop', 'Cart'));
                 </small>
             </td>
             <?php if (Configure::read('Shop.Price.requireAuth') && !$this->request->session()->read('Shop.Customer.id')): ?>
-                <td colspan="2" class="number currency text-right"><small><?= __('Login required'); ?></small></td>
+                <td colspan="2" class="number currency text-right"><small><?= __d('shop','Login required'); ?></small></td>
             <?php else: ?>
                 <td class="number currency text-right"><?= $this->Number->currency($item->item_value_taxed, 'EUR'); ?></td>
                 <td class="number currency text-right"><?= $this->Number->currency($item->value_total, 'EUR'); ?></td>

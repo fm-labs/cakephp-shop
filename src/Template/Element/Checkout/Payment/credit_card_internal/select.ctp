@@ -1,3 +1,3 @@
 <div class="payment-method-select">
-    <?= __('We accept: Visa and Mastercard'); ?>
+    <?= __d('shop','We accept: Visa and Mastercard'); ?>
 </div>

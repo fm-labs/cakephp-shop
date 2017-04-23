@@ -10,7 +10,7 @@ class ReviewStep extends BaseStep implements CheckoutStepInterface
 
     public function getTitle()
     {
-        return __('Review');
+        return __d('shop','Review');
     }
 
     public function isComplete()

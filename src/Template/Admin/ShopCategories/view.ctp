@@ -29,7 +29,7 @@ $this->loadHelper('Media.Media');
 <div class="shopCategories view">
 
     <div class="actions text-right">
-        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $shopCategory->id], ['class' => 'btn btn-primary btn-edit']); ?>
+        <?= $this->Html->link(__d('shop','Edit'), ['action' => 'edit', $shopCategory->id], ['class' => 'btn btn-primary btn-edit']); ?>
     </div>
 
     <?= $this->cell('Backend.EntityView', [ $shopCategory ], [

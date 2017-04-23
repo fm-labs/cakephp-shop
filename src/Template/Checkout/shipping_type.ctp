@@ -22,7 +22,7 @@
             </div>
             <div class="col-sm-4">
                 <?= $this->Form->postLink(
-                    __('Select'),
+                    __d('shop','Select'),
                     ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'shipping', 'change_type' => true],
                     ['class' => 'btn btn-primary', 'data' => ['shipping_type' => $alias]]
                 ); ?>

@@ -57,7 +57,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
         </div>
         <div class="col-md-3">
 
-            <?= $this->Form->fieldsetStart(__('Languages')); ?>
+            <?= $this->Form->fieldsetStart(__d('shop','Languages')); ?>
             <?php foreach($this->get('locales') as $_locale => $_localeName): ?>
                 <?= $this->Html->link($_localeName, ['action' => 'edit', $shopProduct->id, 'locale' => $_locale]) ?>
             <?php endforeach; ?>

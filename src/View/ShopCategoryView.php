@@ -31,7 +31,7 @@ class ShopCategoryView extends ContentView
 
             $metaTitle = $this->Blocks->get('heading');
             $metaTitle = ($metaTitle) ?: $this->Blocks->get('title');
-            $metaTitle = ($metaTitle) ?: __('All Categories');
+            $metaTitle = ($metaTitle) ?: __d('shop','All Categories');
             $shopCategoryUrl = ['plugin' => 'Shop', 'controller' => 'Categories', 'action' => 'index'];
 
             // breadcrumbs
