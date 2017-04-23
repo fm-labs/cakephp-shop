@@ -132,10 +132,18 @@
 
 
     <!-- Tab:OrderItems -->
-    <?= $this->Tabs->add('Order Items', ['id' => 'order-items', 'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]]); ?>
+    <?php $this->Tabs->add('Order Items', ['id' => 'order-items', 'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]]); ?>
 
     <!-- Tab:Billing -->
-    <?= $this->Tabs->add('Billing'); ?>
+    <?php // $this->Tabs->add(__('Billing Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
+
+
+    <!-- Tab:Shipping -->
+    <?php // $this->Tabs->add(__('Shipping Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
+
+
+
+    <?php $this->Tabs->add('Billing'); ?>
     <div class="row">
         <div class="col-md-12">
             <h2><?= __('Billing Address'); ?></h2>

@@ -48,9 +48,16 @@ class ShopOrderAddress extends Entity
         'formatted'
     ];
 
+    protected function _getName()
+    {
+        return sprintf("%s, %s",
+            $this->_properties['last_name'],
+            $this->_properties['first_name']);
+    }
+
     protected function _getShort()
     {
-        if ($this->is_company) {
+        if ($this->company_name) {
             return sprintf("%s, %s %s",
                 $this->_properties['last_name'],
                 $this->_properties['first_name'],
@@ -64,7 +71,7 @@ class ShopOrderAddress extends Entity
 
     protected function _getOneline()
     {
-        if ($this->is_company) {
+        if ($this->company_name) {
             return sprintf("%s, %s %s, %s, %s %s",
                 $this->_properties['company_name'],
                 $this->_properties['last_name'],

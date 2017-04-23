@@ -17,18 +17,6 @@ use Cake\Validation\Validator;
 use Shop\Model\Entity\ShopOrder;
 
 
-define('ORDER_STATUS_TEMP', 0);
-define('ORDER_STATUS_SUBMITTED', 1);
-define('ORDER_STATUS_PENDING', 2);
-define('ORDER_STATUS_CONFIRMED', 3);
-define('ORDER_STATUS_PAYED', 4);
-define('ORDER_STATUS_DELIVERED', 5);
-define('ORDER_STATUS_CLOSED', 6);
-define('ORDER_STATUS_STORNO', 80);
-define('ORDER_STATUS_ERROR', 90);
-define('ORDER_STATUS_ERROR_DELIVERY', 91);
-
-
 /**
  * ShopOrders Model
  *
@@ -41,11 +29,27 @@ define('ORDER_STATUS_ERROR_DELIVERY', 91);
 class ShopOrdersTable extends Table
 {
 
+    /*
     const ORDER_STATUS_QUOTE = 0;
-    const ORDER_STATUS_PURCHASED = 1;
+    const ORDER_STATUS_SUBMITTED = 1;
     const ORDER_STATUS_CONFIRMED = 2;
     const ORDER_STATUS_INVOICED = 3;
     const ORDER_STATUS_COMPLETE = 10;
+    */
+
+
+    const ORDER_STATUS_TEMP = 0;
+    const ORDER_STATUS_SUBMITTED = 1;
+    const ORDER_STATUS_PENDING = 2;
+    const ORDER_STATUS_CONFIRMED = 3;
+    const ORDER_STATUS_PAYED = 4;
+    const ORDER_STATUS_DELIVERED = 5;
+    const ORDER_STATUS_CLOSED = 6;
+    const ORDER_STATUS_STORNO = 80;
+    const ORDER_STATUS_ERROR = 90;
+    const ORDER_STATUS_ERROR_DELIVERY = 91;
+
+
 
     const SHIPPING_STATUS_STANDBY = 0;
     const SHIPPING_STATUS_PENDING = 1;
@@ -111,7 +115,7 @@ class ShopOrdersTable extends Table
             'conditions' => ['ShippingAddress.type' => 'S']
         ]);
 
-        $this->addBehavior('Banana.Statusable');
+        //$this->addBehavior('Banana.Statusable');
 
 
         if (Plugin::loaded('Search')) {
@@ -515,8 +519,6 @@ class ShopOrdersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
-        //$rules->add($rules->existsIn(['billing_address_id'], 'BillingAddresses'));
-        //$rules->add($rules->existsIn(['shipping_address_id'], 'ShippingAddresses'));
         return $rules;
     }
 
@@ -586,21 +588,23 @@ class ShopOrdersTable extends Table
         //$order['status'] = 1;
 
         $order = $this->save($order);
+
+        // assign order nr
+        if (!$this->assignOrderNr($order, true)) {
+            throw new \Exception("Failed to assign order nr");
+        }
+
+        // update order status to 'submitted'
+        if (!$this->updateOrderStatus($order, self::ORDER_STATUS_SUBMITTED)) {
+            Log::error("Shop Order: Failed to updated order status to SUBMITTED");
+        }
+
         if ($order) {
             $event = new Event('Shop.Model.Order.afterSubmit', $this, [
                 'order' => $order
             ]);
             $this->eventManager()->dispatch($event);
         }
-
-        // assign order nr
-        if (!$this->assignOrderNr($order, true)) {
-            Log::error("Shop Order: Failed to assign order nr");
-        }
-
-        // update order status to 'submitted'
-
-        $this->updateOrderStatus($order->id, self::ORDER_STATUS_PURCHASED);
 
         /*
         // @TODO move to eventlistener
@@ -631,6 +635,19 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
+    public function updateOrderStatus($order, $newStatus)
+    {
+        $order->status = $newStatus;
+
+
+        if (!$this->save($order)) {
+            Log::error("Shop Order: Failed to updated order status to SUBMITTED");
+            return false;
+        }
+
+        return $order;
+    }
+
     public function assignOrderNr($order, $save = false)
     {
         // check if an order number has already been assigned
@@ -651,11 +668,16 @@ class ShopOrdersTable extends Table
     {
         return [
             'status' => [
-                new Status(self::ORDER_STATUS_QUOTE, __('Quote'), 'default'),
-                new Status(self::ORDER_STATUS_PURCHASED, __('Purchased'), 'default'),
+                new Status(self::ORDER_STATUS_TEMP, __('Quote'), 'default'),
+                new Status(self::ORDER_STATUS_SUBMITTED, __('Purchased'), 'default'),
+                new Status(self::ORDER_STATUS_PENDING, __('Pending'), 'warning'),
                 new Status(self::ORDER_STATUS_CONFIRMED, __('Confirmed'), 'success'),
-                new Status(self::ORDER_STATUS_INVOICED, __('Invoiced'), 'success'),
-                new Status(self::ORDER_STATUS_COMPLETE, __('Complete'), 'success'),
+                new Status(self::ORDER_STATUS_PAYED, __('Payed'), 'success'),
+                new Status(self::ORDER_STATUS_DELIVERED, __('Delivered'), 'success'),
+                new Status(self::ORDER_STATUS_CLOSED, __('Closed'), 'success'),
+                new Status(self::ORDER_STATUS_STORNO, __('Storno'), 'default'),
+                new Status(self::ORDER_STATUS_ERROR, __('Error'), 'danger'),
+                new Status(self::ORDER_STATUS_ERROR_DELIVERY, __('Error Delivery'), 'danger'),
             ],
             'shipping_status' => [
                 new Status(self::SHIPPING_STATUS_STANDBY, __('Not delivered'), 'danger'),

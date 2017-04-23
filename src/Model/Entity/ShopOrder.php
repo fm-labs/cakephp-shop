@@ -158,15 +158,16 @@ class ShopOrder extends Entity
 
             $prefix = "BE";
             $suffix = "";
+            $grp = $this->_properties['ordergroup'];
             $nr = $this->_properties['nr'];
-            $zeroFill = 8;
+            $zeroFill = 8 - strlen($grp);
 
             if ($zeroFill > 0) {
                 $nrFill = str_repeat("0", $zeroFill) . (string) $nr;
                 $nr = substr($nrFill, $zeroFill * -1);
             }
 
-            return sprintf("%s%s%s", $prefix, $nr, $suffix);
+            return $prefix . $grp . $nr . $suffix;
         }
 
         return null;

@@ -30,7 +30,7 @@
             'id',
             'email' => [
                 'formatter' => function($val, $row) {
-                    return $this->Html->link($val, ['action' => 'edit', $row->id]);
+                    return $this->Html->link($val, ['action' => 'view', $row->id]);
                 }
             ],
             'first_name',

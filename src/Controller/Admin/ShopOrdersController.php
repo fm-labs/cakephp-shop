@@ -24,6 +24,17 @@ class ShopOrdersController extends AppController
             'conditions' => ['ShopOrders.is_temporary' => false],
             'order' => ['ShopOrders.id' => 'DESC']
         ];
+
+        $filter = $this->request->query;
+        if (isset($filter['_'])) unset($filter['_']);
+        //if ($filter) {
+        //    $this->paginate['conditions'] = $filter;
+        //}
+
+        if (isset($filter['shop_customer_id'])) {
+            $this->paginate['conditions']['ShopOrders.shop_customer_id'] = (int) $filter['shop_customer_id'];
+        }
+
         $this->set('shopOrders', $this->paginate($this->ShopOrders));
         $this->set('_serialize', ['shopOrders']);
     }

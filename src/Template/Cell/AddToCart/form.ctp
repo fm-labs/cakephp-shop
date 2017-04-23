@@ -18,9 +18,9 @@
     <div class="add-to-cart-form">
         <?= $this->Form->create($form, $formOptions); ?>
         <?= $this->Form->inputs($formInputs, $formInputsOptions); ?>
-        <div class="add-to-cart-submit" style="margin-top: 0.5em;">
+        <div class="add-to-cart-submit text-right" style="margin-top: 0.5em;">
             <?= $this->Form->button(__d('shop', 'Add to cart'),
-                ['class' => 'btn btn-primary btn-block btn-lg btn-addtocart']); ?>
+                ['class' => 'btn btn-primary btn-lg btn-addtocart']); ?>
         </div>
         <?= $this->Form->end(); ?>
     </div>

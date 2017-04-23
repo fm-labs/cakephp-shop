@@ -33,6 +33,10 @@ class ShopCustomerAddressesTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('ShopCustomers', [
+            'foreignKey' => 'shop_customer_id',
+            'className' => 'Shop.ShopCustomers',
+        ]);
         $this->belongsTo('Countries', [
             'foreignKey' => 'country_id',
             'className' => 'Shop.ShopCountries',

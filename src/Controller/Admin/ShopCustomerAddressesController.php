@@ -4,11 +4,11 @@ namespace Shop\Controller\Admin;
 use Shop\Controller\Admin\AppController;
 
 /**
- * ShopAddresses Controller
+ * ShopCustomerAddresses Controller
  *
- * @property \Shop\Model\Table\ShopAddressesTable $ShopAddresses
+ * @property \Shop\Model\Table\ShopCustomerAddressesTable $ShopCustomerAddresses
  */
-class ShopAddressesController extends AppController
+class ShopCustomerAddressesController extends AppController
 {
 
     /**
@@ -21,8 +21,19 @@ class ShopAddressesController extends AppController
         $this->paginate = [
             'contain' => ['ShopCustomers']
         ];
-        $this->set('shopAddresses', $this->paginate($this->ShopAddresses));
-        $this->set('_serialize', ['shopAddresses']);
+
+        $filter = $this->request->query;
+        if (isset($filter['_'])) unset($filter['_']);
+        //if ($filter) {
+        //    $this->paginate['conditions'] = $filter;
+        //}
+
+        if (isset($filter['shop_customer_id'])) {
+            $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int) $filter['shop_customer_id'];
+        }
+
+        $this->set('shopCustomerAddresses', $this->paginate($this->ShopCustomerAddresses));
+        $this->set('_serialize', ['shopCustomerAddresses']);
     }
 
     /**
@@ -34,11 +45,11 @@ class ShopAddressesController extends AppController
      */
     public function view($id = null)
     {
-        $shopAddress = $this->ShopAddresses->get($id, [
+        $shopCustomerAddress = $this->ShopCustomerAddresses->get($id, [
             'contain' => ['ShopCustomers']
         ]);
-        $this->set('shopAddress', $shopAddress);
-        $this->set('_serialize', ['shopAddress']);
+        $this->set('shopCustomerAddress', $shopCustomerAddress);
+        $this->set('_serialize', ['shopCustomerAddress']);
     }
 
     /**
@@ -48,19 +59,19 @@ class ShopAddressesController extends AppController
      */
     public function add()
     {
-        $shopAddress = $this->ShopAddresses->newEntity();
+        $shopCustomerAddress = $this->ShopCustomerAddresses->newEntity();
         if ($this->request->is('post')) {
-            $shopAddress = $this->ShopAddresses->patchEntity($shopAddress, $this->request->data);
-            if ($this->ShopAddresses->save($shopAddress)) {
+            $shopCustomerAddress = $this->ShopCustomerAddresses->patchEntity($shopCustomerAddress, $this->request->data);
+            if ($this->ShopCustomerAddresses->save($shopCustomerAddress)) {
                 $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop address')));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop address')));
             }
         }
-        $shopCustomers = $this->ShopAddresses->ShopCustomers->find('list', ['limit' => 200]);
-        $this->set(compact('shopAddress', 'shopCustomers'));
-        $this->set('_serialize', ['shopAddress']);
+        $shopCustomers = $this->ShopCustomerAddresses->ShopCustomers->find('list', ['limit' => 200]);
+        $this->set(compact('shopCustomerAddress', 'shopCustomers'));
+        $this->set('_serialize', ['shopCustomerAddress']);
     }
 
     /**
@@ -72,21 +83,21 @@ class ShopAddressesController extends AppController
      */
     public function edit($id = null)
     {
-        $shopAddress = $this->ShopAddresses->get($id, [
+        $shopCustomerAddress = $this->ShopCustomerAddresses->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopAddress = $this->ShopAddresses->patchEntity($shopAddress, $this->request->data);
-            if ($this->ShopAddresses->save($shopAddress)) {
+            $shopCustomerAddress = $this->ShopCustomerAddresses->patchEntity($shopCustomerAddress, $this->request->data);
+            if ($this->ShopCustomerAddresses->save($shopCustomerAddress)) {
                 $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop address')));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop address')));
             }
         }
-        $shopCustomers = $this->ShopAddresses->ShopCustomers->find('list', ['limit' => 200]);
-        $this->set(compact('shopAddress', 'shopCustomers'));
-        $this->set('_serialize', ['shopAddress']);
+        $shopCustomers = $this->ShopCustomerAddresses->ShopCustomers->find('list', ['limit' => 200]);
+        $this->set(compact('shopCustomerAddress', 'shopCustomers'));
+        $this->set('_serialize', ['shopCustomerAddress']);
     }
 
     /**
@@ -99,8 +110,8 @@ class ShopAddressesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $shopAddress = $this->ShopAddresses->get($id);
-        if ($this->ShopAddresses->delete($shopAddress)) {
+        $shopCustomerAddress = $this->ShopCustomerAddresses->get($id);
+        if ($this->ShopCustomerAddresses->delete($shopCustomerAddress)) {
             $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','shop address')));
         } else {
             $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','shop address')));

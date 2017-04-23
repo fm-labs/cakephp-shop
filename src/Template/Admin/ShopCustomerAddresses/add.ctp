@@ -22,7 +22,7 @@
     <h2 class="ui header">
         <?= __d('shop','Add {0}', __d('shop','Shop Address')) ?>
     </h2>
-    <?= $this->Form->create($shopAddress); ?>
+    <?= $this->Form->create($shopCustomerAddress); ?>
     <div class="users ui basic segment">
         <div class="ui form">
         <?php

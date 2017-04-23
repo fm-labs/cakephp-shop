@@ -11,11 +11,11 @@
     ['controller' => 'ShopCustomers', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
-<div class="shopAddresses index">
+<div class="shopCustomerAddresses index">
     <?= $this->cell('Backend.DataTable', [[
         'paginate' => true,
-        'model' => 'Shop.ShopAddresses',
-        'data' => $shopAddresses,
+        'model' => 'Shop.ShopCustomerAddresses',
+        'data' => $shopCustomerAddresses,
         'fields' => [
             'id',
             'shop_customer_id' => [

@@ -2,8 +2,8 @@
 <?php $this->Breadcrumbs->add(__d('shop','Edit {0}', __d('shop','Shop Address'))); ?>
 <?php $this->Toolbar->addPostLink(
     __d('shop','Delete'),
-    ['action' => 'delete', $shopAddress->id],
-    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopAddress->id)]
+    ['action' => 'delete', $shopCustomerAddress->id],
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopCustomerAddress->id)]
 )
 ?>
 <?php $this->Toolbar->addLink(
@@ -28,7 +28,7 @@
     <h2 class="ui header">
         <?= __d('shop','Edit {0}', __d('shop','Shop Address')) ?>
     </h2>
-    <?= $this->Form->create($shopAddress); ?>
+    <?= $this->Form->create($shopCustomerAddress); ?>
     <div class="users ui basic segment">
         <div class="ui form">
         <?php

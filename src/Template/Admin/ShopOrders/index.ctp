@@ -42,7 +42,7 @@
             ],
             'billing_address' => [
                 'formatter' => function($val, $row) {
-                    return ($val) ? $val->short : __('*Data missing*');
+                    return ($val) ? $val->name : __('*Data missing*');
                 }
             ],
             'order_value_total' => [

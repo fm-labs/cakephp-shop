@@ -36,8 +36,6 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     <?php $this->Tabs->add(__d('shop', 'General')); ?>
 
         <?= $this->Form->create($shopCategory); ?>
-        <div class="row">
-            <div class="col-md-9">
 
                 <?php //echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
 
@@ -86,8 +84,6 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
                 echo $this->Form->input('tags._ids', ['multiple' => 'checkbox']);
                 ?>
                 <?= $this->Form->fieldsetEnd(); ?>
-            </div>
-            <div class="col-md-3">
 
                 <?= $this->Form->fieldsetStart([
                     'legend' => sprintf("%s %s", __d('shop','Published'), $this->Ui->statusLabel($shopCategory->is_published)),
@@ -105,9 +101,6 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
                 <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
                 <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
-
-            </div>
-        </div>
 
         <?= $this->Form->button(__d('shop', 'Save Changes')) ?>
         <?= $this->Form->end() ?>
