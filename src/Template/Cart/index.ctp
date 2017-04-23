@@ -35,6 +35,11 @@ $this->assign('title', __d('shop', 'Cart'));
                 ]); ?>
             </td>
             <td><?= h($item->unit); ?></td>
+            <td class="image" style="width: 50px;">
+                <?php if ($item->getProduct()->featured_image_file): ?>
+                    <?php echo $this->Media->thumbnail($item->getProduct()->featured_image_file->filepath, ['width' => 45, 'height' => 45]); ?>
+                <?php endif; ?>
+            </td>
             <td class="title">
                 <?= $this->Html->link($item->title, $item->getProduct()->url); ?>
                 <br />
@@ -45,11 +50,6 @@ $this->assign('title', __d('shop', 'Cart'));
                         ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure?')]
                     ); ?>
                 </small>
-            </td>
-            <td class="image" style="width: 50px;">
-                <?php if ($item->getProduct()->featured_image_file): ?>
-                    <?php echo $this->Media->thumbnail($item->getProduct()->featured_image_file->filepath, ['width' => 45, 'height' => 45]); ?>
-                <?php endif; ?>
             </td>
             <?php if (Configure::read('Shop.Price.requireAuth') && !$this->request->session()->read('Shop.Customer.id')): ?>
                 <td colspan="2" class="number currency text-right"><small><?= __('Login required'); ?></small></td>
