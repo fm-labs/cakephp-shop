@@ -3,6 +3,7 @@ namespace Shop\Core\Checkout\Step;
 
 
 use Cake\Controller\Controller;
+use Cake\Event\Event;
 use Cake\Log\Log;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Model\Table\ShopCustomersTable;
@@ -23,10 +24,10 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         if ($controller->request->query('login')) {
-            $this->_executeLogin($controller);
+            return $this->_executeLogin($controller);
         }
         elseif ($controller->request->query('signup')) {
-            $this->_executeSignup($controller);
+            return $this->_executeSignup($controller);
         }
         elseif ($controller->request->query('guest')) {
             $this->_executeGuest($controller);
@@ -37,11 +38,21 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
     protected function _executeLogin(Controller $controller)
     {
-        if ($controller->request->is(['put', 'post'])) {
-            $redirect = $controller->Auth->login();
+        // check if already authenticated
+        if ($controller->Auth->user('id')) {
+            return $this->Checkout->redirectNext();
+        }
 
-            $controller->loadModel('Shop.ShopCustomers');
-            if ($controller->Auth->user()) {
+        //  POST request
+        if ($controller->request->is(['put', 'post'])) {
+
+            // try to authenticate user
+            $controller->Auth->login();
+
+            // find customer for authenticated user
+            $user = $controller->Auth->user();
+            if ($user) {
+                $controller->loadModel('Shop.ShopCustomers');
                 $customer = $controller->ShopCustomers
                     ->find()
                     ->where([
@@ -49,14 +60,34 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                     ])
                     ->first();
 
-                if ($customer) {
-                    $controller->Shop->setCustomer($customer);
+                // force creation of customer for user
+                if (!$customer) {
+                    $this->log('Create customer for user with id ' . $user->id);
+                    $controller->loadModel('Shop.ShopCustomers');
+                    $customer = $controller->ShopCustomers->createFromUserId($user->id);
                 }
+
+                if (!$customer) {
+                    $this->log('Create customer for user with id ' . $user->id, LOG_ERR);
+                    throw new \Exception('CustomerStep: Failed to create customer');
+                }
+
+                // set customer in shop scope
+                $this->Checkout->Shop->setCustomer($customer);
+
+                // link customer to order (persistent)
+                $this->Checkout->Cart->getOrder()->shop_customer_id = $customer->id;
+                $this->Checkout->Cart->saveOrder();
+
+                // update the order in session
+                $this->Checkout->Cart->updateSession();
+
                 $controller->Flash->success(__d('shop','Logged in as {0}', $controller->Auth->user('username')));
-                //if ($redirect) {
-                //    $this->redirect($redirect);
-                //}
+
+                // redirect to next step
+                $this->Checkout->redirectNext();
             } else {
+                debug("login failed");
                 $controller->Flash->error(__d('shop','Login failed :('));
             }
         }
@@ -69,25 +100,32 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         $customer = $controller->ShopCustomers->newEntity();
         if ($controller->request->is(['put', 'post'])) {
 
+            //debug($controller->request->data);
             $customer = $controller->ShopCustomers->add($controller->request->data);
             if ($customer && !$customer->errors()) {
-
-                debug($customer->toArray());
 
                 if ($customer->user_id) {
 
                     $controller->loadModel('User.Users');
                     $userQuery = $controller->Users->find()->where(['Users.id' => $customer->user_id]);
                     $user = $controller->Users->findAuthUser($userQuery, [])->first();
-                    debug($user);
+                    //debug($user);
                     /*
                     $userQuery = $controller->Auth->userModel()->find()->where();
                     $user = $controller->userModel()->findAuthUser($userQuery)->first();
                     */
                     if ($user) {
                         $controller->Auth->setUser($user->toArray());
+                        $controller->eventManager()->dispatch(new Event('User.login', $controller, compact('user')));
+
+                        $this->Checkout->Shop->setCustomer($customer);
+
+                        $this->Checkout->Cart->getOrder()->shop_customer_id = $customer->id;
+                        $this->Checkout->Cart->saveOrder();
+                        $this->Checkout->Cart->updateSession();
+
                         $controller->Flash->success(__d('shop','Customer signup successful'));
-                        $this->Checkout->redirectNext();
+                        return $this->Checkout->redirectNext();
                     } else {
                         $controller->Flash->error(__d('shop','Customer login after signup failed'));
                         Log::error('Customer login after signup failed for customerID ' . $customer->id);
@@ -95,6 +133,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 }
 
             } else {
+                debug($customer->errors());
                 $controller->Flash->error(__d('shop','Customer signup failed'));
             }
         }

@@ -8,7 +8,7 @@ use Shop\Controller\Component\CheckoutComponent;
 
 interface CheckoutStepInterface
 {
-    public function __construct(CheckoutComponent &$Checkout);
+    public function __construct(CheckoutComponent $Checkout);
 
     public function getId();
     public function getUrl();

@@ -33,6 +33,7 @@ class CheckoutController extends AppController
     {
         parent::initialize();
 
+        $this->loadComponent('Shop.Shop');
         $this->loadComponent('Shop.Cart');
         $this->loadComponent('Shop.Checkout');
     }
@@ -48,8 +49,10 @@ class CheckoutController extends AppController
             return;
         }
 
+        $layout = (Configure::read('Shop.Checkout.layout')) ?: 'Shop.checkout';
+
         //$this->Auth->allow(['cart', 'customer','customerSignup', 'customerGuest', 'billing', 'shipping', 'payment', 'review', 'success']);
-        $this->viewBuilder()->layout(Configure::read('Shop.Checkout.layout'));
+        $this->viewBuilder()->layout($layout);
     }
 
     public function beforeRender(Event $event)
@@ -62,7 +65,6 @@ class CheckoutController extends AppController
         if (!Configure::read('debug')) {
             throw new NotFoundException();
         }
-
     }
 
     public function index()

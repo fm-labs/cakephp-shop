@@ -25,7 +25,7 @@ class ShopCustomersFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'user_id' => 1,
+            'user_id' => 2, // Linked to 'Normal user' of User plugin fixture
             'email' => 'test@example.org',
             'password' => null,
 

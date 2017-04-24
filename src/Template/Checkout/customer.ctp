@@ -1,10 +1,7 @@
-<?php if (isset($customer)): ?>
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('heading', __d('shop','Customer Login')); ?>
-<?php endif; ?>
 <?php $this->assign('step_active', 'customer'); ?>
 <div class="shop checkout step index" style="position: relative;">
-    <h1><?= __d('shop','Customer'); ?></h1>
     <div class="row">
 
         <?php
@@ -21,7 +18,7 @@
                 <?= $this->Form->input('password', ['required' => true]); ?>
                 <div class="actions" style="margin-top: 1em;">
                     <?= $this->Form->button(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
-                    <?= $this->Html->link(__d('shop','Forgot password?'), ['plugin' => 'User', 'controller' => 'User', 'action' => 'password_reset']); ?>
+                    <?= $this->Html->link(__d('shop','Forgot password?'), ['_name' => 'user:passwordforgotten']); ?>
                 </div>
                 <?= $this->Form->end(); ?>
             </div>

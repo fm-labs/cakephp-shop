@@ -2,6 +2,7 @@
 
 namespace Shop\Core\Checkout\Step;
 
+use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
 use Shop\Controller\Component\CheckoutComponent;
@@ -10,9 +11,9 @@ abstract class BaseStep
 {
     public $Checkout;
 
-    public function __construct(CheckoutComponent &$Checkout)
+    public function __construct(CheckoutComponent $Checkout)
     {
-        $this->Checkout = $Checkout;
+        $this->Checkout =& $Checkout;
         $this->initialize();
     }
 
@@ -42,5 +43,11 @@ abstract class BaseStep
     public function getUrl()
     {
         return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $this->getId()];
+    }
+
+    public function log($msg, $level = LOG_INFO)
+    {
+        $msg = sprintf("[%s] %s", $this->getId(), $msg);
+        Log::write($level, $msg, ['shop', 'checkout']);
     }
 }

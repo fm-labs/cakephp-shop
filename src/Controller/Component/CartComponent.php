@@ -4,6 +4,7 @@ namespace Shop\Controller\Component;
 
 
 use Cake\Controller\Component;
+use Cake\Controller\Component\CookieComponent;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
@@ -21,11 +22,12 @@ use Shop\Model\Table\ShopProductsTable;
  * @property ShopOrdersTable $ShopOrders
  * @property ShopProductsTable $ShopProducts
  * @property ShopComponent $Shop
+ * @property CookieComponent $Cookie
  */
 class CartComponent extends Component
 {
 
-    public $components = ['Shop.Shop'];
+    public $components = ['Shop.Shop', 'Cookie'];
 
     /**
      * @var ShopOrder
@@ -47,7 +49,23 @@ class CartComponent extends Component
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
 
+        /*
+        $this->Cookie->configKey('Cart', [
+            'path' => '/',
+            'expires' => '+10 days',
+            'httpOnly' => true,
+            'domain' => '*',
+            //'encryption' => false
+        ]);
+        */
+
         $this->_init();
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        //debug($this->Cookie->read('Cart'));
+        //debug($this->request->cookies);
     }
 
     public function beforeRender(Event $event)
@@ -59,10 +77,14 @@ class CartComponent extends Component
 
     public function _init()
     {
+
         $this->sessionId = $this->request->session()->id();
         $this->cartId = $this->request->session()->check('Shop.Cart.id')
             ? $this->request->session()->read('Shop.Cart.id')
             : Text::uuid();
+
+        //$this->Cookie->write('Cart', $this->cartId);
+
         $this->order = null;
     }
 
@@ -283,6 +305,8 @@ class CartComponent extends Component
         $options += ['create' => false, 'force' => false];
 
         if (!$this->order || $options['force']) {
+
+            //debug("resuming order with cardid " . $this->cartId);
 
             $scope = [
                 //'sessionid' => $this->sessionId,

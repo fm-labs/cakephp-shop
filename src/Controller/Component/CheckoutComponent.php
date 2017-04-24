@@ -36,7 +36,7 @@ class CheckoutComponent extends Component
      */
     public $steps = [
         //'Shop.Cart',
-        //'Shop.Customer',
+        'Shop.Customer',
         'Shop.Billing',
         'Shop.Shipping',
         'Shop.Payment',
@@ -90,7 +90,7 @@ class CheckoutComponent extends Component
             $steps[$stepId] = [
                 'action' => $stepId,
                 'title' => $step->getTitle(),
-                'is_complete' => ($this->getOrder()) ? $step->isComplete() : false,
+                'is_complete' => null, //($this->getOrder()) ? $step->isComplete() : false,
                 'url' => $step->getUrl(),
                 'icon' => null
             ];
@@ -124,6 +124,9 @@ class CheckoutComponent extends Component
                 break;
             }
             $complete = $complete && $step->isComplete();
+            if ($complete !== true) {
+                return $complete;
+            }
         }
         return $complete;
     }
@@ -137,6 +140,7 @@ class CheckoutComponent extends Component
             if (!$step->isComplete()) {
                 return $step;
             }
+            //debug("step complete: " . $stepId);
         }
     }
 
@@ -146,6 +150,7 @@ class CheckoutComponent extends Component
     public function redirectNext()
     {
         $step = $this->nextStep();
+        //debug("next step: " . $step->getId());
         if ($step) {
             $redirect = $step->getUrl();
         } else {
