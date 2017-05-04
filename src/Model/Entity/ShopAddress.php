@@ -56,8 +56,8 @@ class ShopAddress extends Entity
 
     protected function _getName()
     {
-        if ($this->is_company) {
-            return $this->_properties['company_name'];
+        if ($this->company_name) {
+            return sprintf("%s, %s, %s", $this->_properties['company_name'], $this->_properties['last_name'], $this->_properties['first_name']);
         }
         return sprintf("%s, %s", $this->_properties['last_name'], $this->_properties['first_name']);
     }

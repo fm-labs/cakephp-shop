@@ -55,6 +55,11 @@ class ShopOrderItem extends Entity
      */
     protected $_product;
 
+    public function requiresShipping()
+    {
+        return ($this->type === 'virtual') ? false : true;
+    }
+
     /**
      * @return EntityInterface
      */

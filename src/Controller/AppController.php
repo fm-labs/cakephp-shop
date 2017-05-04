@@ -29,6 +29,10 @@ class AppController extends ContentController
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
+        $this->helpers['Ui'] = [
+            'className' => 'Bootstrap.Ui'
+        ];
+
         $this->loadComponent('Content.Locale');
         $this->loadComponent('Shop.Shop');
     }

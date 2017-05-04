@@ -51,11 +51,7 @@ class OrdersController extends AppController
             throw new BadRequestException();
         }
 
-        $shopOrder = $this->ShopOrders->find()
-            ->where(['ShopOrders.uuid' => $uuid])
-            ->contain(['ShopCustomers', 'ShopOrderItems', 'BillingAddress', 'ShippingAddress'])
-            ->first();
-
+        $shopOrder = $this->ShopOrders->find('order', compact('uuid'));
         if (!$shopOrder) {
             throw new NotFoundException();
         }

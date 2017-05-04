@@ -6,7 +6,14 @@ use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
 use Shop\Controller\Component\CheckoutComponent;
+use Shop\Model\Table\ShopOrdersTable;
 
+/**
+ * Class BaseStep
+ * @package Shop\Core\Checkout\Step
+ *
+ * @property ShopOrdersTable $ShopOrders
+ */
 abstract class BaseStep
 {
     public $Checkout;
@@ -49,5 +56,14 @@ abstract class BaseStep
     {
         $msg = sprintf("[%s] %s", $this->getId(), $msg);
         Log::write($level, $msg, ['shop', 'checkout']);
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'url' => $this->getUrl()
+        ];
     }
 }

@@ -28,8 +28,9 @@ class ShopCustomerAddressesTable extends Table
         parent::initialize($config);
 
         $this->table('shop_customer_addresses');
-        $this->displayField('id');
         $this->primaryKey('id');
+        $this->entityClass('Shop.ShopAddress');
+        $this->displayField('name');
 
         $this->addBehavior('Timestamp');
 

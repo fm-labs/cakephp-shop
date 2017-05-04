@@ -3,6 +3,7 @@
 namespace Shop\Test\TestCase\Controller;
 
 
+use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase;
@@ -24,6 +25,7 @@ class CheckoutControllerTest extends IntegrationTestCase
     public $fixtures = [
         'plugin.shop.shop_orders',
         'plugin.shop.shop_customers',
+        'plugin.shop.shop_customer_addresses',
         //'plugin.shop.shop_addresses',
         //'plugin.shop.users',
         //'plugin.shop.primary_group',
@@ -34,7 +36,6 @@ class CheckoutControllerTest extends IntegrationTestCase
         'plugin.shop.shop_order_items',
         'plugin.shop.shop_order_addresses',
         'plugin.shop.shop_products',
-        //'plugin.shop.shop_customer_addresses',
         'plugin.shop.shop_countries',
         //'plugin.shop.billing_address',
         //'plugin.shop.shipping_address'
@@ -53,6 +54,27 @@ class CheckoutControllerTest extends IntegrationTestCase
     public function setUp()
     {
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+
+        Configure::write('Shop.Checkout.Steps', [
+            'customer' => [
+                'className' => 'Shop.Customer'
+            ],
+            'shipping_address' => [
+                'className' => 'Shop.ShippingAddress'
+            ],
+            'shipping' => [
+                'className' => 'Shop.Shipping'
+            ],
+            'billing_address' => [
+                'className' => 'Shop.BillingAddress'
+            ],
+            'payment' => [
+                'className' => 'Shop.Payment'
+            ],
+            'review' => [
+                'className' => 'Shop.Review'
+            ],
+        ]);
     }
 
     private function _setupCart($orderId = 1)
@@ -61,6 +83,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
         $session = ['Shop' => [
             'Cart' => ['id' => $order->cartid],
+            'Customer' => ($order->shop_customer) ? $order->shop_customer->toArray() : null,
             'Order' => $order
         ]];
         $this->session($session);
@@ -69,18 +92,19 @@ class CheckoutControllerTest extends IntegrationTestCase
     public function testCheckoutWithEmptyCart()
     {
         // No session data set.
-        $this->get('/shop/checkout');
+        $this->get('/shop/checkout/index');
 
         $this->assertRedirect(['controller' => 'Cart', 'action' => 'index']);
     }
 
     public function testCheckout()
     {
-        $this->_setupCart();
+        $this->_setupCart(2);
 
-        $this->get('/shop/checkout');
+        $this->get('/shop/checkout/index');
 
-        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'customer']);
+        $this->assertRedirect('/shop/checkout/customer');
+        //$this->assertRedirect(['controller' => 'Checkout', 'action' => 'customer']);
     }
 
     public function testCustomerSignup()
@@ -111,7 +135,7 @@ class CheckoutControllerTest extends IntegrationTestCase
         // expexts order status to be unchanged
         $this->assertSession(0, 'Shop.Order.status');
         // expects to be redirect to the next (billing) step
-        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'billing']);
+        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address']);
     }
 
 
@@ -156,6 +180,24 @@ class CheckoutControllerTest extends IntegrationTestCase
         // expexts order status to be unchanged
         $this->assertSession(0, 'Shop.Order.status');
         // expects to be redirect to the next (billing) step
-        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'billing']);
+        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address']);
+    }
+
+    public function testShippingAddress()
+    {
+        $this->_setupCart();
+
+        // Normal user from User plugin
+        $this->Users = TableRegistry::get('User.Users');
+        $user = $this->Users->get(2);
+
+        $this->session(['Auth.User' => $user->toArray()]);
+
+        $this->get('/shop/checkout/shipping-address');
+
+        $this->assertNoRedirect();
+        $this->assertSession('shipping_address', 'Shop.Checkout.Step.id');
+
+        $this->markTestIncomplete('testShippingAddress: POST requests not implemented yet');
     }
 }

@@ -75,9 +75,22 @@ class ProductsController extends AppController
 
         $this->ShopProducts->locale($this->Locale->getLocale());
         $shopProduct = $this->ShopProducts->get($id, [
-            'contain' => ['ShopCategories', 'ParentShopProducts'],
+            'contain' => ['ParentShopProducts'],
             'media' => true,
         ]);
+
+
+        if ($shopProduct->parent_id) {
+            $this->redirect($shopProduct->parent_shop_product->url);
+            return;
+            //$shopProductVersionId = $shopProduct->id;
+            //$shopProduct = $shopProduct->parent_shop_product;
+            //$this->request->data['refid'] = $shopProductVersionId;
+        }
+
+
+        $shopCategory = $this->ShopProducts->ShopCategories->get($shopProduct->shop_category_id, ['media' => true, 'contain' => []]);
+        $shopProduct->shop_category = $shopCategory;
 
 
         // force canonical url
@@ -99,12 +112,6 @@ class ProductsController extends AppController
             throw new NotFoundException();
         }
 
-        if ($shopProduct->parent_id) {
-            //$this->redirect($shopProduct->parent_shop_product->url);
-            $shopProductVersionId = $shopProduct->id;
-            $shopProduct = $shopProduct->parent_shop_product;
-            $this->request->data['refid'] = $shopProductVersionId;
-        }
 
 
         $this->set('shopProduct', $shopProduct);

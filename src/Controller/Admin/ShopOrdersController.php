@@ -20,7 +20,7 @@ class ShopOrdersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopCustomers', 'BillingAddress', 'ShippingAddress'],
+            'contain' => ['ShopCustomers', 'ShopOrderAddresses'],
             'conditions' => ['ShopOrders.is_temporary' => false],
             'order' => ['ShopOrders.id' => 'DESC']
         ];
@@ -49,7 +49,7 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'ShopCarts', 'ShopOrderItems', 'BillingAddress' => ['Countries'], 'ShippingAddress' => ['Countries']]
+            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']]
         ]);
         $this->set('shopOrder', $shopOrder);
         $this->set('_serialize', ['shopOrder']);

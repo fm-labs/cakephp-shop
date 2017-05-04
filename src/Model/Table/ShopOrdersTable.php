@@ -3,6 +3,7 @@ namespace Shop\Model\Table;
 
 use Banana\Lib\Status;
 use Cake\Core\Plugin;
+use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\I18n\Time;
@@ -14,7 +15,9 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderAddress;
 
 
 /**
@@ -25,6 +28,7 @@ use Shop\Model\Entity\ShopOrder;
  * @property \Cake\ORM\Association\BelongsTo $ShippingAddresses
  * @property \Cake\ORM\Association\HasMany $ShopCarts
  * @property \Cake\ORM\Association\HasMany $ShopOrderItems
+ * @property \Cake\ORM\Association\HasMany $ShopOrderAddresses
  */
 class ShopOrdersTable extends Table
 {
@@ -80,39 +84,19 @@ class ShopOrdersTable extends Table
             'className' => 'Shop.ShopCustomers'
         ]);
         /*
-        $this->belongsTo('BillingAddresses', [
-            'foreignKey' => 'billing_address_id',
-            'className' => 'Shop.ShopAddresses'
-        ]);
-        $this->belongsTo('ShippingAddresses', [
-            'foreignKey' => 'shipping_address_id',
-            'className' => 'Shop.ShopAddresses'
-        ]);
-        */
         $this->hasMany('ShopCarts', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopCarts'
         ]);
+        */
         $this->hasMany('ShopOrderItems', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderItems'
         ]);
-        $this->hasMany('OrderAddresses', [
+        $this->hasMany('ShopOrderAddresses', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderAddresses',
-        ]);
-
-        $this->hasOne('BillingAddress', [
-            'foreignKey' => 'shop_order_id',
-            'className' => 'Shop.ShopOrderAddresses',
-            'propertyName' => 'billing_address',
-            'conditions' => ['BillingAddress.type' => 'B']
-        ]);
-        $this->hasOne('ShippingAddress', [
-            'foreignKey' => 'shop_order_id',
-            'className' => 'Shop.ShopOrderAddresses',
-            'propertyName' => 'shipping_address',
-            'conditions' => ['ShippingAddress.type' => 'S']
+            //'contain' => ['Countries']
         ]);
 
         //$this->addBehavior('Banana.Statusable');
@@ -169,19 +153,9 @@ class ShopOrdersTable extends Table
 
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
-
         if ($entity->isNew() && !$entity->uuid) {
             $entity->uuid = Text::uuid();
         }
-        // before 'submit'
-        /*
-        if ($entity->dirty('status') && $entity->status == 1) {
-            if (!$entity->is_billing_selected) {
-                $entity->errors('is_billing_selected', ['notempty' => __d('shop','Billing not selected')]);
-                return false;
-            }
-        }
-        */
     }
 
     public function afterSave(Event $event)
@@ -189,6 +163,276 @@ class ShopOrdersTable extends Table
         //@TODO save billing address in address book
         //@TODO save shipping address in address book
     }
+
+    /**
+     * Find order
+     *
+     * @param Query $query
+     * @param array $options Query conditions
+     * @return mixed
+     */
+    public function findOrder(Query $query, array $options = [])
+    {
+        $query
+            ->where($options)
+            ->contain(['ShopOrderItems', 'ShopOrderAddresses']);
+        return $query->first();
+    }
+
+    /**
+     * Find cart order
+     *
+     * @param Query $query
+     * @param array $options Query conditions
+     * @return mixed
+     */
+    public function findCart(Query $query, array $options = [])
+    {
+        return $this->findOrder($query, $options);
+    }
+
+    /**
+     *
+     * Save order address for order
+     *
+     * @param ShopOrder $order
+     * @param ShopOrderAddress $address
+     * @param $addressType
+     * @return bool|EntityInterface|ShopOrderAddress
+     */
+    public function setOrderAddress(ShopOrder $order, ShopOrderAddress $address, $addressType)
+    {
+
+        $orderAddress = $order->getOrderAddress($addressType);
+        if (!$orderAddress) {
+            $orderAddress = $this->ShopOrderAddresses->newEntity();
+        }
+
+        $orderAddress = $this->ShopOrderAddresses->patchEntity($orderAddress, $address->toArray());
+        $orderAddress->shop_order_id = $order->id;
+        $orderAddress->type = $addressType;
+
+        return $this->ShopOrderAddresses->save($orderAddress);
+    }
+
+    /**
+     * Set order address from existing customer address entity or id
+     *
+     * @param ShopOrder $order
+     * @param $address
+     * @param $addressType
+     * @return bool|EntityInterface|ShopOrderAddress
+     * @throws \Exception
+     */
+    public function setOrderAddressFromCustomerAddress(ShopOrder $order, $address, $addressType)
+    {
+        if (is_numeric($address)) {
+            $addressId = $address;
+            $address = $this->ShopOrderAddresses->ShopCustomerAddresses
+                ->find()
+                ->where([
+                    'ShopCustomerAddresses.id' => $addressId,
+                    'ShopCustomerAddresses.shop_customer_id' => $order->shop_customer_id
+                ])
+                ->first();
+
+            if (!$address) {
+                throw new \Exception('ShopOrdersTable::setOrderAddressFromCustomerAddress: Address not found');
+            }
+        }
+
+        $addressId = $address->id;
+        $address->id = null; // @TODO Use $address->extract() instead, to omit fields like 'id'
+        $orderAddress = $this->ShopOrderAddresses->newEntity($address->toArray());
+        $orderAddress->shop_customer_address_id = $addressId;
+
+        return $this->setOrderAddress($order, $orderAddress, $addressType);
+    }
+
+    /**
+     * Get next order nr within ordergroup
+     *
+     * @param null $orderGroup Defaults to config value 'Shop.Order.nrGroup'
+     * @return int
+     */
+    public function getNextOrderNr($orderGroup = null)
+    {
+        $orderNr = $orderNrStart = (Shop::config('Shop.Order.nrStart')) ?: 1;
+        $orderGroup = ($orderGroup) ?: Shop::config('Shop.Order.nrGroup');
+
+        $lastOrder = $this->find()
+            ->select(['id', 'nr', 'ordergroup'])
+            ->contain([])
+            ->where(['is_temporary' => false, 'nr IS NOT NULL', 'ordergroup' => (string) $orderGroup])
+            ->order(['nr' => 'DESC'])
+            ->first();
+
+        if ($lastOrder && $lastOrder->nr) {
+            $orderNr = (int) $lastOrder->nr + 1;
+        }
+
+        return $orderNr;
+    }
+
+
+    public function calculate($id, $update = true)
+    {
+        $order = $this->get($id, ['contain' => []]);
+        $orderItems = $this->ShopOrderItems->find()->where(['shop_order_id' => $id])->all()->toArray();
+
+        // items value
+        $itemsNet = $itemsTax = $itemsTaxed = 0;
+        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
+            $itemsNet += $item->value_net;
+            $itemsTax += $item->value_tax;
+            $itemsTaxed += $item->value_total;
+        });
+
+        $order->items_value_net = $itemsNet;
+        $order->items_value_tax = $itemsTax;
+        $order->items_value_taxed = $itemsTaxed;
+
+        $order->order_value_tax = $itemsTax;
+        $order->order_value_total = $itemsTaxed;
+
+        if ($update) {
+            return $this->save($order);
+        }
+    }
+
+
+    /**
+     * Set a new update status for order
+     *
+     * @param ShopOrder $order
+     * @param $newStatus
+     * @return bool|ShopOrder
+     */
+    public function updateOrderStatus(ShopOrder $order, $newStatus)
+    {
+        $oldStatus = $order->status;
+        $order->status = $newStatus;
+
+        if (!$this->save($order)) {
+            Log::error(sprintf("Shop Order: Failed to updated order status from %s to %s",$oldStatus, $newStatus));
+            return false;
+        }
+
+        //@TODO Add order history entry
+        return $order;
+    }
+
+    /**
+     * Assign next available order number
+     *
+     * @param ShopOrder $order
+     * @return bool|EntityInterface|mixed|ShopOrder
+     */
+    public function assignOrderNr(ShopOrder $order)
+    {
+        // check if an order number has already been assigned
+        if ($order->nr) {
+            return $order;
+        }
+
+        $config = Shop::config('Shop.Order');
+
+        return $this->connection()->transactional(function($conn) use (&$order, $config) {
+            $order->nr = $this->getNextOrderNr();
+            $order->ordergroup = $config['nrGroup'];
+            return $this->save($order);
+        });
+
+    }
+
+    /**
+     * @param ShopOrder $order
+     * @param array $options
+     * @return bool|EntityInterface|mixed|ShopOrder
+     * @throws \Exception
+     */
+    public function submitOrder(ShopOrder $order, array $options = [])
+    {
+        if ($order->status > 0) {
+            throw new \Exception("Order already submitted");
+        }
+
+
+        // patch order data
+        $order->uuid = ($order->uuid) ?: Text::uuid(); //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
+        $order->submitted = Time::now();
+        $order->is_temporary = false;
+
+        if (!$order->customer_email && $order->shop_customer) {
+            $order->customer_email = $order->shop_customer->email;
+        }
+
+
+        // dispatch 'beforeSubmit' event
+        $event = new Event('Shop.Model.Order.beforeSubmit', $this, [
+            'order' => $order
+        ]);
+        $this->eventManager()->dispatch($event);
+
+        // re-calculate order
+        $order->calculateItems();
+
+        // save order
+        $order = $this->save($order);
+
+        // assign order nr
+        if (!$this->assignOrderNr($order)) {
+            Log::error("Failed to assign order nr");
+        }
+
+        // update order status to 'submitted'
+        if (!$this->updateOrderStatus($order, self::ORDER_STATUS_SUBMITTED)) {
+            Log::error("Shop Order: Failed to updated order status to SUBMITTED");
+        }
+
+        // dispatch 'afterSubmit' event
+        $event = new Event('Shop.Model.Order.afterSubmit', $this, [
+            'order' => $order
+        ]);
+        $this->eventManager()->dispatch($event);
+
+        return $order;
+    }
+
+    public function saveOrder(ShopOrder $order)
+    {
+        return $this->save($order);
+    }
+
+    public function requiresShipping(ShopOrder $order)
+    {
+        $required = false;
+        foreach ($order->shop_order_items as $orderItem) {
+            if ($orderItem->requiresShipping()) {
+                $required = true;
+            }
+        }
+        return $required;
+    }
+
+    /*
+    public function requiresShippingDigital(ShopOrder $order)
+    {
+        $required = false;
+        foreach ($order->shop_order_items as $orderItem) {
+            if ($orderItem->requiresShippingDigital()) {
+                $required = true;
+            }
+        }
+        return $required;
+    }
+    */
+
+    public function requiresShippingAddress(ShopOrder $order)
+    {
+        return $this->requiresShipping($order);
+    }
+
 
     /**
      * Default validation rules.
@@ -281,61 +525,8 @@ class ShopOrdersTable extends Table
             ->allowEmpty('staff_notes');
 
         $validator
-            ->allowEmpty('billing_first_name');
-
-        $validator
-            ->allowEmpty('billing_last_name');
-
-        $validator
-            ->allowEmpty('billing_name');
-
-        $validator
-            ->add('billing_is_company', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('billing_is_company');
-
-        $validator
-            ->allowEmpty('billing_address');
-
-        $validator
-            ->allowEmpty('billing_taxid');
-
-        $validator
-            ->allowEmpty('billing_zipcode');
-
-        $validator
-            ->allowEmpty('billing_city');
-
-        $validator
-            ->allowEmpty('billing_country');
-
-        $validator
             ->add('shipping_use_billing', 'valid', ['rule' => 'boolean'])
             ->allowEmpty('shipping_use_billing');
-
-        $validator
-            ->allowEmpty('shipping_first_name');
-
-        $validator
-            ->allowEmpty('shipping_last_name');
-
-        $validator
-            ->allowEmpty('shipping_name');
-
-        $validator
-            ->add('shipping_is_company', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('shipping_is_company');
-
-        $validator
-            ->allowEmpty('shipping_address');
-
-        $validator
-            ->allowEmpty('shipping_zipcode');
-
-        $validator
-            ->allowEmpty('shipping_city');
-
-        $validator
-            ->allowEmpty('shipping_country');
 
         $validator
             ->notEmpty('customer_phone');
@@ -384,49 +575,6 @@ class ShopOrdersTable extends Table
         return $validator;
     }
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationBilling(Validator $validator)
-    {
-        $validator
-            ->notEmpty('billing_first_name')
-            ->notEmpty('billing_last_name')
-            //->notEmpty('billing_name')
-            ->notEmpty('billing_street')
-            //->notEmpty('billing_taxid')
-            ->notEmpty('billing_zipcode')
-            ->notEmpty('billing_city')
-            ->notEmpty('billing_country')
-        ;
-
-        return $validator;
-    }
-
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationShipping(Validator $validator)
-    {
-        $validator
-            ->notEmpty('shipping_first_name')
-            ->notEmpty('shipping_last_name')
-            //->notEmpty('shipping_name')
-            ->notEmpty('shipping_street')
-            //->notEmpty('shipping_taxid')
-            ->notEmpty('shipping_zipcode')
-            ->notEmpty('shipping_city')
-            ->notEmpty('shipping_country')
-        ;
-
-        return $validator;
-    }
 
     /**
      * Default validation rules.
@@ -522,147 +670,6 @@ class ShopOrdersTable extends Table
         return $rules;
     }
 
-    public function getNextOrderNr()
-    {
-        //@TODO Read from config
-        //@TODO Support filtering from multiple fields
-        $orderNr = $orderNrStart = 1;
-
-        $lastOrder = $this->find()
-            ->contain([])
-            ->select(['id', 'nr'])
-            ->where(['ShopOrders.is_temporary' => false, 'ShopOrders.nr IS NOT NULL'])
-            ->order(['ShopOrders.nr' => 'DESC', 'ShopOrders.submitted' => 'DESC'])
-            ->first();
-
-        if ($lastOrder && $lastOrder->nr) {
-            $orderNr = (int) $lastOrder->nr + 1;
-        }
-
-        return $orderNr;
-    }
-
-
-    public function calculate($id, $update = true)
-    {
-        $order = $this->get($id, ['contain' => []]);
-        $orderItems = $this->ShopOrderItems->find()->where(['shop_order_id' => $id])->all()->toArray();
-
-        // items value
-        $itemsNet = $itemsTax = $itemsTaxed = 0;
-        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
-            $itemsNet += $item->value_net;
-            $itemsTax += $item->value_tax;
-            $itemsTaxed += $item->value_total;
-        });
-
-        $order->items_value_net = $itemsNet;
-        $order->items_value_tax = $itemsTax;
-        $order->items_value_taxed = $itemsTaxed;
-
-        $order->order_value_tax = $itemsTax;
-        $order->order_value_total = $itemsTaxed;
-
-        if ($update) {
-            return $this->save($order);
-        }
-    }
-
-    /**
-     * @param $order
-     * @return bool|EntityInterface|mixed
-     * @throws \Exception
-     */
-    public function submit($order)
-    {
-
-        if ($order->status > 0) {
-            //@TODO Prevent re-submission of already submitted orders
-            debug("Warning: Order already submitted");
-            //throw new \Exception("Order already submitted");
-        }
-
-        $order['uuid'] = ($order['uuid']) ?: Text::uuid(); //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
-        $order['submitted'] = Time::now();
-        $order['is_temporary'] = false;
-        //$order['status'] = 1;
-
-        $order = $this->save($order);
-
-        // assign order nr
-        if (!$this->assignOrderNr($order, true)) {
-            throw new \Exception("Failed to assign order nr");
-        }
-
-        // update order status to 'submitted'
-        if (!$this->updateOrderStatus($order, self::ORDER_STATUS_SUBMITTED)) {
-            Log::error("Shop Order: Failed to updated order status to SUBMITTED");
-        }
-
-        if ($order) {
-            $event = new Event('Shop.Model.Order.afterSubmit', $this, [
-                'order' => $order
-            ]);
-            $this->eventManager()->dispatch($event);
-        }
-
-        /*
-        // @TODO move to eventlistener
-        if (!$order->billing_address_id && $order->shop_customer_id) {
-            $addr = $this->BillingAddresses->newEntity();
-            $addr->accessible('*', true);
-            $addr = $this->BillingAddresses->patchEntity($addr, self::extractAddress($order, 'billing'));
-            if (!$addr->errors() && $this->BillingAddresses->save($addr)) {
-                Log::info('Shop billing address added for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
-            } else {
-                Log::error('Failed to add shop billing address for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
-            }
-        }
-
-        // @TODO move to eventlistener
-        if (!$order->shipping_use_billing && !$order->shipping_address_id && $order->shop_customer_id) {
-            $addr = $this->ShippingAddresses->newEntity();
-            $addr->accessible('*', true);
-            $addr = $this->ShippingAddresses->patchEntity($addr, self::extractAddress($order, 'shipping'));
-            if (!$addr->errors() && $this->ShippingAddresses->save($addr)) {
-                Log::info('Shop shipping address added for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
-            } else {
-                Log::error('Failed to add shop shipping address for customerID ' . $order->shop_customer_id . ' after orderID ' . $order->id);
-            }
-        }
-        */
-
-        return $order;
-    }
-
-    public function updateOrderStatus($order, $newStatus)
-    {
-        $order->status = $newStatus;
-
-
-        if (!$this->save($order)) {
-            Log::error("Shop Order: Failed to updated order status to SUBMITTED");
-            return false;
-        }
-
-        return $order;
-    }
-
-    public function assignOrderNr($order, $save = false)
-    {
-        // check if an order number has already been assigned
-        if ($order->nr) {
-            return;
-        }
-
-        $order->nr = $this->getNextOrderNr();
-
-        if ($save) {
-            return $this->save($order);
-        }
-
-        return $order;
-    }
 
     public function implementedStati()
     {

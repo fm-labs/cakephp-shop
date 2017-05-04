@@ -29,8 +29,8 @@
 
             <p>Einstellung zu Ihrem persönlichen Profil.</p>
 
-            <?= $this->Html->link(__d('shop', 'Edit billing addresses'),
-                ['plugin' => 'Shop', 'controller' => 'BillingAddresses', 'action' => 'index'],
+            <?= $this->Html->link(__d('shop', 'Saved addresses'),
+                ['plugin' => 'Shop', 'controller' => 'CustomerAddresses', 'action' => 'index'],
                 ['class' => 'btn btn-primary']); ?>
             <?= $this->Html->link(__d('shop', 'Edit profile'),
                 ['_name' => 'user:profile'],

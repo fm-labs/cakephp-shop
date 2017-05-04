@@ -38,7 +38,7 @@
                 <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', 'change_type' => true, 'ref' => 'review']); ?></small>
             </h2>
             <div class="inner">
-                <?php $paymentMethods = \Cake\Core\Configure::read('Shop.PaymentMethods') ?>
+                <?php $paymentMethods = \Cake\Core\Configure::read('Shop.Payment.Engines') ?>
                 <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
                 <div class="desc payment-desc">
                     <?php
@@ -59,7 +59,7 @@
             </h2>
             <div class="inner">
 
-                <?php $shippingMethods = \Cake\Core\Configure::read('Shop.ShippingMethods') ?>
+                <?php $shippingMethods = \Cake\Core\Configure::read('Shop.Shipping.Engines') ?>
                 <h5><?= h($shippingMethods[$order->shipping_type]['name']); ?></h5>
                 <div class="desc shipping-desc">
                     <?php
@@ -91,10 +91,12 @@
             <h2><?= __d('shop','Additional Information') ?></h2>
 
             <?= $this->Form->input('customer_notes', ['label' => __d('shop','Additional Notes')]); ?>
+            <!--
             <?= $this->Form->input('customer_email', [
                 //'required' => true,
                 'label' => __d('shop','Email for notifications') . '*',
             ]); ?>
+            -->
             <?= $this->Form->input('customer_phone', [
                 'required' => true,
                 'label' => __d('shop','Callback phone number') . '*',

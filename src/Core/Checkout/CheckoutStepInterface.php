@@ -16,4 +16,6 @@ interface CheckoutStepInterface
 
     public function execute(Controller $controller);
     public function isComplete();
+
+    public function toArray();
 }

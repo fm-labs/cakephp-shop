@@ -53,6 +53,7 @@ class CustomerListener extends ShopEventListener
         $event->subject()->request->session()->delete('Shop.Customer');
         $event->subject()->request->session()->delete('Shop.Order');
         $event->subject()->request->session()->delete('Shop.Cart');
+        $event->subject()->request->session()->delete('Shop.Checkout');
     }
 
 }

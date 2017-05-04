@@ -30,7 +30,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Andorra',
             'name_de' => 'Andorra',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => true
         ],
         [
             'id' => 2,
@@ -39,7 +39,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'United Arab Emirates',
             'name_de' => 'Vereinigte Arabische Emirate',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => true
         ],
         [
             'id' => 3,
@@ -48,7 +48,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Afghanistan',
             'name_de' => 'Afghanistan',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => true
         ],
         [
             'id' => 4,

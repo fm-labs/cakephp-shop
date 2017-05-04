@@ -49,23 +49,48 @@ class CartComponent extends Component
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
 
-        /*
-        $this->Cookie->configKey('Cart', [
-            'path' => '/',
-            'expires' => '+10 days',
-            'httpOnly' => true,
-            'domain' => '*',
-            //'encryption' => false
-        ]);
-        */
 
         $this->_init();
     }
 
+    public function _init()
+    {
+        $this->sessionId = $this->request->session()->id();
+
+        $this->Cookie->configKey('Cart', [
+            'path' => '/',
+            'expires' => '+10 days',
+            'httpOnly' => false,
+            'domain' => 'localhost',
+            'secure' => false,
+            'encryption' => true
+        ]);
+
+
+        $sessionCartId = $this->request->session()->read('Shop.Cart.id');
+        $cookieCartId = $this->Cookie->read('Cart.id', $this->cartId);
+
+        if (!$sessionCartId && $cookieCartId) {
+            //@TODO check if cart is owned by customer
+            //debug("cart restored from cookie");
+            $this->cartId = $cookieCartId;
+        } elseif ($sessionCartId) {
+            //debug("cart restored from session");
+            //@TODO check if cart is owned by customer
+            $this->cartId = $sessionCartId;
+        } else {
+            // New cart
+            $this->cartId = Text::uuid();
+        }
+        $this->order = null;
+
+
+        $this->request->session()->write('Shop.Cart.id', $this->cartId);
+        $this->Cookie->write('Cart.id', $this->cartId);
+    }
+
     public function beforeFilter(Event $event)
     {
-        //debug($this->Cookie->read('Cart'));
-        //debug($this->request->cookies);
     }
 
     public function beforeRender(Event $event)
@@ -73,19 +98,6 @@ class CartComponent extends Component
         $this->updateSession();
 
         $event->subject()->set('order', $this->getOrder());
-    }
-
-    public function _init()
-    {
-
-        $this->sessionId = $this->request->session()->id();
-        $this->cartId = $this->request->session()->check('Shop.Cart.id')
-            ? $this->request->session()->read('Shop.Cart.id')
-            : Text::uuid();
-
-        //$this->Cookie->write('Cart', $this->cartId);
-
-        $this->order = null;
     }
 
     public function reset()
@@ -224,6 +236,15 @@ class CartComponent extends Component
         }
     }
 
+    public function abortOrder()
+    {
+        $this->order = null;
+        $this->cartId = null;
+        $this->updateSession();
+
+        return true;
+    }
+
     public function saveOrder()
     {
         if ($this->order) {
@@ -277,13 +298,9 @@ class CartComponent extends Component
         $order = $this->ShopOrders->newEntity([
             'sessionid' => $this->sessionId,
             'cartid' => $this->cartId,
-            'is_temporary' => true
+            'is_temporary' => true,
+            'shop_customer_id' => $this->Shop->getCustomerId()
         ]);
-
-
-        if ($this->Shop->getCustomer()) {
-            $order->shop_customer_id = $this->Shop->getCustomer()['id'];
-        }
 
         if (!$this->ShopOrders->save($order)) {
             debug($order->errors());
@@ -302,12 +319,23 @@ class CartComponent extends Component
 
     protected function _resumeOrder(array $options = [])
     {
+
         $options += ['create' => false, 'force' => false];
 
         if (!$this->order || $options['force']) {
 
+            /*
+            */
+            $this->order = $this->ShopOrders->find('cart', [
+                //'sessionid' => $this->sessionId,
+                'cartid' => $this->cartId,
+                //'shop_customer_id IS' => $this->Shop->getCustomerId(),
+                'is_temporary' => true
+            ]);
+
             //debug("resuming order with cardid " . $this->cartId);
 
+            /*
             $scope = [
                 //'sessionid' => $this->sessionId,
                 'cartid' => $this->cartId,
@@ -321,9 +349,10 @@ class CartComponent extends Component
             $this->order = $this->ShopOrders
                 ->find()
                 ->where($scope)
-                ->contain(['ShopOrderItems'])
+                ->contain(['ShopOrderItems', 'BillingAddress', 'ShippingAddress'])
                 ->first();
 
+            */
             if (!$this->order && $options['create']) {
                 $this->_createOrder();
             }

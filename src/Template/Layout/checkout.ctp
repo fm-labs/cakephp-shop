@@ -24,8 +24,7 @@
             </button>
 
             <a class="navbar-brand" href="/shop">
-                <?= $this->Html->image('/theme_lederleitner/img/frontend/Lederleitner_logo_1.png', ['height' => '30px']); ?>
-                <span>Lederleitner Shop</span>
+                <span><?= __('Shop'); ?></span>
             </a>
 
             <div class="navbar-collapse collapse">

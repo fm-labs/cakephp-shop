@@ -51,43 +51,43 @@ class ShopOrderAddress extends Entity
     protected function _getName()
     {
         return sprintf("%s, %s",
-            $this->_properties['last_name'],
-            $this->_properties['first_name']);
+            $this->last_name,
+            $this->first_name);
     }
 
     protected function _getShort()
     {
         if ($this->company_name) {
             return sprintf("%s, %s %s",
-                $this->_properties['last_name'],
-                $this->_properties['first_name'],
-                $this->_properties['company_name']);
+                $this->last_name,
+                $this->first_name,
+                $this->company_name);
         }
 
         return sprintf("%s, %s",
-            $this->_properties['last_name'],
-            $this->_properties['first_name']);
+            $this->last_name,
+            $this->first_name);
     }
 
     protected function _getOneline()
     {
         if ($this->company_name) {
             return sprintf("%s, %s %s, %s, %s %s",
-                $this->_properties['company_name'],
-                $this->_properties['last_name'],
-                $this->_properties['first_name'],
-                $this->_properties['street'],
-                $this->_properties['zipcode'],
-                $this->_properties['city']
+                $this->company_name,
+                $this->last_name,
+                $this->first_name,
+                $this->street,
+                $this->zipcode,
+                $this->city
             );
         }
 
         return sprintf("%s %s, %s, %s %s",
-            $this->_properties['first_name'],
-            $this->_properties['last_name'],
-            $this->_properties['street'],
-            $this->_properties['zipcode'],
-            $this->_properties['city']
+            $this->first_name,
+            $this->last_name,
+            $this->street,
+            $this->zipcode,
+            $this->city
         );
     }
 
@@ -96,21 +96,21 @@ class ShopOrderAddress extends Entity
         //@TODO Refactor with self::formatAddress()
         if ($this->is_company) {
             return sprintf("%s\n%s\n%s %s\n%s",
-                $this->_properties['company_name'],
-                $this->_properties['street'],
-                $this->_properties['zipcode'],
-                $this->_properties['city'],
-                $this->_properties['country']
+                $this->company_name,
+                $this->street,
+                $this->zipcode,
+                $this->city,
+                $this->country
             );
         }
 
         return sprintf("%s %s\n%s\n%s %s\n%s",
-            $this->_properties['first_name'],
-            $this->_properties['last_name'],
-            $this->_properties['street'],
-            $this->_properties['zipcode'],
-            $this->_properties['city'],
-            $this->_properties['country']
+            $this->first_name,
+            $this->last_name,
+            $this->street,
+            $this->zipcode,
+            $this->city,
+            $this->country
         );
 
     }

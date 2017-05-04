@@ -1,82 +1,46 @@
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('step_active', 'shipping'); ?>
-<?php $this->assign('heading', __d('shop','Select shipping address')); ?>
-<?php $this->loadHelper('Content.Content'); ?>
+<?php $this->assign('heading', __d('shop','Select your shipping method')); ?>
 <?php
-//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
+//$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
 //$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
-//$this->Breadcrumbs->add(__d('shop','Shipping'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
+//$this->Breadcrumbs->add(__d('shop','Payment'), ['controller' => 'Checkout', 'action' => 'shipping', 'ref' => 'breadcrumb']);
 ?>
 <div class="shop checkout step shipping">
 
-    <div class="shipping address">
-
-        <?php if ($order->is_shipping_selected && !$this->request->query('change')): ?>
-
-            <h2>Lieferadresse</h2>
-            <div class="selected address">
-                <?= $order->shipping_first_name ?> <?= $order->shipping_last_name ?><br />
-                <?= $order->shipping_street ?><br />
-                <?= $order->shipping_zipcode ?> <?= $order->shipping_city ?><br />
-                <?= $order->shipping_country ?><br />
-
-                <?= $this->Html->link(__d('shop', 'Change shipping address'), ['action' => 'shipping', 'change' => true], ['class' => 'btn btn-default']); ?>
+    <?php foreach ($shippingMethods as $alias => $shippingMethod): ?>
+        <?php
+        $element = 'Shop.Checkout/Shipping/' . $alias . '/select';
+        ?>
+        <div class="shipping-method row">
+            <div class="col-md-8">
+                <h3 style="margin-top: 0;"><?= h($shippingMethod['name']); ?></h3>
+                <?php if ($this->elementExists($element)): ?>
+                    <?= $this->element($element); ?>
+                <?php endif; ?>
             </div>
-
-        <?php else: ?>
-
-            <?php if ($shippingAddresses): ?>
-                <h4><?= __d('shop', 'Stored addresses'); ?></h4>
-                <?php foreach($shippingAddresses as $address): ?>
-                    <div class="address">
-                        <?= $address->first_name ?> <?= $address->last_name ?>,
-                        <?= $address->street ?>,
-                        <?= $address->zipcode ?> <?= $address->city ?>,
-                        <?= $address->country ?><br />
-                        <?= $this->Html->link(
-                            __d('shop', 'Ship to this address'),
-                            ['action' => 'shipping_select', $address->id], ['class' => 'btn btn-default']); ?>
-                    </div>
-                <?php endforeach; ?>
-                <h4><?= __d('shop', 'Add new shipping address'); ?></h4>
-                <hr />
-            <?php endif; ?>
-
-            <?= $this->Form->create($shippingAddress, []); ?>
-            <?= $this->Form->input('first_name', ['label' => __d('shop','First Name')]); ?>
-            <?= $this->Form->input('last_name', ['label' => __d('shop','Last Name')]); ?>
-            <?= '' // $this->Form->input('name', ['label' => __d('shop','Name')]); ?>
-            <?= $this->Form->input('street', ['label' => __d('shop','Street')]); ?>
-            <?= '' //$this->Form->input('taxid', ['label' => __d('shop','Tax Id')]); ?>
-            <?= $this->Form->input('zipcode', ['label' => __d('shop','Zipcode')]); ?>
-            <?= $this->Form->input('city', ['label' => __d('shop','City')]); ?>
-            <?= $this->Form->input('country_id', ['label' => __d('shop','Country')]); ?>
-
-            <div class="actions" style="text-align: right; margin-top: 1em;">
-                <?= $this->Form->submit(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
+            <div class="col-sm-4">
+                <?php if ($alias === $order->shipping_type): ?>
+                    <strong>
+                        <?= __('Currently selected shipping method'); ?>
+                    </strong>
+                <?php else: ?>
+                    <?= $this->Form->postLink(
+                        __d('shop','Select'),
+                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'shipping', 'change_type' => true],
+                        ['class' => 'btn btn-primary', 'data' => ['shipping_type' => $alias]]
+                    ); ?>
+                <?php endif; ?>
             </div>
-            <?= $this->Form->end(); ?>
+        </div>
+        <hr />
+    <?php endforeach; ?>
 
+    <?php if ($order->shipping_type): ?>
+        <div class="text-right">
+            <?= $this->Html->link(__('Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+        </div>
+    <?php endif; ?>
 
-        <?php endif; ?>
-    </div>
+    <?php debug($shippingMethods); ?>
 </div>
-<script>
-    /*
-    $(document).ready(function() {
-        var $toggle = $('#toggle-shipping-use-billing');
-        var $container = $('#shipping-newaddress');
-
-        $toggle.on('change', function(e) {
-            var val = $toggle.val();
-            var checked = $toggle.is(':checked');
-
-            if (checked && $container.not(':hidden')) {
-                $container.hide();
-            } else if (!checked && $container.is(':hidden')) {
-                $container.show();
-            }
-        }).trigger('change');
-    });
-    */
-</script>

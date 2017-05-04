@@ -1,6 +1,5 @@
 <?php
 $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
-//$this->assign('title', $this->fetch('heading'));
 ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Cart'), ['_name' => 'shop:cart']); ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Checkout'), ['_name' => 'shop:checkout']); ?>
@@ -10,18 +9,34 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
     $class = '';
     if ($stepId == $this->fetch('step_active')) {
         $class .= 'active';
+
+        /*
+        $this->Breadcrumbs->add(
+            $step['title'],
+            ['controller' => 'Checkout', 'action' => $stepId, 'ref' => 'breadcrumb'],
+            ['class' => $class]
+        );
+        */
     }
-    if ($step['is_complete'] == true) {
+    elseif ($step['is_complete'] == true) {
         $class .= ' completed';
+
     }
+
     $this->Breadcrumbs->add(
         $step['title'],
         ['controller' => 'Checkout', 'action' => $stepId, 'ref' => 'breadcrumb'],
         ['class' => $class]
-    ); ?>
+    );
+
+
+    ?>
 <?php endforeach; ?>
 <div class="shop checkout index container">
 
+    <!--
+    -->
+    <h1 class="heading"><?= $this->fetch('heading'); ?></h1>
     <?= $this->fetch('content'); ?>
 
     <?php if (\Cake\Core\Configure::read('debug')): ?>

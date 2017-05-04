@@ -4,6 +4,7 @@ namespace Shop\Model\Entity;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Shop\Lib\Shop;
 
 /**
  * ShopOrder Entity.
@@ -95,7 +96,8 @@ class ShopOrder extends Entity
         'billing_address_formatted',
         'selected_address_formatted',
         'order_value_tax',
-        'billing_address'
+        'billing_address',
+        'shipping_address',
     ];
 
     protected function _getShopCustomer()
@@ -109,23 +111,37 @@ class ShopOrder extends Entity
         return $this->_properties['shop_customer'];
     }
 
+    public function getOrderAddress($addressType)
+    {
+        $key = 'address_' . strtolower($addressType);
+        if (!isset($this->_properties[$key])) {
+            $this->_properties[$key] = TableRegistry::get('Shop.ShopOrderAddresses')
+                ->find()
+                ->contain(['Countries'])
+                ->where(['shop_order_id' => $this->id, 'type' => $addressType])
+                ->first();
+        }
+        return $this->_properties[$key];
+    }
 
     public function getBillingAddress()
     {
-        return TableRegistry::get('Shop.ShopOrderAddresses')
-            ->find()
-            ->contain(['Countries'])
-            ->where(['shop_order_id' => $this->id, 'type' => 'B'])
-            ->first();
+        return $this->getOrderAddress('B');
+    }
+
+    protected function _getBillingAddress()
+    {
+        return $this->getBillingAddress();
     }
 
     public function getShippingAddress()
     {
-        return TableRegistry::get('Shop.ShopOrderAddresses')
-            ->find()
-            ->contain(['Countries'])
-            ->where(['shop_order_id' => $this->id, 'type' => 'S'])
-            ->first();
+        return $this->getOrderAddress('S');
+    }
+
+    protected function _getShippingAddress()
+    {
+        return $this->getShippingAddress();
     }
 
     public function calculateItems()
@@ -156,11 +172,13 @@ class ShopOrder extends Entity
     {
         if (isset($this->_properties['nr'])) {
 
-            $prefix = "BE";
-            $suffix = "";
+            $orderCfg = Shop::config('Order');
+
+            $prefix = $orderCfg['nrPrefix'];
+            $suffix = $orderCfg['nrSuffix'];
+            $zeroFill = $orderCfg['nrZerofill'];
             $grp = $this->_properties['ordergroup'];
             $nr = $this->_properties['nr'];
-            $zeroFill = 8 - strlen($grp);
 
             if ($zeroFill > 0) {
                 $nrFill = str_repeat("0", $zeroFill) . (string) $nr;
@@ -317,9 +335,10 @@ class ShopOrder extends Entity
 
     protected function _getOrderValueTax()
     {
-        if (isset($this->_properties['order_value_tax'])) {
-            return $this->_properties['order_value_tax'];
+        if (!isset($this->_properties['order_value_tax'])) {
+            $this->_properties['order_value_tax'] = $this->_properties['items_value_tax'] + $this->_properties['shipping_value_tax'];
         }
+        return $this->_properties['order_value_tax'];
     }
 
 }

@@ -24,6 +24,9 @@ $this->Form->context(new \Cake\View\Form\EntityContext($this->request, [
         ['label' => __d('shop','Card Number'), 'placeholder' => __d('shop','16 digits, no spaces')]); ?>
     <?= $this->Form->input('cc_expires_at',
         ['label' => __d('shop','Card valid until'), 'placeholder' => __d('shop','MM/YYYY')]); ?>
-    <?= $this->Form->submit(); ?>
+    <div class="text-right">
+        <?= $this->Html->link(__('Back to payment selection'), ['step' => 'payment', 'change_type' => 1], ['class' => 'btn btn-link']); ?>
+        <?= $this->Form->button(__('Continue')); ?>
+    </div>
     <?= $this->Form->end(); ?>
 </div>

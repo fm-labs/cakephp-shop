@@ -56,6 +56,17 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    public function abort()
+    {
+
+        if ($this->Cart->abortOrder()) {
+            $this->Flash->success(__d('shop', 'The order has been aborted'));
+        } else {
+            $this->Flash->error(__d('shop', 'Failed to abort order'));
+        }
+        $this->redirect($this->referer(['action' => 'index']));
+    }
+
     public function add()
     {
         if ($this->request->is('ajax')) {

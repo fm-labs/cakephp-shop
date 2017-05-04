@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 12/17/15
- * Time: 1:04 AM
- */
 
 namespace Shop\Controller;
 
@@ -12,8 +6,10 @@ namespace Shop\Controller;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Log\Log;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Utility\Inflector;
 use LogicException;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Model\Table\ShopOrdersTable;
@@ -42,14 +38,15 @@ class CheckoutController extends AppController
     {
         parent::beforeFilter($event);
 
-
-        if (!$this->Checkout->getOrder() || $this->Cart->getItemsCount() < 1) {
-            $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+        /*
+        if (!$this->Checkout->isReady()) {
+            $this->Flash->error(__d('shop', 'Checkout aborted: Invalid request'));
             $this->redirect(['_name' => 'shop:cart']);
             return;
         }
+        */
 
-        $layout = (Configure::read('Shop.Checkout.layout')) ?: 'Shop.checkout';
+        $layout = (Configure::read('Shop.Checkout.layout')) ?: null;
 
         //$this->Auth->allow(['cart', 'customer','customerSignup', 'customerGuest', 'billing', 'shipping', 'payment', 'review', 'success']);
         $this->viewBuilder()->layout($layout);
@@ -58,6 +55,15 @@ class CheckoutController extends AppController
     public function beforeRender(Event $event)
     {
         $this->set('steps', $this->Checkout->describeSteps());
+    }
+
+    protected function _checkOrder()
+    {
+        if (!$this->Checkout->getOrder() || $this->Cart->getItemsCount() < 1) {
+            $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+            $this->redirect(['_name' => 'shop:cart']);
+            return;
+        }
     }
 
     public function debug()
@@ -69,41 +75,55 @@ class CheckoutController extends AppController
 
     public function index()
     {
+        $this->_checkOrder();
 
         $op = $this->request->query('op');
-
         if ($op == 'cancel') {
             $this->Checkout->reset();
             $this->Flash->success(__d('shop', 'The order has been aborted'));
             $this->redirect(['_name' => 'shop:cart']);
             return;
         }
-        //debug($this->Checkout->describeSteps());
-        $this->Checkout->redirectNext();
+
+        $redirect = $this->Checkout->redirectUrl();
+        if ($redirect) {
+            return $this->redirect($redirect);
+        }
+
+        Log::alert('Checkout Trap for order ', $this->Checkout->getOrder()->id);
+        $this->Flash->error(__d('shop', 'Sorry, but we are unable to process your order at the moment. Please try again later.'));
+        $this->redirect(['_name' => 'shop:cart']);
     }
 
     public function invokeAction()
     {
         try {
             return parent::invokeAction();
+
         } catch (MissingActionException $ex) {
             $stepId = $this->request->params['action'];
+            $stepId = Inflector::underscore($stepId);
 
+            // check if cart order exists
+            $this->_checkOrder();
+
+            // check step
             if ($stepId === 'next') {
                 return $this->Checkout->redirectNext();
             }
 
-            //@TODO throw MissingOrderException instead, or silently create order
-            if (!$this->Checkout->getOrder()) {
-                return $this->redirect(['_name' => 'shop:cart']);
+            if (!$this->Checkout->getStep($stepId)) {
+                throw new BadRequestException("Unknown checkout step " . $stepId);
             }
 
+            // check if all previous steps are completed
             if (!$this->Checkout->checkStep($stepId)) {
                 return $this->Checkout->redirectNext();
             }
 
+            // execute step
             $step = $this->Checkout->getStep($stepId);
-            return $step->execute($this);
+            return $this->Checkout->executeStep($step);
         }
 
         throw new MissingActionException([
@@ -113,21 +133,4 @@ class CheckoutController extends AppController
             'plugin' => $request->params['plugin'],
         ]);
     }
-
-    public function complete()
-    {
-        $uuid = $this->request->query('uuid');
-        if (!$uuid) {
-            throw new BadRequestException();
-        }
-
-        debug($uuid);
-
-        $order = $this->ShopOrders->find()
-            ->where(['ShopOrders.uuid' => $uuid])
-            ->first();
-
-        $this->set('shopOrder', $order);
-    }
-
 }

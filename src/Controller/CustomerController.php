@@ -19,4 +19,5 @@ class CustomerController extends AppController
         $customer = $this->request->session()->read('Shop.Customer');
         $this->set(compact('customer'));
     }
+
 }

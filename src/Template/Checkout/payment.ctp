@@ -20,47 +20,29 @@
                 <?php endif; ?>
             </div>
             <div class="col-sm-4">
-                <?= $this->Form->postLink(
-                    __d('shop','Select'),
-                    ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', 'change_type' => true],
-                    ['class' => 'btn btn-primary', 'data' => ['payment_type' => $alias]]
-                ); ?>
+                <?php if ($alias === $order->payment_type): ?>
+                    <?= $this->Html->link(
+                        __('Currently selected payment method'),
+                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment'],
+                        ['class' => 'btn btn-inverse']
+                    ); ?>
+                <?php else: ?>
+                    <?= $this->Form->postLink(
+                        __d('shop','Select'),
+                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', 'change_type' => true],
+                        ['class' => 'btn btn-primary', 'data' => ['payment_type' => $alias]]
+                    ); ?>
+                <?php endif; ?>
             </div>
         </div>
         <hr />
     <?php endforeach; ?>
 
+    <?php if ($order->payment_type): ?>
+    <div class="text-right">
+        <?= $this->Html->link(__('Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+    </div>
+    <?php endif; ?>
 
     <?php debug($paymentMethods); ?>
-    <?php debug($paymentOptions); ?>
 </div>
-<script>
-    $(document).ready(function() {
-        return;
-
-        // hide all payment method descriptions
-        $('.payment-method-select:not(:checked)').hide();
-        // show selected payment method description
-        $('input[name="payment_type"]:checked')
-            .next('.payment-method')
-            .addClass('checked')
-            .find('.payment-method-select').show();
-        // toggle payment method descriptions on click
-        $('input[name="payment_type"]').click(function(ev) {
-
-            var $pm = $(this).next('.payment-method');
-            if ($pm.hasClass('checked')) {
-                // Already active
-                $pm.find('.payment-method-select').show();
-            } else {
-                $('.payment-method').removeClass('checked');
-                $('.payment-method-select').slideUp();
-                $pm.addClass('checked');
-                $pm.find('.payment-method-select').slideDown();
-            }
-
-            //ev.preventDefault();
-            //return false;
-        });
-    });
-</script>

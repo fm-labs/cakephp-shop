@@ -6,150 +6,96 @@ namespace Shop\Core\Checkout\Step;
 use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\StaticConfigTrait;
 use Cake\Network\Exception\NotFoundException;
 use Shop\Core\Checkout\CheckoutStepInterface;
-use Shop\Core\Shipping\ShippingRateInterface;
+use Shop\Core\Shipping\ShippingEngineInterface;
+use Shop\Core\Shipping\ShippingEngineRegistry;
+use Shop\Lib\Shop;
 
 class ShippingStep extends BaseStep implements CheckoutStepInterface
 {
 
-    protected $_adapters = [];
+    use StaticConfigTrait;
+
+    /**
+     * @var ShippingEngineRegistry
+     */
+    protected $_registry;
 
     public $shippingMethods = [];
 
     public function getTitle()
     {
-        return __d('shop','Shipping');
+        return __d('shop','Shipping Type');
     }
 
     public function initialize()
     {
-        $this->shippingMethods = Configure::read('Shop.ShippingMethods');
+        $this->_registry = new ShippingEngineRegistry();
+        foreach (Shop::config('Shop.Shipping.Engines') as $alias => $config) {
+            // skip disabled engines
+            if (!isset($config['enabled']) || $config['enabled'] !== true) {
+                continue;
+            }
 
+            if (!isset(self::$_config[$alias])) {
+                self::config($alias, $config);
+            }
+            $this->_registry->load($alias, self::config($alias));
+        }
+
+        $this->shippingMethods = self::$_config;
     }
 
     public function isComplete()
     {
-        $type = $this->_getAdapterType();
-        if (!$type) {
-            if (count($this->shippingMethods) == 1) {
-                $type = key($this->shippingMethods);
-                $this->Checkout->setShippingType($type);
-                $this->Checkout->redirectNext();
-            }
+        if (!$this->engine()) {
             return false;
         }
 
-        return $this->_adapter($type)->isReadyForCheckout($this->Checkout);
+        return $this->engine()->isCheckoutComplete($this->Checkout);
     }
 
-    protected function _getAdapterType()
+    /**
+     * @return null|ShippingEngineInterface
+     */
+    public function engine()
     {
-        $order = $this->Checkout->getOrder();
+        $order = $this->Checkout->Cart->getOrder();
         if (!$order || !$order->shipping_type) {
-            return false;
+            return null;
         }
-        return $order->shipping_type;
+
+        if ($this->_registry->has($order->shipping_type)) {
+            return $this->_registry->get($order->shipping_type);
+        }
+
+        return null;
     }
 
     public function execute(Controller $controller)
     {
-        if (!$this->_getAdapterType() || $controller->request->query('change_type')) {
-            $this->_executeShippingType($controller);
-        }
-        else {
-            $this->_executeShippingAddress($controller);
-        }
+        $engine = $this->engine();
 
-    }
+        if (!$engine || $controller->request->query('change_type')) {
 
-    protected function _executeShippingType(Controller $controller)
-    {
+            if ($controller->request->is(['post', 'put'])) {
+                $engineName = $controller->request->data('shipping_type');
 
-        if ($controller->request->is(['post', 'put'])) {
-
-            $type = $controller->request->data('shipping_type');
-            debug($type);
-            if ($type) {
-                $this->Checkout->setShippingType($type);
-                $this->Checkout->redirectNext();
-            } else {
-                $controller->Flash->error(__d('shop','Please select your prefered shipping method'));
+                if ($this->_registry->has($engineName)) {
+                    $engine = $this->_registry->get($engineName);
+                }
             }
         }
 
         $shippingMethods = $this->shippingMethods;
-        $shippingOptions = [];
-        array_walk($shippingMethods, function($val, $idx) use (&$shippingOptions) {
-            $shippingOptions[$idx] = $val['name'];
-        });
-
         $controller->set('shippingMethods', $shippingMethods);
-        $controller->set('shippingOptions', $shippingOptions);
-        $controller->render('shipping_type');
-    }
 
-    protected function _executeShippingAddress(Controller $controller)
-    {
-
-        $controller->loadModel('Shop.ShopAddresses');
-        $controller->loadModel('Shop.ShopOrderAddresses');
-        $controller->loadModel('Shop.ShopCustomerAddresses');
-
-        $shippingAddresses = [];
-        $shippingAddress = $controller->ShopOrderAddresses->newEntity();
-
-        if ($this->Checkout->getOrder()->getShippingAddress()) {
-            $shippingAddress = $this->Checkout->getOrder()->getShippingAddress();
-        } elseif ($this->Checkout->getOrder()->getBillingAddress()) {
-            $shippingAddress = $this->Checkout->getOrder()->getBillingAddress();
-            $shippingAddress->id = null;
-            $shippingAddress->isNew(true);
+        if ($engine) {
+            return $engine->checkout($this->Checkout);
         }
 
-
-        if ($controller->request->is(['put', 'post'])) {
-            $shippingAddress->accessible(['type', 'shop_customer_id'], false);
-
-            $shippingAddress = $controller->ShopOrderAddresses->patchEntity($shippingAddress, $controller->request->data);
-            if ($this->Checkout->setShippingAddress($shippingAddress)) {
-                $controller->Flash->success(__d('shop','Shipping information has been updated'));
-                $this->Checkout->redirectNext();
-            }
-        }
-
-        if ($controller->Shop->getCustomer() && !$controller->Shop->getCustomer()->is_guest) {
-            $shippingAddresses = $controller->ShopCustomerAddresses
-                ->find()
-                ->where(['shop_customer_id' => $controller->Shop->getCustomer()->id])
-                ->all()
-                ->toArray();
-        }
-
-        $controller->set('shippingAddress', $shippingAddress);
-        $controller->set('shippingAddresses', $shippingAddresses);
-        $controller->set('countries', $controller->loadModel('Shop.ShopCountries')->find('list')->find('published')->toArray());
-        $controller->render('shipping');
-    }
-
-    /**
-     * @param $alias
-     * @return ShippingRateInterface
-     */
-    protected function _adapter($alias)
-    {
-        if (!isset($this->_adapters[$alias])) {
-
-            if (!isset($this->shippingMethods[$alias])) {
-                throw new NotFoundException('ShippingRate adapter ' . $alias . ' not found');
-            }
-
-            $sm = $this->shippingMethods[$alias];
-            $className = App::className($sm['className'], 'Core/Shipping/Rate', 'Rate');
-
-            $this->_adapters[$alias] = new $className($this->Checkout);
-
-        }
-        return $this->_adapters[$alias];
+        return $controller->render('shipping');
     }
 }

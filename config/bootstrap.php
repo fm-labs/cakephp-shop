@@ -1,5 +1,6 @@
 <?php
 use Banana\Lib\ClassRegistry;
+use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Backend\Lib\Backend;
 use Content\Lib\ContentManager;
@@ -13,6 +14,11 @@ if (!Plugin::loaded('Banana')) {
 if (!Plugin::loaded('Content')) {
     throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);
 }
+
+/**
+ * Load default config
+ */
+Configure::load('Shop.shop');
 
 /**
  * Register classes

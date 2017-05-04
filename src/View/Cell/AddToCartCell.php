@@ -70,9 +70,16 @@ class AddToCartCell extends Cell
         $formOptions = ['url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]];
         $formInputsOptions = ['legend' => false, 'fieldset' => false];
         //$form = new AddToCartForm();
+
+        $auth = $this->_checkAuth();
+        if (!$auth) {
+            $formOptions['disabled'] = 'disabled';
+            //@TODO disable inputs
+        }
+
         $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
 
-        $this->set('auth', $this->_checkAuth());
+        $this->set('auth', $auth);
         $this->set('params', $params);
         $this->set('product', $this->shopProduct);
 
@@ -140,9 +147,17 @@ class AddToCartCell extends Cell
         }
 
         //$form = new AddToCartForm();
+
+
+        $auth = $this->_checkAuth();
+        if (!$auth) {
+            $formOptions['disabled'] = 'disabled';
+            //@TODO disable inputs
+        }
+
         $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
 
-        $this->set('auth', $this->_checkAuth());
+        $this->set('auth', $auth);
         $this->set('params', $params);
         $this->set('product', $this->shopProduct);
         $this->set('productVersions', $productVersions); // deprecated
