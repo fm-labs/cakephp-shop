@@ -158,7 +158,7 @@ class ShopOrdersTable extends Table
         }
     }
 
-    public function afterSave(Event $event)
+    public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         //@TODO save billing address in address book
         //@TODO save shipping address in address book

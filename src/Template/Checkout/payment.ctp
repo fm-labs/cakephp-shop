@@ -22,7 +22,7 @@
             <div class="col-sm-4">
                 <?php if ($alias === $order->payment_type): ?>
                     <?= $this->Html->link(
-                        __('Currently selected payment method'),
+                        __d('shop','Currently selected payment method'),
                         ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment'],
                         ['class' => 'btn btn-inverse']
                     ); ?>
@@ -40,7 +40,7 @@
 
     <?php if ($order->payment_type): ?>
     <div class="text-right">
-        <?= $this->Html->link(__('Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+        <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
     </div>
     <?php endif; ?>
 

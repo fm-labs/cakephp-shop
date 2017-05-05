@@ -11,11 +11,11 @@
     <?php if (!empty($billingAddresses)): ?>
         <?= $this->Form->create(null); ?>
             <?= $this->Form->hidden('_op', ['value' => 'billing-customer-select']); ?>
-            <?= $this->Form->input('customer_address_id', ['label' => __('Saved addresses'), 'options' => $billingAddresses]); ?>
-            <?= $this->Form->button(__('Use this address')); ?>
+            <?= $this->Form->input('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $billingAddresses]); ?>
+            <?= $this->Form->button(__d('shop','Use this address')); ?>
         <?= $this->Form->end(); ?>
         <hr />
-        <h3><?= __('Add new address'); ?></h3>
+        <h3><?= __d('shop','Add new address'); ?></h3>
     <?php endif; ?>
 
     <div class="form">

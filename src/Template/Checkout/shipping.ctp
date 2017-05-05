@@ -22,7 +22,7 @@
             <div class="col-sm-4">
                 <?php if ($alias === $order->shipping_type): ?>
                     <strong>
-                        <?= __('Currently selected shipping method'); ?>
+                        <?= __d('shop','Currently selected shipping method'); ?>
                     </strong>
                 <?php else: ?>
                     <?= $this->Form->postLink(
@@ -38,7 +38,7 @@
 
     <?php if ($order->shipping_type): ?>
         <div class="text-right">
-            <?= $this->Html->link(__('Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+            <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
         </div>
     <?php endif; ?>
 

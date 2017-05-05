@@ -4,6 +4,7 @@ namespace Shop\Controller;
 
 
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
@@ -23,6 +24,11 @@ class PaymentController extends AppController
         }
     }
 
+    public function index($orderId = null)
+    {
+        $this->redirect(['action' => 'mpay24', $orderId]);
+    }
+
     public function mpay24($orderId = null) {
 
         try {
@@ -35,8 +41,8 @@ class PaymentController extends AppController
             }
             */
 
-            $merchantID = '9*****';
-            $soapPassword = '******';
+            $merchantID = Configure::read('Mpay24.merchantID'); // '9*****';
+            $soapPassword = Configure::read('Mpay24.soapPassword'); //'******';
             $test = $debug = true;
 
             $config = new Mpay24Config();

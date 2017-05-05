@@ -98,6 +98,24 @@ class ShopCustomerAddressesTable extends Table
         return $validator;
     }
 
+    public function newRecordFromOrderAddress($customerId, ShopOrderAddress $address) {
+
+        $entity = $this->newEntity($address->toArray());
+        $entity->id = null;
+        $entity->shop_customer_id = $customerId;
+
+        /*
+        $arr = $entity->toArray();
+        unset($arr['id']);
+        unset($arr['relcountry']);
+        unset($arr['created']);
+        unset($arr['modified']);
+        $hash = md5(serialize($arr));
+        */
+
+        return $this->save($entity);
+    }
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.

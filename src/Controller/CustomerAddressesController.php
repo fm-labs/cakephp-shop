@@ -43,9 +43,9 @@ class CustomerAddressesController extends AppController
         if ($this->request->is(['put', 'post'])) {
             $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->data);
             if ($this->ShopCustomerAddresses->save($address)) {
-                $this->Flash->success(__('Saved'));
+                $this->Flash->success(__d('shop','Saved'));
             } else {
-                $this->Flash->error(__('Please fill all required fields'));
+                $this->Flash->error(__d('shop','Please fill all required fields'));
             }
         }
 

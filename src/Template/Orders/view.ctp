@@ -9,10 +9,19 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 
     <?php if ($this->request->query('order_complete')): ?>
     <div class="alert alert-success">
-        <strong><?= __('Your order has been submitted'); ?></strong>
-        <p><?= __('A confirmation email has been sent to <strong>%s</strong>', $order->customer_email); ?></p>
+        <strong><?= __d('shop','Your order has been submitted'); ?></strong>
+        <p><?= __d('shop','A confirmation email has been sent.'); ?></p>
     </div>
     <?php endif; ?>
+
+
+    <?php if ($order->status < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED): ?>
+    <div class="alert alert-warning">
+        <strong><?= __d('shop','This order is still unpayed'); ?></strong>
+        <p><?= $this->Html->link('Continue to payment', ['controller' => 'Payment', 'action' => 'index', $order->uuid], ['class' => 'btn btn-primary']); ?></p>
+    </div>
+    <?php endif; ?>
+
 
     <h2><?= __d('shop','Order {0}', $order->nr_formatted); ?></h2>
     <p>
@@ -118,7 +127,7 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
     <div class="row">
         <div class="col-md-12">
             <p class="text-center">
-                <?= $this->Html->link(__('List all orders'), ['action' => 'index'], ['class' =>'btn btn-default']); ?>
+                <?= $this->Html->link(__d('shop','List all orders'), ['action' => 'index'], ['class' =>'btn btn-default']); ?>
             </p>
         </div>
     </div>

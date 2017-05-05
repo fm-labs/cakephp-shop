@@ -285,7 +285,7 @@ class ShopOrder extends Entity
      */
     protected function _getIsPaymentSelected()
     {
-        $paymentMethods = Configure::read('Shop.PaymentMethods');
+        $paymentMethods = Configure::read('Shop.Payment.Engines');
 
         if (
             isset($this->_properties['payment_type'])

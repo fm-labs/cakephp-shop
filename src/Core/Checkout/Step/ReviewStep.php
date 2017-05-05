@@ -23,7 +23,7 @@ class ReviewStep extends BaseStep implements CheckoutStepInterface
         if ($controller->request->is(['put', 'post'])) {
             if ($order = $this->Checkout->submitOrder($controller->request->data)) {
                 $controller->Flash->success(__d('shop','Order has been submitted'));
-                $controller->redirect(['plugin' => 'Shop', 'controller' => 'Orders', 'action' => 'view', $order->uuid, 'complete' => 1]);
+                $controller->redirect(['plugin' => 'Shop', 'controller' => 'Orders', 'action' => 'view', $order->uuid, 'order_complete' => 1]);
             } else {
                 $controller->Flash->error(__d('shop','Please fill all required fields'));
             }

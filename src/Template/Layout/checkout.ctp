@@ -24,7 +24,7 @@
             </button>
 
             <a class="navbar-brand" href="/shop">
-                <span><?= __('Shop'); ?></span>
+                <span><?= __d('shop','Shop'); ?></span>
             </a>
 
             <div class="navbar-collapse collapse">

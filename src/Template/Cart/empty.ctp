@@ -9,7 +9,7 @@
             <h1><?= __d('shop', 'Cart'); ?></h1>
             <p style="font-size: 1.3em;"><?= __d('shop', 'You don\'t have any products in your cart'); ?></p>
             <div class="actions" style="">
-                <?= $this->Html->link(__d('shop','Browse shop'),
+                <?= $this->Html->link(__d('shop','View products'),
                     ['controller' => 'Shop', 'action' => 'index'],
                     ['class' => 'btn btn-primary']); ?>
             </div>

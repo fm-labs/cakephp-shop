@@ -85,10 +85,10 @@ class ShopComponent extends Component
     public function getCustomerAddressesList()
     {
         $addresses = [];
-        if ($this->customer && !$this->customer['is_guest']) {
+        if ($this->customer && !$this->customer('is_guest')) {
             $addresses = TableRegistry::get('Shop.ShopCustomerAddresses')
                 ->find('list')
-                ->where(['ShopCustomerAddresses.shop_customer_id' => $this->customer['id']])
+                ->where(['ShopCustomerAddresses.shop_customer_id' => $this->getCustomerId()])
                 ->toArray();
         }
         return $addresses;

@@ -16,6 +16,6 @@
     <?= h($address->relcountry->name_de); ?><br />
 
     <?php if (isset($edit) && $edit === true): ?>
-        <?= $this->Ui->button(__('Edit'), ['action' => 'edit', $address->id], ['class' => 'btn-link']); ?>
+        <?= $this->Ui->button(__d('shop','Edit'), ['action' => 'edit', $address->id], ['class' => 'btn-link']); ?>
     <?php endif; ?>
 </div>

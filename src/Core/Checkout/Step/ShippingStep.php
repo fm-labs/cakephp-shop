@@ -27,7 +27,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
 
     public function getTitle()
     {
-        return __d('shop','Shipping Type');
+        return __d('shop','Shipping');
     }
 
     public function initialize()

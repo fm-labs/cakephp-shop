@@ -6,7 +6,7 @@ $this->Breadcrumbs->add(__d('shop','Addressbook'), ['controller' => 'CustomerAdd
 ?>
 <div class="shop customer addresses form container">
 
-    <h1 class="heading"><?= __('Edit address'); ?></h1>
+    <h1 class="heading"><?= __d('shop','Edit address'); ?></h1>
 
     <div class="form">
         <?= $this->Form->create($address, ['horizontal' => false, 'novalidate' => true]); ?>

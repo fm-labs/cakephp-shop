@@ -30,6 +30,7 @@ return [
 
         'Checkout' => [
             'Steps' => [
+                /*
                 'customer' => [
                     'className' => 'Shop.Customer'
                 ],
@@ -48,29 +49,13 @@ return [
                 'review' => [
                     'className' => 'Shop.Review'
                 ],
+                */
             ]
         ],
 
         'Shipping' => [
             'Engines' => [
-                /*
-                'custom' => [
-                    'engine' => 'Shop.CustomRate',
-                    'enabled' => true,
-                    'name' => 'Standard Versand',
-                ],
-                'fixed' => [
-                    'engine' => 'Shop.FixedRate',
-                    'enabled' => true,
-                    'name' => 'Standard Versand Express',
-                    'cost' => 10.00
-                ],
-                'email' => [
-                    'engine' => 'Shop.Email',
-                    'enabled' => true,
-                    //'emailConfig' => 'shop_email_shipping'
-                ]
-                */
+
             ]
         ],
 
