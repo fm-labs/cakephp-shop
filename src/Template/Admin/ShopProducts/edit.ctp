@@ -97,7 +97,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
     </div>
     <?= $this->Form->end() ?>
 
-    <?php $this->Tabs->add(__d('shop','Related Products'), ['url' => ['action' => 'relatedProducts', $shopProduct->id]]); ?>
+    <?php $this->Tabs->add(__d('shop','Product versions'), ['url' => ['action' => 'relatedProducts', $shopProduct->id]]); ?>
 
     <!-- Attributes -->
     <?php //$this->Tabs->add(__d('shop', 'Attributes')); ?>

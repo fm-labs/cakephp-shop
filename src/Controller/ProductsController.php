@@ -62,6 +62,13 @@ class ProductsController extends AppController
     {
         $this->viewBuilder()->className('Shop.ShopProduct');
 
+
+        if ($this->request->is(['post']) && $this->request->data('id')) {
+            $id = $this->request->data('id');
+            $shopProduct = $this->ShopProducts->get($id);
+            return $this->redirect($shopProduct->url);
+        }
+
         if ($id === null) {
 
             if ($this->request->query('id')) {

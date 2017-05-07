@@ -88,19 +88,21 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h2><?= __d('shop','Additional Information') ?></h2>
-
-            <?= $this->Form->input('customer_notes', ['label' => __d('shop','Additional Notes')]); ?>
             <!--
-            <?= $this->Form->input('customer_email', [
-                //'required' => true,
-                'label' => __d('shop','Email for notifications') . '*',
-            ]); ?>
+            <h2><?= __d('shop','Additional Information') ?></h2>
             -->
+
+            <?php if (\Cake\Core\Configure::read('Shop.Checkout.customerNotes')): ?>
+            <?= $this->Form->input('customer_notes', ['label' => __d('shop','Additional Notes')]); ?>
+            <?php endif; ?>
+
+            <?php if (\Cake\Core\Configure::read('Shop.Checkout.customerPhone')): ?>
             <?= $this->Form->input('customer_phone', [
                 'required' => true,
                 'label' => __d('shop','Callback phone number') . '*',
             ]); ?>
+            <?php endif; ?>
+
             <?= $this->Form->input('agree_terms', ['label' => __d('shop','Agree to Terms & Conditions') . '*']); ?>
             <?= '' //$this->Form->input('agree_newsletter', ['label' => __d('shop','Agree Newsletter')]); ?>
         </div>
@@ -108,7 +110,7 @@
 
     <div class="ui actions" style="text-align: right;">
         <?php echo $this->Html->link(__d('shop', 'Cancel order'), ['action' => 'index', 'op' => 'cancel'], ['class' => 'btn']); ?>
-        <?= $this->Form->button(__d('shop','Order Now'), ['class' => 'btn btn-primary']); ?>
+        <?= $this->Form->button(__d('shop','Order Now'), ['class' => 'btn btn-primary btn-lg']); ?>
     </div>
     <?= $this->Form->end(); ?>
 

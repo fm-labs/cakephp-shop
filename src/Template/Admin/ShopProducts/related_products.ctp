@@ -4,9 +4,10 @@
         'paginate' => false,
         'model' => 'Shop.ShopProducts',
         'data' => $shopProduct->child_shop_products,
+        'fieldsWhitelist' => true,
         'fields' => [
-            'id',
-            'sku',
+            //'id',
+            'sku' => [],
             /*
             'parent' => [
                 'formatter' => function($val) {
