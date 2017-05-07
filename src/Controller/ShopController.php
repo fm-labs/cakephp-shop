@@ -17,6 +17,14 @@ use Cake\Network\Exception\NotFoundException;
  */
 class ShopController extends AppController
 {
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->Auth->allow();
+    }
+
     public function index()
     {
         $this->redirect(['controller' => 'Categories', 'action' => 'index']);
