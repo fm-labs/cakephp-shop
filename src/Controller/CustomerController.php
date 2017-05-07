@@ -13,6 +13,12 @@ use Attachment\Controller\AppController;
 
 class CustomerController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->deny([]);
+    }
+
     public function index()
     {
         //$this->autoRender = false;

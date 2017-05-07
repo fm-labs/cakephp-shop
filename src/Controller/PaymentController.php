@@ -9,6 +9,7 @@ use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Routing\Router;
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Config;
 use Mpay24\MPay24Order;
@@ -19,9 +20,7 @@ class PaymentController extends AppController
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
 
-        if ($this->components()->has('Auth')) {
-            $this->Auth->allow(['mpay24']);
-        }
+        $this->Auth->allow(['index', 'mpay24']);
     }
 
     public function index($orderId = null)
@@ -29,17 +28,43 @@ class PaymentController extends AppController
         $this->redirect(['action' => 'mpay24', $orderId]);
     }
 
-    public function mpay24($orderId = null) {
+    public function mpay24($orderUuid = null) {
+
+
+        $op = $this->request->query('op');
+        $hash = $this->request->query('h');
+
+        switch ($op) {
+            case "success":
+                Log::debug("mpay24: $op");
+                $this->Flash->success(__('Your payment was successful'));
+                return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
+                break;
+            case "error":
+                Log::debug("mpay24: $op");
+                $this->Flash->error(__('The payment has been aborted'));
+                return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
+                break;
+
+            // Push notifications
+            case "confirm":
+                Log::debug("mpay24: $op");
+                Log::debug(json_encode($this->request->data));
+
+                $this->autoRender = false;
+                return;
+        }
+
 
         try {
 
             /*
+            */
             $this->loadModel('Shop.ShopOrders');
-            $order = $this->ShopOrders->get($orderId);
+            $order = $this->ShopOrders->find('order', ['uuid' => $orderUuid]);
             if (!$order) {
                 throw new NotFoundException();
             }
-            */
 
             $merchantID = Configure::read('Mpay24.merchantID'); // '9*****';
             $soapPassword = Configure::read('Mpay24.soapPassword'); //'******';
@@ -84,43 +109,45 @@ class PaymentController extends AppController
 
             $mdxi->Order->setStyle("margin-left: auto; margin-right: auto; width: 600px;");
 
-            $mdxi->Order->UserField = $myTransactionId . 'u';
+            $mdxi->Order->UserField = $order->uuid;
             $mdxi->Order->Tid = $myTransactionId;
 
             $mdxi->Order->TemplateSet = "WEB";
             $mdxi->Order->TemplateSet->setLanguage("DE");
 
-            $mdxi->Order->ShoppingCart->Description = "Test Cart";
+            $mdxi->Order->ShoppingCart->Description = __('Order {0}', $order->nr_formatted);
             /*
+            */
             $i = 1;
-            foreach($order['OrderItem'] as $item) {
+            foreach($order->shop_order_items as $item) {
                 $mdxi->Order->ShoppingCart->Item($i)->Number = (string) $i;
-                $mdxi->Order->ShoppingCart->Item($i)->ProductNr = $item['product_version_id'];
-                $mdxi->Order->ShoppingCart->Item($i)->Description = $item['name'];
-                $mdxi->Order->ShoppingCart->Item($i)->Quantity = $item['amount'];
-                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item['price']);
+                $mdxi->Order->ShoppingCart->Item($i)->ProductNr = $item->refid;
+                $mdxi->Order->ShoppingCart->Item($i)->Description = $item->title;
+                $mdxi->Order->ShoppingCart->Item($i)->Quantity = $item->amount;
+                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item->value_total_taxed);
                 $i++;
             }
-            $mdxi->Order->ShoppingCart->SubTotal = self::formatPrice($order['Order']['value_items']);
-            $mdxi->Order->ShoppingCart->ShippingCosts = self::formatPrice(0);
-            $mdxi->Order->ShoppingCart->Discount = self::formatPrice($order['Order']['value_coupon']);
-            $mdxi->Order->ShoppingCart->Tax = self::formatPrice($order['Order']['tax']);
+            //$mdxi->Order->ShoppingCart->SubTotal = self::formatPrice($order->items_value_taxed);
+            //$mdxi->Order->ShoppingCart->ShippingCosts = self::formatPrice(0); //@TODO Add shipping costs
+            //$mdxi->Order->ShoppingCart->Discount = self::formatPrice(0); //@TODO Add discount value
+            //$mdxi->Order->ShoppingCart->Tax = self::formatPrice($order->order_value_tax);
 
-            $mdxi->Order->Price = $payment->amount;
-            $mdxi->Order->Currency = $payment->currency;
+            $mdxi->Order->Price = self::formatPrice($order->order_value_total);
+            $mdxi->Order->Currency = $order->currency;
 
-            $mdxi->Order->BillingAddr->setMode('ReadOnly');
-            $mdxi->Order->BillingAddr->Name = $order['OrderAddress']['last_name'] . ', ' . $order['OrderAddress']['first_name'];
-            $mdxi->Order->BillingAddr->Street = $order['OrderAddress']['address1'];
-            $mdxi->Order->BillingAddr->Street2 = $order['OrderAddress']['address2'];
-            $mdxi->Order->BillingAddr->Zip = $order['OrderAddress']['zip'];
-            $mdxi->Order->BillingAddr->City = $order['OrderAddress']['city'];
+            $billingAddress = $order->getBillingAddress();
+            $mdxi->Order->BillingAddr->setMode("ReadWrite"); // or "ReadOnly"
+            $mdxi->Order->BillingAddr->Name = $billingAddress->name;
+            $mdxi->Order->BillingAddr->Street = $billingAddress->street;
+            $mdxi->Order->BillingAddr->Street2 = $billingAddress->street2;
+            $mdxi->Order->BillingAddr->Zip = $billingAddress->zipcode;
+            $mdxi->Order->BillingAddr->City = $billingAddress->city;
             $mdxi->Order->BillingAddr->State = '';
-            $mdxi->Order->BillingAddr->Country = $order['OrderAddress']['Country']['iso2'];
-            $mdxi->Order->BillingAddr->Email = $order['User']['mail'];
-            */
+            $mdxi->Order->BillingAddr->Country = $billingAddress->relcountry->name;
+            $mdxi->Order->BillingAddr->Email = $order->shop_customer->email;
 
 
+            /*
             $mdxi->Order->ShoppingCart->Item(1)->Number = "Item Number 1";
             $mdxi->Order->ShoppingCart->Item(1)->ProductNr = "Product Number 1";
             $mdxi->Order->ShoppingCart->Item(1)->Description = "Description 1";
@@ -142,12 +169,6 @@ class PaymentController extends AppController
 
             $mdxi->Order->Currency = "EUR";
 
-            //@TODO Implement Mpay24 Customer profiles
-            // https://docs.mpay24.com/docs/profiles
-            $mdxi->Order->Customer->setUseProfile("false");
-            //$mdxi->Order->Customer->setId("98765");
-            //$mdxi->Order->Customer = "Hans Mayer";
-
             $mdxi->Order->BillingAddr->setMode("ReadWrite"); // or "ReadOnly"
             $mdxi->Order->BillingAddr->Name = "Max Musterman";
             $mdxi->Order->BillingAddr->Street = "Teststreet 1";
@@ -156,13 +177,29 @@ class PaymentController extends AppController
             $mdxi->Order->BillingAddr->City = "Wien";
             $mdxi->Order->BillingAddr->Country->setCode("AT");
             $mdxi->Order->BillingAddr->Email = "a.b@c.de";
+            */
+
+            //@TODO Implement Mpay24 Customer profiles
+            // https://docs.mpay24.com/docs/profiles
+            //$mdxi->Order->Customer->setUseProfile("false");
+            //$mdxi->Order->Customer->setId("98765");
+            //$mdxi->Order->Customer = "Hans Mayer";
             // initialize payment
 
-            $mdxi->Order->URL->Success      = 'http://captaintests.shop/shop/payment/success';
-            $mdxi->Order->URL->Error        = 'http://captaintests.shop/shop/payment/error';
-            $mdxi->Order->URL->Confirmation = 'http://captaintests.shop/shop/payment/confirmation';
+            $hash = sha1(Configure::read('Security.salt') . '|' . $orderUuid);
+            $successUrl = Router::url(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'mpay24', $orderUuid, 'op' => 'success', 'h' => $hash], true);
+            $errorUrl = Router::url(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'mpay24', $orderUuid, 'op' => 'error', 'h' => $hash], true);
+            $confirmUrl = Router::url(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'mpay24', $orderUuid, 'op' => 'confirm', 'h' => $hash], true);
 
-            $paymentPageURL = $mpay24->paymentPage($mdxi)->getLocation(); // redirect location to the payment page
+            $mdxi->Order->URL->Success      = $successUrl;
+            $mdxi->Order->URL->Error        = $errorUrl;
+            $mdxi->Order->URL->Confirmation = $confirmUrl;
+
+            $paymentPageURL = null;
+            if ($mdxi->validate()) {
+                $paymentPageURL = $mpay24->paymentPage($mdxi)->getLocation(); // redirect location to the payment page
+            }
+
 
             $this->set('mdxi', $mdxi->toXML());
             $this->set('paymentUrl', $paymentPageURL);

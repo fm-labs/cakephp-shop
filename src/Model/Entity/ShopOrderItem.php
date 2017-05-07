@@ -47,7 +47,8 @@ class ShopOrderItem extends Entity
         'product',
         'title',
         'sku',
-        'cur'
+        'cur',
+        'value_net'
     ];
 
     /**
@@ -121,6 +122,27 @@ class ShopOrderItem extends Entity
     {
         return $this->item_value_net * (1 + $this->tax_rate/100);
     }
+
+    /**
+     * Total net value
+     *
+     * @return float
+    protected function _getValueTotal()
+    {
+        return $this->item_value_net * $this->amount;
+    }
+*/
+
+    /**
+     * Total gros value
+     *
+     * @return float
+    protected function _getValueTotalTaxed()
+    {
+        return $this->item_value_net * $this->amount * (1 + $this->tax_rate/100);
+    }
+*/
+
 
     /**
      * @param $val

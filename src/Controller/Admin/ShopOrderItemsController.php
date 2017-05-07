@@ -11,6 +11,11 @@ use Shop\Controller\Admin\AppController;
 class ShopOrderItemsController extends AppController
 {
 
+    public $actions = [
+        'index' => 'Backend.Index',
+        'view' => 'Backend.View'
+    ];
+
     /**
      * Index method
      *
@@ -27,8 +32,49 @@ class ShopOrderItemsController extends AppController
             $this->paginate['conditions']['shop_order_id'] = $this->request->query('order_id');
         }
 
-        $this->set('shopOrderItems', $this->paginate($this->ShopOrderItems));
-        $this->set('_serialize', ['shopOrderItems']);
+        $this->set('fields.whitelist', true);
+        $this->set('fields', [
+            'shop_order.id' => [
+                'formatter' => function($val, $row, $args, $view) {
+                    return $view->Html->link($val, ['controller' => 'ShopOrders', 'action' => 'view', $row->id]);
+                }
+            ],
+            'id' => [
+                'formatter' => function($val, $row, $args, $view) {
+                    return $view->Html->link($val, ['action' => 'view', $row->id]);
+                }
+            ],
+            'product_sku' => [
+                'formatter' => function($val, $row) {
+                    return ($val) ?: $row->getProduct()->getSku();
+                }
+            ],
+            'product_title' => [
+                'formatter' => function($val, $row, $args, $view) {
+                    $val = ($val) ?: $row->getProduct()->getTitle();
+                    return $view->Html->link($val, $row->getProduct()->getAdminUrl(), ['class' => 'link-modal-frame']);
+                }
+            ],
+            'amount' => ['formatter' => function($val, $row) {
+                return sprintf("%d %s", $val, $row->unit);
+            }],
+            /*
+            'value_tax' => ['formatter' => function($val, $row) use ($shopOrder) {
+                return $this->Number->currency($val, $shopOrder->currency);
+            }],
+            'value_net' => ['formatter' => function($val, $row) use ($shopOrder) {
+                return $this->Number->currency($val, $shopOrder->currency);
+            }],
+            */
+            'value' => ['title' => __d('shop','Total'), 'formatter' => function($val, $row, $args, $view) {
+                $val = ($val) ?: $row->value_net + $row->value_tax;
+                return $view->Number->currency($val, $row->currency);
+
+            }],
+            'status' => [],
+        ]);
+
+        $this->Backend->executeAction();
     }
 
     /**
@@ -40,11 +86,7 @@ class ShopOrderItemsController extends AppController
      */
     public function view($id = null)
     {
-        $shopOrderItem = $this->ShopOrderItems->get($id, [
-            'contain' => ['ShopOrders']
-        ]);
-        $this->set('shopOrderItem', $shopOrderItem);
-        $this->set('_serialize', ['shopOrderItem']);
+        $this->Backend->executeAction();
     }
 
     /**

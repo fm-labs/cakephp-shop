@@ -32,6 +32,8 @@ class CheckoutController extends AppController
         $this->loadComponent('Shop.Shop');
         $this->loadComponent('Shop.Cart');
         $this->loadComponent('Shop.Checkout');
+
+        $this->Auth->allow();
     }
 
     public function beforeFilter(Event $event)

@@ -2,38 +2,11 @@
 
 namespace Shop\Controller\Admin;
 
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Media\Lib\Media\MediaManager;
-use Content\Controller\Admin\AppController as BaseAdminAppController;
+use Content\Controller\Admin\AppController as ContentAdminController;
 
-class AppController extends BaseAdminAppController
+class AppController extends ContentAdminController
 {
-    public $locale;
-
     public $paginate = [
-        'limit' => 100,
+        'limit' => 50
     ];
-
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        $locale = $this->request->query('locale');
-        $this->locale = ($locale) ? $locale : Configure::read('Shop.defaultLocale');
-    }
-
-    public function beforeRender(Event $event)
-    {
-        parent::beforeRender($event);
-        $this->set('locale', $this->locale);
-    }
-
-    protected function _getGalleryList()
-    {
-        $list = [];
-        $mm = MediaManager::get('shop');
-        $list = $mm->getSelectListRecursive();
-        return $list;
-    }
-
 }

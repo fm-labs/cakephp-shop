@@ -37,6 +37,8 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
     </div>
     <hr />
 
+    <?php if ($this->request->session()->read('Auth.User.id')): ?>
+
     <div class="row">
         <div class="col-md-6">
             <h2>
@@ -131,4 +133,13 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
             </p>
         </div>
     </div>
+
+    <?php else: ?>
+    <div class="alert alert-info">
+        <strong><i class="fa fa-lock"></i>&nbsp;<?= __('Order details are only available to logged in customers'); ?></strong>
+        <p>
+            <?= $this->Html->link(__('Login here'), ['_name' => 'user:login']); ?>
+        </p>
+    </div>
+    <?php endif; ?>
 </div>

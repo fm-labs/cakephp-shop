@@ -35,15 +35,12 @@ class AppController extends ContentController
 
         $this->loadComponent('Content.Locale');
         $this->loadComponent('Shop.Shop');
+
+        $this->Auth->config('logoutRedirect', ['_name' => 'shop:index']);
     }
 
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-
-        if ($this->components()->has('Auth')) {
-            $this->Auth->allow();
-            $this->Auth->config('logoutRedirect', ['_name' => 'shop:index']);
-        }
     }
 }

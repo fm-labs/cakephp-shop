@@ -26,6 +26,7 @@
         'model' => 'Shop.ShopOrders',
         'data' => $shopOrders,
         'class' => 'table table-condensed table-striped table-hover',
+        'fieldsWhitelist' => true,
         'fields' => [
             'id' => [
                 'formatter' => function($val, $row) {

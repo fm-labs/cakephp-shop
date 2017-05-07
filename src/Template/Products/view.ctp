@@ -14,21 +14,24 @@
                     <?php echo $this->element('Shop.Products/product_info_price'); ?>
 
                     <?php //echo $this->element('Shop.Products/product_info'); ?>
-                    <?php echo $this->element('Shop.Products/product_info_availability'); ?>
+                    <?php //echo $this->element('Shop.Products/product_info_availability'); ?>
                     <hr />
-                    <?php echo $this->cell('Shop.AddToCart::form', [['qty' => true]], compact('shopProduct')); ?>
+                    <?php echo $this->cell('Shop.AddToCart', [], compact('shopProduct')); ?>
                 </div>
             </div>
 
             <!-- Product description -->
+            <?php if ($shopProduct->desc_html): ?>
             <div class="description">
                 <h2><?= __d('shop', 'Product description'); ?></h2>
                 <div class="text desc-long" itemprop="description">
                     <?= $this->Content->userHtml($shopProduct->desc_html); ?>
                 </div>
             </div>
+            <?php endif; ?>
 
             <!-- Media images -->
+            <?php if ($shopProduct->media_images): ?>
             <div class="media-images">
                 <h2><?= __d('shop', 'Images'); ?></h2>
                 <?php foreach ((array) $shopProduct->media_images as $mediaImage): ?>
@@ -48,6 +51,7 @@
                     </div>
                 <?php endforeach; ?>
             </div>
+            <?php endif; ?>
 
         </div>
     </article>

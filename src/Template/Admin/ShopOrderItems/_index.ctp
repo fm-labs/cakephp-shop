@@ -19,6 +19,7 @@
         'model' => 'Shop.ShopOrderItems',
         'data' => $shopOrderItems,
         'class' => 'table table-condensed table-striped table-hover',
+        'fieldsWhitelist' => true,
         'fields' => [
             'id' => [
                 'formatter' => function($val, $row) {

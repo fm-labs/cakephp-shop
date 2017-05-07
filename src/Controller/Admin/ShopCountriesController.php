@@ -10,6 +10,15 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCountriesController extends AppController
 {
+    public $paginate = [
+        'order' => ['ShopCountries.name' => 'ASC'],
+        'limit' => 50
+    ];
+
+    public $actions = [
+        'index' => 'Backend.Index',
+        'view' => 'Backend.View'
+    ];
 
     /**
      * Index method
@@ -18,8 +27,7 @@ class ShopCountriesController extends AppController
      */
     public function index()
     {
-        $this->set('shopCountries', $this->paginate($this->ShopCountries));
-        $this->set('_serialize', ['shopCountries']);
+        $this->Backend->executeAction();
     }
 
     /**
@@ -31,11 +39,7 @@ class ShopCountriesController extends AppController
      */
     public function view($id = null)
     {
-        $shopCountry = $this->ShopCountries->get($id, [
-            'contain' => []
-        ]);
-        $this->set('shopCountry', $shopCountry);
-        $this->set('_serialize', ['shopCountry']);
+        $this->Backend->executeAction();
     }
 
     /**

@@ -17,10 +17,8 @@
         </div>
         <?php endif; ?>
 
-        <div class="actions" style="margin-top: 1em;">
-            <div class="pull-right">
-                <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
-            </div>
+        <div class="actions text-right" style="margin-top: 1em;">
+            <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
         </div>
         <?= $this->Form->end(); ?>
     </div>

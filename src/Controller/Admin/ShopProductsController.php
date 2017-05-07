@@ -17,6 +17,10 @@ class ShopProductsController extends AppController
 {
     public $modelClass = "Shop.ShopProducts";
 
+    public $actions = [
+        'index' => 'Backend.Index',
+    ];
+
     public function initialize()
     {
         parent::initialize();
@@ -35,12 +39,47 @@ class ShopProductsController extends AppController
         $this->ShopProducts->locale($this->locale);
     }
 
+    public function index()
+    {
+
+        $this->paginate = [
+            'limit' => 200,
+            'maxLimit' => 200,
+            'order' => ['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC'],
+            'contain' => ['ShopCategories']
+        ];
+
+
+
+        $fields = [
+            'sku',
+            'title'  => ['formatter' => function($val, $row, $args, $view) {
+                return $view->Html->link(
+                    $val,
+                    ['action' => 'edit', $row->id]);
+            }],
+            'price' => [
+                'formatter' => 'currency'
+            ],
+            'is_buyable' => [
+                'formatter' => null
+            ],
+            'is_published' => [
+                'formatter' => null,
+                'style' => 'text-align: right;'
+            ],
+        ];
+        $this->set('fields', $fields);
+        $this->set('fields.whitelist', ['sku', 'title', 'shop_category.name', 'is_buyable', 'is_published']);
+
+        $this->Backend->executeAction();
+    }
+
     /**
      * Index method
      *
      * @return void
-     */
-    public function index()
+    public function _index()
     {
 
         $this->paginate = [
@@ -66,8 +105,8 @@ class ShopProductsController extends AppController
         $this->set('shopProducts', $this->paginate($query));
         $this->set('shopCategories', $this->ShopProducts->ShopCategories->find('list')->order(['name' => 'ASC'])->toArray());
         $this->set('_serialize', ['shopProducts']);
-
     }
+     */
 
     public function search()
     {
@@ -105,14 +144,7 @@ class ShopProductsController extends AppController
      */
     public function view($id = null)
     {
-        $shopProduct = $this->ShopProducts->get($id, [
-            'contain' => ['ShopCategories'],
-            'media' => true
-        ]);
-        $this->set('shopProduct', $shopProduct);
-        $this->set('_serialize', ['shopProduct']);
-
-        debug($this->ShopProducts->find('translations')->all()->toArray());
+        $this->Backend->executeAction();
     }
 
     /**

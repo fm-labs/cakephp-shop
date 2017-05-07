@@ -5,11 +5,11 @@ use Cake\View\Cell;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
- * OrdersBackendPanelCell cell
+ * LatestOrdersCell cell
  *
  * @property ShopOrdersTable $ShopOrders
  */
-class OrdersBackendPanelCell extends Cell
+class LatestOrdersCell extends Cell
 {
 
     /**

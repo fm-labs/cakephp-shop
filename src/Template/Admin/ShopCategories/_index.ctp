@@ -17,6 +17,7 @@
     'paginate' => true,
     'model' => 'Shop.ShopCategories',
     'data' => $shopCategories,
+    'fieldsWhitelist' => ['name', 'view_template', 'is_published'],
     'fields' => [
         'name' => [
             'formatter' => function($val, $row) use ($shopCategoriesTree) {
@@ -41,4 +42,7 @@
         [__d('shop','Move Down'), ['action' => 'moveDown', ':id'], ['class' => 'move-down']],
         [__d('shop','Delete'), ['action' => 'delete', ':id'], ['class' => 'delete', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', ':id')]]
     ]
-]]); ?>
+]]);
+
+debug($shopCategories);
+?>

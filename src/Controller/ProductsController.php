@@ -21,6 +21,8 @@ class ProductsController extends AppController
         $this->loadComponent('Shop.Cart');
 
         $this->Frontend->setRefScope('Shop.ShopProducts');
+
+        $this->Auth->allow(null);
     }
 
     public function index($categoryId = null)

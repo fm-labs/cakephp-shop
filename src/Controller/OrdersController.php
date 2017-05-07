@@ -18,7 +18,8 @@ class OrdersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->deny();
+        $this->Auth->deny([]);
+        $this->Auth->allow(['view']);
     }
 
     /**

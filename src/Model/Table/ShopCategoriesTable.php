@@ -128,6 +128,23 @@ class ShopCategoriesTable extends Table
             'translationTable' => 'ShopI18n'
         ]);
         //$this->locale('de');
+
+        if (Plugin::loaded('Search')) {
+            $this->addBehavior('Search.Search');
+            $this->searchManager()
+                ->add('name', 'Search.Like', [
+                    'before' => true,
+                    'after' => true,
+                    'fieldMode' => 'OR',
+                    'comparison' => 'LIKE',
+                    'wildcardAny' => '*',
+                    'wildcardOne' => '?',
+                    'field' => ['title']
+                ])
+                ->value('is_published', [
+                    'filterEmpty' => true
+                ]);
+        }
     }
 
     protected function _initializeSchema(\Cake\Database\Schema\Table $schema)

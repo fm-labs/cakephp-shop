@@ -11,6 +11,11 @@ use Shop\Controller\Admin\AppController;
 class ShopCustomerAddressesController extends AppController
 {
 
+    public $actions = [
+        'index' => 'Backend.Index',
+        'view' => 'Backend.View'
+    ];
+
     /**
      * Index method
      *
@@ -28,12 +33,11 @@ class ShopCustomerAddressesController extends AppController
         //    $this->paginate['conditions'] = $filter;
         //}
 
-        if (isset($filter['shop_customer_id'])) {
+        if (isset($this->request->query['shop_customer_id'])) {
             $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int) $filter['shop_customer_id'];
         }
 
-        $this->set('shopCustomerAddresses', $this->paginate($this->ShopCustomerAddresses));
-        $this->set('_serialize', ['shopCustomerAddresses']);
+        $this->Backend->executeAction();
     }
 
     /**
@@ -45,11 +49,7 @@ class ShopCustomerAddressesController extends AppController
      */
     public function view($id = null)
     {
-        $shopCustomerAddress = $this->ShopCustomerAddresses->get($id, [
-            'contain' => ['ShopCustomers']
-        ]);
-        $this->set('shopCustomerAddress', $shopCustomerAddress);
-        $this->set('_serialize', ['shopCustomerAddress']);
+        $this->Backend->executeAction();
     }
 
     /**

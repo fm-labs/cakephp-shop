@@ -12,6 +12,10 @@ use Shop\Controller\Admin\AppController;
 class ShopOrdersController extends AppController
 {
 
+    public $actions = [
+        'index' => 'Backend.Index',
+    ];
+
     /**
      * Index method
      *
@@ -25,18 +29,27 @@ class ShopOrdersController extends AppController
             'order' => ['ShopOrders.id' => 'DESC']
         ];
 
-        $filter = $this->request->query;
-        if (isset($filter['_'])) unset($filter['_']);
-        //if ($filter) {
-        //    $this->paginate['conditions'] = $filter;
-        //}
+        $this->set('filter', false);
+        $this->set('fields.whitelist', true);
+        $this->set('fields', [
+            'id' => [
+            ],
+            'submitted' => [
+            ],
+            'nr_formatted' => [
+            ],
+            'billing_address' => [
+            ],
+            'order_value_total' => [
+                'class' => 'right',
+                'formatter' => ['currency' => ['currency' =>  'EUR']],
+            ],
+            'status' => [],
+            'payment_status' => [],
+            'shipping_status' => [],
+        ]);
 
-        if (isset($filter['shop_customer_id'])) {
-            $this->paginate['conditions']['ShopOrders.shop_customer_id'] = (int) $filter['shop_customer_id'];
-        }
-
-        $this->set('shopOrders', $this->paginate($this->ShopOrders));
-        $this->set('_serialize', ['shopOrders']);
+        $this->Backend->executeAction();
     }
 
     /**

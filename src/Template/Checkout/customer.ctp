@@ -53,7 +53,7 @@
                     <?= h($customer->email); ?>
                 </h3>
 
-                <div class="ui actions" style="text-align: right;">
+                <div style="text-align: right;">
                     <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                     <?= $this->Html->link('Als anderer Kunde fortfahren', ['action' => 'resetCustomer']); ?>
                 </p>
 
-                <div class="ui actions" style="text-align: right;">
+                <div style="text-align: right;">
                     <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>

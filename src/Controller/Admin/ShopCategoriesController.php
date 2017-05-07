@@ -19,6 +19,10 @@ class ShopCategoriesController extends AppController
 
     public $modelClass = "Shop.ShopCategories";
 
+    public $actions = [
+        'index' => 'Backend.TreeIndex'
+    ];
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -42,14 +46,6 @@ class ShopCategoriesController extends AppController
 
     public function index()
     {
-        /*
-        $view = ($this->request->query('view')) ?: 'tree';
-        if ($view == 'tree') {
-            $this->setAction('indexTree');
-            return;
-        }
-        */
-
         $this->paginate = [
             'contain' => ['ParentShopCategories'],
             'order' => ['ShopCategories.lft ASC'],
@@ -57,14 +53,22 @@ class ShopCategoriesController extends AppController
             'media' => true
         ];
 
-        $shopCategories = $this->paginate($this->ShopCategories);
-        $this->set(compact('shopCategories'));
+        $this->set('tree.displayField', 'name');
+        $this->set('fields.whitelist', ['is_published', 'name']);
 
-        $shopCategoriesTree = $this->ShopCategories->find('treeList', ['spacer' => '_ '])->toArray();
-        $this->set('shopCategoriesTree', $shopCategoriesTree);
+        $this->set('actions', [
+            [
+                __('Add {0}', __('category')),
+                ['action' => 'add']
+            ],
+            [
+               __d('shop', 'Sort'),
+               ['plugin' => 'Backend', 'controller' => 'Tree', 'action' => 'index', 'model' => 'Shop.ShopCategories'],
+               ['class' => 'link-modal-frame', 'data-modal-reload' => true, 'data-icon' => 'sitemap']
+            ]
+        ]);
 
-        $this->set('controller.actions', ['foo_bar']);
-        $this->set('controller_actions', ['foo_bar']);
+        $this->Backend->executeAction();
     }
 
     public function indexTree()

@@ -10,6 +10,16 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCustomersController extends AppController
 {
+    public $paginate = [
+        'limit' => 100,
+        'order' => ['ShopCustomers.last_name' => 'ASC', 'ShopCustomers.first_name' => 'ASC']
+    ];
+
+    public $actions = [
+        'index' => 'Backend.Index',
+        'view' => 'Backend.View'
+    ];
+
 
     /**
      * Index method
@@ -18,14 +28,9 @@ class ShopCustomersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'limit' => 100,
-            'order' => ['ShopCustomers.last_name' => 'ASC', 'ShopCustomers.first_name' => 'ASC']
-        ];
-
-
-        $this->set('shopCustomers', $this->paginate($this->ShopCustomers));
-        $this->set('_serialize', ['shopCustomers']);
+        $this->set('fields.whitelist', ['id', 'email', 'display_name', 'user']);
+        $this->set('fields.blacklist', ['password', 'created', 'modified']);
+        $this->Backend->executeAction();
     }
 
     /**
@@ -37,11 +42,7 @@ class ShopCustomersController extends AppController
      */
     public function view($id = null)
     {
-        $shopCustomer = $this->ShopCustomers->get($id, [
-            'contain' => ['ShopAddresses', 'ShopOrders']
-        ]);
-        $this->set('shopCustomer', $shopCustomer);
-        $this->set('_serialize', ['shopCustomer']);
+        $this->Backend->executeAction();
     }
 
     /**

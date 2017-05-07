@@ -23,6 +23,8 @@ class CartController extends AppController
 
         $this->loadComponent('Shop.Cart');
         $this->Frontend->setRefScope('Shop.Cart');
+
+        $this->Auth->allow();
     }
 
     public function index()

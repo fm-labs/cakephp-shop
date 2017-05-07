@@ -91,16 +91,8 @@ class ShopProductsTable extends Table
         ]);
 
         if (Plugin::loaded('Search')) {
-
-            // Add the behaviour to your table
             $this->addBehavior('Search.Search');
-
-            // Setup search filter using search manager
             $this->searchManager()
-                //->value('author_id')
-                // Here we will alias the 'q' query param to search the `Articles.title`
-                // field and the `Articles.content` field, using a LIKE match, with `%`
-                // both before and after.
                 ->add('title', 'Search.Like', [
                     'before' => true,
                     'after' => true,
@@ -111,8 +103,8 @@ class ShopProductsTable extends Table
                     'field' => ['title']
                 ])
                 ->add('sku', 'Search.Like', [
-                    'before' => true,
-                    'after' => true,
+                    'before' => false,
+                    'after' => false,
                     'fieldMode' => 'OR',
                     'comparison' => 'LIKE',
                     'wildcardAny' => '*',

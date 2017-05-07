@@ -16,6 +16,12 @@ class CustomerAddressesController extends AppController
 {
     public $modelClass = "Shop.ShopCustomerAddresses";
 
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->deny([]);
+    }
+
     public function index()
     {
         $this->paginate = [

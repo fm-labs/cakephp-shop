@@ -24,6 +24,8 @@ class CategoriesController extends AppController
 
         $this->loadComponent('Shop.Cart');
         $this->Frontend->setRefScope('Shop.ShopCategories');
+
+        $this->Auth->allow();
     }
 
     /**

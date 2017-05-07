@@ -30,7 +30,7 @@ $this->loadHelper('Media.Media');
                             </div>
                             <?php endif; ?>
 
-                            <?= $this->cell('Shop.AddToCart::form', [], compact('shopProduct')); ?>
+                            <?= $this->cell('Shop.AddToCart::button', [], compact('shopProduct')); ?>
 
                         </div>
                     </div>

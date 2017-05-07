@@ -51,24 +51,14 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index'],
                     'data-icon' => 'gift'
                 ],
-                'addresses' => [
-                    'title' => 'Addresses',
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopAddresses', 'action' => 'index'],
-                    'data-icon' => 'home'
-                ],
-                'tags' => [
-                    'title' => 'Tags',
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopTags', 'action' => 'index'],
-                    'data-icon' => 'tags'
-                ],
-                'texts' => [
-                    'title' => 'Texts',
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopTexts', 'action' => 'index'],
-                    'data-icon' => 'book'
-                ],
                 'customers' => [
                     'title' => 'Customers',
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
+                    'data-icon' => 'users'
+                ],
+                'customer_addresses' => [
+                    'title' => 'Customer Address',
+                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerAddresses', 'action' => 'index'],
                     'data-icon' => 'users'
                 ],
                 /*

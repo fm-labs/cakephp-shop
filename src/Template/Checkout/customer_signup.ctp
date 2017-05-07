@@ -28,10 +28,8 @@ $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Checkout', 'ac
         <?= $this->Form->input('password1', ['type' => 'password', 'autocomplete' => 'nope', 'required' => true, 'label' => __d('shop','Password')]); ?>
         <?= $this->Form->input('password2', ['type' => 'password', 'autocomplete' => 'nope', 'required' => true, 'label' => __d('shop','Repeat Password')]); ?>
 
-        <div class="actions" style="margin-top: 1em;">
-            <div class="pull-right">
-                <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
-            </div>
+        <div class="actions text-right" style="margin-top: 1em;">
+            <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
         </div>
         <?= $this->Form->end(); ?>
     </div>

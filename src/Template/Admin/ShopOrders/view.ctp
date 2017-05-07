@@ -68,6 +68,7 @@
                         'model' => 'Shop.ShopOrderItems',
                         'data' => $shopOrder->shop_order_items,
                         'class' => 'table table-condensed table-striped table-hover',
+                        'fieldsWhitelist' => true,
                         'fields' => [
                             'id' => [
                                 'title' => __d('shop','Pos'),
@@ -147,7 +148,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2><?= __d('shop','Billing Address'); ?></h2>
-            <?= $this->cell('Backend.EntityView', [ $shopOrder->billing_address ], [
+            <?php /* $this->cell('Backend.EntityView', [ $shopOrder->billing_address ], [
                 'title' => false,
                 'model' => 'Shop.ShopOrderAddresses',
                 'fields' => [
@@ -160,7 +161,7 @@
                     'country_id'
                 ],
                 'exclude' => '*'
-            ])->render('table'); ?>
+            ])->render('table'); */ ?>
             <hr />
             <h2><?= __d('shop','Invoices') ?></h2>
         </div>
@@ -171,7 +172,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2><?= __d('shop','Shipping Address'); ?></h2>
-            <?= $this->cell('Backend.EntityView', [ ($shopOrder->shipping_address) ?: $shopOrder->billing_address ], [
+            <?php /* $this->cell('Backend.EntityView', [ ($shopOrder->shipping_address) ?: $shopOrder->billing_address ], [
                 'title' => false,
                 'model' => 'Shop.ShopOrderAddresses',
                 'fields' => [
@@ -184,7 +185,7 @@
                     'country_id',
                 ],
                 'exclude' => '*'
-            ])->render('table'); ?>
+            ])->render('table'); */ ?>
         </div>
     </div>
     <!-- Tab:Payment -->

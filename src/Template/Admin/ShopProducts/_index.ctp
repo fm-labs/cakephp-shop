@@ -42,33 +42,33 @@ $this->loadHelper('AdminLte.Box');
                 'fields' => [
                     'sku',
                     'title' => [
-                        'formatter' => function($val, $row) {
-                            return $this->Html->link($row->title,
+                        'formatter' => function($val, $row, $View) {
+                            return $View->Html->link($row->title,
                                 ['action' => 'edit', $row->id],
-                                ['title' => $this->Url->build($row->url)]
+                                ['title' => $View->Url->build($row->url)]
                             );
                         }
                     ],
                     'shop_category_id' => [
-                        'formatter' => function($val, $row) {
+                        'formatter' => function($val, $row, $View) {
                             return $row->has('shop_category')
-                                ? $this->Html->link($row->shop_category->name, ['controller' => 'ShopCategories', 'action' => 'view', $row->shop_category->id]) :
+                                ? $View->Html->link($row->shop_category->name, ['controller' => 'ShopCategories', 'action' => 'view', $row->shop_category->id]) :
                                 '';
                         }
                     ],
                     'price' => [
-                        'formatter' => function($val, $row) {
-                            return $this->Number->currency($val, 'EUR');
+                        'formatter' => function($val, $row, $View) {
+                            return $View->Number->currency($val, 'EUR');
                         }
                     ],
                     'is_buyable' => [
-                        'formatter' => function($val, $row) {
-                            return $this->Ui->statusLabel($val);
+                        'formatter' => function($val, $row, $View) {
+                            return $View->Ui->statusLabel($val);
                         }
                     ],
                     'is_published' => [
-                        'formatter' => function($val, $row) {
-                            return $this->Ui->statusLabel($val);
+                        'formatter' => function($val, $row, $View) {
+                            return $View->Ui->statusLabel($val);
                         },
                         'style' => 'text-align: right;'
                     ],

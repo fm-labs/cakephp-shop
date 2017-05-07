@@ -50,11 +50,17 @@ class ShopAddress extends Entity
 
     protected $_virtual = [
         'name',
+        'display_name',
         'oneline',
         'formatted'
     ];
 
     protected function _getName()
+    {
+        return sprintf("%s %s", $this->_properties['first_name'], $this->_properties['last_name']);
+    }
+
+    protected function _getDisplayName()
     {
         if ($this->company_name) {
             return sprintf("%s, %s, %s", $this->_properties['company_name'], $this->_properties['last_name'], $this->_properties['first_name']);
@@ -82,10 +88,24 @@ class ShopAddress extends Entity
         );
     }
 
+    protected function _getShort()
+    {
+        if ($this->company_name) {
+            return sprintf("%s, %s %s",
+                $this->last_name,
+                $this->first_name,
+                $this->company_name);
+        }
+
+        return sprintf("%s, %s",
+            $this->last_name,
+            $this->first_name);
+    }
+
     protected function _getFormatted()
     {
         //@TODO Refactor with self::formatAddress()
-        if ($this->is_company) {
+        if ($this->company_name) {
             return sprintf("%s\n%s\n%s %s\n%s",
                 $this->_properties['company_name'],
                 $this->_properties['street'],
