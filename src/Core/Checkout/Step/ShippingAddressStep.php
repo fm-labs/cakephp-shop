@@ -39,6 +39,12 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
     {
         if ($this->Checkout->getOrder()->getShippingAddress()) {
             $shippingAddress = $this->Checkout->getOrder()->getShippingAddress();
+
+        } elseif ($this->Checkout->Shop->getCustomer()) {
+            // prefill with customer data
+            $customerData = $this->Checkout->Shop->getCustomer()->extract(['first_name', 'last_name']);
+            $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($customerData, ['validate' => false]);
+
         } else {
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }

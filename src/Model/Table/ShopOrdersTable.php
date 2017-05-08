@@ -698,45 +698,4 @@ class ShopOrdersTable extends Table
             ],
         ];
     }
-
-    /**
-     * @param $order
-     * @param string $scope
-     * @return array
-     * @deprecated Use ShopOrderAddresses model instead
-     */
-    static public function extractAddress($order, $scope = 'billing')
-    {
-
-        $addr = [];
-
-        $fields = [
-            'first_name',
-            'last_name',
-            'name',
-            'is_company',
-            'street',
-            'taxid',
-            'zipcode',
-            'city',
-            'country',
-        ];
-
-        $_idKey = $scope . '_address_id';
-        if (isset($order[$_idKey])) {
-            $addr['id'] = $order[$_idKey];
-        }
-
-        if (isset($order['shop_customer_id'])) {
-            $addr['shop_customer_id'] = $order['shop_customer_id'];
-        }
-
-        foreach ($fields as $field) {
-
-            $_key = $scope . '_' . $field;
-            $addr[$field] = (isset($order[$_key])) ? $order[$_key] : null;
-        }
-        return $addr;
-
-    }
 }
