@@ -9,24 +9,23 @@ $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Checkout', 'ac
     <div class="ui divider"></div>
 
     <div class="form">
-        <?= $this->Form->create($newCustomer, ['novalidate']); ?>
+        <?= $this->Form->create($user, ['novalidate' => true, 'context' => ['validator' => 'register']]); ?>
 
-        <?php if ($this->Form->error('email') && isset($newCustomer->errors('email')['_isUnique'])): ?>
+        <?php if ($this->Form->error('email') && isset($user->errors('email')['_isUnique'])): ?>
             <div class="alert alert-danger">
-                <h4><?= __d('shop','The email address {0} is already registered', $newCustomer->email); ?></h4>
+                <h4><?= __d('shop','The email address {0} is already registered', $user->email); ?></h4>
                 <br />
                 <?= $this->Html->link(__d('shop','Forgot your password?'),
                     ['plugin' => 'User', 'controller' => 'User', 'action' => 'password_reset', 'e' => base64_encode($newCustomer->email)]); ?>
             </div>
         <?php endif; ?>
 
-        <?= $this->Form->hidden('is_guest', ['value' => '0']); ?>
-        <?= $this->Form->input('first_name', ['required' => true]); ?>
-        <?= $this->Form->input('last_name', ['required' => true]); ?>
-        <?= $this->Form->input('email', ['required' => true]); ?>
+        <?= $this->Form->input('first_name'); ?>
+        <?= $this->Form->input('last_name'); ?>
+        <?= $this->Form->input('email'); ?>
 
-        <?= $this->Form->input('password1', ['type' => 'password', 'autocomplete' => 'nope', 'required' => true, 'label' => __d('shop','Password')]); ?>
-        <?= $this->Form->input('password2', ['type' => 'password', 'autocomplete' => 'nope', 'required' => true, 'label' => __d('shop','Repeat Password')]); ?>
+        <?= $this->Form->input('password1', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Password')]); ?>
+        <?= $this->Form->input('password2', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Repeat Password')]); ?>
 
         <div class="actions text-right" style="margin-top: 1em;">
             <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>

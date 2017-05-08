@@ -26,16 +26,18 @@
 
                 <h2><?= __d('shop','I\'m a new customer'); ?></h2>
                 <div style="text-align: center; margin-top: 4em;">
-                    <?= $this->Html->link(__d('shop','Als Neukunde Registrieren'),
+                    <?= $this->Html->link(__d('shop','Als Neukunde fortfahren'),
                         ['action' => 'customer', 'signup' => true],
                         ['class' => 'btn btn-large btn-primary']); ?>
                 </div>
 
+                <!--
                 <div style="text-align: center; margin-top: 2em;">
                 <?= $this->Html->link(__d('shop','Weiter ohne Anmeldung'),
                     ['action' => 'customer', 'guest' => true],
                     ['class' => 'btn']); ?>
                 </div>
+                -->
             </div>
             </div>
 

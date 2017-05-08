@@ -1,15 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 1/15/17
- * Time: 6:29 PM
- */
 
 namespace Shop\Controller;
-
-
-use Attachment\Controller\AppController;
 
 class CustomerController extends AppController
 {

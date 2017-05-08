@@ -52,7 +52,7 @@ class ShopAddress extends Entity
         'name',
         'display_name',
         'oneline',
-        'formatted'
+        //'formatted'
     ];
 
     protected function _getName()

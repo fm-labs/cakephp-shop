@@ -24,13 +24,13 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         if ($controller->request->query('login')) {
-            return $this->_executeLogin($controller);
+            $this->_executeLogin($controller);
         }
         elseif ($controller->request->query('signup')) {
-            return $this->_executeSignup($controller);
-        }
-        elseif ($controller->request->query('guest')) {
-            $this->_executeGuest($controller);
+            $this->_executeSignup($controller);
+        //} elseif ($controller->request->query('guest')) {
+        //    $controller->request->data['nologin'] = true;
+        //    return $this->_executeSignup($controller);
         } else {
             $controller->render('customer');
         }
@@ -46,6 +46,8 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         //  POST request
         if ($controller->request->is(['put', 'post'])) {
 
+            // @TODO Check if CustomerListener is attached, where automatic customer creation happens
+
             // try to authenticate user
             $controller->Auth->login();
 
@@ -60,12 +62,14 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                     ])
                     ->first();
 
+            /*
                 // force creation of customer for user
                 if (!$customer) {
                     $this->log('Create customer for user with id ' . $user->id);
                     $controller->loadModel('Shop.ShopCustomers');
                     $customer = $controller->ShopCustomers->createFromUserId($user->id);
                 }
+            */
 
                 if (!$customer) {
                     $this->log('Create customer for user with id ' . $user->id, LOG_ERR);
@@ -82,9 +86,8 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 // update the order in session
                 $this->Checkout->Cart->updateSession();
 
-                $controller->Flash->success(__d('shop','Logged in as {0}', $controller->Auth->user('username')));
-
                 // redirect to next step
+                $controller->Flash->success(__d('shop','Logged in as {0}', $controller->Auth->user('username')));
                 $this->Checkout->redirectNext();
             } else {
                 debug("login failed");
@@ -98,54 +101,47 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     {
         $controller->loadModel('Shop.ShopCustomers');
         $customer = $controller->ShopCustomers->newEntity();
+        $user = $controller->ShopCustomers->Users->newEntity(null, ['validate' => 'register']);
         if ($controller->request->is(['put', 'post'])) {
 
             //debug($controller->request->data);
-            $customer = $controller->ShopCustomers->add($controller->request->data);
-            if ($customer && !$customer->errors()) {
+            //$customer = $controller->ShopCustomers->add($customer, $controller->request->data);
+            $user = $controller->ShopCustomers->Users->register($controller->request->data);
+            if ($user && $user->id) {
 
-                if ($customer->user_id) {
+                // create a shop customer profile for user
+                // @TODO DIY. The CustomerListener creates shop customer profile on login
+                $customer = $controller->ShopCustomers->createFromUser($user, true);
 
-                    $controller->loadModel('User.Users');
-                    $userQuery = $controller->Users->find()->where(['Users.id' => $customer->user_id]);
-                    $user = $controller->Users->findAuthUser($userQuery, [])->first();
-                    //debug($user);
-                    /*
-                    $userQuery = $controller->Auth->userModel()->find()->where();
-                    $user = $controller->userModel()->findAuthUser($userQuery)->first();
-                    */
-                    if ($user) {
-                        $controller->Auth->setUser($user->toArray());
-                        $controller->eventManager()->dispatch(new Event('User.login', $controller, compact('user')));
+                // authenticate user
+                // @TODO Make 'automatic user login after signup' configurable
+                //$userQuery = $controller->ShopCustomers->Users->find()->where(['Users.id' => $customer->user_id]);
+                //$user = $controller->ShopCustomers->Users->findAuthUser($userQuery, [])->first();
+                $controller->Auth->setUser($user->toArray());
+                $controller->eventManager()->dispatch(new Event('User.login', $controller, compact('user')));
 
-                        $this->Checkout->Shop->setCustomer($customer);
+                // set customer in shop scope
+                $this->Checkout->Shop->setCustomer($customer);
 
-                        $this->Checkout->Cart->getOrder()->shop_customer_id = $customer->id;
-                        $this->Checkout->Cart->saveOrder();
-                        $this->Checkout->Cart->updateSession();
+                // link customer to order (persistent)
+                $this->Checkout->Cart->getOrder()->shop_customer_id = $customer->id;
+                $this->Checkout->Cart->saveOrder();
 
-                        $controller->Flash->success(__d('shop','Customer signup successful'));
-                        return $this->Checkout->redirectNext();
-                    } else {
-                        $controller->Flash->error(__d('shop','Customer login after signup failed'));
-                        Log::error('Customer login after signup failed for customerID ' . $customer->id);
-                    }
-                }
+                // update the order in session
+                $this->Checkout->Cart->updateSession();
 
+                // redirect to next step
+                $this->Checkout->redirectNext();
+
+                // continue to next step
+                $controller->Flash->success(__d('shop','Signup was successful'));
+                return $this->Checkout->redirectNext();
             } else {
-                debug($customer->errors());
-                $controller->Flash->error(__d('shop','Customer signup failed'));
+                $controller->Flash->error(__d('shop','Please fill all required fields'));
             }
+
         }
-        $controller->set('newCustomer', $customer);
+        $controller->set('user', $user);
         $controller->render('customer_signup');
-    }
-
-    protected function _executeGuest(Controller $controller)
-    {
-        if ($controller->request->is(['post', 'put'])) {
-
-        }
-        $controller->render('customer_guest');
     }
 }

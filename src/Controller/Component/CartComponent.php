@@ -50,7 +50,6 @@ class CartComponent extends Component
         $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
 
 
-        $this->_init();
     }
 
     public function _init()
@@ -86,11 +85,12 @@ class CartComponent extends Component
 
 
         $this->request->session()->write('Shop.Cart.id', $this->cartId);
-        $this->Cookie->write('Cart.id', $this->cartId);
     }
 
     public function beforeFilter(Event $event)
     {
+        $this->_init();
+        //$this->updateSession();
     }
 
     public function beforeRender(Event $event)
@@ -98,6 +98,8 @@ class CartComponent extends Component
         $this->updateSession();
 
         $event->subject()->set('order', $this->getOrder());
+
+        $this->Cookie->write('Cart.id', $this->cartId);
     }
 
     public function reset()
@@ -216,7 +218,7 @@ class CartComponent extends Component
         return $this->updateItem($orderItem, $data);
     }
 
-    public function getOrder()
+    public function &getOrder()
     {
         $this->_resumeOrder();
         return $this->order;
@@ -283,8 +285,19 @@ class CartComponent extends Component
 
     public function updateSession()
     {
-        $this->request->session()->write('Shop.Cart.id', $this->cartId);
-        $this->request->session()->write('Shop.Order', $this->getOrder());
+        $order = null;
+        $cart = [
+            'id' => $this->cartId
+        ];
+
+        if ($this->getOrder()) {
+            $order = $this->getOrder();
+            $cart['itemsCount'] = $order->getOrderItemsCount();
+            $cart['itemsQty'] = $order->getOrderItemsQty();
+        }
+
+        $this->request->session()->write('Shop.Cart', $cart);
+        $this->request->session()->write('Shop.Order', $order);
     }
 
     public function resetSession()

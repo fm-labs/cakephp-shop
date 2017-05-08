@@ -100,7 +100,18 @@ class ShopOrder extends Entity
         'order_value_tax',
         'billing_address',
         'shipping_address',
+        'qty', // alias for amount (get/set)
     ];
+
+    protected function _getQty()
+    {
+        return $this->amount;
+    }
+
+    protected function _setQty($val)
+    {
+        return $this->set('amount', $val);
+    }
 
     protected function _getShopCustomer()
     {
@@ -146,11 +157,46 @@ class ShopOrder extends Entity
         return $this->getShippingAddress();
     }
 
+    public function getOrderItemsCount()
+    {
+        if (!isset($this->_properties['order_items_count'])) {
+            $this->_properties['order_items_count'] = (int) TableRegistry::get('Shop.ShopOrderItems')
+                ->find('list')
+                ->where(['shop_order_id' => $this->id])->count();
+        }
+
+        return (int) $this->_properties['order_items_count'];
+    }
+
+    public function getOrderItemsQty()
+    {
+        if (!isset($this->_properties['order_items_qty'])) {
+
+            $orderItems = TableRegistry::get('Shop.ShopOrderItems')
+                ->find()
+                ->where(['shop_order_id' => $this->id])
+                ->contain([])
+                ->all()
+                ->toArray();
+
+            // items value
+            $itemsQty = 0;
+            array_walk($orderItems, function ($item) use (&$itemsQty) {
+                $itemsQty += $item->amount;
+            });
+
+            $this->_properties['order_items_qty'] = $itemsQty;
+        }
+
+        return (int) $this->_properties['order_items_qty'];
+    }
+
     public function calculateItems()
     {
         $orderItems = TableRegistry::get('Shop.ShopOrderItems')
             ->find()
             ->where(['shop_order_id' => $this->id])
+            ->contain([])
             ->all()
             ->toArray();
 

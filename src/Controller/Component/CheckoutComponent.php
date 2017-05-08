@@ -133,6 +133,7 @@ class CheckoutComponent extends Component
     {
         foreach ($this->_steps as $stepId => $step) {
             if (!$this->getStep($stepId)->isComplete()) {
+                //debug("step not complete: " . $stepId);
                 return $this->getStep($stepId);
             }
             //debug("step complete: " . $stepId);

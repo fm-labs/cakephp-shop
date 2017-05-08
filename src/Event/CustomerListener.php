@@ -34,9 +34,13 @@ class CustomerListener extends ShopEventListener
             ->contain([])
             ->first();
 
-        // auto-create customer for user
+        // attempt to auto-create customer for user
         if (!$customer) {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUserId($userId);
+            try {
+                $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUserId($userId);
+            } catch (\Exception $ex) {
+                Log::error('CustomerEventListener::onUserLogin: ' . $ex->getMessage());
+            }
         }
 
         if ($customer) {
