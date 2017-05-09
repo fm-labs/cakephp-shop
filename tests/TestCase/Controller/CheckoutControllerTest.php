@@ -126,6 +126,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
         // expects a new & authenticated user
         $this->assertSession($usersCount + 1, 'Auth.User.id');
+        $this->assertSession(1, 'Auth.User.login_enabled');
         // expects a new shop customer profile
         $this->assertSession($expectedCustomerId, 'Shop.Customer.id');
         // expects customer id set in order

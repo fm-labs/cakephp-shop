@@ -11,11 +11,10 @@ use Shop\Model\Entity\ShopCustomer;
 
 class ShopComponent extends Component
 {
-
     /**
      * @var ShopCustomer
      */
-    public $customer;
+    protected $_customer;
 
     public function initialize(array $config) {
 
@@ -27,7 +26,14 @@ class ShopComponent extends Component
 
     public function beforeFilter(Event $event)
     {
-        $this->customer = $this->request->session()->read('Shop.Customer');
+        if ($this->request->session()->check('Shop.Customer.id')) {
+            $customerId = $this->request->session()->read('Shop.Customer.id');
+            try {
+                $this->_customer = TableRegistry::get('Shop.ShopCustomers')->get($customerId, ['contain' => []]);
+            } catch (\Exception $ex) {
+                Log::error('ShopComponent::beforeFilter: ' . $ex->getMessage());
+            }
+        }
     }
 
     public function beforeRender(Event $event)
@@ -37,37 +43,37 @@ class ShopComponent extends Component
 
     public function customer($field = null)
     {
-        if ($field === null) {
-            return $this->customer;
-        }
-
-        if (!$this->customer || !isset($this->customer[$field])) {
+        if (!$this->_customer) {
             return null;
         }
 
-        return $this->customer[$field];
+        if ($field === null) {
+            return $this->_customer;
+        }
+
+        return $this->_customer->get($field);
     }
 
     public function getCustomer()
     {
-        return $this->customer;
+        return $this->customer(null);
     }
 
     public function getCustomerId()
     {
-        return ($this->customer) ? $this->customer['id'] : null;
+        return $this->customer('id');
     }
 
     public function setCustomer(ShopCustomer $customer)
     {
-        $this->customer = $customer;
-        $this->request->session()->write('Shop.Customer', $this->customer);
+        $this->_customer = $customer;
+        $this->request->session()->write('Shop.Customer', $this->_customer->toArray());
         return $this;
     }
 
     public function resetCustomer()
     {
-        $this->customer = null;
+        $this->_customer = null;
         $this->request->session()->delete('Shop.Customer');
         return $this;
     }
@@ -85,7 +91,7 @@ class ShopComponent extends Component
     public function getCustomerAddressesList()
     {
         $addresses = [];
-        if ($this->customer && !$this->customer('is_guest')) {
+        if ($this->_customer && !$this->customer('is_guest')) {
             $addresses = TableRegistry::get('Shop.ShopCustomerAddresses')
                 ->find('list')
                 ->where(['ShopCustomerAddresses.shop_customer_id' => $this->getCustomerId()])

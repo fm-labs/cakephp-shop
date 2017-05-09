@@ -35,6 +35,21 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         return ($this->Checkout->getOrder()->getShippingAddress()) ? true : false;
     }
 
+    public function backgroundExecute()
+    {
+        // auto-create billing from shipping address
+        if (!$this->isComplete() && $this->Checkout->getOrder()->getBillingAddress()) {
+            $address = $this->Checkout->getOrder()->getBillingAddress();
+
+            $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($address->extractAddress(), ['validate' => false]);
+            if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
+                $this->Checkout->reloadOrder();
+            } else {
+                $this->log('ShippingAddress: Failed to create shipping address from billing address');
+            }
+        }
+    }
+
     public function execute(Controller $controller)
     {
         if ($this->Checkout->getOrder()->getShippingAddress()) {
@@ -59,7 +74,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'S')) {
                         $controller->Flash->success(__d('shop','Shipping address has been updated'));
-                        $this->Checkout->redirectNext();
+                        return $this->Checkout->next();
                     }
                     break;
 
@@ -68,7 +83,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->request->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
                         $controller->Flash->success(__d('shop','Shipping address has been updated'));
-                        $this->Checkout->redirectNext();
+                        return $this->Checkout->next();
                     }
                     break;
             }

@@ -40,7 +40,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     {
         // check if already authenticated
         if ($controller->Auth->user('id')) {
-            return $this->Checkout->redirectNext();
+            return $this->Checkout->next();
         }
 
         //  POST request
@@ -88,7 +88,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
                 // redirect to next step
                 $controller->Flash->success(__d('shop','Logged in as {0}', $controller->Auth->user('username')));
-                $this->Checkout->redirectNext();
+                return $this->Checkout->next();
             } else {
                 debug("login failed");
                 $controller->Flash->error(__d('shop','Login failed :('));
@@ -130,12 +130,10 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 // update the order in session
                 $this->Checkout->Cart->updateSession();
 
-                // redirect to next step
-                $this->Checkout->redirectNext();
-
                 // continue to next step
                 $controller->Flash->success(__d('shop','Signup was successful'));
-                return $this->Checkout->redirectNext();
+                return $this->Checkout->next();
+                return;
             } else {
                 $controller->Flash->error(__d('shop','Please fill all required fields'));
             }

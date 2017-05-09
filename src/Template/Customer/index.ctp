@@ -11,12 +11,7 @@
                 <?= __d('shop','Orders'); ?>
             </h2>
 
-
-            <p>Unser Portfolio enthält zur Zeit 64 Produkte, die sie über unseren Webshop beziehen können.</p>
-
             <?= $this->Html->link(__d('shop', 'List orders'), ['controller' => 'Orders', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
-            <?= $this->Html->link(__d('shop', 'New order'), ['controller' => 'Orders', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
-
             <hr />
         </div>
 

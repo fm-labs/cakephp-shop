@@ -44,6 +44,9 @@ class ShopAddress extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
+        'shop_order_id' => false,
+        'created' => false,
+        'modified' => false,
     ];
 
     protected $_virtual = [
@@ -128,7 +131,37 @@ class ShopAddress extends Entity
 
     public function extractAddress()
     {
-        $props = ['company_name', 'first_name', 'last_name', 'street', 'street2', 'zipcode', 'city', 'country', 'taxid'];
+        $props = ['company_name', 'first_name', 'last_name', 'street', 'street2', 'zipcode', 'city', 'country', 'country_id', 'taxid'];
         return $this->extract($props);
+    }
+
+
+    /**
+     * !! Legacy method use by Migration shell !!
+     * !! Do not remove yet !!
+     *
+     * @param $array
+     * @param null $prefix
+     * @return array
+     * @deprecated
+     */
+    public static function xtractAddress($array, $prefix = null)
+    {
+        $address = [];
+        foreach (['is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country', 'taxid'] as $field) {
+            $_field = $field;
+            if ($prefix) {
+                $_field = $prefix . $field;
+            }
+
+            $value = null;
+            if (array_key_exists($_field, $array)) {
+                $value = $array[$_field];
+            }
+
+            $address[$field] = $value;
+        }
+
+        return $address;
     }
 }

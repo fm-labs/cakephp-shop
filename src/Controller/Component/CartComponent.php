@@ -235,6 +235,7 @@ class CartComponent extends Component
 
         if ($update === true) {
             $this->saveOrder();
+            $this->reloadOrder();
         }
     }
 
@@ -260,7 +261,9 @@ class CartComponent extends Component
 
     public function reloadOrder()
     {
-        $this->_resumeOrder(['force' => true]);
+        if ($this->_order) {
+            $this->_resumeOrder(['force' => true]);
+        }
         return $this;
     }
 

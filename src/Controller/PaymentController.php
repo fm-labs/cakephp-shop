@@ -8,14 +8,22 @@ use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
+use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Config;
 use Mpay24\MPay24Order;
+use Shop\Model\Entity\ShopOrder;
 
 class PaymentController extends AppController
 {
+    public $modelClass = "Shop.ShopOrders";
+
+    /**
+     * @var ShopOrder
+     */
+    protected $_order = null;
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
@@ -23,9 +31,34 @@ class PaymentController extends AppController
         $this->Auth->allow(['index', 'mpay24']);
     }
 
-    public function index($orderId = null)
+    protected function _getOrder($orderUuid)
     {
-        $this->redirect(['action' => 'mpay24', $orderId]);
+        if (!$orderUuid) {
+            throw new BadRequestException();
+        }
+
+        if ($this->_order === null) {
+            $this->loadModel('Shop.ShopOrders');
+            $order = $this->ShopOrders->find('order', ['uuid' => $orderUuid]);
+            if (!$order) {
+                throw new NotFoundException();
+            }
+            $this->_order = $order;
+        }
+        return $this->_order;
+    }
+
+    public function index($orderUuid = null)
+    {
+        $paymentType = $this->_getOrder($orderUuid)->payment_type;
+
+        if (!$this->isAction($paymentType)) {
+            $this->Flash->error(__('We are sorry, but the payment page is currently not available. Please try again later.'));
+            return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
+            //return $this->render('disabled');
+        }
+
+        $this->setAction($paymentType);
     }
 
     public function mpay24($orderUuid = null) {
@@ -60,11 +93,7 @@ class PaymentController extends AppController
 
             /*
             */
-            $this->loadModel('Shop.ShopOrders');
-            $order = $this->ShopOrders->find('order', ['uuid' => $orderUuid]);
-            if (!$order) {
-                throw new NotFoundException();
-            }
+            $order = $this->_getOrder();
 
             $merchantID = Configure::read('Mpay24.merchantID'); // '9*****';
             $soapPassword = Configure::read('Mpay24.soapPassword'); //'******';

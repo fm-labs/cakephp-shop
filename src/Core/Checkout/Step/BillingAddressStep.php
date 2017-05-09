@@ -21,10 +21,31 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
         return ($this->Checkout->getOrder()->getBillingAddress()) ? true : false;
     }
 
+    public function backgroundExecute()
+    {
+        // auto-create billing from shipping address
+        if (!$this->isComplete() && $this->Checkout->getOrder()->getShippingAddress()) {
+            $address = $this->Checkout->getOrder()->getShippingAddress();
+
+            $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($address->extractAddress(), ['validate' => false]);
+            if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $billingAddress, 'B')) {
+                $this->Checkout->reloadOrder();
+            } else {
+                $this->log('Failed to create billing address from shipping address');
+            }
+        }
+    }
+
     public function execute(Controller $controller)
     {
         if ($this->Checkout->getOrder()->getBillingAddress()) {
             $billingAddress = $this->Checkout->getOrder()->getBillingAddress();
+
+        } elseif ($this->Checkout->Shop->getCustomer()) {
+            // prefill with customer data
+            $customerData = $this->Checkout->Shop->getCustomer()->extract(['first_name', 'last_name']);
+            $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($customerData, ['validate' => false]);
+
         } else {
             $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }
@@ -39,7 +60,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'B')) {
                         $controller->Flash->success(__d('shop','Billing information has been updated'));
-                        $this->Checkout->redirectNext();
+                        return $this->Checkout->next();
                     }
                     break;
 
@@ -48,7 +69,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
                     $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($billingAddress, $controller->request->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $billingAddress, 'B')) {
                         $controller->Flash->success(__d('shop','Billing information has been updated'));
-                        $this->Checkout->redirectNext();
+                        return $this->Checkout->next();
                     }
                     break;
             }

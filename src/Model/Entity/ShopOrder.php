@@ -124,6 +124,10 @@ class ShopOrder extends Entity
         return $this->_properties['shop_customer'];
     }
 
+    /**
+     * @param $addressType
+     * @return ShopOrderAddress
+     */
     public function getOrderAddress($addressType)
     {
         $key = 'address_' . strtolower($addressType);
@@ -137,6 +141,9 @@ class ShopOrder extends Entity
         return $this->_properties[$key];
     }
 
+    /**
+     * @return ShopOrderAddress
+     */
     public function getBillingAddress()
     {
         return $this->getOrderAddress('B');
@@ -147,6 +154,9 @@ class ShopOrder extends Entity
         return $this->getBillingAddress();
     }
 
+    /**
+     * @return ShopOrderAddress
+     */
     public function getShippingAddress()
     {
         return $this->getOrderAddress('S');

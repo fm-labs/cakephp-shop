@@ -10,6 +10,8 @@ use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\Network\Exception\InternalErrorException;
+use Cake\Network\Exception\NotImplementedException;
+use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
@@ -38,17 +40,32 @@ class CheckoutComponent extends Component
     public $components = ['Shop.Shop', 'Shop.Cart'];
 
     /**
+     * @var ShopOrdersTable
+     */
+    public $ShopOrders;
+
+    /**
      * @var CheckoutStepRegistry
      */
     protected $_stepRegistry;
 
     /**
-     * @var ShopOrdersTable
+     * List of configured steps.
+     *
+     * @var array
      */
-    public $ShopOrders;
-
     protected $_steps = [];
 
+    /**
+     * Active step.
+     *
+     * @var CheckoutStepInterface
+     */
+    protected $_active;
+
+    /**
+     * @param array $config
+     */
     public function initialize(array $config)
     {
         //$this->ShopOrders = $this->_registry->getController()->loadModel('Shop.ShopOrders');
@@ -71,11 +88,19 @@ class CheckoutComponent extends Component
         $this->_steps = $steps;
     }
 
+    /**
+     * @return \Cake\Controller\Controller
+     */
     public function getController()
     {
         return $this->_registry->getController();
     }
 
+    /**
+     * Describe all steps with complete state.
+     *
+     * @return array
+     */
     public function describeSteps()
     {
         $steps = [];
@@ -94,6 +119,8 @@ class CheckoutComponent extends Component
     }
 
     /**
+     * Get step by id.
+     *
      * @param $stepId
      * @return CheckoutStepInterface
      */
@@ -107,7 +134,8 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * Checks if previous steps have been completed
+     * Checks if previous steps have been completed.
+     *
      * @param $stepId
      * @return bool
      */
@@ -129,9 +157,20 @@ class CheckoutComponent extends Component
     /**
      * @return CheckoutStepInterface
      */
-    public function nextStep()
+    public function nextStep(/* $startFromActive = false */)
     {
+        //$activeId = ($startFromActive && $this->_active) ? $this->_active->getId() : false;
+
         foreach ($this->_steps as $stepId => $step) {
+            // skip until active step, if activeId is set
+            /*
+            if ($activeId !== false && $activeId != $stepId) {
+                debug("skip step: " . $stepId);
+                continue;
+            }
+            $activeId = false;
+            */
+
             if (!$this->getStep($stepId)->isComplete()) {
                 //debug("step not complete: " . $stepId);
                 return $this->getStep($stepId);
@@ -140,12 +179,61 @@ class CheckoutComponent extends Component
         }
     }
 
+    /**
+     * Execute step in controller context
+     *
+     * @param CheckoutStepInterface $step
+     * @return mixed
+     */
     public function executeStep(CheckoutStepInterface $step)
     {
-        $this->request->session()->write('Shop.Checkout.Step', $step->toArray());
-        return $step->execute($this->_registry->getController());
+
+        // before step
+        $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.beforeStep', $this, compact('step')));
+        if ($event->result instanceof Response) {
+            return $event->result;
+        } elseif ($event->result instanceof CheckoutStepInterface) {
+            $step = $event->result;
+        }
+
+        // execute
+        $this->_setActiveStep($step);
+        $response = $step->execute($this->_registry->getController());
+
+
+        return $response;
     }
 
+    /**
+     * Get next step and call it's 'next' method and redirect to next step
+     */
+    public function next()
+    {
+        if ($this->_active) {
+            // after
+            $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, ['step' => $this->_active]));
+        }
+
+        return $this->redirectNext();
+    }
+
+
+    /**
+     * Set the active step.
+     *
+     * @param CheckoutStepInterface $step
+     */
+    protected function _setActiveStep(CheckoutStepInterface $step)
+    {
+        $this->_active = $step;
+        $this->request->session()->write('Shop.Checkout.Step', ($step) ? $step->toArray() : null);
+    }
+
+    /**
+     * Get url of next step. Or NULL if no step follows.
+     *
+     * @return null|array|string
+     */
     public function redirectUrl()
     {
         $step = $this->nextStep();
@@ -153,46 +241,94 @@ class CheckoutComponent extends Component
     }
 
     /**
+     * Redirect to next step. Or redirect to checkout index page
+     * @TODO Check: Aren't we infinitly looping here, as checkout index itself redirects to next action?!
+     *
      * @return \Cake\Network\Response|null
      */
     public function redirectNext()
     {
         $redirect = $this->redirectUrl();
+        //$redirect = null;
         $redirect = ($redirect) ?: ['controller' => 'Checkout', 'action' => 'index'];
         return $this->_registry->getController()->redirect($redirect);
     }
 
-    public function reset()
+    /**
+     * Get cart order.
+     *
+     * @return ShopOrder
+     */
+    public function &getOrder()
+    {
+        return $this->Cart->getOrder();
+    }
+
+    /**
+     * Set order in cart.
+     *
+     * @param ShopOrder $order
+     * @param bool $update
+     * @return $this
+     */
+    public function setOrder(ShopOrder $order, $update = true)
+    {
+        $this->Cart->setOrder($order, $update);
+        return $this;
+    }
+
+    public function reloadOrder()
+    {
+        $this->Cart->reloadOrder();
+        return $this;
+    }
+
+    /**
+     * Submit order.
+     *
+     * @return bool|\Cake\Datasource\EntityInterface|mixed|ShopOrder
+     * @throws \Exception
+     */
+    public function submitOrder()
+    {
+        if (!$this->getOrder()) {
+            return false;
+        }
+        return $this->ShopOrders->submitOrder($this->getOrder());
+    }
+
+    /**
+     * Reset checkout
+     *
+     * @return bool
+     * @TOODO Implement CheckoutComponent::reset() method
+     */
+    public function resetOrder()
     {
         if (!$this->getOrder()) {
             return false;
         }
 
-        $order = $this->getOrder();
-        $order->shipping_type = null;
-        $order->shipping_use_billing = false;
-        $order->payment_type = null;
-        $order->payment_info_1 = null;
-        $order->payment_info_2 = null;
-        $order->payment_info_3 = null;
-        $this->setOrder($order);
+        throw new NotImplementedException('Implement CheckoutComponent::reset() method');
     }
 
-    public function getOrder()
-    {
-        return $this->Cart->getOrder();
-    }
-
-    public function setOrder(ShopOrder $order)
-    {
-        $this->Cart->setOrder($order);
-    }
-
+    /**
+     * Set order billing address.
+     *
+     * @param ShopOrderAddress $address
+     * @return bool|\Cake\Datasource\EntityInterface|ShopOrderAddress
+     */
     public function setBillingAddress(ShopOrderAddress $address)
     {
         return $this->ShopOrders->setOrderAddress($this->getOrder(), $address, 'B');
     }
 
+    /**
+     * Set order shipping address.
+     *
+     * @param ShopOrderAddress $address
+     * @return bool|\Cake\Datasource\EntityInterface|ShopOrderAddress
+     */
     public function setShippingAddress(ShopOrderAddress $address)
     {
         return $this->ShopOrders->setOrderAddress($this->getOrder(), $address, 'S');
@@ -227,10 +363,9 @@ class CheckoutComponent extends Component
         }
 
         $order = $this->getOrder();
-        $order->accessible('*', true);
-        $order = $this->ShopOrders->patchEntity($this->order, $data, ['validate' => $validate]);
-        $this->ShopOrders->save($order);
-        $this->setOrder($order);
+        $order->accessible(array_keys($data), true);
+        $order = $this->ShopOrders->patchEntity($order, $data, ['validate' => $validate]);
+        $this->setOrder($order, true);
     }
 
     public function setShippingType($type = null)
@@ -245,16 +380,8 @@ class CheckoutComponent extends Component
         $order = $this->getOrder();
         $order->accessible('shipping_type', true);
         $order = $this->ShopOrders->patchEntity($order, ['shipping_type' => $type], ['validate' => false]);
-        $this->ShopOrders->save($order);
-        $this->setOrder($order);
+        $this->setOrder($order, true);
     }
 
-    public function submitOrder()
-    {
-        if (!$this->getOrder()) {
-            return false;
-        }
-        return $this->ShopOrders->submitOrder($this->getOrder());
-    }
 
 }

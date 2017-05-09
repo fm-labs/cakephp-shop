@@ -74,6 +74,21 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
         return null;
     }
 
+    public function backgroundExecute()
+    {
+        // auto-select payment type
+        if (!$this->isComplete() && count($this->paymentMethods) == 1) {
+            $paymentMethodId = key($this->paymentMethods);
+
+            if ($this->Checkout->setPaymentType($paymentMethodId, [])) {
+                $this->Checkout->reloadOrder();
+            } else {
+                $this->log('PaymentStep: Failed to auto-select payment type ' . $paymentMethodId);
+            }
+        }
+
+    }
+
     public function execute(Controller $controller)
     {
         $engine = $this->engine();

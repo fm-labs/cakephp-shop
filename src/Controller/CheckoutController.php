@@ -79,14 +79,7 @@ class CheckoutController extends AppController
     {
         $this->_checkOrder();
 
-        $op = $this->request->query('op');
-        if ($op == 'cancel') {
-            $this->Checkout->reset();
-            $this->Flash->success(__d('shop', 'The order has been aborted'));
-            $this->redirect(['_name' => 'shop:cart']);
-            return;
-        }
-
+        // redirect to next step
         $redirect = $this->Checkout->redirectUrl();
         if ($redirect) {
             return $this->redirect($redirect);
@@ -125,14 +118,21 @@ class CheckoutController extends AppController
 
             // execute step
             $step = $this->Checkout->getStep($stepId);
-            return $this->Checkout->executeStep($step);
+
+            $event = $this->eventManager()->dispatch(new Event('Shop.Checkout.beforeStep', $this, compact('step')));
+
+            $response = $this->Checkout->executeStep($step);
+
+            $event = $this->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, compact('step', 'response')));
+
+            return $response;
         }
 
         throw new MissingActionException([
             'controller' => $this->name . "Controller",
-            'action' => $request->params['action'],
-            'prefix' => isset($request->params['prefix']) ? $request->params['prefix'] : '',
-            'plugin' => $request->params['plugin'],
+            'action' => $this->request->params['action'],
+            'prefix' => isset($this->request->params['prefix']) ? $this->request->params['prefix'] : '',
+            'plugin' => $this->request->params['plugin'],
         ]);
     }
 }
