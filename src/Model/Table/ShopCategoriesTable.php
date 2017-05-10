@@ -94,19 +94,19 @@ class ShopCategoriesTable extends Table
                         'multiple' => true
                     ],
                     'custom_file1' => [
-                        'config' => 'shop'
+                        'config' => 'default'
                     ],
                     'custom_file2' => [
-                        'config' => 'shop'
+                        'config' => 'default'
                     ],
                     'custom_file3' => [
-                        'config' => 'shop'
+                        'config' => 'default'
                     ],
                     'custom_file4' => [
-                        'config' => 'shop'
+                        'config' => 'default'
                     ],
                     'custom_file5' => [
-                        'config' => 'shop'
+                        'config' => 'default'
                     ]
                 ]
             ]);

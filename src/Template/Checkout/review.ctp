@@ -103,20 +103,25 @@
             ]); ?>
             <?php endif; ?>
 
-            <?= $this->Form->input('agree_terms', ['label' => __d('shop','Agree to Terms & Conditions') . '*']); ?>
-            <?= '' //$this->Form->input('agree_newsletter', ['label' => __d('shop','Agree Newsletter')]); ?>
+            <?php
+            // terms
+            $termsLink = $this->Html->link(__d('shop','I agree to the terms & conditions'),
+                ['controller' => 'Pages', 'action' => 'terms'], ['target' => '_blank', 'class' => 'link-modal']);
+            echo $this->Form->input('agree_terms', ['label' => $termsLink . '*', 'escape' => false]);
+            ?>
+
         </div>
     </div>
 
     <div class="ui actions" style="text-align: right;">
+        <!--
         <?php echo $this->Html->link(__d('shop', 'Cancel order'), ['action' => 'index', 'op' => 'cancel'], ['class' => 'btn']); ?>
+        -->
         <?= $this->Form->button(__d('shop','Order Now'), ['class' => 'btn btn-primary btn-lg']); ?>
     </div>
     <?= $this->Form->end(); ?>
 
     <hr />
     <small>Die mit einem * gekennzeichenten Felder sind Pflichtfelder</small>
-
     <hr />
-    <?php debug($order->errors()); ?>
 </div>

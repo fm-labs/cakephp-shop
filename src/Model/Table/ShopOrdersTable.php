@@ -2,6 +2,7 @@
 namespace Shop\Model\Table;
 
 use Banana\Lib\Status;
+use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\EntityInterface;
@@ -359,7 +360,7 @@ class ShopOrdersTable extends Table
 
 
         // patch order data
-        $order->uuid = ($order->uuid) ?: Text::uuid(); //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
+        $order->uuid =
         $order->submitted = Time::now();
         $order->is_temporary = false;
 
@@ -367,6 +368,22 @@ class ShopOrdersTable extends Table
             $order->customer_email = $order->shop_customer->email;
         }
 
+        // re-calculate order
+        $order->calculateItems();
+
+        // save order
+        $submitData = [
+            'uuid' => ($order->uuid) ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
+            'submitted' => Time::now(),
+            'is_temporary' => false,
+            'status' => self::ORDER_STATUS_SUBMITTED,
+            'customer_email' => ($order->customer_email) ?: $order->shop_customer->email
+        ];
+        $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
+        if (!$order || $order->errors()) {
+            Log::error("Order submitted with errors: " . $order->id);
+            return false;
+        }
 
         // dispatch 'beforeSubmit' event
         $event = new Event('Shop.Model.Order.beforeSubmit', $this, [
@@ -374,21 +391,19 @@ class ShopOrdersTable extends Table
         ]);
         $this->eventManager()->dispatch($event);
 
-        // re-calculate order
-        $order->calculateItems();
-
-        // save order
+        // place that order now!
         $order = $this->save($order);
 
         // assign order nr
+        // @TODO Move to event listiner or after save method
         if (!$this->assignOrderNr($order)) {
-            Log::error("Failed to assign order nr");
+            Log::error("Failed to assign order nr " . $order->id);
         }
 
         // update order status to 'submitted'
-        if (!$this->updateOrderStatus($order, self::ORDER_STATUS_SUBMITTED)) {
-            Log::error("Shop Order: Failed to updated order status to SUBMITTED");
-        }
+        //if (!$this->updateOrderStatus($order, self::ORDER_STATUS_SUBMITTED)) {
+        //    Log::error("Shop Order: Failed to updated order status to SUBMITTED " . $order->id);
+        //}
 
         // dispatch 'afterSubmit' event
         $event = new Event('Shop.Model.Order.afterSubmit', $this, [
@@ -623,10 +638,7 @@ class ShopOrdersTable extends Table
     public function validationSubmit(Validator $validator)
     {
         $validator = $this->validationDefault($validator);
-        $validator = $this->validationBilling($validator);
-        $validator = $this->validationShipping($validator);
         $validator = $this->validationPayment($validator);
-
         $validator
             ->isPresenceRequired('submitted', true);
 
@@ -648,10 +660,12 @@ class ShopOrdersTable extends Table
             ->requirePresence('customer_email')
             ->notEmpty('customer_email');
 
-        $validator
-            ->notEmpty('customer_phone')
-            ->isPresenceRequired('customer_phone', true);
-
+        // optional: customer phone
+        if (Configure::read('Shop.Checkout.customerPhone')) {
+            $validator
+                ->notEmpty('customer_phone')
+                ->isPresenceRequired('customer_phone', true);
+        }
 
         return $validator;
     }
