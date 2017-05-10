@@ -6,14 +6,14 @@
     'fieldsWhitelist' => true,
     'fields' => [
         'title' => [
-            'label' => __('Product'),
+            'label' => __d('shop', 'Product'),
             'formatter' => function($val, $row) {
                 return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopProduct', 'action' => 'view', $row['key']]);
             }
         ],
         //'sku' => [],
         'count' => [
-            'label' => __('Sales')
+            'label' => __d('shop', 'Sales')
         ]
     ],
     'rowActions' => false

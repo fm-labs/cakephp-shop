@@ -37,7 +37,7 @@ class PaymentController extends AppController
             throw new BadRequestException();
         }
 
-        if ($this->_order === null) {
+        if ($this->_order === null || $this->_order->uuid != $orderUuid) {
             $this->loadModel('Shop.ShopOrders');
             $order = $this->ShopOrders->find('order', ['uuid' => $orderUuid]);
             if (!$order) {
@@ -53,12 +53,12 @@ class PaymentController extends AppController
         $paymentType = $this->_getOrder($orderUuid)->payment_type;
 
         if (!$this->isAction($paymentType)) {
-            $this->Flash->error(__('We are sorry, but the payment page is currently not available. Please try again later.'));
+            $this->Flash->error(__d('shop', 'We are sorry, but the payment page is currently not available. Please try again later.'));
             return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
             //return $this->render('disabled');
         }
 
-        $this->setAction($paymentType);
+        $this->redirect(['action' => $paymentType, $orderUuid]);
     }
 
     public function mpay24($orderUuid = null) {
@@ -70,12 +70,12 @@ class PaymentController extends AppController
         switch ($op) {
             case "success":
                 Log::debug("mpay24: $op");
-                $this->Flash->success(__('Your payment was successful'));
+                $this->Flash->success(__d('shop', 'Your payment was successful'));
                 return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
                 break;
             case "error":
                 Log::debug("mpay24: $op");
-                $this->Flash->error(__('The payment has been aborted'));
+                $this->Flash->error(__d('shop', 'The payment has been aborted'));
                 return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
                 break;
 
@@ -93,7 +93,7 @@ class PaymentController extends AppController
 
             /*
             */
-            $order = $this->_getOrder();
+            $order = $this->_getOrder($orderUuid);
 
             $merchantID = Configure::read('Mpay24.merchantID'); // '9*****';
             $soapPassword = Configure::read('Mpay24.soapPassword'); //'******';
@@ -144,7 +144,7 @@ class PaymentController extends AppController
             $mdxi->Order->TemplateSet = "WEB";
             $mdxi->Order->TemplateSet->setLanguage("DE");
 
-            $mdxi->Order->ShoppingCart->Description = __('Order {0}', $order->nr_formatted);
+            $mdxi->Order->ShoppingCart->Description = __d('shop', 'Order {0}', $order->nr_formatted);
             /*
             */
             $i = 1;
@@ -153,7 +153,7 @@ class PaymentController extends AppController
                 $mdxi->Order->ShoppingCart->Item($i)->ProductNr = $item->refid;
                 $mdxi->Order->ShoppingCart->Item($i)->Description = $item->title;
                 $mdxi->Order->ShoppingCart->Item($i)->Quantity = $item->amount;
-                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item->value_total_taxed);
+                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item->value_total);
                 $i++;
             }
             //$mdxi->Order->ShoppingCart->SubTotal = self::formatPrice($order->items_value_taxed);

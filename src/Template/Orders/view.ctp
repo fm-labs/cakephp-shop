@@ -145,9 +145,9 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 
     <?php else: ?>
     <div class="alert alert-info">
-        <strong><i class="fa fa-lock"></i>&nbsp;<?= __('Order details are only available to logged in customers'); ?></strong>
+        <strong><i class="fa fa-lock"></i>&nbsp;<?= __d('shop', 'Order details are only available to logged in customers'); ?></strong>
         <p>
-            <?= $this->Html->link(__('Login here'), ['_name' => 'user:login']); ?>
+            <?= $this->Html->link(__d('shop', 'Login here'), ['_name' => 'user:login']); ?>
         </p>
     </div>
     <?php endif; ?>

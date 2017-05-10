@@ -58,7 +58,7 @@ class ShopCategoriesController extends AppController
 
         $this->set('actions', [
             [
-                __('Add {0}', __('category')),
+                __d('shop', 'Add {0}', __d('shop', 'category')),
                 ['action' => 'add']
             ],
             [
