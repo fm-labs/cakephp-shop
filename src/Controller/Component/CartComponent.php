@@ -5,6 +5,7 @@ namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\Component\CookieComponent;
+use Cake\Controller\Controller;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
@@ -26,8 +27,9 @@ use Shop\Model\Table\ShopProductsTable;
  */
 class CartComponent extends Component
 {
+    static public $cookieName = 'Cart';
 
-    public $components = ['Shop.Shop', 'Cookie'];
+    public $components = ['Shop.Shop', 'Flash', 'Cookie'];
 
     /**
      * @var ShopOrder
@@ -50,56 +52,55 @@ class CartComponent extends Component
         $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
 
 
-    }
-
-    public function _init()
-    {
-        $this->sessionId = $this->request->session()->id();
-
-        $this->Cookie->configKey('Cart', [
-            'path' => '/',
-            'expires' => '+10 days',
-            'httpOnly' => false,
-            'domain' => 'localhost',
-            'secure' => false,
+        $this->Cookie->configKey(self::$cookieName, [
+            //'path' => '/',
+            'expires' => '+99 days',
+            'httpOnly' => true,
+            //'domain' => $_SERVER['HTTP_HOST'],
+            'secure' => true,
             'encryption' => true
         ]);
+    }
 
-
-        $sessionCartId = $this->request->session()->read('Shop.Cart.id');
-        $cookieCartId = $this->Cookie->read('Cart.id', $this->cartId);
-
-        if (!$sessionCartId && $cookieCartId) {
-            //@TODO check if cart is owned by customer
-            //debug("cart restored from cookie");
-            $this->cartId = $cookieCartId;
-        } elseif ($sessionCartId) {
-            //debug("cart restored from session");
-            //@TODO check if cart is owned by customer
-            $this->cartId = $sessionCartId;
-        } else {
-            // New cart
-            $this->cartId = Text::uuid();
-        }
+    public function beforeFilter(Event $event)
+    {
         $this->order = null;
+        $this->sessionId = $this->request->session()->id();
+
+        // read cart cookies
+        $cookie = $this->Cookie->read(self::$cookieName);
+        $cookieCartId = ($cookie && isset($cookie['id'])) ? $cookie['id'] : null;
+
+        // read cart session
+        $sessionCartId = $this->request->session()->read('Shop.Cart.id');
+
+        if ($sessionCartId) { // restore from session
+            $this->cartId = $sessionCartId;
+        } elseif ($cookieCartId) { // restore from cookie
+            debug("cart restored from cookie");
+            $this->cartId = $cookieCartId;
+        } else { // New cart
+            $this->cartId = Text::uuid();
+            //debug("write cookie " . $this->cartId);
+            //$this->Cookie->write('cartid', $this->cartId);
+        }
+
+        // set cookie
+        if (!$cookieCartId) {
+            //debug("write cookie " . $this->cartId);
+            $this->Cookie->write(self::$cookieName . '.id', $this->cartId);
+        }
 
 
         $this->request->session()->write('Shop.Cart.id', $this->cartId);
     }
 
-    public function beforeFilter(Event $event)
-    {
-        $this->_init();
-        //$this->updateSession();
-    }
-
     public function beforeRender(Event $event)
     {
         $this->updateSession();
-
-        $event->subject()->set('order', $this->getOrder());
-
-        $this->Cookie->write('Cart.id', $this->cartId);
+        if ($event->subject() instanceof Controller) {
+            $event->subject()->set('order', $this->getOrder());
+        }
     }
 
     public function reset()
@@ -305,7 +306,7 @@ class CartComponent extends Component
 
     public function resetSession()
     {
-        $this->request->session()->delete('Shop.Cart.id');
+        $this->request->session()->delete('Shop.Cart');
         $this->request->session()->delete('Shop.Order');
     }
 
@@ -340,8 +341,7 @@ class CartComponent extends Component
 
         if (!$this->order || $options['force']) {
 
-            /*
-            */
+            //@TODO check if cart is owned by customer
             $this->order = $this->ShopOrders->find('cart', [
                 //'sessionid' => $this->sessionId,
                 'cartid' => $this->cartId,
