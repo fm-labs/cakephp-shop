@@ -227,6 +227,7 @@ class PaymentController extends AppController
             $paymentPageURL = null;
             if ($mdxi->validate()) {
                 $paymentPageURL = $mpay24->paymentPage($mdxi)->getLocation(); // redirect location to the payment page
+                //$paymentPageURL = $mpay24->selectPayment($mdxi)->location; // redirect location to the payment page
             }
 
 

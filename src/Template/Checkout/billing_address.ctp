@@ -12,12 +12,17 @@
         <?= $this->Form->create(null); ?>
             <?= $this->Form->hidden('_op', ['value' => 'billing-customer-select']); ?>
             <?= $this->Form->input('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $billingAddresses]); ?>
-            <?= $this->Form->button(__d('shop','Use this address')); ?>
+            <div class="text-right">
+                <?= $this->Form->button(__d('shop','Use this address'), ['class' => 'btn btn-lg btn-primary']); ?>
+            </div>
         <?= $this->Form->end(); ?>
         <hr />
-        <h3><?= __d('shop','Add new address'); ?></h3>
+        <h3><?= __d('shop','New address'); ?></h3>
     <?php endif; ?>
 
+    <?= $this->cell('Shop.AddressForm', [$billingAddress, ['submit' => __('Continue')]]); ?>
+
+    <!--
     <div class="form">
         <?= $this->Form->create($billingAddress, ['horizontal' => false, 'novalidate' => true]); ?>
 
@@ -53,6 +58,7 @@
         </div>
         <?= $this->Form->end(); ?>
     </div>
+    -->
 
     <?php debug($billingAddresses); ?>
 </div>

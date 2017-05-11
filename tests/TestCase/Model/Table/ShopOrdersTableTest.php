@@ -236,8 +236,17 @@ class ShopOrdersTableTest extends TestCase
     public function testSubmitOrder()
     {
         $order = $this->ShopOrders->get(1);
-        $result = $this->ShopOrders->submitOrder($order);
 
+        // test without agree_terms
+        $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 0]);
+        $this->assertNotEmpty($order->errors());
+        $this->assertArrayHasKey('agree_terms', $order->errors());
+        $this->assertArrayHasKey('checked', $order->errors('agree_terms'));
+
+
+        // test with agree_terms
+        $order = $this->ShopOrders->get(1);
+        $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 1]);
         $this->assertEquals(ShopOrdersTable::ORDER_STATUS_SUBMITTED, $result->status);
         $this->assertNotEmpty($order->submitted);
         $this->assertNotEmpty($order->shop_customer_id);
@@ -245,6 +254,7 @@ class ShopOrdersTableTest extends TestCase
         $this->assertEquals('test', $order->ordergroup);
         $this->assertEquals(1, $order->status);
         $this->assertEquals(false, $order->is_temporary);
+        $this->assertEquals(true, $order->agree_terms);
     }
 
 

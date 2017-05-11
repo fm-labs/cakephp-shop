@@ -22,11 +22,20 @@ class AddressFormCell extends Cell
     /**
      * Default display method.
      *
+     * Options:
+     * - countries (array): List of countries
+     * - company (bool): Enable country_name field (Fallback to Shop.Address.useCompanyName config value)
+     * - taxid (bool): Enable taxid field (Fallback to Shop.Address.useTaxId config value)
+     * - submit (string): Custom submit button label
+     *
+     * @params $address ShopAddress
+     * @param $options array
+     *
      * @return void
      */
     public function display($address = null, array $options = [])
     {
-        $options += ['countries' => null, 'company' => null, 'taxid' => null];
+        $options += ['countries' => null, 'company' => null, 'taxid' => null, 'submit' => null];
 
         if ($options['company'] === null) {
             $options['company'] = Shop::config('Shop.Address.useCompanyName');

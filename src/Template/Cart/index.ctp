@@ -10,6 +10,8 @@ $this->assign('title', __d('shop', 'Cart'));
 ?>
 <div class="shop cart index container">
 
+    <h1><?= __('Your shopping cart'); ?></h1>
+
     <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $order->id]]); ?>
     <?= $this->Form->hidden('id', ['value' => $order->id]); ?>
     <table class="table table-striped">
@@ -70,9 +72,9 @@ $this->assign('title', __d('shop', 'Cart'));
     </table>
 
     <div class="actions" style="text-align: right;">
-        <?= $this->Form->button(__d('shop','Update cart'), ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
-        <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
-        <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
+        <?= $this->Form->button(__d('shop','Update cart'), ['class' => 'btn btn-lg btn-primary']); ?>&nbsp;&nbsp;
+        <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-lg btn-primary']); ?>&nbsp;&nbsp;
+        <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index'], ['class' => 'btn btn-lg btn-primary']); ?>
     </div>
 
     <div class="ui divider"></div>

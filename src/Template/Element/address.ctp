@@ -1,5 +1,5 @@
-<?php if (!isset($address) || !$address) {
-    echo __d('shop', "No address set");
+<?php if (!isset($address)) {
+    echo (isset($empty)) ? $empty : "";
     return;
 }
 ?>

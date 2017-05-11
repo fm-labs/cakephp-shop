@@ -6,6 +6,7 @@ use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Log\Log;
+use Cake\ORM\ResultSet;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Entity\ShopCustomer;
 
@@ -118,18 +119,32 @@ class ShopComponent extends Component
     }
 
     /**
+     * @return ResultSet
+     */
+    public function getCustomerAddresses()
+    {
+        $addresses = null;
+        if ($this->_customer && !$this->customer('is_guest')) {
+            $addresses = TableRegistry::get('Shop.ShopCustomerAddresses')
+                ->find()
+                ->where(['ShopCustomerAddresses.shop_customer_id' => $this->getCustomerId()]);
+        }
+        return $addresses;
+    }
+
+    /**
      * @return array
      */
     public function getCustomerAddressesList()
     {
-        $addresses = [];
-        if ($this->_customer && !$this->customer('is_guest')) {
-            $addresses = TableRegistry::get('Shop.ShopCustomerAddresses')
-                ->find('list')
-                ->where(['ShopCustomerAddresses.shop_customer_id' => $this->getCustomerId()])
-                ->toArray();
+        $list = [];
+        $addresses = $this->getCustomerAddresses();
+        if ($addresses) {
+            $addresses->each(function($address) use (&$list) {
+               $list[$address->id] = $address->oneline;
+            });
         }
-        return $addresses;
+        return $list;
     }
 
 }

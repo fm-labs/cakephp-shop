@@ -352,33 +352,26 @@ class ShopOrdersTable extends Table
      * @return bool|EntityInterface|mixed|ShopOrder
      * @throws \Exception
      */
-    public function submitOrder(ShopOrder $order, array $options = [])
+    public function submitOrder(ShopOrder $order, array $data = [])
     {
+        // force reload order
+        //$order = $this->get($order->id);
+
         if ($order->status > 0) {
             throw new \Exception("Order already submitted");
-        }
-
-
-        // patch order data
-        $order->uuid =
-        $order->submitted = Time::now();
-        $order->is_temporary = false;
-
-        if (!$order->customer_email && $order->shop_customer) {
-            $order->customer_email = $order->shop_customer->email;
         }
 
         // re-calculate order
         $order->calculateItems();
 
         // save order
-        $submitData = [
+        $submitData = array_merge([
             'uuid' => ($order->uuid) ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
             'submitted' => Time::now(),
             'is_temporary' => false,
             'status' => self::ORDER_STATUS_SUBMITTED,
-            'customer_email' => ($order->customer_email) ?: $order->shop_customer->email
-        ];
+            'customer_email' => ($order->customer_email) ?: $order->shop_customer->email,
+        ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
         if (!$order || $order->errors()) {
             Log::error("Order submitted with errors: " . $order->id);
@@ -640,25 +633,15 @@ class ShopOrdersTable extends Table
         $validator = $this->validationDefault($validator);
         $validator = $this->validationPayment($validator);
         $validator
-            ->isPresenceRequired('submitted', true);
-
-        $validator
-            //->add('agree_terms', 'valid', ['rule' => 'boolean'])
-            //->add('agree_terms', 'checked', ['rule' => ['equalTo', true], 'message' => __d('shop','This field is required')])
-            //->notEmpty('agree_terms')
-            ->add('agree_terms', 'myRule', [
-                'rule' => function ($data, $provider) {
-                    if ($data == 1) {
-                        return true;
-                    }
-                    return __d('shop','This option is mandatory');
-                }
-            ])
-            ->isPresenceRequired('agree_terms', true);
-
-        $validator
+            ->requirePresence('is_temporary')
+            ->requirePresence('submitted')
+            ->requirePresence('status')
+            ->requirePresence('uuid')
             ->requirePresence('customer_email')
-            ->notEmpty('customer_email');
+            ->notEmpty('customer_email')
+            ->requirePresence('agree_terms')
+            ->notEmpty('agree_terms')
+            ->add('agree_terms', 'checked', ['rule' => function ($value) { return $value > 0; }, 'message' => __('Please agree to the general terms & conditions')]);
 
         // optional: customer phone
         if (Configure::read('Shop.Checkout.customerPhone')) {

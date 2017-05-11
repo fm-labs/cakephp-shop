@@ -286,15 +286,16 @@ class CheckoutComponent extends Component
     /**
      * Submit order.
      *
+     * @param array $data Additional submit data
      * @return bool|\Cake\Datasource\EntityInterface|mixed|ShopOrder
      * @throws \Exception
      */
-    public function submitOrder()
+    public function submitOrder(array $data = [])
     {
         if (!$this->getOrder()) {
             return false;
         }
-        return $this->ShopOrders->submitOrder($this->getOrder());
+        return $this->ShopOrders->submitOrder($this->getOrder(), $data);
     }
 
     /**

@@ -15,7 +15,7 @@
     <?php endif; ?>
 
     <div class="actions text-right">
-        <?= $this->Form->submit(__d('shop','Save'), ['class' => 'btn btn-lg btn-primary']); ?>
+        <?= $this->Form->submit($options['submit'], ['class' => 'btn btn-lg btn-primary']); ?>
     </div>
     <?= $this->Form->end(); ?>
 </div>
