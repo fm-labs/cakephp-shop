@@ -641,7 +641,7 @@ class ShopOrdersTable extends Table
             ->notEmpty('customer_email')
             ->requirePresence('agree_terms')
             ->notEmpty('agree_terms')
-            ->add('agree_terms', 'checked', ['rule' => function ($value) { return $value > 0; }, 'message' => __('Please agree to the general terms & conditions')]);
+            ->add('agree_terms', 'checked', ['rule' => function ($value) { return $value > 0; }, 'message' => __d('shop','Please agree to the general terms & conditions')]);
 
         // optional: customer phone
         if (Configure::read('Shop.Checkout.customerPhone')) {

@@ -20,7 +20,7 @@
         <h3><?= __d('shop','New address'); ?></h3>
     <?php endif; ?>
 
-    <?= $this->cell('Shop.AddressForm', [$billingAddress, ['submit' => __('Continue')]]); ?>
+    <?= $this->cell('Shop.AddressForm', [$billingAddress, ['submit' => __d('shop','Continue')]]); ?>
 
     <!--
     <div class="form">

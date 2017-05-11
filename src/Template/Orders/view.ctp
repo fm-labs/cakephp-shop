@@ -31,7 +31,7 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
     <?php if ($order->status < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED): ?>
     <div class="alert alert-warning">
         <strong><?= __d('shop','Payment status: UNPAYED'); ?></strong>
-        <p><?= $this->Html->link('Go to payment page',
+        <p><?= $this->Html->link(__d('shop', 'Go to payment page'),
             ['controller' => 'Payment', 'action' => 'index', $order->uuid]
             //['class' => 'btn btn-primary']
         ); ?></p>

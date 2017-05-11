@@ -10,7 +10,7 @@ $this->assign('title', __d('shop', 'Cart'));
 ?>
 <div class="shop cart index container">
 
-    <h1><?= __('Your shopping cart'); ?></h1>
+    <h1><?= __d('shop','Your shopping cart'); ?></h1>
 
     <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $order->id]]); ?>
     <?= $this->Form->hidden('id', ['value' => $order->id]); ?>
