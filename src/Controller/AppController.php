@@ -8,13 +8,14 @@ use Content\Controller\Component\FrontendComponent;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
 use Shop\Controller\Component\CartComponent;
+use Shop\Controller\Component\ShopComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class AppController
  *
  * @package Shop\Controller
- * @property FrontendComponent $Frontend
+ * @property ShopComponent $Shop
  * @property AuthComponent $Auth
  * @property CartComponent $Cart
  */

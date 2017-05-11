@@ -14,7 +14,7 @@ use Shop\Model\Entity\ShopOrderAddress;
  * @property \Cake\ORM\Association\BelongsTo $ShopCustomerAddresses
  * @property \Cake\ORM\Association\BelongsTo $Countries
  */
-class ShopCustomerAddressesTable extends Table
+class ShopCustomerAddressesTable extends ShopAddressesTable
 {
 
     /**
@@ -25,8 +25,6 @@ class ShopCustomerAddressesTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
-
         $this->table('shop_customer_addresses');
         $this->primaryKey('id');
         $this->entityClass('Shop.ShopAddress');
@@ -53,47 +51,12 @@ class ShopCustomerAddressesTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+        $validator = parent::validationDefault($validator);
 
         $validator
-            ->requirePresence('type', 'create')
-            ->notEmpty('type');
-
-        $validator
-            ->add('is_company', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_company');
-
-        $validator
-            ->allowEmpty('taxid');
-
-        $validator
-            ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
-
-        $validator
-            ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
-
-        $validator
-            ->requirePresence('street', 'create')
-            ->notEmpty('street');
-
-        $validator
-            ->allowEmpty('street2');
-
-        $validator
-            ->requirePresence('zipcode', 'create')
-            ->notEmpty('zipcode');
-
-        $validator
-            ->requirePresence('city', 'create')
-            ->notEmpty('city');
-
-        $validator
-            ->requirePresence('country_id', 'create')
-            ->notEmpty('country_id');
+            ->add('shop_customer_id', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('shop_customer_id')
+            ->notEmpty('shop_customer_id');
 
         return $validator;
     }
@@ -125,6 +88,7 @@ class ShopCustomerAddressesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
         $rules->add($rules->existsIn(['country_id'], 'Countries'));
         return $rules;
     }

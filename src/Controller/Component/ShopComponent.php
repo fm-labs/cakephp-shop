@@ -16,6 +16,9 @@ class ShopComponent extends Component
      */
     protected $_customer;
 
+    /**
+     * @param array $config
+     */
     public function initialize(array $config) {
 
         $defaultLayout = Configure::read('Shop.Layout.default');
@@ -24,6 +27,9 @@ class ShopComponent extends Component
         }
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeFilter(Event $event)
     {
         if ($this->request->session()->check('Shop.Customer.id')) {
@@ -36,11 +42,18 @@ class ShopComponent extends Component
         }
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeRender(Event $event)
     {
         $event->subject()->set('customer', $this->getCustomer());
     }
 
+    /**
+     * @param null $field
+     * @return mixed|null|ShopCustomer
+     */
     public function customer($field = null)
     {
         if (!$this->_customer) {
@@ -54,16 +67,26 @@ class ShopComponent extends Component
         return $this->_customer->get($field);
     }
 
+    /**
+     * @return null|ShopCustomer
+     */
     public function getCustomer()
     {
         return $this->customer(null);
     }
 
+    /**
+     * @return null|int
+     */
     public function getCustomerId()
     {
         return $this->customer('id');
     }
 
+    /**
+     * @param ShopCustomer $customer
+     * @return $this
+     */
     public function setCustomer(ShopCustomer $customer)
     {
         $this->_customer = $customer;
@@ -71,6 +94,9 @@ class ShopComponent extends Component
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function resetCustomer()
     {
         $this->_customer = null;
@@ -78,6 +104,9 @@ class ShopComponent extends Component
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getCountriesList()
     {
         $countries = TableRegistry::get('Shop.ShopCountries')
@@ -88,6 +117,9 @@ class ShopComponent extends Component
         return $countries;
     }
 
+    /**
+     * @return array
+     */
     public function getCustomerAddressesList()
     {
         $addresses = [];

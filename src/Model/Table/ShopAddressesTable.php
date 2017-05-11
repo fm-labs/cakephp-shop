@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopAddress;
 
 /**
@@ -12,7 +13,7 @@ use Shop\Model\Entity\ShopAddress;
  *
  * @property \Cake\ORM\Association\BelongsTo $ShopCustomers
  */
-class ShopAddressesTable extends Table
+abstract class ShopAddressesTable extends Table
 {
 
     const TYPE_BILLING = 'B';
@@ -53,56 +54,66 @@ class ShopAddressesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('type');
-
-        $validator
+            ->requirePresence('first_name', 'create')
             ->notEmpty('first_name');
 
         $validator
+            ->requirePresence('last_name', 'create')
             ->notEmpty('last_name');
 
         $validator
-            ->add('is_company', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_company');
-
-        $validator
-            ->allowEmpty('taxid');
-
-        $validator
+            ->requirePresence('street', 'create')
             ->notEmpty('street');
 
         $validator
+            //->requirePresence('street2', 'create')
             ->allowEmpty('street2');
 
         $validator
+            ->requirePresence('zipcode', 'create')
             ->notEmpty('zipcode');
 
         $validator
+            ->requirePresence('city', 'create')
             ->notEmpty('city');
 
         $validator
-            ->notEmpty('country');
+            ->notEmpty('country'); //@TODO Drop deprecated 'country' field
 
         $validator
-            ->allowEmpty('country_iso2');
+            ->allowEmpty('country_iso2'); //@TODO VAlidate ISO2 country format
+
+        $validator
+            ->add('country_id', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('country_id', 'create')
+            ->notEmpty('country_id');
 
         $validator
             ->add('is_archived', 'valid', ['rule' => 'boolean'])
             ->allowEmpty('is_archived');
 
+
+        // optional company name
+        if (Shop::config('Shop.Address.useCompanyName')) {
+            $validator->requirePresence('company_name', 'create');
+        }
+        $validator
+            ->allowEmpty('company_name');
+
+        // optional taxid
+        if (Shop::config('Shop.Address.useTaxId')) {
+            $validator->requirePresence('taxid', 'create');
+        }
+        $validator
+            ->add('taxid', 'vatin', ['rule' => function($value, $context) {
+                // https://en.wikipedia.org/wiki/VAT_identification_number
+                $match = preg_match('/^([A-Z]{2})([0-9A-Z]+)$/', $value);
+                return (bool) $match;
+            }])
+            ->allowEmpty('taxid');
+
+
         return $validator;
     }
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
-        return $rules;
-    }
 }
