@@ -106,7 +106,7 @@
             <?php
             // terms
             $termsLink = $this->Html->link(__d('shop','I agree to the terms & conditions'),
-                ['controller' => 'Pages', 'action' => 'terms'], ['target' => '_blank', 'class' => 'link-modal']);
+                ['plugin' => 'Content', 'controller' => 'Pages', 'action' => 'view', 'slug' => 'terms'], ['target' => '_blank', 'class' => 'link-modal']);
             echo $this->Form->input('agree_terms', ['label' => $termsLink . '*', 'escape' => false]);
             ?>
 
