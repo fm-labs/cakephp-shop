@@ -2,8 +2,11 @@
 
 namespace Shop\Core\Payment\Engine;
 
+use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
+use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
+use Shop\Model\Entity\ShopOrder;
 
 class PaymentSlipPayment implements PaymentEngineInterface
 {
@@ -27,5 +30,14 @@ class PaymentSlipPayment implements PaymentEngineInterface
             }
         }
 
+    }
+
+    /**
+     * @param PaymentComponent $Payment
+     * @param ShopOrder $order
+     * @return null|Response
+     */
+    public function pay(PaymentComponent $Payment, ShopOrder $order)
+    {
     }
 }
