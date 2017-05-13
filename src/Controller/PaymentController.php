@@ -3,21 +3,32 @@
 namespace Shop\Controller;
 
 
-use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
+use Cake\Filesystem\File;
 use Cake\Log\Log;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\NotFoundException;
-use Cake\Routing\Router;
-use Mpay24\Mpay24;
-use Mpay24\Mpay24Config;
-use Mpay24\MPay24Order;
+use Shop\Controller\Component\PaymentComponent;
+use Shop\Controller\Component\ShopComponent;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Table\ShopOrdersTable;
 
+/**
+ * Class PaymentController
+ *
+ * Handle shop order payments.
+ *
+ * @package Shop\Controller
+ * @property ShopComponent $Shop
+ * @property PaymentComponent $Payment
+ * @property ShopOrdersTable $ShopOrders
+ */
 class PaymentController extends AppController
 {
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopOrders";
 
     /**
@@ -25,21 +36,34 @@ class PaymentController extends AppController
      */
     protected $_order = null;
 
-    public function beforeFilter(Event $event) {
+    /**
+     * @param Event $event
+     * @return \Cake\Network\Response|null|void
+     */
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
 
-        $this->Auth->allow(['index', 'mpay24']);
+        $this->loadComponent('Shop.Shop');
+        $this->loadComponent('Shop.Payment');
+
+        //@TODO Add configurable option, to enable/disable authentication on payment controller methods
+        $this->Auth->allow(['index', 'pay', 'success', 'error', 'confirm']);
     }
 
-    protected function _getOrder($orderUuid)
+    /**
+     * @param $orderUUID
+     * @return ShopOrder
+     */
+    protected function _loadOrder($orderUUID = null)
     {
-        if (!$orderUuid) {
+        if (!$orderUUID) {
             throw new BadRequestException();
         }
 
-        if ($this->_order === null || $this->_order->uuid != $orderUuid) {
+        if ($this->_order === null || $this->_order->uuid != $orderUUID) {
             $this->loadModel('Shop.ShopOrders');
-            $order = $this->ShopOrders->find('order', ['uuid' => $orderUuid]);
+            $order = $this->ShopOrders->find('order', ['uuid' => $orderUUID]);
             if (!$order) {
                 throw new NotFoundException();
             }
@@ -48,200 +72,101 @@ class PaymentController extends AppController
         return $this->_order;
     }
 
-    public function index($orderUuid = null)
+    /**
+     * @param null $orderUUID
+     * @return \Cake\Network\Response|null
+     */
+    public function index($orderUUID = null)
     {
-        $paymentType = $this->_getOrder($orderUuid)->payment_type;
+        $order = $this->_loadOrder($orderUUID);
+        //$this->redirect(['action' => 'pay', $orderUUID]);
 
-        if (!$this->isAction($paymentType)) {
-            $this->Flash->error(__d('shop', 'We are sorry, but the payment page is currently not available. Please try again later.'));
-            return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
-            //return $this->render('disabled');
-        }
-
-        $this->redirect(['action' => $paymentType, $orderUuid]);
+        $this->set(compact('order'));
     }
 
-    public function mpay24($orderUuid = null) {
+    /**
+     * Initialize payment with selected payment engine
+     * Redirects to 3rd party site, if necessary.
+     *
+     * @param null $orderUUID
+     * @return \Cake\Network\Response|null
+     */
+    public function pay($orderUUID = null)
+    {
+        $order = $this->_loadOrder($orderUUID);
 
-
-        $op = $this->request->query('op');
-        $hash = $this->request->query('h');
-
-        switch ($op) {
-            case "success":
-                Log::debug("mpay24: $op");
-                $this->Flash->success(__d('shop', 'Your payment was successful'));
-                return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
-                break;
-            case "error":
-                Log::debug("mpay24: $op");
-                $this->Flash->error(__d('shop', 'The payment has been aborted'));
-                return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUuid]);
-                break;
-
-            // Push notifications
-            case "confirm":
-                Log::debug("mpay24: $op");
-                Log::debug(json_encode($this->request->data));
-
-                $this->autoRender = false;
-                return;
-        }
-
-
+        $this->set('order', $order);
+        $this->set('engines', $this->Payment->engines);
         try {
-
-            /*
-            */
-            $order = $this->_getOrder($orderUuid);
-
-            $merchantID = Configure::read('Mpay24.merchantID'); // '9*****';
-            $soapPassword = Configure::read('Mpay24.soapPassword'); //'******';
-            $test = $debug = true;
-
-            $config = new Mpay24Config();
-            $config->setMerchantID($merchantID);
-            $config->setSoapPassword($soapPassword);
-            $config->useTestSystem($test);
-            $config->setDebug($debug);
-            //$config->setProxyHost($proxyHost);
-            //$config->setProxyPort($proxyPort);
-            //$config->setProxyHost($proxyUser);
-            //$config->setProxyPass($proxyPass);
-            //$config->setVerifyPeer($verifyPeer);
-            $config->setEnableCurlLog($debug);
-            $config->setLogFile('mpay24.log');
-            $config->setLogPath(LOGS);
-            $config->setCurlLogFile('mpay24_curl.log');
-
-
-            // FLEX
-            //$config->setSpid($spid);
-            //$config->setFlexLinkPassword($flexLinkPassword);
-            //$config->useFlexLinkTestSystem($flexLinkTestSystem);
-
-            // Initialize Mpay24
-            $mpay24 = new Mpay24($config);
-
-
-            $myTransactionId = uniqid('test');
-
-            // @TODO this 'class_exists' call is necessary otherwise PHP throws 'class not found' ?!
-            // possibly because this repo is currently overlapping with the legacy source ?!
-            // even though we using composer ?!
-            if(!class_exists('Mpay24\Mpay24Order')) {
-                throw new Exception('Class Mpay24Order not found');
-            }
+            Log::debug("Payment::init: $orderUUID", ['shop', 'payment']);
+            return $this->Payment->initPayment($order);
             
-            // create mpay24 mdxi
-            $mdxi = new Mpay24Order();
-
-            $mdxi->Order->setStyle("margin-left: auto; margin-right: auto; width: 600px;");
-
-            $mdxi->Order->UserField = $order->uuid;
-            $mdxi->Order->Tid = $myTransactionId;
-
-            $mdxi->Order->TemplateSet = "WEB";
-            $mdxi->Order->TemplateSet->setLanguage("DE");
-
-            $mdxi->Order->ShoppingCart->Description = __d('shop', 'Order {0}', $order->nr_formatted);
-            /*
-            */
-            $i = 1;
-            foreach($order->shop_order_items as $item) {
-                $mdxi->Order->ShoppingCart->Item($i)->Number = (string) $i;
-                $mdxi->Order->ShoppingCart->Item($i)->ProductNr = $item->refid;
-                $mdxi->Order->ShoppingCart->Item($i)->Description = $item->title;
-                $mdxi->Order->ShoppingCart->Item($i)->Quantity = $item->amount;
-                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item->value_total);
-                $i++;
-            }
-            //$mdxi->Order->ShoppingCart->SubTotal = self::formatPrice($order->items_value_taxed);
-            //$mdxi->Order->ShoppingCart->ShippingCosts = self::formatPrice(0); //@TODO Add shipping costs
-            //$mdxi->Order->ShoppingCart->Discount = self::formatPrice(0); //@TODO Add discount value
-            //$mdxi->Order->ShoppingCart->Tax = self::formatPrice($order->order_value_tax);
-
-            $mdxi->Order->Price = self::formatPrice($order->order_value_total);
-            $mdxi->Order->Currency = $order->currency;
-
-            $billingAddress = $order->getBillingAddress();
-            $mdxi->Order->BillingAddr->setMode("ReadWrite"); // or "ReadOnly"
-            $mdxi->Order->BillingAddr->Name = $billingAddress->name;
-            $mdxi->Order->BillingAddr->Street = $billingAddress->street;
-            $mdxi->Order->BillingAddr->Street2 = $billingAddress->street2;
-            $mdxi->Order->BillingAddr->Zip = $billingAddress->zipcode;
-            $mdxi->Order->BillingAddr->City = $billingAddress->city;
-            $mdxi->Order->BillingAddr->State = '';
-            $mdxi->Order->BillingAddr->Country = $billingAddress->relcountry->name;
-            $mdxi->Order->BillingAddr->Email = $order->shop_customer->email;
-
-
-            /*
-            $mdxi->Order->ShoppingCart->Item(1)->Number = "Item Number 1";
-            $mdxi->Order->ShoppingCart->Item(1)->ProductNr = "Product Number 1";
-            $mdxi->Order->ShoppingCart->Item(1)->Description = "Description 1";
-            $mdxi->Order->ShoppingCart->Item(1)->Package = "Package 1";
-            $mdxi->Order->ShoppingCart->Item(1)->Quantity = 2;
-            $mdxi->Order->ShoppingCart->Item(1)->ItemPrice = 12.34;
-            $mdxi->Order->ShoppingCart->Item(1)->ItemPrice->setTax(1.23);
-            $mdxi->Order->ShoppingCart->Item(1)->Price = 24.68;
-
-            $mdxi->Order->ShoppingCart->Item(2)->Number = "Item Number 2";
-            $mdxi->Order->ShoppingCart->Item(2)->ProductNr = "Product Number 2";
-            $mdxi->Order->ShoppingCart->Item(2)->Description = "Description 2";
-            $mdxi->Order->ShoppingCart->Item(2)->Package = "Package 2";
-            $mdxi->Order->ShoppingCart->Item(2)->Quantity = 1;
-            $mdxi->Order->ShoppingCart->Item(2)->ItemPrice = 5.67;
-            $mdxi->Order->ShoppingCart->Item(2)->Price = 5.67;
-
-            $mdxi->Order->Price = 30.35;
-
-            $mdxi->Order->Currency = "EUR";
-
-            $mdxi->Order->BillingAddr->setMode("ReadWrite"); // or "ReadOnly"
-            $mdxi->Order->BillingAddr->Name = "Max Musterman";
-            $mdxi->Order->BillingAddr->Street = "Teststreet 1";
-            $mdxi->Order->BillingAddr->Street2 = "Teststreet 2";
-            $mdxi->Order->BillingAddr->Zip = "1010";
-            $mdxi->Order->BillingAddr->City = "Wien";
-            $mdxi->Order->BillingAddr->Country->setCode("AT");
-            $mdxi->Order->BillingAddr->Email = "a.b@c.de";
-            */
-
-            //@TODO Implement Mpay24 Customer profiles
-            // https://docs.mpay24.com/docs/profiles
-            //$mdxi->Order->Customer->setUseProfile("false");
-            //$mdxi->Order->Customer->setId("98765");
-            //$mdxi->Order->Customer = "Hans Mayer";
-            // initialize payment
-
-            $hash = sha1(Configure::read('Security.salt') . '|' . $orderUuid);
-            $successUrl = Router::url(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'mpay24', $orderUuid, 'op' => 'success', 'h' => $hash], true);
-            $errorUrl = Router::url(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'mpay24', $orderUuid, 'op' => 'error', 'h' => $hash], true);
-            $confirmUrl = Router::url(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'mpay24', $orderUuid, 'op' => 'confirm', 'h' => $hash], true);
-
-            $mdxi->Order->URL->Success      = $successUrl;
-            $mdxi->Order->URL->Error        = $errorUrl;
-            $mdxi->Order->URL->Confirmation = $confirmUrl;
-
-            $paymentPageURL = null;
-            if ($mdxi->validate()) {
-                $paymentPageURL = $mpay24->paymentPage($mdxi)->getLocation(); // redirect location to the payment page
-                //$paymentPageURL = $mpay24->selectPayment($mdxi)->location; // redirect location to the payment page
-            }
-
-
-            $this->set('mdxi', $mdxi->toXML());
-            $this->set('paymentUrl', $paymentPageURL);
-
-        } catch(\Exception $e) {
-            Log::debug('Checkout: ' . $e->getMessage());
-            $this->Flash->error($e->getMessage());
+        } catch (\Exception $ex) {
+            $this->Flash->error($ex->getMessage());
         }
 
     }
-    
-    static public function formatPrice($input) {
-        return $input;
+
+
+    /**
+     * Return URL for successful payments
+     *
+     * @param null $orderUUID
+     * @return \Cake\Network\Response|null
+     */
+    public function success($orderUUID = null)
+    {
+        Log::debug("Payment::success: $orderUUID", ['shop', 'payment']);
+        $this->Flash->success(__d('shop', 'Your payment was successful'));
+        return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'success']);
     }
+
+    /**
+     * Return URL for failed payments
+     *
+     * @param null $orderUUID
+     * @return \Cake\Network\Response|null
+     */
+    public function error($orderUUID = null)
+    {
+        Log::error("Payment::error: $orderUUID", ['shop', 'payment']);
+        $this->Flash->error(__d('shop', 'The payment has been aborted'));
+        return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'error']);
+    }
+
+
+    /**
+     * HTTP confirmation interface for 3rd party payment providers
+     *
+     * @param null $orderUUID
+     */
+    public function confirm($orderUUID = null)
+    {
+        $this->autoRender = false;
+
+        $query = $this->request->query;
+        $data = $this->request->data;
+        $clientIp = $this->request->clientIp();
+        $params = $this->request->params;
+        $url = $this->request->url;
+
+        Log::debug(sprintf('Payment::confirm: [%s][%s] %s', (string) $orderUUID, $clientIp, json_encode($params)), ['shop', 'payment']);
+
+        $pack = compact('orderUUID', 'params', 'query', 'data', 'clientIp', 'url');
+        $json = json_encode($pack);
+
+        $key = ($orderUUID) ? $orderUUID : 'md5:'.md5($json);
+        $key = time() . '_' . $key;
+
+        $path = TMP . 'confirm';
+        if (!is_dir($path)) {
+            @mkdir($path, 0777);
+        }
+
+        $file = $path . DS . $key . '.json';
+        $f = new File($file, true);
+        $f->write($json);
+        $f->close();
+    }
+
 }

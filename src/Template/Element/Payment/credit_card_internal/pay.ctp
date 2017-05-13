@@ -1,0 +1,3 @@
+<div class="shop payment element-pay element">
+   Ihre Zahlung wird bearbeitet ...
+</div>

@@ -53,7 +53,10 @@ class AddToCartCell extends Cell
 
     public function _initInputs()
     {
-        $formOptions = ['url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]];
+        $formOptions = [
+            'idPrefix' => $this->shopProduct->id,
+            'url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]
+        ];
         $formInputsOptions = ['legend' => false, 'fieldset' => false];
         $inputs = [];
 
@@ -125,7 +128,7 @@ class AddToCartCell extends Cell
             //@TODO disable inputs
         }
 
-        $form = $this->_buildForm($this->formOptions, $this->inputs, $this->inputsOptions);
+        $form = $this->_createForm($this->formOptions, $this->inputs, $this->inputsOptions);
 
         $this->set('type', $this->type);
         $this->set('auth', $auth);
@@ -153,6 +156,7 @@ class AddToCartCell extends Cell
      * Default display method.
      *
      * @return void
+     * @deprecated
      */
     public function ___display($params = [])
     {
@@ -183,7 +187,7 @@ class AddToCartCell extends Cell
             //@TODO disable inputs
         }
 
-        $form = $this->_buildForm($formOptions, $inputs, $formInputsOptions);
+        $form = $this->_createForm($formOptions, $inputs, $formInputsOptions);
 
         $this->set('auth', $auth);
         $this->set('params', $params);
@@ -200,7 +204,7 @@ class AddToCartCell extends Cell
      * @param $formInputOptions
      * @return Form
      */
-    protected function _buildForm($formOptions, $formInputs, $formInputOptions)
+    protected function _createForm($formOptions, $formInputs, $formInputOptions)
     {
         if (!class_exists($this->formClass)) {
             throw new Exception('AddToCartForm class not found in ' . $this->formClass);
@@ -239,6 +243,11 @@ class AddToCartCell extends Cell
         return $this->ShopProducts->findPublishedChildren($this->shopProduct->id);
     }
 
+    /**
+     * @return array
+     * @TODO Get quantity options from product
+     * @TODO Implement min/max quantity constraints
+     */
     protected function _getQtyOptions()
     {
         $qtyOptions = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10];

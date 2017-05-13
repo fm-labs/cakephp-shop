@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BananaCakePHP Shop\n"
 "POT-Creation-Date: 2017-05-11 22:58+0000\n"
-"PO-Revision-Date: 2017-05-12 00:59+0100\n"
+"PO-Revision-Date: 2017-05-13 14:02+0100\n"
 "Last-Translator: fm-labs <flowmotionlabs@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -2062,7 +2062,7 @@ msgstr "Dieser Artikel ist zur Zeit nicht in unserem Online-Store erhältlich."
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Cell/AddToCart/display.ctp:19
 msgid "Login to purchase this product"
-msgstr "Sie müssen sich einloggen um diesen Produkt zu kaufen"
+msgstr "Sie müssen sich anmelden um dieses Produkt zu kaufen"
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Cell/AddToCart/noauth.ctp:3
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/customer.ctp:20
@@ -2568,7 +2568,7 @@ msgstr "Zur Bezahlseite"
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:141
 msgid "List all orders"
-msgstr "All Bestellungen auflisten"
+msgstr "Alle Bestellungen auflisten"
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:148
 msgid "Order details are only available to logged in customers"

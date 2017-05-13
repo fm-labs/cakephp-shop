@@ -2,8 +2,11 @@
 
 namespace Shop\Core\Payment\Engine;
 
+use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
+use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
+use Shop\Model\Entity\ShopOrder;
 
 class CreditCardInternalPayment implements PaymentEngineInterface
 {
@@ -45,5 +48,14 @@ class CreditCardInternalPayment implements PaymentEngineInterface
         }
 
         $Checkout->getController()->render('payment_credit_card_internal');
+    }
+
+    /**
+     * @param PaymentComponent $Payment
+     * @param ShopOrder $order
+     * @return null|Response
+     */
+    public function pay(PaymentComponent $Payment, ShopOrder $order)
+    {
     }
 }

@@ -42,7 +42,7 @@
                 <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
                 <div class="desc payment-desc">
                     <?php
-                    $element = 'Shop.Checkout/Payment/' . $order->payment_type . '/review';
+                    $element = 'Shop.Payment/' . $order->payment_type . '/order';
                     if ($this->elementExists($element)) {
                         echo $this->element($element);
                     }

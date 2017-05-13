@@ -7,36 +7,14 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 <?php $this->assign('title', __d('shop', 'Order {0}', $order->nr_formatted)); ?>
 <div class="shop order view container">
 
-
-    <h2><?= __d('shop','Order {0}', $order->nr_formatted); ?></h2>
-    <p>
-        <strong><?= __d('shop','Date of purchase: {0}', $this->Time->nice($order->submitted)); ?></strong>
-    </p>
+    <h2><?= __d('shop','Order purchased on {0}', $this->Time->nice($order->submitted)); ?></h2>
 
     <hr />
-    <?php if ($this->request->query('order_complete')): ?>
-    <div class="alert alert-success">
-        <strong><?= __d('shop','Your order has been submitted'); ?></strong>
-        <p><?= __d('shop','A confirmation email has been sent.'); ?></p>
-    </div>
-    <?php endif; ?>
 
+    <?= $this->element('Shop.Order/messages'); ?>
+    <?= $this->element('Shop.Order/payment_status'); ?>
+    <?= $this->element('Shop.Order/order_info'); ?>
 
-    <?php
-    /**
-     * Payment Info / Status
-     */
-    $paymentElement = 'Shop.Order/'
-    ?>
-    <?php if ($order->status < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED): ?>
-    <div class="alert alert-warning">
-        <strong><?= __d('shop','Payment status: UNPAYED'); ?></strong>
-        <p><?= $this->Html->link(__d('shop', 'Go to payment page'),
-            ['controller' => 'Payment', 'action' => 'index', $order->uuid]
-            //['class' => 'btn btn-primary']
-        ); ?></p>
-    </div>
-    <?php endif; ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -45,8 +23,6 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
         </div>
     </div>
     <hr />
-
-    <?php if ($this->request->session()->read('Auth.User.id')): ?>
 
     <div class="row">
         <div class="col-md-6">
@@ -81,7 +57,7 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
                 -->
                 <p>
                     <?php
-                    $element = 'Shop.Checkout/Payment/' . $order->payment_type . '/review';
+                    $element = 'Shop.Payment/' . $order->payment_type . '/order';
                     if ($this->elementExists($element)) {
                         echo $this->element($element);
                     }
@@ -103,7 +79,7 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
                 -->
                 <p>
                     <?php
-                    $element = 'Shop.Checkout/Shipping/' . $order->shipping_type . '/review';
+                    $element = 'Shop.Shipping/' . $order->shipping_type . '/order';
                     if ($this->elementExists($element)) {
                         echo $this->element($element);
                     }
@@ -133,7 +109,6 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
     </div>
     -->
 
-
     <hr />
     <div class="row">
         <div class="col-md-12">
@@ -143,12 +118,4 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
         </div>
     </div>
 
-    <?php else: ?>
-    <div class="alert alert-info">
-        <strong><i class="fa fa-lock"></i>&nbsp;<?= __d('shop', 'Order details are only available to logged in customers'); ?></strong>
-        <p>
-            <?= $this->Html->link(__d('shop', 'Login here'), ['_name' => 'user:login']); ?>
-        </p>
-    </div>
-    <?php endif; ?>
 </div>

@@ -10,7 +10,7 @@
 
     <?php foreach ($shippingMethods as $alias => $shippingMethod): ?>
         <?php
-        $element = 'Shop.Checkout/Shipping/' . $alias . '/select';
+        $element = 'Shop.Checkout/Shipping/' . $alias . '/checkout';
         ?>
         <div class="shipping-method row">
             <div class="col-md-8">

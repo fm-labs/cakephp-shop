@@ -10,7 +10,7 @@
 
     <?php foreach ($paymentMethods as $alias => $paymentMethod): ?>
         <?php
-        $element = 'Shop.Checkout/Payment/' . $alias . '/select';
+        $element = 'Shop.Payment/' . $alias . '/checkout';
         ?>
         <div class="payment-method row">
             <div class="col-md-8">

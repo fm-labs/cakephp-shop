@@ -57,6 +57,10 @@ class OrdersController extends AppController
             throw new NotFoundException();
         }
 
+        if (!$this->Auth->user() || $this->Shop->getCustomerId() != $shopOrder->shop_customer_id) {
+            $this->viewBuilder()->template('view_public');
+        }
+
         $this->set('order', $shopOrder);
         $this->set('_serialize', ['shopOrder']);
     }
