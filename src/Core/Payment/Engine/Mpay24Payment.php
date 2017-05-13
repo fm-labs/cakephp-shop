@@ -208,7 +208,7 @@ class Mpay24Payment implements PaymentEngineInterface
                 throw $ex;
             }
 
-            throw new \Exception(__('Payment failed'));
+            throw new \Exception(__d('shop','Payment failed'));
         }
     }
 

@@ -5,7 +5,7 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 ?>
 
 <div class="payment index container">
-    <h1><?= __('Order payment'); ?></h1>
+    <h1><?= __d('shop','Order payment'); ?></h1>
 
 
 
@@ -21,7 +21,7 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
 
     <hr />
     <?= $this->Html->link(
-        __('Back to order'),
+        __d('shop','Back to order'),
         ['controller' => 'Orders', 'action' => 'view', $order->uuid],
         ['class' => 'btn btn-default']
     ); ?>

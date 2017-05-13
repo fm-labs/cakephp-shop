@@ -1,6 +1,6 @@
 <div class="payment index container">
 
-    <h1><?= __('Payment'); ?></h1>
+    <h1><?= __d('shop','Payment'); ?></h1>
 
     <?php if (isset($paymentUrl)): ?>
         <?php echo $this->Html->link('Continue to payment provider', $paymentUrl, ['class' => 'btn btn-lg btn-primary', 'target' => '_blank']); ?>
@@ -12,7 +12,7 @@
 
     <hr />
     <?= $this->Html->link(
-        __('Back to order'),
+        __d('shop','Back to order'),
         ['controller' => 'Orders', 'action' => 'view', $order->uuid],
         ['class' => 'btn btn-default']
     ); ?>

@@ -5,5 +5,5 @@
     </p>
 
 
-    <?= $this->Html->link(__('Continue to secure payment page'), ['action' => 'pay', $order->uuid], ['class' => 'btn btn-lg btn-primary']); ?>
+    <?= $this->Html->link(__d('shop','Continue to secure payment page'), ['action' => 'pay', $order->uuid], ['class' => 'btn btn-lg btn-primary']); ?>
 </div>

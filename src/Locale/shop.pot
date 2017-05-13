@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2017-05-11 22:58+0000\n"
+"POT-Creation-Date: 2017-05-13 13:04+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -132,32 +132,21 @@ msgstr ""
 msgid "Please fill all required fields"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/OrdersController.php:83
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/OrdersController.php:87
 msgid "The {0} could not be cancled. Please, try again."
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/OrdersController.php:83
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/OrdersController.php:87
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/Admin/ShopOrdersController.php:82;85;110;113;134;136
 msgid "shop order"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/PaymentController.php:56
-msgid "We are sorry, but the payment page is currently not available. Please try again later."
-msgstr ""
-
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/PaymentController.php:73
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/PaymentController.php:120
 msgid "Your payment was successful"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/PaymentController.php:78
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/PaymentController.php:133
 msgid "The payment has been aborted"
-msgstr ""
-
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/PaymentController.php:147
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Admin/ShopOrders/edit.ctp:4
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Admin/ShopOrders/view.ctp:17
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:7;11
-msgid "Order {0}"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Controller/Admin/ShopCategoriesController.php:61
@@ -376,6 +365,18 @@ msgstr ""
 msgid "Shipping"
 msgstr ""
 
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Core/Payment/Engine/Mpay24Payment.php:107
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Admin/ShopOrders/edit.ctp:4
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Admin/ShopOrders/view.ctp:17
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:7
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:7
+msgid "Order {0}"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Core/Payment/Engine/Mpay24Payment.php:211
+msgid "Payment failed"
+msgstr ""
+
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Model/Table/ShopOrdersTable.php:644
 msgid "Please agree to the general terms & conditions"
 msgstr ""
@@ -466,6 +467,8 @@ msgstr ""
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/CustomerAddresses/index.ctp:2
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Layout/checkout.ctp:27
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:2
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:2
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/index.ctp:2
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/View/ShopCategoryView.php:22;25
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/View/ShopProductView.php:69
 msgid "Shop"
@@ -1639,6 +1642,7 @@ msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Admin/ShopOrders/view.ctp:195
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review_panel.ctp:52
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/pay.ctp:3
 msgid "Payment"
 msgstr ""
 
@@ -2092,7 +2096,7 @@ msgstr ""
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/billing_address.ctp:3
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review.ctp:15
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review_panel.ctp:18
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:54
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:30
 msgid "Billing address"
 msgstr ""
 
@@ -2287,29 +2291,29 @@ msgstr ""
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review.ctp:25
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review_panel.ctp:34
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/shipping_address.ctp:3
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:62
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:38
 msgid "Shipping address"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review.ctp:37
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:75
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:51
 msgid "Payment Method"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review.ctp:57
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:96
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:72
 msgid "Shipping Method"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review.ctp:79
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review_panel.ctp:88
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:43
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:21
 msgid "Order Items"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review.ctp:92
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Checkout/review_panel.ctp:99
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:121
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:97
 msgid "Additional Information"
 msgstr ""
 
@@ -2450,20 +2454,28 @@ msgstr ""
 msgid "includes 20% Tax"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Checkout/Payment/credit_card_internal/review.ctp:4
-msgid "{0} ending with {1}"
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Order/messages.ctp:4
+msgid "Your order has been submitted"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Checkout/Payment/credit_card_internal/review.ctp:6
-msgid "Valid until {0}"
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Order/messages.ctp:5
+msgid "A confirmation email has been sent."
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Checkout/Payment/credit_card_internal/select.ctp:2
-msgid "We accept: Visa and Mastercard"
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Order/order_info.ctp:3
+msgid "Order reference"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Checkout/Shipping/standard/select.ctp:2
-msgid "Usually within 7 - 10 days"
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Order/order_info.ctp:5
+msgid "Date of purchase"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Order/payment_status.ctp:10
+msgid "Payment status: UNPAYED"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Order/payment_status.ctp:14
+msgid "Go to payment page"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Pagination/default.ctp:3
@@ -2472,6 +2484,22 @@ msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Pagination/default.ctp:5
 msgid "next"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Payment/credit_card_internal/checkout.ctp:2
+msgid "We accept: Visa and Mastercard"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Payment/credit_card_internal/order.ctp:4
+msgid "{0} ending with {1}"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Payment/credit_card_internal/order.ctp:6
+msgid "Valid until {0}"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Payment/mpay24/pay.ctp:8
+msgid "Continue to secure payment page"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Products/product_info.ctp:4
@@ -2496,6 +2524,10 @@ msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/RandomCategoryProduct/default.ctp:7
 msgid "See more"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Element/Shipping/standard/checkout.ctp:2
+msgid "Usually within 7 - 10 days"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Layout/checkout.ctp:35
@@ -2523,47 +2555,48 @@ msgid "View details"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:3
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:3
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/index.ctp:3
 msgid "My Orders"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:4
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:4
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/index.ctp:4
 msgid "View order details and status"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:13
-msgid "Date of purchase: {0}"
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:10
+msgid "Order purchased on {0}"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:19
-msgid "Your order has been submitted"
-msgstr ""
-
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:20
-msgid "A confirmation email has been sent."
-msgstr ""
-
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:33
-msgid "Payment status: UNPAYED"
-msgstr ""
-
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:34
-msgid "Go to payment page"
-msgstr ""
-
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:141
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:116
 msgid "List all orders"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:148
-msgid "Order details are only available to logged in customers"
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:10
+msgid "Order"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view.ctp:150
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:18
+msgid "Order details only available for logged in customers"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Orders/view_public.ctp:20
 msgid "Login here"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/disabled.ctp:2
 msgid "We are sorry, but the payment page is currently not available"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/index.ctp:8
+msgid "Order payment"
+msgstr ""
+
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/index.ctp:24
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Payment/pay.ctp:15
+msgid "Back to order"
 msgstr ""
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/Products/view.bak.ctp:27
@@ -2582,11 +2615,11 @@ msgstr ""
 msgid "All Categories"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/View/Cell/AddToCartCell.php:76
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/View/Cell/AddToCartCell.php:79
 msgid "Product version"
 msgstr ""
 
-#: /home/flow/workspaces/cakesites/cakephp3-shop/src/View/Cell/AddToCartCell.php:92
+#: /home/flow/workspaces/cakesites/cakephp3-shop/src/View/Cell/AddToCartCell.php:95
 msgid "Quantity"
 msgstr ""
 
