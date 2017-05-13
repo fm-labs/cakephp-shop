@@ -43,7 +43,8 @@ class ShopCustomer extends Entity
     ];
 
     protected $_virtual = [
-        'display_name'
+        'display_name',
+        'is_demo'
     ];
 
     protected function _setEmail($email)
@@ -72,4 +73,10 @@ class ShopCustomer extends Entity
     {
         return (isset($this->_properties['user_id'])) ? false : true;
     }
+
+    protected function _getIsDemo()
+    {
+        return (preg_match('/@example\.org$/', $this->email));
+    }
+
 }
