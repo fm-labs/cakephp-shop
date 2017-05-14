@@ -18,7 +18,7 @@ class Mpay24SofortPayment extends Mpay24SelectPayment
     protected function _buildPaymentMDXI(Mpay24Order $mdxi)
     {
         $mdxi->Order->PaymentTypes->setEnable("true");
-        $mdxi->Order->PaymentTypes->Payment(1)->setType("SOFORT");
+        $mdxi->Order->PaymentTypes->Payment(1)->setType("CC");
 
         return $mdxi;
     }

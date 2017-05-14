@@ -130,10 +130,22 @@ class PaymentController extends AppController
     public function error($orderUUID = null)
     {
         Log::error("Payment::error: $orderUUID", ['shop', 'payment']);
-        $this->Flash->error(__d('shop', 'The payment has been aborted'));
+        $this->Flash->error(__d('shop', 'The payment could not be completed'));
         return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'error']);
     }
 
+    /**
+     * Return URL for failed payments
+     *
+     * @param null $orderUUID
+     * @return \Cake\Network\Response|null
+     */
+    public function cancel($orderUUID = null)
+    {
+        Log::error("Payment::cancel: $orderUUID", ['shop', 'payment']);
+        $this->Flash->error(__d('shop', 'The payment has been canceled'));
+        return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'cancel']);
+    }
 
     /**
      * HTTP confirmation interface for 3rd party payment providers
