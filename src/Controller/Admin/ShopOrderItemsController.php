@@ -34,11 +34,13 @@ class ShopOrderItemsController extends AppController
 
         $this->set('fields.whitelist', true);
         $this->set('fields', [
+            /*
             'shop_order.id' => [
                 'formatter' => function($val, $row, $args, $view) {
                     return $view->Html->link($val, ['controller' => 'ShopOrders', 'action' => 'view', $row->id]);
                 }
             ],
+            */
             'id' => [
                 'formatter' => function($val, $row, $args, $view) {
                     return $view->Html->link($val, ['action' => 'view', $row->id]);
@@ -55,9 +57,7 @@ class ShopOrderItemsController extends AppController
                     return $view->Html->link($val, $row->getProduct()->getAdminUrl(), ['class' => 'link-modal-frame']);
                 }
             ],
-            'amount' => ['formatter' => function($val, $row) {
-                return sprintf("%d %s", $val, $row->unit);
-            }],
+            'amount' => [],
             /*
             'value_tax' => ['formatter' => function($val, $row) use ($shopOrder) {
                 return $this->Number->currency($val, $shopOrder->currency);
@@ -69,9 +69,7 @@ class ShopOrderItemsController extends AppController
             'value' => ['title' => __d('shop','Total'), 'formatter' => function($val, $row, $args, $view) {
                 $val = ($val) ?: $row->value_net + $row->value_tax;
                 return $view->Number->currency($val, $row->currency);
-
-            }],
-            'status' => [],
+            }]
         ]);
         $this->set('rowActions', [
             [__('View'), ['action' => 'view', ':id']],

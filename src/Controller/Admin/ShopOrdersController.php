@@ -34,14 +34,15 @@ class ShopOrdersController extends AppController
         $this->set('filter', false);
         $this->set('fields.whitelist', true);
         $this->set('fields', [
-            'id' => [
-            ],
+            //'id' => [],
+            'nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+                return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
+            }],
             'submitted' => [
             ],
-            'nr_formatted' => [
-            ],
-            'billing_address' => [
-            ],
+            'shop_customer_id' => ['formatter' => function($val, $row, $args, $view) {
+                return $view->Html->link($row->shop_customer->display_name, ['controller' => 'ShopCustomers', 'action' => 'view', $row->id]);
+            }],
             'order_value_total' => [
                 'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
