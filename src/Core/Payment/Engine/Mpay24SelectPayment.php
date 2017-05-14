@@ -27,7 +27,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
     public function checkout(CheckoutComponent $Checkout)
     {
-        return null;
+        return $Checkout->next();
     }
 
     protected function _buildMpay24Config()

@@ -15,6 +15,7 @@ class CustomerListener extends ShopEventListener
         return [
             'User.login' => 'onUserLogin',
             'User.logout' => 'onUserLogout',
+            'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit'
             //'Auth.identifyUser' => 'onUserLogin', // <-- Hmm, can't capture this event...
             //'Auth.logout' => 'onUserLogout',
         ];
@@ -60,4 +61,24 @@ class CustomerListener extends ShopEventListener
         $event->subject()->request->session()->delete('Shop.Checkout');
     }
 
+    public function afterOrderSubmit(Event $event)
+    {
+        $this->_logEvent(__FUNCTION__, $event);
+
+        $order = $event->data['order'];
+
+        $address = $order->getBillingAddress();
+        if ($address && !$address->shop_customer_address_id) {
+            if (!TableRegistry::get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
+                Log::error(sprintf('CustomerListener::newRecordFromOrderAddress [B] failed for order %s', $order->id));
+            }
+        }
+
+        $address = $order->getShippingAddress();
+        if ($address && !$address->shop_customer_address_id) {
+            if (!TableRegistry::get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
+                Log::error(sprintf('CustomerListener::newRecordFromOrderAddress [S] failed for order %s', $order->id));
+            }
+        }
+    }
 }

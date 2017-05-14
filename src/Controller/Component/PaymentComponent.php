@@ -147,7 +147,7 @@ class PaymentComponent extends Component
             $engine = $this->_engineRegistry->get($order->payment_type);
 
             // initialize payment with selected payment engine
-            $response = $engine->pay($this, $this->_order, $this->_transaction);
+            $response = $engine->pay($this, $this->_transaction, $this->_order);
 
             // capture redirect url, if any
             if ($response && $response instanceof Response && $response->location()) {

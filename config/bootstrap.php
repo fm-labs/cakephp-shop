@@ -46,5 +46,4 @@ ClassRegistry::register('PageType', [
 //\Cake\Event\EventManager::instance()->on(new \Shop\Event\DebugListener());
 //\Cake\Event\EventManager::instance()->on(new \Shop\Backend\ShopBackend());
 \Cake\Event\EventManager::instance()->on(new \Shop\Event\CartListener());
-\Cake\Event\EventManager::instance()->on(new \Shop\Event\CheckoutListener());
 \Cake\Event\EventManager::instance()->on(new \Shop\Event\CustomerListener());

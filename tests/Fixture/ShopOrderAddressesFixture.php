@@ -29,18 +29,18 @@ class ShopOrderAddressesFixture extends TestFixture
             'shop_customer_address_id' => null,
             'type' => 'B',
             'is_company' => null,
-            'taxid' => null,
+            'taxid' => '',
             'first_name' => 'Anna',
             'last_name' => 'Testovic',
             'street' => 'Street 24',
-            'street2' => null,
+            'street2' => '',
             'zipcode' => '1234',
             'city' => 'Debugging',
             'country' => 'Lalaland',
             'country_id' => 1,
             'created' => '2017-01-27 20:51:57',
             'modified' => '2017-01-27 20:51:57',
-            'company_name' => null
+            'company_name' => ''
         ],
     ];
 }

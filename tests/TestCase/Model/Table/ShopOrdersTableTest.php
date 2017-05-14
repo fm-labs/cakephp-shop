@@ -5,6 +5,7 @@ use Cake\Core\Configure;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Shop\Event\CustomerListener;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -53,6 +54,7 @@ class ShopOrdersTableTest extends TestCase
         parent::setUp();
         $config = TableRegistry::exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
         $this->ShopOrders = TableRegistry::get('ShopOrders', $config);
+        $this->ShopOrders->eventManager()->on(new CustomerListener());
 
         // use custom ordergroup for testing
         Configure::write('Shop.Order.nrStart', 1000);
@@ -255,6 +257,12 @@ class ShopOrdersTableTest extends TestCase
         $this->assertEquals(1, $order->status);
         $this->assertEquals(false, $order->is_temporary);
         $this->assertEquals(true, $order->agree_terms);
+
+        $billingAddress = $order->getBillingAddress();
+        $ShopCustomerAddresses = TableRegistry::get('Shop.ShopCustomerAddresses');
+        debug($billingAddress->extractAddress());
+        $customerAddress = $ShopCustomerAddresses->find()->where($billingAddress->extractAddress())->first();
+        $this->assertNotNull($customerAddress);
     }
 
 

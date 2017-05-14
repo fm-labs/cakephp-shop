@@ -26,19 +26,19 @@ class ShopCustomerAddressesFixture extends TestFixture
         [
             'id' => 1,
             'shop_customer_id' => 1,
-            'company' => null,
-            'taxid' => null,
+            'company' => '',
+            'taxid' => '',
             'first_name' => 'Customer1',
             'last_name' => 'Customer Name1',
             'street' => 'Customer Street 1',
-            'street2' => null,
+            'street2' => '',
             'zipcode' => '1234',
             'city' => 'Customer Address City1',
             'country' => 'Customer Address Country1',
             'country_id' => 1,
             'created' => '2017-01-27 20:51:57',
             'modified' => '2017-01-27 20:51:57',
-            'company_name' => null
+            'company_name' => ''
         ],
     ];
 }

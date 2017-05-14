@@ -78,7 +78,7 @@ abstract class ShopAddressesTable extends Table
             ->notEmpty('city');
 
         $validator
-            ->notEmpty('country'); //@TODO Drop deprecated 'country' field
+            ->allowEmpty('country'); //@TODO Drop deprecated 'country' field
 
         $validator
             ->allowEmpty('country_iso2'); //@TODO VAlidate ISO2 country format

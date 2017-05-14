@@ -404,6 +404,7 @@ class ShopOrdersTable extends Table
         //}
 
         // dispatch 'afterSubmit' event
+        debug("after submit!");
         $event = new Event('Shop.Model.Order.afterSubmit', $this, [
             'order' => $order
         ]);

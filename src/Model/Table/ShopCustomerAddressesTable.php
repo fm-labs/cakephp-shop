@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -61,22 +62,23 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
         return $validator;
     }
 
-    public function newRecordFromOrderAddress($customerId, ShopOrderAddress $address) {
+    public function newRecordFromOrderAddress($customerId, ShopOrderAddress $address)
+    {
+        $data = $address->extractAddress();
+        $data['shop_customer_id'] = $customerId;
 
-        $entity = $this->newEntity($address->toArray());
-        $entity->id = null;
-        $entity->shop_customer_id = $customerId;
 
-        /*
-        $arr = $entity->toArray();
-        unset($arr['id']);
-        unset($arr['relcountry']);
-        unset($arr['created']);
-        unset($arr['modified']);
-        $hash = md5(serialize($arr));
-        */
+        $customerAddress = $this->find()->where($data)->first();
+        if ($customerAddress) {
+            Log::debug("ShopCustomerAddresses::newRecordFromOrderAddress: Address already exists with id " . $customerAddress->id);
+            return $customerAddress;
+        }
 
-        return $this->save($entity);
+        $customerAddress = $this->newEntity($data);
+        if ($customerAddress->errors()) {
+            Log::debug("ShopCustomerAddresses::newRecordFromOrderAddress: Address invalid: " . json_encode($customerAddress->errors()));
+        }
+        return $this->save($customerAddress);
     }
 
     /**

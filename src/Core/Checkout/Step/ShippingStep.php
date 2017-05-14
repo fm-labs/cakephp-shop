@@ -80,12 +80,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
         // auto-select payment type
         if (!$this->isComplete() && count($this->shippingMethods) == 1) {
             $shippingMethodId = key($this->shippingMethods);
-
-            if ($this->Checkout->setShippingType($shippingMethodId)) {
-                $this->Checkout->reloadOrder();
-            } else {
-                $this->log('Shipping: Failed to auto-select shipping type ' . $shippingMethodId);
-            }
+            $this->Checkout->setShippingType($shippingMethodId);
         }
     }
 

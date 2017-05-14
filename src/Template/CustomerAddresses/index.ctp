@@ -18,11 +18,13 @@ $this->Breadcrumbs->add(__d('shop','Saved addresses'), ['controller' => 'Custome
         </div>
     <?php else: ?>
         <div class="row">
+            <?php $i = 0 ; ?>
             <?php foreach ($addresses as $address): ?>
                 <div class="col-md-4">
                     <?php echo $this->element('Shop.address', compact('address')); ?>
                     <?= $this->Html->link(__d('shop','Edit address'), ['action' => 'edit', $address->id], ['class' => 'btn btn-default']); ?>
                 </div>
+                <?php if (++$i % 3 == 0) echo '</div><div class="row">'; ?>
             <?php endforeach; ?>
         </div>
 

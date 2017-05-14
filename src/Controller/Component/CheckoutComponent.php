@@ -366,7 +366,7 @@ class CheckoutComponent extends Component
         $order = $this->getOrder();
         $order->accessible(array_keys($data), true);
         $order = $this->ShopOrders->patchEntity($order, $data, ['validate' => $validate]);
-        $this->setOrder($order, true);
+        return $this->setOrder($order, true);
     }
 
     public function setShippingType($type = null)
@@ -381,7 +381,7 @@ class CheckoutComponent extends Component
         $order = $this->getOrder();
         $order->accessible('shipping_type', true);
         $order = $this->ShopOrders->patchEntity($order, ['shipping_type' => $type], ['validate' => false]);
-        $this->setOrder($order, true);
+        return $this->setOrder($order, true);
     }
 
 
