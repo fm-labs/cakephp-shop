@@ -26,9 +26,11 @@ class ShopOrdersController extends AppController
         $this->paginate = [
             'contain' => ['ShopCustomers', 'ShopOrderAddresses'],
             'conditions' => ['ShopOrders.is_temporary' => false],
-            'order' => ['ShopOrders.id' => 'DESC']
+            'order' => ['ShopOrders.id' => 'DESC'],
+            'status' => true,
         ];
 
+        $this->set('helpers', ['Banana.Status']);
         $this->set('filter', false);
         $this->set('fields.whitelist', true);
         $this->set('fields', [
@@ -44,9 +46,11 @@ class ShopOrdersController extends AppController
                 'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
             ],
-            'status' => [],
-            'payment_status' => [],
-            'shipping_status' => [],
+            'status' => ['formatter' => function($val, $row, $args, $view) {
+                return $view->Status->label($val);
+            }],
+            //'payment_status' => [],
+            //'shipping_status' => [],
         ]);
 
         $this->Backend->executeAction();
@@ -62,7 +66,8 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']]
+            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'status' => true
         ]);
         $this->set('shopOrder', $shopOrder);
         $this->set('_serialize', ['shopOrder']);

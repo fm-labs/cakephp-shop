@@ -18,6 +18,12 @@ class ShopOrderTransactionsController extends AppController
      */
     public function index()
     {
+        if ($this->request->query('shop_order_id')) {
+            $this->paginate['conditions'] = ['ShopOrderTransactions.shop_order_id' => $this->request->query('shop_order_id')];
+        }
+
+        $this->set('fields.blacklist', ['custom1','custom2', 'created', 'modified']);
+
         $this->Backend->executeAction();
     }
 

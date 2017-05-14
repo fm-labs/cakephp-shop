@@ -4,6 +4,8 @@ namespace Shop\Controller\Component;
 
 
 use Cake\Controller\Component;
+use Cake\Filesystem\File;
+use Cake\Log\Log;
 use Cake\Network\Response;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
@@ -168,6 +170,90 @@ class PaymentComponent extends Component
         }
 
         return $response;
+    }
+
+    public function confirmTransaction(ShopOrderTransaction $transaction)
+    {
+
+        // store the confirmation request first
+        $engine = $transaction->engine;
+        $txnId = $transaction->id;
+        $clientIp = $this->request->clientIp();
+        $url = $this->request->url;
+        $params = $this->request->params;
+        $query = $this->request->query;
+        $data = $this->request->data;
+
+        Log::debug(sprintf('Payment::confirm: [%s] %s', $clientIp, $txnId), ['shop', 'payment']);
+
+        $request = compact('txnId', 'engine', 'clientIp', 'url', 'params', 'query', 'data');
+        $json = json_encode($request);
+
+        // dump to file
+        $key = ($txnId) ? $txnId : 'notxnid';
+        $key = 'confirm_' . $engine . '_' . time() . '_' . $key;
+
+        $path = TMP . 'payment';
+        if (!is_dir($path)) {
+            @mkdir($path, 0777);
+        }
+        $file = $path . DS . $key . '.json';
+        $f = new File($file, true);
+        $f->write($json);
+        $f->close();
+
+
+
+        if (!$transaction->engine) {
+            throw new \RuntimeException('Payment::confirmTransction: Transaction has no engine');
+        }
+
+        if (!$this->_engineRegistry->has($transaction->engine)) {
+            throw new \RuntimeException('Missing payment engine: ' . $transaction->engine);
+        }
+
+        // create transaction notification
+        $notification = $this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->newEntity([
+            'shop_order_transaction_id' => $transaction->id,
+            'type' => 'C',
+            'engine' => $engine,
+            'request_ip' => $this->request->clientIp(),
+            'request_json' => $json,
+            'is_valid' => false,
+            'is_processed' => false
+        ]);
+        if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
+            debug($notification->errors());
+            Log::error("Payment::confirmTransaction: Failed to save transaction notification");
+        }
+
+        try {
+
+            $engine = $this->_engineRegistry->get($transaction->engine);
+            $transaction = $engine->confirm($this, $transaction);
+
+        } catch (\Exception $ex) {
+            Log::error("Payment::confirmTransaction:".$transaction->engine.":" . $ex->getMessage());
+            throw $ex;
+        }
+
+        if (!($transaction instanceof ShopOrderTransaction)) {
+            throw new \RuntimeException("Payment::confirmTransaction: Response of payment engine MUST be an instance of ShopOrderTransaction");
+        }
+
+        if ($transaction->dirty() && !$this->ShopOrders->ShopOrderTransactions->save($transaction)) {
+            debug($transaction->errors());
+            throw new \RuntimeException("Payment::confirmTransaction: Failed to update transaction");
+        }
+
+        $notification->is_valid = true;
+        $notification->is_processed = ($transaction->status == 1);
+        if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
+            debug($notification->errors());
+            Log::error("Payment::confirmTransaction: Failed to update transaction notification");
+        }
+
+        return $transaction;
     }
 
     /**

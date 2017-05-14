@@ -77,6 +77,17 @@ class PaymentEngineRegistry extends ObjectRegistry
     }
 
     /**
+     * Get loaded payment engine instance
+     *
+     * @param string $name
+     * @return null|PaymentEngineInterface
+     */
+    public function get($name)
+    {
+        return parent::get($name);
+    }
+
+    /**
      * Remove a single payment engine from the registry.
      *
      * @param string $name The payment engine name.

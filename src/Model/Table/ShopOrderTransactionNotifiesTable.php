@@ -5,27 +5,15 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Shop\Model\Entity\ShopOrderTransaction;
+use Shop\Model\Entity\ShopOrderTransactionNotify;
 
 /**
- * ShopOrderTransactions Model
+ * ShopOrderTransactionNotifies Model
  *
- * @property \Cake\ORM\Association\BelongsTo $ShopOrders
+ * @property \Cake\ORM\Association\BelongsTo $ShopOrderTransactions
  */
-class ShopOrderTransactionsTable extends Table
+class ShopOrderTransactionNotifiesTable extends Table
 {
-
-
-
-    const STATUS_INIT = 0;
-    const STATUS_ERROR = 1;
-    const STATUS_SUSPENDED = 2;
-    const STATUS_REJECTED = 3;
-    const STATUS_RESERVED = 4;
-    const STATUS_CONFIRMED = 5;
-    const STATUS_REVERSAL = 6;
-    const STATUS_CREDITED = 7;
-
 
     /**
      * Initialize method
@@ -37,22 +25,16 @@ class ShopOrderTransactionsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_order_transactions');
+        $this->table('shop_order_transaction_notifies');
         $this->displayField('id');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('ShopOrders', [
-            'foreignKey' => 'shop_order_id',
-            'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrders'
-        ]);
-
-        $this->hasMany('ShopOrderTransactionNotifies', [
+        $this->belongsTo('ShopOrderTransactions', [
             'foreignKey' => 'shop_order_transaction_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrderTransactionNotifies'
+            'className' => 'Shop.ShopOrderTransactions'
         ]);
     }
 
@@ -77,33 +59,23 @@ class ShopOrderTransactionsTable extends Table
             ->notEmpty('engine');
 
         $validator
-            ->requirePresence('currency_code', 'create')
-            ->notEmpty('currency_code');
+            ->allowEmpty('request_ip');
 
         $validator
-            ->add('value', 'valid', ['rule' => 'decimal'])
-            ->requirePresence('value', 'create')
-            ->notEmpty('value');
+            ->allowEmpty('request_url');
 
         $validator
-            ->add('status', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->allowEmpty('request_json');
 
         $validator
-            ->allowEmpty('ext_txnid');
+            ->add('is_valid', 'valid', ['rule' => 'boolean'])
+            ->requirePresence('is_valid', 'create')
+            ->notEmpty('is_valid');
 
         $validator
-            ->allowEmpty('ext_status');
-
-        $validator
-            ->allowEmpty('redirect_url');
-
-        $validator
-            ->allowEmpty('custom1');
-
-        $validator
-            ->allowEmpty('custom2');
+            ->add('is_processed', 'valid', ['rule' => 'boolean'])
+            ->requirePresence('is_processed', 'create')
+            ->notEmpty('is_processed');
 
         return $validator;
     }
@@ -117,8 +89,7 @@ class ShopOrderTransactionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
+        $rules->add($rules->existsIn(['shop_order_transaction_id'], 'ShopOrderTransactions'));
         return $rules;
     }
-
 }

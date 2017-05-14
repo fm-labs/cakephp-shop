@@ -25,18 +25,41 @@
         <div class="row-header">
             <h1>
                 <?= __d('shop','Order No. {0}', $shopOrder->nr_formatted); ?>
-                <?= $this->Status->label($shopOrder->status); ?>
             </h1>
         </div>
 
         <div class="row">
-            <div class="col-md-10">
-                <dl class="dl-horizontal">
-                    <dt><i class="fa fa-calendar"></i> Purchased on</dt>
-                    <dd><?= $this->Time->nice($shopOrder->submitted); ?></dd>
-                </dl>
-            </div>
-            <div class="col-md-2">
+            <div class="col-md-12">
+                <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
+                    'title' => false,
+                    'model' => 'Shop.ShopOrders',
+                    'whitelist' => true,
+                    'fields' => [
+                        'status' => ['formatter' => function($val, $row, $args, $view) {
+                            return $this->Status->label($val);
+                        }],
+                        'shop_customer_id' => ['formatter' => function($val, $row) {
+                            return ($row->shop_customer) ? $this->Html->link($row->shop_customer->displayName, '#') : null;
+                        }],
+                        'submitted' => [],
+                        'nr_formatted' => ['formatter' => function($val, $row) {
+                            return $this->Html->link($val, ['action' => 'view', $row->id]);
+                        }],
+                        'ordergroup' => [],
+                        'title' => ['formatter' => function() {}],
+                        'items_value_taxed' => [],
+                        'order_value_total' => [],
+                        'shipping_type' => [],
+                        'payment_type' => [],
+                        'payment_info_1' => [],
+                        'payment_info_2' => [],
+                        'payment_info_3' => [],
+                        'is_temporary' => [],
+                        'is_storno' => [],
+                        'is_deleted' => [],
+                    ],
+                ])->render(); ?>
+
                 <!--
                 <div class="actions action-vertical">
                     <?= $this->Html->link(__d('shop','Confirm order'), '#', ['class' => 'btn btn-primary btn-sm']); ?>
@@ -114,11 +137,14 @@
                                 return $this->Number->currency($val, $shopOrder->currency);
 
                             }],
-                            */
                             'status' => ['formatter' => function($val, $row) {
                                 $pending = $row->amount;  // @TODO Implemente me
                                 $status = ($pending == 0) ? 'DELIVERED' : 'PENDING';
                                 return $status;
+                            }],
+                            */
+                            'status' => ['formatter' => function($val, $row, $args, $view) {
+                                return $this->Status->label($val);
                             }],
                         ],
                         'rowActions' => false
@@ -135,83 +161,15 @@
     <!-- Tab:OrderItems -->
     <?php $this->Tabs->add('Order Items', ['id' => 'order-items', 'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]]); ?>
 
-    <!-- Tab:Billing -->
-    <?php // $this->Tabs->add(__d('shop','Billing Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
 
-
-    <!-- Tab:Shipping -->
-    <?php // $this->Tabs->add(__d('shop','Shipping Address'), ['url' => ['controller' => 'ShopOrderAddresses', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
-
-
-
-    <?php $this->Tabs->add('Billing'); ?>
-    <div class="row">
-        <div class="col-md-12">
-            <h2><?= __d('shop','Billing Address'); ?></h2>
-            <?php /* $this->cell('Backend.EntityView', [ $shopOrder->billing_address ], [
-                'title' => false,
-                'model' => 'Shop.ShopOrderAddresses',
-                'fields' => [
-                    'first_name',
-                    'last_name',
-                    'street',
-                    'street2',
-                    'zipcode',
-                    'city',
-                    'country_id'
-                ],
-                'exclude' => '*'
-            ])->render('table'); */ ?>
-            <hr />
-            <h2><?= __d('shop','Invoices') ?></h2>
-        </div>
-    </div>
-
-    <!-- Tab:Shipping -->
-    <?= $this->Tabs->add('Shipping', ['id' => 'order-shipping']); ?>
-    <div class="row">
-        <div class="col-md-12">
-            <h2><?= __d('shop','Shipping Address'); ?></h2>
-            <?php /* $this->cell('Backend.EntityView', [ ($shopOrder->shipping_address) ?: $shopOrder->billing_address ], [
-                'title' => false,
-                'model' => 'Shop.ShopOrderAddresses',
-                'fields' => [
-                    'first_name',
-                    'last_name',
-                    'street',
-                    'street2',
-                    'zipcode',
-                    'city',
-                    'country_id',
-                ],
-                'exclude' => '*'
-            ])->render('table'); */ ?>
-        </div>
-    </div>
-    <!-- Tab:Payment -->
-    <?= $this->Tabs->add('Payment', ['id' => 'order-payment']); ?>
-    <div class="row">
-        <div class="col-md-12">
-            <h2><?= __d('shop','Payment'); ?></h2>
-            <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
-                'title' => false,
-                'model' => 'Shop.ShopOrders',
-                'fields' => [
-                    'payment_type',
-                    'payment_info_1',
-                    'payment_info_2',
-                    'payment_info_3',
-                    'payment_status' => ['formatter' => function($val) {
-                        return $this->Status->label($val);
-                    }],
-                ],
-                'exclude' => '*'
-            ])->render('table'); ?>
-        </div>
-    </div>
+    <!-- Tab:OrderItems -->
+    <?php $this->Tabs->add('Transactions', ['id' => 'order-items', 'url' => ['controller' => 'ShopOrderTransactions', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
 
     <!-- Tab:History -->
     <?= $this->Tabs->add('History', ['id' => 'order-history']); ?>
+    <div class="alert alert-warning">
+        <strong>No order history available</strong>
+    </div>
 
 
     <!-- Entity View -->
@@ -219,9 +177,7 @@
     <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
         'debug' => true,
         'model' => 'Shop.ShopOrders',
-        'fields' => [
-        ],
-        'exclude' => []
+        'fields' => [],
     ]); ?>
 
     <?= $this->Tabs->add('Debug', ['debugOnly' => true]); ?>

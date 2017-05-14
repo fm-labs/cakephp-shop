@@ -12,6 +12,7 @@ use Cake\Network\Exception\NotFoundException;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Controller\Component\ShopComponent;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -73,6 +74,24 @@ class PaymentController extends AppController
     }
 
     /**
+     * @param $txnId
+     * @return ShopOrderTransaction
+     */
+    protected function _loadTransaction($txnId = null)
+    {
+        if (!$txnId) {
+            throw new BadRequestException();
+        }
+        $this->loadModel('Shop.ShopOrderTransactions');
+        return $this->_transaction = $this->ShopOrderTransactions->find()
+            ->where(['ShopOrderTransactions.id' => $txnId])
+            ->contain(['ShopOrders'])
+            ->firstOrFail();
+
+    }
+
+
+    /**
      * @param null $orderUUID
      * @return \Cake\Network\Response|null
      */
@@ -111,12 +130,16 @@ class PaymentController extends AppController
     /**
      * Return URL for successful payments
      *
-     * @param null $orderUUID
+     * @param null $txnId
      * @return \Cake\Network\Response|null
      */
-    public function success($orderUUID = null)
+    public function success($txnId = null)
     {
-        Log::debug("Payment::success: $orderUUID", ['shop', 'payment']);
+        Log::debug("Payment::success: $txnId", ['shop', 'payment']);
+
+        $transaction = $this->_loadTransaction($txnId);
+        $orderUUID = $transaction->shop_order->uuid;
+
         $this->Flash->success(__d('shop', 'Your payment was successful'));
         return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'success']);
     }
@@ -124,12 +147,16 @@ class PaymentController extends AppController
     /**
      * Return URL for failed payments
      *
-     * @param null $orderUUID
+     * @param null $txnId
      * @return \Cake\Network\Response|null
      */
-    public function error($orderUUID = null)
+    public function error($txnId = null)
     {
-        Log::error("Payment::error: $orderUUID", ['shop', 'payment']);
+        Log::error("Payment::error: $txnId", ['shop', 'payment']);
+
+        $transaction = $this->_loadTransaction($txnId);
+        $orderUUID = $transaction->shop_order->uuid;
+
         $this->Flash->error(__d('shop', 'The payment could not be completed'));
         return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'error']);
     }
@@ -137,12 +164,16 @@ class PaymentController extends AppController
     /**
      * Return URL for failed payments
      *
-     * @param null $orderUUID
+     * @param null $txnId
      * @return \Cake\Network\Response|null
      */
-    public function cancel($orderUUID = null)
+    public function cancel($txnId = null)
     {
-        Log::error("Payment::cancel: $orderUUID", ['shop', 'payment']);
+        Log::error("Payment::cancel: $txnId", ['shop', 'payment']);
+
+        $transaction = $this->_loadTransaction($txnId);
+        $orderUUID = $transaction->shop_order->uuid;
+
         $this->Flash->error(__d('shop', 'The payment has been canceled'));
         return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'cancel']);
     }
@@ -150,35 +181,32 @@ class PaymentController extends AppController
     /**
      * HTTP confirmation interface for 3rd party payment providers
      *
-     * @param null $orderUUID
+     * @param null $txnId
+     * @return null|ShopOrderTransaction
      */
-    public function confirm($orderUUID = null)
+    public function confirm($txnId = null)
     {
         $this->autoRender = false;
 
-        $query = $this->request->query;
-        $data = $this->request->data;
-        $clientIp = $this->request->clientIp();
-        $params = $this->request->params;
-        $url = $this->request->url;
 
-        Log::debug(sprintf('Payment::confirm: [%s][%s] %s', (string) $orderUUID, $clientIp, json_encode($params)), ['shop', 'payment']);
-
-        $pack = compact('orderUUID', 'params', 'query', 'data', 'clientIp', 'url');
-        $json = json_encode($pack);
-
-        $key = ($orderUUID) ? $orderUUID : 'md5:'.md5($json);
-        $key = time() . '_' . $key;
-
-        $path = TMP . 'confirm';
-        if (!is_dir($path)) {
-            @mkdir($path, 0777);
+        // process the request with the appropriate payment engine
+        if (!$txnId) {
+            Log::warning("Payment::confirm: No transaction id");
+            return null;
         }
 
-        $file = $path . DS . $key . '.json';
-        $f = new File($file, true);
-        $f->write($json);
-        $f->close();
+
+        try {
+            Log::debug("Payment::confirm: $txnId", ['shop', 'payment']);
+            $t = $this->_loadTransaction($txnId);
+            $this->Payment->confirmTransaction($t);
+
+        } catch (\Exception $ex) {
+            Log::debug("Payment::error: " . $ex->getMessage(), ['shop', 'payment']);
+            debug($ex->getMessage());
+            $this->response->statusCode(400);
+        }
+
     }
 
 }

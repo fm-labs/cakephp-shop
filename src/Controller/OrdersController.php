@@ -33,7 +33,8 @@ class OrdersController extends AppController
         $this->paginate = [
             'contain' => ['ShopCustomers'],
             'conditions' => ['ShopOrders.is_temporary' => false, 'ShopOrders.shop_customer_id' => $customerId],
-            'order' => ['ShopOrders.id' => 'DESC']
+            'order' => ['ShopOrders.id' => 'DESC'],
+            'status' => true,
         ];
         $this->set('shopOrders', $this->paginate($this->ShopOrders));
         $this->set('_serialize', ['shopOrders']);

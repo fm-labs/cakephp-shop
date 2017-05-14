@@ -104,7 +104,8 @@ class ShopOrdersTable extends Table
             'className' => 'Shop.ShopOrderTransactions',
             //'contain' => ['Countries']
         ]);
-        //$this->addBehavior('Banana.Statusable');
+
+        $this->addBehavior('Banana.Statusable');
 
 
         if (Plugin::loaded('Search')) {

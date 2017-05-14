@@ -30,8 +30,16 @@ interface PaymentEngineInterface
 
     /**
      * @param PaymentComponent $Payment
+     * @param ShopOrderTransaction $transaction
      * @param ShopOrder $order
      * @return null|Response
      */
-    public function pay(PaymentComponent $Payment, ShopOrder $order, ShopOrderTransaction $transaction);
+    public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order);
+
+    /**
+     * @param PaymentComponent $Payment
+     * @param ShopOrderTransaction $transaction
+     * @return ShopOrderTransaction
+     */
+    public function confirm(PaymentComponent $Payment, ShopOrderTransaction $transaction);
 }

@@ -73,6 +73,10 @@ class ShopOrderItemsController extends AppController
             }],
             'status' => [],
         ]);
+        $this->set('rowActions', [
+            [__('View'), ['action' => 'view', ':id']],
+            [__('Generate UTS Test'), ['plugin' => 'Ontalents', 'controller' => 'UtsGenerator', 'action' => 'index', 'shop_order_item_id' => ':id'], ['target' => '_blank']]
+        ]);
 
         $this->Backend->executeAction();
     }
