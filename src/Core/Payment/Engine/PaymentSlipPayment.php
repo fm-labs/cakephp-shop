@@ -7,6 +7,7 @@ use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderTransaction;
 
 class PaymentSlipPayment implements PaymentEngineInterface
 {
@@ -37,7 +38,7 @@ class PaymentSlipPayment implements PaymentEngineInterface
      * @param ShopOrder $order
      * @return null|Response
      */
-    public function pay(PaymentComponent $Payment, ShopOrder $order)
+    public function pay(PaymentComponent $Payment, ShopOrder $order, ShopOrderTransaction $transaction)
     {
     }
 }

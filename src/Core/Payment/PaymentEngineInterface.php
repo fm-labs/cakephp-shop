@@ -7,6 +7,7 @@ use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderTransaction;
 
 /**
  * Interface PaymentEngineInterface
@@ -32,5 +33,5 @@ interface PaymentEngineInterface
      * @param ShopOrder $order
      * @return null|Response
      */
-    public function pay(PaymentComponent $Payment, ShopOrder $order);
+    public function pay(PaymentComponent $Payment, ShopOrder $order, ShopOrderTransaction $transaction);
 }

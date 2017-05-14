@@ -1,4 +1,4 @@
 <div class="payment-method-select">
-    <h4>Bezahlung via Zahlungsanbieter Mpay24</h4>
-    <p>Wahlweise mit Kreditkarte, Paypal oder Sofortüberweisung.</p>
+    <h4>Kreditkarte</h4>
+    <p>Sichere Kreditkartenzahlung über unseren Zahlungspartner mPAY24</p>
 </div>

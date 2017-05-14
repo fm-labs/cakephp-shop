@@ -1,3 +1,3 @@
 <div class="payment-method-select">
-    <p>Mit unserem Zahlungspartner Mpay24 bezahlen Sie einfach und unkompliziert nach Wahl mit Kreditkarte, Paypal oder Sofortüberweisung.</p>
+    <p>Sichere Kreditkartenzahlung über unseren zertifizierten Zahlungspartner mPAY24</p>
 </div>

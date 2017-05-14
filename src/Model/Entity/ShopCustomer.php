@@ -71,7 +71,7 @@ class ShopCustomer extends Entity
 
     protected function _getIsGuest()
     {
-        return (isset($this->_properties['user_id'])) ? false : true;
+        return (isset($this->_properties['user_id']));
     }
 
     protected function _getIsDemo()

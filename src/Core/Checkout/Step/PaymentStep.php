@@ -96,10 +96,18 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
         if (!$engine || $controller->request->query('change_type')) {
 
             if ($controller->request->is(['post', 'put'])) {
-                $engineName = $controller->request->data('payment_type');
+                $paymentType = $controller->request->data('payment_type');
 
-                if ($this->_registry->has($engineName)) {
-                    $engine = $this->_registry->get($engineName);
+                if ($this->_registry->has($paymentType)) {
+
+                    $order = $this->Checkout->Cart->getOrder();
+                    $order->payment_type = $paymentType;
+
+                    if (!$this->Checkout->setOrder($order, true)) {
+                        throw new \RuntimeException('PaymentStep: Failed to set payment type');
+                    }
+
+                    $engine = $this->_registry->get($paymentType);
                 }
             } else {
                 $engine = null;

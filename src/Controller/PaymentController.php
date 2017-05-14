@@ -98,8 +98,8 @@ class PaymentController extends AppController
         $this->set('order', $order);
         $this->set('engines', $this->Payment->engines);
         try {
-            Log::debug("Payment::init: $orderUUID", ['shop', 'payment']);
-            return $this->Payment->initPayment($order);
+            Log::debug("Payment::initTransaction: $orderUUID", ['shop', 'payment']);
+            return $this->Payment->initTransaction($order);
             
         } catch (\Exception $ex) {
             $this->Flash->error($ex->getMessage());

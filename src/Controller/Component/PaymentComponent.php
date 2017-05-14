@@ -9,6 +9,7 @@ use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -49,14 +50,19 @@ class PaymentComponent extends Component
     ];
 
     /**
+     * @var string
+     */
+    protected $_paymentType;
+
+    /**
      * @var ShopOrder
      */
     protected $_order;
 
     /**
-     * @var string
+     * @var ShopOrderTransaction
      */
-    protected $_paymentType;
+    protected $_transaction;
 
     /**
      * @param array $config
@@ -101,13 +107,16 @@ class PaymentComponent extends Component
     }
 
     /**
+     * Initialize new ShopOrderTransaction from ShopOrder,
+     * load payment engine and execute 'pay' method
+     *
      * @param ShopOrder $order
-     * @return mixed
+     * @return Response|null
      */
-    public function initPayment(ShopOrder $order)
+    public function initTransaction(ShopOrder $order)
     {
         if (!$order->payment_type) {
-            throw new \RuntimeException('initPayment: Order has no payment type');
+            throw new \RuntimeException('Payment::initTransaction: Order has no payment type');
         }
 
         if (!$this->_engineRegistry->has($order->payment_type)) {
@@ -117,7 +126,48 @@ class PaymentComponent extends Component
         $this->_paymentType = $order->payment_type;
         $this->_order = $order;
 
-        return $this->_engineRegistry->get($order->payment_type)->pay($this, $this->_order);
+        $this->_transaction = $this->ShopOrders->ShopOrderTransactions->newEntity([
+            'shop_order_id' => $order->id,
+            'value' => $order->order_value_total,
+            'currency_code' => $order->currency,
+            'type' => 'P',
+            'engine' => $order->payment_type,
+            'status' => 0
+        ]);
+
+        if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
+            debug($this->_transaction->errors());
+            throw new \RuntimeException("Payment::initTransaction: Failed to create transaction");
+        }
+
+        $response = null;
+        try {
+            $engine = $this->_engineRegistry->get($order->payment_type);
+
+            // initialize payment with selected payment engine
+            $response = $engine->pay($this, $this->_order, $this->_transaction);
+
+            // capture redirect url, if any
+            if ($response && $response instanceof Response && $response->location()) {
+                $this->_transaction->redirect_url = $response->location();
+            }
+
+        } catch (\Exception $ex) {
+            // capture errors, if any
+            $this->_transaction->message = $ex->getMessage();
+            $this->_transaction->status = -1;
+
+            $this->getController()->Flash->error($ex->getMessage());
+
+        } finally {
+
+            if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
+                debug($this->_transaction->errors());
+                throw new \RuntimeException("Payment::initTransaction: Failed to update transaction");
+            }
+        }
+
+        return $response;
     }
 
     /**
@@ -137,7 +187,7 @@ class PaymentComponent extends Component
     public function getOrderUrl()
     {
         if (!$this->_order) {
-            throw new \LogicException('Can not get order url: No payment initialized');
+            throw new \LogicException('Can not get order url: No order initialized');
         }
         return ['plugin' => 'Shop', 'controller' => 'Order', 'action' => 'view', $this->_order->uuid];
     }
@@ -161,6 +211,14 @@ class PaymentComponent extends Component
     /**
      * @return array
      */
+    public function getCancelUrl()
+    {
+        return $this->_getPaymentUrl('cancel');
+    }
+
+    /**
+     * @return array
+     */
     public function getConfirmUrl()
     {
         return $this->_getPaymentUrl('confirm');
@@ -173,8 +231,11 @@ class PaymentComponent extends Component
     protected function _getPaymentUrl($action)
     {
         if (!$this->_order) {
-            throw new \LogicException('Can not get payment url: No payment initialized');
+            throw new \LogicException('Can not get payment url: No order initialized');
         }
-        return ['plugin' => 'Shop', 'controller' => 'Payment', 'action' => $action, $this->_order->uuid];
+        if (!$this->_transaction) {
+            throw new \LogicException('Can not get payment url: No transaction initialized');
+        }
+        return ['plugin' => 'Shop', 'controller' => 'Payment', 'action' => $action, $this->_order->uuid, 'tid' => $this->_transaction->id];
     }
 }

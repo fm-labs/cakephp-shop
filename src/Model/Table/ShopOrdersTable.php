@@ -99,7 +99,11 @@ class ShopOrdersTable extends Table
             'className' => 'Shop.ShopOrderAddresses',
             //'contain' => ['Countries']
         ]);
-
+        $this->hasMany('ShopOrderTransactions', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderTransactions',
+            //'contain' => ['Countries']
+        ]);
         //$this->addBehavior('Banana.Statusable');
 
 
