@@ -6,6 +6,7 @@ use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Shop\Event\CustomerListener;
+use Shop\Event\EmailNotificationListener;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -55,6 +56,7 @@ class ShopOrdersTableTest extends TestCase
         $config = TableRegistry::exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
         $this->ShopOrders = TableRegistry::get('ShopOrders', $config);
         $this->ShopOrders->eventManager()->on(new CustomerListener());
+        $this->ShopOrders->eventManager()->on(new EmailNotificationListener());
 
         // use custom ordergroup for testing
         Configure::write('Shop.Order.nrStart', 1000);
@@ -260,7 +262,6 @@ class ShopOrdersTableTest extends TestCase
 
         $billingAddress = $order->getBillingAddress();
         $ShopCustomerAddresses = TableRegistry::get('Shop.ShopCustomerAddresses');
-        debug($billingAddress->extractAddress());
         $customerAddress = $ShopCustomerAddresses->find()->where($billingAddress->extractAddress())->first();
         $this->assertNotNull($customerAddress);
     }

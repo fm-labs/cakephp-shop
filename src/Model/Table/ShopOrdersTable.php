@@ -243,7 +243,7 @@ class ShopOrdersTable extends Table
                 ->first();
 
             if (!$address) {
-                throw new \Exception('ShopOrdersTable::setOrderAddressFromCustomerAddress: Address not found');
+                throw new \Exception('ShopOrdersTable::setOrderAddressFromCustomerAddress: Address not found with id ' . $addressId . ' for customer ' . $order->shop_customer_id);
             }
         }
 

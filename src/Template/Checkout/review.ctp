@@ -39,7 +39,6 @@
             </h2>
             <div class="inner">
                 <?php $paymentMethods = \Cake\Core\Configure::read('Shop.Payment.Engines') ?>
-                <h5><?= h($paymentMethods[$order->payment_type]['name']); ?></h5>
                 <div class="desc payment-desc">
                     <?php
                     $element = 'Shop.Payment/' . $order->payment_type . '/order';
@@ -60,7 +59,6 @@
             <div class="inner">
 
                 <?php $shippingMethods = \Cake\Core\Configure::read('Shop.Shipping.Engines') ?>
-                <h5><?= h($shippingMethods[$order->shipping_type]['name']); ?></h5>
                 <div class="desc shipping-desc">
                     <?php
                     $element = 'Shop.Checkout/Shipping/' . $order->shipping_type . '/review';
