@@ -40,32 +40,14 @@
         <?= __d('shop','Edit {0}', __d('shop','Shop Customer')) ?>
     </h2>
     <?= $this->Form->create($shopCustomer); ?>
-    <div class="users ui basic segment">
-        <div class="ui form">
-        <?php
-                echo $this->Form->input('email');
-                //echo $this->Form->input('password');
-                echo $this->Form->input('greeting');
-                echo $this->Form->input('first_name');
-                echo $this->Form->input('last_name');
-                echo $this->Form->input('street');
-                echo $this->Form->input('zipcode');
-                echo $this->Form->input('city');
-                echo $this->Form->input('country');
-                echo $this->Form->input('country_iso2');
-                echo $this->Form->input('phone');
-                echo $this->Form->input('fax');
-                echo $this->Form->input('locale');
-                echo $this->Form->input('email_verification_code');
-                echo $this->Form->input('email_verified');
-                echo $this->Form->input('is_guest');
-                echo $this->Form->input('is_blocked');
-        ?>
-        </div>
-    </div>
-    <div class="ui bottom attached segment">
-        <?= $this->Form->button(__d('shop','Submit')) ?>
-    </div>
+    <?php
+    echo $this->Form->input('email');
+    echo $this->Form->input('first_name');
+    echo $this->Form->input('last_name');
+    echo $this->Form->input('locale');
+    echo $this->Form->input('is_guest');
+    ?>
+    <?= $this->Form->button(__d('shop','Submit')) ?>
     <?= $this->Form->end() ?>
 
 </div>

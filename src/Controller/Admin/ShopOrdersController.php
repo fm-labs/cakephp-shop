@@ -41,7 +41,8 @@ class ShopOrdersController extends AppController
             'submitted' => [
             ],
             'shop_customer_id' => ['formatter' => function($val, $row, $args, $view) {
-                return $view->Html->link($row->shop_customer->display_name, ['controller' => 'ShopCustomers', 'action' => 'view', $row->id]);
+                return $view->Html->link($row->shop_customer->display_name,
+                    ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]);
             }],
             'order_value_total' => [
                 'class' => 'right',

@@ -228,8 +228,8 @@ class ShopOrdersTableTest extends TestCase
     {
         $order = $this->ShopOrders->get(1);
 
-        $result = $this->ShopOrders->updateOrderStatus($order, ShopOrdersTable::ORDER_STATUS_SUBMITTED);
-        $this->assertEquals($result->status, ShopOrdersTable::ORDER_STATUS_SUBMITTED);
+        $result = $this->ShopOrders->updateOrderStatus($order, ShopOrdersTable::ORDER_STATUS_PENDING);
+        $this->assertEquals($result->status, ShopOrdersTable::ORDER_STATUS_PENDING);
     }
 
     /**
@@ -251,7 +251,7 @@ class ShopOrdersTableTest extends TestCase
         // test with agree_terms
         $order = $this->ShopOrders->get(1);
         $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 1]);
-        $this->assertEquals(ShopOrdersTable::ORDER_STATUS_SUBMITTED, $result->status);
+        $this->assertEquals(ShopOrdersTable::ORDER_STATUS_CONFIRMED, $result->status);
         $this->assertNotEmpty($order->submitted);
         $this->assertNotEmpty($order->shop_customer_id);
         $this->assertEquals(1000, $order->nr);

@@ -72,9 +72,9 @@ $this->assign('title', __d('shop', 'Cart'));
     </table>
 
     <div class="actions" style="text-align: right;">
-        <?= $this->Form->button(__d('shop','Update cart'), ['class' => 'btn btn-lg btn-primary']); ?>&nbsp;&nbsp;
-        <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-lg btn-primary']); ?>&nbsp;&nbsp;
-        <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index'], ['class' => 'btn btn-lg btn-primary']); ?>
+        <?= $this->Form->button(__d('shop','Update cart'), ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
+        <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
+        <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>
     </div>
 
     <div class="ui divider"></div>

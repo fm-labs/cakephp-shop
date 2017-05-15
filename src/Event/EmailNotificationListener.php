@@ -41,7 +41,7 @@ class EmailNotificationListener implements EventListenerInterface
         try {
             $email = new Email('shop_notify');
             $email->subject("Neue Webshop Bestellung " . $order->nr_formatted);
-            $email->template('Shop.Order/merchant/order_submitted');
+            $email->template('Shop.merchant/order_submitted');
             $email->viewVars(['order' => $order]);
             $mailer->sendEmail($email);
 
@@ -56,7 +56,7 @@ class EmailNotificationListener implements EventListenerInterface
                 ->subject("Ihre Bestellung " . $order->nr_formatted)
                 ->to($order->customer_email)
                 //->emailFormat('text')
-                ->template('Shop.Order/customer/order_submitted')
+                ->template('Shop.customer/order_submitted')
                 ->viewVars(['order' => $order]);
 
             $mailer->sendEmail($email);

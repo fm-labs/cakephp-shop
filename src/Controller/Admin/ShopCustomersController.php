@@ -10,9 +10,13 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCustomersController extends AppController
 {
+
+    public $modelClass = "Shop.ShopCustomers";
+
     public $paginate = [
         'limit' => 100,
-        'order' => ['ShopCustomers.last_name' => 'ASC', 'ShopCustomers.first_name' => 'ASC']
+        'order' => ['ShopCustomers.last_name' => 'ASC', 'ShopCustomers.first_name' => 'ASC'],
+        'contain' => ['Users']
     ];
 
     public $actions = [
@@ -28,8 +32,13 @@ class ShopCustomersController extends AppController
      */
     public function index()
     {
-        $this->set('fields.whitelist', ['id', 'email', 'display_name', 'user']);
+        $this->set('fields.whitelist', ['id', 'user_id', 'email', 'display_name']);
         $this->set('fields.blacklist', ['password', 'created', 'modified']);
+        $this->set('fields', [
+            'user_id' => ['formatter' => function($val, $row, $args, $view) {
+                return ($val) ? $view->Html->link($row->user->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $row->user->id]) : null;
+            }]
+        ]);
         $this->Backend->executeAction();
     }
 

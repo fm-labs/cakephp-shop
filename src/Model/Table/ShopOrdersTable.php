@@ -362,7 +362,7 @@ class ShopOrdersTable extends Table
         // force reload order
         //$order = $this->get($order->id);
 
-        if ($order->status > 0) {
+        if ($order->status > self::ORDER_STATUS_SUBMITTED) {
             throw new \Exception("Order already submitted");
         }
 
@@ -374,7 +374,7 @@ class ShopOrdersTable extends Table
             'uuid' => ($order->uuid) ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
             'submitted' => Time::now(),
             'is_temporary' => false,
-            'status' => self::ORDER_STATUS_SUBMITTED,
+            'status' => self::ORDER_STATUS_CONFIRMED,
             'customer_email' => ($order->customer_email) ?: $order->shop_customer->email,
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
@@ -404,7 +404,6 @@ class ShopOrdersTable extends Table
         //}
 
         // dispatch 'afterSubmit' event
-        debug("after submit!");
         $event = new Event('Shop.Model.Order.afterSubmit', $this, [
             'order' => $order
         ]);
@@ -543,7 +542,7 @@ class ShopOrdersTable extends Table
             ->allowEmpty('shipping_use_billing');
 
         $validator
-            ->notEmpty('customer_phone');
+            ->allowEmpty('customer_phone');
 
         $validator
             ->allowEmpty('customer_email');
@@ -681,7 +680,7 @@ class ShopOrdersTable extends Table
                 new Status(self::ORDER_STATUS_TEMP, __d('shop','Quote'), 'default'),
                 new Status(self::ORDER_STATUS_SUBMITTED, __d('shop','Purchased'), 'default'),
                 new Status(self::ORDER_STATUS_PENDING, __d('shop','Pending'), 'warning'),
-                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop','Confirmed'), 'success'),
+                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop','Waiting for payment'), 'warning'),
                 new Status(self::ORDER_STATUS_PAYED, __d('shop','Payed'), 'success'),
                 new Status(self::ORDER_STATUS_DELIVERED, __d('shop','Delivered'), 'success'),
                 new Status(self::ORDER_STATUS_CLOSED, __d('shop','Closed'), 'success'),
