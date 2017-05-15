@@ -322,6 +322,6 @@ class PaymentComponent extends Component
         if (!$this->_transaction) {
             throw new \LogicException('Can not get payment url: No transaction initialized');
         }
-        return ['plugin' => 'Shop', 'controller' => 'Payment', 'action' => $action, $this->_order->uuid, 'tid' => $this->_transaction->id];
+        return ['plugin' => 'Shop', 'controller' => 'Payment', 'action' => $action, $this->_transaction->id,  'o' => $this->_order->uuid];
     }
 }
