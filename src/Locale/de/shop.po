@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BananaCakePHP Shop\n"
 "POT-Creation-Date: 2017-05-13 13:04+0000\n"
-"PO-Revision-Date: 2017-05-13 15:08+0100\n"
+"PO-Revision-Date: 2017-05-15 02:49+0100\n"
 "Last-Translator: fm-labs <flowmotionlabs@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -2444,7 +2444,7 @@ msgstr "Adresse bearbeiten"
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/CustomerAddresses/index.ctp:10
 msgid "This addresses can be used during the checkout process"
 msgstr ""
-"Die gespeicherten Adressen können Sie währen des Bestellvorgangs auswählen."
+"Die gespeicherten Adressen können Sie während des Bestellvorgangs auswählen."
 
 #: /home/flow/workspaces/cakesites/cakephp3-shop/src/Template/CustomerAddresses/index.ctp:17
 msgid "No saved addresses"
