@@ -351,6 +351,48 @@ class ShopOrdersTable extends Table
 
     }
 
+    public function calculateOrder(ShopOrder $order, $update = true)
+    {
+        $this->_calculateItems($order);
+        $this->_calculateOrderTotal($order);
+
+        if (!$update) {
+            return $order;
+        }
+
+        //@TODO Run some validation after calculation
+        return $this->save($order);
+    }
+
+    protected function _calculateItems(ShopOrder &$order)
+    {
+        $orderItems = $this->ShopOrderItems
+            ->find()
+            ->where(['shop_order_id' => $this->id])
+            ->contain([])
+            ->all()
+            ->toArray();
+
+        // items value
+        $itemsNet = $itemsTax = $itemsTaxed = 0;
+        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
+            $itemsNet += $item->value_net;
+            $itemsTax += $item->value_tax;
+            $itemsTaxed += $item->value_total;
+        });
+
+        $order->items_value_net = $itemsNet;
+        $order->items_value_tax = $itemsTax;
+        $order->items_value_taxed = $itemsTaxed;
+
+    }
+
+    protected function _calculateOrderTotal(ShopOrder &$order)
+    {
+        $total = $order->items_value_taxed - $order->coupon_value;
+        $order->order_value_total = $total;
+    }
+
     /**
      * @param ShopOrder $order
      * @param array $options

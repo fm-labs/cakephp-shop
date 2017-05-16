@@ -5,6 +5,7 @@ use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Shop\Lib\Shop;
+use Shop\Lib\Taxation;
 
 /**
  * ShopOrder Entity.
@@ -222,6 +223,8 @@ class ShopOrder extends Entity
         $this->items_value_tax = $itemsTax;
         $this->items_value_taxed = $itemsTaxed;
 
+
+
         $this->order_value_tax = $itemsTax;
         $this->order_value_total = $itemsTaxed;
     }
@@ -309,7 +312,7 @@ class ShopOrder extends Entity
     protected function _getOrderValueTax()
     {
         if (!isset($this->_properties['order_value_tax'])) {
-            $this->_properties['order_value_tax'] = $this->_properties['items_value_tax'] + $this->_properties['shipping_value_tax'];
+            $this->_properties['order_value_tax'] = Taxation::extractTax($this->_properties['order_value_total'], 20.00); //@TODO!!
         }
         return $this->_properties['order_value_tax'];
     }

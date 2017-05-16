@@ -39,6 +39,11 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
                 'orders' => [
                     'title' => 'Orders',
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
+                    'data-icon' => 'list'
+                ],
+                'order_invoices' => [
+                    'title' => 'Invoices',
+                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderInvoices', 'action' => 'index'],
                     'data-icon' => 'eur'
                 ],
                 'order_transactions' => [
