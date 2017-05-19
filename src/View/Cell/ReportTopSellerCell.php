@@ -15,7 +15,7 @@ class ReportTopSellerCell extends Cell
      *
      * @var array
      */
-    protected $_validCellOptions = ['limit'];
+    protected $_validCellOptions = ['limit', 'age'];
 
     /**
      * @var int Number of top sellers to be displayed
@@ -39,6 +39,9 @@ class ReportTopSellerCell extends Cell
     public function products()
     {
         $orders = $this->loadModel('Shop.ShopOrders')->find('list')->where(['is_temporary' => false]);
+        $dateStart = new \DateTime('-1 years');
+        $dateEnd = new \DateTime();
+
         if ($this->age > 0) {
             $dateStart = new \DateTime();
             $dateStart->setTimestamp(time() - ($this->age * DAY));
@@ -46,7 +49,6 @@ class ReportTopSellerCell extends Cell
         }
 
         $orderItems = $this->loadModel('Shop.ShopOrderItems')->find('all')->where(['shop_order_id IN' => array_keys($orders->toArray())]);
-
 
 
         // sort & count
@@ -75,5 +77,7 @@ class ReportTopSellerCell extends Cell
             $topsellers[] = $item;
         });
         $this->set('topsellers', $topsellers);
+        $this->set('dateStart', $dateStart);
+        $this->set('dateEnd', $dateEnd);
     }
 }

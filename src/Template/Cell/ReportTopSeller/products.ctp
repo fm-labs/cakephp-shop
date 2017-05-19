@@ -1,7 +1,11 @@
+<?php
+$this->loadHelper('time');
+$title = sprintf("%s - %s", $this->Time->format($dateStart, "dd.MM.YYYY"), $this->Time->format($dateEnd, "dd.MM.YYYY"));
+?>
 <?= $this->cell('Backend.DataTable', [[
     'paginate' => false,
     'model' => null,
-    'title' => 'Data of last 90 days',
+    'title' => $title,
     'data' => $topsellers,
     'fieldsWhitelist' => true,
     'fields' => [
