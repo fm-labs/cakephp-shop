@@ -93,21 +93,13 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     }
 
     /**
-     * @param EventManager $eventManager
-     * @return $this
-     */
-    public function registerEvents(EventManager $eventManager)
-    {
-        //$eventManager->on(new ShopCategoriesSitemapProvider());
-        //$eventManager->on(new ShopProductsSitemapProvider());
-    }
-
-    /**
      * @param array $config
      * @return void
      */
     public function __invoke(array $config = [])
     {
-        // TODO: Implement __invoke() method.
+        \Cake\Event\EventManager::instance()->on(new \Shop\Event\CartListener());
+        \Cake\Event\EventManager::instance()->on(new \Shop\Event\CustomerListener());
+        \Cake\Event\EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
     }
 }

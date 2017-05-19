@@ -39,12 +39,3 @@ ClassRegistry::register('ContentModule', [
 ClassRegistry::register('PageType', [
     'shop_category' => 'Shop\Page\ShopCategoryPageType'
 ]);
-
-/**
- * Register events
- */
-//\Cake\Event\EventManager::instance()->on(new \Shop\Event\DebugListener());
-//\Cake\Event\EventManager::instance()->on(new \Shop\Backend\ShopBackend());
-\Cake\Event\EventManager::instance()->on(new \Shop\Event\CartListener());
-\Cake\Event\EventManager::instance()->on(new \Shop\Event\CustomerListener());
-\Cake\Event\EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
