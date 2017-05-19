@@ -299,9 +299,6 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
      */
     public function isPagePublished()
     {
-        if (!Configure::read('Plugin.Shop.enabled')) {
-            return false;
-        }
         return $this->is_published;
     }
 
@@ -310,7 +307,7 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
      */
     public function isPageHiddenInNav()
     {
-        return null;
+        return !$this->is_published;
     }
 
     public function getNodeLabel()
