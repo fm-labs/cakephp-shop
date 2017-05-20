@@ -130,7 +130,10 @@ class ShopShell extends Shell
                 continue;
             }
 
-            $nr = $this->ShopOrders->getNextOrderNr();
+            $submitted = $order->submitted;
+            $year = $submitted->format("Y");
+
+            $nr = $this->ShopOrders->getNextOrderNr($year);
             $order->nr = $nr;
             $this->out("Next number for order with id " . $order->id . " -> " . $nr);
 
@@ -142,9 +145,10 @@ class ShopShell extends Shell
         }
     }
 
+
     public function patchOrderCustomerEmail()
     {
-        $this->out('<info>Patching order numbers</info>');
+        $this->out('<info>Patching order customer_email from shop-customers email</info>');
 
         $this->loadModel('Shop.ShopOrders');
         $orders = $this->ShopOrders->find()
