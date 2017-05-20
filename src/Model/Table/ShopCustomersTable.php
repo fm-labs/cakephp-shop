@@ -113,7 +113,12 @@ class ShopCustomersTable extends Table
      */
     public function createFromUser(EntityInterface $user, $save = true)
     {
-        $customer = $this->newEntity();
+        // check if customer with email already exists
+        $customer = $this->find()->where(['email' => $user->get('email')])->first();
+        if (!$customer) {
+            $customer = $this->newEntity();
+        }
+        
         $customer->user_id = $user->get('id');
         $customer->first_name = $user->get('first_name');
         $customer->last_name = $user->get('last_name');
