@@ -120,12 +120,12 @@ class ShopShell extends Shell
         $this->loadModel('Shop.ShopOrders');
         $orders = $this->ShopOrders->find()
             ->contain([])
-            ->where(['ShopOrders.is_temporary' => false, 'ShopOrders.nr IS NULL'])
+            ->where(['ShopOrders.is_temporary' => false /*, 'ShopOrders.nr IS NULL' */])
             ->order(['ShopOrders.submitted' => 'ASC'])
             ->all();
 
         foreach ($orders as $order) {
-            $this->out(sprintf("Patching order [ID:%s] #%s", $order->id, $order->nr_formatted));
+            //$this->out(sprintf("Patching order [ID:%s] #%s", $order->id, $order->nr_formatted));
             if ($order->nr) {
                 continue;
             }
@@ -134,13 +134,14 @@ class ShopShell extends Shell
             $year = $submitted->format("Y");
 
             $nr = $this->ShopOrders->getNextOrderNr($year);
+            $order->ordergroup = $year;
             $order->nr = $nr;
-            $this->out("Next number for order with id " . $order->id . " -> " . $nr);
+            $out = "Next number for order with id " . $year . "|" . $order->id . " -> " . $nr;
 
             if ($this->ShopOrders->save($order)) {
-                $this->out('Patched!');
+                //$this->out($out . ' Patched!');
             } else {
-                $this->error('Failed!');
+                $this->abort($out . ' Failed!');
             }
         }
     }
@@ -153,6 +154,7 @@ class ShopShell extends Shell
         $this->loadModel('Shop.ShopOrders');
         $orders = $this->ShopOrders->find()
             ->contain(['ShopCustomers'])
+            ->where(['ShopOrders.customer_email IS NULL'])
             ->all();
 
         $patched = $failed = 0;
@@ -165,7 +167,7 @@ class ShopShell extends Shell
 
             $out = "Customer email for order with id " . $order->id . " -> " . $order->customer_email;
             if ($this->ShopOrders->save($order)) {
-                $this->out($out . ': Patched!');
+                //$this->out($out . ': Patched!');
                 $patched++;
             } else {
                 $this->abort($out . ': Failed!');
