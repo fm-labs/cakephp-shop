@@ -4,6 +4,7 @@ namespace Shop\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\NotFoundException;
+use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * ShopOrders Controller
@@ -64,6 +65,26 @@ class OrdersController extends AppController
 
         $this->set('order', $shopOrder);
         $this->set('_serialize', ['shopOrder']);
+    }
+
+    public function process($uuid = null)
+    {
+        if (!$uuid) {
+            throw new BadRequestException();
+        }
+
+        $shopOrder = $this->ShopOrders->find('order', compact('uuid'));
+        if (!$shopOrder) {
+            throw new NotFoundException();
+        }
+
+        // just redirect to payment page
+
+        if ($shopOrder->payment_type == "credit_card_internal" || $shopOrder->payment_type == "payment_slip") {
+            return $this->redirect(['action' => 'view', $uuid]);
+        } else {
+            return $this->redirect(['controller' => 'Payment', 'action' => 'index', $uuid]);
+        }
     }
 
     /**

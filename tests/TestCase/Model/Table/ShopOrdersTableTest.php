@@ -251,12 +251,12 @@ class ShopOrdersTableTest extends TestCase
         // test with agree_terms
         $order = $this->ShopOrders->get(1);
         $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 1]);
-        $this->assertEquals(ShopOrdersTable::ORDER_STATUS_CONFIRMED, $result->status);
+        $this->assertEquals(ShopOrdersTable::ORDER_STATUS_PENDING, $result->status);
         $this->assertNotEmpty($order->submitted);
         $this->assertNotEmpty($order->shop_customer_id);
         $this->assertEquals(1000, $order->nr);
         $this->assertEquals('test', $order->ordergroup);
-        $this->assertEquals(1, $order->status);
+        $this->assertEquals(ShopOrdersTable::ORDER_STATUS_PENDING, $order->status);
         $this->assertEquals(false, $order->is_temporary);
         $this->assertEquals(true, $order->agree_terms);
 

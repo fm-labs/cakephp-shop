@@ -8,16 +8,13 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
     <h1><?= __d('shop','Order payment'); ?></h1>
 
 
-
     <?php
-    /**
-     * Show provider specific 'pay' element
-     */
     $element = 'Shop.Payment/' . $order->payment_type . '/pay';
-    echo ($this->elementExists($element)) ? $this->element($element) : "";
+    if ($this->elementExists($element)) {
+        echo $this->element($element);
+        //return;
+    }
     ?>
-
-
 
     <hr />
     <?= $this->Html->link(

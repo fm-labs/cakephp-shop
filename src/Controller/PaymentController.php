@@ -101,6 +101,52 @@ class PaymentController extends AppController
         //$this->redirect(['action' => 'pay', $orderUUID]);
 
         $this->set(compact('order'));
+
+        $shopOrder = $this->ShopOrders->find('order', ['ShopOrders.uuid' => $orderUUID]);
+        if (!$shopOrder) {
+            throw new NotFoundException();
+        }
+
+        $redirectUrl = ['controller' => 'Orders', 'action' => 'view', $orderUUID];
+        switch ($shopOrder->status) {
+            case ShopOrdersTable::ORDER_STATUS_TEMP:
+                $this->Flash->error(__('The order is temporary'));
+                break;
+
+            case ShopOrdersTable::ORDER_STATUS_STORNO:
+                $this->Flash->error(__('The order has been canceled'));
+                break;
+
+            case ShopOrdersTable::ORDER_STATUS_CLOSED:
+                $this->Flash->success(__('The order is already closed'));
+                break;
+
+            case ShopOrdersTable::ORDER_STATUS_SUBMITTED:
+            case ShopOrdersTable::ORDER_STATUS_PENDING:
+
+                // continue to external paymant provider
+                $redirectUrl = ['action' => 'pay', $orderUUID];
+
+                //$this->Flash->success("We are waiting for payment confirmation");
+                // check payment status
+                break;
+
+
+            case ShopOrdersTable::ORDER_STATUS_CONFIRMED:
+            case ShopOrdersTable::ORDER_STATUS_PAYED:
+            case ShopOrdersTable::ORDER_STATUS_DELIVERED:
+            case ShopOrdersTable::ORDER_STATUS_ERROR_DELIVERY:
+            case ShopOrdersTable::ORDER_STATUS_ERROR:
+            default:
+                $this->Flash->success(__('We are processing your order'));
+                break;
+
+
+        }
+
+        if ($redirectUrl) {
+           // return $this->redirect($redirectUrl);
+        }
     }
 
     /**

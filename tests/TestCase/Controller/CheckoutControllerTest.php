@@ -87,6 +87,8 @@ class CheckoutControllerTest extends IntegrationTestCase
             'Order' => $order
         ]];
         $this->session($session);
+
+        return $order;
     }
 
     public function testCheckoutWithEmptyCart()
@@ -99,17 +101,15 @@ class CheckoutControllerTest extends IntegrationTestCase
 
     public function testCheckout()
     {
-        $this->_setupCart(2);
+        $order = $this->_setupCart(2);
 
         $this->get('/shop/checkout/index');
-
-        $this->assertRedirect('/shop/checkout/customer');
-        //$this->assertRedirect(['controller' => 'Checkout', 'action' => 'customer']);
+        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'customer', $order->cartid]);
     }
 
     public function testCustomerSignup()
     {
-        $this->_setupCart(2);
+        $order = $this->_setupCart(2);
 
         $usersCount = TableRegistry::get('User.Users')->find()->count();
         $customersCount = TableRegistry::get('Shop.ShopCustomers')->find()->count();
@@ -136,13 +136,13 @@ class CheckoutControllerTest extends IntegrationTestCase
         // expexts order status to be unchanged
         $this->assertSession(0, 'Shop.Order.status');
         // expects to be redirect to the next (billing) step
-        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address']);
+        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address', $order->cartid]);
     }
 
 
     public function testCustomerLogin()
     {
-        $this->_setupCart(2);
+        $order = $this->_setupCart(2);
 
         // Normal user from User plugin
         $this->Users = TableRegistry::get('User.Users');
@@ -181,12 +181,12 @@ class CheckoutControllerTest extends IntegrationTestCase
         // expexts order status to be unchanged
         $this->assertSession(0, 'Shop.Order.status');
         // expects to be redirect to the next (billing) step
-        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address']);
+        $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address', $order->cartid]);
     }
 
     public function testShippingAddress()
     {
-        $this->_setupCart();
+        $order = $this->_setupCart();
 
         // Normal user from User plugin
         $this->Users = TableRegistry::get('User.Users');

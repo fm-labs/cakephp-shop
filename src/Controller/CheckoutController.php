@@ -40,17 +40,7 @@ class CheckoutController extends AppController
     {
         parent::beforeFilter($event);
 
-        /*
-        if (!$this->Checkout->isReady()) {
-            $this->Flash->error(__d('shop', 'Checkout aborted: Invalid request'));
-            $this->redirect(['_name' => 'shop:cart']);
-            return;
-        }
-        */
-
         $layout = (Configure::read('Shop.Checkout.layout')) ?: null;
-
-        //$this->Auth->allow(['cart', 'customer','customerSignup', 'customerGuest', 'billing', 'shipping', 'payment', 'review', 'success']);
         $this->viewBuilder()->layout($layout);
     }
 
@@ -68,26 +58,21 @@ class CheckoutController extends AppController
         }
     }
 
+    protected function _checkCart($cartid)
+    {
+
+        if ($this->Checkout->getOrder() && $this->Checkout->getOrder()->cartid != $cartid) {
+            $this->Flash->error(__d('shop', 'Checkout aborted: Bad request'));
+            //$this->redirect(['_name' => 'shop:cart']);
+            return;
+        }
+    }
+
     public function debug()
     {
         if (!Configure::read('debug')) {
             throw new NotFoundException();
         }
-    }
-
-    public function index()
-    {
-        $this->_checkOrder();
-
-        // redirect to next step
-        $redirect = $this->Checkout->redirectUrl();
-        if ($redirect) {
-            return $this->redirect($redirect);
-        }
-
-        Log::alert('Checkout Trap for order ', $this->Checkout->getOrder()->id);
-        $this->Flash->error(__d('shop', 'Sorry, but we are unable to process your order at the moment. Please try again later.'));
-        $this->redirect(['_name' => 'shop:cart']);
     }
 
     public function invokeAction()
@@ -99,11 +84,21 @@ class CheckoutController extends AppController
             $stepId = $this->request->params['action'];
             $stepId = Inflector::underscore($stepId);
 
+            $cartId = $this->request->param('cartid');
+            if (!$cartId) {
+                // If no cartId given, use the one from the cart component
+                $cartId = $this->Checkout->Cart->getCartId();
+                if (!$cartId) {
+                    throw new BadRequestException("Unknown cartid for step " . $stepId);
+                }
+            }
+
             // check if cart order exists
             $this->_checkOrder();
+            $this->_checkCart($cartId);
 
             // check step
-            if ($stepId === 'next') {
+            if ($stepId === 'next' || $stepId === 'index') {
                 return $this->Checkout->redirectNext();
             }
 

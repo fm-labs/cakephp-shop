@@ -47,7 +47,8 @@ class ShopOrderItem extends Entity
         'product',
         'title',
         'sku',
-        'cur',
+        'currency',
+        'base_currency',
         'value_net'
     ];
 
@@ -81,13 +82,13 @@ class ShopOrderItem extends Entity
 
     protected function _getSku()
     {
-        return $this->getProduct()->getSku();
+        return ($this->getProduct()) ? $this->getProduct()->getSku() : null;
     }
 
     protected function _getTitle()
     {
         if (!isset($this->_properties['title'])) {
-            $this->_properties['title'] = $this->getProduct()->getTitle();
+            $this->_properties['title'] = ($this->getProduct()) ? $this->getProduct()->getTitle() : null;
         }
         return $this->_properties['title'];
     }
@@ -164,12 +165,12 @@ class ShopOrderItem extends Entity
     {
         $this->_getRef();
         if (!$this->_properties['ref']) {
-            throw new \RuntimeException(sprintf('ShopOrderItem: Referenced product item not loaded'));
+            //throw new \RuntimeException(sprintf('ShopOrderItem: Referenced product item not loaded'));
         }
 
         if (!($this->_properties['ref'] instanceof ShopProductInterface)) {
-            throw new \RuntimeException(sprintf('ShopOrderItem: %s is not an instance of ShopProductInterface',
-                get_class($this->_properties['ref'])));
+            //throw new \RuntimeException(sprintf('ShopOrderItem: %s is not an instance of ShopProductInterface',
+            //    get_class($this->_properties['ref'])));
         }
         return $this->_properties['ref'];
     }

@@ -18,12 +18,16 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['controller' => 'Cart']
     );
 
-    $routes->connect('/checkout/:action/*',
-        ['controller' => 'Checkout', 'action' => 'step'],
+    $routes->connect('/checkout/:action/:cartid/*',
+        ['controller' => 'Checkout'],
+        ['pass' => ['action']]
+    );
+    $routes->connect('/checkout/:action/:cartid',
+        ['controller' => 'Checkout'],
         ['pass' => ['action']]
     );
     $routes->connect('/checkout/:action',
-        ['controller' => 'Checkout', 'action' => 'step'],
+        ['controller' => 'Checkout'],
         ['pass' => ['action']]
     );
     $routes->connect('/checkout',

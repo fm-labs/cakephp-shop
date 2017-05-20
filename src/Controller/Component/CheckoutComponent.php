@@ -249,9 +249,9 @@ class CheckoutComponent extends Component
     public function redirectNext()
     {
         $redirect = $this->redirectUrl();
-        //$redirect = null;
-        $redirect = ($redirect) ?: ['controller' => 'Checkout', 'action' => 'index'];
-        return $this->_registry->getController()->redirect($redirect);
+        if ($redirect) {
+            return $this->_registry->getController()->redirect($redirect);
+        }
     }
 
     /**

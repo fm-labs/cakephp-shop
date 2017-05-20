@@ -113,6 +113,11 @@ class CartComponent extends Component
         $this->_init();
     }
 
+    public function getCartId()
+    {
+        return $this->cartId;
+    }
+
     public function addItem(array $item)
     {
         $this->_resumeOrder(['create' => true]);

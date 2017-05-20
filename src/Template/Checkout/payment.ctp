@@ -29,7 +29,7 @@
                 <?php else: ?>
                     <?= $this->Form->postLink(
                         __d('shop','Select'),
-                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', 'change_type' => true],
+                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', $order->cartid, 'change_type' => true],
                         ['class' => 'btn btn-primary', 'data' => ['payment_type' => $alias]]
                     ); ?>
                 <?php endif; ?>

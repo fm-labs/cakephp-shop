@@ -43,23 +43,22 @@ class ShopOrdersTable extends Table
     */
 
 
-    const ORDER_STATUS_TEMP = 0;
-    const ORDER_STATUS_SUBMITTED = 1;
-    const ORDER_STATUS_PENDING = 2;
-    const ORDER_STATUS_CONFIRMED = 3;
-    const ORDER_STATUS_PAYED = 4;
-    const ORDER_STATUS_DELIVERED = 5;
-    const ORDER_STATUS_CLOSED = 6;
+    const ORDER_STATUS_TEMP = 0; // Cart order
+    const ORDER_STATUS_SUBMITTED = 1; // Order submitted (not payed yet)
+    const ORDER_STATUS_PENDING = 2; // Waiting for payment
+    const ORDER_STATUS_CONFIRMED = 3; // Payment provider confirmed payment
+    const ORDER_STATUS_PAYED = 4; // Order is payed (We received the money)
+    const ORDER_STATUS_DELIVERED = 5; // Order items have been delivered
+    const ORDER_STATUS_CLOSED = 6; // Order is invoiced, payed and processed
+
     const ORDER_STATUS_STORNO = 80;
     const ORDER_STATUS_ERROR = 90;
     const ORDER_STATUS_ERROR_DELIVERY = 91;
 
-
-
+    // unused
     const SHIPPING_STATUS_STANDBY = 0;
     const SHIPPING_STATUS_PENDING = 1;
     const SHIPPING_STATUS_DELIVERED = 10;
-
     const PAYMENT_STATUS_PENDING = 0;
     const PAYMENT_STATUS_PARTIAL = 1;
     const PAYMENT_STATUS_PAYED = 10;
@@ -166,8 +165,6 @@ class ShopOrdersTable extends Table
 
     public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
-        //@TODO save billing address in address book
-        //@TODO save shipping address in address book
     }
 
     /**
@@ -416,7 +413,7 @@ class ShopOrdersTable extends Table
             'uuid' => ($order->uuid) ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
             'submitted' => Time::now(),
             'is_temporary' => false,
-            'status' => self::ORDER_STATUS_CONFIRMED,
+            'status' => self::ORDER_STATUS_PENDING,
             'customer_email' => ($order->customer_email) ?: $order->shop_customer->email,
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
@@ -721,8 +718,8 @@ class ShopOrdersTable extends Table
             'status' => [
                 new Status(self::ORDER_STATUS_TEMP, __d('shop','Quote'), 'default'),
                 new Status(self::ORDER_STATUS_SUBMITTED, __d('shop','Purchased'), 'default'),
-                new Status(self::ORDER_STATUS_PENDING, __d('shop','Pending'), 'warning'),
-                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop','Waiting for payment'), 'warning'),
+                new Status(self::ORDER_STATUS_PENDING, __d('shop','Waiting for payment'), 'warning'),
+                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop','Processing payment'), 'success'),
                 new Status(self::ORDER_STATUS_PAYED, __d('shop','Payed'), 'success'),
                 new Status(self::ORDER_STATUS_DELIVERED, __d('shop','Delivered'), 'success'),
                 new Status(self::ORDER_STATUS_CLOSED, __d('shop','Closed'), 'success'),

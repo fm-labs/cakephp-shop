@@ -99,7 +99,7 @@ abstract class BaseStep implements EventListenerInterface
      */
     public function getUrl()
     {
-        return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $this->getId()];
+        return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $this->getId(), $this->Checkout->Cart->getCartId()];
     }
 
     /**
