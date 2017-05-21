@@ -13,4 +13,4 @@ PLZ: <?= $address['zipcode'] ?>
 
 Ort: <?= $address['city'] ?>
 
-Land: <?= $address['country_iso2'] ?> <?= $address['country'] ?>
+Land: <?= ($address['relcountry']) ? $address['relcountry']['name_de'] : "" ?>
