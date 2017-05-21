@@ -50,11 +50,23 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
 
     public function isComplete()
     {
-        if (!$this->engine()) {
-            return false;
+        if ($this->engine()) {
+            return $this->engine()->isCheckoutComplete($this->Checkout);
         }
 
-        return $this->engine()->isCheckoutComplete($this->Checkout);
+
+        // auto-select shipping type
+        if (count($this->shippingMethods) == 1) {
+            $shippingMethodId = key($this->shippingMethods);
+            if ($this->Checkout->setShippingType($shippingMethodId, [])) {
+                $this->Checkout->reloadOrder();
+                return true;
+            } else {
+                $this->log('PaymentStep: Failed to auto-select shipping type ' . $shippingMethodId);
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -62,7 +74,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
      */
     public function engine()
     {
-        $order = $this->Checkout->Cart->getOrder();
+        $order = $this->Checkout->getOrder();
         if (!$order || !$order->shipping_type) {
             return null;
         }
@@ -77,18 +89,13 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
 
     public function backgroundExecute()
     {
-        // auto-select payment type
-        if (!$this->isComplete() && count($this->shippingMethods) == 1) {
-            $shippingMethodId = key($this->shippingMethods);
-            $this->Checkout->setShippingType($shippingMethodId);
-        }
     }
 
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
 
-        if (!$engine || $controller->request->query('change_type')) {
+        if (!$engine || $controller->request->query('change')) {
 
             if ($controller->request->is(['post', 'put'])) {
                 $engineName = $controller->request->data('shipping_type');
@@ -96,6 +103,10 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
                 if ($this->_registry->has($engineName)) {
                     $engine = $this->_registry->get($engineName);
                 }
+            } else {
+
+                $engine = null;
+                $this->Checkout->getOrder()->shipping_type = null;
             }
         }
 
@@ -103,7 +114,10 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
         $controller->set('shippingMethods', $shippingMethods);
 
         if ($engine) {
-            return $engine->checkout($this->Checkout);
+            $result = $engine->checkout($this->Checkout);
+            if ($result instanceof Response) {
+                return $result;
+            }
         }
 
         return $controller->render('shipping');

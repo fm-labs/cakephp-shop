@@ -8,6 +8,7 @@ use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
+use Shop\Model\Table\ShopOrdersTable;
 
 class PaymentSlipPayment implements PaymentEngineInterface
 {
@@ -27,7 +28,9 @@ class PaymentSlipPayment implements PaymentEngineInterface
 
             if ($Checkout->ShopOrders->saveOrder($order)) {
                 $Checkout->setOrder($order);
-                $Checkout->redirectNext();
+                return $Checkout->redirectNext();
+            } else {
+                $Checkout->getController()->Flash->error("Failed to update payment info");
             }
         }
 
@@ -40,6 +43,11 @@ class PaymentSlipPayment implements PaymentEngineInterface
      */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
     {
+        if ($order->status == ShopOrdersTable::ORDER_STATUS_SUBMITTED || $order->status == ShopOrdersTable::ORDER_STATUS_PENDING) {
+            $Payment->ShopOrders->updateOrderStatus($order, ShopOrdersTable::ORDER_STATUS_CONFIRMED);
+        }
+
+        return $Payment->redirect(['controller' => 'Orders', 'action' => 'view', $order->uuid]);
     }
 
     /**

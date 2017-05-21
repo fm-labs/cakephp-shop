@@ -10,7 +10,7 @@
 
     <?php foreach ($shippingMethods as $alias => $shippingMethod): ?>
         <?php
-        $element = 'Shop.Checkout/Shipping/' . $alias . '/checkout';
+        $element = 'Shop.Shipping/' . $alias . '/checkout';
         ?>
         <div class="shipping-method row">
             <div class="col-md-8">
@@ -25,11 +25,14 @@
                         <?= __d('shop','Currently selected shipping method'); ?>
                     </strong>
                 <?php else: ?>
-                    <?= $this->Form->postLink(
-                        __d('shop','Select'),
-                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'shipping', 'change_type' => true],
-                        ['class' => 'btn btn-primary', 'data' => ['shipping_type' => $alias]]
-                    ); ?>
+                    <?= $this->Form->create(null); ?>
+                    <?= $this->Form->hidden('op', ['value' => 'change_type']); ?>
+                    <?= $this->Form->hidden('shipping_type', ['value' => $alias]); ?>
+                    <?= $this->Form->button(__d('shop','Select'),
+                        ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Form->end(); ?>
+
+
                 <?php endif; ?>
             </div>
         </div>
@@ -38,7 +41,7 @@
 
     <?php if ($order->shipping_type): ?>
         <div class="text-right">
-            <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+            <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next', $order->cartid], ['class' => 'btn btn-primary']); ?>
         </div>
     <?php endif; ?>
 

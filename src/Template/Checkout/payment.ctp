@@ -27,11 +27,13 @@
                         ['class' => 'btn btn-inverse']
                     ); ?>
                 <?php else: ?>
-                    <?= $this->Form->postLink(
-                        __d('shop','Select'),
-                        ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'payment', $order->cartid, 'change_type' => true],
-                        ['class' => 'btn btn-primary', 'data' => ['payment_type' => $alias]]
-                    ); ?>
+                    <?= $this->Form->create(null); ?>
+                    <?= $this->Form->hidden('op', ['value' => 'change']); ?>
+                    <?= $this->Form->hidden('payment_type', ['value' => $alias]); ?>
+                    <?= $this->Form->button(__d('shop','Select'),
+                        ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Form->end(); ?>
+
                 <?php endif; ?>
             </div>
         </div>

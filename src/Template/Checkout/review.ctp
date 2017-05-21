@@ -13,7 +13,7 @@
 
             <h2>
                 <?= __d('shop','Billing address'); ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'billing', 'change' => true, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'billing_address', $order->cartid, 'ref' => 'review']); ?></small>
             </h2>
             <?= $this->element('Shop.Order/billing_address'); ?>
 
@@ -23,7 +23,7 @@
 
             <h2>
                 <?= __d('shop','Shipping address'); ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping', 'change' => true, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping_address', $order->cartid, 'ref' => 'review']); ?></small>
             </h2>
             <?= $this->element('Shop.Order/shipping_address'); ?>
 
@@ -35,10 +35,9 @@
 
             <h2>
                 <?= __d('shop','Payment Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', 'change_type' => true, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', $order->cartid, 'ref' => 'review']); ?></small>
             </h2>
             <div class="inner">
-                <?php $paymentMethods = \Cake\Core\Configure::read('Shop.Payment.Engines') ?>
                 <div class="desc payment-desc">
                     <?php
                     $element = 'Shop.Payment/' . $order->payment_type . '/order';
@@ -54,14 +53,12 @@
 
             <h2>
                 <?= __d('shop','Shipping Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping', 'change_type' => true, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping', $order->cartid, 'ref' => 'review']); ?></small>
             </h2>
             <div class="inner">
-
-                <?php $shippingMethods = \Cake\Core\Configure::read('Shop.Shipping.Engines') ?>
                 <div class="desc shipping-desc">
                     <?php
-                    $element = 'Shop.Checkout/Shipping/' . $order->shipping_type . '/review';
+                    $element = 'Shop.Shipping/' . $order->shipping_type . '/order';
                     if ($this->elementExists($element)) {
                         echo $this->element($element);
                     }
@@ -80,9 +77,9 @@
     </div>
 
 
-    <?= $this->Form->create($order, ['url' => ['action' => 'review', 'submit' => true]]); ?>
-    <?= $this->Form->hidden('_x_checkout', ['value' => 'submit']); ?>
-    <?= $this->Form->hidden('_x_tkn', ['value' => uniqid('ckkout')]); ?>
+    <?= $this->Form->create($order); ?>
+    <?= $this->Form->hidden('_op', ['value' => 'submit']); ?>
+    <?= $this->Form->hidden('_tkn', ['value' => uniqid('ckkout')]); ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -113,7 +110,7 @@
 
     <div class="ui actions" style="text-align: right;">
         <!--
-        <?php echo $this->Html->link(__d('shop', 'Cancel order'), ['action' => 'index', 'op' => 'cancel'], ['class' => 'btn']); ?>
+        <?php echo $this->Html->link(__d('shop', 'Cancel order'), ['action' => 'index', $order->cartid, 'op' => 'cancel'], ['class' => 'btn']); ?>
         -->
         <?= $this->Form->button(__d('shop','Order Now'), ['class' => 'btn btn-primary btn-lg']); ?>
     </div>

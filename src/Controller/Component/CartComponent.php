@@ -110,7 +110,7 @@ class CartComponent extends Component
         $this->order = null;
         $this->resetSession();
 
-        $this->_init();
+        return true;
     }
 
     public function getCartId()
@@ -306,7 +306,7 @@ class CartComponent extends Component
         }
 
         $this->request->session()->write('Shop.Cart', $cart);
-        $this->request->session()->write('Shop.Order', $order);
+        //$this->request->session()->write('Shop.Order', $order);
     }
 
     public function resetSession()

@@ -41,22 +41,14 @@ abstract class BaseStep implements EventListenerInterface
         // Override in subclasses
     }
 
-    public function backgroundExecute()
-    {
-        // Override in subclasses
-    }
-
     public function beforeStep(Event $event)
     {
-
         //debug("beforeStep " . $this->getId());
     }
 
     public function afterStep(Event $event)
     {
-
         //debug("afterStep " . $this->getId());
-        $this->backgroundExecute();
     }
 
     public function beforeRedirect(Event $event)
@@ -93,16 +85,6 @@ abstract class BaseStep implements EventListenerInterface
     }
 
     /**
-     * Get default checkout controller step url.
-     *
-     * @return array
-     */
-    public function getUrl()
-    {
-        return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $this->getId(), $this->Checkout->Cart->getCartId()];
-    }
-
-    /**
      * Export step description.
      *
      * @return array
@@ -111,8 +93,7 @@ abstract class BaseStep implements EventListenerInterface
     {
         return [
             'id'    => $this->getId(),
-            'title' => $this->getTitle(),
-            'url'   => $this->getUrl()
+            'title' => $this->getTitle()
         ];
     }
 

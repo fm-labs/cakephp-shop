@@ -51,7 +51,7 @@ class CheckoutController extends AppController
 
     protected function _checkOrder()
     {
-        if (!$this->Checkout->getOrder() || $this->Cart->getItemsCount() < 1) {
+        if (!$this->Checkout->getOrder() || count($this->Checkout->getOrder()->shop_order_items) < 1) {
             $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
             $this->redirect(['_name' => 'shop:cart']);
             return;
@@ -75,6 +75,21 @@ class CheckoutController extends AppController
         }
     }
 
+    public function index($cartId = null)
+    {
+        if (!$cartId) {
+            throw new BadRequestException("Unknown cartid");
+        }
+
+        $this->Checkout->initFromCartId($cartId);
+        $this->Checkout->redirectNext();
+    }
+
+    public function next($cartId = null)
+    {
+        $this->setAction('index', $cartId);
+    }
+
     public function invokeAction()
     {
         try {
@@ -86,17 +101,20 @@ class CheckoutController extends AppController
 
             $cartId = $this->request->param('cartid');
             if (!$cartId) {
-                // If no cartId given, use the one from the cart component
-                $cartId = $this->Checkout->Cart->getCartId();
-                if (!$cartId) {
-                    throw new BadRequestException("Unknown cartid for step " . $stepId);
-                }
+                throw new BadRequestException("Unknown cartid for step " . $stepId);
             }
+
+            $this->Checkout->initFromCartId($cartId);
 
             // check if cart order exists
             $this->_checkOrder();
             $this->_checkCart($cartId);
 
+
+            //$this->Checkout->jumpTo();
+            $response = $this->Checkout->executeStep($stepId);
+
+            /*
             // check step
             if ($stepId === 'next' || $stepId === 'index') {
                 return $this->Checkout->redirectNext();
@@ -119,6 +137,8 @@ class CheckoutController extends AppController
             $response = $this->Checkout->executeStep($step);
 
             $event = $this->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, compact('step', 'response')));
+
+            */
 
             return $response;
         }

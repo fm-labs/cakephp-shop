@@ -8,6 +8,7 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Response;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
@@ -50,11 +51,23 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
 
     public function isComplete()
     {
-        if (!$this->engine()) {
-            return false;
+        if ($this->engine()) {
+            return $this->engine()->isCheckoutComplete($this->Checkout);
         }
 
-        return $this->engine()->isCheckoutComplete($this->Checkout);
+        // auto-select payment type, if there is only a single payment method available
+        if (count($this->paymentMethods) == 1) {
+            $paymentMethodId = key($this->paymentMethods);
+
+            if ($this->Checkout->setPaymentType($paymentMethodId, [])) {
+                $this->Checkout->reloadOrder();
+                return true;
+            } else {
+                $this->log('PaymentStep: Failed to auto-select payment type ' . $paymentMethodId);
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -62,7 +75,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
      */
     public function engine()
     {
-        $order = $this->Checkout->Cart->getOrder();
+        $order = $this->Checkout->getOrder();
         if (!$order || !$order->payment_type) {
             return null;
         }
@@ -74,43 +87,29 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
         return null;
     }
 
-    public function backgroundExecute()
-    {
-        // auto-select payment type
-        if (!$this->isComplete() && count($this->paymentMethods) == 1) {
-            $paymentMethodId = key($this->paymentMethods);
-
-            if ($this->Checkout->setPaymentType($paymentMethodId, [])) {
-                $this->Checkout->reloadOrder();
-            } else {
-                $this->log('PaymentStep: Failed to auto-select payment type ' . $paymentMethodId);
-            }
-        }
-
-    }
-
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
-
-        if (!$engine || $controller->request->query('change_type')) {
+        if (!$engine || $controller->request->data('op') == "change" || $controller->request->query('change') == true) {
 
             if ($controller->request->is(['post', 'put'])) {
                 $paymentType = $controller->request->data('payment_type');
 
                 if ($this->_registry->has($paymentType)) {
 
-                    $order = $this->Checkout->Cart->getOrder();
+                    /*
+                    $order = $this->Checkout->getOrder();
                     $order->payment_type = $paymentType;
-
                     if (!$this->Checkout->setOrder($order, true)) {
                         throw new \RuntimeException('PaymentStep: Failed to set payment type');
                     }
+                    */
 
                     $engine = $this->_registry->get($paymentType);
                 }
             } else {
                 $engine = null;
+                $this->Checkout->getOrder()->payment_type = null;
             }
         }
 
@@ -118,7 +117,10 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
         $controller->set('paymentMethods', $paymentMethods);
 
         if ($engine) {
-            return $engine->checkout($this->Checkout);
+            $result = $engine->checkout($this->Checkout);
+            if ($result instanceof Response) {
+                return $result;
+            }
         }
 
         return $controller->render('payment');

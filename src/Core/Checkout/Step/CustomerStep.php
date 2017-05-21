@@ -23,24 +23,24 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
     public function execute(Controller $controller)
     {
-        if ($controller->request->query('login')) {
-            $this->_executeLogin($controller);
+        if ($controller->request->data('op') == 'login') {
+            return $this->_executeLogin($controller);
         }
-        elseif ($controller->request->query('signup')) {
-            $this->_executeSignup($controller);
+        elseif ($controller->request->data('op') == 'signup') {
+            return $this->_executeSignup($controller);
         //} elseif ($controller->request->query('guest')) {
         //    $controller->request->data['nologin'] = true;
         //    return $this->_executeSignup($controller);
-        } else {
-            $controller->render('customer');
         }
+
+        return $controller->render('customer');
     }
 
     protected function _executeLogin(Controller $controller)
     {
         // check if already authenticated
         if ($controller->Auth->user('id')) {
-            return $this->Checkout->next();
+            return true;
         }
 
         //  POST request
@@ -80,21 +80,19 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 $this->Checkout->Shop->setCustomer($customer);
 
                 // link customer to order (persistent)
-                $this->Checkout->Cart->getOrder()->shop_customer_id = $customer->id;
-                $this->Checkout->Cart->saveOrder();
-
-                // update the order in session
-                $this->Checkout->Cart->updateSession();
+                $this->Checkout->getOrder()->shop_customer_id = $customer->id;
+                $this->Checkout->saveOrder();
 
                 // redirect to next step
                 $controller->Flash->success(__d('shop','Logged in as {0}', $controller->Auth->user('username')));
-                return $this->Checkout->next();
+                return true;
+
             } else {
                 debug("login failed");
                 $controller->Flash->error(__d('shop','Login failed :('));
             }
         }
-        $controller->render('customer');
+        return $controller->render('customer');
     }
 
     protected function _executeSignup(Controller $controller)
@@ -124,22 +122,18 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 $this->Checkout->Shop->setCustomer($customer);
 
                 // link customer to order (persistent)
-                $this->Checkout->Cart->getOrder()->shop_customer_id = $customer->id;
-                $this->Checkout->Cart->saveOrder();
-
-                // update the order in session
-                $this->Checkout->Cart->updateSession();
+                $this->Checkout->getOrder()->shop_customer_id = $customer->id;
+                $this->Checkout->saveOrder();
 
                 // continue to next step
                 $controller->Flash->success(__d('shop','Signup was successful'));
-                return $this->Checkout->next();
-                return;
+                return true;
             } else {
                 $controller->Flash->error(__d('shop','Please fill all required fields'));
             }
 
         }
         $controller->set('user', $user);
-        $controller->render('customer_signup');
+        return $controller->render('customer_signup');
     }
 }

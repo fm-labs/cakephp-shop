@@ -316,6 +316,18 @@ class ShopOrdersTable extends Table
         $oldStatus = $order->status;
         $order->status = $newStatus;
 
+        if ($newStatus == static::ORDER_STATUS_SUBMITTED && !$order->submitted) {
+            $order->submitted = time();
+        } elseif ($newStatus == static::ORDER_STATUS_CONFIRMED && !$order->confirmed) {
+            $order->confirmed = time();
+        } elseif ($newStatus == static::ORDER_STATUS_PAYED && !$order->payed) {
+            $order->payed = time();
+        } elseif ($newStatus == static::ORDER_STATUS_DELIVERED && !$order->delivered) {
+            $order->delivered = time();
+        } elseif ($newStatus == static::ORDER_STATUS_INVOICED && !$order->invoiced) {
+            $order->invoiced = time();
+        }
+
         if (!$this->save($order)) {
             Log::error(sprintf("Shop Order: Failed to updated order status from %s to %s",$oldStatus, $newStatus));
             return false;
@@ -418,6 +430,7 @@ class ShopOrdersTable extends Table
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
         if (!$order || $order->errors()) {
+            debug($order->errors());
             Log::error("Order submitted with errors: " . $order->id);
             return false;
         }

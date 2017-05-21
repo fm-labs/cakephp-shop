@@ -13,7 +13,8 @@
             <div class="col-xs-12 col-md-6"style="border-right: 1px solid #e8e8e8;">
                 <?= $this->Flash->render('auth'); ?>
                 <h2><?= __d('shop','Already registered?'); ?></h2>
-                <?= $this->Form->create(null, ['url' => ['action' => 'customer', 'login' => true]]); ?>
+                <?= $this->Form->create(null); ?>
+                <?= $this->Form->hidden('op', ['value' => 'login']); ?>
                 <?= $this->Form->input('username', ['required' => true, 'label' => __d('shop','Email')]); ?>
                 <?= $this->Form->input('password', ['required' => true]); ?>
                 <div class="actions" style="margin-top: 1em;">
@@ -26,15 +27,18 @@
 
                 <h2><?= __d('shop','I\'m a new customer'); ?></h2>
                 <div style="text-align: center; margin-top: 4em;">
-                    <?= $this->Html->link(__d('shop','Als Neukunde fortfahren'),
-                        ['action' => 'customer', 'signup' => true],
+
+                    <?= $this->Form->create(null); ?>
+                    <?= $this->Form->hidden('op', ['value' => 'signup']); ?>
+                    <?= $this->Form->button(__d('shop','Als Neukunde fortfahren'),
                         ['class' => 'btn btn-large btn-primary']); ?>
+                    <?= $this->Form->end(); ?>
                 </div>
 
                 <!--
                 <div style="text-align: center; margin-top: 2em;">
                 <?= $this->Html->link(__d('shop','Weiter ohne Anmeldung'),
-                    ['action' => 'customer', 'guest' => true],
+                    ['action' => 'customer', $order->cartid, 'guest' => true],
                     ['class' => 'btn']); ?>
                 </div>
                 -->
@@ -56,7 +60,7 @@
                 </h3>
 
                 <div style="text-align: right;">
-                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next', $order->cartid], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
 
@@ -71,19 +75,20 @@
                 <h3>
                     Angemeldet als:
                     <br />
-                    <?= h($customer->first_name); ?> <?= h($customer->last_name); ?>
-                    <br />
                     <?= h($customer->email); ?>
+                    <br />
+                    <?= h($customer->first_name); ?> <?= h($customer->last_name); ?>
                 </h3>
 
                 <p>
                     Sie sind nicht <?= h($customer->email); ?>?
                     <br />
-                    <?= $this->Html->link('Als anderer Kunde fortfahren', ['action' => 'resetCustomer']); ?>
+                    <?= $this->Html->link('Als anderer Kunde fortfahren', ['action' => 'resetCustomer', $order->cartid]); ?>
                 </p>
 
+                <hr />
                 <div style="text-align: right;">
-                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next', $order->cartid], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
         <?php endif; ?>

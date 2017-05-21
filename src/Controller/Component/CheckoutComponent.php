@@ -10,6 +10,7 @@ use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\Network\Exception\InternalErrorException;
+use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Exception\NotImplementedException;
 use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
@@ -31,18 +32,23 @@ use Shop\Model\Table\ShopOrdersTable;
  * @property ShopComponent $Shop
  * @property CartComponent $Cart
  */
-class CheckoutComponent extends Component
+class CheckoutComponent extends Component implements \Iterator, \SeekableIterator
 {
 
     /**
      * @var array
      */
-    public $components = ['Shop.Shop', 'Shop.Cart'];
+    public $components = ['Shop.Shop'];
 
     /**
      * @var ShopOrdersTable
      */
     public $ShopOrders;
+
+    /**
+     * @var ShopOrder
+     */
+    protected $_order;
 
     /**
      * @var CheckoutStepRegistry
@@ -57,11 +63,16 @@ class CheckoutComponent extends Component
     protected $_steps = [];
 
     /**
+     * @var string
+     */
+    protected $_active;
+
+    /**
      * Active step.
      *
      * @var CheckoutStepInterface
      */
-    protected $_active;
+    protected $_activeStep;
 
     /**
      * @param array $config
@@ -70,6 +81,7 @@ class CheckoutComponent extends Component
     {
         //$this->ShopOrders = $this->_registry->getController()->loadModel('Shop.ShopOrders');
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->ShopOrders->eventManager()->on($this);
         $this->_stepRegistry = new CheckoutStepRegistry($this);
 
         $steps = (isset($config['steps'])) ? $config['steps'] : [];
@@ -86,6 +98,13 @@ class CheckoutComponent extends Component
             }
         }
         $this->_steps = $steps;
+        $this->_active = key($steps);
+
+    }
+
+    public function beforeRender(Event $event)
+    {
+        $event->subject()->set('order', $this->_order);
     }
 
     /**
@@ -94,6 +113,73 @@ class CheckoutComponent extends Component
     public function getController()
     {
         return $this->_registry->getController();
+    }
+
+    public function initFromCartId($cartId)
+    {
+        if (!$cartId) {
+            throw new \InvalidArgumentException("Checkout: Unable to init from cart: Cart ID missing");
+        }
+        $this->_order = $this->ShopOrders->find('cart', ['ShopOrders.cartid' => $cartId]);
+    }
+
+    public function executeStep($stepId)
+    {
+        /*
+        $this->seek($stepId);
+        //return $this->_executeStep($this->current());
+
+
+        $response = $this->_executeStep($this->current());
+        if (!($response instanceof Response)) {
+            return $this->redirectNext();
+        }
+        return $response;
+        */
+        return $this->execute($stepId);
+    }
+
+    public function execute($stepId = null)
+    {
+        $response = null;
+
+        foreach($this as $step) {
+
+            // break at selected step
+            if ($stepId && $this->key() === $stepId) {
+                //debug("current " . $this->key() . " / " . $stepId);
+                $response = $this->_executeStep($step);
+                if ($response === true) {
+                    return $this->redirectNext();
+                }
+                break;
+            }
+
+            // skip complete steps
+            if ($step->isComplete()) {
+                //debug($this->key() . " is complete ");
+                continue;
+            }
+
+            //debug("executing " . $this->key() . " / " . $stepId);
+
+            $response = $this->_executeStep($step);
+            // continue to next step if execution was successful
+            if ($response === true) {
+                return $this->redirectNext();
+            }
+
+            // break at this step if execution failed
+            if ($response === false) {
+                break;
+            }
+
+            if ($response instanceof Response) {
+                return $response;
+            }
+        }
+
+        return $response;
     }
 
     /**
@@ -110,9 +196,9 @@ class CheckoutComponent extends Component
             $steps[$stepId] = [
                 'action' => $stepId,
                 'title' => $step->getTitle(),
-                'is_complete' => ($order) ? $step->isComplete() : false,
-                'url' => $step->getUrl(),
-                'icon' => null
+                'is_complete' => $step->isComplete(),
+                //'url' => $step->getUrl(),
+                //'icon' => null
             ];
         }
         return $steps;
@@ -159,23 +245,12 @@ class CheckoutComponent extends Component
      */
     public function nextStep(/* $startFromActive = false */)
     {
-        //$activeId = ($startFromActive && $this->_active) ? $this->_active->getId() : false;
-
-        foreach ($this->_steps as $stepId => $step) {
-            // skip until active step, if activeId is set
-            /*
-            if ($activeId !== false && $activeId != $stepId) {
-                debug("skip step: " . $stepId);
-                continue;
-            }
-            $activeId = false;
-            */
-
-            if (!$this->getStep($stepId)->isComplete()) {
+        $this->rewind();
+        foreach ($this as $step) {
+            if (!$step->isComplete()) {
                 //debug("step not complete: " . $stepId);
-                return $this->getStep($stepId);
+                return $step;
             }
-            //debug("step complete: " . $stepId);
         }
     }
 
@@ -183,11 +258,10 @@ class CheckoutComponent extends Component
      * Execute step in controller context
      *
      * @param CheckoutStepInterface $step
-     * @return mixed
+     * @return null|\Cake\Network\Response
      */
-    public function executeStep(CheckoutStepInterface $step)
+    protected function _executeStep(CheckoutStepInterface $step)
     {
-
         // before step
         $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.beforeStep', $this, compact('step')));
         if ($event->result instanceof Response) {
@@ -201,20 +275,13 @@ class CheckoutComponent extends Component
         $response = $step->execute($this->_registry->getController());
 
 
-        return $response;
-    }
-
-    /**
-     * Get next step and call it's 'next' method and redirect to next step
-     */
-    public function next()
-    {
-        if ($this->_active) {
-            // after
-            $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, ['step' => $this->_active]));
+        // after step
+        $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
+        if ($event->result instanceof Response) {
+            return $event->result;
         }
 
-        return $this->redirectNext();
+        return $response;
     }
 
 
@@ -225,7 +292,7 @@ class CheckoutComponent extends Component
      */
     protected function _setActiveStep(CheckoutStepInterface $step)
     {
-        $this->_active = $step;
+        $this->_activeStep = $step;
         $this->request->session()->write('Shop.Checkout.Step', ($step) ? $step->toArray() : null);
     }
 
@@ -237,7 +304,7 @@ class CheckoutComponent extends Component
     public function redirectUrl()
     {
         $step = $this->nextStep();
-        return ($step) ? $step->getUrl() : null;
+        return ($step) ? ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $step->getId(), $this->getOrder()->cartid] : null;
     }
 
     /**
@@ -261,7 +328,10 @@ class CheckoutComponent extends Component
      */
     public function &getOrder()
     {
-        return $this->Cart->getOrder();
+        if (!$this->_order) {
+            throw new \RuntimeException("Checkout: Order not initialized");
+        }
+        return $this->_order;
     }
 
     /**
@@ -273,13 +343,22 @@ class CheckoutComponent extends Component
      */
     public function setOrder(ShopOrder $order, $update = true)
     {
-        $this->Cart->setOrder($order, $update);
-        return $this;
+        $this->_order = $order;
+        if ($update) {
+            return $this->saveOrder();
+        }
+        return $this->_order;
+    }
+
+    public function saveOrder()
+    {
+        return $this->ShopOrders->save($this->getOrder());
     }
 
     public function reloadOrder()
     {
-        $this->Cart->reloadOrder();
+        $cartId = $this->getOrder()->cartid;
+        $this->initFromCartId($cartId);
         return $this;
     }
 
@@ -295,6 +374,13 @@ class CheckoutComponent extends Component
         if (!$this->getOrder()) {
             return false;
         }
+
+        $nextStep = $this->nextStep();
+        if ($nextStep->getId() != "review") {
+            debug("next step is " . $nextStep->getId());
+            return false;
+        }
+
         return $this->ShopOrders->submitOrder($this->getOrder(), $data);
     }
 
@@ -385,4 +471,122 @@ class CheckoutComponent extends Component
     }
 
 
+    /**
+     * Return the current element
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return CheckoutStepInterface
+     * @since 5.0.0
+     */
+    public function current()
+    {
+        return $this->_stepRegistry->get($this->_active);
+    }
+
+    /**
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     * @since 5.0.0
+     */
+    public function key()
+    {
+        return $this->_active;
+    }
+
+    /**
+     * Checks if current position is valid
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     * @since 5.0.0
+     */
+    public function valid()
+    {
+        if (!$this->_active) {
+            return false;
+        }
+
+        if (!$this->_stepRegistry->has($this->_active)) {
+            throw new \OutOfBoundsException("Step not loaded: " . $this->_active);
+        }
+
+        //if ($this->_stepRegistry->isComplete()) {
+        //    throw new IncompleteStepException();
+        //}
+        return true;
+    }
+
+    /**
+     * Rewind the Iterator to the first element
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function rewind()
+    {
+        reset($this->_steps);
+        $this->_active = key($this->_steps);
+    }
+
+    /**
+     * Move forward to next element
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function next()
+    {
+        $next = false; // flag indicating to exit loop on next iteration
+
+        foreach (array_keys($this->_steps) as $stepId) {
+
+            if ($next === true) {
+                $this->_active = $stepId;
+                return;
+            }
+
+            if ($this->_active == $stepId) {
+                $next = true;
+            }
+        }
+
+        // last step
+        $this->_active = false;
+    }
+
+    /**
+     * Seeks to a position
+     * @link http://php.net/manual/en/seekableiterator.seek.php
+     * @param int $position <p>
+     * The position to seek to.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function seek($position)
+    {
+        if (!$this->_stepRegistry->has($this->_active)) {
+            throw new \OutOfBoundsException("Step not loaded: " . $this->_active);
+        }
+
+        $this->_active = $position;
+    }
+
+    public function implementedEvents()
+    {
+        $events = parent::implementedEvents();
+
+        $events['Shop.Model.Order.afterSubmit'] = ['callable' => 'afterSubmit', 'priority' => 90];
+        return $events;
+    }
+
+    public function afterSubmit(Event $event)
+    {
+        $this->_order = null;
+
+        $this->request->session()->delete('Shop.Cart');
+        $this->request->session()->delete('Shop.Checkout');
+        $this->request->session()->delete('Shop.Order');
+
+    }
 }

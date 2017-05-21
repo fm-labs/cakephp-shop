@@ -4,6 +4,7 @@ namespace Shop\Core\Checkout;
 
 
 use Cake\Controller\Controller;
+use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
 
 interface CheckoutStepInterface
@@ -17,13 +18,6 @@ interface CheckoutStepInterface
      * @return string
      */
     public function getId();
-
-    /**
-     * Get url to step, where it gets invoked.
-     *
-     * @return mixed
-     */
-    public function getUrl();
 
     /**
      * Step title.
@@ -41,18 +35,11 @@ interface CheckoutStepInterface
     public function isComplete();
 
     /**
-     * Called if the step is next, but the user has not be redirected there yet.
-     *
-     * @return void
-     */
-    public function backgroundExecute();
-
-    /**
      * Execute step in controller context.
      * Usually called when the user has been redirected to next step, or this is the active step.
      *
      * @param Controller $controller
-     * @return mixed
+     * @return null|Response
      */
     public function execute(Controller $controller);
 

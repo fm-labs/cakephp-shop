@@ -18,10 +18,6 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 
     public function isComplete()
     {
-        if (!$this->Checkout->getOrder()) {
-            return false;
-        }
-
         // check if shipping is required
         if (!$this->Checkout->ShopOrders->requiresShipping($this->Checkout->getOrder())) {
             return true;
@@ -32,13 +28,13 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
             return true;
         }
 
-        return ($this->Checkout->getOrder()->getShippingAddress()) ? true : false;
-    }
+        if ($this->Checkout->getOrder()->getShippingAddress()) {
+            return true;
+        }
 
-    public function backgroundExecute()
-    {
+
         // auto-create billing from shipping address
-        if (!$this->isComplete() && $this->Checkout->getOrder()->getBillingAddress()) {
+        if ($this->Checkout->getOrder()->getBillingAddress()) {
             $address = $this->Checkout->getOrder()->getBillingAddress();
 
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($address->extractAddress(), ['validate' => false]);
@@ -48,6 +44,8 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                 $this->log('ShippingAddress: Failed to create shipping address from billing address');
             }
         }
+
+        return false;
     }
 
     public function execute(Controller $controller)
@@ -73,8 +71,9 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     $addressId = $controller->request->data('customer_address_id');
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'S')) {
+                        $this->Checkout->reloadOrder();
                         $controller->Flash->success(__d('shop','Shipping address has been updated'));
-                        return $this->Checkout->next();
+                        return true;
                     }
                     break;
 
@@ -82,8 +81,9 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 
                     $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->request->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
+                        $this->Checkout->reloadOrder();
                         $controller->Flash->success(__d('shop','Shipping address has been updated'));
-                        return $this->Checkout->next();
+                        return true;
                     }
                     break;
             }
@@ -94,7 +94,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         $controller->set('shippingAddresses', $this->Checkout->Shop->getCustomerAddressesList());
         $controller->set('countries', $this->Checkout->Shop->getCountriesList());
 
-        $controller->render('shipping_address');
+        return $controller->render('shipping_address');
     }
 
 }

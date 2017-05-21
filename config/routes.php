@@ -20,24 +20,15 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
 
     $routes->connect('/checkout/:action/:cartid/*',
         ['controller' => 'Checkout'],
-        ['pass' => ['action']]
+        ['pass' => ['cartid']]
     );
     $routes->connect('/checkout/:action/:cartid',
         ['controller' => 'Checkout'],
-        ['pass' => ['action']]
+        ['pass' => ['cartid']]
     );
     $routes->connect('/checkout/:action',
         ['controller' => 'Checkout'],
-        ['pass' => ['action']]
-    );
-    $routes->connect('/checkout',
-        ['controller' => 'Checkout', 'action' => 'index'],
-        ['_name' => 'checkout']
-    );
-
-    $routes->connect('/checkout/debug',
-        ['controller' => 'Checkout', 'action' => 'debug'],
-        ['_name' => 'debug_checkout']
+        ['pass' => []]
     );
 
     $routes->connect('/customer',

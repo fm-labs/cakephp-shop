@@ -80,11 +80,14 @@ class OrdersController extends AppController
 
         // just redirect to payment page
 
+        /*
         if ($shopOrder->payment_type == "credit_card_internal" || $shopOrder->payment_type == "payment_slip") {
             return $this->redirect(['action' => 'view', $uuid]);
         } else {
-            return $this->redirect(['controller' => 'Payment', 'action' => 'index', $uuid]);
         }
+        */
+
+        return $this->redirect(['controller' => 'Payment', 'action' => 'index', $uuid]);
     }
 
     /**

@@ -124,13 +124,9 @@ class PaymentController extends AppController
             case ShopOrdersTable::ORDER_STATUS_SUBMITTED:
             case ShopOrdersTable::ORDER_STATUS_PENDING:
 
-                // continue to external paymant provider
-                $redirectUrl = ['action' => 'pay', $orderUUID];
-
-                //$this->Flash->success("We are waiting for payment confirmation");
-                // check payment status
+                // continue to paymant
+                return $this->setAction('pay', $orderUUID);
                 break;
-
 
             case ShopOrdersTable::ORDER_STATUS_CONFIRMED:
             case ShopOrdersTable::ORDER_STATUS_PAYED:
@@ -140,13 +136,9 @@ class PaymentController extends AppController
             default:
                 $this->Flash->success(__('We are processing your order'));
                 break;
-
-
         }
 
-        if ($redirectUrl) {
-           // return $this->redirect($redirectUrl);
-        }
+        return $this->redirect($redirectUrl);
     }
 
     /**

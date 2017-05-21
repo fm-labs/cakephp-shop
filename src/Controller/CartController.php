@@ -161,4 +161,14 @@ class CartController extends AppController
         $this->autoRender = false;
         $this->render('index');
     }
+
+    public function reset()
+    {
+        if ($this->Cart->reset()) {
+            $this->Flash->success(__d('shop', 'The order has been reseted'));
+        } else {
+            $this->Flash->error(__d('shop', 'Failed to reset order'));
+        }
+        $this->redirect($this->referer(['action' => 'index']));
+    }
 }

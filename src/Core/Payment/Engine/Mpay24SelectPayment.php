@@ -27,7 +27,24 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
     public function checkout(CheckoutComponent $Checkout)
     {
-        return $Checkout->next();
+        if ($Checkout->request->is(['post', 'put'])) {
+            $data = $Checkout->request->data();
+
+            $order = $Checkout->getOrder();
+            $order->accessible(['payment_type'], true);
+            $order = $Checkout->ShopOrders->patchEntity($order, $data, ['validate' => 'payment']);
+
+            if ($Checkout->setOrder($order, true)) {
+                return $Checkout->redirectNext();
+            } else {
+                debug($order->errors());
+                //$Checkout->getController()->Flash->error("Failed to update credit cart info");
+            }
+        } elseif (!$this->request-query('change')) {
+
+            return $Checkout->redirectNext();
+        }
+
     }
 
     protected function _buildMpay24Config()

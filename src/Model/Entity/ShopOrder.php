@@ -102,6 +102,10 @@ class ShopOrder extends Entity
         'billing_address',
         'shipping_address',
         'qty', // alias for amount (get/set)
+        'cc_brand',
+        'cc_number',
+        'cc_holder_name',
+        'cc_expires_at'
     ];
 
     protected function _getQty()
@@ -124,6 +128,8 @@ class ShopOrder extends Entity
         }
         return $this->_properties['shop_customer'];
     }
+
+
 
     /**
      * @param $addressType
