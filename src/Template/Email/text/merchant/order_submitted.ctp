@@ -1,34 +1,42 @@
 Es ist eine Bestellung aus dem Online-Shop eingelangt:
 
 
-Anrede:
-Vorname: <?= $order->getBillingAddress()->first_name ?>
-
-Zuname: <?= $order->getBillingAddress()->last_name ?>
-
 Auftraggeber:
--------------
-
-Email: <?= $order->shop_customer->email ?>
-
-Strasse: <?= $order->getBillingAddress()->street ?>
-
-PLZ: <?= $order->getBillingAddress()->zipcode ?>
-
-Ort: <?= $order->getBillingAddress()->city ?>
-
-Land: <?= $order->getBillingAddress()->country ?>
+-----------------
+<?= $this->element('Shop.Email/text/customer', ['customer' => $order->shop_customer]); ?>
 
 
+Rechnungsadresse:
+-----------------
+<?= $this->element('Shop.Email/text/address', ['address' => $order->getBillingAddress()]); ?>
 
-<?php foreach ($order->shop_order_items as $orderItem): ?>
-<?php echo sprintf("%s %s %s, %s , EUR %s\n\n",
-    $orderItem->amount,
-    $orderItem->unit,
-    ($orderItem->ref) ? $orderItem->ref->sku : '-',
-    $orderItem->title,
-    number_format($orderItem->value_total, 2)
-); ?>
-<?php endforeach; ?>
+
+Zahlung:
+-----------------
+<?= $this->element('Shop.Email/text/order_payment_merchant', ['order' => $order]); ?>
+
+
+Lieferadresse:
+--------------
+<?= $this->element('Shop.Email/text/address', ['address' => $order->getShippingAddress()]); ?>
+
+
+Zusätzliche Informationen des Kunden:
+-------------------------------------
+
+<?= $order->customer_notes; ?>
+
+
+Email: <?= $order->customer_email; ?>
+
+Telefon: <?= $order->customer_phone; ?>
+
+
+
+Bestellartikel:
+---------------
+<?= $this->element('Shop.Email/text/order_items', ['items' => $order->shop_order_items]); ?>
+
+
 
 Rechnungsbetrag: EUR <?= number_format($order->order_value_total, 2) ?>

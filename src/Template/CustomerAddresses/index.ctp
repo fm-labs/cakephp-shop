@@ -9,7 +9,7 @@ $this->Breadcrumbs->add(__d('shop','Saved addresses'), ['controller' => 'Custome
     <p>
         <?= __d('shop','This addresses can be used during the checkout process'); ?>
     </p>
-    <?= $this->Html->link(__d('shop','Add address'), ['action' => 'add'], ['class' => 'btn btn-lg btn-primary']); ?>
+    <?= $this->Html->link(__d('shop','Add address'), ['action' => 'add'], ['class' => 'btn btn-primary']); ?>
     <hr />
 
     <?php if (count($addresses) < 1): ?>
