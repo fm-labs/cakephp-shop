@@ -324,7 +324,7 @@ class ShopOrdersTable extends Table
             $order->payed = time();
         } elseif ($newStatus == static::ORDER_STATUS_DELIVERED && !$order->delivered) {
             $order->delivered = time();
-        } elseif ($newStatus == static::ORDER_STATUS_INVOICED && !$order->invoiced) {
+        } elseif ($newStatus == static::ORDER_STATUS_CLOSED && !$order->invoiced) {
             $order->invoiced = time();
         }
 
