@@ -24,7 +24,7 @@
                 <td><?= $this->Html->link($order->nr_formatted, ['action' => 'view', $order->uuid]); ?></td>
                 <td><?= h($order->submitted); ?></td>
                 <td><?= $this->Number->currency($order->order_value_total, $order->currency); ?></td>
-                <td><?= $this->Status->label($order->status); ?></td>
+                <td><?= $this->Status->label($order->_status); ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__d('shop','View details'), ['action' => 'view', $order->uuid]); ?>
                 </td>

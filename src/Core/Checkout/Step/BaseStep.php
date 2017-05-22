@@ -18,6 +18,9 @@ use Shop\Model\Table\ShopOrdersTable;
  */
 abstract class BaseStep implements EventListenerInterface
 {
+    /**
+     * @var CheckoutComponent
+     */
     public $Checkout;
 
     public function __construct(CheckoutComponent $Checkout)

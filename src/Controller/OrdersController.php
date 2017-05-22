@@ -55,9 +55,11 @@ class OrdersController extends AppController
         }
 
         $shopOrder = $this->ShopOrders->find('order', compact('uuid'));
-        if (!$shopOrder) {
-            throw new NotFoundException();
-        }
+
+        $shopOrder = $this->ShopOrders->find('all', ['status' => true])
+            ->where(['ShopOrders.uuid' => $uuid])
+            ->contain(['ShopOrderAddresses' => ['Countries']])
+            ->firstOrFail();
 
         if (!$this->Auth->user() || $this->Shop->getCustomerId() != $shopOrder->shop_customer_id) {
             $this->viewBuilder()->template('view_public');

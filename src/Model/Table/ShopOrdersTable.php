@@ -74,7 +74,7 @@ class ShopOrdersTable extends Table
         parent::initialize($config);
 
         $this->table('shop_orders');
-        $this->displayField('title');
+        $this->displayField('nr_formatted');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');

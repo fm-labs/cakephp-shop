@@ -105,6 +105,8 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
     public function beforeRender(Event $event)
     {
         $event->subject()->set('order', $this->_order);
+        $event->subject()->set('step', $this->_activeStep);
+        $event->subject()->set('stepId', $this->_active);
     }
 
     /**
@@ -123,6 +125,11 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         $this->_order = $this->ShopOrders->find('cart', ['ShopOrders.cartid' => $cartId]);
     }
 
+    /**
+     * @param $stepId
+     * @return Response|null
+     * @deprecated Use execute() instead
+     */
     public function executeStep($stepId)
     {
         /*
@@ -139,10 +146,13 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         return $this->execute($stepId);
     }
 
+    /**
+     * @param null|string $stepId
+     * @return Response|null
+     */
     public function execute($stepId = null)
     {
         $response = null;
-
         foreach($this as $step) {
 
             // break at selected step
@@ -178,7 +188,6 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
                 return $response;
             }
         }
-
         return $response;
     }
 
@@ -215,29 +224,7 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         if (!$this->_stepRegistry->has($stepId)) {
             throw new \InvalidArgumentException('Step ' . $stepId . ' is not registered');
         }
-
         return $this->_stepRegistry->get($stepId);
-    }
-
-    /**
-     * Checks if previous steps have been completed.
-     *
-     * @param $stepId
-     * @return bool
-     */
-    public function checkStep($stepId)
-    {
-        $complete = true;
-        foreach ($this->_steps as $_stepId => $step) {
-            if ($stepId == $_stepId) {
-                break;
-            }
-            $complete = $complete && $this->getStep($_stepId)->isComplete();
-            if ($complete !== true) {
-                return $complete;
-            }
-        }
-        return $complete;
     }
 
     /**
@@ -271,53 +258,43 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         }
 
         // execute
-        $this->_setActiveStep($step);
+        $this->_activeStep = $step;
         $response = $step->execute($this->_registry->getController());
 
+        // store active step in session
+        $event->subject()->request->session()->write('Shop.Checkout.Step', ($this->_activeStep) ? $this->_activeStep->toArray() : null);
 
         // after step
         $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
         if ($event->result instanceof Response) {
             return $event->result;
         }
-
         return $response;
     }
 
-
     /**
-     * Set the active step.
-     *
-     * @param CheckoutStepInterface $step
+     * @param string|CheckoutStepInterface $stepId
+     * @return array
      */
-    protected function _setActiveStep(CheckoutStepInterface $step)
+    public function buildStepUrl($stepId)
     {
-        $this->_activeStep = $step;
-        $this->request->session()->write('Shop.Checkout.Step', ($step) ? $step->toArray() : null);
+        if ($stepId instanceof CheckoutStepInterface) {
+            $stepId = $stepId->getId();
+        }
+
+        return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $stepId, $this->getOrder()->cartid];
     }
 
     /**
-     * Get url of next step. Or NULL if no step follows.
-     *
-     * @return null|array|string
-     */
-    public function redirectUrl()
-    {
-        $step = $this->nextStep();
-        return ($step) ? ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $step->getId(), $this->getOrder()->cartid] : null;
-    }
-
-    /**
-     * Redirect to next step. Or redirect to checkout index page
-     * @TODO Check: Aren't we infinitly looping here, as checkout index itself redirects to next action?!
+     * Redirect to next step
      *
      * @return \Cake\Network\Response|null
      */
     public function redirectNext()
     {
-        $redirect = $this->redirectUrl();
-        if ($redirect) {
-            return $this->_registry->getController()->redirect($redirect);
+        $step = $this->nextStep();
+        if ($step) {
+            return $this->_registry->getController()->redirect($this->buildStepUrl($step));
         }
     }
 
@@ -350,15 +327,20 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         return $this->_order;
     }
 
+    /**
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
     public function saveOrder()
     {
         return $this->ShopOrders->save($this->getOrder());
     }
 
+    /**
+     * @return $this
+     */
     public function reloadOrder()
     {
-        $cartId = $this->getOrder()->cartid;
-        $this->initFromCartId($cartId);
+        $this->initFromCartId($this->getOrder()->cartid);
         return $this;
     }
 
@@ -376,9 +358,8 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         }
 
         $nextStep = $this->nextStep();
-        if ($nextStep->getId() != "review") {
-            debug("next step is " . $nextStep->getId());
-            return false;
+        if ($nextStep->getId() != "review") { //@TODO Replace this workaround: Check if all previously steps have been completed
+            return $this->redirectNext();
         }
 
         return $this->ShopOrders->submitOrder($this->getOrder(), $data);

@@ -27,6 +27,7 @@ class ReviewStep extends BaseStep implements CheckoutStepInterface
             } else {
                 debug($this->Checkout->getOrder()->errors());
                 $controller->Flash->error(__d('shop','Please fill all required fields'));
+                //$this->Checkout->redirectNext();
             }
         }
         return $controller->render('review');

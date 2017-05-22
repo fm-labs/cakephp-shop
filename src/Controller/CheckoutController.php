@@ -6,16 +6,13 @@ namespace Shop\Controller;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Log\Log;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\NotFoundException;
 use Cake\Utility\Inflector;
-use LogicException;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class CheckoutController
+ *
  * @package Shop\Controller
  *
  * @property ShopOrdersTable $ShopOrders
@@ -23,8 +20,14 @@ use Shop\Model\Table\ShopOrdersTable;
  */
 class CheckoutController extends AppController
 {
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopOrders";
 
+    /**
+     * Initialize
+     */
     public function initialize()
     {
         parent::initialize();
@@ -36,111 +39,99 @@ class CheckoutController extends AppController
         $this->Auth->allow();
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
 
-        $layout = (Configure::read('Shop.Checkout.layout')) ?: null;
-        $this->viewBuilder()->layout($layout);
+        $this->viewBuilder()->layout((Configure::read('Shop.Checkout.layout')) ?: null);
     }
 
+    /**
+     * @param Event $event
+     * @return \Cake\Network\Response|null|void
+     */
     public function beforeRender(Event $event)
     {
         $this->set('steps', $this->Checkout->describeSteps());
     }
 
-    protected function _checkOrder()
-    {
-        if (!$this->Checkout->getOrder() || count($this->Checkout->getOrder()->shop_order_items) < 1) {
-            $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
-            $this->redirect(['_name' => 'shop:cart']);
-            return;
-        }
-    }
-
-    protected function _checkCart($cartid)
-    {
-
-        if ($this->Checkout->getOrder() && $this->Checkout->getOrder()->cartid != $cartid) {
-            $this->Flash->error(__d('shop', 'Checkout aborted: Bad request'));
-            //$this->redirect(['_name' => 'shop:cart']);
-            return;
-        }
-    }
-
-    public function debug()
-    {
-        if (!Configure::read('debug')) {
-            throw new NotFoundException();
-        }
-    }
-
+    /**
+     * Checkout index action
+     * Load order from cartID and redirect to next checkout step
+     *
+     * @param null|string $cartId
+     * @return \Cake\Network\Response|null
+     */
     public function index($cartId = null)
     {
         if (!$cartId) {
-            throw new BadRequestException("Unknown cartid");
+            //@TODO Log bad request
+            $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+            return $this->redirect(['_name' => 'shop:cart']);
         }
 
         $this->Checkout->initFromCartId($cartId);
-        $this->Checkout->redirectNext();
+        return $this->Checkout->redirectNext();
     }
 
+    /**
+     * @param null|string $cartId
+     * @deprecated Use index() instead
+     */
     public function next($cartId = null)
     {
         $this->setAction('index', $cartId);
     }
 
+    /**
+     * Invokes controller actions or fallback to checkout step,
+     * where the controller action is mapped to checkout stepID of same name
+     *
+     * @return \Cake\Network\Response|mixed|null
+     */
     public function invokeAction()
     {
         try {
             return parent::invokeAction();
 
         } catch (MissingActionException $ex) {
+
+            // read stepID from request
             $stepId = $this->request->params['action'];
             $stepId = Inflector::underscore($stepId);
 
+            // read cartID from request
             $cartId = $this->request->param('cartid');
             if (!$cartId) {
-                throw new BadRequestException("Unknown cartid for step " . $stepId);
+                //@TODO Log bad request
+                $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+                return $this->redirect(['_name' => 'shop:cart']);
             }
 
+            // load order for cartID
             $this->Checkout->initFromCartId($cartId);
 
-            // check if cart order exists
-            $this->_checkOrder();
-            $this->_checkCart($cartId);
-
-
-            //$this->Checkout->jumpTo();
-            $response = $this->Checkout->executeStep($stepId);
-
-            /*
-            // check step
-            if ($stepId === 'next' || $stepId === 'index') {
-                return $this->Checkout->redirectNext();
+            // check if order is ready for checkout
+            if (!$this->Checkout->getOrder() || count($this->Checkout->getOrder()->shop_order_items) < 1) {
+                $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+                return $this->redirect(['_name' => 'shop:cart']);
             }
 
-            if (!$this->Checkout->getStep($stepId)) {
-                throw new BadRequestException("Unknown checkout step " . $stepId);
+            if ($this->Checkout->getOrder()->is_temporary === false || $this->Checkout->getOrder()->status > ShopOrdersTable::ORDER_STATUS_TEMP) {
+                //$this->Flash->success(__d('shop', 'Order already submitted'));
+                return $this->redirect(['controller' => 'Orders', 'action' => 'view', $this->Checkout->getOrder()->uuid]);
             }
 
-            // check if all previous steps are completed
-            if (!$this->Checkout->checkStep($stepId)) {
-                return $this->Checkout->redirectNext();
-            }
+            //if ($this->Checkout->getOrder()->cartid != $cartId) {
+            //    $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+            //    return $this->redirect(['_name' => 'shop:cart']);
+            //}
 
-            // execute step
-            $step = $this->Checkout->getStep($stepId);
-
-            $event = $this->eventManager()->dispatch(new Event('Shop.Checkout.beforeStep', $this, compact('step')));
-
-            $response = $this->Checkout->executeStep($step);
-
-            $event = $this->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, compact('step', 'response')));
-
-            */
-
-            return $response;
+            // execute checkout step
+            return $this->Checkout->executeStep($stepId);
         }
 
         throw new MissingActionException([
