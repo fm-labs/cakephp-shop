@@ -82,8 +82,8 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
 
 
             <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
-            <?= $this->Form->input('preview_image_file', ['type' => 'media_picker']); ?>
-            <?= $this->Form->input('featured_image_file', ['type' => 'media_picker']); ?>
+            <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
+            <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
             <?= $this->Form->fieldsetEnd(); ?>
 
 
