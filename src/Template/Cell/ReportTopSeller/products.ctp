@@ -12,7 +12,7 @@ $title = sprintf("%s - %s", $this->Time->format($dateStart, "dd.MM.YYYY"), $this
         'title' => [
             'label' => __d('shop', 'Product'),
             'formatter' => function($val, $row) {
-                return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopProduct', 'action' => 'view', $row['key']]);
+                return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'edit', $row['key']]);
             }
         ],
         //'sku' => [],
