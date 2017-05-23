@@ -49,7 +49,9 @@ class ShopOrderItem extends Entity
         'sku',
         'currency',
         'base_currency',
-        'value_net'
+        'value_net',
+        'value_tax',
+        'value_total',
     ];
 
     /**
@@ -186,11 +188,27 @@ class ShopOrderItem extends Entity
     /**
      * Calculate totals
      * @return void
+     * @deprecated Use virtual fields instead
      */
     public function calculate()
     {
-        $this->value_net = $this->item_value_net * $this->amount;
-        $this->value_tax = $this->value_net * ($this->tax_rate/100);
-        $this->value_total = $this->value_net + $this->value_tax;
+        //$this->value_net = $this->item_value_net * $this->amount;
+        //$this->value_tax = $this->value_net * ($this->tax_rate/100);
+        //$this->value_total = $this->value_net + $this->value_tax;
+    }
+
+    protected function _getValueNet()
+    {
+        return $this->item_value_net * $this->amount;
+    }
+
+    protected function _getValueTax()
+    {
+        return $this->value_net * ($this->tax_rate/100);
+    }
+
+    protected function _getValueTotal()
+    {
+        return $this->value_net + $this->value_tax;
     }
 }

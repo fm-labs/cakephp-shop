@@ -3,6 +3,7 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Shop\Controller\Admin\AppController;
+use Tcpdf\View\PdfView;
 
 /**
  * ShopOrders Controller
@@ -15,6 +16,12 @@ class ShopOrdersController extends AppController
     public $actions = [
         'index' => 'Backend.Index',
     ];
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
 
     /**
      * Index method
@@ -73,6 +80,48 @@ class ShopOrdersController extends AppController
         ]);
         $this->set('shopOrder', $shopOrder);
         $this->set('_serialize', ['shopOrder']);
+    }
+
+    public function printview($id = null)
+    {
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'status' => true
+        ]);
+        $this->set('shopOrder', $shopOrder);
+        $this->viewBuilder()->layout('Shop.print');
+        $this->render('printview');
+    }
+
+    public function pdfview($id = null)
+    {
+
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'status' => true
+        ]);
+        $this->set('shopOrder', $shopOrder);
+
+        $this->viewBuilder()->className('Tcpdf.Pdf');
+        $this->viewBuilder()->layout('Shop.print');
+
+        $this->set('pdfEngine', '\\Ontalents\\Pdf\\OntalentsPdf');
+        $this->set('pdf', [
+            'title' => $shopOrder->title,
+            'subject' => $shopOrder->nr_formatted,
+            'keywords' => $shopOrder->nr_formatted,
+            //'output' => 'browser'
+        ]);
+
+        $this->render('printview');
+    }
+
+    /**
+     *
+     */
+    protected function _createPdfView()
+    {
+
     }
 
     /**
