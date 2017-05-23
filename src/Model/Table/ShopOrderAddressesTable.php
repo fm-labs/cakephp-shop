@@ -67,6 +67,8 @@ class ShopOrderAddressesTable extends ShopAddressesTable
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules = parent::buildRules($rules);
+
         $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
         $rules->add($rules->existsIn(['shop_customer_address_id'], 'ShopCustomerAddresses'));
         $rules->add($rules->existsIn(['country_id'], 'Countries'));

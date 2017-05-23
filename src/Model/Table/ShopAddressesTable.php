@@ -1,12 +1,12 @@
 <?php
 namespace Shop\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Shop\Lib\EuVatNumber;
+use Shop\Lib\EuVatValidator;
 use Shop\Lib\Shop;
-use Shop\Model\Entity\ShopAddress;
 
 /**
  * ShopAddresses Model
@@ -105,15 +105,29 @@ abstract class ShopAddressesTable extends Table
             $validator->requirePresence('taxid', 'create');
         }
         $validator
-            ->add('taxid', 'vatin', ['rule' => function($value, $context) {
-                // https://en.wikipedia.org/wiki/VAT_identification_number
-                $match = preg_match('/^([A-Z]{2})([0-9A-Z]+)$/', $value);
-                return (bool) $match;
-            }])
-            ->allowEmpty('taxid');
-
+            ->allowEmpty('taxid')
+            ->add('taxid', 'eu_vat_number', ['rule' => function($value, $context) {
+                return (EuVatNumber::validate($value));
+            }]);
 
         return $validator;
+    }
+
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add(function($entity, $options) {
+            if (!$entity->taxid) {
+                return true;
+            }
+            $validator = new EuVatValidator();
+            return $validator->checkVat($entity->taxid);
+
+        }, 'eu_vat_validation', [
+            'errorField' => 'taxid',
+            'message' => __('Please provide a valid European VAT ID')
+        ]);
+
+        return $rules;
     }
 
 }

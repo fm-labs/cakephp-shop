@@ -3,6 +3,7 @@ namespace Shop\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
+use Shop\Lib\EuVatNumber;
 
 /**
  * ShopAddress Entity.
@@ -128,6 +129,13 @@ class ShopAddress extends Entity
         );
 
     }
+
+    protected function _setTaxid($val)
+    {
+        //@TODO Add support for non-EU taxids
+        return ($val) ? EuVatNumber::normalize($val) : null;
+    }
+
 
     public function extractAddress()
     {

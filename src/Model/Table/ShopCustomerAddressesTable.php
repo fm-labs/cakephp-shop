@@ -76,9 +76,9 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
 
         $customerAddress = $this->newEntity($data);
         if ($customerAddress->errors()) {
-            Log::debug("ShopCustomerAddresses::newRecordFromOrderAddress: Address invalid: " . json_encode($customerAddress->errors()));
+            Log::error("ShopCustomerAddresses::newRecordFromOrderAddress: Address invalid: " . json_encode($customerAddress->errors()));
         }
-        return $this->save($customerAddress);
+        return $this->save($customerAddress, ['checkRules' => false]);
     }
 
     /**
@@ -90,6 +90,8 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules = parent::buildRules($rules);
+
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
         $rules->add($rules->existsIn(['country_id'], 'Countries'));
         return $rules;
