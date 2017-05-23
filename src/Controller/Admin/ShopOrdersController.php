@@ -48,7 +48,7 @@ class ShopOrdersController extends AppController
                 'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
             ],
-            'status' => ['formatter' => function($val, $row, $args, $view) {
+            '_status' => ['formatter' => function($val, $row, $args, $view) {
                 return $view->Status->label($val);
             }],
             //'payment_status' => [],

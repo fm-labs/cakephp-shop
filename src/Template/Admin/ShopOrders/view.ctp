@@ -35,7 +35,7 @@
                     'model' => 'Shop.ShopOrders',
                     'whitelist' => true,
                     'fields' => [
-                        'status' => ['formatter' => function($val, $row, $args, $view) {
+                        '_status' => ['formatter' => function($val, $row, $args, $view) {
                             return $this->Status->label($val);
                         }],
                         'shop_customer_id' => ['formatter' => function($val, $row) {

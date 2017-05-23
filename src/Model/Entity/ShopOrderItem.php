@@ -63,6 +63,14 @@ class ShopOrderItem extends Entity
     }
 
     /**
+     * @return bool
+     */
+    public function isProcessed()
+    {
+        return (bool) $this->is_processed;
+    }
+
+    /**
      * @return EntityInterface
      */
     protected function _getRef()

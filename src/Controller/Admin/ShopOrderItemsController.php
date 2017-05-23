@@ -28,6 +28,8 @@ class ShopOrderItemsController extends AppController
             'conditions' => []
         ];
 
+        $this->helpers['Banana.Status'] = [];
+
         if ($this->request->query('order_id')) {
             $this->paginate['conditions']['shop_order_id'] = $this->request->query('order_id');
         }
@@ -69,7 +71,12 @@ class ShopOrderItemsController extends AppController
             'value' => ['title' => __d('shop','Total'), 'formatter' => function($val, $row, $args, $view) {
                 $val = ($val) ?: $row->value_net + $row->value_tax;
                 return $view->Number->currency($val, $row->currency);
-            }]
+            }],
+            'is_processed' => ['formatter' => 'boolean'],
+            //'_status' => ['formatter' => function($val, $row, $args, $view) {
+            //    return $view->Status->label($val);
+            //}],
+            'last_message' => []
         ]);
         $this->set('rowActions', [
             [__('View'), ['action' => 'view', ':id']]
