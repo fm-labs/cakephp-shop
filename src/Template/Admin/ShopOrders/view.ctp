@@ -185,6 +185,7 @@
     <!-- @TODO Related data -->
     <?= $this->Tabs->render(); ?>
 
+    <?php debug($this); ?>
 
 </div>
 
