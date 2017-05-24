@@ -22,9 +22,4 @@ class Mpay24SofortPayment extends Mpay24SelectPayment
 
         return $mdxi;
     }
-
-    protected function _pay(Mpay24 $mpay24, MPay24Order $mdxi)
-    {
-        return $mpay24->paymentPage($mdxi);
-    }
 }

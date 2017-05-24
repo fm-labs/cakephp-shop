@@ -47,13 +47,22 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
     }
 
-    protected function _buildMpay24Config()
+    protected function _buildMpay24Config($testMode)
     {
 
-        $merchantID = Configure::read('Mpay24.merchantID');
-        $soapPassword = Configure::read('Mpay24.soapPassword');
-        $test = (bool)Configure::read('Mpay24.test');
-        $debug = (bool)Configure::read('Mpay24.debug');
+        if ($testMode) {
+
+            $merchantID = Configure::read('Mpay24.Test.merchantID');
+            $soapPassword = Configure::read('Mpay24.Test.soapPassword');
+            $debug = (bool)Configure::read('Mpay24.debug');
+            $test = true;
+        } else {
+
+            $merchantID = Configure::read('Mpay24.merchantID');
+            $soapPassword = Configure::read('Mpay24.soapPassword');
+            $test = false;
+            $debug = (bool)Configure::read('Mpay24.debug');
+        }
 
         $config = new Mpay24Config();
         $config->setMerchantID($merchantID);
@@ -65,10 +74,10 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         //$config->setProxyHost($proxyUser);
         //$config->setProxyPass($proxyPass);
         //$config->setVerifyPeer($verifyPeer);
-        $config->setEnableCurlLog($debug);
-        $config->setLogFile('mpay24.log');
         $config->setLogPath(LOGS);
+        $config->setLogFile('mpay24.log');
         $config->setCurlLogFile('mpay24_curl.log');
+        $config->setEnableCurlLog($debug);
 
 
         // FLEX
@@ -106,8 +115,16 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
         try {
 
+            /**
+             * Use test system with demo user
+             */
+            $testMode = false;
+            if (Configure::read('Shop.Demo.enabled') && $order->shop_customer->email == Configure::read('Shop.Demo.username')) {
+                $testMode = true;
+            }
+
             // Initialize Mpay24
-            $config = $this->_buildMpay24Config();
+            $config = $this->_buildMpay24Config($testMode);
             $mpay24 = new Mpay24($config);
 
             // @TODO this 'class_exists' call is necessary otherwise PHP throws 'class not found' ?!
