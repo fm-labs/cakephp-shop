@@ -389,9 +389,9 @@ class ShopOrdersTable extends Table
         {
             case ShopOrderTransactionsTable::STATUS_INIT:
             case ShopOrderTransactionsTable::STATUS_SUSPENDED:
-            case ShopOrderTransactionsTable::STATUS_RESERVED:
                 return ShopOrdersTable::ORDER_STATUS_PENDING;
 
+            case ShopOrderTransactionsTable::STATUS_RESERVED:
             case ShopOrderTransactionsTable::STATUS_CONFIRMED:
                 return ShopOrdersTable::ORDER_STATUS_PAYED;
 
