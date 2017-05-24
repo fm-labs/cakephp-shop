@@ -42,14 +42,17 @@ class ShopOrdersController extends AppController
         $this->set('fields.whitelist', true);
         $this->set('fields', [
             //'id' => [],
-            'nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
-                return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
-            }],
             'submitted' => [
             ],
             'shop_customer_id' => ['formatter' => function($val, $row, $args, $view) {
                 return $view->Html->link($row->shop_customer->display_name,
                     ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]);
+            }],
+            'nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+                return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
+            }],
+            'invoice_nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+                return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id, 'mode' => 'invoice']) : null;
             }],
             'order_value_total' => [
                 'class' => 'right',

@@ -89,26 +89,6 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
         </div>
     </div>
 
-
-    <!--
-    <hr />
-    <div class="row">
-        <div class="col-md-12">
-            <h2><?= __d('shop','Additional Information') ?></h2>
-
-            <strong>Customer Phone number</strong>
-            <p><?= h($order->customer_phone); ?></p>
-
-            <strong>Customer Email</strong>
-            <p><?= h($order->customer_email); ?></p>
-
-            <strong>Customer Notes</strong>
-            <p><?= h($order->customer_notes); ?></p>
-
-        </div>
-    </div>
-    -->
-
     <hr />
     <div class="row">
         <div class="col-md-12">

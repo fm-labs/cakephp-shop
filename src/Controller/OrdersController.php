@@ -58,7 +58,7 @@ class OrdersController extends AppController
 
         $shopOrder = $this->ShopOrders->find('all', ['status' => true])
             ->where(['ShopOrders.uuid' => $uuid])
-            ->contain(['ShopOrderAddresses' => ['Countries']])
+            ->contain(['ShopOrderItems', 'ShopOrderAddresses' => ['Countries']])
             ->firstOrFail();
 
         if (!$this->Auth->user() || $this->Shop->getCustomerId() != $shopOrder->shop_customer_id) {

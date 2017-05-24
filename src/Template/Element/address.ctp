@@ -14,6 +14,9 @@
     <?= h($address->zipcode); ?>
     <?= h($address->city); ?><br />
     <?= h($address->relcountry->name_de); ?><br />
+    <?php if ($address->taxid): ?>
+    <?= h($address->taxid); ?><br />
+    <?php endif; ?>
 
     <?php if (isset($edit) && $edit === true): ?>
         <?= $this->Ui->button(__d('shop','Edit'), ['action' => 'edit', $address->id], ['class' => 'btn-link']); ?>

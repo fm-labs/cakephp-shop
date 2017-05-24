@@ -100,12 +100,9 @@ $mode = "order";
     </div>
 
     <div>
-        <p style="font-size: 90%;">Rechnungsdatum = Liefer- bzw. Leistungsdatum<br />
-            Der oben angeführte Gesamtbetrag wird von Ihrem angegebenen Kreditkartenkonto via mPay24 abgebucht.</p>
+        <p style="font-size: 90%;">Rechnungsdatum = Liefer- bzw. Leistungsdatum</p>
 
-        <?php if (Taxation::isReverseCharge($billingAddress['taxid'])):?>
-            <p>Gemäß § 19 Abs. 1 zweiter Satz UStG 1994 nicht umsatzsteuerpflichtig in Österreich, die Steuerschuld geht auf den Leistungsempfänger über (Reverse-Charge- System).</p>
-        <?php endif;?>
+        <?= $this->element('Shop.Order/reverse_charge'); ?>
 
         <p style="text-align:center;font-weight: bold; font-size:90%">Danke für Ihr Vertrauen - für weitere Aufträge stehen wir gerne zur Verfügung!</p>
     </div>

@@ -90,6 +90,7 @@ class CartController extends AppController
             try {
                 $this->Cart->addItem($this->request->data());
                 $this->Flash->success(__d('shop', 'Added item to cart'));
+
             } catch (\Exception $ex) {
                 $this->Flash->error(__d('shop', 'Adding item to cart failed: {0}', $ex->getMessage()));
             }

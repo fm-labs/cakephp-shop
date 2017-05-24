@@ -192,9 +192,9 @@ class ShopOrderItem extends Entity
      */
     public function calculate()
     {
-        //$this->value_net = $this->item_value_net * $this->amount;
-        //$this->value_tax = $this->value_net * ($this->tax_rate/100);
-        //$this->value_total = $this->value_net + $this->value_tax;
+        $this->value_net = $this->item_value_net * $this->amount;
+        $this->value_tax = $this->value_net * ($this->tax_rate/100);
+        $this->value_total = $this->value_net + $this->value_tax;
     }
 
     protected function _getValueNet()

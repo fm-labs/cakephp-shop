@@ -91,6 +91,7 @@ class ShopOrder extends Entity
 
     protected $_virtual = [
         'nr_formatted',
+        'invoice_nr_formatted',
         'is_billing_selected',
         'is_shipping_selected',
         'is_payment_selected',
@@ -105,7 +106,8 @@ class ShopOrder extends Entity
         'cc_brand',
         'cc_number',
         'cc_holder_name',
-        'cc_expires_at'
+        'cc_expires_at',
+        'is_reverse_charge'
     ];
 
     protected function _getQty()
@@ -225,14 +227,29 @@ class ShopOrder extends Entity
             $itemsTaxed += $item->value_total;
         });
 
-        $this->items_value_net = $itemsNet;
-        $this->items_value_tax = $itemsTax;
-        $this->items_value_taxed = $itemsTaxed;
-
-
+        //if ($this->is_reverse_charge) {
+        //    $this->items_value_net = $itemsNet;
+        //    $this->items_value_tax = 0;
+        //    $this->items_value_taxed = $itemsNet;
+        //} else {
+            $this->items_value_net = $itemsNet;
+            $this->items_value_tax = $itemsTax;
+            $this->items_value_taxed = $itemsTaxed;
+        //}
 
         $this->order_value_tax = $itemsTax;
         $this->order_value_total = $itemsTaxed;
+    }
+
+    protected function _getIsReverseCharge()
+    {
+        if (!isset($this->_properties['is_reverse_charge']) && $this->getBillingAddress()) {
+            $taxid = $this->getBillingAddress()->taxid;
+            if ($taxid) {
+                return Taxation::isReverseCharge($taxid);
+            }
+        }
+        return $this->_properties['is_reverse_charge'];
     }
 
     protected function _getNrFormatted()
@@ -246,6 +263,30 @@ class ShopOrder extends Entity
             $zeroFill = $orderCfg['nrZerofill'];
             $grp = $this->_properties['ordergroup'];
             $nr = $this->_properties['nr'];
+
+            if ($zeroFill > 0) {
+                $nrFill = str_repeat("0", $zeroFill) . (string) $nr;
+                $nr = substr($nrFill, $zeroFill * -1);
+            }
+
+            return $prefix . $grp . $nr . $suffix;
+        }
+
+        return null;
+    }
+
+
+    protected function _getInvoiceNrFormatted()
+    {
+        if (isset($this->_properties['invoice_nr'])) {
+
+            $orderCfg = Shop::config('Order');
+
+            $prefix = $orderCfg['nrPrefix'];
+            $suffix = $orderCfg['nrSuffix'];
+            $zeroFill = $orderCfg['nrZerofill'];
+            $grp = $this->_properties['ordergroup'];
+            $nr = $this->_properties['invoice_nr'];
 
             if ($zeroFill > 0) {
                 $nrFill = str_repeat("0", $zeroFill) . (string) $nr;

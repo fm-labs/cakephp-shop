@@ -277,6 +277,30 @@ class ShopOrdersTable extends Table
         return $orderNr;
     }
 
+    /**
+     * Get next order nr within ordergroup
+     *
+     * @param null $orderGroup Defaults to config value 'Shop.Order.nrGroup'
+     * @return int
+     */
+    public function getNextInvoiceNr($orderGroup = null)
+    {
+        $nextNr = $orderNrStart = (Shop::config('Shop.Order.nrStart')) ?: 1;
+        $orderGroup = ($orderGroup) ?: Shop::config('Shop.Order.nrGroup');
+
+        $lastOrder = $this->find()
+            ->select(['id', 'invoice_nr', 'ordergroup'])
+            ->contain([])
+            ->where(['is_temporary' => false, 'invoice_nr IS NOT NULL', 'ordergroup' => (string) $orderGroup])
+            ->order(['nr' => 'DESC'])
+            ->first();
+
+        if ($lastOrder && $lastOrder->invoice_nr) {
+            $nextNr = (int) $lastOrder->invoice_nr + 1;
+        }
+
+        return $nextNr;
+    }
 
     public function calculate($id, $update = true)
     {
