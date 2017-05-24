@@ -122,7 +122,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
             //$mdxi->Order->ClientIP = $order->customer_ip;
             $mdxi->Order->UserField = $order->uuid;
-            $mdxi->Order->Tid = uniqid() . $transaction->id;
+            $mdxi->Order->Tid = $transaction->id;
 
             $mdxi->Order->setStyle("margin-left: auto; margin-right: auto;");
             $mdxi->Order->TemplateSet->setCSSName("MODERN"); // DEFAULT, MOBILE, MODERN
@@ -244,7 +244,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         $isTest = ('213.208.153.58' == $Payment->request->clientIp());
 
         $query = $Payment->request->query; // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
-        if ($transaction->id != $query['TID']) {
+        if ($transaction->id != $query['TID']) { //@TODO Compary hash instead of id
             throw new \RuntimeException('Mpay24Payment::confirm: Transaction Ids do not match');
         }
 
