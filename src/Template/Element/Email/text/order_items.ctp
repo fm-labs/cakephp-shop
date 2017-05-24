@@ -2,7 +2,7 @@
 if (!isset($items)) return false;
 ?>
 <?php foreach ($items as $orderItem): ?>
-    <?php echo sprintf("%s\t\t%s\t\t%s,\t\t%s,\t\tEUR %s\n\n",
+    <?php echo sprintf("%s\t%s\t%s,\t%s,\tEUR %s\n\n",
         $orderItem->amount,
         $orderItem->unit,
         ($orderItem->ref) ? $orderItem->ref->sku : '-',
