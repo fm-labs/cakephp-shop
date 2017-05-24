@@ -54,8 +54,6 @@ class OrdersController extends AppController
             throw new BadRequestException();
         }
 
-        $shopOrder = $this->ShopOrders->find('order', compact('uuid'));
-
         $shopOrder = $this->ShopOrders->find('all', ['status' => true])
             ->where(['ShopOrders.uuid' => $uuid])
             ->contain(['ShopOrderItems', 'ShopOrderAddresses' => ['Countries']])

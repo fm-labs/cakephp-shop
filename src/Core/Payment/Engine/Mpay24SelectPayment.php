@@ -55,19 +55,23 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $merchantID = Configure::read('Mpay24.Test.merchantID');
             $soapPassword = Configure::read('Mpay24.Test.soapPassword');
             $debug = (bool)Configure::read('Mpay24.debug');
-            $test = true;
         } else {
 
             $merchantID = Configure::read('Mpay24.merchantID');
             $soapPassword = Configure::read('Mpay24.soapPassword');
-            $test = false;
             $debug = (bool)Configure::read('Mpay24.debug');
         }
+
+
+        //debug(Configure::read('Mpay24'));
+        //debug($merchantID . '_' . $soapPassword . '_' . $debug . '_' . $test);
+
+
 
         $config = new Mpay24Config();
         $config->setMerchantID($merchantID);
         $config->setSoapPassword($soapPassword);
-        $config->useTestSystem($test);
+        $config->useTestSystem($testMode);
         $config->setDebug($debug);
         //$config->setProxyHost($proxyHost);
         //$config->setProxyPort($proxyPort);
@@ -208,7 +212,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $mdxi->Order->URL->Cancel = Router::url($Payment->getCancelUrl(), true);
 
 
-            debug($mdxi->toXML());
+            //debug($mdxi->toXML());
             if (!$mdxi->validate()) {
                 //@TODO Log invalid mdxi xml
                 throw new \RuntimeException('Failed to validate MDXI.');
@@ -216,7 +220,9 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
             $mpay24Response = $mpay24->paymentPage($mdxi);
             $paymentPageURL = $mpay24Response->getLocation(); // redirect location to the payment page
-            return $Payment->redirect($paymentPageURL);
+            if ($paymentPageURL) {
+                return $Payment->redirect($paymentPageURL);
+            }
 
             // debug
             //$debugInfo = ['mdxi' => $mdxi->toXML(), 'url' => $paymentPageURL];

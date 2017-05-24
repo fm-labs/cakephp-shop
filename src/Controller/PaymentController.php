@@ -138,7 +138,8 @@ class PaymentController extends AppController
                 break;
         }
 
-        return $this->redirect($redirectUrl);
+        die("REdirect" . $redirectUrl);
+        //return $this->redirect($redirectUrl);
     }
 
     /**
@@ -156,7 +157,7 @@ class PaymentController extends AppController
         $this->set('engines', $this->Payment->engines);
         try {
             Log::debug("Payment::initTransaction: $orderUUID", ['shop', 'payment']);
-            return $this->Payment->initTransaction($order);
+            $this->Payment->initTransaction($order);
             
         } catch (\Exception $ex) {
             $this->Flash->error($ex->getMessage());
