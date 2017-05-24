@@ -105,6 +105,7 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     {
         \Cake\Event\EventManager::instance()->on(new \Shop\Event\CartListener());
         \Cake\Event\EventManager::instance()->on(new \Shop\Event\CustomerListener());
+        \Cake\Event\EventManager::instance()->on(new \Shop\Event\PaymentListener());
         \Cake\Event\EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
     }
 }

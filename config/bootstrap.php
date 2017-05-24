@@ -3,6 +3,7 @@ use Banana\Lib\ClassRegistry;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Backend\Lib\Backend;
+use Cake\Log\Log;
 use Content\Lib\ContentManager;
 
 /**
@@ -13,6 +14,18 @@ if (!Plugin::loaded('Banana')) {
 }
 if (!Plugin::loaded('Content')) {
     throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);
+}
+
+
+// Mailman log config
+if (!Log::config('shop')) {
+    Log::config('shop', [
+        'className' => 'Cake\Log\Engine\FileLog',
+        'path' => LOGS,
+        'file' => 'shop',
+        //'levels' => ['notice', 'info', 'debug'],
+        'scopes' => ['shop', 'order', 'payment', 'invoice', 'checkout']
+    ]);
 }
 
 /**

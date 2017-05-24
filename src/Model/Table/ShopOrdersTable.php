@@ -19,6 +19,7 @@ use Cake\Validation\Validator;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
+use Shop\Model\Entity\ShopOrderTransaction;
 
 
 /**
@@ -334,8 +335,21 @@ class ShopOrdersTable extends Table
      * @param ShopOrder $order
      * @param $newStatus
      * @return bool|ShopOrder
+     * @deprecated Use updateStatus() instead
      */
     public function updateOrderStatus(ShopOrder $order, $newStatus)
+    {
+        return $this->updateStatus($order, $newStatus);
+    }
+
+    /**
+     * Set a new update status for order
+     *
+     * @param ShopOrder $order
+     * @param $newStatus
+     * @return bool|ShopOrder
+     */
+    public function updateStatus(ShopOrder $order, $newStatus)
     {
         $oldStatus = $order->status;
         $order->status = $newStatus;
@@ -353,12 +367,45 @@ class ShopOrdersTable extends Table
         }
 
         if (!$this->save($order)) {
-            Log::error(sprintf("Shop Order: Failed to updated order status from %s to %s",$oldStatus, $newStatus));
+            Log::error(sprintf("Shop Order: Failed to updated order status for order %s from %s to %s", $order->id, $oldStatus, $newStatus));
             return false;
         }
 
         //@TODO Add order history entry
+        Log::info(sprintf("Shop Order: Updated order status for order %s from %s to %s", $order->id, $oldStatus, $newStatus));
         return $order;
+    }
+
+    public function updateStatusFromTransaction(ShopOrder $order, ShopOrderTransaction $transaction)
+    {
+        $newStatus = $this->_mapTransactionStatus($transaction->status);
+        return $this->updateStatus($order, $newStatus);
+    }
+
+    protected function _mapTransactionStatus($status)
+    {
+
+        switch ($status)
+        {
+            case ShopOrderTransactionsTable::STATUS_INIT:
+            case ShopOrderTransactionsTable::STATUS_SUSPENDED:
+            case ShopOrderTransactionsTable::STATUS_RESERVED:
+                return ShopOrdersTable::ORDER_STATUS_PENDING;
+
+            case ShopOrderTransactionsTable::STATUS_CONFIRMED:
+                return ShopOrdersTable::ORDER_STATUS_PAYED;
+
+            case ShopOrderTransactionsTable::STATUS_ERROR:
+            case ShopOrderTransactionsTable::STATUS_REJECTED:
+                return ShopOrdersTable::ORDER_STATUS_ERROR;
+
+            case ShopOrderTransactionsTable::STATUS_REVERSAL:
+            case ShopOrderTransactionsTable::STATUS_CREDITED:
+                return ShopOrdersTable::ORDER_STATUS_STORNO;
+
+            default:
+                break;
+        }
     }
 
     /**
@@ -379,6 +426,28 @@ class ShopOrdersTable extends Table
         return $this->connection()->transactional(function($conn) use (&$order, $config) {
             $order->nr = $this->getNextOrderNr();
             $order->ordergroup = $config['nrGroup'];
+            return $this->save($order);
+        });
+
+    }
+
+    /**
+     * Assign next available order number
+     *
+     * @param ShopOrder $order
+     * @return bool|EntityInterface|mixed|ShopOrder
+     */
+    public function assignInvoiceNr(ShopOrder $order)
+    {
+        // check if an order number has already been assigned
+        if ($order->invoice_nr) {
+            return $order;
+        }
+
+        $config = Shop::config('Shop.Order');
+
+        return $this->connection()->transactional(function($conn) use (&$order, $config) {
+            $order->invoice_nr = $this->getNextInvoiceNr();
             return $this->save($order);
         });
 
@@ -487,6 +556,37 @@ class ShopOrdersTable extends Table
 
         return $order;
     }
+
+
+    public function confirmOrder(ShopOrder $order, array $data = [])
+    {
+        if ($order->status >= self::ORDER_STATUS_CONFIRMED) {
+            //throw new \Exception("Order already confirmed");
+            return $order;
+        }
+
+
+        // dispatch 'beforeSubmit' event
+        $event = new Event('Shop.Model.Order.beforeConfirm', $this, [
+            'order' => $order
+        ]);
+        $this->eventManager()->dispatch($event);
+
+
+        // update order status to 'submitted'
+        if (!$this->updateStatus($order, self::ORDER_STATUS_CONFIRMED)) {
+            Log::error("Shop Order: Failed to updated order status to CONFIRMED " . $order->id);
+        }
+
+        // dispatch 'afterSubmit' event
+        $event = new Event('Shop.Model.Order.afterConfirm', $this, [
+            'order' => $order
+        ]);
+        $this->eventManager()->dispatch($event);
+
+        return $order;
+    }
+
 
     public function saveOrder(ShopOrder $order)
     {

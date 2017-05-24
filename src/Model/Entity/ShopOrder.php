@@ -243,11 +243,15 @@ class ShopOrder extends Entity
 
     protected function _getIsReverseCharge()
     {
-        if (!isset($this->_properties['is_reverse_charge']) && $this->getBillingAddress()) {
-            $taxid = $this->getBillingAddress()->taxid;
-            if ($taxid) {
-                return Taxation::isReverseCharge($taxid);
+        if (!isset($this->_properties['is_reverse_charge'])) {
+            if (!$this->getBillingAddress()) {
+                return null;
             }
+            $taxid = $this->getBillingAddress()->taxid;
+            if (!$taxid) {
+                return false;
+            }
+            $this->_properties['is_reverse_charge'] = Taxation::isReverseCharge($taxid);
         }
         return $this->_properties['is_reverse_charge'];
     }

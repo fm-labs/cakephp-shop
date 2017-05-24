@@ -9,6 +9,7 @@ use Cake\Log\Log;
 use Cake\Network\Response;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
+use Shop\Event\PaymentListener;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
@@ -87,6 +88,8 @@ class PaymentComponent extends Component
             }
         }
         $this->engines = $engines;
+
+        //$this->getController()->eventManager()->on(new PaymentListener());
     }
 
     /**
@@ -229,8 +232,20 @@ class PaymentComponent extends Component
 
         try {
 
+            // Dispatch Shop.Payment.beforeConfirm event
+            $this->getController()->dispatchEvent('Shop.Payment.beforeConfirm', [
+                'transaction' => $transaction,
+                'request' => $this->request
+            ], $this);
+
             $engine = $this->_engineRegistry->get($transaction->engine);
             $transaction = $engine->confirm($this, $transaction);
+
+            // Dispatch Shop.Payment.afterConfirm event
+            $this->getController()->dispatchEvent('Shop.Payment.afterConfirm', [
+                'transaction' => $transaction,
+                'request' => $this->request
+            ], $this);
 
         } catch (\Exception $ex) {
             Log::error("Payment::confirmTransaction:".$transaction->engine.":" . $ex->getMessage());

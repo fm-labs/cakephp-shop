@@ -23,9 +23,9 @@ class InvoicePdfGenerator
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
     }
 
-    public function createPdf($id = null)
+    public function createFromOrder($orderId = null, $pdf = [])
     {
-        $shopOrder = $this->ShopOrders->get($id, [
+        $shopOrder = $this->ShopOrders->get($orderId, [
             'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
             'status' => true
         ]);
@@ -41,14 +41,16 @@ class InvoicePdfGenerator
         $view->layout('Shop.print');
         $view->template('Shop.printview');
 
+        $pdf = array_merge([
+            'title' => $shopOrder->title,
+            'subject' => $shopOrder->nr_formatted,
+            'keywords' => $shopOrder->nr_formatted,
+            'output' => 'F',
+            'filename' => null
+        ], $pdf);
         $viewVars = [
             'pdfEngine' => static::$engineClass,
-            'pdf' => [
-                'title' => $shopOrder->title,
-                'subject' => $shopOrder->nr_formatted,
-                'keywords' => $shopOrder->nr_formatted,
-                'output' => 'F'
-            ],
+            'pdf' => $pdf,
             'shopOrder' => $shopOrder
         ];
         $view->set($viewVars);
