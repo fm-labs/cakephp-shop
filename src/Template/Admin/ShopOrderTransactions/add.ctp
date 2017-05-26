@@ -1,26 +1,26 @@
-<?php $this->Breadcrumbs->add(__('Shop Order Transactions'), ['action' => 'index']); ?>
-<?php $this->Breadcrumbs->add(__('New {0}', __('Shop Order Transaction'))); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Order Transactions'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'New {0}', __d('shop', 'Shop Order Transaction'))); ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Shop Order Transactions')),
+    __d('shop', 'List {0}', __d('shop', 'Shop Order Transactions')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Shop Orders')),
+    __d('shop', 'List {0}', __d('shop', 'Shop Orders')),
     ['controller' => 'ShopOrders', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 
 <?php $this->Toolbar->addLink(
-    __('New {0}', __('Shop Order')),
+    __d('shop', 'New {0}', __d('shop', 'Shop Order')),
     ['controller' => 'ShopOrders', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">
     <h2 class="ui header">
-        <?= __('Add {0}', __('Shop Order Transaction')) ?>
+        <?= __d('shop', 'Add {0}', __d('shop', 'Shop Order Transaction')) ?>
     </h2>
     <?= $this->Form->create($shopOrderTransaction, ['class' => 'no-ajax']); ?>
         <div class="ui form">
@@ -41,7 +41,7 @@
         ?>
         </div>
 
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__d('shop', 'Submit')) ?>
     <?= $this->Form->end() ?>
 
 </div>

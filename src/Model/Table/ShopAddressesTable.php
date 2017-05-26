@@ -124,7 +124,7 @@ abstract class ShopAddressesTable extends Table
 
         }, 'eu_vat_validation', [
             'errorField' => 'taxid',
-            'message' => __('Please provide a valid European VAT ID')
+            'message' => __d('shop', 'Please provide a valid European VAT ID')
         ]);
 
         return $rules;

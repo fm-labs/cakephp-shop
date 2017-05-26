@@ -1,23 +1,23 @@
-<?php $this->Breadcrumbs->add(__('Shop Customer Discounts')); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Customer Discounts')); ?>
 
-<?php $this->Toolbar->addLink(__('New {0}', __('Shop Customer Discount')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Customer Discount')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Shop Customers')),
+    __d('shop', 'List {0}', __d('shop', 'Shop Customers')),
     ['controller' => 'ShopCustomers', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->addLink(
-    __('New {0}', __('Shop Customer')),
+    __d('shop', 'New {0}', __d('shop', 'Shop Customer')),
     ['controller' => 'ShopCustomers', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Shop Products')),
+    __d('shop', 'List {0}', __d('shop', 'Shop Products')),
     ['controller' => 'ShopProducts', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->addLink(
-    __('New {0}', __('Shop Product')),
+    __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>

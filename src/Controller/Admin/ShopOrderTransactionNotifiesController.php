@@ -44,10 +44,10 @@ class ShopOrderTransactionNotifiesController extends AppController
         if ($this->request->is('post')) {
             $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop order transaction notify')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction notify')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop order transaction notify')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order transaction notify')));
             }
         }
         $shopOrderTransactions = $this->ShopOrderTransactionNotifies->ShopOrderTransactions->find('list', ['limit' => 200]);
@@ -70,10 +70,10 @@ class ShopOrderTransactionNotifiesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop order transaction notify')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction notify')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop order transaction notify')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order transaction notify')));
             }
         }
         $shopOrderTransactions = $this->ShopOrderTransactionNotifies->ShopOrderTransactions->find('list', ['limit' => 200]);
@@ -93,9 +93,9 @@ class ShopOrderTransactionNotifiesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->get($id);
         if ($this->ShopOrderTransactionNotifies->delete($shopOrderTransactionNotify)) {
-            $this->Flash->success(__('The {0} has been deleted.', __('shop order transaction notify')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop order transaction notify')));
         } else {
-            $this->Flash->error(__('The {0} could not be deleted. Please, try again.', __('shop order transaction notify')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order transaction notify')));
         }
         return $this->redirect(['action' => 'index']);
     }

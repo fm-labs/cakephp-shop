@@ -44,10 +44,10 @@ class ShopOrderInvoicesController extends AppController
         if ($this->request->is('post')) {
             $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop order invoice')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order invoice')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop order invoice')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order invoice')));
             }
         }
         $parentShopOrderInvoices = $this->ShopOrderInvoices->ParentShopOrderInvoices->find('list', ['limit' => 200]);
@@ -71,10 +71,10 @@ class ShopOrderInvoicesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop order invoice')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order invoice')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop order invoice')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order invoice')));
             }
         }
         $parentShopOrderInvoices = $this->ShopOrderInvoices->ParentShopOrderInvoices->find('list', ['limit' => 200]);
@@ -95,9 +95,9 @@ class ShopOrderInvoicesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopOrderInvoice = $this->ShopOrderInvoices->get($id);
         if ($this->ShopOrderInvoices->delete($shopOrderInvoice)) {
-            $this->Flash->success(__('The {0} has been deleted.', __('shop order invoice')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop order invoice')));
         } else {
-            $this->Flash->error(__('The {0} could not be deleted. Please, try again.', __('shop order invoice')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order invoice')));
         }
         return $this->redirect(['action' => 'index']);
     }

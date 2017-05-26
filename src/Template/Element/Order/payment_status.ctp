@@ -16,7 +16,7 @@ if ($this->elementExists($element)) {
 <?php elseif ($order->payment_type === "payment_slip") : ?>
 <?php elseif ($order->status == \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
 <div class="alert alert-success">
-    <strong><?= __('We are processing your payment'); ?></strong>
+    <strong><?= __d('shop', 'We are processing your payment'); ?></strong>
 </div>
 
 <?php elseif ($order->status < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED) : ?>

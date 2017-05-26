@@ -62,10 +62,10 @@ class ShopCustomerDiscountsController extends AppController
         if ($this->request->is('post')) {
             $shopCustomerDiscount = $this->ShopCustomerDiscounts->patchEntity($shopCustomerDiscount, $this->request->data);
             if ($this->ShopCustomerDiscounts->save($shopCustomerDiscount)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop customer discount')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop customer discount')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop customer discount')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer discount')));
             }
         }
         $shopCustomers = $this->ShopCustomerDiscounts->ShopCustomers->find('list', ['limit' => 200]);
@@ -89,10 +89,10 @@ class ShopCustomerDiscountsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopCustomerDiscount = $this->ShopCustomerDiscounts->patchEntity($shopCustomerDiscount, $this->request->data);
             if ($this->ShopCustomerDiscounts->save($shopCustomerDiscount)) {
-                $this->Flash->success(__('The {0} has been saved.', __('shop customer discount')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop customer discount')));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', __('shop customer discount')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer discount')));
             }
         }
         $shopCustomers = $this->ShopCustomerDiscounts->ShopCustomers->find('list', ['limit' => 200]);
@@ -113,9 +113,9 @@ class ShopCustomerDiscountsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopCustomerDiscount = $this->ShopCustomerDiscounts->get($id);
         if ($this->ShopCustomerDiscounts->delete($shopCustomerDiscount)) {
-            $this->Flash->success(__('The {0} has been deleted.', __('shop customer discount')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop customer discount')));
         } else {
-            $this->Flash->error(__('The {0} could not be deleted. Please, try again.', __('shop customer discount')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop customer discount')));
         }
         return $this->redirect(['action' => 'index']);
     }

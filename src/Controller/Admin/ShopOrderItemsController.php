@@ -79,7 +79,7 @@ class ShopOrderItemsController extends AppController
             'last_message' => []
         ]);
         $this->set('rowActions', [
-            [__('View'), ['action' => 'view', ':id']]
+            [__d('shop', 'View'), ['action' => 'view', ':id']]
         ]);
 
         $this->Backend->executeAction();

@@ -1,43 +1,43 @@
-<?php $this->Breadcrumbs->add(__('Shop Order Invoices'), ['action' => 'index']); ?>
-<?php $this->Breadcrumbs->add(__('Edit {0}', __('Shop Order Invoice'))); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Order Invoices'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Order Invoice'))); ?>
 <?php $this->Toolbar->addPostLink(
-    __('Delete'),
+    __d('shop', 'Delete'),
     ['action' => 'delete', $shopOrderInvoice->id],
-    ['data-icon' => 'trash', 'confirm' => __('Are you sure you want to delete # {0}?', $shopOrderInvoice->id)]
+    ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopOrderInvoice->id)]
 )
 ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Shop Order Invoices')),
+    __d('shop', 'List {0}', __d('shop', 'Shop Order Invoices')),
     ['action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Parent Shop Order Invoices')),
+    __d('shop', 'List {0}', __d('shop', 'Parent Shop Order Invoices')),
     ['controller' => 'ShopOrderInvoices', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 
 <?php $this->Toolbar->addLink(
-    __('New {0}', __('Parent Shop Order Invoice')),
+    __d('shop', 'New {0}', __d('shop', 'Parent Shop Order Invoice')),
     ['controller' => 'ShopOrderInvoices', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->addLink(
-    __('List {0}', __('Shop Orders')),
+    __d('shop', 'List {0}', __d('shop', 'Shop Orders')),
     ['controller' => 'ShopOrders', 'action' => 'index'],
     ['data-icon' => 'list']
 ) ?>
 
 <?php $this->Toolbar->addLink(
-    __('New {0}', __('Shop Order')),
+    __d('shop', 'New {0}', __d('shop', 'Shop Order')),
     ['controller' => 'ShopOrders', 'action' => 'add'],
     ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">
     <h2 class="ui header">
-        <?= __('Edit {0}', __('Shop Order Invoice')) ?>
+        <?= __d('shop', 'Edit {0}', __d('shop', 'Shop Order Invoice')) ?>
     </h2>
     <?= $this->Form->create($shopOrderInvoice, ['class' => 'no-ajax']); ?>
         <div class="ui form">
@@ -54,7 +54,7 @@
         ?>
         </div>
 
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__d('shop', 'Submit')) ?>
     <?= $this->Form->end() ?>
 
 </div>

@@ -110,15 +110,15 @@ class PaymentController extends AppController
         $redirectUrl = ['controller' => 'Orders', 'action' => 'view', $orderUUID];
         switch ($shopOrder->status) {
             case ShopOrdersTable::ORDER_STATUS_TEMP:
-                $this->Flash->error(__('The order is temporary'));
+                $this->Flash->error(__d('shop', 'The order is temporary'));
                 break;
 
             case ShopOrdersTable::ORDER_STATUS_STORNO:
-                $this->Flash->error(__('The order has been canceled'));
+                $this->Flash->error(__d('shop', 'The order has been canceled'));
                 break;
 
             case ShopOrdersTable::ORDER_STATUS_CLOSED:
-                $this->Flash->success(__('The order is already closed'));
+                $this->Flash->success(__d('shop', 'The order is already closed'));
                 break;
 
             case ShopOrdersTable::ORDER_STATUS_SUBMITTED:
@@ -134,7 +134,7 @@ class PaymentController extends AppController
             case ShopOrdersTable::ORDER_STATUS_ERROR_DELIVERY:
             case ShopOrdersTable::ORDER_STATUS_ERROR:
             default:
-                $this->Flash->success(__('We are processing your order'));
+                $this->Flash->success(__d('shop', 'We are processing your order'));
                 break;
         }
 
