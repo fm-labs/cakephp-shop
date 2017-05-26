@@ -54,7 +54,7 @@ class ShopCategoriesController extends AppController
         ];
 
         $this->set('tree.displayField', 'name');
-        $this->set('fields.whitelist', ['is_published', 'name']);
+        $this->set('fields.whitelist', ['name', 'is_published']);
 
         $this->set('actions', [
             [
