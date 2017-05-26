@@ -10,6 +10,7 @@ $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Checkout', 'ac
 
     <div class="form">
         <?= $this->Form->create($user, ['novalidate' => true, 'context' => ['validator' => 'register']]); ?>
+        <?= $this->Form->hidden('op', ['value' => 'signup']); ?>
 
         <?php if ($this->Form->error('email') && isset($user->errors('email')['_isUnique'])): ?>
             <div class="alert alert-danger">
