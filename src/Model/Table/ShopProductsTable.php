@@ -114,16 +114,11 @@ class ShopProductsTable extends Table
                 ->value('shop_category_id', [
                     'filterEmpty' => true
                 ])
-                ->value('is_buyable', [
+                ->boolean('is_buyable', [
                     'filterEmpty' => true
                 ])
-                ->value('is_published', [
-                    'filterEmpty' => true
-                ])
-                ->add('foo', 'Search.Callback', [
-                    'callback' => function ($query, $args, $filter) {
-                        // Modify $query as required
-                    }
+                ->boolean('is_published', [
+                    'filterEmpty' => true,
                 ]);
         }
 

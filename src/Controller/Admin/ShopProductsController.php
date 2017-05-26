@@ -49,8 +49,6 @@ class ShopProductsController extends AppController
             'contain' => ['ShopCategories']
         ];
 
-
-
         $fields = [
             'sku',
             'title'  => ['formatter' => function($val, $row, $args, $view) {
@@ -66,7 +64,6 @@ class ShopProductsController extends AppController
             ],
             'is_published' => [
                 'formatter' => null,
-                'style' => 'text-align: right;'
             ],
         ];
         $this->set('fields', $fields);
