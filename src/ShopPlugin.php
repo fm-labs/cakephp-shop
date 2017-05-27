@@ -24,7 +24,20 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     public function implementedEvents()
     {
         return [
+            'Settings.get' => 'getSettings',
             'Backend.Menu.get' => ['callable' => 'getBackendMenu', 'priority' => 5 ]
+        ];
+    }
+
+    public function getSettings(Event $event)
+    {
+        $event->result['Shop'] = [
+            'Router.enablePrettyUrls' => [
+                'type' => 'boolean',
+            ],
+            'Router.forceCanonical' => [
+                'type' => 'boolean',
+            ],
         ];
     }
 

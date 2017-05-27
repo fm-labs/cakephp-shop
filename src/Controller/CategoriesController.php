@@ -109,10 +109,12 @@ class CategoriesController extends AppController
 
         // check if id is numeric or a string
         //@TODO Sanitize user input
-        if ($id && !is_numeric($id)) {
+        if ($id && !is_scalar($id)) {
             $slug = (string) $id;
             $id = null;
         }
+
+
 
         // If no category ID found,
         // attempt to resolve category from slug

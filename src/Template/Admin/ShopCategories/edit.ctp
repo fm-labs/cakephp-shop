@@ -35,7 +35,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     <!-- General -->
     <?php $this->Tabs->add(__d('shop', 'General')); ?>
 
-        <?= $this->Form->create($shopCategory); ?>
+        <?= $this->Form->create($shopCategory, ['horizontal' => true]); ?>
 
                 <?php //echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
 
@@ -110,7 +110,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     <!-- Related Custom Texts -->
     <?php $this->Tabs->add(__d('shop', 'Custom Texts')); ?>
 
-        <?= $this->Form->create($shopCategory); ?>
+        <?= $this->Form->create($shopCategory, ['horizontal' => true]); ?>
         <?= $this->Form->fieldsetStart(['legend' => __d('shop','Custom Texts')]); ?>
         <?php for($i = 1; $i <= 5; $i++): ?>
             <?php
@@ -128,7 +128,7 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     <!-- Related Custom Files -->
     <?php $this->Tabs->add(__d('shop', 'Custom Files')); ?>
 
-    <?= $this->Form->create($shopCategory); ?>
+    <?= $this->Form->create($shopCategory, ['horizontal' => true]); ?>
     <?= $this->Form->fieldsetStart(['legend' => __d('shop','Custom Files')]); ?>
     <?php for($i = 1; $i <= 5; $i++): ?>
         <?php

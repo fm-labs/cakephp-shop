@@ -108,6 +108,7 @@
             ?>
         </div>
     </div>
+    <div class="clearfix"></div>
 
     <fieldset>
         <legend>Payment</legend>
@@ -151,11 +152,8 @@
         ?>
     </fieldset>
 
-    <div class="ui bottom attached segment">
-        <?= $this->Form->button(__d('shop','Submit')) ?>
-    </div>
+    <?= $this->Form->button(__d('shop','Submit')) ?>
     <?= $this->Form->end() ?>
 
     <?php debug($shopOrder); ?>
-    <?php debug($billingAddresses); ?>
 </div>
