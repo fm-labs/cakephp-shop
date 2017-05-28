@@ -57,14 +57,14 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
                 echo $this->Form->fieldsetStart(['legend' => __d('shop','Teaser'), 'collapsed' => true]);
                 echo $this->Form->input('teaser_html', [
                     'type' => 'htmleditor',
-                    'editor' => '@Shop.HtmlEditor.default'
+                    'editor' => 'shop'
                 ]);
                 echo $this->Form->fieldsetEnd();
 
                 echo $this->Form->fieldsetStart(['legend' => __d('shop','Description'), 'collapsed' => false]);
                 echo $this->Form->input('desc_html', [
                     'type' => 'htmleditor',
-                    'editor' => '@Shop.HtmlEditor.default'
+                    'editor' => 'shop'
                 ]);
                 echo $this->Form->fieldsetEnd();
                 ?>

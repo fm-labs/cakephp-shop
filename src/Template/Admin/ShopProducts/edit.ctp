@@ -36,11 +36,11 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
             echo $this->Form->input('slug');
             echo $this->Form->input('teaser_html', [
                 'type' => 'htmleditor',
-                'editor' => '@Shop.HtmlEditor.default'
+                'editor' => 'shop'
             ]);
             echo $this->Form->input('desc_html', [
                 'type' => 'htmleditor',
-                'editor' => '@Shop.HtmlEditor.default'
+                'editor' => 'shop'
             ]);
             //echo $this->Form->input('preview_preview_image_file');
             //echo $this->Form->input('featured_preview_image_file');

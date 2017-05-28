@@ -1,5 +1,12 @@
 <?php
 return [
+    'HtmlEditor' => [
+        'shop' => [
+            'convert_urls' => false,
+            '@image_list' => ['plugin' => 'Content', 'controller' => 'HtmlEditor', 'action' => 'imageList', 'shop'],
+            '@link_list' => ['plugin' => 'Content', 'controller' => 'HtmlEditor', 'action' => 'linkList']
+        ]
+    ],
     'Shop' => [
 
         'defaultLocale' => 'de',
@@ -16,16 +23,14 @@ return [
         ],
 
         'Router' => [
-            'enablePrettyUrls' => true,
-            'forceCanonical' => true,
+            'enablePrettyUrls' => false,
+            'forceCanonical' => false,
         ],
 
-        'HtmlEditor' => [
-            'default' => [
-                'convert_urls' => false,
-                '_image_list' => ['plugin' => 'Content', 'controller' => 'HtmlEditor', 'action' => 'imageList', 'shop'],
-                '_link_list' => ['plugin' => 'Content', 'controller' => 'HtmlEditor', 'action' => 'linkList']
-            ]
+
+        'Address' => [
+            'useCompanyName' => false,
+            'useTaxId' => false,
         ],
 
         'Checkout' => [
@@ -89,11 +94,6 @@ return [
         'Catalogue' => [
             'index_category_id' => null
         ],
-
-        'Email' => [
-
-        ]
-
 
     ]
 ];
