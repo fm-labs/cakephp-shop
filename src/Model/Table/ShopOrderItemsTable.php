@@ -12,7 +12,7 @@ use Shop\Model\Entity\ShopOrderItem;
 /**
  * ShopOrderItems Model
  *
- * @property \Cake\ORM\Association\BelongsTo $ShopOrders
+ * @property ShopOrdersTable $ShopOrders
  */
 class ShopOrderItemsTable extends Table
 {
@@ -139,6 +139,15 @@ class ShopOrderItemsTable extends Table
             $this->ShopOrders->calculate($entity->shop_order_id);
         }
     }
+
+    public function afterDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        if ($entity->shop_order_id) {
+            $this->ShopOrders->calculate($entity->shop_order_id);
+        }
+    }
+
+
 
     /**
      * Returns a rules checker object that will be used for validating

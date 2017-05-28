@@ -35,7 +35,7 @@ use Shop\Lib\Taxation;
  * @property string $customer_notes
  * @property string $staff_notes
  * @property int $billing_address_id
- * @property \Shop\Model\Entity\BillingAddress $billing_address
+ * @property \Shop\Model\Entity\ShopAddress $billing_address
  * @property string $billing_first_name
  * @property string $billing_last_name
  * @property string $billing_name
@@ -45,7 +45,7 @@ use Shop\Lib\Taxation;
  * @property string $billing_city
  * @property string $billing_country
  * @property int $shipping_address_id
- * @property \Shop\Model\Entity\ShippingAddress $shipping_address
+ * @property \Shop\Model\Entity\ShopAddress $shipping_address
  * @property bool $shipping_use_billing
  * @property string $shipping_first_name
  * @property string $shipping_last_name
@@ -69,19 +69,12 @@ use Shop\Lib\Taxation;
  * @property string $locale
  * @property \Cake\I18n\Time $modified
  * @property \Cake\I18n\Time $created
- * @property \Shop\Model\Entity\ShopCart[] $shop_carts
  * @property \Shop\Model\Entity\ShopOrderItem[] $shop_order_items
  */
 class ShopOrder extends Entity
 {
 
     /**
-     * Fields that can be mass assigned using newEntity() or patchEntity().
-     *
-     * Note that when '*' is set to true, this allows all unspecified fields to
-     * be mass assigned. For security purposes, it is advised to set '*' to false
-     * (or remove it), and explicitly make individual fields accessible as needed.
-     *
      * @var array
      */
     protected $_accessible = [
@@ -100,8 +93,8 @@ class ShopOrder extends Entity
         'currency',
         'base_currency',
         'order_value_tax',
-        'billing_address',
-        'shipping_address',
+        //'billing_address',
+        //'shipping_address',
         'qty', // alias for amount (get/set)
         'cc_brand',
         'cc_number',
@@ -110,57 +103,12 @@ class ShopOrder extends Entity
         'is_reverse_charge'
     ];
 
-    protected function _getQty()
-    {
-        return $this->amount;
-    }
-
-    protected function _setQty($val)
-    {
-        return $this->set('amount', $val);
-    }
-
-    protected function _getShopCustomer()
-    {
-        if (!isset($this->_properties['shop_customer'])) {
-            $this->_properties['shop_customer'] = TableRegistry::get('Shop.ShopCustomers')
-                ->find()
-                ->where(['ShopCustomers.id' => $this->shop_customer_id])
-                ->first();
-        }
-        return $this->_properties['shop_customer'];
-    }
-
-
-
-    /**
-     * @param $addressType
-     * @return ShopOrderAddress
-     */
-    public function getOrderAddress($addressType)
-    {
-        $key = 'address_' . strtolower($addressType);
-        if (!isset($this->_properties[$key])) {
-            $this->_properties[$key] = TableRegistry::get('Shop.ShopOrderAddresses')
-                ->find()
-                ->contain(['Countries'])
-                ->where(['shop_order_id' => $this->id, 'type' => $addressType])
-                ->first();
-        }
-        return $this->_properties[$key];
-    }
-
     /**
      * @return ShopOrderAddress
      */
     public function getBillingAddress()
     {
-        return $this->getOrderAddress('B');
-    }
-
-    protected function _getBillingAddress()
-    {
-        return $this->getBillingAddress();
+        return $this->billing_address;
     }
 
     /**
@@ -168,49 +116,74 @@ class ShopOrder extends Entity
      */
     public function getShippingAddress()
     {
-        return $this->getOrderAddress('S');
+        return $this->shipping_address;
     }
 
-    protected function _getShippingAddress()
+    /**
+     * @return mixed
+     */
+    protected function _getQty()
     {
-        return $this->getShippingAddress();
+        return $this->amount;
     }
 
+    /**
+     * @param $val
+     * @return $this
+     */
+    protected function _setQty($val)
+    {
+        return $this->set('amount', $val);
+    }
+
+    /**
+     * @return ShopCustomer|null
+     */
+    public function getShopCustomer()
+    {
+        return TableRegistry::get('Shop.ShopCustomers')
+            ->find()
+            ->where(['ShopCustomers.id' => $this->shop_customer_id])
+            ->first();
+    }
+
+    /**
+     * @return ShopCustomer|null
+     */
+    protected function _getShopCustomer()
+    {
+        if (!isset($this->_properties['shop_customer'])) {
+            $this->_properties['shop_customer'] = $this->getShopCustomer();
+        }
+        return $this->_properties['shop_customer'];
+    }
+
+    /**
+     * @return int
+     */
     public function getOrderItemsCount()
     {
+        return (int) TableRegistry::get('Shop.ShopOrderItems')
+            ->find('list')
+            ->where(['shop_order_id' => $this->id])->count();
+    }
+
+    /**
+     * @return int
+     */
+    protected function _getOrderItemsCount()
+    {
         if (!isset($this->_properties['order_items_count'])) {
-            $this->_properties['order_items_count'] = (int) TableRegistry::get('Shop.ShopOrderItems')
-                ->find('list')
-                ->where(['shop_order_id' => $this->id])->count();
+            $this->_properties['order_items_count'] = $this->getOrderItemsCount();
         }
 
         return (int) $this->_properties['order_items_count'];
     }
 
+    /**
+     * @return int
+     */
     public function getOrderItemsQty()
-    {
-        if (!isset($this->_properties['order_items_qty'])) {
-
-            $orderItems = TableRegistry::get('Shop.ShopOrderItems')
-                ->find()
-                ->where(['shop_order_id' => $this->id])
-                ->contain([])
-                ->all()
-                ->toArray();
-
-            // items value
-            $itemsQty = 0;
-            array_walk($orderItems, function ($item) use (&$itemsQty) {
-                $itemsQty += $item->amount;
-            });
-
-            $this->_properties['order_items_qty'] = $itemsQty;
-        }
-
-        return (int) $this->_properties['order_items_qty'];
-    }
-
-    public function calculateItems()
     {
         $orderItems = TableRegistry::get('Shop.ShopOrderItems')
             ->find()
@@ -220,42 +193,55 @@ class ShopOrder extends Entity
             ->toArray();
 
         // items value
-        $itemsNet = $itemsTax = $itemsTaxed = 0;
-        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
-            $itemsNet += $item->value_net;
-            $itemsTax += $item->value_tax;
-            $itemsTaxed += $item->value_total;
+        $itemsQty = 0;
+        array_walk($orderItems, function ($item) use (&$itemsQty) {
+            $itemsQty += $item->amount;
         });
 
-        //if ($this->is_reverse_charge) {
-        //    $this->items_value_net = $itemsNet;
-        //    $this->items_value_tax = 0;
-        //    $this->items_value_taxed = $itemsNet;
-        //} else {
-            $this->items_value_net = $itemsNet;
-            $this->items_value_tax = $itemsTax;
-            $this->items_value_taxed = $itemsTaxed;
-        //}
-
-        $this->order_value_tax = $itemsTax;
-        $this->order_value_total = $itemsTaxed;
+        return $itemsQty;
     }
 
+    /**
+     * @return int
+     */
+    protected function _getOrderItemsQty()
+    {
+        if (!isset($this->_properties['order_items_qty'])) {
+            $this->_properties['order_items_qty'] = $this->getOrderItemsQty();
+        }
+
+        return (int) $this->_properties['order_items_qty'];
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isReverseCharge()
+    {
+        if (!$this->getBillingAddress()) {
+            return null;
+        }
+        $taxid = $this->getBillingAddress()->taxid;
+        if (!$taxid) {
+            return false;
+        }
+        return Taxation::isReverseCharge($taxid);
+    }
+
+    /**
+     * @return mixed
+     */
     protected function _getIsReverseCharge()
     {
         if (!isset($this->_properties['is_reverse_charge'])) {
-            if (!$this->getBillingAddress()) {
-                return null;
-            }
-            $taxid = $this->getBillingAddress()->taxid;
-            if (!$taxid) {
-                return false;
-            }
-            $this->_properties['is_reverse_charge'] = Taxation::isReverseCharge($taxid);
+            $this->_properties['is_reverse_charge'] = $this->isReverseCharge();
         }
         return $this->_properties['is_reverse_charge'];
     }
 
+    /**
+     * @return null|string
+     */
     protected function _getNrFormatted()
     {
         if (isset($this->_properties['nr'])) {
@@ -280,6 +266,9 @@ class ShopOrder extends Entity
     }
 
 
+    /**
+     * @return null|string
+     */
     protected function _getInvoiceNrFormatted()
     {
         if (isset($this->_properties['invoice_nr'])) {
@@ -325,6 +314,9 @@ class ShopOrder extends Entity
         return 'EUR';
     }
 
+    /**
+     * @return mixed
+     */
     protected function _getCcBrand()
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
@@ -333,6 +325,9 @@ class ShopOrder extends Entity
         }
     }
 
+    /**
+     * @return mixed
+     */
     protected function _getCcNumber()
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
@@ -341,6 +336,9 @@ class ShopOrder extends Entity
         }
     }
 
+    /**
+     * @return string
+     */
     protected function _getCcHolderName()
     {
         if ($this->payment_type == 'credit_card_internal') {
@@ -348,6 +346,9 @@ class ShopOrder extends Entity
         }
     }
 
+    /**
+     * @return string
+     */
     protected function _getCcExpiresAt()
     {
         if ($this->payment_type == 'credit_card_internal') {
@@ -355,11 +356,18 @@ class ShopOrder extends Entity
         }
     }
 
+    /**
+     * @param $val
+     * @return mixed
+     */
     protected function _setOrderValueTax($val)
     {
         return $val;
     }
 
+    /**
+     * @return mixed
+     */
     protected function _getOrderValueTax()
     {
         if (!isset($this->_properties['order_value_tax'])) {

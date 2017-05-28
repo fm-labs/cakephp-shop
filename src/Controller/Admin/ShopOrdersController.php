@@ -78,10 +78,29 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true
         ]);
         $this->set('shopOrder', $shopOrder);
+        $this->set('_serialize', ['shopOrder']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Shop Order id.
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function costs($id = null)
+    {
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
+            'status' => true
+        ]);
+        $calculator = $this->ShopOrders->calculateOrderCosts($shopOrder);
+        $this->set('shopOrder', $shopOrder);
+        $this->set('calculator', $calculator);
         $this->set('_serialize', ['shopOrder']);
     }
 

@@ -176,9 +176,10 @@ class CartComponent extends Component
             return false;
         }
 
+        $this->reloadOrder();
+
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, ['item' => $orderItem]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
-        $this->_resumeOrder(['force' => true]);
         return true;
     }
 
@@ -188,7 +189,8 @@ class CartComponent extends Component
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
 
         $success = $this->ShopOrders->ShopOrderItems->delete($orderItem);
-        $this->refresh();
+        //$this->refresh();
+        $this->reloadOrder();
 
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemRemove', $this, ['item' => $orderItem]));
 
@@ -212,6 +214,8 @@ class CartComponent extends Component
         $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $data);
         //$orderItem->calculate();
         $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
+
+        $this->reloadOrder();
 
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemUpdate', $this, ['item' => $orderItem]));
 
@@ -273,14 +277,13 @@ class CartComponent extends Component
         return $this;
     }
 
+    /**
+     * @return $this|CartComponent
+     * @deprected Use reloadOrder() instead
+     */
     public function refresh()
     {
-        $this->_resumeOrder();
-
-        if ($this->order) {
-            $this->order->calculateItems();
-            $this->saveOrder();
-        }
+        return $this->reloadOrder();
     }
 
     public function getItemsCount()
@@ -376,10 +379,6 @@ class CartComponent extends Component
             */
             if (!$this->order && $options['create']) {
                 $this->_createOrder();
-            }
-
-            if ($this->order) {
-                $this->order->calculateItems();
             }
         }
 

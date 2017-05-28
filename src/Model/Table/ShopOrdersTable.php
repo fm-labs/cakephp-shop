@@ -16,6 +16,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use Shop\Core\Order\CostCalculator;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
@@ -104,6 +105,18 @@ class ShopOrdersTable extends Table
             'className' => 'Shop.ShopOrderTransactions',
             //'contain' => ['Countries']
         ]);
+        $this->hasOne('BillingAddresses', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderAddresses',
+            'conditions' => ['BillingAddresses.type' => 'B'],
+            'contain' => ['Countries']
+        ]);
+        $this->hasOne('ShippingAddresses', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderAddresses',
+            'conditions' => ['ShippingAddresses.type' => 'S'],
+            'contain' => ['Countries']
+        ]);
 
         $this->addBehavior('Banana.Statusable');
 
@@ -178,8 +191,9 @@ class ShopOrdersTable extends Table
     public function findOrder(Query $query, array $options = [])
     {
         $query
+            ->applyOptions(['status' => true])
             ->where($options)
-            ->contain(['ShopOrderItems', 'ShopOrderAddresses']);
+            ->contain(['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']]);
         return $query->first();
     }
 
@@ -207,7 +221,7 @@ class ShopOrdersTable extends Table
     public function setOrderAddress(ShopOrder $order, ShopOrderAddress $address, $addressType)
     {
 
-        $orderAddress = $order->getOrderAddress($addressType);
+        $orderAddress = $this->getOrderAddress($order, $addressType);
         if (!$orderAddress) {
             $orderAddress = $this->ShopOrderAddresses->newEntity();
         }
@@ -217,6 +231,20 @@ class ShopOrdersTable extends Table
         $orderAddress->type = $addressType;
 
         return $this->ShopOrderAddresses->save($orderAddress);
+    }
+
+
+    /**
+     * @param $addressType
+     * @return ShopOrderAddress
+     */
+    public function getOrderAddress(ShopOrder $order, $addressType)
+    {
+        return $this->ShopOrderAddresses
+            ->find()
+            ->contain(['Countries'])
+            ->where(['shop_order_id' => $order->id, 'type' => $addressType])
+            ->first();
     }
 
     /**
@@ -305,29 +333,88 @@ class ShopOrdersTable extends Table
 
     public function calculate($id, $update = true)
     {
-        $order = $this->get($id, ['contain' => []]);
-        $orderItems = $this->ShopOrderItems->find()->where(['shop_order_id' => $id])->all()->toArray();
+        $order = $this->get($id, ['contain' => ['ShopOrderItems']]);
 
-        // items value
-        $itemsNet = $itemsTax = $itemsTaxed = 0;
-        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
-            $itemsNet += $item->value_net;
-            $itemsTax += $item->value_tax;
-            $itemsTaxed += $item->value_total;
-        });
-
-        $order->items_value_net = $itemsNet;
-        $order->items_value_tax = $itemsTax;
-        $order->items_value_taxed = $itemsTaxed;
-
-        $order->order_value_tax = $itemsTax;
-        $order->order_value_total = $itemsTaxed;
-
+        $order = $this->calculateOrder($order);
         if ($update) {
-            return $this->save($order);
+            $order = $this->save($order);
         }
+
+        return $order;
     }
 
+    public function calculateOrder(ShopOrder $order)
+    {
+
+        $calculator = $this->_calculateOrderCosts($order);
+        $itemsValue = $calculator->getValue('order_items');
+
+        $order->items_value_net = $itemsValue->getNetValue();
+        $order->items_value_tax = $itemsValue->getTaxValue();
+        $order->items_value_taxed = $itemsValue->getTotalValue();
+
+        $order->order_value_tax = $calculator->getTaxValue();
+        $order->order_value_total = $calculator->getTotalValue();
+
+        return $order;
+    }
+
+    /**
+     * @param ShopOrder $order
+     * @return CostCalculator
+     */
+    protected function _calculateOrderCosts(ShopOrder $order)
+    {
+        $calculator = new CostCalculator();
+
+        $calculator->addValue('order_items', $this->_calculateOrderItemsCosts($order), null, null);
+
+        // items value
+        /*
+        array_walk($order->shop_order_items, function ($item) use (&$calculator) {
+            $calculator->addValue(
+                'order_item:' . $item->id,
+                $item->value_net,
+                $item->tax_rate,
+                sprintf("%sx %s", $item->amount, $item->title)
+            );
+        });
+        */
+
+        // coupon
+        //$calculator->addValue('order_coupon', -100, 0, "Coupon");
+
+        // shipping
+        //$calculator->addValue('shipping', 32, 10, "Shipping costs");
+
+        return $calculator;
+    }
+
+
+    /**
+     * @param ShopOrder $order
+     * @return CostCalculator
+     */
+    protected function _calculateOrderItemsCosts(ShopOrder $order)
+    {
+        $calculator = new CostCalculator();
+
+        $reverseCharge = $order->isReverseCharge();
+
+        // items value
+        array_walk($order->shop_order_items, function ($item) use (&$calculator, $reverseCharge) {
+            $taxRate = ($reverseCharge) ? 0 : $item->tax_rate;
+
+            $calculator->addValue(
+                'order_item:' . $item->id,
+                $item->value_net,
+                $taxRate,
+                sprintf("%sx %s", $item->amount, $item->title)
+            );
+        });
+
+        return $calculator;
+    }
 
     /**
      * Set a new update status for order
@@ -453,48 +540,6 @@ class ShopOrdersTable extends Table
 
     }
 
-    public function calculateOrder(ShopOrder $order, $update = true)
-    {
-        $this->_calculateItems($order);
-        $this->_calculateOrderTotal($order);
-
-        if (!$update) {
-            return $order;
-        }
-
-        //@TODO Run some validation after calculation
-        return $this->save($order);
-    }
-
-    protected function _calculateItems(ShopOrder &$order)
-    {
-        $orderItems = $this->ShopOrderItems
-            ->find()
-            ->where(['shop_order_id' => $this->id])
-            ->contain([])
-            ->all()
-            ->toArray();
-
-        // items value
-        $itemsNet = $itemsTax = $itemsTaxed = 0;
-        array_walk($orderItems, function ($item) use (&$itemsNet, &$itemsTax, &$itemsTaxed) {
-            $itemsNet += $item->value_net;
-            $itemsTax += $item->value_tax;
-            $itemsTaxed += $item->value_total;
-        });
-
-        $order->items_value_net = $itemsNet;
-        $order->items_value_tax = $itemsTax;
-        $order->items_value_taxed = $itemsTaxed;
-
-    }
-
-    protected function _calculateOrderTotal(ShopOrder &$order)
-    {
-        $total = $order->items_value_taxed - $order->coupon_value;
-        $order->order_value_total = $total;
-    }
-
     /**
      * @param ShopOrder $order
      * @param array $options
@@ -511,7 +556,7 @@ class ShopOrdersTable extends Table
         }
 
         // re-calculate order
-        $order->calculateItems();
+        $order = $this->calculateOrder($order);
 
         // save order
         $submitData = array_merge([
