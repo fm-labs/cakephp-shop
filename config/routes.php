@@ -94,7 +94,7 @@ Router::scope('/shop/admin', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePre
         ['controller' => 'Shop', 'action' => 'index'],
         ['_name' => 'index']
     );
-    //$routes->connect('/:controller');
+    $routes->connect('/:controller');
 
     $routes->fallbacks('DashedRoute');
 });
