@@ -5,6 +5,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Shop\Core\Product\ShopProductInterface;
+use Shop\Lib\Shop;
 
 /**
  * ShopOrderItem Entity.
@@ -134,6 +135,11 @@ class ShopOrderItem extends Entity
         return $this->item_value_net * (1 + $this->tax_rate/100);
     }
 
+    protected function _getItemValueDisplay()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->item_value_net : $this->item_value_taxed;
+    }
+
     /**
      * Total net value
      *
@@ -210,5 +216,10 @@ class ShopOrderItem extends Entity
     protected function _getValueTotal()
     {
         return $this->value_net + $this->value_tax;
+    }
+
+    protected function _getValueDisplay()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->value_net : $this->value_total;
     }
 }

@@ -9,6 +9,7 @@ use Cake\ORM\TableRegistry;
 //use Eav\Model\EntityAttributesInterface;
 //use Eav\Model\EntityAttributesTrait;
 use Shop\Core\Product\ShopProductInterface;
+use Shop\Lib\Shop;
 
 /**
  * ShopProduct Entity.
@@ -122,6 +123,11 @@ class ShopProduct extends Entity implements ShopProductInterface
         $taxRate = $this->tax_rate;
 
         return round($priceNet * (1 + ($taxRate / 100)), 2);
+    }
+
+    protected function _getDisplayPrice()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->price_net : $this->price;
     }
 
     /*** Shop Product Interface ***/

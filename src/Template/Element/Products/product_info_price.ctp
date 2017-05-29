@@ -13,7 +13,7 @@ use Cake\Core\Configure;
 
         <?php if ($shopProduct->price > 0): ?>
             <div class="price price-big" itemprop="price">
-                <?= __d('shop','Price'); ?>: <span class="price-item"><?= $this->Number->currency($shopProduct->price, 'EUR'); ?></span>
+                <?= __d('shop','Price'); ?>: <span class="price-item"><?= $this->Number->currency($shopProduct->displayPrice, 'EUR'); ?></span>
             </div>
         <?php elseif ($shopProduct->price == -1): ?>
             <div class="price" itemprop="price">

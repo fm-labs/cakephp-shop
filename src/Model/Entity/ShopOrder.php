@@ -376,4 +376,10 @@ class ShopOrder extends Entity
         return $this->_properties['order_value_tax'];
     }
 
+
+    protected function _getItemsValueDisplay()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->items_value_net : $this->items_value_taxed;
+    }
+
 }
