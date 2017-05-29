@@ -25,10 +25,7 @@ class EmailNotificationListener implements EventListenerInterface
 
         $orderId = $event->data['order']['id'];
         $order = $ShopOrders
-            ->find()
-            ->where(['ShopOrders.id' => $orderId])
-            ->contain(['ShopOrderItems', 'ShopCustomers'])
-            ->first();
+            ->find('order', ['ShopOrders.id' => $orderId]);
 
         if (!$order) {
             Log::error('Unable to send order notification: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
@@ -75,10 +72,7 @@ class EmailNotificationListener implements EventListenerInterface
 
         $orderId = $event->data['order']['id'];
         $order = $ShopOrders
-            ->find()
-            ->where(['ShopOrders.id' => $orderId])
-            ->contain(['ShopOrderItems', 'ShopCustomers'])
-            ->first();
+            ->find('order', ['ShopOrders.id' => $orderId]);
 
         if (!$order) {
             Log::error('Unable to send order confirmation: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
