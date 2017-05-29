@@ -2,7 +2,6 @@
 use Cake\Core\Configure;
 use Shop\Lib\Taxation;
 $billingAddress = $shopOrder->getBillingAddress();
-$mode = "order";
 ?>
 <div class="view">
     <div class="print_sender">
@@ -10,7 +9,7 @@ $mode = "order";
 <?php echo Configure::read('Shop.Owner.street1'); ?><br />
 <?php echo sprintf("%s %s",Configure::read('Shop.Owner.zipcode'),Configure::read('Shop.Owner.city')); ?><br />
 <?php echo Configure::read('Shop.Owner.country'); ?><br />
-<?php echo __d('shop', "VAT ID: {0}",Configure::read('Shop.Owner.taxId')); ?>
+<?php echo h(Configure::read('Shop.Owner.taxId')); ?>
 <br />
 <br />
     </div>
@@ -28,25 +27,25 @@ $mode = "order";
 <?php echo sprintf("%s %s", $billingAddress['zipcode'], $billingAddress['city']); ?><br />
 <?php echo $billingAddress->relcountry['name_de']; ?><br />
 <?php if ($billingAddress['taxid']): ?>
-<?php echo __d('shop', "VAT ID: {0}", $billingAddress['taxid']); ?><br />
+<?php echo h($billingAddress['taxid']); ?><br />
 <?php endif; ?>
     </div>
 
 
     <div class="print_date" style="text-align:right;">
         <?php echo __d('shop', 'Date of order: {0}', $shopOrder->submitted->format("d.m.Y"));?>
-        <?php if ($mode == "invoice" && $shopOrder['date_close']):?>
+        <?php if ($mode == "invoice" && $shopOrder->invoice_nr_formatted):?>
             <br />
             <?php
-            echo __d('shop', 'Date of invoice: {0}', date("d.m.Y", strtotime($shopOrder['closed'])));
+            //echo __d('shop', 'Date of invoice: {0}', date("d.m.Y", $shopOrder->confirmed->format("d.m.Y")));
             ?>
         <?php endif; ?>
         <br />
     </div>
     <div class="print_nr" style="font-weight:bold; font-size: 120%;">
         <?php echo ($mode == "order")
-            ? __d('shop', "Order: {0}", $shopOrder['nr_formatted'])
-            : __d('shop', "Invoice: {0}", $shopOrder['nr_formatted']); ?>
+            ? __d('shop', "Order: {0}", $shopOrder->nr_formatted)
+            : __d('shop', "Invoice: {0}", $shopOrder->invoice_nr_formatted); ?>
     </div>
     <div class="print_items">
         <table style="width:180mm; margin-bottom: 10mm;" cellpadding="5" cellspacing="0">

@@ -273,7 +273,7 @@ class ShopOrder extends Entity
     {
         if (isset($this->_properties['invoice_nr'])) {
 
-            $orderCfg = Shop::config('Order');
+            $orderCfg = Shop::config('Invoice');
 
             $prefix = $orderCfg['nrPrefix'];
             $suffix = $orderCfg['nrSuffix'];

@@ -51,7 +51,8 @@ class InvoicePdfGenerator
         $viewVars = [
             'pdfEngine' => static::$engineClass,
             'pdf' => $pdf,
-            'shopOrder' => $shopOrder
+            'shopOrder' => $shopOrder,
+            'mode' => 'invoice'
         ];
         $view->set($viewVars);
         $view->render('printview');

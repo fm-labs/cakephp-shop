@@ -314,8 +314,8 @@ class ShopOrdersTable extends Table
      */
     public function getNextInvoiceNr($orderGroup = null)
     {
-        $nextNr = $orderNrStart = (Shop::config('Shop.Order.nrStart')) ?: 1;
-        $orderGroup = ($orderGroup) ?: Shop::config('Shop.Order.nrGroup');
+        $nextNr = $orderNrStart = (Shop::config('Shop.Invoice.nrStart')) ?: 1;
+        $orderGroup = ($orderGroup) ?: Shop::config('Shop.Invoice.nrGroup');
 
         $lastOrder = $this->find()
             ->select(['id', 'invoice_nr', 'ordergroup'])

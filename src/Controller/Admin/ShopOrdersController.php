@@ -2,6 +2,7 @@
 namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Shop\Controller\Admin\AppController;
 use Tcpdf\View\PdfView;
 
@@ -31,7 +32,7 @@ class ShopOrdersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopCustomers', 'ShopOrderAddresses'],
+            'contain' => ['ShopCustomers', 'ShopOrderAddresses' => ['Countries'], 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'conditions' => ['ShopOrders.is_temporary' => false],
             'order' => ['ShopOrders.id' => 'DESC'],
             'status' => true,
@@ -48,10 +49,10 @@ class ShopOrdersController extends AppController
                 return $view->Html->link($row->shop_customer->display_name,
                     ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]);
             }],
-            'nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+            'nr_formatted' => ['label' => __d('shop', 'Order Nr'), 'formatter' => function($val, $row, $args, $view) {
                 return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
             }],
-            'invoice_nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+            'invoice_nr_formatted' => ['label' => __d('shop', 'Invoice Nr'), 'formatter' => function($val, $row, $args, $view) {
                 return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id, 'mode' => 'invoice']) : null;
             }],
             'order_value_total' => [
@@ -63,6 +64,9 @@ class ShopOrdersController extends AppController
             }],
             //'payment_status' => [],
             //'shipping_status' => [],
+        ]);
+        $this->set('rowActions', [
+
         ]);
 
         $this->Backend->executeAction();
@@ -104,22 +108,27 @@ class ShopOrdersController extends AppController
         $this->set('_serialize', ['shopOrder']);
     }
 
-    public function printview($id = null)
+    public function printview($id = null, $mode = null)
     {
+        $mode = ($mode) ?: $this->request->query('mode');
+
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true
         ]);
         $this->set('shopOrder', $shopOrder);
+        $this->set('mode', $mode);
+
         $this->viewBuilder()->layout('Shop.print');
         $this->render('printview');
     }
 
-    public function pdfview($id = null)
+    public function pdfview($id = null, $mode = null)
     {
+        $mode = ($mode) ?: $this->request->query('mode');
 
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true
         ]);
         $this->set('shopOrder', $shopOrder);
@@ -134,6 +143,7 @@ class ShopOrdersController extends AppController
             'keywords' => $shopOrder->nr_formatted,
             //'output' => 'browser'
         ]);
+        $this->set('mode', $mode);
 
         $this->render('printview');
     }
@@ -258,4 +268,14 @@ class ShopOrdersController extends AppController
         $this->redirect($this->referer(['action' => 'edit', $id]));
     }
 
+    public function implementedEvents()
+    {
+        $events = parent::implementedEvents();
+        $events['Action.Index.getRowActions'] = ['callable' => function(Event $event) {
+            $event->result[] = [__d('backend','Printview'), ['action' => 'printview', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('backend','View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('backend','Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank']];
+        }];
+        return $events;
+    }
 }

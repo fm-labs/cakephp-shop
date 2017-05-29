@@ -91,6 +91,14 @@ return [
             'nrZerofill' => 5
         ],
 
+        'Invoice' => [
+            'nrPrefix' => 'RE',
+            'nrStart' => 1,
+            'nrGroup' => date('Y'),
+            'nrSuffix' => '',
+            'nrZerofill' => 5
+        ],
+
         'Catalogue' => [
             'index_category_id' => null
         ],
