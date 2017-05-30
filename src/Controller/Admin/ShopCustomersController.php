@@ -20,8 +20,10 @@ class ShopCustomersController extends AppController
     ];
 
     public $actions = [
-        'index' => 'Backend.Index',
-        'view' => 'Backend.View'
+        'index'     => 'Backend.Index',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
     ];
 
 

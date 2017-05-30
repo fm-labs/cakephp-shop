@@ -15,7 +15,10 @@ class ShopOrdersController extends AppController
 {
 
     public $actions = [
-        'index' => 'Backend.Index',
+        'index'     => 'Backend.Index',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
     ];
 
     public function initialize()

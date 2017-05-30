@@ -11,13 +11,19 @@ use Shop\Controller\Admin\AppController;
 class ShopCountriesController extends AppController
 {
     public $paginate = [
-        'order' => ['ShopCountries.name' => 'ASC'],
-        'limit' => 50
+        'order' => ['ShopCountries.priority' => 'DESC', 'ShopCountries.iso2' => 'ASC'],
+        'limit' => 250,
+        'maxLimit' => 250
     ];
 
     public $actions = [
-        'index' => 'Backend.Index',
-        'view' => 'Backend.View'
+        'index'     => 'Backend.Index',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
+        'delete'    => 'Backend.Delete',
+        'publish'   => 'Backend.Publish',
+        'unpublish' => 'Backend.Unpublish'
     ];
 
     /**

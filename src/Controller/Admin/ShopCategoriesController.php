@@ -20,7 +20,15 @@ class ShopCategoriesController extends AppController
     public $modelClass = "Shop.ShopCategories";
 
     public $actions = [
-        'index' => 'Backend.TreeIndex'
+        'index'     => 'Backend.TreeIndex',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
+        'delete'    => 'Backend.Delete',
+        'publish'   => 'Backend.Publish',
+        'unpublish' => 'Backend.Unpublish',
+        'moveUp'    => 'Backend.TreeMoveUp',
+        'moveDown'  => 'Backend.TreeMoveDown',
     ];
 
     public function beforeFilter(Event $event)

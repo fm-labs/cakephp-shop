@@ -18,7 +18,12 @@ class ShopProductsController extends AppController
     public $modelClass = "Shop.ShopProducts";
 
     public $actions = [
-        'index' => 'Backend.Index',
+        'index'     => 'Backend.Index',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
+        'publish'   => 'Backend.Publish',
+        'unpublish' => 'Backend.Unpublish'
     ];
 
     public function initialize()

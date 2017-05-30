@@ -11,9 +11,13 @@ use Shop\Controller\Admin\AppController;
 class ShopCustomerAddressesController extends AppController
 {
 
+
     public $actions = [
-        'index' => 'Backend.Index',
-        'view' => 'Backend.View'
+        'index'     => 'Backend.Index',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
+        'delete'    => 'Backend.Delete'
     ];
 
     /**
