@@ -71,8 +71,8 @@ class CheckoutControllerTest extends IntegrationTestCase
             'payment' => [
                 'className' => 'Shop.Payment'
             ],
-            'review' => [
-                'className' => 'Shop.Review'
+            'submit' => [
+                'className' => 'Shop.Submit'
             ],
         ]);
     }

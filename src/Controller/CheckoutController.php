@@ -114,22 +114,6 @@ class CheckoutController extends AppController
             // load order for cartID
             $this->Checkout->initFromCartId($cartId);
 
-            // check if order is ready for checkout
-            if (!$this->Checkout->getOrder() || count($this->Checkout->getOrder()->shop_order_items) < 1) {
-                $this->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
-                return $this->redirect(['_name' => 'shop:cart']);
-            }
-
-            if ($this->Checkout->getOrder()->is_temporary === false || $this->Checkout->getOrder()->status > ShopOrdersTable::ORDER_STATUS_TEMP) {
-                //$this->Flash->success(__d('shop', 'Order already submitted'));
-                return $this->redirect(['controller' => 'Orders', 'action' => 'view', $this->Checkout->getOrder()->uuid]);
-            }
-
-            //if ($this->Checkout->getOrder()->cartid != $cartId) {
-            //    $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
-            //    return $this->redirect(['_name' => 'shop:cart']);
-            //}
-
             // execute checkout step
             return $this->Checkout->executeStep($stepId);
         }

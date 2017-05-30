@@ -52,7 +52,7 @@ return [
                     'className' => 'Shop.Payment'
                 ],
                 'review' => [
-                    'className' => 'Shop.Review'
+                    'className' => 'Shop.Submit'
                 ],
                 */
             ]

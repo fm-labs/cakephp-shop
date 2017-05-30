@@ -5,7 +5,7 @@ namespace Shop\Core\Checkout\Step;
 use Cake\Controller\Controller;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
-class ReviewStep extends BaseStep implements CheckoutStepInterface
+class SubmitStep extends BaseStep implements CheckoutStepInterface
 {
 
     public function getTitle()
@@ -21,7 +21,7 @@ class ReviewStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         if ($controller->request->is(['put', 'post'])) {
-            if (($order = $this->Checkout->submitOrder($controller->request->data))) {
+            if (($order = $this->Checkout->submitOrder($controller->request->data)) && $order->is_temporary == false) {
                 $controller->Flash->success(__d('shop','Order has been submitted'));
                 return $controller->redirect(['plugin' => 'Shop', 'controller' => 'Orders', 'action' => 'process', $order->uuid]);
             } else {
@@ -30,7 +30,7 @@ class ReviewStep extends BaseStep implements CheckoutStepInterface
                 //$this->Checkout->redirectNext();
             }
         }
-        return $controller->render('review');
+        return $controller->render('submit');
     }
 
 }

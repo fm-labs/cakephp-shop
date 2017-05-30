@@ -567,10 +567,11 @@ class ShopOrdersTable extends Table
             'customer_email' => ($order->customer_email) ?: $order->shop_customer->email,
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
-        if (!$order || $order->errors()) {
+        if ($order->errors()) {
             debug($order->errors());
             Log::error("Order submitted with errors: " . $order->id);
-            return false;
+            //throw new \Exception("Failed to submit order");
+            return $order;
         }
 
         // dispatch 'beforeSubmit' event

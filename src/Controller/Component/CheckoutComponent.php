@@ -4,23 +4,16 @@ namespace Shop\Controller\Component;
 
 
 use Cake\Controller\Component;
-use Cake\Core\App;
-use Cake\Core\StaticConfigTrait;
 use Cake\Event\Event;
-use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\Network\Exception\InternalErrorException;
-use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Exception\NotImplementedException;
 use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
-use Cake\Utility\Text;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Checkout\CheckoutStepRegistry;
+use Shop\Core\Checkout\Step\SubmitStep;
 use Shop\Lib\Shop;
-use Shop\Model\Entity\ShopAddress;
-use Shop\Model\Entity\ShopCustomer;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
 use Shop\Model\Table\ShopOrdersTable;
@@ -32,7 +25,7 @@ use Shop\Model\Table\ShopOrdersTable;
  * @property ShopComponent $Shop
  * @property CartComponent $Cart
  */
-class CheckoutComponent extends Component implements \Iterator, \SeekableIterator
+class CheckoutComponent extends Component
 {
 
     /**
@@ -125,6 +118,23 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
         $this->_order = $this->ShopOrders->find('cart', ['ShopOrders.cartid' => $cartId]);
     }
 
+    public function beforeStep(Event $event)
+    {
+        // check if order is ready for checkout
+        if (!$this->getOrder() || count($this->getOrder()->shop_order_items) < 1) {
+            $event->subject()->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+            return $this->getController()->redirect(['_name' => 'shop:cart']);
+        }
+
+        if ($this->getOrder()->is_temporary === false || $this->getOrder()->status > ShopOrdersTable::ORDER_STATUS_TEMP) {
+            return $this->getController()->redirect(['controller' => 'Orders', 'action' => 'view', $this->getOrder()->uuid]);
+        }
+    }
+
+    public function afterStep(Event $event)
+    {
+    }
+
     /**
      * @param $stepId
      * @return Response|null
@@ -132,17 +142,6 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
      */
     public function executeStep($stepId)
     {
-        /*
-        $this->seek($stepId);
-        //return $this->_executeStep($this->current());
-
-
-        $response = $this->_executeStep($this->current());
-        if (!($response instanceof Response)) {
-            return $this->redirectNext();
-        }
-        return $response;
-        */
         return $this->execute($stepId);
     }
 
@@ -153,10 +152,10 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
     public function execute($stepId = null)
     {
         $response = null;
-        foreach($this as $step) {
+        foreach ($this->_stepRegistry as $step) {
 
             // break at selected step
-            if ($stepId && $this->key() === $stepId) {
+            if ($stepId && $step->getId() === $stepId) {
                 //debug("current " . $this->key() . " / " . $stepId);
                 $response = $this->_executeStep($step);
                 if ($response === true) {
@@ -232,8 +231,7 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
      */
     public function nextStep(/* $startFromActive = false */)
     {
-        $this->rewind();
-        foreach ($this as $step) {
+        foreach ($this->_stepRegistry as $step) {
             if (!$step->isComplete()) {
                 //debug("step not complete: " . $stepId);
                 return $step;
@@ -357,12 +355,24 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
             return false;
         }
 
-        $nextStep = $this->nextStep();
-        if ($nextStep->getId() != "review") { //@TODO Replace this workaround: Check if all previously steps have been completed
+        if (!($this->nextStep() instanceof SubmitStep)) { //@TODO Replace this workaround: Check if all previously steps have been completed
             return $this->redirectNext();
         }
 
         return $this->ShopOrders->submitOrder($this->getOrder(), $data);
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function afterSubmit(Event $event)
+    {
+        $this->_order = null;
+
+        $this->request->session()->delete('Shop.Cart');
+        $this->request->session()->delete('Shop.Checkout');
+        $this->request->session()->delete('Shop.Order');
+
     }
 
     /**
@@ -452,122 +462,14 @@ class CheckoutComponent extends Component implements \Iterator, \SeekableIterato
     }
 
 
-    /**
-     * Return the current element
-     * @link http://php.net/manual/en/iterator.current.php
-     * @return CheckoutStepInterface
-     * @since 5.0.0
-     */
-    public function current()
-    {
-        return $this->_stepRegistry->get($this->_active);
-    }
-
-    /**
-     * Return the key of the current element
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
-     * @since 5.0.0
-     */
-    public function key()
-    {
-        return $this->_active;
-    }
-
-    /**
-     * Checks if current position is valid
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
-     * @since 5.0.0
-     */
-    public function valid()
-    {
-        if (!$this->_active) {
-            return false;
-        }
-
-        if (!$this->_stepRegistry->has($this->_active)) {
-            throw new \OutOfBoundsException("Step not loaded: " . $this->_active);
-        }
-
-        //if ($this->_stepRegistry->isComplete()) {
-        //    throw new IncompleteStepException();
-        //}
-        return true;
-    }
-
-    /**
-     * Rewind the Iterator to the first element
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
-     */
-    public function rewind()
-    {
-        reset($this->_steps);
-        $this->_active = key($this->_steps);
-    }
-
-    /**
-     * Move forward to next element
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
-     */
-    public function next()
-    {
-        $next = false; // flag indicating to exit loop on next iteration
-
-        foreach (array_keys($this->_steps) as $stepId) {
-
-            if ($next === true) {
-                $this->_active = $stepId;
-                return;
-            }
-
-            if ($this->_active == $stepId) {
-                $next = true;
-            }
-        }
-
-        // last step
-        $this->_active = false;
-    }
-
-    /**
-     * Seeks to a position
-     * @link http://php.net/manual/en/seekableiterator.seek.php
-     * @param int $position <p>
-     * The position to seek to.
-     * </p>
-     * @return void
-     * @since 5.1.0
-     */
-    public function seek($position)
-    {
-        if (!$this->_stepRegistry->has($this->_active)) {
-            throw new \OutOfBoundsException("Step not loaded: " . $this->_active);
-        }
-
-        $this->_active = $position;
-    }
-
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
 
+        $events['Shop.Checkout.beforeStep'] = ['callable' => 'beforeStep'];
+        $events['Shop.Checkout.afterStep'] = ['callable' => 'afterStep'];
         $events['Shop.Model.Order.afterSubmit'] = ['callable' => 'afterSubmit', 'priority' => 90];
         return $events;
     }
 
-    public function afterSubmit(Event $event)
-    {
-        $this->_order = null;
-
-        $this->request->session()->delete('Shop.Cart');
-        $this->request->session()->delete('Shop.Checkout');
-        $this->request->session()->delete('Shop.Order');
-
-    }
 }

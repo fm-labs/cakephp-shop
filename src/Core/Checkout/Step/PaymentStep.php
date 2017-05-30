@@ -96,15 +96,6 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
                 $paymentType = $controller->request->data('payment_type');
 
                 if ($this->_registry->has($paymentType)) {
-
-                    /*
-                    $order = $this->Checkout->getOrder();
-                    $order->payment_type = $paymentType;
-                    if (!$this->Checkout->setOrder($order, true)) {
-                        throw new \RuntimeException('PaymentStep: Failed to set payment type');
-                    }
-                    */
-
                     $engine = $this->_registry->get($paymentType);
                 }
             } else {
@@ -113,9 +104,6 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
             }
         }
 
-        $paymentMethods = $this->paymentMethods;
-        $controller->set('paymentMethods', $paymentMethods);
-
         if ($engine) {
             $result = $engine->checkout($this->Checkout);
             if ($result instanceof Response) {
@@ -123,6 +111,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
             }
         }
 
+        $controller->set('paymentMethods', $this->paymentMethods);
         return $controller->render('payment');
     }
 }

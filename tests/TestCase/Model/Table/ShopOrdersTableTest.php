@@ -239,9 +239,9 @@ class ShopOrdersTableTest extends TestCase
      */
     public function testSubmitOrder()
     {
-        $order = $this->ShopOrders->get(1);
 
         // test without agree_terms
+        $order = $this->ShopOrders->get(1);
         $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 0]);
         $this->assertNotEmpty($order->errors());
         $this->assertArrayHasKey('agree_terms', $order->errors());

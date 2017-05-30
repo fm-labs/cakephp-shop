@@ -9,12 +9,17 @@ use Shop\Controller\Component\CheckoutComponent;
 /**
  * Registry of loaded log engines
  */
-class CheckoutStepRegistry extends ObjectRegistry
+class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \SeekableIterator
 {
     /**
      * @var CheckoutComponent
      */
     public $Checkout;
+
+    /**
+     * @var string Current iterator key
+     */
+    protected $_current;
 
     public function __construct(CheckoutComponent $Checkout)
     {
@@ -95,5 +100,107 @@ class CheckoutStepRegistry extends ObjectRegistry
     public function unload($name)
     {
         unset($this->_loaded[$name]);
+    }
+
+
+
+    /**
+     * Return the current element
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return CheckoutStepInterface
+     * @since 5.0.0
+     */
+    public function current()
+    {
+        return $this->get($this->_current);
+    }
+
+    /**
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     * @since 5.0.0
+     */
+    public function key()
+    {
+        return $this->_current;
+    }
+
+    /**
+     * Checks if current position is valid
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     * @since 5.0.0
+     */
+    public function valid()
+    {
+        if (!$this->_current) {
+            return false;
+        }
+
+        if (!$this->has($this->_current)) {
+            throw new \OutOfBoundsException("Step not loaded: " . $this->_current);
+        }
+
+        //if ($this->current()->isComplete()) {
+        //    throw new IncompleteStepException();
+        //}
+        return true;
+    }
+
+    /**
+     * Rewind the Iterator to the first element
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function rewind()
+    {
+        reset($this->_loaded);
+        $this->_current = key($this->_loaded);
+    }
+
+    /**
+     * Move forward to next element
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function next()
+    {
+        $next = false; // flag indicating to exit loop on next iteration
+        foreach (array_keys($this->_loaded) as $stepId) {
+
+            if ($next === true) {
+                $this->_current = $stepId;
+                return;
+            }
+
+            if ($this->_current == $stepId) {
+                $next = true;
+            }
+        }
+
+        // last step
+        $this->_current = false;
+    }
+
+    /**
+     * Seeks to a position
+     * @link http://php.net/manual/en/seekableiterator.seek.php
+     * @param int $position <p>
+     * The position to seek to.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function seek($position)
+    {
+        if (!$this->has($position)) {
+            throw new \OutOfBoundsException("Step not loaded: " . $position);
+        }
+
+        $this->_current = $position;
     }
 }

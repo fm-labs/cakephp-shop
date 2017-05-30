@@ -80,7 +80,7 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
                     'data-icon' => 'users'
                 ],
                 'customer_addresses' => [
-                    'title' => 'Customer Address',
+                    'title' => 'Customer Addresses',
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerAddresses', 'action' => 'index'],
                     'data-icon' => 'users'
                 ],
