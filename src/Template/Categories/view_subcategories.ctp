@@ -24,10 +24,9 @@
             <div class="col-md-6">
                 <?php foreach ($shopCategory->published_subcategories as $subCategory): ?>
                     <article class="subcategory" itemscope itemtype="http://schema.org/Product">
-
                         <div class="image">
-                            <?php if ($subCategory->featured_image_file): ?>
-                                <?= $this->Media->thumbnail($subCategory->featured_image_file->filepath, ['width' => 266, 'height' => 150], [
+                            <?php if ($subCategory->preview_image_file): ?>
+                                <?= $this->Media->thumbnail($subCategory->preview_image_file->filepath, ['width' => 266, 'height' => 150], [
                                     'height' => 150,
                                     'url' => $subCategory->url,
                                     'itemprop' => 'image'
