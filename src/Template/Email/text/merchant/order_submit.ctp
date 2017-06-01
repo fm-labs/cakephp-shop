@@ -21,6 +21,18 @@ Lieferadresse:
 <?= $this->element('Shop.Email/text/address', ['address' => $order->getShippingAddress()]); ?>
 
 
+
+
+Bestellartikel:
+---------------
+<?= $this->element('Shop.Email/text/order_items', ['items' => $order->shop_order_items]); ?>
+
+
+Rechnungsbetrag: EUR <?= number_format($order->order_value_total, 2) ?>
+
+
+
+
 Zusätzliche Informationen des Kunden:
 -------------------------------------
 
@@ -31,12 +43,3 @@ Email: <?= $order->customer_email; ?>
 
 Telefon: <?= $order->customer_phone; ?>
 
-
-
-Bestellartikel:
----------------
-<?= $this->element('Shop.Email/text/order_items', ['items' => $order->shop_order_items]); ?>
-
-
-
-Rechnungsbetrag: EUR <?= number_format($order->order_value_total, 2) ?>
