@@ -26,9 +26,12 @@ class InvoicePdfGenerator
     public function createFromOrder($orderId = null, $pdf = [])
     {
         $shopOrder = $this->ShopOrders->get($orderId, [
-            'contain' => ['ShopCustomers', 'ShopOrderItems', 'ShopOrderAddresses' => ['Countries']],
+            'contain' => ['ShopCustomers', 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true
         ]);
+
+
+
 
         if (!Plugin::loaded('Tcpdf')) {
             throw new MissingPluginException(['plugin' => 'Tcpdf']);
