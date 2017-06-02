@@ -134,12 +134,15 @@ class CartComponent extends Component
      */
     protected function _getProductTable($modelClass)
     {
-        list($modelName, $plugin) = pluginSplit($modelClass);
+        list(,$modelName) = pluginSplit($modelClass);
         if (!isset($this->{$modelName})) {
             $this->{$modelName} = $this->_registry->getController()->loadModel($modelName);
             //if ($this->{$modelName} instanceof EventDispatcher) {
             //    $this->{$modelName}->eventManager()->on($this);
             //}
+        }
+        if (!$this->{$modelName}) {
+            throw new \RuntimeException("Cart: Failed to load product table: $modelName");
         }
         return $this->{$modelName};
     }

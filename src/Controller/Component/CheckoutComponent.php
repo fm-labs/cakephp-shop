@@ -17,6 +17,7 @@ use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
 use Shop\Model\Table\ShopOrdersTable;
+use Shop\Event\CheckoutEvent;
 
 /**
  * Class CheckoutComponent
@@ -247,8 +248,10 @@ class CheckoutComponent extends Component
      */
     protected function _executeStep(CheckoutStepInterface $step)
     {
+        $this->_activeStep = $step;
+
         // before step
-        $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.beforeStep', $this, compact('step')));
+        $event = $this->getController()->eventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
         if ($event->result instanceof Response) {
             return $event->result;
         } elseif ($event->result instanceof CheckoutStepInterface) {
@@ -256,14 +259,13 @@ class CheckoutComponent extends Component
         }
 
         // execute
-        $this->_activeStep = $step;
         $response = $step->execute($this->_registry->getController());
 
         // store active step in session
-        $event->subject()->request->session()->write('Shop.Checkout.Step', ($this->_activeStep) ? $this->_activeStep->toArray() : null);
+        $event->subject()->request->session()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
 
         // after step
-        $event = $this->getController()->eventManager()->dispatch(new Event('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
+        $event = $this->getController()->eventManager()->dispatch(new CheckoutEvent('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
         if ($event->result instanceof Response) {
             return $event->result;
         }
