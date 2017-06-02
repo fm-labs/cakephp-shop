@@ -21,7 +21,15 @@ use Shop\Model\Table\ShopOrdersTable;
 class ClearCreditcardDataCronTask extends CronTask
 {
 
-    public $limit = 5;
+    /**
+     * @var int Max number of orders processed per task execution
+     */
+    public $limit = 10;
+
+    /**
+     * @var int Number of days to keep information stored in db
+     */
+    public $daysKeep = 3;
 
     /**
      * @return bool|CronTaskResult|null|mixed
@@ -36,7 +44,7 @@ class ClearCreditcardDataCronTask extends CronTask
             ->where([
                 'payment_type' => 'credit_card_internal',
                 'payment_info_1 IS NOT' => 'DELETED',
-                'created <=' => (new \DateTime())->setTimestamp(time() - 3 * DAY)
+                'created <=' => (new \DateTime())->setTimestamp(time() - $this->daysKeep * DAY)
             ])
             ->order(['id' => 'ASC'])
             ->all();
