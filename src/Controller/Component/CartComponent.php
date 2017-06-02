@@ -12,7 +12,9 @@ use Cake\Log\Log;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
+use Shop\Core\Product\ShopProductInterface;
 use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopProduct;
 use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopProductsTable;
 
@@ -118,6 +120,17 @@ class CartComponent extends Component
         return $this->cartId;
     }
 
+    /**
+     * @param $productId
+     * @param string $model
+     * @return ShopProductInterface
+     */
+    protected function _getProduct($productId, $model = 'Shop.ShopProducts')
+    {
+        $Model = $this->_registry->getController()->loadModel($model);
+        return $Model->get($productId);
+    }
+
     public function addItem(array $item)
     {
         $this->_resumeOrder(['create' => true]);
@@ -149,12 +162,12 @@ class CartComponent extends Component
 
         if (!$orderItem) {
 
-            $product = $this->ShopProducts->get($item['refid']);
+            $product = $this->_getProduct($item['refid'], $item['refscope']);
             $item += [
-                'title' => $product->title,
-                'unit' => ($product->unit) ?: 'x',
-                'item_value_net' => $product->price_net,
-                'tax_rate' => $product->tax_rate
+                'title' => $product->getTitle(),
+                'unit' => ($product->getUnit()) ?: 'x', // @deprecated. Redundant information. Can be resolved from product data.
+                'item_value_net' => $product->getPrice(),
+                'tax_rate' => $product->getTaxRate()
             ];
 
             $orderItem = $this->ShopOrders->ShopOrderItems->newEntity($item, ['validate' => true]);

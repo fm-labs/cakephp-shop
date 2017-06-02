@@ -142,6 +142,21 @@ class ShopProduct extends Entity implements ShopProductInterface
         return $this->get('sku');
     }
 
+    public function getPrice()
+    {
+        return $this->get('price_net');
+    }
+
+    public function getTaxRate()
+    {
+        return $this->get('tax_rate');
+    }
+
+    public function getUnit()
+    {
+        return $this->get('unit');
+    }
+
     public function isBuyable()
     {
         return $this->get('is_buyable');
@@ -149,6 +164,6 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     public function getAdminUrl()
     {
-        return $this->_getAdminUrl();
+        return $this->get('admin_url');
     }
 }
