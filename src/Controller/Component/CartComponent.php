@@ -10,8 +10,10 @@ use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
+use Composer\EventDispatcher\EventDispatcher;
 use Shop\Core\Product\ShopProductInterface;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopProduct;
@@ -105,6 +107,12 @@ class CartComponent extends Component
         }
     }
 
+    public function shutdown(Event $event)
+    {
+        //@TODO Detach table event listeners
+        //@TODO Unload tables
+    }
+
     public function reset()
     {
         $this->sessionId = null;
@@ -121,14 +129,30 @@ class CartComponent extends Component
     }
 
     /**
+     * @param $modelClass
+     * @return Table
+     */
+    protected function _getProductTable($modelClass)
+    {
+        list($modelName, $plugin) = pluginSplit($modelClass);
+        if (!isset($this->{$modelName})) {
+            $this->{$modelName} = $this->_registry->getController()->loadModel($modelName);
+            //if ($this->{$modelName} instanceof EventDispatcher) {
+            //    $this->{$modelName}->eventManager()->on($this);
+            //}
+        }
+        return $this->{$modelName};
+    }
+
+    /**
      * @param $productId
-     * @param string $model
+     * @param string $modelClass
      * @return ShopProductInterface
      */
-    protected function _getProduct($productId, $model = 'Shop.ShopProducts')
+    protected function _getProduct($productId, $modelClass = 'Shop.ShopProducts')
     {
-        $Model = $this->_registry->getController()->loadModel($model);
-        return $Model->get($productId);
+        $product = $this->_getProductTable($modelClass)->get($productId);
+        return $product;
     }
 
     public function addItem(array $item)

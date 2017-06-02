@@ -10,6 +10,10 @@ use Cake\ORM\ResultSet;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Entity\ShopCustomer;
 
+/**
+ * Class ShopComponent
+ * @package Shop\Controller\Component
+ */
 class ShopComponent extends Component
 {
     /**

@@ -1,13 +1,18 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Collection\Iterator\MapReduce;
 use Cake\Core\Plugin;
+use Cake\Event\Event;
 use Cake\ORM\Exception\RolledbackTransactionException;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopProduct;
+use User\Controller\Component\AuthComponent;
 
 /**
  * ShopProducts Model
@@ -180,6 +185,60 @@ class ShopProductsTable extends Table
             ->allowEmpty('publish_end_date');
 
         return $validator;
+    }
+
+    /**
+     * 'beforeFind' callback
+     *
+     * Applies a MapReduce to the query, which resolves attachment info
+     * if an attachment field is present in the query results.
+     *
+     * @param Event $event
+     * @param Query $query
+     * @param array $options
+     * @param $primary
+     */
+    /**
+     * 'beforeFind' callback
+     *
+     * Applies a MapReduce to the query, which resolves attachment info
+     * if an attachment field is present in the query results.
+     *
+     * @param Event $event
+     * @param Query $query
+     * @param array $options
+     * @param $primary
+     */
+    public function beforeFind(Event $event, Query $query, $options, $primary)
+    {
+        //if (!isset($options['skip_price']) || $options['skip_price'] === false) {
+        //    return;
+        //}
+
+        $mapper = function ($row, $key, MapReduce $mapReduce) use ($options) {
+
+            $row['price_net_original'] = $row['price_net'];
+            //$row['price_net'] = $row['price_net'];
+
+            if (Shop::config('Shop.CustomerDiscounts.enabled') == true && isset($options['for_customer'])) {
+                $ShopCustomerDiscounts = TableRegistry::get('Shop.ShopCustomerDiscounts');
+                $userDiscounts = $ShopCustomerDiscounts->find()->where([
+                    'shop_customer_id' => $options['for_customer'],
+                    'shop_product_id' => $row['id'],
+                    'published' => true
+                ])->all();
+
+                //@TODO Implement customer discount price mod
+            }
+
+            $mapReduce->emitIntermediate($row, $key);
+        };
+
+        $reducer = function ($bucket, $name, MapReduce $mapReduce) {
+            $mapReduce->emit($bucket[0], $name);
+        };
+
+        $query->mapReduce($mapper, $reducer);
     }
 
     /**
