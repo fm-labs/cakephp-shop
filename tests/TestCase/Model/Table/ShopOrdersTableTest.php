@@ -261,6 +261,7 @@ class ShopOrdersTableTest extends TestCase
         $this->assertEquals(true, $order->agree_terms);
 
         $billingAddress = $order->getBillingAddress();
+        $this->assertNotEmpty($billingAddress);
         $ShopCustomerAddresses = TableRegistry::get('Shop.ShopCustomerAddresses');
         $customerAddress = $ShopCustomerAddresses->find()->where($billingAddress->extractAddress())->first();
         $this->assertNotNull($customerAddress);

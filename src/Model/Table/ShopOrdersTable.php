@@ -402,7 +402,8 @@ class ShopOrdersTable extends Table
         $reverseCharge = $order->isReverseCharge();
 
         // items value
-        array_walk($order->shop_order_items, function ($item) use (&$calculator, $reverseCharge) {
+        $items = (array) $order->shop_order_items;
+        array_walk($items, function ($item) use (&$calculator, $reverseCharge) {
             $taxRate = ($reverseCharge) ? 0 : $item->tax_rate;
 
             $calculator->addValue(
