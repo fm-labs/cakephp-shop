@@ -1,21 +1,30 @@
 <?php
-
 namespace Shop\Core\Checkout\Step;
-
 
 use Cake\Controller\Controller;
 use Cake\Log\Log;
 use Cake\Network\Exception\BadRequestException;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
+/**
+ * Class BillingAddressStep
+ *
+ * @package Shop\Core\Checkout\Step
+ */
 class BillingAddressStep extends BaseStep implements CheckoutStepInterface
 {
 
+    /**
+     * @return null|string
+     */
     public function getTitle()
     {
         return __d('shop','Billing Address');
     }
 
+    /**
+     * @return bool
+     */
     public function isComplete()
     {
         if ($this->Checkout->getOrder()->getBillingAddress()) {
@@ -38,6 +47,10 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
         return false;
     }
 
+    /**
+     * @param Controller $controller
+     * @return bool|\Cake\Network\Response
+     */
     public function execute(Controller $controller)
     {
         if ($this->Checkout->getOrder()->getBillingAddress()) {
@@ -51,7 +64,6 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
         } else {
             $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }
-
 
         if ($controller->request->is(['put', 'post'])) {
 
@@ -86,5 +98,4 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
 
         return $controller->render('billing_address');
     }
-
 }

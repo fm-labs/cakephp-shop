@@ -2,7 +2,11 @@
 
 namespace Shop\Core\Product;
 
-
+/**
+ * Interface ShopProductInterface
+ *
+ * @package Shop\Core\Product
+ */
 interface ShopProductInterface
 {
     /**

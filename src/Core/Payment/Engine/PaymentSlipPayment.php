@@ -10,13 +10,26 @@ use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrdersTable;
 
+/**
+ * Class PaymentSlipPayment
+ *
+ * @package Shop\Core\Payment\Engine
+ */
 class PaymentSlipPayment implements PaymentEngineInterface
 {
+    /**
+     * @param CheckoutComponent $Checkout
+     * @return bool
+     */
     public function isCheckoutComplete(CheckoutComponent $Checkout)
     {
         return true;
     }
 
+    /**
+     * @param CheckoutComponent $Checkout
+     * @return Response|null
+     */
     public function checkout(CheckoutComponent $Checkout)
     {
         if ($Checkout->request->is(['post', 'put'])) {
@@ -33,7 +46,6 @@ class PaymentSlipPayment implements PaymentEngineInterface
                 $Checkout->getController()->Flash->error("Failed to update payment info");
             }
         }
-
     }
 
     /**

@@ -21,6 +21,9 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
      */
     protected $_current;
 
+    /**
+     * @param CheckoutComponent $Checkout
+     */
     public function __construct(CheckoutComponent $Checkout)
     {
         $this->Checkout = $Checkout;
@@ -101,8 +104,6 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
     {
         unset($this->_loaded[$name]);
     }
-
-
 
     /**
      * Return the current element

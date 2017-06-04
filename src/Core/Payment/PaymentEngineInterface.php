@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Payment;
 
-
 use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;

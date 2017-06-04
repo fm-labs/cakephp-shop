@@ -10,7 +10,6 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopOrderAddressesController extends AppController
 {
-
     /**
      * Index method
      *

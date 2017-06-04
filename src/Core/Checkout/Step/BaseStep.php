@@ -23,6 +23,9 @@ abstract class BaseStep implements EventListenerInterface
      */
     public $Checkout;
 
+    /**
+     * @param CheckoutComponent $Checkout
+     */
     public function __construct(CheckoutComponent $Checkout)
     {
         $this->Checkout =& $Checkout;
@@ -30,6 +33,9 @@ abstract class BaseStep implements EventListenerInterface
         $this->initialize();
     }
 
+    /**
+     * @return array
+     */
     public function implementedEvents()
     {
         return [
@@ -39,21 +45,33 @@ abstract class BaseStep implements EventListenerInterface
         ];
     }
 
+    /**
+     * Initialize method
+     */
     public function initialize()
     {
         // Override in subclasses
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeStep(Event $event)
     {
         //debug("beforeStep " . $this->getId());
     }
 
+    /**
+     * @param Event $event
+     */
     public function afterStep(Event $event)
     {
         //debug("afterStep " . $this->getId());
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeRedirect(Event $event)
     {
         //debug("beforeRedirect " . $this->getId());
@@ -111,5 +129,4 @@ abstract class BaseStep implements EventListenerInterface
         $msg = sprintf("[%s] %s", $this->getId(), $msg);
         Log::write($level, $msg, ['shop', 'checkout']);
     }
-
 }

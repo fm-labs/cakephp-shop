@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Payment\Engine;
 
-
 use Cake\Core\Configure;
 use Cake\Log\Log;
 use Cake\Network\Request;
@@ -17,14 +16,27 @@ use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrderTransactionsTable;
 
+/**
+ * Class Mpay24SelectPayment
+ *
+ * @package Shop\Core\Payment\Engine
+ */
 class Mpay24SelectPayment implements PaymentEngineInterface
 {
 
+    /**
+     * @param CheckoutComponent $Checkout
+     * @return bool
+     */
     public function isCheckoutComplete(CheckoutComponent $Checkout)
     {
         return true;
     }
 
+    /**
+     * @param CheckoutComponent $Checkout
+     * @return \Cake\Network\Response|null
+     */
     public function checkout(CheckoutComponent $Checkout)
     {
         if ($Checkout->request->is(['post', 'put'])) {
@@ -46,26 +58,25 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
     }
 
+    /**
+     * @param $testMode
+     * @return Mpay24Config
+     * @throws \Exception
+     */
     protected function _buildMpay24Config($testMode)
     {
-
         if ($testMode) {
-
             $merchantID = Configure::read('Mpay24.Test.merchantID');
             $soapPassword = Configure::read('Mpay24.Test.soapPassword');
             $debug = (bool)Configure::read('Mpay24.debug');
         } else {
-
             $merchantID = Configure::read('Mpay24.merchantID');
             $soapPassword = Configure::read('Mpay24.soapPassword');
             $debug = (bool)Configure::read('Mpay24.debug');
         }
 
-
         //debug(Configure::read('Mpay24'));
         //debug($merchantID . '_' . $soapPassword . '_' . $debug . '_' . $test);
-
-
 
         $config = new Mpay24Config();
         $config->setMerchantID($merchantID);
@@ -81,7 +92,6 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         $config->setLogFile('mpay24.log');
         $config->setCurlLogFile('mpay24_curl.log');
         $config->setEnableCurlLog($debug);
-
 
         // FLEX
         //$config->setSpid($spid);
@@ -105,7 +115,6 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     protected function _buildPaymentMDXI(Mpay24Order $mdxi)
     {
         // override in subclasses
-
         //$mdxi->Order->PaymentTypes->setEnable("true");
         //$mdxi->Order->PaymentTypes->Payment(1)->setType("EPS");
         //$mdxi->Order->PaymentTypes->Payment(2)->setType("SOFORT");
@@ -113,11 +122,16 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         return $mdxi;
     }
 
+    /**
+     * @param PaymentComponent $Payment
+     * @param ShopOrderTransaction $transaction
+     * @param ShopOrder $order
+     * @return \Cake\Network\Response|null
+     * @throws \Exception
+     */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
     {
-
         try {
-
             /**
              * Use test system with demo user
              */
@@ -316,5 +330,4 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     {
         return $input;
     }
-
 }

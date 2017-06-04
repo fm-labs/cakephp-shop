@@ -2,20 +2,30 @@
 
 namespace Shop\Core\Checkout\Step;
 
-
 use Cake\Controller\Controller;
 use Cake\Log\Log;
 use Cake\Network\Exception\BadRequestException;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
+/**
+ * Class ShippingAddressStep
+ *
+ * @package Shop\Core\Checkout\Step
+ */
 class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 {
 
+    /**
+     * @return null|string
+     */
     public function getTitle()
     {
         return __d('shop','Shipping Address');
     }
 
+    /**
+     * @return bool
+     */
     public function isComplete()
     {
         // check if shipping is required
@@ -32,7 +42,6 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
             return true;
         }
 
-
         // auto-create billing from shipping address
         if ($this->Checkout->getOrder()->getBillingAddress()) {
             $address = $this->Checkout->getOrder()->getBillingAddress();
@@ -48,6 +57,10 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         return false;
     }
 
+    /**
+     * @param Controller $controller
+     * @return bool|\Cake\Network\Response
+     */
     public function execute(Controller $controller)
     {
         if ($this->Checkout->getOrder()->getShippingAddress()) {
@@ -61,7 +74,6 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         } else {
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }
-
 
         if ($controller->request->is(['put', 'post'])) {
 
@@ -96,5 +108,4 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 
         return $controller->render('shipping_address');
     }
-
 }

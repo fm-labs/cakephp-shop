@@ -11,6 +11,9 @@ use Shop\Controller\Admin\AppController;
 class ShopOrderItemsController extends AppController
 {
 
+    /**
+     * @var array
+     */
     public $actions = [
         'index' => 'Backend.Index',
         'view' => 'Backend.View'

@@ -102,6 +102,10 @@ class ShopTextsController extends AppController
         $this->set('_serialize', ['shopText']);
     }
 
+    /**
+     * @param null $id
+     * @deprecated
+     */
     public function edit_iframe($id = null)
     {
         $this->layout = "Backend.iframe";

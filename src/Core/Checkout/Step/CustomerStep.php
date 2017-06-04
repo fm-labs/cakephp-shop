@@ -1,7 +1,6 @@
 <?php
 namespace Shop\Core\Checkout\Step;
 
-
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Log\Log;
@@ -10,17 +9,26 @@ use Shop\Model\Table\ShopCustomersTable;
 
 /**
  * Class CustomerStep
+ *
  * @package Shop\Checkout
  * @property ShopCustomersTable $ShopCustomers
  */
 class CustomerStep extends BaseStep implements CheckoutStepInterface
 {
 
+    /**
+     * @return bool
+     */
     public function isComplete()
     {
         return ($this->Checkout->Shop->getCustomer()) ? true : false;
     }
 
+    /**
+     * @param Controller $controller
+     * @return bool|\Cake\Network\Response
+     * @throws \Exception
+     */
     public function execute(Controller $controller)
     {
         if ($controller->request->data('op') == 'login') {
@@ -36,6 +44,11 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         return $controller->render('customer');
     }
 
+    /**
+     * @param Controller $controller
+     * @return bool|\Cake\Network\Response
+     * @throws \Exception
+     */
     protected function _executeLogin(Controller $controller)
     {
         // check if already authenticated
@@ -95,6 +108,10 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         return $controller->render('customer');
     }
 
+    /**
+     * @param Controller $controller
+     * @return bool|\Cake\Network\Response
+     */
     protected function _executeSignup(Controller $controller)
     {
         $controller->loadModel('Shop.ShopCustomers');

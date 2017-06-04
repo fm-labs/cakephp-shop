@@ -10,9 +10,17 @@ use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrdersTable;
 
+/**
+ * Class CreditCardInternalPayment
+ *
+ * @package Shop\Core\Payment\Engine
+ */
 class CreditCardInternalPayment implements PaymentEngineInterface
 {
-
+    /**
+     * @param CheckoutComponent $Checkout
+     * @return bool
+     */
     public function isCheckoutComplete(CheckoutComponent $Checkout)
     {
         $order = $Checkout->getOrder();
@@ -24,6 +32,10 @@ class CreditCardInternalPayment implements PaymentEngineInterface
         return true;
     }
 
+    /**
+     * @param CheckoutComponent $Checkout
+     * @return Response|null
+     */
     public function checkout(CheckoutComponent $Checkout)
     {
         if ($Checkout->request->is(['post', 'put'])) {

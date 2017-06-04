@@ -10,22 +10,29 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCustomersController extends AppController
 {
-
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopCustomers";
 
+    /**
+     * @var array
+     */
     public $paginate = [
         'limit' => 100,
         'order' => ['ShopCustomers.last_name' => 'ASC', 'ShopCustomers.first_name' => 'ASC'],
         'contain' => ['Users']
     ];
 
+    /**
+     * @var array
+     */
     public $actions = [
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
     ];
-
 
     /**
      * Index method

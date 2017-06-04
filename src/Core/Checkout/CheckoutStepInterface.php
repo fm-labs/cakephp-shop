@@ -2,13 +2,20 @@
 
 namespace Shop\Core\Checkout;
 
-
 use Cake\Controller\Controller;
 use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
 
+/**
+ * Interface CheckoutStepInterface
+ *
+ * @package Shop\Core\Checkout
+ */
 interface CheckoutStepInterface
 {
+    /**
+     * @param CheckoutComponent $Checkout
+     */
     public function __construct(CheckoutComponent $Checkout);
 
     /**

@@ -13,7 +13,9 @@ use Tcpdf\View\PdfView;
  */
 class ShopOrdersController extends AppController
 {
-
+    /**
+     * @var array
+     */
     public $actions = [
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',
@@ -21,6 +23,9 @@ class ShopOrdersController extends AppController
         'edit'      => 'Backend.Edit',
     ];
 
+    /**
+     * Initialize method
+     */
     public function initialize()
     {
         parent::initialize();
@@ -111,6 +116,10 @@ class ShopOrdersController extends AppController
         $this->set('_serialize', ['shopOrder']);
     }
 
+    /**
+     * @param null $id
+     * @param null $mode
+     */
     public function printview($id = null, $mode = null)
     {
         $mode = ($mode) ?: $this->request->query('mode');
@@ -126,6 +135,10 @@ class ShopOrdersController extends AppController
         $this->render('printview');
     }
 
+    /**
+     * @param null $id
+     * @param null $mode
+     */
     public function pdfview($id = null, $mode = null)
     {
         $mode = ($mode) ?: $this->request->query('mode');
@@ -149,14 +162,6 @@ class ShopOrdersController extends AppController
         $this->set('mode', $mode);
 
         $this->render('printview');
-    }
-
-    /**
-     *
-     */
-    protected function _createPdfView()
-    {
-
     }
 
     /**
@@ -229,7 +234,6 @@ class ShopOrdersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-
     /**
      * View method
      *
@@ -252,7 +256,6 @@ class ShopOrdersController extends AppController
         }
     }
 
-
     /**
      * View method
      *
@@ -271,6 +274,9 @@ class ShopOrdersController extends AppController
         $this->redirect($this->referer(['action' => 'edit', $id]));
     }
 
+    /**
+     * @return array
+     */
     public function implementedEvents()
     {
         $events = parent::implementedEvents();

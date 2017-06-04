@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Checkout\Step;
 
-
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
@@ -46,7 +45,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     *
+     * Initialize method
      */
     public function initialize()
     {

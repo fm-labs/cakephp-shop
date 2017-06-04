@@ -10,12 +10,18 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCountriesController extends AppController
 {
+    /**
+     * @var array
+     */
     public $paginate = [
         'order' => ['ShopCountries.priority' => 'DESC', 'ShopCountries.iso2' => 'ASC'],
         'limit' => 250,
         'maxLimit' => 250
     ];
 
+    /**
+     * @var array
+     */
     public $actions = [
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',

@@ -1,11 +1,11 @@
 <?php
 namespace Shop\Controller\Admin;
 
-use Content\Lib\ContentManager;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use Content\Lib\ContentManager;
 use Media\Lib\Media\MediaManager;
 use Shop\Controller\Admin\AppController;
 
@@ -16,9 +16,14 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCategoriesController extends AppController
 {
-
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopCategories";
 
+    /**
+     * @var array
+     */
     public $actions = [
         'index'     => 'Backend.TreeIndex',
         'view'      => 'Backend.View',
@@ -31,13 +36,19 @@ class ShopCategoriesController extends AppController
         'moveDown'  => 'Backend.TreeMoveDown',
     ];
 
+    /**
+     * @param Event $event
+     * @return \Cake\Network\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-
         $this->ShopCategories->locale($this->locale);
     }
 
+    /**
+     * @deprecated Use search instead
+     */
     public function quick()
     {
         if ($this->request->is(['post','put'])) {
@@ -52,6 +63,9 @@ class ShopCategoriesController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * Index method
+     */
     public function index()
     {
         $this->paginate = [
@@ -79,10 +93,16 @@ class ShopCategoriesController extends AppController
         $this->Backend->executeAction();
     }
 
+    /**
+     * @deprecated Use TreeIndexAction instead
+     */
     public function indexTree()
     {
     }
 
+    /**
+     * @deprecated Use TreeDataAction instread
+     */
     public function treeData()
     {
         $this->viewBuilder()->className('Json');
@@ -113,7 +133,6 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', 'treeData');
     }
 
-
     /**
      * View method
      *
@@ -132,6 +151,9 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['shopCategory']);
     }
 
+    /**
+     * @param null $id
+     */
     public function preview($id = null)
     {
         $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
@@ -143,6 +165,9 @@ class ShopCategoriesController extends AppController
         $this->redirect($url);
     }
 
+    /**
+     * @param null $id
+     */
     public function edit($id = null) {
         $shopCategory = $this->ShopCategories
             ->find('all', ['media' => true])
@@ -177,7 +202,6 @@ class ShopCategoriesController extends AppController
      */
     public function manage($id = null)
     {
-
         $shopCategory = $this->ShopCategories
             ->find()
             //->find('media')
@@ -226,6 +250,11 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['shopCategory']);
     }
 
+    /**
+     * @param $id
+     * @param $scope
+     * @return mixed
+     */
     protected function _getShopText($id, $scope)
     {
         return $this->ShopCategories->ShopTexts->find()->where([
@@ -236,6 +265,10 @@ class ShopCategoriesController extends AppController
         ])->first();
     }
 
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     */
     public function relatedCustomTexts($id = null)
     {
         $shopCategory = $this->ShopCategories->get($id, [
@@ -256,6 +289,9 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['shopCategory']);
     }
 
+    /**
+     * @param null $id
+     */
     public function relatedProducts($id = null)
     {
         $shopCategory = $this->ShopCategories->get($id, [
@@ -266,6 +302,9 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['shopCategory']);
     }
 
+    /**
+     * @param null $id
+     */
     public function relatedPageMeta($id = null)
     {
         $PageMetas = TableRegistry::get('Content.PageMetas');
@@ -297,13 +336,14 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['content', 'pageMeta']);
     }
 
+    /**
+     * @param null $id
+     */
     public function relatedContentModules($id = null)
     {
-
         $content = $this->ShopCategories->get($id, [
             'contain' => ['ContentModules' => ['Modules']]
         ]);
-
 
         //@TODO Read custom sections from page layout
         $sections = ['main', 'top', 'bottom', 'before', 'after', 'left', 'right'];
@@ -320,8 +360,6 @@ class ShopCategoriesController extends AppController
 
         $this->set('_serialize', ['content', 'sections', 'availableModules']);
     }
-
-
 
     /**
      * Add method
@@ -348,6 +386,10 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['shopCategory']);
     }
 
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     */
     public function linkModule($id = null)
     {
         $this->loadModel("Shop.ShopCategories");
@@ -385,6 +427,9 @@ class ShopCategoriesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @param null $id
+     */
     public function moveUp($id = null) {
         $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
 
@@ -396,6 +441,9 @@ class ShopCategoriesController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * @param null $id
+     */
     public function moveDown($id = null) {
         $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
 
@@ -407,13 +455,15 @@ class ShopCategoriesController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     *
+     */
     public function repair()
     {
         $this->ShopCategories->recover();
         $this->Flash->success(__d('shop', 'Shop Category tree recovery has been executed'));
         $this->redirect($this->referer(['action' => 'index']));
     }
-
 
     /**
      * @param null $id
@@ -486,5 +536,4 @@ class ShopCategoriesController extends AppController
         }
         return $this->redirect(['action' => 'edit', $content->id]);
     }
-
 }

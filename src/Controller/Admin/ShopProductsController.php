@@ -15,8 +15,14 @@ use Media\Lib\Media\MediaManager;
  */
 class ShopProductsController extends AppController
 {
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopProducts";
 
+    /**
+     * @var array
+     */
     public $actions = [
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',
@@ -26,6 +32,9 @@ class ShopProductsController extends AppController
         'unpublish' => 'Backend.Unpublish'
     ];
 
+    /**
+     * Initialize method
+     */
     public function initialize()
     {
         parent::initialize();
@@ -33,20 +42,23 @@ class ShopProductsController extends AppController
         $this->loadComponent('Search.Prg', [
             'actions' => ['index', 'search']
         ]);
-
     }
 
-
+    /**
+     * @param Event $event
+     * @return \Cake\Network\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-
         $this->ShopProducts->locale($this->locale);
     }
 
+    /**
+     * Index method
+     */
     public function index()
     {
-
         $this->paginate = [
             'limit' => 200,
             'maxLimit' => 200,
@@ -78,38 +90,8 @@ class ShopProductsController extends AppController
     }
 
     /**
-     * Index method
-     *
-     * @return void
-    public function _index()
-    {
-
-        $this->paginate = [
-            'limit' => 200,
-            'maxLimit' => 200,
-        ];
-
-        $query = $this->ShopProducts->find()
-            //->find('media')
-            ->contain(['ShopCategories'])
-            ->order(['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC']);
-
-
-        if ($this->request->is(['post','put'])) {
-            $query->find('search', ['search' => $this->request->data]);
-        } elseif ($this->request->query) {
-            $query->find('search', ['search' => $this->request->query]);
-        }
-
-
-        $this->set('shopProductsList', $this->ShopProducts->find('list')->order(['title' => 'ASC']));
-
-        $this->set('shopProducts', $this->paginate($query));
-        $this->set('shopCategories', $this->ShopProducts->ShopCategories->find('list')->order(['name' => 'ASC'])->toArray());
-        $this->set('_serialize', ['shopProducts']);
-    }
+     * Search method
      */
-
     public function search()
     {
         $query = $this->ShopProducts->find('search', ['search' => $this->request->query]);
@@ -118,11 +100,19 @@ class ShopProductsController extends AppController
         $this->render('index');
     }
 
+    /**
+     * @param null $id
+     * @param $field
+     * @todo Refactore with ToggleAction
+     */
     public function toggle($id = null, $field)
     {
         $this->Toggle->toggleBoolean($this->ShopProducts, $id, $field);
     }
 
+    /**
+     * @deprecated Use Search isntead
+     */
     public function quick()
     {
         if ($this->request->is(['post','put'])) {
@@ -203,6 +193,9 @@ class ShopProductsController extends AppController
         $this->set('_serialize', ['shopProduct']);
     }
 
+    /**
+     * @param null $id
+     */
     public function relatedProducts($id = null)
     {
         $shopProduct = $this->ShopProducts->get($id, [
@@ -232,13 +225,20 @@ class ShopProductsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @return \Cake\ORM\Query
+     */
     protected function _getCategoriesList()
     {
         return $this->ShopProducts->ShopCategories->find('treeList');
     }
 
 
-
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     * @deprecated Use MediaBehavior instead
+     */
     public function setImage($id = null)
     {
         $scope = $this->request->query('scope');
@@ -275,6 +275,11 @@ class ShopProductsController extends AppController
         $this->set('_serialize', ['content']);
     }
 
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     * @deprecated Use Mediabehavior instead
+     */
     public function deleteImage($id = null)
     {
         $scope = $this->request->query('scope');

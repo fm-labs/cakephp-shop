@@ -10,8 +10,9 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCustomerAddressesController extends AppController
 {
-
-
+    /**
+     * @var array
+     */
     public $actions = [
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',

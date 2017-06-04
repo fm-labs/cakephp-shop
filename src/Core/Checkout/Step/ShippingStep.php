@@ -23,13 +23,22 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
      */
     protected $_registry;
 
+    /**
+     * @var array
+     */
     public $shippingMethods = [];
 
+    /**
+     * @return null|string
+     */
     public function getTitle()
     {
         return __d('shop','Shipping');
     }
 
+    /**
+     * Initialize method
+     */
     public function initialize()
     {
         $this->_registry = new ShippingEngineRegistry();
@@ -48,12 +57,14 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
         $this->shippingMethods = self::$_config;
     }
 
+    /**
+     * @return bool
+     */
     public function isComplete()
     {
         if ($this->engine()) {
             return $this->engine()->isCheckoutComplete($this->Checkout);
         }
-
 
         // auto-select shipping type
         if (count($this->shippingMethods) == 1) {
@@ -86,11 +97,10 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
         return null;
     }
 
-
-    public function backgroundExecute()
-    {
-    }
-
+    /**
+     * @param Controller $controller
+     * @return \Cake\Network\Response
+     */
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
