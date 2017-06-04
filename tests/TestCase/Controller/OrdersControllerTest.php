@@ -5,7 +5,7 @@ namespace Shop\tests\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestCase;
 
-class ShopControllerTest extends IntegrationTestCase
+class OrdersControllerTest extends IntegrationTestCase
 {
 
     /**
