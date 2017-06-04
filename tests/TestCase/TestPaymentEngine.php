@@ -53,7 +53,6 @@ class TestPaymentEngine implements PaymentEngineInterface
 
         switch ($Payment->request->query('test_status')) {
             case "denied":
-            default:
                 $transaction->ext_status = "DENIED";
                 $transaction->status = ShopOrderTransactionsTable::STATUS_REJECTED;
                 break;
