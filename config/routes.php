@@ -111,16 +111,3 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     $routes->connect('/:controller');
     $routes->fallbacks('DashedRoute');
 });
-
-// Shop admin routes
-Router::scope('/shop/admin', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePrefix' => 'shop:admin:'], function ($routes) {
-
-    //$routes->addExtensions(['pdf']);
-    $routes->connect('/',
-        ['controller' => 'Shop', 'action' => 'index'],
-        ['_name' => 'index']
-    );
-    $routes->connect('/:controller');
-
-    $routes->fallbacks('DashedRoute');
-});
