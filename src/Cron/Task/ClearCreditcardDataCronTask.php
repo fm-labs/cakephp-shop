@@ -5,7 +5,7 @@ namespace Shop\Cron\Task;
 
 use Cake\ORM\TableRegistry;
 use Cron\Cron\CronTaskResult;
-use Cron\Cron\Task\CronTask;
+use Cron\Cron\CronTask;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
