@@ -39,9 +39,4 @@ class AppController extends ContentController
 
         $this->Auth->config('logoutRedirect', ['_name' => 'shop:index']);
     }
-
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-    }
 }

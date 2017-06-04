@@ -68,6 +68,8 @@ class PaymentControllerTest extends IntegrationTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopOrderTransactions = TableRegistry::get('Shop.ShopOrderTransactions');
 
@@ -107,6 +109,13 @@ class PaymentControllerTest extends IntegrationTestCase
         return $this->ShopOrderTransactions->get($id);
     }
 
+
+    public function testIndex()
+    {
+        $this->get('/shop/payment');
+        $this->markTestIncomplete();
+    }
+
     public function testConfirm()
     {
         $t = $this->_setupNewTransaction();
@@ -127,12 +136,6 @@ class PaymentControllerTest extends IntegrationTestCase
         $this->assertEquals(true, $_t->is_test);
     }
 
-
-    public function testIndex()
-    {
-        $this->get('/shop/payment/index');
-        $this->markTestIncomplete();
-    }
 
     public function testPay()
     {

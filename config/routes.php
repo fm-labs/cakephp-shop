@@ -14,6 +14,9 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     $routes->connect('/cart',
         ['controller' => 'Cart', 'action' => 'index'],
         ['_name' => 'cart']);
+    $routes->connect('/cart/:action',
+        ['controller' => 'Cart']
+    );
     $routes->connect('/cart/:action/*',
         ['controller' => 'Cart']
     );
@@ -56,13 +59,17 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['controller' => 'Checkout'],
         ['pass' => []]
     );
+    $routes->connect('/checkout',
+        ['controller' => 'Checkout', 'action' => 'index'],
+        ['pass' => []]
+    );
 
     $routes->connect('/customer',
         ['controller' => 'Customer', 'action' => 'index'],
         ['_name' => 'customer']
     );
 
-    if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')):
+    if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls') && false == true):
 
         // shop product routes
         //@TODO add product_id regex pattern
@@ -108,6 +115,7 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     endif;
 
 
-    $routes->connect('/:controller');
+    //$routes->connect('/:controller/:action');
+    //$routes->connect('/:controller');
     $routes->fallbacks('DashedRoute');
 });

@@ -94,6 +94,11 @@ class CheckoutComponent extends Component
         $this->_steps = $steps;
         $this->_active = key($steps);
 
+        $this->getController()->Auth->allow($this->_stepRegistry->loaded());
+    }
+
+    public function startup()
+    {
     }
 
     public function beforeRender(Event $event)

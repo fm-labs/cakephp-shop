@@ -52,7 +52,6 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
                 ['controller' => 'Shop', 'action' => 'index'],
                 ['_name' => 'index']
             );
-            $routes->connect('/:controller');
             $routes->fallbacks('DashedRoute');
         });
     }

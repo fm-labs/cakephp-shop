@@ -36,7 +36,7 @@ class CheckoutController extends AppController
         $this->loadComponent('Shop.Cart');
         $this->loadComponent('Shop.Checkout');
 
-        $this->Auth->allow();
+        //$this->Auth->allow();
     }
 
     /**
