@@ -150,5 +150,4 @@ class ShopComponent extends Component
         }
         return $list;
     }
-
 }

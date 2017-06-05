@@ -4,13 +4,10 @@ namespace Shop\Model\Table;
 use Banana\Lib\Status;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Log\Log;
-use Cake\Mailer\Email;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -21,7 +18,6 @@ use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
 use Shop\Model\Entity\ShopOrderTransaction;
-
 
 /**
  * ShopOrders Model
@@ -35,15 +31,6 @@ use Shop\Model\Entity\ShopOrderTransaction;
  */
 class ShopOrdersTable extends Table
 {
-
-    /*
-    const ORDER_STATUS_QUOTE = 0;
-    const ORDER_STATUS_SUBMITTED = 1;
-    const ORDER_STATUS_CONFIRMED = 2;
-    const ORDER_STATUS_INVOICED = 3;
-    const ORDER_STATUS_COMPLETE = 10;
-    */
-
 
     const ORDER_STATUS_TEMP = 0; // Cart order
     const ORDER_STATUS_SUBMITTED = 1; // Order submitted (not payed yet)
@@ -120,7 +107,6 @@ class ShopOrdersTable extends Table
 
         $this->addBehavior('Banana.Statusable');
 
-
         if (Plugin::loaded('Search')) {
 
             // Add the behaviour to your table
@@ -159,17 +145,32 @@ class ShopOrdersTable extends Table
                     }
                 ]);
         }
-
     }
 
+    /**
+     * @param Event $event
+     * @param Validator $validator
+     * @param $name
+     */
     public function buildValidator(Event $event, Validator $validator, $name)
     {
     }
 
+    /**
+     * @param Event $event
+     * @param EntityInterface $entity
+     * @param \ArrayObject $options
+     * @param $operation
+     */
     public function afterRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
     {
     }
 
+    /**
+     * @param Event $event
+     * @param EntityInterface $entity
+     * @param \ArrayObject $options
+     */
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($entity->isNew() && !$entity->uuid) {
@@ -177,6 +178,11 @@ class ShopOrdersTable extends Table
         }
     }
 
+    /**
+     * @param Event $event
+     * @param EntityInterface $entity
+     * @param \ArrayObject $options
+     */
     public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
     }
@@ -331,6 +337,11 @@ class ShopOrdersTable extends Table
         return $nextNr;
     }
 
+    /**
+     * @param $id
+     * @param bool|true $update
+     * @return bool|EntityInterface|mixed|ShopOrder
+     */
     public function calculate($id, $update = true)
     {
         $order = $this->get($id, ['contain' => ['ShopOrderItems']]);
@@ -343,9 +354,12 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
+    /**
+     * @param ShopOrder $order
+     * @return ShopOrder
+     */
     public function calculateOrder(ShopOrder $order)
     {
-
         $calculator = $this->_calculateOrderCosts($order);
         $itemsValue = $calculator->getValue('order_items');
 
@@ -464,15 +478,23 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
+    /**
+     * @param ShopOrder $order
+     * @param ShopOrderTransaction $transaction
+     * @return bool|ShopOrder
+     */
     public function updateStatusFromTransaction(ShopOrder $order, ShopOrderTransaction $transaction)
     {
         $newStatus = $this->_mapTransactionStatus($transaction->status);
         return $this->updateStatus($order, $newStatus);
     }
 
+    /**
+     * @param $status
+     * @return int
+     */
     protected function _mapTransactionStatus($status)
     {
-
         switch ($status)
         {
             case ShopOrderTransactionsTable::STATUS_INIT:
@@ -516,7 +538,6 @@ class ShopOrdersTable extends Table
             $order->ordergroup = $config['nrGroup'];
             return $this->save($order);
         });
-
     }
 
     /**
@@ -538,7 +559,6 @@ class ShopOrdersTable extends Table
             $order->invoice_nr = $this->getNextInvoiceNr();
             return $this->save($order);
         });
-
     }
 
     /**
@@ -604,7 +624,11 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
-
+    /**
+     * @param ShopOrder $order
+     * @param array $data
+     * @return ShopOrder
+     */
     public function confirmOrder(ShopOrder $order, array $data = [])
     {
         if ($order->status >= self::ORDER_STATUS_CONFIRMED) {
@@ -612,13 +636,11 @@ class ShopOrdersTable extends Table
             return $order;
         }
 
-
         // dispatch 'beforeSubmit' event
         $event = new Event('Shop.Model.Order.beforeConfirm', $this, [
             'order' => $order
         ]);
         $this->eventManager()->dispatch($event);
-
 
         // update order status to 'submitted'
         if (!$this->updateStatus($order, self::ORDER_STATUS_CONFIRMED)) {
@@ -634,12 +656,19 @@ class ShopOrdersTable extends Table
         return $order;
     }
 
-
+    /**
+     * @param ShopOrder $order
+     * @return bool|EntityInterface|mixed
+     */
     public function saveOrder(ShopOrder $order)
     {
         return $this->save($order);
     }
 
+    /**
+     * @param ShopOrder $order
+     * @return bool
+     */
     public function requiresShipping(ShopOrder $order)
     {
         $required = false;
@@ -664,11 +693,14 @@ class ShopOrdersTable extends Table
     }
     */
 
+    /**
+     * @param ShopOrder $order
+     * @return bool
+     */
     public function requiresShippingAddress(ShopOrder $order)
     {
         return $this->requiresShipping($order);
     }
-
 
     /**
      * Default validation rules.
@@ -827,6 +859,10 @@ class ShopOrdersTable extends Table
         return $validator;
     }
 
+    /**
+     * @param Validator $validator
+     * @return Validator
+     */
     public function validationPaymentCreditCardInternal(Validator $validator)
     {
         $validator
@@ -848,7 +884,6 @@ class ShopOrdersTable extends Table
 
         return $validator;
     }
-
 
     /**
      * Default validation rules.
@@ -881,7 +916,6 @@ class ShopOrdersTable extends Table
         return $validator;
     }
 
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -895,7 +929,10 @@ class ShopOrdersTable extends Table
         return $rules;
     }
 
-
+    /**
+     * @return array
+     * @deprecated
+     */
     public function implementedStati()
     {
         return [

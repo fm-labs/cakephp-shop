@@ -116,9 +116,12 @@ class CheckoutControllerTest extends IntegrationTestCase
         ]);
     }
 
-    private function _setupCart($orderId = 1)
+    private function _setupCart($orderId = 1, array $orderData = [])
     {
-        $order = $this->ShopOrders->get($orderId);
+        $order = $this->ShopOrders->get($orderId, ['contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'ShopOrderAddresses']]);
+        foreach($orderData as $k => $v) {
+            $order->$k = $v;
+        }
 
         $session = ['Shop' => [
             'Cart' => ['id' => $order->cartid],
@@ -250,17 +253,18 @@ class CheckoutControllerTest extends IntegrationTestCase
      */
     public function testShippingAddress()
     {
+        $this->ShopOrders->updateAll(['shop_customer_id' => 1], ['id' => 2]);
+
+        $this->ShopCustomers = TableRegistry::get('Shop.ShopCustomers');
+        $customer = $this->ShopCustomers->get(1, ['contain' => 'Users']);
+
+        // setup cart order
         $order = $this->_setupCart(2);
 
-        // Normal user from User plugin
-        $this->Users = TableRegistry::get('User.Users');
-        $user = $this->Users->get(2);
+        $this->session(['Auth.User' => $customer->user->toArray()]);
+        $this->session(['Shop.Customer' => $customer->toArray()]);
 
-        debug($user->toArray());
-        $this->session(['Auth.User' => $user->toArray()]);
-        $this->session(['Shop.Customer' => $order->shop_customer->toArray()]);
-
-        $this->get('/shop/checkout/' . $order->cartid . '/shipping-address');
+        $this->get('/shop/checkout/shipping-address/' . $order->cartid);
 
         $this->assertNoRedirect();
         $this->assertSession('shipping_address', 'Shop.Checkout.Step.id');

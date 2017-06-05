@@ -3,8 +3,6 @@
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
-use Cake\Log\Log;
-use Cake\Network\Exception\BadRequestException;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
 /**
@@ -14,7 +12,6 @@ use Shop\Core\Checkout\CheckoutStepInterface;
  */
 class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 {
-
     /**
      * @return null|string
      */
@@ -76,7 +73,6 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         }
 
         if ($controller->request->is(['put', 'post'])) {
-
             $op = $controller->request->data('_op');
             switch ($op) {
                 case "shipping-customer-select":
@@ -90,7 +86,6 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     break;
 
                 default:
-
                     $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->request->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
                         $this->Checkout->reloadOrder();
@@ -99,7 +94,6 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     }
                     break;
             }
-
         }
 
         $controller->set('shippingAddress', $shippingAddress);
