@@ -37,6 +37,7 @@ class ShopCustomersTableTest extends TestCase
 
     protected $_testUserData = [
         'name'          => 'Test',
+        'username'      => 'foo@example.org',
         'email'         => 'foo@example.org'
     ];
 
