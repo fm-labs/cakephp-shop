@@ -3,7 +3,6 @@ namespace Shop\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Shop\Model\Table\ShopCustomersTable;
 
 /**
  * Shop\Model\Table\ShopCustomersTable Test Case
@@ -86,6 +85,8 @@ class ShopCustomersTableTest extends TestCase
 
     public function testTestDataIntegrity()
     {
+        $this->markTestIncomplete();
+
         $expected = $this->_testUserData;
 
         $user = $this->_createUser();
@@ -102,6 +103,8 @@ class ShopCustomersTableTest extends TestCase
      */
     public function testCreateFromUser()
     {
+        $this->markTestIncomplete();
+
         $user = $this->_createUser();
 
         $result = $this->ShopCustomers->createFromUser($user);
