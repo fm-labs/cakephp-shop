@@ -2,7 +2,6 @@
 
 namespace Shop\Lib;
 
-
 use Cake\Log\Log;
 use SoapClient;
 
@@ -22,6 +21,9 @@ class EuVatValidator
     //static public $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl";
     static public $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
 
+    /**
+     * @var SoapClient
+     */
     protected $_client;
 
     /**
@@ -56,7 +58,5 @@ class EuVatValidator
             Log::error('EuVatValidator: ' . $ex->getMessage(), ['shop']);
             return true; //@TODO In case of an internal error, let validation pass.
         }
-
     }
-
 }

@@ -28,16 +28,6 @@ class EuVatNumber
     }
 
     /**
-     * Validate number format
-     *
-     * @return bool
-     */
-    public function isValid()
-    {
-        return static::validate($this->_id);
-    }
-
-    /**
      * Get VAT ID
      *
      * @return string
@@ -75,11 +65,23 @@ class EuVatNumber
         return substr($this->_id, 2);
     }
 
+    /**
+     * Validate number format
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return static::validate($this->_id);
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->_id;
     }
-
 
     /**
      * Normalize VatID
@@ -230,5 +232,4 @@ class EuVatNumber
 
         return $isValid;
     }
-
 }

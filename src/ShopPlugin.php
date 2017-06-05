@@ -2,15 +2,17 @@
 
 namespace Shop;
 
-
 use Banana\Plugin\PluginInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Routing\Router;
-use Shop\Sitemap\ShopCategoriesSitemapProvider;
-use Shop\Sitemap\ShopProductsSitemapProvider;
 
+/**
+ * Class ShopPlugin
+ *
+ * @package Shop
+ */
 class ShopPlugin implements PluginInterface, EventListenerInterface
 {
 
@@ -31,6 +33,9 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
         ];
     }
 
+    /**
+     * @param Event $event
+     */
     public function getSettings(Event $event)
     {
         $event->result['Shop'] = [
@@ -43,10 +48,12 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
         ];
     }
 
+    /**
+     * Build backend routes
+     */
     public function buildBackendRoutes()
     {
         Router::scope('/shop/admin', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePrefix' => 'shop:admin:'], function ($routes) {
-
             //$routes->addExtensions(['pdf']);
             $routes->connect('/',
                 ['controller' => 'Shop', 'action' => 'index'],
@@ -56,6 +63,9 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
         });
     }
 
+    /**
+     * @param Event $event
+     */
     public function getBackendMenu(Event $event)
     {
         $event->subject()->addItem([
@@ -131,9 +141,9 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
      */
     public function __invoke(array $config = [])
     {
-        \Cake\Event\EventManager::instance()->on(new \Shop\Event\CartListener());
-        \Cake\Event\EventManager::instance()->on(new \Shop\Event\CustomerListener());
-        \Cake\Event\EventManager::instance()->on(new \Shop\Event\PaymentListener());
-        \Cake\Event\EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
+        EventManager::instance()->on(new \Shop\Event\CartListener());
+        EventManager::instance()->on(new \Shop\Event\CustomerListener());
+        EventManager::instance()->on(new \Shop\Event\PaymentListener());
+        EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
     }
 }

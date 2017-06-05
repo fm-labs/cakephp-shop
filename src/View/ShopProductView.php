@@ -4,11 +4,19 @@ namespace Shop\View;
 
 use Content\View\ContentView;
 use Cake\I18n\I18n;
-use Cake\Routing\Router;
 
+/**
+ * Class ShopProductView
+ *
+ * @package Shop\View
+ */
 class ShopProductView extends ContentView
 {
-
+    /**
+     * @param null $view
+     * @param null $layout
+     * @return null|string
+     */
     public function render($view = null, $layout = null)
     {
         if ($this->get('shopProduct')) {
@@ -51,7 +59,6 @@ class ShopProductView extends ContentView
             //$this->Html->meta(['http-equiv' => 'content-language', 'content' => $metaLang], null, ['block' => true]);
             //$this->Html->meta(['http-equiv' => 'pragma', 'content' => 'no-cache'], null, ['block' => true]);
 
-
             // Open Graph Tags
             $this->Html->meta(['property' => 'og:type', 'content' => 'website'], null, ['block' => true]);
             $this->Html->meta(['property' => 'og:title', 'content' => $metaTitle], null, ['block' => true]);
@@ -63,7 +70,6 @@ class ShopProductView extends ContentView
             $this->Html->meta(['property' => 'twitter:title', 'content' => $metaTitle], null, ['block' => true]);
             $this->Html->meta(['property' => 'twitter:description', 'content' => $metaDescription], null, ['block' => true]);
             $this->Html->meta(['property' => 'twitter:url', 'content' => $shopProductUrl], null, ['block' => true]);
-
 
             // bread crumbs
             $this->Breadcrumbs->add(__d('shop', 'Shop'), ['_name' => 'shop:index']);

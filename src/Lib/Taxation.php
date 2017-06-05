@@ -42,10 +42,16 @@ class Taxation
      */
     static public function isReverseCharge($vatId = null, $myCountry = "AT")
     {
-        if (!$vatId)
+        if (!$vatId) {
             return false;
+        }
 
-        return !preg_match(sprintf("/^%s/i",strtoupper($myCountry)),trim($vatId));
+        $vatNo = new EuVatNumber($vatId);
+        if (!$vatNo->isValid()) {
+            return false;
+        }
+
+        return ($vatNo->getCountryCode() != strtoupper($myCountry));
     }
 
     /**
@@ -98,6 +104,4 @@ class Taxation
     {
         return self::withoutTax($taxed, $tax_rate) * ($tax_rate / 100);
     }
-
-
 }

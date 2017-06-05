@@ -5,11 +5,20 @@ namespace Shop\View;
 use Cake\Routing\Exception\MissingRouteException;
 use Content\View\ContentView;
 use Cake\I18n\I18n;
-use Cake\Routing\Router;
 
+/**
+ * Class ShopCategoryView
+ *
+ * @package Shop\View
+ */
 class ShopCategoryView extends ContentView
 {
 
+    /**
+     * @param null $view
+     * @param null $layout
+     * @return null|string
+     */
     public function render($view = null, $layout = null)
     {
         $metaDescription = $metaKeywords = null;
@@ -61,10 +70,7 @@ class ShopCategoryView extends ContentView
             $metaRobots = 'noindex,nofollow';
         }
 
-
         $shopCategoryUrl = $this->Html->Url->build($shopCategoryUrl, true);
-
-
 
         // shopCategory title
         $this->assign('title', $metaTitle);
@@ -92,7 +98,6 @@ class ShopCategoryView extends ContentView
         //$this->Html->meta(['http-equiv' => 'content-type', 'content' => 'text/html'], null, ['block' => true]);
         //$this->Html->meta(['http-equiv' => 'content-language', 'content' => $metaLang], null, ['block' => true]);
         //$this->Html->meta(['http-equiv' => 'pragma', 'content' => 'no-cache'], null, ['block' => true]);
-
 
         // Open Graph Tags
         $this->Html->meta(['property' => 'og:type', 'content' => 'website'], null, ['block' => true]);
