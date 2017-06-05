@@ -36,9 +36,6 @@ class ShopCustomersTableTest extends TestCase
     ];
 
     protected $_testUserData = [
-        'username'      => 'customertest',
-        'first_name'    => 'Customer',
-        'last_name'     => 'Test',
         'email'         => 'foo@example.org'
     ];
 
@@ -90,10 +87,10 @@ class ShopCustomersTableTest extends TestCase
         $expected = $this->_testUserData;
 
         $user = $this->_createUser();
-        $this->assertEquals($expected['first_name'], $user->first_name);
-        $this->assertEquals($expected['last_name'], $user->last_name);
         $this->assertEquals($expected['email'], $user->email);
         $this->assertNotEmpty($user->id);
+
+        $this->markTestIncomplete("Check name strings in user and customer profile");
     }
 
     /**
@@ -108,9 +105,9 @@ class ShopCustomersTableTest extends TestCase
         $result = $this->ShopCustomers->createFromUser($user);
 
         $expected = $this->_testUserData;
-        $this->assertEquals($expected['first_name'], $result->first_name);
-        $this->assertEquals($expected['last_name'], $result->last_name);
         $this->assertEquals($expected['email'], $result->email);
         $this->assertEquals($user->id, $result->user_id);
+
+        $this->markTestIncomplete("Check name strings in user and customer profile");
     }
 }
