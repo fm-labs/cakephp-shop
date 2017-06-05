@@ -226,7 +226,6 @@ class ShopOrdersTable extends Table
      */
     public function setOrderAddress(ShopOrder $order, ShopOrderAddress $address, $addressType)
     {
-
         $orderAddress = $this->getOrderAddress($order, $addressType);
         if (!$orderAddress) {
             $orderAddress = $this->ShopOrderAddresses->newEntity();
@@ -236,9 +235,9 @@ class ShopOrdersTable extends Table
         $orderAddress->shop_order_id = $order->id;
         $orderAddress->type = $addressType;
 
-        return $this->ShopOrderAddresses->save($orderAddress);
+        $orderAddress = $this->ShopOrderAddresses->save($orderAddress);
+        return $orderAddress;
     }
-
 
     /**
      * @param $addressType
@@ -589,7 +588,7 @@ class ShopOrdersTable extends Table
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
         if ($order->errors()) {
-            debug($order->errors());
+            //debug($order->errors());
             Log::error("Order submitted with errors: " . $order->id);
             //throw new \Exception("Failed to submit order");
             return $order;

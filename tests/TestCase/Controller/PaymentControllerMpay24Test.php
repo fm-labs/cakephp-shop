@@ -2,15 +2,9 @@
 
 namespace Shop\Test\TestCase\Controller;
 
-
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
-use Shop\Model\Entity\ShopOrderTransaction;
-use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopOrderTransactionsTable;
-use Shop\Test\TestCase\TestPaymentEngine;
 
 /**
  * Class PaymentControllerTest
@@ -19,10 +13,13 @@ use Shop\Test\TestCase\TestPaymentEngine;
  */
 class PaymentControllerMpay24Test extends PaymentControllerTest
 {
-
-
+    /**
+     * Setup
+     */
     public function setUp()
     {
+        parent::setUp();
+
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopOrderTransactions = TableRegistry::get('Shop.ShopOrderTransactions');
 
@@ -41,6 +38,9 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
         ]);
     }
 
+    /**
+     * Test confirmation with status BILLED
+     */
     public function testConfirm()
     {
         $t = $this->_setupNewTransaction('mpay24');
@@ -91,6 +91,9 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
         $this->assertEquals(true, $_t->is_test);
     }
 
+    /**
+     * Test confirmation status RESERVED
+     */
     public function testConfirmReserved()
     {
         $t = $this->_setupNewTransaction('mpay24');
