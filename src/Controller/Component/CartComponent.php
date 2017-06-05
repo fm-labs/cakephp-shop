@@ -2,7 +2,6 @@
 
 namespace Shop\Controller\Component;
 
-
 use Cake\Controller\Component;
 use Cake\Controller\Component\CookieComponent;
 use Cake\Controller\Controller;
@@ -31,8 +30,14 @@ use Shop\Model\Table\ShopProductsTable;
  */
 class CartComponent extends Component
 {
+    /**
+     * @var string
+     */
     static public $cookieName = 'Cart';
 
+    /**
+     * @var array
+     */
     public $components = ['Shop.Shop', 'Flash', 'Cookie'];
 
     /**
@@ -50,6 +55,9 @@ class CartComponent extends Component
      */
     public $cartId;
 
+    /**
+     * @param array $config
+     */
     public function initialize(array $config)
     {
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
@@ -66,6 +74,9 @@ class CartComponent extends Component
         ]);
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeFilter(Event $event)
     {
         $this->order = null;
@@ -95,24 +106,32 @@ class CartComponent extends Component
             $this->Cookie->write(self::$cookieName . '.id', $this->cartId);
         }
 
-
         $this->request->session()->write('Shop.Cart.id', $this->cartId);
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeRender(Event $event)
     {
         $this->updateSession();
         if ($event->subject() instanceof Controller) {
-            $event->subject()->set('order', $this->getOrder());
+            $event->subject()->set('cart', $this->getOrder());
         }
     }
 
+    /**
+     * @param Event $event
+     */
     public function shutdown(Event $event)
     {
         //@TODO Detach table event listeners
         //@TODO Unload tables
     }
 
+    /**
+     * @return bool
+     */
     public function reset()
     {
         $this->sessionId = null;
@@ -123,6 +142,9 @@ class CartComponent extends Component
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getCartId()
     {
         return $this->cartId;
@@ -158,6 +180,10 @@ class CartComponent extends Component
         return $product;
     }
 
+    /**
+     * @param array $item
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
     public function addItem(array $item)
     {
         $this->_resumeOrder(['create' => true]);
@@ -223,7 +249,10 @@ class CartComponent extends Component
         return true;
     }
 
-
+    /**
+     * @param $orderItem
+     * @return bool|mixed
+     */
     public function removeItem($orderItem)
     {
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
@@ -237,12 +266,21 @@ class CartComponent extends Component
         return $success;
     }
 
+    /**
+     * @param $orderItemId
+     * @return bool|mixed
+     */
     public function removeItemById($orderItemId)
     {
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
         return $this->removeItem($orderItem);
     }
 
+    /**
+     * @param $orderItem
+     * @param array $data
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
     public function updateItem($orderItem, $data = [])
     {
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemUpdate', $this, ['item' => $orderItem]));
@@ -262,18 +300,31 @@ class CartComponent extends Component
         return $success;
     }
 
+    /**
+     * @param $orderItemId
+     * @param array $data
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
     public function updateItemById($orderItemId, $data = [])
     {
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
         return $this->updateItem($orderItem, $data);
     }
 
+    /**
+     * @return ShopOrder
+     */
     public function &getOrder()
     {
         $this->_resumeOrder();
         return $this->order;
     }
 
+    /**
+     * @param ShopOrder $order
+     * @param bool|true $update
+     * @throws \Exception
+     */
     public function setOrder(ShopOrder $order, $update = true)
     {
         if (!$order) {
@@ -289,6 +340,9 @@ class CartComponent extends Component
         }
     }
 
+    /**
+     * @return bool
+     */
     public function abortOrder()
     {
         $this->order = null;
@@ -298,6 +352,10 @@ class CartComponent extends Component
         return true;
     }
 
+    /**
+     * @return $this
+     * @throws \Exception
+     */
     public function saveOrder()
     {
         if ($this->order) {
@@ -309,6 +367,9 @@ class CartComponent extends Component
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function reloadOrder()
     {
         if ($this->_order) {
@@ -326,6 +387,9 @@ class CartComponent extends Component
         return $this->reloadOrder();
     }
 
+    /**
+     * @return bool|int
+     */
     public function getItemsCount()
     {
         if (!$this->order) {
@@ -335,6 +399,9 @@ class CartComponent extends Component
         return count($this->order->shop_order_items);
     }
 
+    /**
+     * Update session
+     */
     public function updateSession()
     {
         $order = null;
@@ -349,15 +416,21 @@ class CartComponent extends Component
         }
 
         $this->request->session()->write('Shop.Cart', $cart);
-        //$this->request->session()->write('Shop.Order', $order);
+        //$this->request->session()->write('Shop.Order', $order->toArray());
     }
 
+    /**
+     * Reset session
+     */
     public function resetSession()
     {
         $this->request->session()->delete('Shop.Cart');
         $this->request->session()->delete('Shop.Order');
     }
 
+    /**
+     *
+     */
     protected function _createOrder()
     {
         $order = $this->ShopOrders->newEntity([
@@ -382,6 +455,9 @@ class CartComponent extends Component
             ->first();
     }
 
+    /**
+     * @param array $options
+     */
     protected function _resumeOrder(array $options = [])
     {
 
@@ -427,5 +503,4 @@ class CartComponent extends Component
             throw new NotFoundException('Order not found for cart Id ' . $this->cartId);
         }
     }
-
 }

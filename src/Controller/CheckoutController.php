@@ -36,17 +36,17 @@ class CheckoutController extends AppController
         $this->loadComponent('Shop.Cart');
         $this->loadComponent('Shop.Checkout');
 
-        //$this->Auth->allow();
+        $this->Auth->allow(['index', 'next']);
     }
 
     /**
      * @param Event $event
+     * @return \Cake\Network\Response|null|void
      */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-
-        $this->viewBuilder()->layout((Configure::read('Shop.Checkout.layout')) ?: null);
+        $this->viewBuilder()->layout((Configure::read('Shop.Checkout.layout')) ?: null); //@TODO Move layout handling to ShopComponent
     }
 
     /**

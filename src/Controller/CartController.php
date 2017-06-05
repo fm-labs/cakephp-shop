@@ -2,7 +2,6 @@
 
 namespace Shop\Controller;
 
-use Cake\Event\Event;
 use Shop\Controller\Component\CartComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
@@ -14,19 +13,28 @@ use Shop\Model\Table\ShopOrdersTable;
  */
 class CartController extends AppController
 {
-
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopOrders";
 
+    /**
+     * Intialize
+     */
     public function initialize()
     {
         parent::initialize();
 
         $this->loadComponent('Shop.Cart');
+        $this->loadComponent('Shop.Checkout');
         $this->Frontend->setRefScope('Shop.Cart');
 
-        $this->Auth->allow();
+        $this->Auth->allow(['index', 'refresh', 'abort', 'add', 'remove', 'update', 'cartUpdate', 'reset']);
     }
 
+    /**
+     * Cart index
+     */
     public function index()
     {
         $order = $this->Cart->getOrder();
@@ -40,6 +48,9 @@ class CartController extends AppController
         $this->render($view);
     }
 
+    /**
+     * Refresh cart
+     */
     public function refresh()
     {
         $result = $this->Cart->refresh();
@@ -58,6 +69,9 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * Abort cart order
+     */
     public function abort()
     {
 
@@ -69,6 +83,9 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * Add cart item
+     */
     public function add()
     {
         if ($this->request->is('ajax')) {
@@ -98,9 +115,14 @@ class CartController extends AppController
             $referer = $this->referer(['action' => 'index'], true);
             $this->redirect(['action' => 'index', 'referer' => $referer]);
         }
-
     }
 
+    /**
+     * Remove cart item
+     *
+     * @param null $orderId
+     * @param null $orderItemId
+     */
     public function remove($orderId = null, $orderItemId = null)
     {
         //@TODO Allow POST only
@@ -112,7 +134,12 @@ class CartController extends AppController
         $this->redirect($this->referer());
     }
 
-
+    /**
+     * Update cart item
+     *
+     * @param null $orderId
+     * @param null $orderItemId
+     */
     public function update($orderId = null, $orderItemId = null)
     {
 
@@ -127,6 +154,9 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * Update cart
+     */
     public function cartUpdate()
     {
         if (!$this->Cart->getOrder()) {
@@ -158,11 +188,13 @@ class CartController extends AppController
             //}
         }
 
-
         $this->autoRender = false;
         $this->render('index');
     }
 
+    /**
+     * Reset cart
+     */
     public function reset()
     {
         if ($this->Cart->reset()) {

@@ -56,9 +56,9 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
                 continue;
             }
 
-            //if (!isset(self::$_config[$alias])) {
+            if (!isset(self::$_config[$alias])) {
                 self::config($alias, $config);
-            //}
+            }
 
             $this->_registry->load($alias, self::config($alias));
             $this->_allowed[$alias] = true;

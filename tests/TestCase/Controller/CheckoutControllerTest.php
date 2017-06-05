@@ -56,7 +56,9 @@ class CheckoutControllerTest extends IntegrationTestCase
         parent::setUp();
 
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->Users = TableRegistry::get('User.Users');
 
+        Configure::delete('Shop.Checkout.Steps');
         Configure::write('Shop.Checkout.Steps', [
             'customer' => [
                 'className' => 'Shop.Customer'
@@ -78,6 +80,40 @@ class CheckoutControllerTest extends IntegrationTestCase
             ],
         ]);
 
+        Configure::delete('Shipping.Engines');
+        Configure::write('Shipping.Engines', [
+            'custom' => [
+                'className' => 'Shop.CustomRate',
+                'enabled' => true,
+                'name' => 'Standard Versand',
+            ],
+            'fixed' => [
+                'className' => 'Shop.FixedRate',
+                'enabled' => false,
+                'name' => 'Standard Versand Express',
+                'cost' => 10.00
+            ],
+        ]);
+
+        Configure::delete('Payment.Engines');
+        Configure::write('Payment.Engines', [
+            'credit_card_internal' => [
+                'className' => 'Shop.CreditCardInternal',
+                'name' => 'Kreditkarte',
+                //'desc' => '',
+                //'logoUrl' => '',
+                'guest' => true,
+                'enabled' => true,
+            ],
+            'payment_slip' => [
+                'className' => 'Shop.PaymentSlip',
+                'name' => 'Rechnung mit Erlagschein',
+                //'desc' => null,
+                //'logoUrl' => '',
+                'guest' => false,
+                'enabled' => true,
+            ]
+        ]);
     }
 
     private function _setupCart($orderId = 1)
@@ -94,34 +130,40 @@ class CheckoutControllerTest extends IntegrationTestCase
         return $order;
     }
 
-    public function ignoretestCheckoutWithEmptyCart()
+    protected function _setupAuthSession($userId = 2)
     {
-        // No session data set.
-        // Set session data
+        $user = $this->Users->find('authUser')->where(['id' => $userId]);
+
         $this->session([
             'Auth' => [
-                'User' => [
-                    'id' => 1,
-                    'username' => 'testing',
-                    // other keys.
-                ]
+                'User' => $user->toArray()
             ]
         ]);
-        $this->get('/shop/checkout/index');
+    }
 
-        $this->assertResponseCode(301);
+    /**
+     * Test checkout with empty cart
+     */
+    public function testCheckoutWithEmptyCart()
+    {
+        $this->get('/shop/checkout/index');
         $this->assertRedirect(['controller' => 'Cart', 'action' => 'index']);
     }
 
+    /**
+     * Test checkout
+     */
     public function testCheckout()
     {
         $order = $this->_setupCart(2);
 
         $this->get('/shop/checkout/index/' . $order->cartid);
-        $this->assertResponseEquals("");
         $this->assertRedirect(['controller' => 'Checkout', 'action' => 'customer', $order->cartid]);
     }
 
+    /**
+     * Test customer signup during checkout process
+     */
     public function testCustomerSignup()
     {
         $order = $this->_setupCart(2);
@@ -131,7 +173,8 @@ class CheckoutControllerTest extends IntegrationTestCase
         $expectedCustomerId = $customersCount + 1;
 
         // POST register form to customer step
-        $this->post('/shop/checkout/customer/' . $order->cartid . '?signup=1', [
+        $this->post('/shop/checkout/customer/' . $order->cartid, [
+            'op' => 'signup',
             'first_name' => 'Super',
             'last_name' => 'Mario',
             'email' => 'supermario@example.org',
@@ -154,7 +197,9 @@ class CheckoutControllerTest extends IntegrationTestCase
         $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address', $order->cartid]);
     }
 
-
+    /**
+     * Test customer login during checkout process
+     */
     public function testCustomerLogin()
     {
         $order = $this->_setupCart(2);
@@ -179,7 +224,8 @@ class CheckoutControllerTest extends IntegrationTestCase
         }
 
         // POST register form to customer step
-        $this->post('/shop/checkout/customer/' . $order->cartid . '?login=1', [
+        $this->post('/shop/checkout/customer/' . $order->cartid, [
+            'op' => 'login',
             //'email' => 'test@example.org',
             'username' => 'test',
             'password' => $password,
@@ -199,15 +245,20 @@ class CheckoutControllerTest extends IntegrationTestCase
         $this->assertRedirect(['controller' => 'Checkout', 'action' => 'shipping_address', $order->cartid]);
     }
 
+    /**
+     * Test checkout shipping address step
+     */
     public function testShippingAddress()
     {
-        $order = $this->_setupCart();
+        $order = $this->_setupCart(2);
 
         // Normal user from User plugin
         $this->Users = TableRegistry::get('User.Users');
         $user = $this->Users->get(2);
 
+        debug($user->toArray());
         $this->session(['Auth.User' => $user->toArray()]);
+        $this->session(['Shop.Customer' => $order->shop_customer->toArray()]);
 
         $this->get('/shop/checkout/' . $order->cartid . '/shipping-address');
 

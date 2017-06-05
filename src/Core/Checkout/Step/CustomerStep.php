@@ -3,7 +3,6 @@ namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-use Cake\Log\Log;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Model\Table\ShopCustomersTable;
 

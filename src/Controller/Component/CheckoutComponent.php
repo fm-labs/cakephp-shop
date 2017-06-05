@@ -2,7 +2,6 @@
 
 namespace Shop\Controller\Component;
 
-
 use Cake\Controller\Component;
 use Cake\Event\Event;
 use Cake\Log\Log;
@@ -13,11 +12,11 @@ use Cake\ORM\TableRegistry;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Checkout\CheckoutStepRegistry;
 use Shop\Core\Checkout\Step\SubmitStep;
+use Shop\Event\CheckoutEvent;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
 use Shop\Model\Table\ShopOrdersTable;
-use Shop\Event\CheckoutEvent;
 
 /**
  * Class CheckoutComponent
@@ -97,10 +96,17 @@ class CheckoutComponent extends Component
         $this->getController()->Auth->allow($this->_stepRegistry->loaded());
     }
 
-    public function startup()
+    /**
+     * Startup event
+     * @param Event $event
+     */
+    public function startup(Event $event)
     {
     }
 
+    /**
+     * @param Event $event
+     */
     public function beforeRender(Event $event)
     {
         $event->subject()->set('order', $this->_order);
@@ -116,6 +122,9 @@ class CheckoutComponent extends Component
         return $this->_registry->getController();
     }
 
+    /**
+     * @param $cartId
+     */
     public function initFromCartId($cartId)
     {
         if (!$cartId) {
@@ -124,6 +133,10 @@ class CheckoutComponent extends Component
         $this->_order = $this->ShopOrders->find('cart', ['ShopOrders.cartid' => $cartId]);
     }
 
+    /**
+     * @param Event $event
+     * @return Response|null
+     */
     public function beforeStep(Event $event)
     {
         // check if order is ready for checkout
@@ -137,8 +150,12 @@ class CheckoutComponent extends Component
         }
     }
 
+    /**
+     * @param Event $event
+     */
     public function afterStep(Event $event)
     {
+        $this->request->session()->write('Shop.Order', $this->_order->toArray());
     }
 
     /**
@@ -253,7 +270,9 @@ class CheckoutComponent extends Component
      */
     protected function _executeStep(CheckoutStepInterface $step)
     {
+        // set active step and store session
         $this->_activeStep = $step;
+        $this->request->session()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
 
         // before step
         $event = $this->getController()->eventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
@@ -265,9 +284,6 @@ class CheckoutComponent extends Component
 
         // execute
         $response = $step->execute($this->_registry->getController());
-
-        // store active step in session
-        $event->subject()->request->session()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
 
         // after step
         $event = $this->getController()->eventManager()->dispatch(new CheckoutEvent('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
@@ -379,7 +395,6 @@ class CheckoutComponent extends Component
         $this->request->session()->delete('Shop.Cart');
         $this->request->session()->delete('Shop.Checkout');
         $this->request->session()->delete('Shop.Order');
-
     }
 
     /**
@@ -419,7 +434,11 @@ class CheckoutComponent extends Component
         return $this->ShopOrders->setOrderAddress($this->getOrder(), $address, 'S');
     }
 
-
+    /**
+     * @param $type
+     * @param array $data
+     * @return bool|CheckoutComponent
+     */
     public function setPaymentType($type, array $data)
     {
         if (!$this->getOrder()) {
@@ -453,6 +472,10 @@ class CheckoutComponent extends Component
         return $this->setOrder($order, true);
     }
 
+    /**
+     * @param null $type
+     * @return bool|CheckoutComponent
+     */
     public function setShippingType($type = null)
     {
         if (!$this->getOrder()) {
@@ -468,7 +491,9 @@ class CheckoutComponent extends Component
         return $this->setOrder($order, true);
     }
 
-
+    /**
+     * @return array
+     */
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
@@ -478,5 +503,4 @@ class CheckoutComponent extends Component
         $events['Shop.Model.Order.afterSubmit'] = ['callable' => 'afterSubmit', 'priority' => 90];
         return $events;
     }
-
 }

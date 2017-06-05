@@ -12,8 +12,8 @@ $this->assign('title', __d('shop', 'Cart'));
 
     <h1><?= __d('shop','Your shopping cart'); ?></h1>
 
-    <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $order->id]]); ?>
-    <?= $this->Form->hidden('id', ['value' => $order->id]); ?>
+    <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $cart->id]]); ?>
+    <?= $this->Form->hidden('id', ['value' => $cart->id]); ?>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -23,7 +23,7 @@ $this->assign('title', __d('shop', 'Cart'));
             <th class="number currency text-right"><?= __d('shop','Total'); ?></th>
         </tr>
         </thead>
-        <?php foreach ($order->shop_order_items as $item): ?>
+        <?php foreach ($cart->shop_order_items as $item): ?>
         <tr>
             <?php if ($item->getProduct()->featured_image_file): ?>
                 <td class="image" style="width: 50px;">
@@ -38,7 +38,7 @@ $this->assign('title', __d('shop', 'Cart'));
                 <small>
                     <?= $this->Ui->link(
                         __d('shop','Remove from cart'),
-                        ['action' => 'remove', $order->id, $item->id],
+                        ['action' => 'remove', $cart->id, $item->id],
                         ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure?')]
                     ); ?>
                 </small>
@@ -63,14 +63,14 @@ $this->assign('title', __d('shop', 'Cart'));
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td class="currency text-right"><?= __d('shop', 'Order total'); ?></td>
-            <td class="currency text-right"><?= $this->Number->currency($order->items_value_display, 'EUR'); ?></td>
+            <td class="currency text-right"><?= $this->Number->currency($cart->items_value_display, 'EUR'); ?></td>
         </tr>
     </table>
 
     <div class="actions" style="text-align: right;">
         <?= $this->Form->button(__d('shop','Update cart'), ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
         <?= $this->Ui->link(__d('shop','Continue shopping'), ['controller' => 'Shop', 'action' => 'index'], ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
-        <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', $order->cartid], ['class' => 'btn btn-primary']); ?>
+        <?= $this->Ui->link(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', $cart->cartid], ['class' => 'btn btn-primary']); ?>
     </div>
 
     <div class="ui divider"></div>
@@ -78,6 +78,6 @@ $this->assign('title', __d('shop', 'Cart'));
 
     <?= $this->Form->end(); ?>
 
-    <?php debug($order); ?>
+    <?php debug($cart); ?>
     <?php debug($this->request->session()->read('Shop')); ?>
 </div>
