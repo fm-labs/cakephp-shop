@@ -70,7 +70,7 @@ class ShopOrderItem extends Entity
      */
     public function isProcessed()
     {
-        return (bool) $this->is_processed;
+        return (bool)$this->is_processed;
     }
 
     /**
@@ -88,6 +88,7 @@ class ShopOrderItem extends Entity
             }
             $this->_properties['ref'] = $ref;
         }
+
         return $this->_properties['ref'];
     }
 
@@ -101,6 +102,7 @@ class ShopOrderItem extends Entity
         if (!isset($this->_properties['title'])) {
             $this->_properties['title'] = ($this->getProduct()) ? $this->getProduct()->getTitle() : null;
         }
+
         return $this->_properties['title'];
     }
 
@@ -132,7 +134,7 @@ class ShopOrderItem extends Entity
      */
     protected function _getItemValueTaxed()
     {
-        return $this->item_value_net * (1 + $this->tax_rate/100);
+        return $this->item_value_net * (1 + $this->tax_rate / 100);
     }
 
     protected function _getItemValueDisplay()
@@ -148,7 +150,7 @@ class ShopOrderItem extends Entity
     {
         return $this->item_value_net * $this->amount;
     }
-*/
+     */
 
     /**
      * Total gros value
@@ -158,8 +160,7 @@ class ShopOrderItem extends Entity
     {
         return $this->item_value_net * $this->amount * (1 + $this->tax_rate/100);
     }
-*/
-
+     */
 
     /**
      * @param $val
@@ -188,6 +189,7 @@ class ShopOrderItem extends Entity
             //throw new \RuntimeException(sprintf('ShopOrderItem: %s is not an instance of ShopProductInterface',
             //    get_class($this->_properties['ref'])));
         }
+
         return $this->_properties['ref'];
     }
 
@@ -199,7 +201,7 @@ class ShopOrderItem extends Entity
     public function calculate()
     {
         $this->value_net = $this->item_value_net * $this->amount;
-        $this->value_tax = $this->value_net * ($this->tax_rate/100);
+        $this->value_tax = $this->value_net * ($this->tax_rate / 100);
         $this->value_total = $this->value_net + $this->value_tax;
     }
 
@@ -210,7 +212,7 @@ class ShopOrderItem extends Entity
 
     protected function _getValueTax()
     {
-        return $this->value_net * ($this->tax_rate/100);
+        return $this->value_net * ($this->tax_rate / 100);
     }
 
     protected function _getValueTotal()

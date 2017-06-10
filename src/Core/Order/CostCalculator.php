@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Order;
 
-
 class CostCalculator implements CostValueInterface
 {
     /**
@@ -25,6 +24,7 @@ class CostCalculator implements CostValueInterface
              $val = new CostValue($net, $taxrate, $label);
         }
         $this->_values[$name] = $val;
+
         return $this;
     }
 
@@ -51,8 +51,8 @@ class CostCalculator implements CostValueInterface
     public function getTaxes()
     {
         $taxes = [];
-        array_walk($this->_values, function(CostValueInterface $val) use (&$taxes) {
-            foreach($val->getTaxes() as $tax) {
+        array_walk($this->_values, function (CostValueInterface $val) use (&$taxes) {
+            foreach ($val->getTaxes() as $tax) {
                 $taxRate = $tax['taxRate'];
                 $key = abs($taxRate * 100);
                 if (!isset($taxes[$key])) {
@@ -61,6 +61,7 @@ class CostCalculator implements CostValueInterface
                 $taxes[$key]['value'] += $tax['value'];
             }
         });
+
         return $taxes;
     }
 
@@ -70,9 +71,10 @@ class CostCalculator implements CostValueInterface
     public function getNetValue()
     {
         $value = 0;
-        array_walk($this->_values, function(CostValueInterface $val) use (&$value) {
+        array_walk($this->_values, function (CostValueInterface $val) use (&$value) {
             $value += $val->getNetValue();
         });
+
         return $value;
     }
 
@@ -82,9 +84,10 @@ class CostCalculator implements CostValueInterface
     public function getTaxValue()
     {
         $value = 0;
-        array_walk($this->_values, function(CostValueInterface $val) use (&$value) {
+        array_walk($this->_values, function (CostValueInterface $val) use (&$value) {
             $value += $val->getTaxValue();
         });
+
         return $value;
     }
 
@@ -94,9 +97,10 @@ class CostCalculator implements CostValueInterface
     public function getTotalValue()
     {
         $value = 0;
-        array_walk($this->_values, function(CostValueInterface $val) use (&$value) {
+        array_walk($this->_values, function (CostValueInterface $val) use (&$value) {
             $value += $val->getTotalValue();
         });
+
         return $value;
     }
 

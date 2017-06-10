@@ -2,7 +2,6 @@
 
 namespace Shop\Controller;
 
-
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -70,10 +69,12 @@ class CheckoutController extends AppController
         if (!$cartId) {
             //@TODO Log bad request
             $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+
             return $this->redirect(['_name' => 'shop:cart']);
         }
 
         $this->Checkout->initFromCartId($cartId);
+
         return $this->Checkout->redirectNext();
     }
 
@@ -96,9 +97,7 @@ class CheckoutController extends AppController
     {
         try {
             return parent::invokeAction();
-
         } catch (MissingActionException $ex) {
-
             // read stepID from request
             $stepId = $this->request->params['action'];
             $stepId = Inflector::underscore($stepId);
@@ -108,6 +107,7 @@ class CheckoutController extends AppController
             if (!$cartId) {
                 //@TODO Log bad request
                 $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+
                 return $this->redirect(['_name' => 'shop:cart']);
             }
 

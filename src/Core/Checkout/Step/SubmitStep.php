@@ -16,7 +16,7 @@ class SubmitStep extends BaseStep implements CheckoutStepInterface
      */
     public function getTitle()
     {
-        return __d('shop','Review');
+        return __d('shop', 'Review');
     }
 
     /**
@@ -35,11 +35,12 @@ class SubmitStep extends BaseStep implements CheckoutStepInterface
     {
         if ($controller->request->is(['put', 'post'])) {
             if (($order = $this->Checkout->submitOrder($controller->request->data)) && $order->is_temporary == false) {
-                $controller->Flash->success(__d('shop','Order has been submitted'));
+                $controller->Flash->success(__d('shop', 'Order has been submitted'));
+
                 return $controller->redirect(['plugin' => 'Shop', 'controller' => 'Orders', 'action' => 'process', $order->uuid]);
             } else {
                 debug($this->Checkout->getOrder()->errors());
-                $controller->Flash->error(__d('shop','Please fill all required fields'));
+                $controller->Flash->error(__d('shop', 'Please fill all required fields'));
                 //$this->Checkout->redirectNext();
             }
         }

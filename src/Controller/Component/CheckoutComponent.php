@@ -78,7 +78,7 @@ class CheckoutComponent extends Component
         $this->_stepRegistry = new CheckoutStepRegistry($this);
 
         $steps = (isset($config['steps'])) ? $config['steps'] : [];
-        $steps = ($steps) ?: (array) Shop::config('Shop.Checkout.Steps');
+        $steps = ($steps) ?: (array)Shop::config('Shop.Checkout.Steps');
 
         // check if there are any checkout steps
         if (count($steps) < 1) {
@@ -142,6 +142,7 @@ class CheckoutComponent extends Component
         // check if order is ready for checkout
         if (!$this->getOrder() || count($this->getOrder()->shop_order_items) < 1) {
             $event->subject()->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+
             return $this->getController()->redirect(['_name' => 'shop:cart']);
         }
 
@@ -176,7 +177,6 @@ class CheckoutComponent extends Component
     {
         $response = null;
         foreach ($this->_stepRegistry as $step) {
-
             // break at selected step
             if ($stepId && $step->getId() === $stepId) {
                 //debug("current " . $this->key() . " / " . $stepId);
@@ -210,6 +210,7 @@ class CheckoutComponent extends Component
                 return $response;
             }
         }
+
         return $response;
     }
 
@@ -232,6 +233,7 @@ class CheckoutComponent extends Component
                 //'icon' => null
             ];
         }
+
         return $steps;
     }
 
@@ -246,13 +248,14 @@ class CheckoutComponent extends Component
         if (!$this->_stepRegistry->has($stepId)) {
             throw new \InvalidArgumentException('Step ' . $stepId . ' is not registered');
         }
+
         return $this->_stepRegistry->get($stepId);
     }
 
     /**
      * @return CheckoutStepInterface
      */
-    public function nextStep(/* $startFromActive = false */)
+    public function nextStep()
     {
         foreach ($this->_stepRegistry as $step) {
             if (!$step->isComplete()) {
@@ -290,6 +293,7 @@ class CheckoutComponent extends Component
         if ($event->result instanceof Response) {
             return $event->result;
         }
+
         return $response;
     }
 
@@ -329,6 +333,7 @@ class CheckoutComponent extends Component
         if (!$this->_order) {
             throw new \RuntimeException("Checkout: Order not initialized");
         }
+
         return $this->_order;
     }
 
@@ -345,6 +350,7 @@ class CheckoutComponent extends Component
         if ($update) {
             return $this->saveOrder();
         }
+
         return $this->_order;
     }
 
@@ -362,6 +368,7 @@ class CheckoutComponent extends Component
     public function reloadOrder()
     {
         $this->initFromCartId($this->getOrder()->cartid);
+
         return $this;
     }
 
@@ -443,6 +450,7 @@ class CheckoutComponent extends Component
     {
         if (!$this->getOrder()) {
             Log::warning('Checkout: Failed to patch order shipping type: No order');
+
             return false;
         }
 
@@ -463,12 +471,12 @@ class CheckoutComponent extends Component
 
                 $validate = 'paymentCreditCardInternal';
                 break;
-
         }
 
         $order = $this->getOrder();
         $order->accessible(array_keys($data), true);
         $order = $this->ShopOrders->patchEntity($order, $data, ['validate' => $validate]);
+
         return $this->setOrder($order, true);
     }
 
@@ -480,6 +488,7 @@ class CheckoutComponent extends Component
     {
         if (!$this->getOrder()) {
             Log::warning('Checkout: Failed to patch order shipping type: No order');
+
             return false;
         }
 
@@ -488,6 +497,7 @@ class CheckoutComponent extends Component
         $order = $this->getOrder();
         $order->accessible('shipping_type', true);
         $order = $this->ShopOrders->patchEntity($order, ['shipping_type' => $type], ['validate' => false]);
+
         return $this->setOrder($order, true);
     }
 
@@ -501,6 +511,7 @@ class CheckoutComponent extends Component
         $events['Shop.Checkout.beforeStep'] = ['callable' => 'beforeStep'];
         $events['Shop.Checkout.afterStep'] = ['callable' => 'afterStep'];
         $events['Shop.Model.Order.afterSubmit'] = ['callable' => 'afterSubmit', 'priority' => 90];
+
         return $events;
     }
 }

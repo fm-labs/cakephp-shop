@@ -24,6 +24,7 @@ class ShippingEngineRegistry extends ObjectRegistry
         if (is_object($class)) {
             return $class;
         }
+
         return App::className($class, 'Core/Shipping/Engine', 'Shipping');
     }
 

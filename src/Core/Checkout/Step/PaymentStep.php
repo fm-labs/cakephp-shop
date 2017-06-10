@@ -41,7 +41,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
      */
     public function getTitle()
     {
-        return __d('shop','Payment Type');
+        return __d('shop', 'Payment Type');
     }
 
     /**
@@ -80,6 +80,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
 
             if ($this->Checkout->setPaymentType($paymentMethodId, [])) {
                 $this->Checkout->reloadOrder();
+
                 return true;
             } else {
                 $this->log('PaymentStep: Failed to auto-select payment type ' . $paymentMethodId);
@@ -100,8 +101,9 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
             return false;
         }
 
-        if (!isset($this->_allowed[$type]))
+        if (!isset($this->_allowed[$type])) {
             return false;
+        }
 
         return $this->_allowed[$type];
     }
@@ -114,6 +116,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     public function allow($type, $state = true)
     {
         $this->_allowed[$type] = $state;
+
         return $this;
     }
 
@@ -142,7 +145,6 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     {
         $engine = $this->engine();
         if (!$engine || $controller->request->data('op') == "change" || $controller->request->query('change') == true) {
-
             if ($controller->request->is(['post', 'put'])) {
                 $paymentType = $controller->request->data('payment_type');
 
@@ -170,9 +172,9 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
             $paymentTypes[$type] = self::$_config[$type];
         }
 
-
         $controller->set('paymentTypes', $paymentTypes);
         $controller->set('paymentMethods', $paymentTypes); // @deprecated Use 'paymentTypes' view var instead
+
         return $controller->render('payment');
     }
 }

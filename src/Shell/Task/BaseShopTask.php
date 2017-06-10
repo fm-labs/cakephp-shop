@@ -14,5 +14,4 @@ class BaseShopTask extends Shell
     public function startup()
     {
     }
-
 }

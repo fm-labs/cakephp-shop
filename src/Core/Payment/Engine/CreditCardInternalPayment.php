@@ -24,11 +24,12 @@ class CreditCardInternalPayment implements PaymentEngineInterface
     public function isCheckoutComplete(CheckoutComponent $Checkout)
     {
         $order = $Checkout->getOrder();
-        foreach(['payment_info_1', 'payment_info_2', 'payment_info_3'] as $field) {
+        foreach (['payment_info_1', 'payment_info_2', 'payment_info_3'] as $field) {
             if (!isset($order[$field]) || empty($order[$field])) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -55,7 +56,6 @@ class CreditCardInternalPayment implements PaymentEngineInterface
             $order->accessible(['cc_brand', 'cc_number', 'cc_holder_name', 'cc_expires_at', 'payment_type', 'payment_info_1', 'payment_info_2', 'payment_info_3'], true);
             $order = $Checkout->ShopOrders->patchEntity($order, $data, ['validate' => 'paymentCreditCardInternal']);
 
-
             if ($Checkout->setOrder($order, true)) {
                 return $Checkout->redirectNext();
             }
@@ -66,7 +66,7 @@ class CreditCardInternalPayment implements PaymentEngineInterface
 
     /**
      * @param PaymentComponent $Payment
-     * @param ShopOrder $order
+     * @param ShopOrder $transaction
      * @return null|Response
      */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
@@ -77,7 +77,6 @@ class CreditCardInternalPayment implements PaymentEngineInterface
 
         return $Payment->redirect(['controller' => 'Orders', 'action' => 'view', $order->uuid]);
     }
-
 
     /**
      * @param PaymentComponent $Payment

@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Order;
 
-
 use Shop\Lib\Taxation;
 
 class CostValue implements CostValueInterface
@@ -18,14 +17,14 @@ class CostValue implements CostValueInterface
         if (!is_numeric($net)) {
             throw new \InvalidArgumentException("Net must be numeric");
         }
-        $this->_net = (double) $net;
+        $this->_net = (double)$net;
 
         if (!is_numeric($taxrate) || $taxrate < 0 || $taxrate > 100) {
             throw new \InvalidArgumentException("Taxrate MUST be a value between 0 and 100: Given $taxrate");
         }
-        $this->_taxrate = (double) $taxrate;
+        $this->_taxrate = (double)$taxrate;
 
-        $this->_label = (string) $label;
+        $this->_label = (string)$label;
     }
 
     public function getNetValue()

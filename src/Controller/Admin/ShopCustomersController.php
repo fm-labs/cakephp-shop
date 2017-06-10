@@ -44,7 +44,7 @@ class ShopCustomersController extends AppController
         $this->set('fields.whitelist', ['id', 'user_id', 'email', 'display_name']);
         $this->set('fields.blacklist', ['password', 'created', 'modified']);
         $this->set('fields', [
-            'user_id' => ['formatter' => function($val, $row, $args, $view) {
+            'user_id' => ['formatter' => function ($val, $row, $args, $view) {
                 return ($val) ? $view->Html->link($row->user->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $row->user->id]) : null;
             }]
         ]);
@@ -74,10 +74,11 @@ class ShopCustomersController extends AppController
         if ($this->request->is('post')) {
             $shopCustomer = $this->ShopCustomers->patchEntity($shopCustomer, $this->request->data);
             if ($this->ShopCustomers->save($shopCustomer)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop customer')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop customer')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop customer')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer')));
             }
         }
         $this->set(compact('shopCustomer'));
@@ -99,10 +100,11 @@ class ShopCustomersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopCustomer = $this->ShopCustomers->patchEntity($shopCustomer, $this->request->data);
             if ($this->ShopCustomers->save($shopCustomer)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop customer')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop customer')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop customer')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer')));
             }
         }
         $this->set(compact('shopCustomer'));
@@ -121,10 +123,11 @@ class ShopCustomersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopCustomer = $this->ShopCustomers->get($id);
         if ($this->ShopCustomers->delete($shopCustomer)) {
-            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','shop customer')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop customer')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','shop customer')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop customer')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

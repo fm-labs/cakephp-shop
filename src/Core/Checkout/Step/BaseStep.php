@@ -92,6 +92,7 @@ abstract class BaseStep implements EventListenerInterface
             $className = Inflector::underscore($className);
             $this->id = $className;
         }
+
         return $this->id;
     }
 

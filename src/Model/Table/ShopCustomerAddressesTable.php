@@ -67,10 +67,10 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
         $data = $address->extractAddress();
         $data['shop_customer_id'] = $customerId;
 
-
         $customerAddress = $this->find()->where($data)->first();
         if ($customerAddress) {
             Log::debug("ShopCustomerAddresses::newRecordFromOrderAddress: Address already exists with id " . $customerAddress->id);
+
             return $customerAddress;
         }
 
@@ -78,6 +78,7 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
         if ($customerAddress->errors()) {
             Log::error("ShopCustomerAddresses::newRecordFromOrderAddress: Address invalid: " . json_encode($customerAddress->errors()));
         }
+
         return $this->save($customerAddress, ['checkRules' => false]);
     }
 
@@ -94,6 +95,7 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
 
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
         $rules->add($rules->existsIn(['country_id'], 'Countries'));
+
         return $rules;
     }
 }

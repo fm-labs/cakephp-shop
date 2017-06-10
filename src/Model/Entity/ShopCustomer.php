@@ -78,5 +78,4 @@ class ShopCustomer extends Entity
     {
         return (preg_match('/@example\.org$/', $this->email));
     }
-
 }

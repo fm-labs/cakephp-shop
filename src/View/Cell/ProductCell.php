@@ -32,5 +32,4 @@ class ProductCell extends Cell
     public function display()
     {
     }
-
 }

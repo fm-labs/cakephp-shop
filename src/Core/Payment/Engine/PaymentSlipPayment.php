@@ -41,6 +41,7 @@ class PaymentSlipPayment implements PaymentEngineInterface
 
             if ($Checkout->ShopOrders->saveOrder($order)) {
                 $Checkout->setOrder($order);
+
                 return $Checkout->redirectNext();
             } else {
                 $Checkout->getController()->Flash->error("Failed to update payment info");
@@ -50,7 +51,7 @@ class PaymentSlipPayment implements PaymentEngineInterface
 
     /**
      * @param PaymentComponent $Payment
-     * @param ShopOrder $order
+     * @param ShopOrder $transaction
      * @return null|Response
      */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)

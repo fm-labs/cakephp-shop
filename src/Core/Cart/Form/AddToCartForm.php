@@ -23,6 +23,7 @@ class AddToCartForm extends Form
         $schema->addField('amount', ['type' => 'string']);
         $schema->addField('refid', ['type' => 'string']);
         $schema->addField('refscope', ['type' => 'string']);
+
         return $schema;
     }
 
@@ -41,6 +42,7 @@ class AddToCartForm extends Form
 
             ->requirePresence('refscope')
             ->notEmpty('refscope');
+
         return $validator;
     }
 

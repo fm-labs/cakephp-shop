@@ -17,7 +17,7 @@ class Shop
      * @param null $key
      * @return mixed
      */
-    static public function config($key = null)
+    public static function config($key = null)
     {
         if ($key === null) {
             $key = 'Shop';

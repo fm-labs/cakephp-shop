@@ -32,8 +32,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     {
         if ($controller->request->data('op') == 'login') {
             return $this->_executeLogin($controller);
-        }
-        elseif ($controller->request->data('op') == 'signup') {
+        } elseif ($controller->request->data('op') == 'signup') {
             return $this->_executeSignup($controller);
         //} elseif ($controller->request->query('guest')) {
         //    $controller->request->data['nologin'] = true;
@@ -57,7 +56,6 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
         //  POST request
         if ($controller->request->is(['put', 'post'])) {
-
             // @TODO Check if CustomerListener is attached, where automatic customer creation happens
 
             // try to authenticate user
@@ -96,14 +94,15 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 $this->Checkout->saveOrder();
 
                 // redirect to next step
-                $controller->Flash->success(__d('shop','Logged in as {0}', $controller->Auth->user('username')));
-                return true;
+                $controller->Flash->success(__d('shop', 'Logged in as {0}', $controller->Auth->user('username')));
 
+                return true;
             } else {
                 debug("login failed");
-                $controller->Flash->error(__d('shop','Login failed :('));
+                $controller->Flash->error(__d('shop', 'Login failed :('));
             }
         }
+
         return $controller->render('customer');
     }
 
@@ -117,12 +116,10 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         $customer = $controller->ShopCustomers->newEntity();
         $user = $controller->ShopCustomers->Users->newEntity(null, ['validate' => 'register']);
         if ($controller->request->is(['put', 'post'])) {
-
             //debug($controller->request->data);
             //$customer = $controller->ShopCustomers->add($customer, $controller->request->data);
             $user = $controller->ShopCustomers->Users->register($controller->request->data);
             if ($user && $user->id) {
-
                 // create a shop customer profile for user
                 // @TODO DIY. The CustomerListener creates shop customer profile on login
                 $customer = $controller->ShopCustomers->createFromUser($user, true);
@@ -142,14 +139,15 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 $this->Checkout->saveOrder();
 
                 // continue to next step
-                $controller->Flash->success(__d('shop','Signup was successful'));
+                $controller->Flash->success(__d('shop', 'Signup was successful'));
+
                 return true;
             } else {
-                $controller->Flash->error(__d('shop','Please fill all required fields'));
+                $controller->Flash->error(__d('shop', 'Please fill all required fields'));
             }
-
         }
         $controller->set('user', $user);
+
         return $controller->render('customer_signup');
     }
 }

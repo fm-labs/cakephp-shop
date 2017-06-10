@@ -50,6 +50,7 @@ class ShopTagsController extends AppController
             $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->data);
             if ($this->ShopTags->save($shopTag)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop tag')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop tag')));
@@ -75,6 +76,7 @@ class ShopTagsController extends AppController
             $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->data);
             if ($this->ShopTags->save($shopTag)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop tag')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop tag')));
@@ -100,6 +102,7 @@ class ShopTagsController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop tag')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

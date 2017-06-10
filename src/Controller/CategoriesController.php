@@ -39,6 +39,7 @@ class CategoriesController extends AppController
         if ($id === null && Configure::check('Shop.Catalogue.index_category_id')) {
             $id = Configure::read('Shop.Catalogue.index_category_id');
             $this->redirect(['action' => 'view', $id]);
+
             return;
         }
 
@@ -110,11 +111,9 @@ class CategoriesController extends AppController
         // check if id is numeric or a string
         //@TODO Sanitize user input
         if ($id && !is_scalar($id)) {
-            $slug = (string) $id;
+            $slug = (string)$id;
             $id = null;
         }
-
-
 
         // If no category ID found,
         // attempt to resolve category from slug
@@ -133,7 +132,7 @@ class CategoriesController extends AppController
         // Category Identifier missing
         // @TODO Log not found error
         if (!$id) {
-           $this->Flash->error(__d('shop', 'Sorry, nothing there'));
+            $this->Flash->error(__d('shop', 'Sorry, nothing there'));
             $this->redirect($this->referer('/shop'));
         }
 
@@ -145,7 +144,6 @@ class CategoriesController extends AppController
             'media' => true
         ]);
 
-
         // Aliasing
         if ($shopCategory->is_alias) {
             $shopCategory = $this->ShopCategories->get($shopCategory->alias_id, [
@@ -156,7 +154,6 @@ class CategoriesController extends AppController
             // @TODO Inject alias shop category id into products
         }
 
-
         // force canonical url
         if (Configure::read('Shop.Router.forceCanonical')) {
             $here = Router::normalize($this->request->here);
@@ -164,10 +161,10 @@ class CategoriesController extends AppController
 
             if ($here != $canonical) {
                 $this->redirect($canonical, 301);
+
                 return;
             }
         }
-
 
         // Template injection
         //@TODO Sanitize input vars

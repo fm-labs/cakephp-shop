@@ -37,17 +37,14 @@ class ShopCategoryView extends ContentView
         // gather meta info
         // no shop category is set, it's assumed we are on the category index page
         if (!$this->get('shopCategory')) {
-
             $metaTitle = $this->Blocks->get('heading');
             $metaTitle = ($metaTitle) ?: $this->Blocks->get('title');
-            $metaTitle = ($metaTitle) ?: __d('shop','All Categories');
+            $metaTitle = ($metaTitle) ?: __d('shop', 'All Categories');
             $shopCategoryUrl = ['plugin' => 'Shop', 'controller' => 'Categories', 'action' => 'index'];
 
             // breadcrumbs
             $this->Breadcrumbs->add($metaTitle, $shopCategoryUrl);
-
         } else {
-
             $shopCategory = $this->get('shopCategory');
             $shopCategoryUrl = $shopCategory->url;
 
@@ -56,10 +53,9 @@ class ShopCategoryView extends ContentView
             $metaDescription = ($shopCategory->meta_desc) ?: $metaTitle;
             $metaKeywords = ($shopCategory->meta_keywords) ?: $metaTitle;
 
-
             // bread crumbs
             $path = $shopCategory->getPath($shopCategory->id)->toArray();
-            array_walk($path, function($category) {
+            array_walk($path, function ($category) {
                 $this->Breadcrumbs->add($category->name, $category->url);
             });
             //$this->Breadcrumbs->add($shopCategory->name);

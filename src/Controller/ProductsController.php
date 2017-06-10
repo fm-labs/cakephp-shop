@@ -69,15 +69,14 @@ class ProductsController extends AppController
     {
         $this->viewBuilder()->className('Shop.ShopProduct');
 
-
         if ($this->request->is(['post']) && $this->request->data('id')) {
             $id = $this->request->data('id');
             $shopProduct = $this->ShopProducts->get($id);
+
             return $this->redirect($shopProduct->url);
         }
 
         if ($id === null) {
-
             if ($this->request->query('id')) {
                 $id = $this->request->query('id');
             } elseif (isset($this->request->query['product_id'])) {
@@ -96,19 +95,17 @@ class ProductsController extends AppController
             'for_customer' => $this->Shop->getCustomerId()
         ]);
 
-
         if ($shopProduct->parent_id) {
             $this->redirect($shopProduct->parent_shop_product->url);
+
             return;
             //$shopProductVersionId = $shopProduct->id;
             //$shopProduct = $shopProduct->parent_shop_product;
             //$this->request->data['refid'] = $shopProductVersionId;
         }
 
-
         $shopCategory = $this->ShopProducts->ShopCategories->get($shopProduct->shop_category_id, ['media' => true, 'contain' => []]);
         $shopProduct->shop_category = $shopCategory;
-
 
         // force canonical url
         if (Configure::read('Shop.Router.forceCanonical')) {
@@ -117,6 +114,7 @@ class ProductsController extends AppController
 
             if ($here != $canonical) {
                 $this->redirect($canonical, 301);
+
                 return;
             }
         }
@@ -128,8 +126,6 @@ class ProductsController extends AppController
         if (!$shopProduct->is_published) {
             throw new NotFoundException();
         }
-
-
 
         $this->set('shopProduct', $shopProduct);
         $this->set('shopProductVersionId', $shopProductVersionId);

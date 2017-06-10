@@ -44,7 +44,7 @@ class OrdersController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Shop Order id.
+     * @param null $uuid Shop Order id.
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
@@ -106,7 +106,6 @@ class OrdersController extends AppController
         }
         return $this->redirect(['action' => 'index']);
         */
-        $this->Flash->error(__d('shop','The {0} could not be cancled. Please, try again.', __d('shop','shop order')));
+        $this->Flash->error(__d('shop', 'The {0} could not be cancled. Please, try again.', __d('shop', 'shop order')));
     }
-
 }

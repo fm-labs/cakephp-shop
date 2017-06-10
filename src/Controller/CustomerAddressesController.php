@@ -46,10 +46,10 @@ class CustomerAddressesController extends AppController
             $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->data);
             $address->shop_customer_id = $this->Shop->getCustomerId();
             if ($this->ShopCustomerAddresses->save($address)) {
-                $this->Flash->success(__d('shop','Saved'));
+                $this->Flash->success(__d('shop', 'Saved'));
                 $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','Please fill all required fields'));
+                $this->Flash->error(__d('shop', 'Please fill all required fields'));
             }
         }
         $this->set(compact('address'));
@@ -73,10 +73,10 @@ class CustomerAddressesController extends AppController
             $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->data);
             $address->shop_customer_id = $this->Shop->getCustomerId();
             if ($this->ShopCustomerAddresses->save($address)) {
-                $this->Flash->success(__d('shop','Saved'));
+                $this->Flash->success(__d('shop', 'Saved'));
                 $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','Please fill all required fields'));
+                $this->Flash->error(__d('shop', 'Please fill all required fields'));
             }
         }
 

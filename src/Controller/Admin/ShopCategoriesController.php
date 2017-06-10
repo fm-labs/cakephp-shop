@@ -51,10 +51,11 @@ class ShopCategoriesController extends AppController
      */
     public function quick()
     {
-        if ($this->request->is(['post','put'])) {
+        if ($this->request->is(['post', 'put'])) {
             $id = $this->request->data('shop_category_id');
             if ($id) {
                 $this->redirect(['action' => 'edit', $id]);
+
                 return;
             }
         }
@@ -168,7 +169,8 @@ class ShopCategoriesController extends AppController
     /**
      * @param null $id
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         $shopCategory = $this->ShopCategories
             ->find('all', ['media' => true])
             //->find('media')
@@ -214,6 +216,7 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+
                 return $this->redirect(['action' => 'edit', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
@@ -227,14 +230,13 @@ class ShopCategoriesController extends AppController
 
         $tags = $this->ShopCategories->ShopTags->find('list');
 
-
         //$availableModules = $this->ShopCategories->ContentModules->Modules->find('list');
         //$this->set('availableModules', $availableModules);
         //$this->set('contentSections', ContentManager::getContentSections());
 
 
         //$teaserTemplates = ContentManager::getAvailableViewTemplates('ShopCategories');
-        $viewTemplates = $teaserTemplates = ContentManager::getAvailableViewTemplates('Categories', function($val) {
+        $viewTemplates = $teaserTemplates = ContentManager::getAvailableViewTemplates('Categories', function ($val) {
             /*
             if (preg_match('/^view_/', $val)) {
                 return true;
@@ -279,6 +281,7 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+
                 return $this->redirect(['action' => 'manage', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
@@ -373,6 +376,7 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+
                 return $this->redirect(['action' => 'edit', $shopCategory->id]);
             } else {
                 debug($shopCategory->errors());
@@ -404,6 +408,7 @@ class ShopCategoriesController extends AppController
             } else {
                 $this->Flash->error(__d('shop', 'The content module could not be saved for Shop Category {0}.', $id));
             }
+
             return $this->redirect(['action' => 'edit', $id]);
         }
     }
@@ -424,13 +429,15 @@ class ShopCategoriesController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop category')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 
     /**
      * @param null $id
      */
-    public function moveUp($id = null) {
+    public function moveUp($id = null)
+    {
         $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
 
         if ($this->ShopCategories->moveUp($shopCategory)) {
@@ -444,7 +451,8 @@ class ShopCategoriesController extends AppController
     /**
      * @param null $id
      */
-    public function moveDown($id = null) {
+    public function moveDown($id = null)
+    {
         $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
 
         if ($this->ShopCategories->moveDown($shopCategory)) {
@@ -485,13 +493,13 @@ class ShopCategoriesController extends AppController
             $content = $this->ShopCategories->patchEntity($content, $this->request->data);
             //$content->$scope = $this->request->data[$scope];
             if ($this->ShopCategories->save($content)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','content')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
 
                 if (!$this->request->is('iframe')) {
                     return $this->redirect(['action' => 'edit', $content->id]);
                 }
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','content')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'content')));
             }
         } else {
         }
@@ -530,10 +538,11 @@ class ShopCategoriesController extends AppController
         $content->set($scope, '');
 
         if ($this->ShopCategories->save($content)) {
-            $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','content')));
+            $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','content')));
+            $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'content')));
         }
+
         return $this->redirect(['action' => 'edit', $content->id]);
     }
 }

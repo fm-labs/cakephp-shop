@@ -24,7 +24,8 @@ class ShopComponent extends Component
     /**
      * @param array $config
      */
-    public function initialize(array $config) {
+    public function initialize(array $config)
+    {
 
         $defaultLayout = Configure::read('Shop.Layout.default');
         if ($defaultLayout) {
@@ -96,6 +97,7 @@ class ShopComponent extends Component
     {
         $this->_customer = $customer;
         $this->request->session()->write('Shop.Customer', $this->_customer->toArray());
+
         return $this;
     }
 
@@ -106,6 +108,7 @@ class ShopComponent extends Component
     {
         $this->_customer = null;
         $this->request->session()->delete('Shop.Customer');
+
         return $this;
     }
 
@@ -119,6 +122,7 @@ class ShopComponent extends Component
             ->find('published')
             ->order(['name_de' => 'ASC'])
             ->toArray();
+
         return $countries;
     }
 
@@ -133,6 +137,7 @@ class ShopComponent extends Component
                 ->find()
                 ->where(['ShopCustomerAddresses.shop_customer_id' => $this->getCustomerId()]);
         }
+
         return $addresses;
     }
 
@@ -144,10 +149,11 @@ class ShopComponent extends Component
         $list = [];
         $addresses = $this->getCustomerAddresses();
         if ($addresses) {
-            $addresses->each(function($address) use (&$list) {
-               $list[$address->id] = $address->oneline;
+            $addresses->each(function ($address) use (&$list) {
+                $list[$address->id] = $address->oneline;
             });
         }
+
         return $list;
     }
 }

@@ -66,6 +66,7 @@ class ShopCountriesController extends AppController
             $shopCountry = $this->ShopCountries->patchEntity($shopCountry, $this->request->data);
             if ($this->ShopCountries->save($shopCountry)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop country')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop country')));
@@ -91,6 +92,7 @@ class ShopCountriesController extends AppController
             $shopCountry = $this->ShopCountries->patchEntity($shopCountry, $this->request->data);
             if ($this->ShopCountries->save($shopCountry)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop country')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop country')));
@@ -116,6 +118,7 @@ class ShopCountriesController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop country')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

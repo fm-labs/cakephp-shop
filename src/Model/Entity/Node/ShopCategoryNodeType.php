@@ -31,6 +31,7 @@ class ShopCategoryNodeType extends Node\DefaultNodeType
         if (!$label) {
             $label = $this->shopCategory->name;
         }
+
         return $label;
     }
 
@@ -53,5 +54,4 @@ class ShopCategoryNodeType extends Node\DefaultNodeType
     //{
     //    return $this->shopCategory->getChildNodes();
     //}
-
 }

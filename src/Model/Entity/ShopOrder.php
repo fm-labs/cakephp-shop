@@ -155,6 +155,7 @@ class ShopOrder extends Entity
         if (!isset($this->_properties['shop_customer'])) {
             $this->_properties['shop_customer'] = $this->getShopCustomer();
         }
+
         return $this->_properties['shop_customer'];
     }
 
@@ -163,7 +164,7 @@ class ShopOrder extends Entity
      */
     public function getOrderItemsCount()
     {
-        return (int) TableRegistry::get('Shop.ShopOrderItems')
+        return (int)TableRegistry::get('Shop.ShopOrderItems')
             ->find('list')
             ->where(['shop_order_id' => $this->id])->count();
     }
@@ -177,7 +178,7 @@ class ShopOrder extends Entity
             $this->_properties['order_items_count'] = $this->getOrderItemsCount();
         }
 
-        return (int) $this->_properties['order_items_count'];
+        return (int)$this->_properties['order_items_count'];
     }
 
     /**
@@ -210,7 +211,7 @@ class ShopOrder extends Entity
             $this->_properties['order_items_qty'] = $this->getOrderItemsQty();
         }
 
-        return (int) $this->_properties['order_items_qty'];
+        return (int)$this->_properties['order_items_qty'];
     }
 
     /**
@@ -225,6 +226,7 @@ class ShopOrder extends Entity
         if (!$taxid) {
             return false;
         }
+
         return Taxation::isReverseCharge($taxid);
     }
 
@@ -236,6 +238,7 @@ class ShopOrder extends Entity
         if (!isset($this->_properties['is_reverse_charge'])) {
             $this->_properties['is_reverse_charge'] = $this->isReverseCharge();
         }
+
         return $this->_properties['is_reverse_charge'];
     }
 
@@ -245,7 +248,6 @@ class ShopOrder extends Entity
     protected function _getNrFormatted()
     {
         if (isset($this->_properties['nr'])) {
-
             $orderCfg = Shop::config('Order');
 
             $prefix = $orderCfg['nrPrefix'];
@@ -255,7 +257,7 @@ class ShopOrder extends Entity
             $nr = $this->_properties['nr'];
 
             if ($zeroFill > 0) {
-                $nrFill = str_repeat("0", $zeroFill) . (string) $nr;
+                $nrFill = str_repeat("0", $zeroFill) . (string)$nr;
                 $nr = substr($nrFill, $zeroFill * -1);
             }
 
@@ -265,14 +267,12 @@ class ShopOrder extends Entity
         return null;
     }
 
-
     /**
      * @return null|string
      */
     protected function _getInvoiceNrFormatted()
     {
         if (isset($this->_properties['invoice_nr'])) {
-
             $orderCfg = Shop::config('Invoice');
 
             $prefix = $orderCfg['nrPrefix'];
@@ -282,7 +282,7 @@ class ShopOrder extends Entity
             $nr = $this->_properties['invoice_nr'];
 
             if ($zeroFill > 0) {
-                $nrFill = str_repeat("0", $zeroFill) . (string) $nr;
+                $nrFill = str_repeat("0", $zeroFill) . (string)$nr;
                 $nr = substr($nrFill, $zeroFill * -1);
             }
 
@@ -320,7 +320,8 @@ class ShopOrder extends Entity
     protected function _getCcBrand()
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
-            list($brand,$number) = explode(':', $this->payment_info_1);
+            list($brand, $number) = explode(':', $this->payment_info_1);
+
             return $brand;
         }
     }
@@ -331,7 +332,8 @@ class ShopOrder extends Entity
     protected function _getCcNumber()
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
-            list($brand,$number) = explode(':', $this->payment_info_1);
+            list($brand, $number) = explode(':', $this->payment_info_1);
+
             return $number;
         }
     }
@@ -373,13 +375,12 @@ class ShopOrder extends Entity
         if (!isset($this->_properties['order_value_tax'])) {
             $this->_properties['order_value_tax'] = Taxation::extractTax($this->_properties['order_value_total'], 20.00); //@TODO!!
         }
+
         return $this->_properties['order_value_tax'];
     }
-
 
     protected function _getItemsValueDisplay()
     {
         return (Shop::config('Price.displayNet')) ? $this->items_value_net : $this->items_value_taxed;
     }
-
 }

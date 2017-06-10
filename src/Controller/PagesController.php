@@ -2,7 +2,6 @@
 
 namespace Shop\Controller;
 
-
 use Cake\Event\Event;
 use Content\Controller\Traits\PagesDisplayActionTrait;
 

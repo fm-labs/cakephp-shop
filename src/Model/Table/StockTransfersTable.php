@@ -98,6 +98,7 @@ class StockTransfersTable extends Table
         $rules->add($rules->existsIn(['parent_id'], 'ParentStockTransfers'));
         $rules->add($rules->existsIn(['shop_stock_id'], 'ShopStocks'));
         $rules->add($rules->existsIn(['shop_product_id'], 'ShopProducts'));
+
         return $rules;
     }
 }

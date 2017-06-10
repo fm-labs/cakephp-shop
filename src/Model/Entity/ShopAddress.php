@@ -70,13 +70,13 @@ class ShopAddress extends Entity
         if ($this->last_name && $this->first_name) {
             return sprintf("%s, %s", $this->last_name, $this->first_name);
         }
-
     }
 
     protected function _getOneline()
     {
         if ($this->is_company) {
-            return sprintf("%s, %s, %s %s (Company)",
+            return sprintf(
+                "%s, %s, %s %s (Company)",
                 $this->company_name,
                 $this->street,
                 $this->zipcode,
@@ -84,7 +84,8 @@ class ShopAddress extends Entity
             );
         }
 
-        return sprintf("%s %s, %s, %s %s",
+        return sprintf(
+            "%s %s, %s, %s %s",
             $this->first_name,
             $this->last_name,
             $this->street,
@@ -96,21 +97,26 @@ class ShopAddress extends Entity
     protected function _getShort()
     {
         if ($this->company_name) {
-            return sprintf("%s, %s %s",
+            return sprintf(
+                "%s, %s %s",
                 $this->last_name,
                 $this->first_name,
-                $this->company_name);
+                $this->company_name
+            );
         }
 
-        return sprintf("%s, %s",
+        return sprintf(
+            "%s, %s",
             $this->last_name,
-            $this->first_name);
+            $this->first_name
+        );
     }
 
     protected function _getFormatted()
     {
         if ($this->company_name) {
-            return sprintf("%s\n%s\n%s %s\n%s",
+            return sprintf(
+                "%s\n%s\n%s %s\n%s",
                 $this->company_name,
                 $this->street,
                 $this->zipcode,
@@ -119,7 +125,8 @@ class ShopAddress extends Entity
             );
         }
 
-        return sprintf("%s %s\n%s\n%s %s\n%s",
+        return sprintf(
+            "%s %s\n%s\n%s %s\n%s",
             $this->first_name,
             $this->last_name,
             $this->street,
@@ -127,7 +134,6 @@ class ShopAddress extends Entity
             $this->city,
             $this->country
         );
-
     }
 
     protected function _setTaxid($val)
@@ -136,13 +142,12 @@ class ShopAddress extends Entity
         return ($val) ? EuVatNumber::normalize($val) : null;
     }
 
-
     public function extractAddress()
     {
         $props = ['company_name', 'first_name', 'last_name', 'street', 'street2', 'zipcode', 'city', 'country', 'country_id', 'taxid'];
+
         return $this->extract($props);
     }
-
 
     /**
      * !! Legacy method use by Migration shell !!

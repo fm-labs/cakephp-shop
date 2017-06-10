@@ -45,6 +45,7 @@ class ShopOrderInvoicesController extends AppController
             $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order invoice')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order invoice')));
@@ -72,6 +73,7 @@ class ShopOrderInvoicesController extends AppController
             $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order invoice')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order invoice')));
@@ -99,6 +101,7 @@ class ShopOrderInvoicesController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order invoice')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

@@ -24,10 +24,10 @@ class ShopCustomerDiscountsController extends AppController
 
         $this->set('fields', [
             'id' => [],
-            'shop_customer' => ['formatter' => function($val, $row, $args, $view) {
+            'shop_customer' => ['formatter' => function ($val, $row, $args, $view) {
                 return ($val) ? $val->display_name : null;
             }],
-            'shop_product_id' => ['formatter' => function($val, $row, $args, $view) {
+            'shop_product_id' => ['formatter' => function ($val, $row, $args, $view) {
                 return ($val) ? $row->shop_product->title : null;
             }],
             'type' => [],
@@ -63,6 +63,7 @@ class ShopCustomerDiscountsController extends AppController
             $shopCustomerDiscount = $this->ShopCustomerDiscounts->patchEntity($shopCustomerDiscount, $this->request->data);
             if ($this->ShopCustomerDiscounts->save($shopCustomerDiscount)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop customer discount')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer discount')));
@@ -90,6 +91,7 @@ class ShopCustomerDiscountsController extends AppController
             $shopCustomerDiscount = $this->ShopCustomerDiscounts->patchEntity($shopCustomerDiscount, $this->request->data);
             if ($this->ShopCustomerDiscounts->save($shopCustomerDiscount)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop customer discount')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer discount')));
@@ -117,6 +119,7 @@ class ShopCustomerDiscountsController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop customer discount')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

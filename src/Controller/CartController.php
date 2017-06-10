@@ -101,13 +101,10 @@ class CartController extends AppController
 
             $this->set('result', $result);
             $this->set('_serialize', 'result');
-
         } elseif ($this->request->is(['put', 'post'])) {
-
             try {
                 $this->Cart->addItem($this->request->data());
                 $this->Flash->success(__d('shop', 'Added item to cart'));
-
             } catch (\Exception $ex) {
                 $this->Flash->error(__d('shop', 'Adding item to cart failed: {0}', $ex->getMessage()));
             }
@@ -169,7 +166,7 @@ class CartController extends AppController
             $order = $this->Cart->getOrder();
 
             $changed = [];
-            foreach($order->shop_order_items as $item) {
+            foreach ($order->shop_order_items as $item) {
                 $amountKey = 'amount_' . $item->id;
                 if ($this->request->data($amountKey)) {
                     $newAmount = $this->request->data($amountKey);
@@ -184,6 +181,7 @@ class CartController extends AppController
                 $this->Flash->success(__d('shop', '{0} item(s) updated', count($changed)));
                 $this->Cart->reloadOrder();
                 $this->redirect(['action' => 'index']);
+
                 return;
             //}
         }

@@ -33,8 +33,7 @@ class PaymentListener extends ShopEventListener
 
         $order = $ShopOrders->get($orderId, ['contain' => []]);
 
-        switch ($transaction->status)
-        {
+        switch ($transaction->status) {
             case ShopOrderTransactionsTable::STATUS_INIT:
                 break;
             case ShopOrderTransactionsTable::STATUS_RESERVED:
@@ -50,7 +49,5 @@ class PaymentListener extends ShopEventListener
             default:
                 break;
         }
-
     }
-
 }

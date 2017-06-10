@@ -30,7 +30,6 @@ class CategoryCell extends Cell
     {
     }
 
-
     public function products($categoryId = null, $options = [])
     {
         //@TODO check if object is instance of EntityInterface

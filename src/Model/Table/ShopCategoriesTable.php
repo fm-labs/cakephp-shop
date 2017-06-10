@@ -150,6 +150,7 @@ class ShopCategoriesTable extends Table
     protected function _initializeSchema(\Cake\Database\Schema\Table $schema)
     {
         $schema->columnType('image_files', 'media_file');
+
         return $schema;
     }
 

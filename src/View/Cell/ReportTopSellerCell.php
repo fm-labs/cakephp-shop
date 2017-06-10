@@ -50,7 +50,6 @@ class ReportTopSellerCell extends Cell
 
         $orderItems = $this->loadModel('Shop.ShopOrderItems')->find('all')->where(['shop_order_id IN' => array_keys($orders->toArray())]);
 
-
         // sort & count
         $counter = [];
         $items = [];
@@ -69,7 +68,7 @@ class ReportTopSellerCell extends Cell
         $topsellers = [];
         $counter = array_slice($counter, 0, $this->limit, true);
 
-        array_walk($counter, function($count, $key) use (&$topsellers, $items) {
+        array_walk($counter, function ($count, $key) use (&$topsellers, $items) {
             $item = $items[$key];
             $item['key'] = $key;
             $item['count'] = $count;

@@ -77,7 +77,6 @@ class ShopCustomersTable extends Table
         return $validator;
     }
 
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -101,6 +100,7 @@ class ShopCustomersTable extends Table
     public function createFromUserId($userId, $save = true)
     {
         $user = $this->Users->get($userId, ['contain' => []]);
+
         return $this->createFromUser($user, $save);
     }
 
@@ -118,7 +118,7 @@ class ShopCustomersTable extends Table
         if (!$customer) {
             $customer = $this->newEntity();
         }
-        
+
         $customer->user_id = $user->get('id');
         $customer->first_name = $user->get('first_name');
         $customer->last_name = $user->get('last_name');
@@ -130,5 +130,4 @@ class ShopCustomersTable extends Table
 
         return $customer;
     }
-
 }

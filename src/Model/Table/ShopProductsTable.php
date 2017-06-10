@@ -126,12 +126,12 @@ class ShopProductsTable extends Table
                     'filterEmpty' => true,
                 ]);
         }
-
     }
 
     protected function _initializeSchema(\Cake\Database\Schema\Table $schema)
     {
         $schema->columnType('image_files', 'media_file');
+
         return $schema;
     }
 
@@ -251,12 +251,15 @@ class ShopProductsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_category_id'], 'ShopCategories'));
+
         return $rules;
     }
 
-    public function findProduct(Query $query) {
+    public function findProduct(Query $query)
+    {
         //$query->find('media');
         $query->find('all', ['media' => true]);
+
         return $query;
     }
 
@@ -265,6 +268,7 @@ class ShopProductsTable extends Table
         if ($data) {
             $this->patchEntity($entity, $data);
         }
+
         return $this->save($entity);
     }
 
@@ -274,8 +278,8 @@ class ShopProductsTable extends Table
             if ($data) {
                 $this->patchEntity($entity, $data);
             }
-            return $this->save($entity);
 
+            return $this->save($entity);
         } catch (RolledbackTransactionException $ex) {
             return false;
         }

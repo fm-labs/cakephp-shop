@@ -65,5 +65,4 @@ class ShopCategoryPostType implements PostTypeInterface
     {
         return $this->category->is_published;
     }
-
 }

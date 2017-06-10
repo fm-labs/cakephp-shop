@@ -125,7 +125,7 @@ class ShopOrderItemsTable extends Table
         $entity->calculate();
 
         $options = [];
-        foreach($entity->visibleProperties() as $prop) {
+        foreach ($entity->visibleProperties() as $prop) {
             if (preg_match('/^options\_\_(.*)$/', $prop, $matches)) {
                 $options[$matches[1]] = $entity->get($prop);
             }
@@ -147,8 +147,6 @@ class ShopOrderItemsTable extends Table
         }
     }
 
-
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -159,6 +157,7 @@ class ShopOrderItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
+
         return $rules;
     }
 }

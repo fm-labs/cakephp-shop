@@ -49,7 +49,6 @@ class ShopProduct extends Entity implements ShopProductInterface
     }
     */
 
-
     public function getPath()
     {
         if (isset($this->_properties['shop_category_id'])) {
@@ -60,18 +59,18 @@ class ShopProduct extends Entity implements ShopProductInterface
     protected function _getShopText($model, $id, $field, $locale = null)
     {
         $ShopTexts = TableRegistry::get('Shop.ShopTexts');
+
         return $ShopTexts->find()->where([
             'model' => $model,
             'model_id' => $id,
             'model_scope' => $field,
-            'locale' => (string) ($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
+            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
         ])->first();
     }
 
     protected function _getShopCategory()
     {
         if (!isset($this->_properties['shop_category'])) {
-
             $Table = TableRegistry::get('Shop.ShopCategories');
             $category = $Table
                 ->find()

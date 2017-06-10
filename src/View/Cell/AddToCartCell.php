@@ -2,7 +2,6 @@
 
 namespace Shop\View\Cell;
 
-
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Form\Form;
@@ -76,7 +75,7 @@ class AddToCartCell extends Cell
             $inputs['refid'] = [
                 'type' => 'select',
                 'options' => $productVersions,
-                'label' => __d('shop','Product version')
+                'label' => __d('shop', 'Product version')
             ];
         }
 
@@ -92,14 +91,16 @@ class AddToCartCell extends Cell
                 'type' => 'select',
                 'options' => $this->_getQtyOptions(),
                 'default' => 1,
-                'label' => __d('shop','Quantity')
+                'label' => __d('shop', 'Quantity')
             ];
         }
         //unset($params['qty']);
 
         // Additional order item params
         foreach ($this->params as $pKey => $pOpts) {
-            if ($pKey === 'qty') continue;
+            if ($pKey === 'qty') {
+                continue;
+            }
 
             if (is_numeric($pKey)) {
                 $pKey = $pOpts;
@@ -211,6 +212,7 @@ class AddToCartCell extends Cell
         }
 
         $form = new $this->formClass();
+
         return $form;
     }
 
@@ -240,6 +242,7 @@ class AddToCartCell extends Cell
     protected function _getProductVersions()
     {
         $this->loadModel('Shop.ShopProducts');
+
         return $this->ShopProducts->findPublishedChildren($this->shopProduct->id);
     }
 
@@ -251,6 +254,7 @@ class AddToCartCell extends Cell
     protected function _getQtyOptions()
     {
         $qtyOptions = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10];
+
         return $qtyOptions;
     }
 }

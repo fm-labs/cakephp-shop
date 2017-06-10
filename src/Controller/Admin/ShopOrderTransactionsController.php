@@ -22,7 +22,7 @@ class ShopOrderTransactionsController extends AppController
             $this->paginate['conditions'] = ['ShopOrderTransactions.shop_order_id' => $this->request->query('shop_order_id')];
         }
 
-        $this->set('fields.blacklist', ['custom1','custom2', 'created', 'modified']);
+        $this->set('fields.blacklist', ['custom1', 'custom2', 'created', 'modified']);
 
         $this->Backend->executeAction();
     }
@@ -51,6 +51,7 @@ class ShopOrderTransactionsController extends AppController
             $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->data);
             if ($this->ShopOrderTransactions->save($shopOrderTransaction)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order transaction')));
@@ -77,6 +78,7 @@ class ShopOrderTransactionsController extends AppController
             $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->data);
             if ($this->ShopOrderTransactions->save($shopOrderTransaction)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order transaction')));
@@ -103,6 +105,7 @@ class ShopOrderTransactionsController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order transaction')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

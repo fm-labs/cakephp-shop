@@ -39,10 +39,10 @@ class EuVatValidator
 
         try {
             $this->_client = new SoapClient(static::$wsdl);
-            $result = $this->_client->checkVat(array(
+            $result = $this->_client->checkVat([
                 'countryCode' => $vatNumber->getCountryCode(),
                 'vatNumber' => $vatNumber->getNumber()
-            ));
+            ]);
 
             if (!$result) {
                 throw new \RuntimeException("No validation result");
@@ -53,9 +53,9 @@ class EuVatValidator
             }
 
             return false;
-
         } catch (\Exception $ex) {
             Log::error('EuVatValidator: ' . $ex->getMessage(), ['shop']);
+
             return true; //@TODO In case of an internal error, let validation pass.
         }
     }

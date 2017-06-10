@@ -15,8 +15,6 @@ use Shop\Model\Entity\ShopOrderTransaction;
 class ShopOrderTransactionsTable extends Table
 {
 
-
-
     const STATUS_INIT = 0;
     const STATUS_ERROR = 1;
     const STATUS_SUSPENDED = 2;
@@ -25,7 +23,6 @@ class ShopOrderTransactionsTable extends Table
     const STATUS_CONFIRMED = 5;
     const STATUS_REVERSAL = 6;
     const STATUS_CREDITED = 7;
-
 
     /**
      * Initialize method
@@ -118,7 +115,7 @@ class ShopOrderTransactionsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
+
         return $rules;
     }
-
 }

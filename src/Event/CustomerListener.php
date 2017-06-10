@@ -2,7 +2,6 @@
 
 namespace Shop\Event;
 
-
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
@@ -27,6 +26,7 @@ class CustomerListener extends ShopEventListener
         $userId = $event->data['user']['id'];
         if (!$userId) {
             Log::alert('[shop] Login without userId detected');
+
             return;
         }
 

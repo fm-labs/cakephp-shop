@@ -48,7 +48,6 @@ class ClearCreditcardDataCronTask extends CronTask
             ->order(['id' => 'ASC'])
             ->all();
 
-
         $processed = $failed = 0;
         foreach ($orders as $order) {
             $order->payment_info_1 = 'DELETED';
@@ -66,7 +65,12 @@ class ClearCreditcardDataCronTask extends CronTask
 
         //@TODO Send admin notification email
 
-        return [true, sprintf("Found %d orders, %d processed, %d failed, %d successful",
-            count($orders), $processed, $failed, $processed - $failed)];
+        return [true, sprintf(
+            "Found %d orders, %d processed, %d failed, %d successful",
+            count($orders),
+            $processed,
+            $failed,
+            $processed - $failed
+        )];
     }
 }

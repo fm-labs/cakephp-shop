@@ -63,7 +63,6 @@ class CartComponent extends Component
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
 
-
         $this->Cookie->configKey(self::$cookieName, [
             //'path' => '/',
             'expires' => '+99 days',
@@ -156,7 +155,7 @@ class CartComponent extends Component
      */
     protected function _getProductTable($modelClass)
     {
-        list(,$modelName) = pluginSplit($modelClass);
+        list(, $modelName) = pluginSplit($modelClass);
         if (!isset($this->{$modelName})) {
             $this->{$modelName} = $this->_registry->getController()->loadModel($modelName);
             //if ($this->{$modelName} instanceof EventDispatcher) {
@@ -166,6 +165,7 @@ class CartComponent extends Component
         if (!$this->{$modelName}) {
             throw new \RuntimeException("Cart: Failed to load product table: $modelName");
         }
+
         return $this->{$modelName};
     }
 
@@ -177,6 +177,7 @@ class CartComponent extends Component
     protected function _getProduct($productId, $modelClass = 'Shop.ShopProducts')
     {
         $product = $this->_getProductTable($modelClass)->get($productId);
+
         return $product;
     }
 
@@ -199,7 +200,6 @@ class CartComponent extends Component
             'amount' => 1,
         ], $item);
 
-
         if ($item['amount'] < 0) {
             $item['amount'] = abs($item['amount']);
         }
@@ -214,7 +214,6 @@ class CartComponent extends Component
         }
 
         if (!$orderItem) {
-
             $product = $this->_getProduct($item['refid'], $item['refscope']);
             $item += [
                 'title' => $product->getTitle(),
@@ -224,12 +223,11 @@ class CartComponent extends Component
             ];
 
             $orderItem = $this->ShopOrders->ShopOrderItems->newEntity($item, ['validate' => true]);
-
         } elseif ($orderItem && $item['amount'] == 0) {
             return $this->removeItem($orderItem);
-
         } else {
             $item['amount'] += $orderItem->amount;
+
             return $this->updateItem($orderItem, $item);
         }
 
@@ -239,6 +237,7 @@ class CartComponent extends Component
             debug($orderItem->errors());
             Log::debug('Failed to add order item to order with ID ' . $this->order->id);
             throw new Exception('Failed to add order item to order with ID ' . $this->order->id);
+
             return false;
         }
 
@@ -246,6 +245,7 @@ class CartComponent extends Component
 
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, ['item' => $orderItem]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
+
         return true;
     }
 
@@ -273,6 +273,7 @@ class CartComponent extends Component
     public function removeItemById($orderItemId)
     {
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
+
         return $this->removeItem($orderItem);
     }
 
@@ -308,6 +309,7 @@ class CartComponent extends Component
     public function updateItemById($orderItemId, $data = [])
     {
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
+
         return $this->updateItem($orderItem, $data);
     }
 
@@ -317,6 +319,7 @@ class CartComponent extends Component
     public function &getOrder()
     {
         $this->_resumeOrder();
+
         return $this->order;
     }
 
@@ -375,6 +378,7 @@ class CartComponent extends Component
         if ($this->_order) {
             $this->_resumeOrder(['force' => true]);
         }
+
         return $this;
     }
 
@@ -464,7 +468,6 @@ class CartComponent extends Component
         $options += ['create' => false, 'force' => false];
 
         if (!$this->order || $options['force']) {
-
             //@TODO check if cart is owned by customer
             $this->order = $this->ShopOrders->find('cart', [
                 //'sessionid' => $this->sessionId,

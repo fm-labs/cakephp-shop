@@ -2,7 +2,6 @@
 
 namespace Shop\Event;
 
-
 use Cake\Event\Event;
 use Shop\Event\ShopEventListener;
 
@@ -39,5 +38,4 @@ class DebugListener extends ShopEventListener
     {
         $this->_logEvent(__FUNCTION__, $event);
     }
-
 }

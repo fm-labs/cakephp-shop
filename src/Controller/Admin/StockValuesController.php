@@ -52,10 +52,11 @@ class StockValuesController extends AppController
         if ($this->request->is('post')) {
             $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->data);
             if ($this->StockValues->save($stockValue)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','stock value')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock value')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','stock value')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'stock value')));
             }
         }
         $shopStocks = $this->StockValues->ShopStocks->find('list', ['limit' => 200]);
@@ -79,10 +80,11 @@ class StockValuesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->data);
             if ($this->StockValues->save($stockValue)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','stock value')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock value')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','stock value')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'stock value')));
             }
         }
         $shopStocks = $this->StockValues->ShopStocks->find('list', ['limit' => 200]);
@@ -103,10 +105,11 @@ class StockValuesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $stockValue = $this->StockValues->get($id);
         if ($this->StockValues->delete($stockValue)) {
-            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','stock value')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'stock value')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','stock value')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'stock value')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

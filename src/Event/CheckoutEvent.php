@@ -22,6 +22,7 @@ class CheckoutEvent extends Event
         if (!isset($this->data['step'])) {
             throw new \RuntimeException('CheckoutEvent: MISSING step in event data');
         }
+
         return $this->data['step'];
     }
 

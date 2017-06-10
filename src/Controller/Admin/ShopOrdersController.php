@@ -53,21 +53,23 @@ class ShopOrdersController extends AppController
             //'id' => [],
             'submitted' => [
             ],
-            'shop_customer_id' => ['formatter' => function($val, $row, $args, $view) {
-                return $view->Html->link($row->shop_customer->display_name,
-                    ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]);
+            'shop_customer_id' => ['formatter' => function ($val, $row, $args, $view) {
+                return $view->Html->link(
+                    $row->shop_customer->display_name,
+                    ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]
+                );
             }],
-            'nr_formatted' => ['label' => __d('shop', 'Order Nr'), 'formatter' => function($val, $row, $args, $view) {
+            'nr_formatted' => ['label' => __d('shop', 'Order Nr'), 'formatter' => function ($val, $row, $args, $view) {
                 return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
             }],
-            'invoice_nr_formatted' => ['label' => __d('shop', 'Invoice Nr'), 'formatter' => function($val, $row, $args, $view) {
+            'invoice_nr_formatted' => ['label' => __d('shop', 'Invoice Nr'), 'formatter' => function ($val, $row, $args, $view) {
                 return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id, 'mode' => 'invoice']) : null;
             }],
             'order_value_total' => [
                 'class' => 'right',
                 'formatter' => ['currency' => ['currency' =>  'EUR']],
             ],
-            '_status' => ['formatter' => function($val, $row, $args, $view) {
+            '_status' => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Status->label($val);
             }],
             //'payment_status' => [],
@@ -175,10 +177,11 @@ class ShopOrdersController extends AppController
         if ($this->request->is('post')) {
             $shopOrder = $this->ShopOrders->patchEntity($shopOrder, $this->request->data);
             if ($this->ShopOrders->save($shopOrder)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop order')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order')));
             }
         }
         $shopCustomers = $this->ShopOrders->ShopCustomers->find('list', ['limit' => 200]);
@@ -203,10 +206,11 @@ class ShopOrdersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrder = $this->ShopOrders->patchEntity($shopOrder, $this->request->data);
             if ($this->ShopOrders->save($shopOrder)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop order')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order')));
             }
         }
         //$billingAddresses = $this->ShopOrders->BillingAddresses->find('list', ['limit' => 200])->where(['BillingAddresses.shop_customer_id' => $shopOrder->shop_customer_id])->toArray();
@@ -227,10 +231,11 @@ class ShopOrdersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopOrder = $this->ShopOrders->get($id);
         if ($this->ShopOrders->delete($shopOrder)) {
-            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','shop order')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop order')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','shop order')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 
@@ -244,9 +249,9 @@ class ShopOrdersController extends AppController
     public function emailOwnerOrderNotify($id = null)
     {
         if ($debug = $this->ShopOrders->emailOwnerOrderNotify($id)) {
-            $this->Flash->success(__d('shop','The notification has been sent.'));
+            $this->Flash->success(__d('shop', 'The notification has been sent.'));
         } else {
-            $this->Flash->error(__d('shop','The notification could not be sent.'));
+            $this->Flash->error(__d('shop', 'The notification could not be sent.'));
         };
 
         if (Configure::read('debug')) {
@@ -280,11 +285,12 @@ class ShopOrdersController extends AppController
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
-        $events['Action.Index.getRowActions'] = ['callable' => function(Event $event) {
-            $event->result[] = [__d('backend','Printview'), ['action' => 'printview', ':id'], ['target' => '_blank']];
-            $event->result[] = [__d('backend','View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank']];
-            $event->result[] = [__d('backend','Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank']];
+        $events['Action.Index.getRowActions'] = ['callable' => function (Event $event) {
+            $event->result[] = [__d('backend', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('backend', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('backend', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank']];
         }];
+
         return $events;
     }
 }

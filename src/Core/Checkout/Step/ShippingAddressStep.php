@@ -17,7 +17,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
      */
     public function getTitle()
     {
-        return __d('shop','Shipping Address');
+        return __d('shop', 'Shipping Address');
     }
 
     /**
@@ -62,12 +62,10 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
     {
         if ($this->Checkout->getOrder()->getShippingAddress()) {
             $shippingAddress = $this->Checkout->getOrder()->getShippingAddress();
-
         } elseif ($this->Checkout->Shop->getCustomer()) {
             // prefill with customer data
             $customerData = $this->Checkout->Shop->getCustomer()->extract(['first_name', 'last_name']);
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($customerData, ['validate' => false]);
-
         } else {
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }
@@ -80,7 +78,8 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'S')) {
                         $this->Checkout->reloadOrder();
-                        $controller->Flash->success(__d('shop','Shipping address has been updated'));
+                        $controller->Flash->success(__d('shop', 'Shipping address has been updated'));
+
                         return true;
                     }
                     break;
@@ -89,7 +88,8 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->request->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
                         $this->Checkout->reloadOrder();
-                        $controller->Flash->success(__d('shop','Shipping address has been updated'));
+                        $controller->Flash->success(__d('shop', 'Shipping address has been updated'));
+
                         return true;
                     }
                     break;

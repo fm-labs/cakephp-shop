@@ -55,7 +55,8 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     {
         Router::scope('/shop/admin', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePrefix' => 'shop:admin:'], function ($routes) {
             //$routes->addExtensions(['pdf']);
-            $routes->connect('/',
+            $routes->connect(
+                '/',
                 ['controller' => 'Shop', 'action' => 'index'],
                 ['_name' => 'index']
             );

@@ -90,6 +90,7 @@ class ShopOrderTransactionNotifiesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_order_transaction_id'], 'ShopOrderTransactions'));
+
         return $rules;
     }
 }

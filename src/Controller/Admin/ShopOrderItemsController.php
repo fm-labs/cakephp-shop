@@ -47,18 +47,19 @@ class ShopOrderItemsController extends AppController
             ],
             */
             'id' => [
-                'formatter' => function($val, $row, $args, $view) {
+                'formatter' => function ($val, $row, $args, $view) {
                     return $view->Html->link($val, ['action' => 'view', $row->id]);
                 }
             ],
             'product_sku' => [
-                'formatter' => function($val, $row) {
+                'formatter' => function ($val, $row) {
                     return ($val) ?: $row->getProduct()->getSku();
                 }
             ],
             'product_title' => [
-                'formatter' => function($val, $row, $args, $view) {
+                'formatter' => function ($val, $row, $args, $view) {
                     $val = ($val) ?: $row->getProduct()->getTitle();
+
                     return $view->Html->link($val, $row->getProduct()->getAdminUrl(), ['class' => 'link-modal-frame']);
                 }
             ],
@@ -71,8 +72,9 @@ class ShopOrderItemsController extends AppController
                 return $this->Number->currency($val, $shopOrder->currency);
             }],
             */
-            'value' => ['title' => __d('shop','Total'), 'formatter' => function($val, $row, $args, $view) {
+            'value' => ['title' => __d('shop', 'Total'), 'formatter' => function ($val, $row, $args, $view) {
                 $val = ($val) ?: $row->value_net + $row->value_tax;
+
                 return $view->Number->currency($val, $row->currency);
             }],
             'is_processed' => ['formatter' => 'boolean'],
@@ -111,10 +113,11 @@ class ShopOrderItemsController extends AppController
         if ($this->request->is('post')) {
             $shopOrderItem = $this->ShopOrderItems->patchEntity($shopOrderItem, $this->request->data);
             if ($this->ShopOrderItems->save($shopOrderItem)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop order item')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order item')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order item')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order item')));
             }
         }
         $shopOrders = $this->ShopOrderItems->ShopOrders->find('list', ['limit' => 200]);
@@ -137,10 +140,11 @@ class ShopOrderItemsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderItem = $this->ShopOrderItems->patchEntity($shopOrderItem, $this->request->data);
             if ($this->ShopOrderItems->save($shopOrderItem)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop order item')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order item')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop order item')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order item')));
             }
         }
         $shopOrders = $this->ShopOrderItems->ShopOrders->find('list', ['limit' => 200]);
@@ -160,10 +164,11 @@ class ShopOrderItemsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopOrderItem = $this->ShopOrderItems->get($id);
         if ($this->ShopOrderItems->delete($shopOrderItem)) {
-            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','shop order item')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop order item')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','shop order item')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order item')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

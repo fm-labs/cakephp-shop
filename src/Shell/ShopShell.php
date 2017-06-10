@@ -39,6 +39,7 @@ class ShopShell extends Shell
         $parser->addSubcommand('patch_order_customer_email', [
             'help' => 'Execute patchOrderCustomerEmail'
         ]);
+
         return $parser;
     }
 
@@ -78,8 +79,7 @@ class ShopShell extends Shell
         $products = $this->ShopProducts->find()->contain([])->all();
 
         $failed = 0;
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $this->out("Processing product #$product->id");
 
             if ($product->price <= 0) {
@@ -145,7 +145,6 @@ class ShopShell extends Shell
             }
         }
     }
-
 
     public function patchOrderCustomerEmail()
     {

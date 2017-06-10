@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Checkout\Step;
 
-
 use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
@@ -33,7 +32,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
      */
     public function getTitle()
     {
-        return __d('shop','Shipping');
+        return __d('shop', 'Shipping');
     }
 
     /**
@@ -71,6 +70,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
             $shippingMethodId = key($this->shippingMethods);
             if ($this->Checkout->setShippingType($shippingMethodId, [])) {
                 $this->Checkout->reloadOrder();
+
                 return true;
             } else {
                 $this->log('PaymentStep: Failed to auto-select shipping type ' . $shippingMethodId);
@@ -106,7 +106,6 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
         $engine = $this->engine();
 
         if (!$engine || $controller->request->query('change')) {
-
             if ($controller->request->is(['post', 'put'])) {
                 $engineName = $controller->request->data('shipping_type');
 
@@ -114,7 +113,6 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
                     $engine = $this->_registry->get($engineName);
                 }
             } else {
-
                 $engine = null;
                 $this->Checkout->getOrder()->shipping_type = null;
             }

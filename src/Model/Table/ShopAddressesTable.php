@@ -92,7 +92,6 @@ abstract class ShopAddressesTable extends Table
             ->add('is_archived', 'valid', ['rule' => 'boolean'])
             ->allowEmpty('is_archived');
 
-
         // optional company name
         if (Shop::config('Shop.Address.useCompanyName')) {
             $validator->requirePresence('company_name', 'create');
@@ -106,7 +105,7 @@ abstract class ShopAddressesTable extends Table
         }
         $validator
             ->allowEmpty('taxid')
-            ->add('taxid', 'eu_vat_number', ['rule' => function($value, $context) {
+            ->add('taxid', 'eu_vat_number', ['rule' => function ($value, $context) {
                 return (EuVatNumber::validate($value));
             }]);
 
@@ -115,13 +114,13 @@ abstract class ShopAddressesTable extends Table
 
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add(function($entity, $options) {
+        $rules->add(function ($entity, $options) {
             if (!$entity->taxid) {
                 return true;
             }
             $validator = new EuVatValidator();
-            return $validator->checkVat($entity->taxid);
 
+            return $validator->checkVat($entity->taxid);
         }, 'eu_vat_validation', [
             'errorField' => 'taxid',
             'message' => __d('shop', 'Please provide a valid European VAT ID')
@@ -129,5 +128,4 @@ abstract class ShopAddressesTable extends Table
 
         return $rules;
     }
-
 }

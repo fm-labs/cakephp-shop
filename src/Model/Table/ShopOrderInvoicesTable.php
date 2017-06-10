@@ -106,6 +106,7 @@ class ShopOrderInvoicesTable extends Table
     {
         $rules->add($rules->existsIn(['parent_id'], 'ParentShopOrderInvoices'));
         $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
+
         return $rules;
     }
 }

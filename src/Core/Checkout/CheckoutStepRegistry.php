@@ -42,6 +42,7 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
         if (is_object($class)) {
             return $class;
         }
+
         return App::className($class, 'Core/Checkout/Step', 'Step');
     }
 
@@ -172,9 +173,9 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
     {
         $next = false; // flag indicating to exit loop on next iteration
         foreach (array_keys($this->_loaded) as $stepId) {
-
             if ($next === true) {
                 $this->_current = $stepId;
+
                 return;
             }
 

@@ -68,10 +68,11 @@ class ShopProductsController extends AppController
 
         $fields = [
             'sku',
-            'title'  => ['formatter' => function($val, $row, $args, $view) {
+            'title'  => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Html->link(
                     $val,
-                    ['action' => 'edit', $row->id]);
+                    ['action' => 'edit', $row->id]
+                );
             }],
             'price' => [
                 'formatter' => 'currency'
@@ -115,10 +116,11 @@ class ShopProductsController extends AppController
      */
     public function quick()
     {
-        if ($this->request->is(['post','put'])) {
+        if ($this->request->is(['post', 'put'])) {
             $id = $this->request->data('shop_product_id');
             if ($id) {
                 $this->redirect(['action' => 'edit', $id]);
+
                 return;
             }
         }
@@ -151,6 +153,7 @@ class ShopProductsController extends AppController
             //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
             if ($this->ShopProducts->add($shopProduct, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop product')));
+
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
             } else {
                 debug($shopProduct->errors());
@@ -179,6 +182,7 @@ class ShopProductsController extends AppController
             //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
             if ($this->ShopProducts->edit($shopProduct, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop product')));
+
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop product')));
@@ -222,6 +226,7 @@ class ShopProductsController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop product')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 
@@ -232,7 +237,6 @@ class ShopProductsController extends AppController
     {
         return $this->ShopProducts->ShopCategories->find('treeList');
     }
-
 
     /**
      * @param null $id
@@ -254,13 +258,13 @@ class ShopProductsController extends AppController
             $content = $this->ShopProducts->patchEntity($content, $this->request->data);
             //$content->$scope = $this->request->data[$scope];
             if ($this->ShopProducts->save($content)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','content')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
 
                 if (!$this->request->is('iframe')) {
                     return $this->redirect(['action' => 'edit', $content->id]);
                 }
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','content')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'content')));
             }
         } else {
         }
@@ -297,10 +301,11 @@ class ShopProductsController extends AppController
         $content->set($scope, '');
 
         if ($this->ShopProducts->save($content)) {
-            $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','content')));
+            $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','content')));
+            $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'content')));
         }
+
         return $this->redirect(['action' => 'edit', $content->id]);
-    }    
+    }
 }

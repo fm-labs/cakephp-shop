@@ -18,16 +18,17 @@ class Taxation
      * @return float tax rate
      * @todo refactor to work with multiple countries -> use tax classes
      */
-    static public function taxrateByVatId($vatId = null)
+    public static function taxrateByVatId($vatId = null)
     {
-        if (!$vatId || preg_match("/^AT/i",$vatId)) {
+        if (!$vatId || preg_match("/^AT/i", $vatId)) {
             //B2B Austria
-            $tax_rate = 20.00;
+            $taxRate = 20.00;
         } else {
             //B2B EuroZone
-            $tax_rate = 0.00;
+            $taxRate = 0.00;
         }
-        return $tax_rate;
+
+        return $taxRate;
     }
 
     /**
@@ -40,7 +41,7 @@ class Taxation
      * @param string $myCountry
      * @return bool
      */
-    static public function isReverseCharge($vatId = null, $myCountry = "AT")
+    public static function isReverseCharge($vatId = null, $myCountry = "AT")
     {
         if (!$vatId) {
             return false;
@@ -58,15 +59,16 @@ class Taxation
      * Calculates Tax from net-value and taxrate
      *
      * @param float|int $net float Net-value
-     * @param float|int $tax_rate float Tax rate
+     * @param int $taxRate float Tax rate
      * @return float|int
      */
-    static public function tax($net = 0, $tax_rate = 0)
+    public static function tax($net = 0, $taxRate = 0)
     {
-        if ($net == 0 || $tax_rate == 0)
+        if ($net == 0 || $taxRate == 0) {
             return 0;
+        }
 
-        return $net * $tax_rate / 100;
+        return $net * $taxRate / 100;
     }
 
     /**
@@ -76,9 +78,9 @@ class Taxation
      * @param $tax_rate
      * @return mixed
      */
-    static public function withTax($net, $tax_rate)
+    public static function withTax($net, $taxRate)
     {
-        return $net + self::tax($net, $tax_rate);
+        return $net + self::tax($net, $taxRate);
     }
 
     /**
@@ -88,9 +90,9 @@ class Taxation
      * @param $tax_rate
      * @return float
      */
-    static public function withoutTax($taxed, $tax_rate)
+    public static function withoutTax($taxed, $taxRate)
     {
-        return $taxed / (1 + $tax_rate / 100);
+        return $taxed / (1 + $taxRate / 100);
     }
 
     /**
@@ -100,8 +102,8 @@ class Taxation
      * @param $tax_rate
      * @return float
      */
-    static public function extractTax($taxed, $tax_rate)
+    public static function extractTax($taxed, $taxRate)
     {
-        return self::withoutTax($taxed, $tax_rate) * ($tax_rate / 100);
+        return self::withoutTax($taxed, $taxRate) * ($taxRate / 100);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Shop\Controller\Component;
 
-
 use Cake\Controller\Component;
 use Cake\Filesystem\File;
 use Cake\Log\Log;
@@ -76,7 +75,7 @@ class PaymentComponent extends Component
         $this->_engineRegistry = new PaymentEngineRegistry($this);
 
         $engines = (isset($config['engines'])) ? $config['engines'] : [];
-        $engines = ($engines) ?: (array) Shop::config('Shop.Payment.Engines');
+        $engines = ($engines) ?: (array)Shop::config('Shop.Payment.Engines');
 
         if (count($engines) < 1) {
             throw new \RuntimeException('Payment: No payment engines configured');
@@ -156,14 +155,12 @@ class PaymentComponent extends Component
             if ($response && $response instanceof Response && $response->location()) {
                 $this->_transaction->redirect_url = $response->location();
             }
-
         } catch (\Exception $ex) {
             // capture errors, if any
             $this->_transaction->message = $ex->getMessage();
             $this->_transaction->status = -1;
 
             $this->getController()->Flash->error($ex->getMessage());
-
         } finally {
 
             if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
@@ -205,8 +202,6 @@ class PaymentComponent extends Component
         $f->write($json);
         $f->close();
 
-
-
         if (!$transaction->engine) {
             throw new \RuntimeException('Payment::confirmTransction: Transaction has no engine');
         }
@@ -231,7 +226,6 @@ class PaymentComponent extends Component
         }
 
         try {
-
             // Dispatch Shop.Payment.beforeConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.beforeConfirm', [
                 'transaction' => $transaction,
@@ -246,7 +240,6 @@ class PaymentComponent extends Component
                 'transaction' => $transaction,
                 'request' => $this->request
             ], $this);
-
         } catch (\Exception $ex) {
             Log::error("Payment::confirmTransaction:".$transaction->engine.":" . $ex->getMessage());
             throw $ex;
@@ -290,6 +283,7 @@ class PaymentComponent extends Component
         if (!$this->_order) {
             throw new \LogicException('Can not get order url: No order initialized');
         }
+
         return ['plugin' => 'Shop', 'controller' => 'Order', 'action' => 'view', $this->_order->uuid];
     }
 
@@ -337,6 +331,7 @@ class PaymentComponent extends Component
         if (!$this->_transaction) {
             throw new \LogicException('Can not get payment url: No transaction initialized');
         }
+
         return ['plugin' => 'Shop', 'controller' => 'Payment', 'action' => $action, $this->_transaction->id,  'o' => $this->_order->uuid];
     }
 }

@@ -45,6 +45,7 @@ class ShopOrderTransactionNotifiesController extends AppController
             $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction notify')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order transaction notify')));
@@ -71,6 +72,7 @@ class ShopOrderTransactionNotifiesController extends AppController
             $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction notify')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order transaction notify')));
@@ -97,6 +99,7 @@ class ShopOrderTransactionNotifiesController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop order transaction notify')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Shop\Event;
 
-
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
@@ -29,9 +28,9 @@ class EmailNotificationListener implements EventListenerInterface
 
         if (!$order) {
             Log::error('Unable to send order notification: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
+
             return false;
         }
-
 
         $mailer = new \Mailman\Mailer\MailmanMailer();
 
@@ -42,7 +41,6 @@ class EmailNotificationListener implements EventListenerInterface
             $email->template('Shop.merchant/order_submit');
             $email->viewVars(['order' => $order]);
             $mailer->sendEmail($email);
-
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['email', 'shop']);
         }
@@ -58,11 +56,9 @@ class EmailNotificationListener implements EventListenerInterface
                 ->viewVars(['order' => $order]);
 
             $mailer->sendEmail($email);
-
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['email', 'shop']);
         }
-
     }
 
     public function afterOrderConfirm(Event $event)
@@ -76,9 +72,9 @@ class EmailNotificationListener implements EventListenerInterface
 
         if (!$order) {
             Log::error('Unable to send order confirmation: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
+
             return false;
         }
-
 
         $mailer = new \Mailman\Mailer\MailmanMailer();
 
@@ -89,7 +85,6 @@ class EmailNotificationListener implements EventListenerInterface
             $email->template('Shop.merchant/order_submit');
             $email->viewVars(['order' => $order]);
             $mailer->sendEmail($email);
-
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['email', 'shop']);
         }
@@ -105,10 +100,8 @@ class EmailNotificationListener implements EventListenerInterface
                 ->viewVars(['order' => $order]);
 
             $mailer->sendEmail($email);
-
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['email', 'shop']);
         }
-
     }
 }

@@ -49,9 +49,9 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         //'custom_file1_url', 'custom_file2_url'
     ];
 
-    public function __construct(array $properties = [], array $options = []) {
+    public function __construct(array $properties = [], array $options = [])
+    {
         parent::__construct($properties, $options);
-
     }
 
     protected function _getType()
@@ -95,6 +95,7 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         ) {
             $this->parent_shop_category = TableRegistry::get('Shop.ShopCategories')->get($this->_properties['parent_id']);
         }
+
         return $this->parent_shop_category;
     }
 
@@ -122,11 +123,12 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     protected function _getShopText($model, $id, $field, $locale = null)
     {
         $ShopTexts = TableRegistry::get('Shop.ShopTexts');
+
         return $ShopTexts->find()->where([
             'model' => $model,
             'model_id' => $id,
             'model_scope' => $field,
-            'locale' => (string) ($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
+            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
         ])->first();
     }
 
@@ -155,7 +157,6 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         return $this->getViewUrl();
     }
 
-
     /**
      * @return array
      */
@@ -163,7 +164,6 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     {
         return Router::url($this->_getUrl(), true);
     }
-
 
     protected function _getPermaUrl()
     {
@@ -179,9 +179,8 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     protected function _getSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
-            ->find('children', ['for' => $this->id, 'direct' => true, 'media' => true])
+            ->find('children', ['for' => $this->id, 'direct' => true, 'media' => true]);
             //->find('media')
-            ;
     }
 
     protected function _getPublishedSubcategories()
@@ -189,9 +188,8 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         return TableRegistry::get('Shop.ShopCategories')
             ->find('all', ['media' => true])
             ->find('published')
-            ->find('children', ['for' => $this->id, 'direct' => true])
+            ->find('children', ['for' => $this->id, 'direct' => true]);
             //->find('media')
-            ;
     }
 
     protected function _getProducts()
@@ -224,13 +222,13 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         return $modules;
     }
 
-
     /** PAGE AWARE **/
 
     /**
      * @deprecated
      */
-    public function getPageId() {
+    public function getPageId()
+    {
         return $this->id;
     }
 
@@ -241,7 +239,6 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     {
         return $this->name;
     }
-
 
     /**
      * @deprecated

@@ -94,6 +94,7 @@ class ShopCustomerDiscountsTable extends Table
     {
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
         $rules->add($rules->existsIn(['shop_product_id'], 'ShopProducts'));
+
         return $rules;
     }
 }

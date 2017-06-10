@@ -52,10 +52,11 @@ class StockTransfersController extends AppController
         if ($this->request->is('post')) {
             $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->data);
             if ($this->StockTransfers->save($stockTransfer)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','stock transfer')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock transfer')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','stock transfer')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'stock transfer')));
             }
         }
         $parentStockTransfers = $this->StockTransfers->ParentStockTransfers->find('list', ['limit' => 200]);
@@ -80,10 +81,11 @@ class StockTransfersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->data);
             if ($this->StockTransfers->save($stockTransfer)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','stock transfer')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock transfer')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','stock transfer')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'stock transfer')));
             }
         }
         $parentStockTransfers = $this->StockTransfers->ParentStockTransfers->find('list', ['limit' => 200]);
@@ -105,10 +107,11 @@ class StockTransfersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $stockTransfer = $this->StockTransfers->get($id);
         if ($this->StockTransfers->delete($stockTransfer)) {
-            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','stock transfer')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'stock transfer')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','stock transfer')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'stock transfer')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

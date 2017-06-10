@@ -24,6 +24,7 @@ class PaymentEngineRegistry extends ObjectRegistry
         if (is_object($class)) {
             return $class;
         }
+
         return App::className($class, 'Core/Payment/Engine', 'Payment');
     }
 

@@ -33,13 +33,15 @@ class ShopCustomerAddressesController extends AppController
         ];
 
         $filter = $this->request->query;
-        if (isset($filter['_'])) unset($filter['_']);
+        if (isset($filter['_'])) {
+            unset($filter['_']);
+        }
         //if ($filter) {
         //    $this->paginate['conditions'] = $filter;
         //}
 
         if (isset($this->request->query['shop_customer_id'])) {
-            $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int) $filter['shop_customer_id'];
+            $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int)$filter['shop_customer_id'];
         }
 
         $this->Backend->executeAction();
@@ -68,10 +70,11 @@ class ShopCustomerAddressesController extends AppController
         if ($this->request->is('post')) {
             $shopCustomerAddress = $this->ShopCustomerAddresses->patchEntity($shopCustomerAddress, $this->request->data);
             if ($this->ShopCustomerAddresses->save($shopCustomerAddress)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop address')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop address')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop address')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop address')));
             }
         }
         $shopCustomers = $this->ShopCustomerAddresses->ShopCustomers->find('list', ['limit' => 200]);
@@ -94,10 +97,11 @@ class ShopCustomerAddressesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopCustomerAddress = $this->ShopCustomerAddresses->patchEntity($shopCustomerAddress, $this->request->data);
             if ($this->ShopCustomerAddresses->save($shopCustomerAddress)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','shop address')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop address')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','shop address')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop address')));
             }
         }
         $shopCustomers = $this->ShopCustomerAddresses->ShopCustomers->find('list', ['limit' => 200]);
@@ -117,10 +121,11 @@ class ShopCustomerAddressesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $shopCustomerAddress = $this->ShopCustomerAddresses->get($id);
         if ($this->ShopCustomerAddresses->delete($shopCustomerAddress)) {
-            $this->Flash->success(__d('shop','The {0} has been deleted.', __d('shop','shop address')));
+            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop address')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be deleted. Please, try again.', __d('shop','shop address')));
+            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop address')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

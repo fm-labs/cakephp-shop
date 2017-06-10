@@ -108,7 +108,6 @@ class ShopOrdersTable extends Table
         $this->addBehavior('Banana.Statusable');
 
         if (Plugin::loaded('Search')) {
-
             // Add the behaviour to your table
             $this->addBehavior('Search.Search');
 
@@ -200,6 +199,7 @@ class ShopOrdersTable extends Table
             ->applyOptions(['status' => true])
             ->where($options)
             ->contain(['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']]);
+
         return $query->first();
     }
 
@@ -236,6 +236,7 @@ class ShopOrdersTable extends Table
         $orderAddress->type = $addressType;
 
         $orderAddress = $this->ShopOrderAddresses->save($orderAddress);
+
         return $orderAddress;
     }
 
@@ -300,12 +301,12 @@ class ShopOrdersTable extends Table
         $lastOrder = $this->find()
             ->select(['id', 'nr', 'ordergroup'])
             ->contain([])
-            ->where(['is_temporary' => false, 'nr IS NOT NULL', 'ordergroup' => (string) $orderGroup])
+            ->where(['is_temporary' => false, 'nr IS NOT NULL', 'ordergroup' => (string)$orderGroup])
             ->order(['nr' => 'DESC'])
             ->first();
 
         if ($lastOrder && $lastOrder->nr) {
-            $orderNr = (int) $lastOrder->nr + 1;
+            $orderNr = (int)$lastOrder->nr + 1;
         }
 
         return $orderNr;
@@ -325,12 +326,12 @@ class ShopOrdersTable extends Table
         $lastOrder = $this->find()
             ->select(['id', 'invoice_nr', 'ordergroup'])
             ->contain([])
-            ->where(['is_temporary' => false, 'invoice_nr IS NOT NULL', 'ordergroup' => (string) $orderGroup])
+            ->where(['is_temporary' => false, 'invoice_nr IS NOT NULL', 'ordergroup' => (string)$orderGroup])
             ->order(['nr' => 'DESC'])
             ->first();
 
         if ($lastOrder && $lastOrder->invoice_nr) {
-            $nextNr = (int) $lastOrder->invoice_nr + 1;
+            $nextNr = (int)$lastOrder->invoice_nr + 1;
         }
 
         return $nextNr;
@@ -403,7 +404,6 @@ class ShopOrdersTable extends Table
         return $calculator;
     }
 
-
     /**
      * @param ShopOrder $order
      * @return CostCalculator
@@ -415,7 +415,7 @@ class ShopOrdersTable extends Table
         $reverseCharge = $order->isReverseCharge();
 
         // items value
-        $items = (array) $order->shop_order_items;
+        $items = (array)$order->shop_order_items;
         array_walk($items, function ($item) use (&$calculator, $reverseCharge) {
             $taxRate = ($reverseCharge) ? 0 : $item->tax_rate;
 
@@ -469,11 +469,13 @@ class ShopOrdersTable extends Table
 
         if (!$this->save($order)) {
             Log::error(sprintf("Shop Order: Failed to updated order status for order %s from %s to %s", $order->id, $oldStatus, $newStatus));
+
             return false;
         }
 
         //@TODO Add order history entry
         Log::info(sprintf("Shop Order: Updated order status for order %s from %s to %s", $order->id, $oldStatus, $newStatus));
+
         return $order;
     }
 
@@ -485,6 +487,7 @@ class ShopOrdersTable extends Table
     public function updateStatusFromTransaction(ShopOrder $order, ShopOrderTransaction $transaction)
     {
         $newStatus = $this->_mapTransactionStatus($transaction->status);
+
         return $this->updateStatus($order, $newStatus);
     }
 
@@ -494,8 +497,7 @@ class ShopOrdersTable extends Table
      */
     protected function _mapTransactionStatus($status)
     {
-        switch ($status)
-        {
+        switch ($status) {
             case ShopOrderTransactionsTable::STATUS_INIT:
             case ShopOrderTransactionsTable::STATUS_SUSPENDED:
                 return ShopOrdersTable::ORDER_STATUS_PENDING;
@@ -532,9 +534,10 @@ class ShopOrdersTable extends Table
 
         $config = Shop::config('Shop.Order');
 
-        return $this->connection()->transactional(function($conn) use (&$order, $config) {
+        return $this->connection()->transactional(function ($conn) use (&$order, $config) {
             $order->nr = $this->getNextOrderNr();
             $order->ordergroup = $config['nrGroup'];
+
             return $this->save($order);
         });
     }
@@ -554,15 +557,16 @@ class ShopOrdersTable extends Table
 
         $config = Shop::config('Shop.Order');
 
-        return $this->connection()->transactional(function($conn) use (&$order, $config) {
+        return $this->connection()->transactional(function ($conn) use (&$order, $config) {
             $order->invoice_nr = $this->getNextInvoiceNr();
+
             return $this->save($order);
         });
     }
 
     /**
      * @param ShopOrder $order
-     * @param array $options
+     * @param array $data
      * @return bool|EntityInterface|mixed|ShopOrder
      * @throws \Exception
      */
@@ -676,6 +680,7 @@ class ShopOrdersTable extends Table
                 $required = true;
             }
         }
+
         return $required;
     }
 
@@ -842,7 +847,6 @@ class ShopOrdersTable extends Table
         return $validator;
     }
 
-
     /**
      * Default validation rules.
      *
@@ -852,8 +856,7 @@ class ShopOrdersTable extends Table
     public function validationPayment(Validator $validator)
     {
         $validator
-            ->notEmpty('payment_type')
-        ;
+            ->notEmpty('payment_type');
 
         return $validator;
     }
@@ -903,7 +906,10 @@ class ShopOrdersTable extends Table
             ->notEmpty('customer_email')
             ->requirePresence('agree_terms')
             ->notEmpty('agree_terms')
-            ->add('agree_terms', 'checked', ['rule' => function ($value) { return $value > 0; }, 'message' => __d('shop','Please agree to the general terms & conditions')]);
+            ->add('agree_terms', 'checked', ['rule' => function ($value) {
+
+                return $value > 0;
+            }, 'message' => __d('shop', 'Please agree to the general terms & conditions')]);
 
         // optional: customer phone
         if (Configure::read('Shop.Checkout.customerPhone')) {
@@ -925,6 +931,7 @@ class ShopOrdersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
+
         return $rules;
     }
 
@@ -936,26 +943,26 @@ class ShopOrdersTable extends Table
     {
         return [
             'status' => [
-                new Status(self::ORDER_STATUS_TEMP, __d('shop','Quote'), 'default'),
-                new Status(self::ORDER_STATUS_SUBMITTED, __d('shop','Purchased'), 'default'),
-                new Status(self::ORDER_STATUS_PENDING, __d('shop','Waiting for payment'), 'warning'),
-                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop','Processing payment'), 'success'),
-                new Status(self::ORDER_STATUS_PAYED, __d('shop','Payed'), 'success'),
-                new Status(self::ORDER_STATUS_DELIVERED, __d('shop','Delivered'), 'success'),
-                new Status(self::ORDER_STATUS_CLOSED, __d('shop','Closed'), 'success'),
-                new Status(self::ORDER_STATUS_STORNO, __d('shop','Storno'), 'default'),
-                new Status(self::ORDER_STATUS_ERROR, __d('shop','Error'), 'danger'),
-                new Status(self::ORDER_STATUS_ERROR_DELIVERY, __d('shop','Error Delivery'), 'danger'),
+                new Status(self::ORDER_STATUS_TEMP, __d('shop', 'Quote'), 'default'),
+                new Status(self::ORDER_STATUS_SUBMITTED, __d('shop', 'Purchased'), 'default'),
+                new Status(self::ORDER_STATUS_PENDING, __d('shop', 'Waiting for payment'), 'warning'),
+                new Status(self::ORDER_STATUS_CONFIRMED, __d('shop', 'Processing payment'), 'success'),
+                new Status(self::ORDER_STATUS_PAYED, __d('shop', 'Payed'), 'success'),
+                new Status(self::ORDER_STATUS_DELIVERED, __d('shop', 'Delivered'), 'success'),
+                new Status(self::ORDER_STATUS_CLOSED, __d('shop', 'Closed'), 'success'),
+                new Status(self::ORDER_STATUS_STORNO, __d('shop', 'Storno'), 'default'),
+                new Status(self::ORDER_STATUS_ERROR, __d('shop', 'Error'), 'danger'),
+                new Status(self::ORDER_STATUS_ERROR_DELIVERY, __d('shop', 'Error Delivery'), 'danger'),
             ],
             'shipping_status' => [
-                new Status(self::SHIPPING_STATUS_STANDBY, __d('shop','Not delivered'), 'danger'),
-                new Status(self::SHIPPING_STATUS_PENDING, __d('shop','Pending'), 'warning'),
-                new Status(self::SHIPPING_STATUS_DELIVERED, __d('shop','Delivered'), 'success'),
+                new Status(self::SHIPPING_STATUS_STANDBY, __d('shop', 'Not delivered'), 'danger'),
+                new Status(self::SHIPPING_STATUS_PENDING, __d('shop', 'Pending'), 'warning'),
+                new Status(self::SHIPPING_STATUS_DELIVERED, __d('shop', 'Delivered'), 'success'),
             ],
             'payment_status' => [
-                new Status(self::PAYMENT_STATUS_PENDING, __d('shop','Waiting for payment'), 'warning'),
-                new Status(self::PAYMENT_STATUS_PARTIAL, __d('shop','Teilzahlung erhalten'), 'warning'),
-                new Status(self::PAYMENT_STATUS_PAYED, __d('shop','Payed'), 'success')
+                new Status(self::PAYMENT_STATUS_PENDING, __d('shop', 'Waiting for payment'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PARTIAL, __d('shop', 'Teilzahlung erhalten'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PAYED, __d('shop', 'Payed'), 'success')
             ],
         ];
     }

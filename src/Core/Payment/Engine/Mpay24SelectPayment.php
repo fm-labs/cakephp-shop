@@ -52,10 +52,9 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 debug($order->errors());
                 $Checkout->getController()->Flash->error("Failed to update payment info");
             }
-        } elseif (!$Checkout->request-query('change')) {
+        } elseif (!$Checkout->request - query('change')) {
             return $Checkout->redirectNext();
         }
-
     }
 
     /**
@@ -162,9 +161,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $mdxi->Order->TemplateSet->setCSSName("MODERN"); // DEFAULT, MOBILE, MODERN
             $mdxi->Order->TemplateSet->setLanguage("DE");
 
-
             $mdxi = $this->_buildPaymentMDXI($mdxi);
-
 
             $mdxi->Order->ShoppingCart->Description = __d('shop', 'Order {0}', $order->nr_formatted);
 
@@ -195,10 +192,8 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $mdxi->Order->Price = self::formatPrice($order->order_value_total);
             $mdxi->Order->Currency = $order->currency;
 
-
             // Set personal data only if user is logged in
             if ($Payment->Shop->getCustomerId() == $order->shop_customer_id) {
-
                 $billingAddress = $order->getBillingAddress();
                 $mdxi->Order->BillingAddr->setMode("ReadWrite"); // or "ReadOnly"
                 $mdxi->Order->BillingAddr->Name = $billingAddress->name;
@@ -209,7 +204,6 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 $mdxi->Order->BillingAddr->State = '';
                 $mdxi->Order->BillingAddr->Country = $billingAddress->relcountry->name;
                 $mdxi->Order->BillingAddr->Email = $order->shop_customer->email;
-
 
                 //@TODO Implement Mpay24 Customer profiles
                 // https://docs.mpay24.com/docs/profiles
@@ -223,7 +217,6 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $mdxi->Order->URL->Error = Router::url($Payment->getErrorUrl(), true);
             $mdxi->Order->URL->Confirmation = Router::url($Payment->getConfirmUrl(), true);
             $mdxi->Order->URL->Cancel = Router::url($Payment->getCancelUrl(), true);
-
 
             //debug($mdxi->toXML());
             if (!$mdxi->validate()) {
@@ -241,15 +234,13 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             //$debugInfo = ['mdxi' => $mdxi->toXML(), 'url' => $paymentPageURL];
             //$Payment->getController()->set('debugInfo', $debugInfo);
             //$Payment->getController()->set('paymentUrl', $paymentPageURL);
-
-        } catch(\Exception $ex) {
-
+        } catch (\Exception $ex) {
             if (Configure::read('debug')) {
                 throw $ex;
             }
 
             Log::error('Mpay24::pay: ' . $ex->getMessage(), ['mpay24']);
-            throw new \Exception(__d('shop','Payment failed'));
+            throw new \Exception(__d('shop', 'Payment failed'));
         }
     }
 
@@ -262,16 +253,16 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     {
 
         /**
-         * ERROR 	The transaction failed upon the last request. (e.g. wrong/invalid data, financial reasons, ...)
-        RESERVED 	The amount was reserved but not settled/billed yet. The transaction was successful.
-        RESERVED_REVERSAL 	The reserved amount was complaint.
-        BILLED 	The amount was settled/billed. The transaction was successful.
-        BILLED_REVERSAL 	The amount was complaint (chargeback). Please get in touch with the customer.
-        REVERSED 	The reserved amount was released. The transaction was canceled.
-        CREDITED 	The amount will be refunded. The transaction was credited.
-        CREDITED_REVERSAL 	The credited amount was complaint.
-        SUSPENDED 	Expecting external interface confirmation. The transaction is suspended temporarily.
-        WITHDRAWN 	The payout was successful. The amount will be transfered to the customer.
+         * ERROR    The transaction failed upon the last request. (e.g. wrong/invalid data, financial reasons, ...)
+        RESERVED    The amount was reserved but not settled/billed yet. The transaction was successful.
+        RESERVED_REVERSAL   The reserved amount was complaint.
+        BILLED  The amount was settled/billed. The transaction was successful.
+        BILLED_REVERSAL     The amount was complaint (chargeback). Please get in touch with the customer.
+        REVERSED    The reserved amount was released. The transaction was canceled.
+        CREDITED    The amount will be refunded. The transaction was credited.
+        CREDITED_REVERSAL   The credited amount was complaint.
+        SUSPENDED   Expecting external interface confirmation. The transaction is suspended temporarily.
+        WITHDRAWN   The payout was successful. The amount will be transfered to the customer.
          */
         $clientIp = $Payment->request->clientIp();
 
@@ -285,13 +276,12 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         }
 
         if ($query['OPERATION'] == "CONFIRMATION") {
-
             $transaction->ext_txnid = $query['MPAYTID'];
             $transaction->ext_status = $query['STATUS'];
             $transaction->last_message = $query['OPERATION'].":".$query['STATUS'];
             $transaction->is_test = $isTest;
 
-            switch($query['STATUS']) {
+            switch ($query['STATUS']) {
                 case "ERROR":
                     $transaction->status = ShopOrderTransactionsTable::STATUS_ERROR;
                     break;
@@ -326,7 +316,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
      * @param $input
      * @return mixed
      */
-    static public function formatPrice($input)
+    public static function formatPrice($input)
     {
         return $input;
     }

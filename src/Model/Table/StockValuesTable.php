@@ -83,6 +83,7 @@ class StockValuesTable extends Table
     {
         $rules->add($rules->existsIn(['shop_product_id'], 'ShopProducts'));
         $rules->add($rules->existsIn(['shop_stock_id'], 'ShopStocks'));
+
         return $rules;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Shop\Core\Order;
 
-
 interface CostValueInterface
 {
     public function getNetValue();
