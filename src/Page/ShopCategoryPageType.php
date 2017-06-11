@@ -1,60 +1,101 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 5/16/16
- * Time: 9:48 PM
- */
 
 namespace Shop\Page;
 
+use Banana\Menu\MenuItem;
 use Cake\Controller\Controller;
-use Content\Page\AbstractPageType;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
+use Content\Model\Entity\Page;
+use Content\Page\AbstractPageType;
 use Shop\Model\Entity\ShopCategory;
 
+/**
+ * Class ShopCategoryPageType
+ * @package Shop\Page
+ */
 class ShopCategoryPageType extends AbstractPageType
 {
+
     /**
-     * @var ShopCategory
+     * @param EntityInterface $entity
+     * @return string
      */
-    protected $category;
-
-    public function setEntity(EntityInterface $page)
+    public function getLabel(EntityInterface $entity)
     {
-        parent::setEntity($page);
-
-        $categoryId = $page->redirect_location;
-        $this->category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+        $label = null;
+        if ($entity instanceof Page) {
+            $label = $entity->title;
+        } elseif ($entity instanceof ShopCategory) {
+            $label = $entity->name;
+        }
+        return $label;
     }
 
-    function getUrl()
+    /**
+     * {@inheritDoc}
+     */
+    public function findChildren(EntityInterface $entity)
     {
-        return $this->category->getPageUrl();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+
+            return TableRegistry::get('Shop.ShopCategories')
+                ->find()
+                ->where(['parent_id' => $categoryId])
+                ->contain([])
+                ->orderAsc('lft')
+                ->all();
+        }
+
+        return [];
     }
 
-    public function getAdminUrl()
+    /**
+     * {@inheritDoc}
+     */
+    public function toMenuItem(EntityInterface $entity, $maxDepth = 1)
     {
-        return $this->category->getPageAdminUrl();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+        } elseif ($entity instanceof ShopCategory) {
+            $category = $entity;
+        }
+        $title = $this->getLabel($entity);
+        $url = $this->toUrl($category);
+
+        $item = new MenuItem($title, $url);
+        return $item;
     }
 
-    public function getChildren()
+    /**
+     * {@inheritDoc}
+     */
+    public function toUrl(EntityInterface $entity)
     {
-        return $this->category->getPageChildren();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+            return $category->getViewUrl();
+        } elseif ($entity instanceof ShopCategory) {
+            return $entity->getViewUrl();
+        }
     }
 
-    public function isPublished()
+    public function isEnabled(EntityInterface $entity)
     {
-        return $this->category->isPagePublished();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+            return $category->is_published;
+        } elseif ($entity instanceof ShopCategory) {
+            return $entity->is_published;
+        }
+        return false;
     }
 
-    public function isHiddenInNav()
-    {
-        return $this->category->isPageHiddenInNav();
-    }
-
-    public function execute(Controller &$controller)
+    public function execute(Controller &$controller, EntityInterface $entity)
     {
     }
 }

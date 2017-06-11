@@ -1,30 +1,17 @@
 <?php
 namespace Shop\Model\Entity;
 
-use Banana\Model\EntityTypeHandlerInterface;
-use Banana\Model\EntityTypeInterface;
-use Cake\Controller\Controller;
-use Cake\Routing\Router;
-use Content\Model\Entity\Node\NodeInterface;
-use Content\Model\EntityPostTypeHandlerTrait;
-//use Eav\Model\EntityAttributesInterface;
-//use Eav\Model\EntityAttributesTrait;
 use Content\Model\Behavior\PageMeta\PageMetaTrait;
-use Content\Model\Entity\MenuItem;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Content\Page\PageInterface;
 
 /**
  * ShopCategory Entity.
  */
-class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInterface
+class ShopCategory extends Entity
 {
     use PageMetaTrait;
-    //use PageTypeTrait;
-    use EntityPostTypeHandlerTrait;
-    //use EntityAttributesTrait;
 
     /**
      * @var string PageMetaTrait model definition
@@ -44,21 +31,17 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         'id' => false,
     ];
 
+    /**
+     * @var array
+     */
     protected $_virtual = [
-        'url', 'url_full',
-        //'custom_file1_url', 'custom_file2_url'
+        'url'
     ];
 
-    public function __construct(array $properties = [], array $options = [])
-    {
-        parent::__construct($properties, $options);
-    }
-
-    protected function _getType()
-    {
-        return 'shop_category';
-    }
-
+    /**
+     * @param null $for
+     * @return \Cake\ORM\Query
+     */
     public function getPath($for = null)
     {
         if ($for === null) {
@@ -68,25 +51,18 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $for]);
     }
 
-    /*
-    protected function _getCustomFile1Url()
+    /**
+     * Workaround hack to work as page
+     * @return string
+     */
+    public function _getType()
     {
-        $field = 'custom_file1';
-        debug($field);
-        return (isset($this->_properties[$field]) && $this->_properties[$field] instanceof MediaFile)
-            ? $this->_properties[$field]->getUrl(true)
-            : null;
+        return 'shop_category';
     }
-    protected function _getCustomFile2Url()
-    {
-        $field = 'custom_file2';
-        debug($field);
-        return (isset($this->_properties[$field]) && $this->_properties[$field] instanceof MediaFile)
-            ? $this->_properties[$field]->getUrl(true)
-            : null;
-    }
-    */
 
+    /**
+     * @return \Cake\Datasource\EntityInterface|mixed
+     */
     protected function _getParent()
     {
         if (!isset($this->_properties['parent_shop_category'])
@@ -132,6 +108,14 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         ])->first();
     }
 
+    protected function _getUrl()
+    {
+        return $this->getViewUrl();
+    }
+
+    /**
+     * @return mixed
+     */
     protected function _getUrlPath()
     {
         if (!isset($this->_properties['url_path'])) {
@@ -150,32 +134,8 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
     }
 
     /**
-     * @return array
+     * @return \Cake\ORM\Query
      */
-    protected function _getUrl()
-    {
-        return $this->getViewUrl();
-    }
-
-    /**
-     * @return array
-     */
-    protected function _getUrlFull()
-    {
-        return Router::url($this->_getUrl(), true);
-    }
-
-    protected function _getPermaUrl()
-    {
-        return [
-            'prefix' => false,
-            'plugin' => 'Shop',
-            'controller' => 'Categories',
-            'action' => 'view',
-            $this->id
-        ];
-    }
-
     protected function _getSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
@@ -183,6 +143,9 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
             //->find('media')
     }
 
+    /**
+     * @return \Cake\ORM\Query
+     */
     protected function _getPublishedSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
@@ -192,6 +155,9 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
             //->find('media')
     }
 
+    /**
+     * @return array
+     */
     protected function _getProducts()
     {
         return TableRegistry::get('Shop.ShopProducts')
@@ -203,6 +169,9 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
             ->toArray();
     }
 
+    /**
+     * @return array
+     */
     protected function _getModules()
     {
         $contentModules = TableRegistry::get('Content.ContentModules')
@@ -222,36 +191,7 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
         return $modules;
     }
 
-    /** PAGE AWARE **/
-
-    /**
-     * @deprecated
-     */
-    public function getPageId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getPageTitle()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getPageType()
-    {
-        return 'shop_category';
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getPageUrl()
+    public function getViewUrl()
     {
         return [
             'prefix' => false,
@@ -262,83 +202,5 @@ class ShopCategory extends Entity implements PageInterface, EntityTypeHandlerInt
             //'category' => $this->slug,
             'category' => $this->url_path,
         ];
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getPageAdminUrl()
-    {
-        return [
-            'prefix' => 'admin',
-            'plugin' => 'Shop',
-            'controller' => 'ShopCategories',
-            'action' => 'manage',
-            $this->id,
-        ];
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getPageChildren()
-    {
-        return TableRegistry::get('Shop.ShopCategories')
-            ->find()
-            ->where(['parent_id' => $this->id])
-            ->contain([])
-            ->orderAsc('lft')
-            ->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function isPagePublished()
-    {
-        return $this->is_published;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function isPageHiddenInNav()
-    {
-        return !$this->is_published;
-    }
-
-    public function getNodeLabel()
-    {
-        return $this->name;
-    }
-
-    public function getNodeUrl()
-    {
-        return $this->getViewUrl();
-    }
-
-    public function isNodeEnabled()
-    {
-        return $this->is_published;
-    }
-
-    public function getChildNodes()
-    {
-        return $this->getChildren()->toArray();
-    }
-
-    public function getNodeType()
-    {
-        return 'shop_category';
-    }
-
-    public function isNodeExternal()
-    {
-        return true;
-    }
-
-    public function execute(Controller &$controller)
-    {
-        // TODO: Implement execute() method.
     }
 }

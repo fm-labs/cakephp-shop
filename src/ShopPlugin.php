@@ -27,9 +27,21 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     public function implementedEvents()
     {
         return [
+            'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.get' => 'getSettings',
             'Backend.Menu.get' => ['callable' => 'getBackendMenu', 'priority' => 5 ],
             'Backend.Routes.build' => 'buildBackendRoutes'
+        ];
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function getContentPageTypes(Event $event)
+    {
+        $event->result['shop_category'] = [
+            'title' => 'Shop Category',
+            'className' => 'Shop.ShopCategory'
         ];
     }
 
