@@ -1,10 +1,8 @@
 <?php
-use Backend\Lib\Backend;
-use Banana\Lib\ClassRegistry;
+use Banana\Lib\ClassRegistry; //@TODO Remove dependency. Use event system instead
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
-use Content\Lib\ContentManager;
 
 /**
  * Check dependencies
@@ -16,7 +14,9 @@ if (!Plugin::loaded('Content')) {
     throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);
 }
 
-// Mailman log config
+/**
+ * Log configuration
+ */
 if (!Log::config('shop')) {
     Log::config('shop', [
         'className' => 'Cake\Log\Engine\FileLog',
