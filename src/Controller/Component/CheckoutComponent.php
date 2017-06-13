@@ -156,7 +156,11 @@ class CheckoutComponent extends Component
      */
     public function afterStep(Event $event)
     {
-        $this->request->session()->write('Shop.Order', $this->_order->toArray());
+        $order = null;
+        if ($this->_order) {
+            $order = $this->_order->toArray();
+        }
+        $this->request->session()->write('Shop.Order', $order);
     }
 
     /**
