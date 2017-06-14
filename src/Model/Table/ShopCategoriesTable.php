@@ -1,7 +1,10 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Cache\Cache;
 use Cake\Core\Plugin;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -205,5 +208,15 @@ class ShopCategoriesTable extends Table
     {
         //$rules->add($rules->existsIn(['parent_id'], 'ParentShopCategories'));
         return $rules;
+    }
+
+    /**
+     * @param Event $event
+     * @param EntityInterface $entity
+     * @param \ArrayObject $options
+     */
+    public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        Cache::clear(false, 'content_menu');
     }
 }
