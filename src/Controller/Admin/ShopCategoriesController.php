@@ -180,7 +180,6 @@ class ShopCategoriesController extends AppController
             ->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            debug($this->request->data);
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
