@@ -13,7 +13,7 @@ Rechnungsadresse:
 
 Zahlung:
 -----------------
-<?= $this->element('Shop.Email/text/order_payment_merchant', ['order' => $order]); ?>
+<?= $this->element('Shop.Email/text/order_payment_customer', ['order' => $order]); ?>
 
 
 Lieferadresse:
