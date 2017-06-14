@@ -20,7 +20,7 @@ class OrdersController extends AppController
     {
         parent::initialize();
         $this->Auth->deny([]);
-        $this->Auth->allow(['view']);
+        $this->Auth->allow(['view', 'process']);
     }
 
     /**

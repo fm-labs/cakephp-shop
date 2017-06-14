@@ -13,11 +13,10 @@ $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Checkout', 'ac
         <?= $this->Form->hidden('op', ['value' => 'signup']); ?>
 
         <?php if ($this->Form->error('email') && isset($user->errors('email')['_isUnique'])): ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-warning">
                 <h4><?= __d('shop','The email address {0} is already registered', $user->email); ?></h4>
-                <br />
                 <?= $this->Html->link(__d('shop','Forgot your password?'),
-                    ['plugin' => 'User', 'controller' => 'User', 'action' => 'password_reset', 'e' => base64_encode($newCustomer->email)]); ?>
+                    ['plugin' => 'User', 'controller' => 'User', 'action' => 'password_reset', 'e' => base64_encode($user->email)]); ?>
             </div>
         <?php endif; ?>
 

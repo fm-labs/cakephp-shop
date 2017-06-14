@@ -315,11 +315,15 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     protected function _getCcBrand()
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
+            if ($this->payment_info_1 == 'DELETED') {
+                return $this->payment_info_1;
+            }
+
             list($brand, $number) = explode(':', $this->payment_info_1);
 
             return $brand;
@@ -327,11 +331,15 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     protected function _getCcNumber()
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
+            if ($this->payment_info_1 == 'DELETED') {
+                return $this->payment_info_1;
+            }
+
             list($brand, $number) = explode(':', $this->payment_info_1);
 
             return $number;

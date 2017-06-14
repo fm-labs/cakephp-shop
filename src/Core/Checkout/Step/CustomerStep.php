@@ -32,7 +32,8 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     {
         if ($controller->request->data('op') == 'login') {
             return $this->_executeLogin($controller);
-        } elseif ($controller->request->data('op') == 'signup') {
+        } elseif ($controller->request->data('op') == 'signup'
+            || $controller->request->query('op') == 'signup') {
             return $this->_executeSignup($controller);
         //} elseif ($controller->request->query('guest')) {
         //    $controller->request->data['nologin'] = true;

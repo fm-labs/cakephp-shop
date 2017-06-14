@@ -28,11 +28,18 @@
                 <h2><?= __d('shop','I\'m a new customer'); ?></h2>
                 <div style="text-align: center; margin-top: 4em;">
 
+                    <!--
                     <?= $this->Form->create(null); ?>
                     <?= $this->Form->hidden('op', ['value' => 'signup']); ?>
                     <?= $this->Form->button(__d('shop','Als Neukunde fortfahren'),
                         ['class' => 'btn btn-large btn-primary']); ?>
                     <?= $this->Form->end(); ?>
+                    -->
+
+                    <?= $this->Html->link(__d('shop','Als Neukunde fortfahren'),
+                        ['action' => 'customer', $order->cartid, 'op' => 'signup'],
+                        ['class' => 'btn btn-large btn-primary']); ?>
+
                 </div>
 
                 <!--

@@ -99,12 +99,12 @@
             <?php endif; ?>
 
             <?php
-            // terms
+            //@TODO Use a configured content page for terms page/popup
+            $termsUrl = (Cake\Core\Configure::read('Shop.Pages.termsUrl')) ?: ['plugin' => 'Content', 'controller' => 'Pages', 'action' => 'view', 'slug' => 'terms'];
             $termsLink = $this->Html->link(__d('shop','I agree to the terms & conditions'),
-                ['plugin' => 'Content', 'controller' => 'Pages', 'action' => 'view', 'slug' => 'terms'], ['target' => '_blank', 'class' => 'link-modal']);
+                $termsUrl, ['target' => '_blank', 'class' => 'link-modal']);
             echo $this->Form->input('agree_terms', ['label' => $termsLink . '*', 'escape' => false]);
             ?>
-
         </div>
     </div>
 

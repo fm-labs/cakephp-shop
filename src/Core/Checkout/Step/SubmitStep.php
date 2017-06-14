@@ -34,7 +34,8 @@ class SubmitStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         if ($controller->request->is(['put', 'post'])) {
-            if (($order = $this->Checkout->submitOrder($controller->request->data)) && $order->is_temporary == false) {
+            $order = $this->Checkout->submitOrder($controller->request->data);
+            if ($order && empty($order->errors()) && $order->is_temporary == false) {
                 $controller->Flash->success(__d('shop', 'Order has been submitted'));
 
                 return $controller->redirect(['plugin' => 'Shop', 'controller' => 'Orders', 'action' => 'process', $order->uuid]);

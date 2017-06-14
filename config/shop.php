@@ -15,6 +15,10 @@ return [
             'en' => 'English',
         ],
 
+        'Pages' => [
+            'termsUrl' => '/content/terms'
+        ],
+
         'Layout' => [
             'default' => null,
             'checkout' => null,
