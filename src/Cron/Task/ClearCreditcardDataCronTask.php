@@ -28,7 +28,7 @@ class ClearCreditcardDataCronTask extends CronTask
     /**
      * @var int Number of days to keep information stored in db
      */
-    public $daysKeep = 3;
+    public $daysKeep = 4;
 
     /**
      * @return bool|CronTaskResult|null|mixed
