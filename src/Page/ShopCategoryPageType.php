@@ -6,6 +6,7 @@ use Banana\Menu\MenuItem;
 use Cake\Controller\Controller;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
+use Content\Controller\PagesController;
 use Content\Model\Entity\Page;
 use Content\Page\AbstractPageType;
 use Shop\Model\Entity\ShopCategory;
@@ -83,11 +84,15 @@ class ShopCategoryPageType extends AbstractPageType
         }
     }
 
+    /**
+     * @param EntityInterface $entity
+     * @return bool|mixed
+     */
     public function isEnabled(EntityInterface $entity)
     {
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
-            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
             return $category->is_published;
         } elseif ($entity instanceof ShopCategory) {
             return $entity->is_published;
@@ -95,7 +100,20 @@ class ShopCategoryPageType extends AbstractPageType
         return false;
     }
 
+    /**
+     * @param Controller $controller
+     * @param EntityInterface $entity
+     * @return
+     */
     public function execute(Controller &$controller, EntityInterface $entity)
     {
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
+            $url = $category->url;
+            $controller->redirect($url);
+        } elseif ($entity instanceof ShopCategory) {
+            $controller->redirect($entity->url);
+        }
     }
 }
