@@ -63,19 +63,6 @@ class ShopCategoriesTable extends Table
             'alias' => 'ContentModules',
             'scope' => 'Shop.ShopCategories'
         ]);
-        /*
-        $this->addBehavior('Attachment.Attachment', [
-            'dataDir' =>  MEDIA . 'gallery' . DS,
-            'dataUrl' => MEDIA_URL . '/gallery',
-            'fields' => [
-                'preview_image_file' => [
-                ],
-                'featured_image_file' => [
-                    //'multiple' => true
-                ]
-            ]
-        ]);
-        */
 
         if (Plugin::loaded('Media')) {
             $this->addBehavior('Media.Media', [

@@ -1,9 +1,11 @@
 <?php
 namespace Shop\Controller;
 
+use Cake\Event\Event;
 use Content\Controller\Component\FrontendComponent;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
+use Phinx\Config\Config;
 use Shop\Model\Table\ShopCategoriesTable;
 
 /**
@@ -14,10 +16,20 @@ use Shop\Model\Table\ShopCategoriesTable;
  */
 class CategoriesController extends AppController
 {
+    /**
+     * @var string
+     */
     public $modelClass = 'Shop.ShopCategories';
 
+    /**
+     * @var string
+     */
     public $viewClass = 'Shop.ShopCategory';
 
+    /**
+     * Initialize
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();
@@ -26,6 +38,16 @@ class CategoriesController extends AppController
         $this->Frontend->setRefScope('Shop.ShopCategories');
 
         $this->Auth->allow();
+    }
+
+    /**
+     * @param Event $event
+     * @return \Cake\Network\Response|null|void
+     */
+    public function beforeFilter(Event $event)
+    {
+        //@TODO Use ShopComponent to override controller layouts by configuration
+        $this->viewBuilder()->layout(Configure::read('Shop.Categories.layout'));
     }
 
     /**

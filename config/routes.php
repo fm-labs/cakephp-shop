@@ -69,7 +69,19 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['_name' => 'customer']
     );
 
-    if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls') && false == true):
+    $routes->connect('/categories/:action/:id/*',
+        ['controller' => 'Categories'],
+        ['pass' => ['id']]
+    );
+    $routes->connect('/categories/:action/:id',
+        ['controller' => 'Categories'],
+        ['pass' => ['id']]
+    );
+    $routes->connect('/categories/:action',
+        ['controller' => 'Categories'],
+        ['pass' => []]
+    );
+    if (Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')):
 
         // shop product routes
         //@TODO add product_id regex pattern

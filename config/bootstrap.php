@@ -34,20 +34,16 @@ Configure::load('Shop.shop');
 
 /**
  * Register classes
+ * @deprecated
  */
 ClassRegistry::register('PostType', [
     'shop_category' => 'Shop\Model\Entity\Post\ShopCategoryPostType'
-]);
-
-ClassRegistry::register('NodeType', [
-    'shop_category' => 'Shop\Model\Entity\Node\ShopCategoryNodeType',
 ]);
 
 ClassRegistry::register('ContentModule', [
     'shop_random_category_product' => 'Shop\View\Cell\RandomCategoryProductModuleCell'
 ]);
 
-// @deprecated
 ClassRegistry::register('PageType', [
     'shop_category' => 'Shop\Page\ShopCategoryPageType'
 ]);
