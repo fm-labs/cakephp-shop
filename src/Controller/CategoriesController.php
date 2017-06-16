@@ -34,6 +34,7 @@ class CategoriesController extends AppController
     {
         parent::initialize();
 
+        //$this->loadComponent('RequestHandler');
         $this->loadComponent('Shop.Cart');
         $this->Frontend->setRefScope('Shop.ShopCategories');
 
@@ -48,6 +49,11 @@ class CategoriesController extends AppController
     {
         //@TODO Use ShopComponent to override controller layouts by configuration
         $this->viewBuilder()->layout(Configure::read('Shop.Categories.layout'));
+
+        //if ($this->request->param('_ext') === 'json') {
+        //    $this->viewBuilder()->layout(false);
+        //    $this->RequestHandler->renderAs($this, 'json');
+        //}
     }
 
     /**
@@ -126,6 +132,8 @@ class CategoriesController extends AppController
      */
     public function view($id = null)
     {
+        //debug($this->request);
+
         $slug = null;
         $id = ($id) ?: $this->request->param('category_id');
         $id = ($id) ?: $this->request->query('category_id');

@@ -2,8 +2,9 @@
 use Cake\Routing\Router;
 
 // Shop frontend routes
-Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function ($routes) {
+Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function (\Cake\Routing\RouteBuilder $routes) {
 
+    //$routes->addExtensions(['json', 'xml']);
     $routes->routeClass('Cake\Routing\Route\DashedRoute');
 
     $routes->connect('/',
