@@ -39,7 +39,7 @@
                             return $this->Status->label($val);
                         }],
                         'shop_customer_id' => ['formatter' => function($val, $row) {
-                            return ($row->shop_customer) ? $this->Html->link($row->shop_customer->displayName, '#') : null;
+                            return ($row->shop_customer) ? $this->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
                         }],
                         'submitted' => [],
                         'nr_formatted' => ['formatter' => function($val, $row) {
@@ -54,6 +54,8 @@
                         'payment_info_1' => [],
                         'payment_info_2' => [],
                         'payment_info_3' => [],
+                        'customer_phone' => [],
+                        'customer_mail' => [],
                         'is_temporary' => [],
                         'is_storno' => [],
                         'is_deleted' => [],

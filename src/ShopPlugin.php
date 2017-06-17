@@ -158,5 +158,6 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
         EventManager::instance()->on(new \Shop\Event\CustomerListener());
         EventManager::instance()->on(new \Shop\Event\PaymentListener());
         EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
+        EventManager::instance()->on(new \Shop\Sitemap\SitemapListener());
     }
 }

@@ -2,13 +2,16 @@
 namespace Shop\Model\Table;
 
 use Cake\Cache\Cache;
+use Cake\Collection\Collection;
 use Cake\Core\Plugin;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Routing\Router;
 use Cake\Validation\Validator;
+use Seo\Sitemap\SitemapLocation;
 use Shop\Model\Entity\ShopCategory;
 
 /**
@@ -205,5 +208,40 @@ class ShopCategoriesTable extends Table
     public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         Cache::clear(false, 'content_menu');
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function findSitemap()
+    {
+        $locations = [];
+        $categories = $this->find('published')->find('threaded')->order(['lft' => 'ASC'])->contain([])->all();
+        $this->_buildSitemap($locations, $categories);
+
+        return new Collection($locations);
+    }
+
+    /**
+     * @param $locations
+     * @param $pages
+     * @return void
+     */
+    protected function _buildSitemap(&$locations, $categories, $level = 0)
+    {
+        foreach ($categories as $category) {
+
+            $url = Router::url($category->url, true);
+            $priority = 1 - ( $level / 10 );
+            $lastmod = $category->modified;
+            $changefreq = 'weekly';
+
+            $locations[] = new SitemapLocation($url, $priority, $lastmod, $changefreq);
+
+            if ($category->children) {
+                $this->_buildSitemap($locations, $category->children, $level + 1);
+            }
+        }
     }
 }

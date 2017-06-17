@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Collection\Collection;
 use Cake\Collection\Iterator\MapReduce;
 use Cake\Core\Plugin;
 use Cake\Event\Event;
@@ -9,7 +10,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use Cake\Validation\Validator;
+use Seo\Sitemap\SitemapLocation;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopProduct;
 use User\Controller\Component\AuthComponent;
@@ -293,5 +296,46 @@ class ShopProductsTable extends Table
     {
         return $this->find()
             ->where(['parent_id' => $id, 'is_published' => true]);
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function findSitemap()
+    {
+        $locations = [];
+
+        $this->locale('de');
+        $this->ShopCategories->locale('de');
+
+        $products = $this
+            ->find('published')
+            ->find('translations')
+            ->contain(['ShopCategories'  => function ($query) {
+                return $query->find('translations');
+            }]);
+
+        $this->_buildSitemap($locations, $products);
+
+        return new Collection($locations);
+    }
+
+    /**
+     * @param $locations
+     * @param $pages
+     * @return void
+     */
+    protected function _buildSitemap(&$locations, $products, $level = 0)
+    {
+        foreach ($products as $product) {
+
+            $url = Router::url($product->url, true);
+            $priority = 0.9;
+            $lastmod = $product->modified;
+            $changefreq = 'weekly';
+
+            $locations[] = new SitemapLocation($url, $priority, $lastmod, $changefreq);
+        }
     }
 }
