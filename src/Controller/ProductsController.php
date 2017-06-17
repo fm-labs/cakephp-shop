@@ -18,8 +18,14 @@ use User\Controller\Component\AuthComponent;
  */
 class ProductsController extends AppController
 {
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopProducts";
 
+    /**
+     * Initialize
+     */
     public function initialize()
     {
         parent::initialize();
@@ -31,6 +37,9 @@ class ProductsController extends AppController
         $this->Auth->allow(null);
     }
 
+    /**
+     * @param null $categoryId
+     */
     public function index($categoryId = null)
     {
         if ($categoryId === null) {
@@ -69,10 +78,9 @@ class ProductsController extends AppController
     {
         $this->viewBuilder()->className('Shop.ShopProduct');
 
-        if ($this->request->is(['post']) && $this->request->data('id')) {
+        if ($this->request->is(['post', 'put']) && $this->request->data('id')) {
             $id = $this->request->data('id');
-            $shopProduct = $this->ShopProducts->get($id);
-
+            $shopProduct = $this->ShopProducts->get($id, ['contain' => []]);
             return $this->redirect($shopProduct->url);
         }
 

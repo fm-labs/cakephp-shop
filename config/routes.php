@@ -127,6 +127,18 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
 
     endif;
 
+    $routes->connect('/products/:action/:id/*',
+        ['controller' => 'Products'],
+        ['pass' => ['id']]
+    );
+    $routes->connect('/products/:action/:id',
+        ['controller' => 'Products'],
+        ['pass' => ['id']]
+    );
+    $routes->connect('/products/:action',
+        ['controller' => 'Products'],
+        ['pass' => []]
+    );
 
     //$routes->connect('/:controller/:action');
     //$routes->connect('/:controller');

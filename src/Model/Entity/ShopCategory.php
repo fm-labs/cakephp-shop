@@ -108,7 +108,19 @@ class ShopCategory extends Entity
         ])->first();
     }
 
+    /**
+     * @return array
+     */
     protected function _getUrl()
+    {
+        return $this->getViewUrl();
+    }
+
+    /**
+     * @return array
+     * @todo: Use _getUrl() instead
+     */
+    protected function _getViewUrl()
     {
         return $this->getViewUrl();
     }
