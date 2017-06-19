@@ -44,7 +44,7 @@ class ShopCustomerAddressesController extends AppController
             $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int)$filter['shop_customer_id'];
         }
 
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -56,7 +56,7 @@ class ShopCustomerAddressesController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

@@ -87,7 +87,7 @@ class ShopProductsController extends AppController
         $this->set('fields', $fields);
         $this->set('fields.whitelist', ['sku', 'title', 'shop_category.name', 'is_buyable', 'is_published']);
 
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -138,7 +138,7 @@ class ShopProductsController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

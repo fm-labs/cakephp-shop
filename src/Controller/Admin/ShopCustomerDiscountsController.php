@@ -36,7 +36,7 @@ class ShopCustomerDiscountsController extends AppController
 
         ]);
         $this->set('fields.whitelist', true);
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -48,7 +48,7 @@ class ShopCustomerDiscountsController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

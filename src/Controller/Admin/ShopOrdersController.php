@@ -3,8 +3,6 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Shop\Controller\Admin\AppController;
-use Tcpdf\View\PdfView;
 
 /**
  * ShopOrders Controller
@@ -21,6 +19,7 @@ class ShopOrdersController extends AppController
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
+        //'print_order' => 'Shop.PrintOrder'
     ];
 
     /**
@@ -79,7 +78,7 @@ class ShopOrdersController extends AppController
 
         ]);
 
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -245,6 +244,7 @@ class ShopOrdersController extends AppController
      * @param string|null $id Shop Order id.
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * //@TODO Implement emailOwnerOrderNotify action
      */
     public function emailOwnerOrderNotify($id = null)
     {

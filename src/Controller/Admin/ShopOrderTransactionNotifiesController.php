@@ -18,7 +18,7 @@ class ShopOrderTransactionNotifiesController extends AppController
      */
     public function index()
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -30,7 +30,7 @@ class ShopOrderTransactionNotifiesController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

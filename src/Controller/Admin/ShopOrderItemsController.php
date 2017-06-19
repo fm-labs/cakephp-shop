@@ -87,7 +87,7 @@ class ShopOrderItemsController extends AppController
             [__d('shop', 'View'), ['action' => 'view', ':id']]
         ]);
 
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -99,7 +99,7 @@ class ShopOrderItemsController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

@@ -48,7 +48,7 @@ class ShopCustomersController extends AppController
                 return ($val) ? $view->Html->link($row->user->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $row->user->id]) : null;
             }]
         ]);
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -60,7 +60,7 @@ class ShopCustomersController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

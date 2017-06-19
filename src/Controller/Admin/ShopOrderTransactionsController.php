@@ -24,7 +24,7 @@ class ShopOrderTransactionsController extends AppController
 
         $this->set('fields.blacklist', ['custom1', 'custom2', 'created', 'modified']);
 
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -36,7 +36,7 @@ class ShopOrderTransactionsController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**

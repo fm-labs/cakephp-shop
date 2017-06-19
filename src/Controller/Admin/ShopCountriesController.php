@@ -39,7 +39,7 @@ class ShopCountriesController extends AppController
      */
     public function index()
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
@@ -51,7 +51,7 @@ class ShopCountriesController extends AppController
      */
     public function view($id = null)
     {
-        $this->Backend->executeAction();
+        $this->Action->execute();
     }
 
     /**
