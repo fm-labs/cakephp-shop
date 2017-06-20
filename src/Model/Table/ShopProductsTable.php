@@ -225,13 +225,47 @@ class ShopProductsTable extends Table
 
             if (Shop::config('Shop.CustomerDiscounts.enabled') == true && isset($options['for_customer'])) {
                 $ShopCustomerDiscounts = TableRegistry::get('Shop.ShopCustomerDiscounts');
-                $userDiscounts = $ShopCustomerDiscounts->find()->where([
+
+                debug($options['for_customer']);
+
+                // find customer discounts for specific product
+                $customerDiscount = $ShopCustomerDiscounts->find()->where([
                     'shop_customer_id' => $options['for_customer'],
                     'shop_product_id' => $row['id'],
-                    'published' => true
-                ])->all();
+                    'is_published' => true
+                ])->first();
 
-                //@TODO Implement customer discount price mod
+                // find customer discounts, if no product discount found
+                if (!$customerDiscount) {
+                    $customerDiscount = $ShopCustomerDiscounts->find()->where([
+                        'shop_customer_id' => $options['for_customer'],
+                        'shop_product_id IS' => null,
+                        'is_published' => true
+                    ])->first();
+                }
+
+                // apply customer discount
+                if ($customerDiscount) {
+                    switch ($customerDiscount->valuetype) {
+                        case "percent":
+                            $discount = $row['price_net_original'] * ($customerDiscount->value / 100);
+                            break;
+
+                        case "value":
+                            $discount = $customerDiscount->value;
+                            break;
+
+                        default:
+                            //@TODO Handle unsupported customer discount value type
+                    }
+
+                    // make sure discount is not higher than original price
+                    if (isset($discount)) {
+                        $discount = min($row['price_net_original'], $discount);
+
+                        $row['price_net'] = $row['price_net_original'] - $discount;
+                    }
+                }
             }
 
             $mapReduce->emitIntermediate($row, $key);

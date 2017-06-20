@@ -176,7 +176,9 @@ class CartComponent extends Component
      */
     protected function _getProduct($productId, $modelClass = 'Shop.ShopProducts')
     {
-        $product = $this->_getProductTable($modelClass)->get($productId);
+        $product = $this->_getProductTable($modelClass)->get($productId, [
+            'for_customer' => $this->Shop->getCustomerId()
+        ]);
 
         return $product;
     }
