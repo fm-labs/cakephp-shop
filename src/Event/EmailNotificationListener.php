@@ -5,10 +5,19 @@ namespace Shop\Event;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
-use Cake\Mailer\Email;
+use Shop\Mailer\CustomerMailer;
+use Shop\Mailer\OwnerMailer;
 
+/**
+ * Class EmailNotificationListener
+ *
+ * @package Shop\Event
+ */
 class EmailNotificationListener implements EventListenerInterface
 {
+    /**
+     * @return array
+     */
     public function implementedEvents()
     {
         return [
@@ -17,9 +26,12 @@ class EmailNotificationListener implements EventListenerInterface
         ];
     }
 
+    /**
+     * @param Event $event
+     * @return void
+     */
     public function afterOrderSubmit(Event $event)
     {
-
         $ShopOrders = $event->subject();
 
         $orderId = $event->data['order']['id'];
@@ -29,41 +41,30 @@ class EmailNotificationListener implements EventListenerInterface
         if (!$order) {
             Log::error('Unable to send order notification: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
 
-            return false;
-        }
-
-        $mailer = new \Mailman\Mailer\MailmanMailer();
-
-        // Email to Owner
-        try {
-            $email = new Email('shop_notify');
-            $email->subject("Neue Webshop Bestellung " . $order->nr_formatted);
-            $email->template('Shop.merchant/order_submit');
-            $email->viewVars(['order' => $order]);
-            $mailer->sendEmail($email);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage(), ['email', 'shop']);
+            return;
         }
 
         // Email to User
         try {
-            $email = new Email('shop_customer_notify');
-            $email
-                ->subject("Ihre Bestellung " . $order->nr_formatted)
-                ->to($order->shop_customer->email)
-                //->emailFormat('text')
-                ->template('Shop.customer/order_submit')
-                ->viewVars(['order' => $order]);
-
-            $mailer->sendEmail($email);
+            (new CustomerMailer())->sendOrderSubmission($order);
         } catch (\Exception $ex) {
-            Log::error($ex->getMessage(), ['email', 'shop']);
+            Log::error($ex->getMessage(), ['shop']);
+        }
+
+        // Email to Owner
+        try {
+            (new OwnerMailer())->notifyOrderSubmission($order);
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage(), ['shop']);
         }
     }
 
+    /**
+     * @param Event $event
+     * @return void
+     */
     public function afterOrderConfirm(Event $event)
     {
-
         $ShopOrders = $event->subject();
 
         $orderId = $event->data['order']['id'];
@@ -73,35 +74,21 @@ class EmailNotificationListener implements EventListenerInterface
         if (!$order) {
             Log::error('Unable to send order confirmation: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
 
-            return false;
-        }
-
-        $mailer = new \Mailman\Mailer\MailmanMailer();
-
-        // Email to Owner
-        try {
-            $email = new Email('shop_notify');
-            $email->subject("Neue Webshop Bestellung " . $order->nr_formatted);
-            $email->template('Shop.merchant/order_submit');
-            $email->viewVars(['order' => $order]);
-            $mailer->sendEmail($email);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage(), ['email', 'shop']);
+            return;
         }
 
         // Email to User
         try {
-            $email = new Email('shop_customer_notify');
-            $email
-                ->subject("Ihre Bestellung " . $order->nr_formatted)
-                ->to($order->shop_customer->email)
-                //->emailFormat('text')
-                ->template('Shop.customer/order_submit')
-                ->viewVars(['order' => $order]);
-
-            $mailer->sendEmail($email);
+            (new CustomerMailer())->sendOrderConfirmation($order);
         } catch (\Exception $ex) {
-            Log::error($ex->getMessage(), ['email', 'shop']);
+            Log::error($ex->getMessage(), ['shop']);
+        }
+
+        // Email to Owner
+        try {
+            (new OwnerMailer())->notifyOrderConfirmation($order);
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage(), ['shop']);
         }
     }
 }
