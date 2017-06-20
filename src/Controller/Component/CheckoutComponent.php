@@ -72,7 +72,6 @@ class CheckoutComponent extends Component
      */
     public function initialize(array $config)
     {
-        //$this->ShopOrders = $this->_registry->getController()->loadModel('Shop.ShopOrders');
         $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
         $this->ShopOrders->eventManager()->on($this);
         $this->_stepRegistry = new CheckoutStepRegistry($this);
@@ -93,7 +92,9 @@ class CheckoutComponent extends Component
         $this->_steps = $steps;
         $this->_active = key($steps);
 
-        $this->getController()->Auth->allow($this->_stepRegistry->loaded());
+        if ($this->_registry->has('Auth')) {
+            $this->_registry->get('Auth')->allow($this->_stepRegistry->loaded());
+        }
     }
 
     /**

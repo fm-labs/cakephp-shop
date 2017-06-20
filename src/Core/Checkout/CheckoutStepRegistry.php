@@ -96,14 +96,25 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
     }
 
     /**
+     * @param string $objectName The name/class of the object to load.
+     * @param array $config Additional settings to use when loading the object.
+     * @return mixed
+     */
+    public function load($objectName, $config = [])
+    {
+        return parent::load($objectName, $config);
+    }
+
+    /**
      * Remove a single checkout step from the registry.
      *
-     * @param string $name The checkout step name.
+     * @param string $objectName The checkout step name.
      * @return void
      */
-    public function unload($name)
+    public function unload($objectName)
     {
-        unset($this->_loaded[$name]);
+        //parent::unload($objectName); // @TODO Use parent unload() method
+        unset($this->_loaded[$objectName]);
     }
 
     /**
@@ -114,7 +125,7 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
      */
     public function current()
     {
-        return $this->get($this->_current);
+        return $this->get($this->key());
     }
 
     /**
@@ -125,6 +136,9 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
      */
     public function key()
     {
+        if ($this->_current === null) {
+            $this->rewind();
+        }
         return $this->_current;
     }
 
@@ -137,17 +151,10 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
      */
     public function valid()
     {
-        if (!$this->_current) {
+        if (!$this->_current || !$this->has($this->_current)) {
             return false;
         }
 
-        if (!$this->has($this->_current)) {
-            throw new \OutOfBoundsException("Step not loaded: " . $this->_current);
-        }
-
-        //if ($this->current()->isComplete()) {
-        //    throw new IncompleteStepException();
-        //}
         return true;
     }
 
