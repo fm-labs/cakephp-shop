@@ -29,27 +29,25 @@ class OwnerMailer extends Mailer
 
     /**
      * @param ShopOrder $order
-     * @return array
+     * @return void
      */
-    public function notifyOrderSubmission(ShopOrder $order)
+    public function orderSubmissionNotify(ShopOrder $order)
     {
-        return $this
+        $this
             ->subject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
             ->template('Shop.merchant/order_submit')
-            ->viewVars(['order' => $order])
-            ->send();
+            ->viewVars(['order' => $order]);
     }
 
     /**
      * @param ShopOrder $order
-     * @return array
+     * @return void
      */
-    public function notifyOrderConfirmation(ShopOrder $order)
+    public function orderConfirmationNotify(ShopOrder $order)
     {
-        return $this
+        $this
             ->subject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
             ->template('Shop.merchant/order_submit')
-            ->viewVars(['order' => $order])
-            ->send();
+            ->viewVars(['order' => $order]);
     }
 }

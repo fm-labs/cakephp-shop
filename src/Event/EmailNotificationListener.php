@@ -46,14 +46,14 @@ class EmailNotificationListener implements EventListenerInterface
 
         // Email to User
         try {
-            (new CustomerMailer())->sendOrderSubmission($order);
+            (new CustomerMailer())->send('orderSubmission', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }
 
         // Email to Owner
         try {
-            (new OwnerMailer())->notifyOrderSubmission($order);
+            (new OwnerMailer())->send('orderSubmissionNotify', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }
@@ -79,14 +79,14 @@ class EmailNotificationListener implements EventListenerInterface
 
         // Email to User
         try {
-            (new CustomerMailer())->sendOrderConfirmation($order);
+            (new CustomerMailer())->send('orderConfirmation', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }
 
         // Email to Owner
         try {
-            (new OwnerMailer())->notifyOrderConfirmation($order);
+            (new OwnerMailer())->send('orderConfirmationNotify', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }

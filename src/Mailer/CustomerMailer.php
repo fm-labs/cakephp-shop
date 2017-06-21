@@ -28,30 +28,28 @@ class CustomerMailer extends Mailer
 
     /**
      * @param ShopOrder $order
-     * @return array
+     * @return void
      */
-    public function sendOrderSubmission(ShopOrder $order)
+    public function orderSubmission(ShopOrder $order)
     {
-        return $this
+        $this
             ->subject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
             ->to($order->shop_customer->user->email)
             ->template('Shop.customer/order_submit')
-            ->viewVars(['order' => $order])
-            ->send();
+            ->viewVars(['order' => $order]);
     }
 
     /**
      * @param ShopOrder $order
-     * @return array
+     * @return void
      */
-    public function sendOrderConfirmation(ShopOrder $order)
+    public function orderConfirmation(ShopOrder $order)
     {
-        return $this
+        $this
             ->subject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
             ->to($order->shop_customer->user->email)
             ->template('Shop.customer/order_submit')
-            ->viewVars(['order' => $order])
-            ->send();
+            ->viewVars(['order' => $order]);
     }
 
 }
