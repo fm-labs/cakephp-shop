@@ -2,15 +2,36 @@
 
 namespace Shop\Shell\Task;
 
+/**
+ * Class ProductImportTask
+ *
+ * @package Shop\Shell\Task
+ */
 class ProductImportTask extends BaseShopTask
 {
+    /**
+     * @var array
+     */
     protected $_categoryCache = [];
 
+    /**
+     * @var array
+     */
     protected $_import = [];
 
+    /**
+     * @var string
+     */
     protected $_variantRootSku;
+
+    /**
+     * @var int
+     */
     protected $_variantRootId;
 
+    /**
+     * @return \Cake\Console\ConsoleOptionParser
+     */
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
@@ -85,6 +106,9 @@ class ProductImportTask extends BaseShopTask
         return $parser;
     }
 
+    /**
+     * Main method
+     */
     public function main()
     {
         $this->out("-- Shop Import --");
@@ -362,6 +386,11 @@ class ProductImportTask extends BaseShopTask
         $this->out("<success>Import successful!</success>");
     }
 
+    /**
+     * @param $categoryName
+     * @param null $parentId
+     * @return bool
+     */
     protected function _createCategory($categoryName, $parentId = null)
     {
         $category = $this->ShopCategories->newEntity([
@@ -380,6 +409,12 @@ class ProductImportTask extends BaseShopTask
         return $this->ShopCategories->save($category);
     }
 
+    /**
+     * @param $categoryString
+     * @param null $parentId
+     * @param bool|false $forceParent
+     * @return bool
+     */
     protected function _findCategoryFromString($categoryString, $parentId = null, $forceParent = false)
     {
         $key = md5($categoryString);
@@ -410,6 +445,11 @@ class ProductImportTask extends BaseShopTask
         return $this->_categoryCache[$key];
     }
 
+    /**
+     * @param $line
+     * @param $msg
+     * @param string $stat
+     */
     protected function _importError($line, $msg, $stat = 'skipped')
     {
         $this->_import[$stat]++;

@@ -4,21 +4,31 @@ namespace Shop\Shell;
 use Cake\Console\Shell;
 use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopProductsTable;
+use Shop\Shell\Task\CustomerIntegrityCheckTask;
+use Shop\Shell\Task\ProductImportTask;
 
 /**
  * Class ShopShell
- * @package Shop\Shell
  *
+ * @package Shop\Shell
+ * @property ProductImportTask $ProductImport
+ * @property CustomerIntegrityCheckTask $CustomerIntegrityCheck
  * @property ShopOrdersTable $ShopOrders
  * @property ShopProductsTable $ShopProducts
  */
 class ShopShell extends Shell
 {
-
+    /**
+     * @var array
+     */
     public $tasks = [
-        'Shop.ProductImport'
+        'Shop.ProductImport',
+        'Shop.CustomerIntegrityCheck'
     ];
 
+    /**
+     * @return \Cake\Console\ConsoleOptionParser
+     */
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
@@ -26,7 +36,10 @@ class ShopShell extends Shell
             'help' => 'Import shop products from CSV file',
             'parser' => $this->ProductImport->getOptionParser()
         ]);
-
+        $parser->addSubcommand('customer_integrity_check', [
+            'help' => 'Check customer data integrity',
+            'parser' => $this->CustomerIntegrityCheck->getOptionParser()
+        ]);
         $parser->addSubcommand('clean_temp_orders', [
             'help' => 'Execute cleanTempOrders'
         ]);
@@ -43,12 +56,9 @@ class ShopShell extends Shell
         return $parser;
     }
 
-    /*
-    public function main()
-    {
-    }
-    */
-
+    /**
+     * Cleanup temporary orders
+     */
     public function cleanTempOrders()
     {
         $this->loadModel('Shop.ShopOrders');
@@ -72,6 +82,12 @@ class ShopShell extends Shell
         }
     }
 
+    /**
+     * Patch product prices
+     * Parse price as gros-price and patch to net-price
+     *
+     * @deprecated
+     */
     public function patchProductPrice()
     {
         $this->loadModel('Shop.ShopProducts');
@@ -113,6 +129,10 @@ class ShopShell extends Shell
         $this->out("Failed: $failed");
     }
 
+    /**
+     * Patch order numbers
+     * Assign order numbers to non-temporary orders
+     */
     public function patchOrderNumbers()
     {
         $this->out('<info>Patching order numbers</info>');
@@ -146,6 +166,9 @@ class ShopShell extends Shell
         }
     }
 
+    /**
+     * Patch order's customer_email data field from customer's email info
+     */
     public function patchOrderCustomerEmail()
     {
         $this->out('<info>Patching order customer_email from shop-customers email</info>');
@@ -176,4 +199,15 @@ class ShopShell extends Shell
 
         $this->out("<info>Patched: $patched - Failed: $failed</info>");
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function _welcome()
+    {
+        $this->out();
+        $this->out(sprintf('<info>Welcome to Shop Console</info>'));
+        $this->hr();
+    }
+
 }
