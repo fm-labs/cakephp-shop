@@ -21,8 +21,5 @@ use Cake\Core\Configure;
             </div>
         <?php endif; ?>
 
-        User Price: <?= $shopProduct->user_price_net; ?>
-
-
     <?php endif; ?>
 </div>
