@@ -1,2 +1,4 @@
 <h4>Email Versand</h4>
-Testergebnisse an: <?= h($order->customer_email); ?>
+<p>
+    Testergebnisse an: <?= h($order->shop_customer->email); ?>
+</p>

@@ -52,7 +52,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 debug($order->errors());
                 $Checkout->getController()->Flash->error("Failed to update payment info");
             }
-        } elseif (!$Checkout->request - query('change')) {
+        } elseif (!$Checkout->request->query('change')) {
             return $Checkout->redirectNext();
         }
     }

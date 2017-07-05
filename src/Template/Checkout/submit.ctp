@@ -35,7 +35,7 @@
 
             <h2>
                 <?= __d('shop','Payment Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', $order->cartid, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', $order->cartid, 'change' => 1, 'ref' => 'review']); ?></small>
             </h2>
             <div class="inner">
                 <div class="desc payment-desc">
@@ -101,7 +101,7 @@
             <?php
             //@TODO Use a configured content page for terms page/popup
             $termsUrl = (Cake\Core\Configure::read('Shop.Pages.termsUrl')) ?: ['plugin' => 'Content', 'controller' => 'Pages', 'action' => 'view', 'slug' => 'terms'];
-            $termsLink = $this->Html->link(__d('shop','I agree to the terms & conditions'),
+            $termsLink = $this->Html->link(__d('shop','I agree to the terms & conditions and accept the privacy policy'),
                 $termsUrl, ['target' => '_blank', 'class' => 'link-modal']);
             echo $this->Form->input('agree_terms', ['label' => $termsLink . '*', 'escape' => false]);
             ?>

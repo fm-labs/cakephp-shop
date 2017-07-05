@@ -123,7 +123,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
             if ($user && $user->id) {
                 // create a shop customer profile for user
                 // @TODO DIY. The CustomerListener creates shop customer profile on login
-                $customer = $controller->ShopCustomers->createFromUser($user, true);
+                $customer = $controller->ShopCustomers->createFromUser($user, $controller->request->data);
 
                 // authenticate user
                 // @TODO Make 'automatic user login after signup' configurable

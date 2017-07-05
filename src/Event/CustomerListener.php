@@ -5,21 +5,55 @@ namespace Shop\Event;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
-use Shop\Event\ShopEventListener;
 
+/**
+ * Class CustomerListener
+ *
+ * @package Shop\Event
+ */
 class CustomerListener extends ShopEventListener
 {
+    /**
+     * @return array
+     */
     public function implementedEvents()
     {
         return [
-            'User.login' => 'onUserLogin',
-            'User.logout' => 'onUserLogout',
-            'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit'
+            'User.login'                    => 'onUserLogin',
+            'User.logout'                   => 'onUserLogout',
+            'User.Model.User.register'      => 'onUserRegister',
+            'Shop.Model.Order.afterSubmit'  => 'afterOrderSubmit'
             //'Auth.identifyUser' => 'onUserLogin', // <-- Hmm, can't capture this event...
             //'Auth.logout' => 'onUserLogout',
         ];
     }
 
+    /**
+     * @param Event $event
+     */
+    public function onUserRegister(Event $event)
+    {
+        $user = $event->subject();
+        $customer = null;
+
+        try {
+            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUser($user, $event->data());
+        } catch (\Exception $ex) {
+            Log::error('CustomerEventListener::onUserRegister: ' . $ex->getMessage());
+        }
+
+        if ($customer) {
+            Log::debug('[shop] Set customer for user ' . $user->id);
+            //$event->subject()->request->session()->write('Shop.Customer', $customer->toArray());
+        } else {
+            Log::alert('[shop] Failed to create customer for user ' . $user->id);
+            //$event->subject()->request->session()->delete('Shop.Customer');
+        }
+    }
+
+    /**
+     * @param Event $event
+     */
     public function onUserLogin(Event $event)
     {
         // user login detected
@@ -53,6 +87,9 @@ class CustomerListener extends ShopEventListener
         }
     }
 
+    /**
+     * @param Event $event
+     */
     public function onUserLogout(Event $event)
     {
         $event->subject()->request->session()->delete('Shop.Customer');
@@ -61,6 +98,9 @@ class CustomerListener extends ShopEventListener
         $event->subject()->request->session()->delete('Shop.Checkout');
     }
 
+    /**
+     * @param Event $event
+     */
     public function afterOrderSubmit(Event $event)
     {
         $this->_logEvent(__FUNCTION__, $event);

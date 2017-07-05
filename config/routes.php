@@ -70,6 +70,10 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['_name' => 'customer']
     );
 
+    $routes->connect('/customer-addresses/:action',
+        ['controller' => 'CustomerAddresses', 'action' => 'index']
+    );
+
     $routes->connect('/categories/:action/:id/*',
         ['controller' => 'Categories'],
         ['pass' => ['id']]

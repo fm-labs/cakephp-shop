@@ -101,17 +101,18 @@ class ShopCustomersTable extends Table
     {
         $user = $this->Users->get($userId, ['contain' => []]);
 
-        return $this->createFromUser($user, $save);
+        return $this->createFromUser($user, [], $save);
     }
 
     /**
      * Create shop customer from given user entity
      *
      * @param EntityInterface $user
+     * @param array $data
      * @param bool|true $save
      * @return bool|EntityInterface|Entity|mixed
      */
-    public function createFromUser(EntityInterface $user, $save = true)
+    public function createFromUser(EntityInterface $user, array $data = [], $save = true)
     {
         // check if customer with email already exists
         $customer = $this->find()->where(['email' => $user->get('email')])->first();
@@ -120,10 +121,10 @@ class ShopCustomersTable extends Table
         }
 
         $customer->user_id = $user->get('id');
-        $customer->first_name = $user->get('first_name');
-        $customer->last_name = $user->get('last_name');
         $customer->email = $user->get('email');
 
+        $customer->accessible(['user_id', 'email'], false);
+        $customer = $this->patchEntity($customer, $data);
         if ($save === true) {
             $customer = $this->save($customer);
         }
