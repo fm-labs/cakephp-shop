@@ -286,9 +286,9 @@ class ShopOrdersController extends AppController
     {
         $events = parent::implementedEvents();
         $events['Action.Index.getRowActions'] = ['callable' => function (Event $event) {
-            $event->result[] = [__d('backend', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank']];
-            $event->result[] = [__d('backend', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank']];
-            $event->result[] = [__d('backend', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank']];
+            $event->result[] = [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank']];
         }];
 
         return $events;
