@@ -11,6 +11,10 @@ use Shop\Controller\Admin\AppController;
 class ShopOrderTransactionsController extends AppController
 {
 
+    public $paginate = [
+        'order' => ['ShopOrderTransactions.id' => 'DESC']
+    ];
+
     /**
      * Index method
      *

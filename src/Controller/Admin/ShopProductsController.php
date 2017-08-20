@@ -28,8 +28,6 @@ class ShopProductsController extends AppController
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
-        'publish'   => 'Backend.Publish',
-        'unpublish' => 'Backend.Unpublish'
     ];
 
     /**
@@ -138,6 +136,10 @@ class ShopProductsController extends AppController
      */
     public function view($id = null)
     {
+        $shopProduct = $this->ShopProducts->get($id);
+
+        $this->set('entity', $shopProduct);
+
         $this->Action->execute();
     }
 
@@ -195,6 +197,8 @@ class ShopProductsController extends AppController
         $this->set('locales', Configure::read('Shop.locales'));
         //$this->set('attributeSets', $this->ShopProducts->EavAttributeSets->find('list')->toArray());
         $this->set('_serialize', ['shopProduct']);
+
+        $this->Action->execute();
     }
 
     /**

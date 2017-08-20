@@ -15,6 +15,16 @@ return [
             'en' => 'English',
         ],
 
+        'Owner' => [
+            'name'          => 'Shop Owner',
+            'street1'       => 'Teststreet 42',
+            'street2'       => '',
+            'zipcode'       => '12345',
+            'city'          => 'Foo Town',
+            'country'       => 'Baz Country',
+            'taxId'			=> 'ATU12345678',
+        ],
+
         'Pages' => [
             'termsUrl' => '/content/terms'
         ],
@@ -106,6 +116,10 @@ return [
         'Catalogue' => [
             'index_category_id' => null
         ],
+
+        'Pdf' => [
+            'engine' => '\\Tcpdf\\Lib\\CakeTcpdf'
+        ]
 
     ]
 ];

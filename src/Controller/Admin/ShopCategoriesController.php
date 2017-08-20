@@ -25,6 +25,7 @@ class ShopCategoriesController extends AppController
      * @var array
      */
     public $actions = [
+        /*
         'index'     => 'Backend.TreeIndex',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
@@ -34,6 +35,7 @@ class ShopCategoriesController extends AppController
         'unpublish' => 'Backend.Unpublish',
         'moveUp'    => 'Backend.TreeMoveUp',
         'moveDown'  => 'Backend.TreeMoveDown',
+        */
     ];
 
     /**
@@ -80,11 +82,11 @@ class ShopCategoriesController extends AppController
         $this->set('fields.whitelist', ['name', 'is_published']);
 
         $this->set('actions', [
-            [
+            'add' => [
                 __d('shop', 'Add {0}', __d('shop', 'category')),
                 ['action' => 'add']
             ],
-            [
+            'sort' => [
                __d('shop', 'Sort'),
                ['plugin' => 'Backend', 'controller' => 'Tree', 'action' => 'index', 'model' => 'Shop.ShopCategories'],
                ['class' => 'link-modal-frame', 'data-modal-reload' => true, 'data-icon' => 'sitemap']
@@ -96,14 +98,13 @@ class ShopCategoriesController extends AppController
 
     /**
      * @deprecated Use TreeIndexAction instead
-     */
     public function indexTree()
     {
     }
+*/
 
     /**
      * @deprecated Use TreeDataAction instread
-     */
     public function treeData()
     {
         $this->viewBuilder()->className('Json');
@@ -133,6 +134,7 @@ class ShopCategoriesController extends AppController
         $this->set('treeData', $treeData);
         $this->set('_serialize', 'treeData');
     }
+*/
 
     /**
      * View method
@@ -148,8 +150,13 @@ class ShopCategoriesController extends AppController
             'media' => true
         ]);
 
-        $this->set('shopCategory', $shopCategory);
-        $this->set('_serialize', ['shopCategory']);
+        $this->set('model', 'Shop.ShopCategories');
+        $this->set('entity', $shopCategory);
+        //$this->set('shopCategory', $shopCategory);
+        $this->set('_serialize', ['entity']);
+
+        $this->noActionTemplate = true;
+        $this->Action->execute();
     }
 
     /**
@@ -192,6 +199,9 @@ class ShopCategoriesController extends AppController
         //$parentShopCategories = $this->ShopCategories->find('list');
 
         $this->set(compact('shopCategory', 'parentShopCategories'));
+
+        $this->noActionTemplate = true;
+        $this->Action->execute();
     }
 
     /**

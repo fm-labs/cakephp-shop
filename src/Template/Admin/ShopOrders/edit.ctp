@@ -3,17 +3,6 @@
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Order {0}', $shopOrder->nr_formatted), ['action' => 'view', $shopOrder->id]); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Edit')); ?>
-<?php $this->Toolbar->addPostLink(
-    __d('shop','Delete'),
-    ['action' => 'delete', $shopOrder->id],
-    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]
-)
-?>
-<?php $this->Toolbar->addLink(
-    __d('shop','List {0}', __d('shop','Shop Orders')),
-    ['action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),

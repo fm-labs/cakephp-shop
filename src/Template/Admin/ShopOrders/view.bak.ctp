@@ -1,24 +1,24 @@
-<?php $shopOrder = $entity; ?>
-<?php $this->extend('Backend./Admin/Action/view'); ?>
+<?php $this->extend('Backend./Base/index'); ?>
 <?php $this->loadHelper('Bootstrap.Tabs'); ?>
 <?php $this->loadHelper('Banana.Status'); ?>
 <?php $this->loadHelper('Number'); ?>
-<?php //$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
-<?php //$this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
-<?php //$this->Breadcrumbs->add(__d('shop','Order #{0}', $shopOrder->nr_formatted)); ?>
-<?php /*
- $this->Toolbar->addLink(
+<?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','Order #{0}', $shopOrder->nr_formatted)); ?>
+<?php $this->Toolbar->addLink(
     __d('shop','Edit {0}', __d('shop','Shop Order')),
     ['action' => 'edit', $shopOrder->id],
     ['data-icon' => 'edit']
-)
-  $this->Toolbar->addLink(
+) ?>
+<?php $this->Toolbar->addLink(
     __d('shop','Delete {0}', __d('shop','Shop Order')),
     ['action' => 'delete', $shopOrder->id],
-    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)])
- */ ?>
+    ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)]) ?>
 <?php $this->assign('title',__d('shop','Order {0}', $shopOrder->nr_formatted)); ?>
 <div class="shopOrders view">
+
+    <?= $this->Tabs->start(); ?>
+    <?= $this->Tabs->add(__d('shop','Order details')); ?>
 
     <div class="order">
 
@@ -83,13 +83,12 @@
             </div>
         </div>
 
-        <!--
         <div class="row">
             <div class="col-md-12">
                 <h3>Order Items</h3>
                 <div class="order-items">
                     <?php $pos = 0; // index counter work-around ?>
-                    <?php /* echo */ $this->cell('Backend.DataTable', [[
+                    <?= $this->cell('Backend.DataTable', [[
                         'paginate' => false,
                         'model' => 'Shop.ShopOrderItems',
                         'data' => $shopOrder->shop_order_items,
@@ -156,9 +155,39 @@
                 </div>
             </div>
         </div>
-        -->
+
 
     </div>
+
+
+    <!-- Tab:OrderItems -->
+    <?php $this->Tabs->add('Order Items', ['id' => 'order-items', 'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]]); ?>
+
+
+    <!-- Tab:OrderItems -->
+    <?php $this->Tabs->add('Transactions', ['id' => 'order-transactions', 'url' => ['controller' => 'ShopOrderTransactions', 'action' => 'index', 'shop_order_id' => $shopOrder->id]]); ?>
+
+    <!-- Tab:History
+    <?php // $this->Tabs->add('History', ['id' => 'order-history']); ?>
+    <div class="alert alert-warning">
+        <strong>No order history available</strong>
+    </div>
+    -->
+
+    <!-- Entity View -->
+    <?php $this->Tabs->add('Raw Data'); ?>
+    <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
+        'debug' => true,
+        'model' => 'Shop.ShopOrders',
+        'fields' => [],
+    ]); ?>
+
+    <?php $this->Tabs->add('Debug', ['debugOnly' => true]); ?>
+    <?php debug($shopOrder); ?>
+    <!-- @TODO Related data -->
+    <?= $this->Tabs->render(); ?>
+
+    <?php debug($this); ?>
 
 </div>
 

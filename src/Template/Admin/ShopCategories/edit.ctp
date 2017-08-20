@@ -10,16 +10,16 @@ $this->loadHelper('Bootstrap.Tabs');
 $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']);
 $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 ?>
-<?php $this->Toolbar->addLink(
+<?php /* $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
     ['controller' => 'ShopProducts', 'action' => 'add', 'shop_category_id' => $shopCategory->id],
     ['data-icon' => 'plus']
-) ?>
-<?php $this->Toolbar->addPostLink(
+) */ ?>
+<?php /* $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopCategory->id],
     ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]
-)
+) */
 ?>
 
 <?php $_locales = Configure::read('Shop.locales'); ?>
@@ -163,9 +163,9 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
     ]); ?>
 
     <!-- Debug -->
-    <?php $this->Tabs->add(__d('shop', 'Debug')); ?>
-    <?php debug($shopCategory); ?>
-    <?php debug($shopCategory->toArray()); ?>
+    <?php //$this->Tabs->add(__d('shop', 'Debug')); ?>
+    <?php //debug($shopCategory); ?>
+    <?php //debug($shopCategory->toArray()); ?>
 
 
     <?php echo $this->Tabs->render(); ?>

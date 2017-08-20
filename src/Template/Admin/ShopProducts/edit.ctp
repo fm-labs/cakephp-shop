@@ -5,12 +5,6 @@ $this->loadHelper('Media.Media');
 $this->Breadcrumbs->add(__d('shop', 'Shop Products'), ['action' => 'index']);
 $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Product')));
 ?>
-<?php $this->Toolbar->addPostLink(
-    __d('shop', 'Delete'),
-    ['action' => 'delete', $shopProduct->id],
-    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopProduct->id)]
-)
-?>
 <?php $this->assign('title', $shopProduct->title); ?>
 <div class="form">
 

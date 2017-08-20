@@ -20,6 +20,8 @@ use Shop\Model\Entity\ShopCategory;
  * @property \Cake\ORM\Association\BelongsTo $ParentShopCategories
  * @property \Cake\ORM\Association\HasMany $ChildShopCategories
  * @property \Cake\ORM\Association\HasMany $ShopProducts
+ *
+ * @method string|null locale(string $locale)
  */
 class ShopCategoriesTable extends Table
 {

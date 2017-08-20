@@ -1,31 +1,13 @@
 <?php
 use Cake\Core\Configure;
 
-$this->loadHelper('Bootstrap.Tabs');
+$this->extend('Backend./Admin/Action/view');
 $this->loadHelper('Media.Media');
+
+$shopCategory = $this->get('entity')
 ?>
 <?php $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']); ?>
 <?php $this->Breadcrumbs->add($shopCategory->name); ?>
-<?php $this->Toolbar->addLink(
-    __d('shop', 'Edit {0}', __d('shop', 'Shop Category')),
-    ['action' => 'edit', $shopCategory->id],
-    ['data-icon' => 'edit']
-) ?>
-<?php $this->Toolbar->addLink(
-    __d('shop', 'Delete {0}', __d('shop', 'Shop Category')),
-    ['action' => 'delete', $shopCategory->id],
-    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopCategory->id)]) ?>
-
-<?php $this->Toolbar->addLink(
-    __d('shop', 'List {0}', __d('shop', 'Shop Categories')),
-    ['action' => 'index'],
-    ['data-icon' => 'list']
-) ?>
-<?php $this->Toolbar->addLink(
-    __d('shop', 'New {0}', __d('shop', 'Shop Category')),
-    ['action' => 'add'],
-    ['data-icon' => 'plus']
-) ?>
 <div class="shopCategories view">
 
     <div class="actions text-right">

@@ -8,6 +8,7 @@ use Cake\Event\Event;
  * ShopOrders Controller
  *
  * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
+ * @property \Backend\Controller\Component\ActionComponent $Action
  */
 class ShopOrdersController extends AppController
 {
@@ -15,11 +16,13 @@ class ShopOrdersController extends AppController
      * @var array
      */
     public $actions = [
+        /*
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
         //'print_order' => 'Shop.PrintOrder'
+        */
     ];
 
     /**
@@ -28,7 +31,7 @@ class ShopOrdersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('RequestHandler');
+        //$this->loadComponent('RequestHandler');
     }
 
     /**
@@ -74,11 +77,23 @@ class ShopOrdersController extends AppController
             //'payment_status' => [],
             //'shipping_status' => [],
         ]);
-        $this->set('rowActions', [
 
+        /*
+        $this->set('rowActions', [
+            'print' => [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank', 'data-icon' => 'print']],
+            'pdfview' => [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']],
+            'pdfdownload' => [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']]
         ]);
+        */
 
         $this->Action->execute();
+    }
+
+    public function buildEntityActions(Event $event)
+    {
+        $event->data['actions']['print'] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank', 'data-icon' => 'print']];
+        $event->data['actions']['pdfview'] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
+        $event->data['actions']['pdfdownload'] = [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
     }
 
     /**
@@ -94,8 +109,74 @@ class ShopOrdersController extends AppController
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true
         ]);
+        $this->set('entity', $shopOrder);
+        $this->set('_serialize', 'entity');
+
+        $this->set([
+            'title' => $shopOrder->get('nr_formatted'),
+            'model' => 'Shop.ShopOrders',
+            'fields.whitelist' => true,
+            'fields' => [
+                '_status' => ['formatter' => function($val, $row, $args, $view) {
+                    $view->loadHelper('Banana.Status');
+                    return $view->Status->label($val);
+                }],
+                'shop_customer_id' => ['formatter' => function($val, $row, $args, $view) {
+                    return ($row->shop_customer) ? $view->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
+                }],
+                'submitted' => [],
+                'nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+                    return $view->Html->link($val, ['action' => 'view', $row->id]);
+                }],
+                'ordergroup' => [],
+                'title' => ['formatter' => function() {}],
+                'items_value_taxed' => [],
+                'order_value_total' => [],
+                'shipping_type' => [],
+                'payment_type' => [],
+                'payment_info_1' => [],
+                'payment_info_2' => [],
+                'payment_info_3' => [],
+                'customer_phone' => [],
+                'customer_mail' => [],
+                'is_temporary' => [],
+                'is_storno' => [],
+                'is_deleted' => [],
+            ],
+        ]);
+
+        $this->set('tabs', [
+            //'summary' => [
+            //    'title' => __('Summary'),
+            //    'url' => ['controller' => 'ShopOrders', 'action' => 'summary', $shopOrder->id]
+            //],
+            'order-items' => [
+                'title' => __('Order Items'),
+                'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]
+            ],
+            'order-transactions' => [
+                'title' => __('Transactions'),
+                'url' => ['controller' => 'ShopOrderTransactions', 'action' => 'index', 'shop_order_id' => $shopOrder->id]
+            ],
+            //'raw' => [
+            //    'title' => __('Raw Data'),
+            //    'url' => ['plugin' => 'Backend', 'controller' => 'Entity', 'action' => 'view', 'Shop.ShopOrders', $shopOrder->id]
+            //]
+        ]);
+
+        $this->noActionTemplate = true;
+        $this->Action->execute();
+    }
+
+
+    public function summary($id = null)
+    {
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
+            'status' => true
+        ]);
         $this->set('shopOrder', $shopOrder);
-        $this->set('_serialize', ['shopOrder']);
+        $this->set('_serialize', 'shopOrder');
     }
 
     /**
@@ -153,7 +234,7 @@ class ShopOrdersController extends AppController
         $this->viewBuilder()->className('Tcpdf.Pdf');
         $this->viewBuilder()->layout('Shop.print');
 
-        $this->set('pdfEngine', '\\Ontalents\\Pdf\\OntalentsPdf');
+        $this->set('pdfEngine', Configure::read('Shop.Pdf.engine'));
         $this->set('pdf', [
             'title' => $shopOrder->title,
             'subject' => $shopOrder->nr_formatted,
@@ -216,6 +297,9 @@ class ShopOrdersController extends AppController
         //$shippingAddresses = $this->ShopOrders->ShippingAddresses->find('list', ['limit' => 200])->toArray();
         $this->set(compact('shopOrder', 'shopCustomers' /*, 'billingAddresses', 'shippingAddresses' */));
         $this->set('_serialize', ['shopOrder']);
+
+        $this->noActionTemplate = true;
+        $this->Action->execute();
     }
 
     /**
@@ -285,11 +369,13 @@ class ShopOrdersController extends AppController
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
-        $events['Action.Index.getRowActions'] = ['callable' => function (Event $event) {
-            $event->result[] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank']];
-            $event->result[] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank']];
-            $event->result[] = [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank']];
+        /*
+        $events['Backend.Controller.buildEntityActions'] = ['callable' => function (Event $event) {
+            $event->data['actions']['print'] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank', 'data-icon' => 'print']];
+            $event->data['actions']['pdfview'] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
+            $event->data['actions']['pdfdownload'] = [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
         }];
+        */
 
         return $events;
     }
