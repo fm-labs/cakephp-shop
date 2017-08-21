@@ -83,7 +83,12 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 
                 <?= $this->Form->fieldsetStart(['legend' => __d('shop','Tags'), 'collapsed' => true]); ?>
                 <?php
-                echo $this->Form->input('tags._ids', ['multiple' => 'checkbox']);
+                echo $this->Form->input('tags._ids', [
+                    'type' => 'select',
+                    'multiple' => true,
+                    //'multiple' => 'checkbox',
+                    'options' => $this->get('tagList', [])
+                ]);
                 ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 

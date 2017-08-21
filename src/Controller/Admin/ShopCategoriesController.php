@@ -198,7 +198,9 @@ class ShopCategoriesController extends AppController
         $parentShopCategories = $this->ShopCategories->find('treeList');
         //$parentShopCategories = $this->ShopCategories->find('list');
 
-        $this->set(compact('shopCategory', 'parentShopCategories'));
+        $tagList = $this->ShopCategories->ShopTags->find('list')->toArray();
+
+        $this->set(compact('shopCategory', 'parentShopCategories', 'tagList'));
 
         $this->noActionTemplate = true;
         $this->Action->execute();
