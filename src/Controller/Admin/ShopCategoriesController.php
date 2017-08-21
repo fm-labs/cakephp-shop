@@ -79,7 +79,16 @@ class ShopCategoriesController extends AppController
         ];
 
         $this->set('tree.displayField', 'name');
-        $this->set('fields.whitelist', ['name', 'is_published']);
+        $this->set('fields.whitelist', ['name', 'language', 'is_published']);
+        $this->set('fields', [
+           'language' => ['formatter' => function($val, $row, $args, $view) {
+               $links = [];
+               foreach (Configure::read('Shop.locales') as $_locale => $_localeName) {
+                   $links[] = $view->Html->link($_localeName, ['action' => 'edit', $row->id, 'locale' => $_locale], ['data-locale' => $_locale]);
+               }
+               return join("&nbsp;", $links);
+           }]
+        ]);
 
         $this->set('actions', [
             'add' => [
