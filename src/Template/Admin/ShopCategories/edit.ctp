@@ -22,14 +22,31 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 ) */
 ?>
 
-<?php $_locales = Configure::read('Shop.locales'); ?>
-<?php foreach($_locales as $_locale => $_localeName): ?>
-    <?php if ($_locale === $locale) continue ;?>
-    <?php $this->Toolbar->addLink(__d('shop', '{0} version', $_localeName), ['action' => 'edit', $shopCategory->id, 'locale' => $_locale]) ?>
-<?php endforeach; ?>
+<?php $this->Toolbar->addLink(
+    __d('shop', 'Preview'),
+    ['action' => 'preview', $shopCategory->id],
+    ['data-icon' => 'search', 'target' => '_blank']
+) ?>
 
 <?php $this->assign('title', $shopCategory->name); ?>
 <div class="shop categories form">
+
+    <div style="margin: 0;" class="text-right">
+        <?= __('Languages') ?>:
+        <?php $_locales = Configure::read('Shop.locales'); ?>
+        <?php foreach($_locales as $_locale => $_localeName): ?>
+            <?php
+            echo $this->Html->link(
+                __d('shop', '{0}', $_localeName),
+                ['action' => 'edit', $shopCategory->id, 'locale' => $_locale],
+                ['data-locale' => $_locale]
+            );
+
+            if ($_locale === $this->get('locale')) {
+                echo '(' . __('Current') . ')';
+            }?>
+        <?php endforeach; ?>
+    </div>
 
     <?php $this->Tabs->create(); ?>
     <!-- General -->

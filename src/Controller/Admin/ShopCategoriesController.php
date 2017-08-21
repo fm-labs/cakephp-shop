@@ -150,6 +150,7 @@ class ShopCategoriesController extends AppController
             'media' => true
         ]);
 
+
         $this->set('model', 'Shop.ShopCategories');
         $this->set('entity', $shopCategory);
         //$this->set('shopCategory', $shopCategory);
@@ -168,7 +169,7 @@ class ShopCategoriesController extends AppController
         $url = $shopCategory->view_url;
         $url['prefix'] = false;
         $url['admin'] = false;
-        $url['_token'] = uniqid('_tkn');
+        $url['_tk'] = uniqid(time());
 
         $this->redirect($url);
     }
@@ -201,6 +202,7 @@ class ShopCategoriesController extends AppController
         $tagList = $this->ShopCategories->ShopTags->find('list')->toArray();
 
         $this->set(compact('shopCategory', 'parentShopCategories', 'tagList'));
+
 
         $this->noActionTemplate = true;
         $this->Action->execute();
