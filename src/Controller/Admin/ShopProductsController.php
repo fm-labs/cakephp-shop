@@ -28,6 +28,9 @@ class ShopProductsController extends AppController
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
+        'media'      => 'Backend.Media',
+        'publish'   => 'Backend.Publish',
+        'unpublish'   => 'Backend.Unpublish'
     ];
 
     /**
@@ -197,6 +200,25 @@ class ShopProductsController extends AppController
         $this->set('locales', Configure::read('Shop.locales'));
         //$this->set('attributeSets', $this->ShopProducts->EavAttributeSets->find('list')->toArray());
         $this->set('_serialize', ['shopProduct']);
+        $this->set('_entity', 'shopProduct');
+
+        /*
+        $this->set('form_elements', [
+           'publishable' => [
+               'title' => __('Publishing'),
+               'cell' => 'Banana.PublishableFormEditor',
+               'data' => ['entity' => $shopProduct]
+           ]
+        ]);
+        */
+
+
+        $this->set('tabs', [
+            'child-products' => [
+                'title' => __('Child Products'),
+                'url' => ['action' => 'relatedProducts', $shopProduct->id]
+            ],
+        ]);
 
         $this->Action->execute();
     }

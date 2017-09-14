@@ -25,14 +25,15 @@ class ShopCategoriesController extends AppController
      * @var array
      */
     public $actions = [
-        /*
         'index'     => 'Backend.TreeIndex',
-        'view'      => 'Backend.View',
+        //'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
         'delete'    => 'Backend.Delete',
         'publish'   => 'Backend.Publish',
         'unpublish' => 'Backend.Unpublish',
+        'sort'      => 'Backend.TreeSort',
+        /*
         'moveUp'    => 'Backend.TreeMoveUp',
         'moveDown'  => 'Backend.TreeMoveDown',
         */
@@ -46,6 +47,8 @@ class ShopCategoriesController extends AppController
     {
         parent::beforeFilter($event);
         $this->ShopCategories->locale($this->locale);
+
+        $this->Action->registerInline('preview', ['label' => __d('shop', 'Preview'), 'attrs' => ['data-icon' => 'search', 'target' => '_blank']]);
     }
 
     /**
@@ -90,7 +93,7 @@ class ShopCategoriesController extends AppController
            }]
         ]);
 
-        $this->set('actions', [
+        $this->set('_actions', [
             'add' => [
                 __d('shop', 'Add {0}', __d('shop', 'category')),
                 ['action' => 'add']

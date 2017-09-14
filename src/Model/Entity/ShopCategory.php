@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Model\Entity;
 
+use Cake\Routing\Router;
 use Content\Model\Behavior\PageMeta\PageMetaTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
@@ -35,7 +36,7 @@ class ShopCategory extends Entity
      * @var array
      */
     protected $_virtual = [
-        'url'
+        'url', 'url_full'
     ];
 
     /**
@@ -114,6 +115,14 @@ class ShopCategory extends Entity
     protected function _getUrl()
     {
         return $this->getViewUrl();
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getUrlFull()
+    {
+        return Router::url($this->_getUrl(), true);
     }
 
     /**

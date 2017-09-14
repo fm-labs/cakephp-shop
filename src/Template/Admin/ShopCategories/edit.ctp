@@ -22,11 +22,13 @@ $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
 ) */
 ?>
 
-<?php $this->Toolbar->addLink(
+<?php
+/*
+$this->Toolbar->addLink(
     __d('shop', 'Preview'),
     ['action' => 'preview', $shopCategory->id],
     ['data-icon' => 'search', 'target' => '_blank']
-) ?>
+) */ ?>
 
 <?php $this->assign('title', $shopCategory->name); ?>
 <div class="shop categories form">

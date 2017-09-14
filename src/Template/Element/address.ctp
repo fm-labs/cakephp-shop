@@ -21,4 +21,13 @@
     <?php if (isset($edit) && $edit === true): ?>
         <?= $this->Ui->button(__d('shop','Edit'), ['action' => 'edit', $address->id], ['class' => 'btn-link']); ?>
     <?php endif; ?>
+
+    <?php
+    // @TODO Google Maps Link
+    // @TODO Export to vcard
+    // @TODO Semantic markup
+    ?>
+    <a href="#">Google Maps</a> |
+    <a href="#">Vcard</a> |
+    <a href="#">Print</a>
 </div>

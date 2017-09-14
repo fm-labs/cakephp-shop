@@ -22,12 +22,6 @@
 
     <div class="order">
 
-        <div class="row-header">
-            <h1>
-                <?= __d('shop','Order No. {0}', $shopOrder->nr_formatted); ?>
-            </h1>
-        </div>
-
         <div class="row">
             <div class="col-md-12">
                 <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
@@ -83,13 +77,12 @@
             </div>
         </div>
 
-        <!--
         <div class="row">
             <div class="col-md-12">
                 <h3>Order Items</h3>
                 <div class="order-items">
                     <?php $pos = 0; // index counter work-around ?>
-                    <?php /* echo */ $this->cell('Backend.DataTable', [[
+                    <?php echo $this->cell('Backend.DataTable', [[
                         'paginate' => false,
                         'model' => 'Shop.ShopOrderItems',
                         'data' => $shopOrder->shop_order_items,
@@ -156,7 +149,6 @@
                 </div>
             </div>
         </div>
-        -->
 
     </div>
 

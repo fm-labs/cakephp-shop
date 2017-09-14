@@ -3,6 +3,7 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Shop\Model\Entity\ShopOrder;
 
 /**
  * ShopOrders Controller
@@ -16,13 +17,11 @@ class ShopOrdersController extends AppController
      * @var array
      */
     public $actions = [
-        /*
         'index'     => 'Backend.Index',
         'view'      => 'Backend.View',
-        'add'       => 'Backend.Add',
+        //'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
         //'print_order' => 'Shop.PrintOrder'
-        */
     ];
 
     /**
@@ -31,7 +30,16 @@ class ShopOrdersController extends AppController
     public function initialize()
     {
         parent::initialize();
+
+        $this->Action->registerInline('storno', ['scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
+        //$this->Action->registerInline('summary');
         //$this->loadComponent('RequestHandler');
+    }
+
+    public function storno($id = null)
+    {
+        $this->Flash->error("Not implemented yet");
+        $this->redirect($this->referer(['action' => 'index']));
     }
 
     /**
@@ -48,24 +56,78 @@ class ShopOrdersController extends AppController
             'status' => true,
         ];
 
-        $this->set('helpers', ['Banana.Status']);
+        $this->set('helpers', ['Banana.Status', 'Bootstrap.Button', 'Bootstrap.Icon']);
         $this->set('filter', false);
         $this->set('fields.whitelist', true);
         $this->set('fields', [
             //'id' => [],
             'submitted' => [
             ],
+            'nr_formatted' => ['label' => __d('shop', 'Order'), 'formatter' => function ($val, $row, $args, $view) {
+
+                if ($val) {
+                    //$html = $view->Html->link($val, ['action' => 'view', $row->id]);
+                    //$html .= "&nbsp";
+                    //$view->Icon->create('gear')
+                    $html = $view->Button->create($val, [
+                        'size' => 'xs',
+                        'dropdown' => [
+                            'shop_order_printview' => [
+                                'title' => __d('shop', 'Printview'),
+                                'url' => ['action' => 'printview', $row->id],
+                                'attrs' => ['target' => '_blank', 'data-icon' => 'print']
+                            ],
+                            'shop_order_pdfview' => [
+                                'title' => __d('shop', 'View PDF'),
+                                'url' => ['action' => 'pdfview', $row->id],
+                                'attrs' => ['target' => '_blank', 'data-icon' => 'file-pdf-o']
+                            ],
+                            'shop_order_pdfdl' => [
+                                'title' => __d('shop', 'Download PDF'),
+                                'url' => ['action' => 'pdfdownload', $row->id],
+                                'attrs' => ['target' => '_blank', 'data-icon' => 'file-pdf-o']
+                            ]
+                        ],
+                    ]);
+                    return $html;
+                }
+
+                //return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
+            }],
+            'invoice_nr_formatted' => ['label' => __d('shop', 'Invoice'), 'formatter' => function ($val, $row, $args, $view) {
+
+                if ($val) {
+                    return $view->Button->create($val, [
+                        'url' => false,
+                        'size' => 'xs',
+                        'dropdown' => [
+                            'shop_order_printview' => [
+                                'title' => __d('shop', 'Printview'),
+                                'url' => ['action' => 'printview', $row->id, 'mode' => 'invoice'],
+                                'attrs' => ['target' => '_blank', 'data-icon' => 'print']
+                            ],
+                            'shop_order_pdfview' => [
+                                'title' => __d('shop', 'View PDF'),
+                                'url' => ['action' => 'pdfview', $row->id, 'mode' => 'invoice'],
+                                'attrs' => ['target' => '_blank', 'data-icon' => 'file-pdf-o']
+                            ],
+                            'shop_order_pdfdl' => [
+                                'title' => __d('shop', 'Download PDF'),
+                                'url' => ['action' => 'pdfdownload', $row->id, 'mode' => 'invoice'],
+                                'attrs' => ['target' => '_blank', 'data-icon' => 'file-pdf-o']
+                            ]
+                        ],
+                        'split' => false
+                    ]);
+                }
+
+                //return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id, 'mode' => 'invoice']) : null;
+            }],
             'shop_customer_id' => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Html->link(
                     $row->shop_customer->display_name,
                     ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]
                 );
-            }],
-            'nr_formatted' => ['label' => __d('shop', 'Order Nr'), 'formatter' => function ($val, $row, $args, $view) {
-                return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id]) : null;
-            }],
-            'invoice_nr_formatted' => ['label' => __d('shop', 'Invoice Nr'), 'formatter' => function ($val, $row, $args, $view) {
-                return ($val) ? $view->Html->link($val, ['action' => 'view', $row->id, 'mode' => 'invoice']) : null;
             }],
             'order_value_total' => [
                 'class' => 'right',
@@ -77,6 +139,10 @@ class ShopOrdersController extends AppController
             //'payment_status' => [],
             //'shipping_status' => [],
         ]);
+
+        $this->set('rowActionCallback', function(ShopOrder $order) {
+
+        });
 
         /*
         $this->set('rowActions', [
@@ -91,9 +157,9 @@ class ShopOrdersController extends AppController
 
     public function buildEntityActions(Event $event)
     {
-        $event->data['actions']['print'] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank', 'data-icon' => 'print']];
-        $event->data['actions']['pdfview'] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
-        $event->data['actions']['pdfdownload'] = [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
+        //$event->data['actions']['print'] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank', 'data-icon' => 'print']];
+        //$event->data['actions']['pdfview'] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
+        //$event->data['actions']['pdfdownload'] = [__d('shop', 'Download PDF'), ['action' => 'pdfdownload', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];
     }
 
     /**
@@ -250,7 +316,6 @@ class ShopOrdersController extends AppController
      * Add method
      *
      * @return void Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
         $shopOrder = $this->ShopOrders->newEntity();
@@ -270,6 +335,7 @@ class ShopOrdersController extends AppController
         $this->set(compact('shopOrder', 'shopCustomers', 'billingAddresses', 'shippingAddresses'));
         $this->set('_serialize', ['shopOrder']);
     }
+     */
 
     /**
      * Edit method
@@ -370,6 +436,9 @@ class ShopOrdersController extends AppController
     {
         $events = parent::implementedEvents();
         /*
+        $events['Backend.DataTable.setup'] = ['callable' => function (Event $event) {
+            debug("hello");
+        }];
         $events['Backend.Controller.buildEntityActions'] = ['callable' => function (Event $event) {
             $event->data['actions']['print'] = [__d('shop', 'Printview'), ['action' => 'printview', ':id'], ['target' => '_blank', 'data-icon' => 'print']];
             $event->data['actions']['pdfview'] = [__d('shop', 'View PDF'), ['action' => 'pdfview', ':id'], ['target' => '_blank', 'data-icon' => 'file-pdf-o']];

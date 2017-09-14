@@ -77,10 +77,10 @@ class ShopProductsTable extends Table
                     'featured_image_file' => [
                         'config' => 'shop'
                     ],
-                    'image_files' => [
-                        'config' => 'shop',
-                        'multiple' => true
-                    ]
+                    //'image_files' => [
+                    //    'config' => 'shop',
+                    //    'multiple' => true
+                    //]
                 ]
             ]);
         }

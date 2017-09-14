@@ -18,8 +18,7 @@ $billingAddress = $shopOrder->getBillingAddress();
 <?php if ($billingAddress['company_name']): ?>
 <?php echo $billingAddress['company_name']; ?><br />
 <?php endif; ?>
-<?php echo $billingAddress['first_name']; ?>
-<?php echo $billingAddress['last_name']; ?><br />
+<?php echo $billingAddress['first_name']; ?>&nbsp;<?php echo $billingAddress['last_name']; ?><br />
 <?php echo $billingAddress['street']; ?><br />
 <?php if ($billingAddress['street2']): ?>
     <?php echo $billingAddress['street2']; ?><br />
