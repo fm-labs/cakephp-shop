@@ -2,6 +2,7 @@
 namespace Shop\Model\Entity;
 
 use Cake\Core\Configure;
+use Cake\I18n\Number;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Shop\Lib\Shop;
@@ -100,7 +101,10 @@ class ShopOrder extends Entity
         'cc_number',
         'cc_holder_name',
         'cc_expires_at',
-        'is_reverse_charge'
+        'is_reverse_charge',
+
+        // formatted values
+        'order_value_total_formatted'
     ];
 
     /**
@@ -290,6 +294,12 @@ class ShopOrder extends Entity
         }
 
         return null;
+    }
+
+    protected function _getOrderValueTotalFormatted()
+    {
+        $Number = new Number();
+        return $Number->currency($this->order_value_total, $this->currency);
     }
 
     /**

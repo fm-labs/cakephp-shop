@@ -52,6 +52,7 @@ class ShopAddress extends Entity
 
     protected $_virtual = [
         'name',
+        'country_name',
         'display_name',
         'oneline',
         //'formatted'
@@ -92,6 +93,14 @@ class ShopAddress extends Entity
             $this->zipcode,
             $this->city
         );
+    }
+
+    protected function _getCountryName()
+    {
+        if ($this->relcountry) {
+            return $this->relcountry->get('name_de');
+        }
+        return null;
     }
 
     protected function _getShort()

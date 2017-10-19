@@ -17,7 +17,8 @@ class ShopOrdersController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
+        'index'     => 'Backend.FooTableIndex',
+        //'index2'     => 'Backend.Index',
         'view'      => 'Backend.View',
         //'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
@@ -48,6 +49,43 @@ class ShopOrdersController extends AppController
      * @return void
      */
     public function index()
+    {
+        $this->paginate = [
+            'contain' => ['ShopCustomers'/*, 'ShopOrderAddresses' => ['Countries'], 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']*/],
+            'conditions' => ['ShopOrders.is_temporary' => false],
+            'order' => ['ShopOrders.id' => 'DESC'],
+            'status' => true,
+        ];
+
+        $this->set('paginate', true);
+        $this->set('sortable', true);
+        $this->set('ajax', true);
+        $this->set('fields.whitelist', [
+            'id',
+            'submitted',
+            'nr_formatted',
+            //'invoice_nr_formatted',
+            'shop_customer',
+            'status__status',
+            'order_value_total_formatted',
+        ]);
+        //$this->set('order', ['id' => 'desc']);
+
+        $this->set('fields', [
+            'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
+            'order_value_total_formatted' => ['label' => 'Total Value', 'formatter' => 'currency' , 'class' => 'text-right'],
+            'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
+        ]);
+
+        $this->Action->execute();
+    }
+    /**
+     * Index method
+     *
+     * @return void
+     * @deprecated
+     */
+    public function index2()
     {
         $this->paginate = [
             'contain' => ['ShopCustomers', 'ShopOrderAddresses' => ['Countries'], 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],

@@ -83,8 +83,10 @@ class ShopOrderItem extends Entity
             if (isset($this->_properties['refscope']) && isset($this->_properties['refid'])) {
                 $refscope = $this->_properties['refscope'];
                 $refid = $this->_properties['refid'];
-
-                $ref = TableRegistry::get($refscope)->find('product')->where(['id' => $refid])->first();
+                try {
+                    $ref = TableRegistry::get($refscope)->find('product')->where(['id' => $refid])->first();
+                } catch (\Exception $ex) {
+                }
             }
             $this->_properties['ref'] = $ref;
         }

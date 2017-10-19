@@ -101,6 +101,15 @@ class ShopProductsTable extends Table
         if (Plugin::loaded('Search')) {
             $this->addBehavior('Search.Search');
             $this->searchManager()
+                ->add('q', 'Search.Like', [
+                    'before' => true,
+                    'after' => true,
+                    'fieldMode' => 'OR',
+                    'comparison' => 'LIKE',
+                    'wildcardAny' => '*',
+                    'wildcardOne' => '?',
+                    'field' => ['title', 'sku']
+                ])
                 ->add('title', 'Search.Like', [
                     'before' => true,
                     'after' => true,

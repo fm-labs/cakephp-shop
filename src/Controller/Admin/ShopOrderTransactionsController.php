@@ -10,6 +10,9 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopOrderTransactionsController extends AppController
 {
+    public $actions = [
+        'index' => 'Backend.FooTableIndex'
+    ];
 
     public $paginate = [
         'order' => ['ShopOrderTransactions.id' => 'DESC']
@@ -22,11 +25,16 @@ class ShopOrderTransactionsController extends AppController
      */
     public function index()
     {
+        $dataUrl = ['rows' => 1];
+        $query = $this->ShopOrderTransactions->find();
         if ($this->request->query('shop_order_id')) {
-            $this->paginate['conditions'] = ['ShopOrderTransactions.shop_order_id' => $this->request->query('shop_order_id')];
+            $dataUrl['shop_order_id'] = $this->request->query('shop_order_id');
+            $query->where(['ShopOrderTransactions.shop_order_id' => $this->request->query('shop_order_id')]);
         }
 
-        $this->set('fields.blacklist', ['custom1', 'custom2', 'created', 'modified']);
+        $this->set('fields.whitelist', ['type', 'engine', 'currency_code', 'value', 'status', 'ext_status', 'last_message', 'is_test']);
+        $this->set('ajax', $dataUrl);
+        $this->set('queryObj', $query);
 
         $this->Action->execute();
     }

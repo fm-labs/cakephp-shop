@@ -17,63 +17,125 @@
     ['action' => 'delete', $shopOrder->id],
     ['data-icon' => 'trash', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', $shopOrder->id)])
  */ ?>
-<?php $this->assign('title',__d('shop','Order {0}', $shopOrder->nr_formatted)); ?>
+<?php $this->assign('title',__d('shop','Order details')); ?>
 <div class="shopOrders view">
 
     <div class="order">
 
+        <!--
+        <div class="actions action-vertical">
+            <?= $this->Html->link(__d('shop','Confirm order'), '#', ['class' => 'btn btn-primary btn-sm']); ?>
+            <?= $this->Html->link(__d('shop','Hold order'), '#', ['class' => 'btn btn-default btn-sm']); ?>
+            <?= $this->Html->link(__d('shop','Cancel order'), '#', ['class' => 'btn btn-danger btn-sm']); ?>
+        </div>
+        -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <h3><?= h($shopOrder->nr_formatted); ?></h3>
                 <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
                     'title' => false,
                     'model' => 'Shop.ShopOrders',
                     'whitelist' => true,
                     'fields' => [
-                        '_status' => ['formatter' => function($val, $row, $args, $view) {
-                            return $this->Status->label($val);
-                        }],
+                        'nr_formatted' => [],
+                        'submitted' => [],
+                        /*
                         'shop_customer_id' => ['formatter' => function($val, $row) {
                             return ($row->shop_customer) ? $this->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
                         }],
-                        'submitted' => [],
+                        */
+                        //'ordergroup' => [],
+                        //'title' => ['formatter' => function() {}],
+                        //'items_value_taxed' => [],
+                        'order_value_total_formatted' => ['title' => 'Order Value Total'],
+                        //'shipping_type' => [],
+                        //'payment_type' => [],
+                        //'payment_info_1' => [],
+                        //'payment_info_2' => [],
+                        //'payment_info_3' => [],
+                        //'customer_phone' => [],
+                        //'customer_mail' => [],
+                        //'is_temporary' => [],
+                        //'is_storno' => [],
+                        //'is_deleted' => [],
+                        '_status' => ['formatter' => function($val, $row, $args, $view) {
+                            return $this->Status->label($val);
+                        }],
+                    ],
+                ])->render(); ?>
+            </div>
+            <div class="col-md-6">
+                <h3>Customer</h3>
+                <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
+                    'title' => false,
+                    'model' => 'Shop.ShopOrders',
+                    'whitelist' => true,
+                    'fields' => [
+                        'shop_customer_id' => ['formatter' => function($val, $row) {
+                            return ($row->shop_customer) ? $this->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
+                        }],
+                        'customer_phone' => [],
+                        'customer_mail' => [],
+                    ],
+                ])->render(); ?>
+                <?= $this->cell('Backend.EntityView', [ $shopOrder->shop_customer ], [
+                    'title' => false,
+                    'model' => 'Shop.ShopCustomers',
+                    'whitelist' => ['first_name', 'last_name', 'email', 'phone', 'fax'],
+                    /*
+                    'fields' => [
                         'nr_formatted' => ['formatter' => function($val, $row) {
                             return $this->Html->link($val, ['action' => 'view', $row->id]);
                         }],
-                        'ordergroup' => [],
-                        'title' => ['formatter' => function() {}],
-                        'items_value_taxed' => [],
-                        'order_value_total' => [],
+                        'submitted' => [],
+                        'shop_customer_id' => ['formatter' => function($val, $row) {
+                            return ($row->shop_customer) ? $this->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
+                        }],
                         'shipping_type' => [],
-                        'payment_type' => [],
-                        'payment_info_1' => [],
-                        'payment_info_2' => [],
-                        'payment_info_3' => [],
-                        'customer_phone' => [],
                         'customer_mail' => [],
-                        'is_temporary' => [],
-                        'is_storno' => [],
-                        'is_deleted' => [],
                     ],
+                    */
                 ])->render(); ?>
-
-                <!--
-                <div class="actions action-vertical">
-                    <?= $this->Html->link(__d('shop','Confirm order'), '#', ['class' => 'btn btn-primary btn-sm']); ?>
-                    <?= $this->Html->link(__d('shop','Hold order'), '#', ['class' => 'btn btn-default btn-sm']); ?>
-                    <?= $this->Html->link(__d('shop','Cancel order'), '#', ['class' => 'btn btn-danger btn-sm']); ?>
-                </div>
-                -->
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
                 <h3>Billing Address</h3>
-                <?= $this->element('Shop.address', ['address' => $shopOrder->billing_address]) ?>
+                <?= $this->element('Shop.address_entity_view', ['address' => $shopOrder->billing_address]) ?>
             </div>
             <div class="col-md-6">
                 <h3>Shipping Address</h3>
-                <?= $this->element('Shop.address', ['address' => $shopOrder->shipping_address]) ?>
+                <?= $this->element('Shop.address_entity_view', ['address' => $shopOrder->shipping_address]) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Payment</h3>
+
+                <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
+                    'title' => false,
+                    'model' => 'Shop.ShopOrders',
+                    'whitelist' => true,
+                    'fields' => [
+                        'payment_type' => [],
+                        'payment_info_1' => [],
+                        'payment_info_2' => [],
+                        'payment_info_3' => [],
+                    ],
+                ])->render(); ?>
+            </div>
+            <div class="col-md-6">
+                <h3>Shipping Method</h3>
+                <?= $this->cell('Backend.EntityView', [ $shopOrder ], [
+                    'title' => false,
+                    'model' => 'Shop.ShopOrders',
+                    'whitelist' => true,
+                    'fields' => [
+                        'shipping_type' => [],
+                    ],
+                ])->render(); ?>
             </div>
         </div>
 
@@ -92,17 +154,17 @@
                             'id' => [
                                 'title' => __d('shop','Pos'),
                                 'formatter' => function($val, $row) use (&$pos) {
-                                    return $this->Html->link(++$pos, ['action' => 'view', $row->id]);
+                                    return ++$pos;
                                 }
                             ],
-                            'product_sku' => [
-                                'formatter' => function($val, $row) {
-                                    return ($val) ?: $row->getProduct()->getSku();
+                            'sku' => [
+                                'formatter' => function($val, $row) use (&$pos) {
+                                    return $this->Html->link($val, ['action' => 'view', $row->id]);
                                 }
                             ],
-                            'product_title' => [
-                                'formatter' => function($val, $row) {
-                                    return ($val) ?: $row->getProduct()->getTitle();
+                            'title' => [
+                                'formatter' => function($val, $row) use (&$pos) {
+                                    return $this->Html->link($val, ['action' => 'view', $row->id]);
                                 }
                             ],
                             'amount' => ['formatter' => function($val, $row) {

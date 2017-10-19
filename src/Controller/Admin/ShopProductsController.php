@@ -24,7 +24,7 @@ class ShopProductsController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
+        'index'     => 'Backend.FooTableIndex',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
@@ -61,14 +61,22 @@ class ShopProductsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'limit' => 200,
-            'maxLimit' => 200,
+            //'limit' => 200,
+            //'maxLimit' => 200,
+            //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published', 'ShopCategories.name'],
+            'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
             'order' => ['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC'],
-            'contain' => ['ShopCategories']
+            //'contain' => ['ShopCategories'],
+            'media' => true
         ];
 
         $fields = [
             'sku',
+            'preview_image_file' => [
+                'title' => 'Image',
+                'type' => 'object',
+                'formatter' => 'mediafile'
+            ],
             'title'  => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Html->link(
                     $val,
@@ -85,8 +93,11 @@ class ShopProductsController extends AppController
                 'formatter' => null,
             ],
         ];
+        $this->set('paginate', true);
+        $this->set('ajax', true);
+        $this->set('filter', true);
         $this->set('fields', $fields);
-        $this->set('fields.whitelist', ['sku', 'title', 'shop_category.name', 'is_buyable', 'is_published']);
+        $this->set('fields.whitelist', ['sku', 'preview_image_file', 'title', 'is_buyable', 'is_published']);
 
         $this->Action->execute();
     }
@@ -141,6 +152,15 @@ class ShopProductsController extends AppController
     {
         $shopProduct = $this->ShopProducts->get($id);
 
+        $tabs = [];
+        if ($shopProduct->type == "parent") {
+            $tabs['child-products'] = [
+                'title' => __('Productversions'),
+                'url' => ['action' => 'index', 'qry' => ['parent_id' => $shopProduct->id]]
+            ];
+        }
+        $this->set('tabs', $tabs);
+
         $this->set('entity', $shopProduct);
 
         $this->Action->execute();
@@ -193,32 +213,25 @@ class ShopProductsController extends AppController
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop product')));
             }
         }
-        $this->set(compact('shopProduct'));
-        $this->set('parentShopProducts', $this->ShopProducts->find('list'));
+        $this->set('parentShopProducts', $this->ShopProducts->find('list')->orderAsc('title'));
         $this->set('shopCategories', $this->_getCategoriesList());
         $this->set('galleryList', $this->_getGalleryList());
         $this->set('locales', Configure::read('Shop.locales'));
-        //$this->set('attributeSets', $this->ShopProducts->EavAttributeSets->find('list')->toArray());
-        $this->set('_serialize', ['shopProduct']);
-        $this->set('_entity', 'shopProduct');
+        $this->set('shopProduct', $shopProduct);
+        $this->set('entity', $shopProduct);
 
-        /*
-        $this->set('form_elements', [
-           'publishable' => [
-               'title' => __('Publishing'),
-               'cell' => 'Banana.PublishableFormEditor',
-               'data' => ['entity' => $shopProduct]
-           ]
-        ]);
-        */
-
-
-        $this->set('tabs', [
-            'child-products' => [
-                'title' => __('Child Products'),
-                'url' => ['action' => 'relatedProducts', $shopProduct->id]
-            ],
-        ]);
+        $tabs = [];
+        if ($shopProduct->type == "parent") {
+            $tabs['child-products'] = [
+                'title' => __('Productversions'),
+                'url' => ['action' => 'index', 'qry' => ['parent_id' => $shopProduct->id]]
+            ];
+        }
+        $tabs['media'] = [
+            'title' => __('Media'),
+            'url' => ['action' => 'media', $shopProduct->id]
+        ];
+        $this->set('tabs', $tabs);
 
         $this->Action->execute();
     }

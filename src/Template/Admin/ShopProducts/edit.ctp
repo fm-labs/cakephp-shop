@@ -1,7 +1,7 @@
 <?php
 $this->extend('Backend./Admin/Action/edit');
 
-//$this->loadHelper('Bootstrap.Tabs');
+$this->loadHelper('Backend.FooTable');
 $this->loadHelper('Media.Media');
 
 //$this->Breadcrumbs->add(__d('shop', 'Shop Products'), ['action' => 'index']);
@@ -9,7 +9,7 @@ $this->loadHelper('Media.Media');
 ?>
 <div class="form">
 <?= $this->Form->create($shopProduct); ?>
-
+<?php echo $this->Form->input('type', ['options' => ['parent' => 'parent', 'child' => 'child', 'simple' => 'simple']]); ?>
 <?= $this->Form->input('parent_id', ['options' => $parentShopProducts, 'empty' => '- No parent -']); ?>
     <?php if ($shopProduct->parent_id): ?>
         <?= $this->Html->link(

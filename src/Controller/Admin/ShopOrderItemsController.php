@@ -15,7 +15,7 @@ class ShopOrderItemsController extends AppController
      * @var array
      */
     public $actions = [
-        'index' => 'Backend.Index',
+        'index' => 'Backend.FooTableIndex',
         'view' => 'Backend.View'
     ];
 
@@ -28,15 +28,19 @@ class ShopOrderItemsController extends AppController
     {
         $this->paginate = [
             'contain' => ['ShopOrders'],
-            'conditions' => []
         ];
 
         $this->helpers['Banana.Status'] = [];
 
+        $dataUrl = ['rows' => 1];
+        $query = $this->ShopOrderItems->find();
         if ($this->request->query('order_id')) {
-            $this->paginate['conditions']['shop_order_id'] = $this->request->query('order_id');
+            $dataUrl['order_id'] = $this->request->query('order_id');
+            $query->where(['shop_order_id' => $this->request->query('order_id')]);
         }
 
+        $this->set('ajax', $dataUrl);
+        $this->set('paginate', true);
         $this->set('fields.whitelist', true);
         $this->set('fields', [
             /*
@@ -46,23 +50,9 @@ class ShopOrderItemsController extends AppController
                 }
             ],
             */
-            'id' => [
-                'formatter' => function ($val, $row, $args, $view) {
-                    return $view->Html->link($val, ['action' => 'view', $row->id]);
-                }
-            ],
-            'product_sku' => [
-                'formatter' => function ($val, $row) {
-                    return ($val) ?: $row->getProduct()->getSku();
-                }
-            ],
-            'product_title' => [
-                'formatter' => function ($val, $row, $args, $view) {
-                    $val = ($val) ?: $row->getProduct()->getTitle();
-
-                    return $view->Html->link($val, $row->getProduct()->getAdminUrl(), ['class' => 'link-modal-frame']);
-                }
-            ],
+            'id' => [],
+            'sku' => [],
+            'title' => [],
             'amount' => [],
             /*
             'value_tax' => ['formatter' => function($val, $row) use ($shopOrder) {
@@ -72,12 +62,8 @@ class ShopOrderItemsController extends AppController
                 return $this->Number->currency($val, $shopOrder->currency);
             }],
             */
-            'value' => ['title' => __d('shop', 'Total'), 'formatter' => function ($val, $row, $args, $view) {
-                $val = ($val) ?: $row->value_net + $row->value_tax;
-
-                return $view->Number->currency($val, $row->currency);
-            }],
-            'is_processed' => ['formatter' => 'boolean'],
+            'value_total' => [],
+            'is_processed' => [],
             //'_status' => ['formatter' => function($val, $row, $args, $view) {
             //    return $view->Status->label($val);
             //}],
@@ -86,6 +72,7 @@ class ShopOrderItemsController extends AppController
         $this->set('rowActions', [
             [__d('shop', 'View'), ['action' => 'view', ':id']]
         ]);
+        $this->set('queryObj', $query);
 
         $this->Action->execute();
     }
