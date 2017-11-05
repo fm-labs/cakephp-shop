@@ -27,7 +27,4 @@
     // @TODO Export to vcard
     // @TODO Semantic markup
     ?>
-    <a href="#">Google Maps</a> |
-    <a href="#">Vcard</a> |
-    <a href="#">Print</a>
 </div>
