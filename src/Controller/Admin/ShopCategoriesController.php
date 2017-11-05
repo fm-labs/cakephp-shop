@@ -82,15 +82,18 @@ class ShopCategoriesController extends AppController
         ];
 
         $this->set('tree.displayField', 'name');
-        $this->set('fields.whitelist', ['name', 'language', 'is_published']);
+        //$this->set('fields.whitelist', ['name', 'language', 'is_published']);
         $this->set('fields', [
-           'language' => ['formatter' => function($val, $row, $args, $view) {
+            'name',
+            'featured_image_file' => ['formatter' => 'media_file'],
+            'language' => ['formatter' => function($val, $row, $args, $view) {
                $links = [];
                foreach (Configure::read('Shop.locales') as $_locale => $_localeName) {
                    $links[] = $view->Html->link($_localeName, ['action' => 'edit', $row->id, 'locale' => $_locale], ['data-locale' => $_locale]);
                }
                return join("&nbsp;", $links);
-           }]
+            }],
+            'is_published'
         ]);
 
         $this->set('_actions', [
@@ -203,7 +206,7 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
-               // return $this->redirect(['action' => 'edit', $id]);
+                return $this->redirect(['action' => 'edit', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
             }

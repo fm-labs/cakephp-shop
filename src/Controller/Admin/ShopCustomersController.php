@@ -28,7 +28,7 @@ class ShopCustomersController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
+        'index'     => 'Backend.FooTableIndex',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
@@ -41,13 +41,23 @@ class ShopCustomersController extends AppController
      */
     public function index()
     {
-        $this->set('fields.whitelist', ['id', 'user_id', 'email', 'display_name']);
+
+        $this->paginate = [
+            'order' => ['Users.name'],
+            'contain' => ['Users']
+        ];
+
+        $this->set('fields.whitelist', ['id', 'user', 'email', 'display_name']);
         $this->set('fields.blacklist', ['password', 'created', 'modified']);
         $this->set('fields', [
+            /*
             'user_id' => ['formatter' => function ($val, $row, $args, $view) {
                 return ($val) ? $view->Html->link($row->user->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $row->user->id]) : null;
             }]
+            */
+            'user' => ['formatter' => ['related', 'display_name'], 'type' => 'object']
         ]);
+        $this->set('paginate', true);
         $this->Action->execute();
     }
 

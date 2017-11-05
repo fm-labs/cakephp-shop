@@ -14,7 +14,7 @@ class ShopCustomerAddressesController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
+        'index'     => 'Backend.FooTableIndex',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
@@ -29,7 +29,7 @@ class ShopCustomerAddressesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopCustomers']
+            'contain' => ['ShopCustomers'],
         ];
 
         $filter = $this->request->query;
@@ -43,6 +43,14 @@ class ShopCustomerAddressesController extends AppController
         if (isset($this->request->query['shop_customer_id'])) {
             $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int)$filter['shop_customer_id'];
         }
+
+        $this->set('fields', [
+            'id' => [],
+            'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
+            'oneline' => []
+        ]);
+        $this->set('fields.whitelist', ['id', 'shop_customer', 'oneline']);
+        $this->set('paginate', true);
 
         $this->Action->execute();
     }

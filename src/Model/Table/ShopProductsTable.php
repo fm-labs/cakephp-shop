@@ -235,7 +235,7 @@ class ShopProductsTable extends Table
             if (Shop::config('Shop.CustomerDiscounts.enabled') == true && isset($options['for_customer'])) {
                 $ShopCustomerDiscounts = TableRegistry::get('Shop.ShopCustomerDiscounts');
 
-                debug($options['for_customer']);
+                //debug($options['for_customer']);
 
                 // find customer discounts for specific product
                 $customerDiscount = $ShopCustomerDiscounts->find()->where([

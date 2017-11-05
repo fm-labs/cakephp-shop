@@ -71,18 +71,18 @@ class ShopProductsController extends AppController
         ];
 
         $fields = [
-            'sku',
-            'preview_image_file' => [
-                'title' => 'Image',
-                'type' => 'object',
-                'formatter' => 'mediafile'
-            ],
             'title'  => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Html->link(
                     $val,
                     ['action' => 'edit', $row->id]
                 );
             }],
+            'preview_image_file' => [
+                'title' => 'Image',
+                'type' => 'object',
+                'formatter' => 'media_file'
+            ],
+            'sku',
             'price' => [
                 'formatter' => 'currency'
             ],
@@ -95,9 +95,9 @@ class ShopProductsController extends AppController
         ];
         $this->set('paginate', true);
         $this->set('ajax', true);
-        $this->set('filter', true);
+        $this->set('filter', false);
         $this->set('fields', $fields);
-        $this->set('fields.whitelist', ['sku', 'preview_image_file', 'title', 'is_buyable', 'is_published']);
+        $this->set('fields.whitelist', ['title', 'sku', 'preview_image_file', 'is_buyable', 'is_published']);
 
         $this->Action->execute();
     }

@@ -39,6 +39,16 @@ class ShopCountriesController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'order' => ['ShopCountries.is_published' => 'DESC', 'ShopCountries.name_de' => 'ASC'],
+            'limit' => 200,
+            'maxLimit' => 200
+        ];
+
+        $this->set('paginate', true);
+        $this->set('limit', 200);
+
+        $this->set('fields.whitelist', ['id', 'name_de', 'is_published']);
         $this->Action->execute();
     }
 
