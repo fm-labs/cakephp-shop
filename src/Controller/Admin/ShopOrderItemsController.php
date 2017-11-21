@@ -15,7 +15,7 @@ class ShopOrderItemsController extends AppController
      * @var array
      */
     public $actions = [
-        'index' => 'Backend.FooTableIndex',
+        'index' => 'Backend.Index',
         'view' => 'Backend.View'
     ];
 

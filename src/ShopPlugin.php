@@ -7,6 +7,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Routing\Router;
+use Settings\SettingsManager;
 
 /**
  * Class ShopPlugin
@@ -28,7 +29,7 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     {
         return [
             'Content.Model.PageTypes.get' => 'getContentPageTypes',
-            'Settings.get' => 'getSettings',
+            'Settings.build' => 'buildSettings',
             'Backend.Menu.get' => ['callable' => 'getBackendMenu', 'priority' => 5 ],
             'Backend.Routes.build' => 'buildBackendRoutes'
         ];
@@ -48,16 +49,109 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     /**
      * @param Event $event
      */
-    public function getSettings(Event $event)
+    public function buildSettings(Event $event)
     {
-        $event->result['Shop'] = [
-            'Router.enablePrettyUrls' => [
-                'type' => 'boolean',
-            ],
-            'Router.forceCanonical' => [
-                'type' => 'boolean',
-            ],
-        ];
+        if ($event->subject() instanceof SettingsManager) {
+            $event->subject()->add('Shop', [
+
+                // Owner
+                'Owner.name' => [
+                    'type' => 'string',
+                ],
+                'Owner.street1' => [
+                    'type' => 'string',
+                ],
+                'Owner.street2' => [
+                    'type' => 'string',
+                ],
+                'Owner.zipcode' => [
+                    'type' => 'string',
+                ],
+                'Owner.city' => [
+                    'type' => 'string',
+                ],
+                'Owner.country' => [
+                    'type' => 'string',
+                ],
+                'Owner.taxId' => [
+                    'type' => 'string',
+                ],
+
+                // Pages
+                'Pages.termsUrl' => [
+                    'type' => 'string',
+                ],
+
+                // Demo
+                'Demo.enabled' => [
+                    'type' => 'boolean',
+                ],
+                'Demo.username' => [
+                    'type' => 'string',
+                ],
+
+                // Cart
+                'Cart.requireAuth' => [
+                    'type' => 'boolean',
+                ],
+
+                // Order
+                'Order.nrPrefix' => [
+                    'type' => 'string',
+                ],
+                'Order.nrSuffix' => [
+                    'type' => 'string',
+                ],
+
+                // Invoice
+                'Invoice.nrPrefix' => [
+                    'type' => 'string',
+                ],
+                'Invoice.nrSuffix' => [
+                    'type' => 'string',
+                ],
+
+                // Price
+                'Price.baseCurrency' => [
+                    'type' => 'string',
+                ],
+                'Price.requireAuth' => [
+                    'type' => 'boolean',
+                ],
+                'Price.displayNet' => [
+                    'type' => 'boolean',
+                ],
+
+
+                // Layout
+                'Layout.default' => [
+                    'type' => 'string',
+                ],
+                'Layout.checkout' => [
+                    'type' => 'string',
+                ],
+                'Layout.payment' => [
+                    'type' => 'string',
+                ],
+                'Layout.order' => [
+                    'type' => 'string',
+                ],
+
+                // Catalogue
+                'Catalogue.index_category_id' => [
+                    'type' => 'string',
+                ],
+
+                // Routing
+                'Router.enablePrettyUrls' => [
+                    'type' => 'boolean',
+                ],
+                'Router.forceCanonical' => [
+                    'type' => 'boolean',
+                ],
+
+            ]);
+        }
     }
 
     /**

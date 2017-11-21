@@ -24,7 +24,7 @@ class ShopProductsController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.FooTableIndex',
+        'index'     => 'Backend.Index',
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',

@@ -55,11 +55,5 @@ echo $this->Form->input('view_template');
 <?= $this->Form->end() ?>
 </div>
 
-<!-- CUSTOM FORM ELEMENTS -->
-<?php $this->append('form_elements'); ?>
--- NO CUSTOM FORM ELEMENTS --
-<?php $this->end(); ?>
-
-
 
 

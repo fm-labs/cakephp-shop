@@ -17,7 +17,7 @@ class ShopOrdersController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.FooTableIndex',
+        'index'     => 'Backend.Index',
         //'index2'     => 'Backend.Index',
         'view'      => 'Backend.View',
         //'add'       => 'Backend.Add',
@@ -60,18 +60,9 @@ class ShopOrdersController extends AppController
         $this->set('paginate', true);
         $this->set('sortable', true);
         $this->set('ajax', true);
-        $this->set('fields.whitelist', [
-            'id',
-            'submitted',
-            'nr_formatted',
-            //'invoice_nr_formatted',
-            'shop_customer',
-            'status__status',
-            'order_value_total_formatted',
-        ]);
-        //$this->set('order', ['id' => 'desc']);
 
         $this->set('fields', [
+            'submitted', 'nr_formatted',
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
             'order_value_total_formatted' => ['label' => 'Total Value', 'formatter' => 'currency' , 'class' => 'text-right'],
             'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
@@ -210,7 +201,7 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses'],
             'status' => true
         ]);
         $this->set('entity', $shopOrder);
@@ -246,9 +237,29 @@ class ShopOrdersController extends AppController
                 'is_temporary' => [],
                 'is_storno' => [],
                 'is_deleted' => [],
+                'shop_order_transactions' => [],
+                'shop_customers' => [],
+                'shop_order_items' => [],
+                'shop_order_addresses' => [],
+                'billing_addresses' => [],
+                'shipping_addresses' => []
             ],
         ]);
 
+        $this->set('related', [
+            'ShopOrderTransactions' => [
+                'fields' => [
+                    'id', 'type', 'engine', 'currency_code', 'value', 'status', 'ext_txnid', 'ext_status', 'last_message', 'is_test'
+                ]
+            ],
+            'ShopCustomers',
+            'ShopOrderItems',
+            'ShopOrderAddresses',
+            'BillingAddresses',
+            'ShippingAddresses'
+        ]);
+
+        /*
         $this->set('tabs', [
             //'summary' => [
             //    'title' => __('Summary'),
@@ -267,8 +278,9 @@ class ShopOrdersController extends AppController
             //    'url' => ['plugin' => 'Backend', 'controller' => 'Entity', 'action' => 'view', 'Shop.ShopOrders', $shopOrder->id]
             //]
         ]);
+        */
 
-        $this->noActionTemplate = true;
+        //$this->noActionTemplate = true;
         $this->Action->execute();
     }
 

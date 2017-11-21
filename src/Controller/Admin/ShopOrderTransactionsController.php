@@ -11,7 +11,7 @@ use Shop\Controller\Admin\AppController;
 class ShopOrderTransactionsController extends AppController
 {
     public $actions = [
-        'index' => 'Backend.FooTableIndex'
+        'index' => 'Backend.Index'
     ];
 
     public $paginate = [
