@@ -16,13 +16,13 @@ return [
         ],
 
         'Owner' => [
-            'name'          => 'Shop Owner',
-            'street1'       => 'Teststreet 42',
+            'name'          => '',
+            'street1'       => '',
             'street2'       => '',
-            'zipcode'       => '12345',
-            'city'          => 'Foo Town',
-            'country'       => 'Baz Country',
-            'taxId'			=> 'ATU12345678',
+            'zipcode'       => '',
+            'city'          => '',
+            'country'       => '',
+            'taxId'			=> '',
         ],
 
         'Pages' => [
