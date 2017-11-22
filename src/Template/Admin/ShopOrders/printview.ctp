@@ -33,10 +33,10 @@ $billingAddress = $shopOrder->getBillingAddress();
 
     <div class="print_date" style="text-align:right;">
         <?php echo __d('shop', 'Date of order: {0}', $shopOrder->submitted->format("d.m.Y"));?>
-        <?php if ($mode == "invoice" && $shopOrder->invoice_nr_formatted):?>
+        <?php if ($mode == "invoice" && $shopOrder->submitted):?>
             <br />
             <?php
-            //echo __d('shop', 'Date of invoice: {0}', date("d.m.Y", $shopOrder->confirmed->format("d.m.Y")));
+            echo __d('shop', 'Rechnungsdatum: {0}', $shopOrder->submitted->format("d.m.Y"));
             ?>
         <?php endif; ?>
         <br />

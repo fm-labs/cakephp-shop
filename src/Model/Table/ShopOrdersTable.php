@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\ORM\Query;
@@ -559,6 +560,7 @@ class ShopOrdersTable extends Table
 
         return $this->connection()->transactional(function ($conn) use (&$order, $config) {
             $order->invoice_nr = $this->getNextInvoiceNr();
+            $order->invoiced = Time::now();
 
             return $this->save($order);
         });

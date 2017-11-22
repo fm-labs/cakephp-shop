@@ -155,7 +155,7 @@ class ShopProductsController extends AppController
         $tabs = [];
         if ($shopProduct->type == "parent") {
             $tabs['child-products'] = [
-                'title' => __('Productversions'),
+                'title' => __d('shop', 'Productversions'),
                 'url' => ['action' => 'index', 'qry' => ['parent_id' => $shopProduct->id]]
             ];
         }
@@ -223,12 +223,12 @@ class ShopProductsController extends AppController
         $tabs = [];
         if ($shopProduct->type == "parent") {
             $tabs['child-products'] = [
-                'title' => __('Productversions'),
+                'title' => __d('shop', 'Productversions'),
                 'url' => ['action' => 'index', 'qry' => ['parent_id' => $shopProduct->id]]
             ];
         }
         $tabs['media'] = [
-            'title' => __('Media'),
+            'title' => __d('shop', 'Media'),
             'url' => ['action' => 'media', $shopProduct->id]
         ];
         $this->set('tabs', $tabs);

@@ -34,7 +34,7 @@ $this->Toolbar->addLink(
 <div class="shop categories form">
 
     <div style="margin: 0;" class="text-right">
-        <?= __('Languages') ?>:
+        <?= __d('shop', 'Languages') ?>:
         <?php $_locales = Configure::read('Shop.locales'); ?>
         <?php foreach($_locales as $_locale => $_localeName): ?>
             <?php
@@ -45,7 +45,7 @@ $this->Toolbar->addLink(
             );
 
             if ($_locale === $this->get('locale')) {
-                echo '(' . __('Current') . ')';
+                echo '(' . __d('shop', 'Current') . ')';
             }?>
         <?php endforeach; ?>
     </div>
