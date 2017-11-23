@@ -9,7 +9,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <?= __d('shop', 'Order'); ?>  <?= h($entity->nr_formatted); ?>
-                    <small class="pull-right">Ordered: <?= h($entity->submitted); ?></small>
+                    <small class="pull-right"><?= __d('shop','Ordered') ?>: <?= h($entity->submitted); ?></small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -27,11 +27,14 @@
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <b>Order ID:</b> <?= h($entity->nr_formatted); ?><br>
-                <b>Order Date:</b> <?= $this->Time->nice($entity->submitted); ?><br>
-                <b>Account:</b> <?= h($entity->shop_customer_id); ?>
+                <b><?= __d('shop','Order ID'); ?>:</b> <?= h($entity->nr_formatted); ?><br>
+                <b><?= __d('shop','Order Date'); ?>:</b> <?= $this->Time->nice($entity->submitted); ?><br>
+                <?php if ($entity->shop_customer): ?>
+                <b><?= __d('shop','Customer'); ?>:</b> <?= $this->Html->link($entity->shop_customer->display_name,
+                    [ 'controller' => 'ShopCustomers', 'action' => 'view', $entity->shop_customer_id]); ?>
+                <?php endif; ?>
                 <br /><br />
-                <b>Status:</b> <?= $this->Status->label($entity->status__status); ?>
+                <b><?= __d('shop','Status'); ?>:</b> <?= $this->Status->label($entity->status__status); ?>
             </div>
             <!-- /.col -->
         </div>
@@ -55,11 +58,11 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Pos</th>
-                        <th>Qty</th>
-                        <th>Serial #</th>
-                        <th>Product</th>
-                        <th class="text-right">Subtotal</th>
+                        <th><?= __d('shop','Pos'); ?></th>
+                        <th><?= __d('shop','Qty'); ?></th>
+                        <th><?= __d('shop','Serial'); ?></th>
+                        <th><?= __d('shop','Product'); ?></th>
+                        <th class="text-right"><?= __d('shop','Subtotal'); ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,27 +93,27 @@
                     <table class="table table-condensed">
                         <tbody>
                         <tr class="text-right">
-                            <th style="width:50%">Subtotal:</th>
+                            <th style="width:50%"><?= __d('shop','Subtotal') ?>:</th>
                             <td><?= $this->Number->currency($entity->items_value_net, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th>Shipping:</th>
+                            <th><?= __d('shop','Shipping') ?>:</th>
                             <td><?= $this->Number->currency($entity->shipping_value_net, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th>Tax:</th>
+                            <th><?= __d('shop','Tax') ?>:</th>
                             <td><?= $this->Number->currency($entity->items_value_tax, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th>Total:</th>
+                            <th><?= __d('shop','Total') ?>:</th>
                             <td><?= $this->Number->currency($entity->items_value_total, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th>Voucher / Coupons:</th>
+                            <th><?= __d('shop','Discount') ?>:</th>
                             <td><?= $this->Number->currency($entity->coupon_value, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th>Final:</th>
+                            <th><?= __d('shop','Order total') ?>:</th>
                             <td><?= $this->Number->currency($entity->order_value_total, $entity->currency); ?></td>
                         </tr>
                         </tbody>
@@ -127,19 +130,18 @@
 
                 <h3 class="page-header">
                     <?= __d('shop', 'Payment'); ?>
-                    <small class="pull-right">Payed: <?= h($entity->delivered); ?></small>
+                    <small class="pull-right"><?= __d('shop','Payed') ?>: <?= h($entity->payed); ?></small>
                 </h3>
 
-                [<?= h($entity->payment_type); ?>]
-                <strong>UNPAID</strong>
+                <b><?= __d('shop','Payment Type'); ?>:</b> <?= h($entity->payment_type); ?>
                 <br />
 
                 <?php
                 $element = 'Shop.Admin/Payment/' . $entity->payment_type . '/order';
                 if ($this->elementExists($element)) {
                     echo $this->element($element, ['order' => $entity]);
-                } else {
-                    echo __d('shop', 'No payment type selected');
+                } elseif (Cake\Core\Configure::read('debug')) {
+                    echo __d('shop', 'Element missing: ' . $element);
                 }
                 ?>
             </div>
@@ -151,16 +153,15 @@
                     <small class="pull-right">Delivered: <?= h($entity->delivered); ?></small>
                 </h3>
 
-                [<?= h($entity->shipping_type); ?>]
-                <strong>UNSHIPPED</strong>
+                <b><?= __d('shop','Shipping Type'); ?>:</b> <?= h($entity->shipping_type); ?>
                 <br />
 
                 <?php
                 $element = 'Shop.Admin/Shipping/' . $entity->shipping_type . '/order';
                 if ($this->elementExists($element)) {
                     echo $this->element($element, ['order' => $entity]);
-                } else {
-                    echo __d('shop', 'No shipping type selected');
+                } elseif (Cake\Core\Configure::read('debug')) {
+                    echo __d('shop', 'Element missing: ' . $element);
                 }
                 ?>
             </div>
@@ -194,17 +195,17 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <?= __d('shop', 'Invoice'); ?> <?= h($entity->invoice_nr_formatted); ?>
-                    <small class="pull-right">Invoiced: <?= h($entity->invoiced); ?></small>
+                    <small class="pull-right"><?= __d('shop','Invoiced') ?>: <?= h($entity->invoiced); ?></small>
                 </h2>
             </div>
             <!-- /.col -->
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-bottom: 2em;">
             <!-- accepted payments column -->
             <div class="col-xs-6">
-                <b>Invoice #:</b> <?= h($entity->invoice_nr_formatted); ?><br>
-                <b>Invoice Date:</b> <?= h($entity->invoiced); ?><br>
+                <b><?= __d('shop','Invoice #') ?>:</b> <?= h($entity->invoice_nr_formatted); ?><br>
+                <b><?= __d('shop','Invoice date') ?>:</b> <?= h($entity->invoiced); ?><br>
             </div>
             <!-- /.col -->
             <div class="col-xs-6">

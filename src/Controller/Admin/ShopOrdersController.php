@@ -3,6 +3,7 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\View\View;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Table\ShopOrdersTable;
 
@@ -15,15 +16,16 @@ use Shop\Model\Table\ShopOrdersTable;
 class ShopOrdersController extends AppController
 {
     /**
+     * @var string
+     */
+    public $modelClass = "Shop.ShopOrders";
+
+    /**
      * @var array
      */
     public $actions = [
         'index'     => 'Backend.Index',
-        //'index2'     => 'Backend.Index',
         'view'      => 'Backend.View',
-        //'add'       => 'Backend.Add',
-        //'edit'      => 'Backend.Edit',
-        //'print_order' => 'Shop.PrintOrder'
     ];
 
     /**
@@ -32,14 +34,13 @@ class ShopOrdersController extends AppController
     public function initialize()
     {
         parent::initialize();
+        //$this->loadComponent('RequestHandler');
 
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
         //$this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
         //$this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Send order confirmation'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
-        //$this->Action->registerInline('summary');
-        //$this->loadComponent('RequestHandler');
     }
 
     public function storno($id = null)
@@ -115,7 +116,7 @@ class ShopOrdersController extends AppController
             'model' => 'Shop.ShopOrders',
             'fields.whitelist' => true,
             'fields' => [
-                '_status' => ['formatter' => function($val, $row, $args, $view) {
+                '_status' => ['formatter' => function($val, $row, $args, View $view) {
                     $view->loadHelper('Banana.Status');
                     return $view->Status->label($val);
                 }],
@@ -180,10 +181,6 @@ class ShopOrdersController extends AppController
 
         /*
         $this->set('tabs', [
-            //'summary' => [
-            //    'title' => __d('shop', 'Summary'),
-            //    'url' => ['controller' => 'ShopOrders', 'action' => 'summary', $shopOrder->id]
-            //],
             'order-items' => [
                 'title' => __d('shop', 'Order Items'),
                 'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]
@@ -203,36 +200,6 @@ class ShopOrdersController extends AppController
 
         //$this->noActionTemplate = true;
         $this->Action->execute();
-    }
-
-
-    public function summary($id = null)
-    {
-        $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true
-        ]);
-        $this->set('shopOrder', $shopOrder);
-        $this->set('_serialize', 'shopOrder');
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Shop Order id.
-     * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function costs($id = null)
-    {
-        $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true
-        ]);
-        $calculator = $this->ShopOrders->calculateOrderCosts($shopOrder);
-        $this->set('shopOrder', $shopOrder);
-        $this->set('calculator', $calculator);
-        $this->set('_serialize', ['shopOrder']);
     }
 
     /**
@@ -284,31 +251,6 @@ class ShopOrdersController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-    public function add()
-    {
-        $shopOrder = $this->ShopOrders->newEntity();
-        if ($this->request->is('post')) {
-            $shopOrder = $this->ShopOrders->patchEntity($shopOrder, $this->request->data);
-            if ($this->ShopOrders->save($shopOrder)) {
-                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order')));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop order')));
-            }
-        }
-        $shopCustomers = $this->ShopOrders->ShopCustomers->find('list', ['limit' => 200]);
-        $billingAddresses = $this->ShopOrders->ShopCustomerAddresses->find('list', ['limit' => 200])->toArray();
-        $shippingAddresses = $this->ShopOrders->ShopCustomerAddresses->find('list', ['limit' => 200])->toArray();
-        $this->set(compact('shopOrder', 'shopCustomers', 'billingAddresses', 'shippingAddresses'));
-        $this->set('_serialize', ['shopOrder']);
-    }
-     */
-
-    /**
      * View method
      *
      * @param string|null $id Shop Order id.
@@ -347,6 +289,25 @@ class ShopOrdersController extends AppController
         };
         //$this->autoRender = false;
         $this->redirect($this->referer(['action' => 'edit', $id]));
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Shop Order id.
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function costs($id = null)
+    {
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
+            'status' => true
+        ]);
+        $calculator = $this->ShopOrders->calculateOrderCosts($shopOrder);
+        $this->set('shopOrder', $shopOrder);
+        $this->set('calculator', $calculator);
+        $this->set('_serialize', ['shopOrder']);
     }
 
     /**
