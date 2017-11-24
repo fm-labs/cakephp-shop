@@ -201,6 +201,7 @@
             <!-- /.col -->
         </div>
 
+        <?php if ($entity->invoice_nr): ?>
         <div class="row" style="margin-bottom: 2em;">
             <!-- accepted payments column -->
             <div class="col-xs-6">
@@ -213,10 +214,20 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
+        <?php else: ?>
+            <div class="row" style="margin-bottom: 2em;">
+            <!-- accepted payments column -->
+            <div class="col-xs-12">
+                <p class="well"><?= __('No invoice'); ?></p>
+            </div>
+            <!-- /.col -->
+        </div>
+        <?php endif; ?>
 
         <!-- this row will not appear when printing -->
         <div class="row no-print">
             <div class="col-xs-12">
+                <?php if ($entity->invoice_nr): ?>
                 <!--
                 <?= $this->Button->link(__d('shop', 'Print'),
                     ['action' => 'printview', $entity->id, 'mode' => 'invoice'],
@@ -230,6 +241,20 @@
                 <?= $this->Button->link(__d('shop', 'Send Invoice'),
                     ['action' => 'sendinvoice', $entity->id, 'mode' => 'invoice'],
                     ['data-icon' => 'envelope-o']); ?>
+
+                <?php elseif ($entity->status == \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
+                <?= $this->Button->link(__d('shop', 'Create invoice'),
+                    ['action' => 'invoice', $entity->id],
+                    ['data-icon' => 'refresh']); ?>
+
+                <?php endif; ?>
+
+                <?php if ($entity->status == \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
+                    <?= $this->Button->link(__d('shop', 'Set to payed'),
+                        ['action' => 'payed', $entity->id],
+                        ['data-icon' => 'money']); ?>
+
+                <?php endif; ?>
 
             </div>
         </div>

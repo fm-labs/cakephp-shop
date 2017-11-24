@@ -631,10 +631,9 @@ class ShopOrdersTable extends Table
 
     /**
      * @param ShopOrder $order
-     * @param array $data
      * @return ShopOrder
      */
-    public function confirmOrder(ShopOrder $order, array $data = [])
+    public function confirmOrder(ShopOrder $order)
     {
         if ($order->status >= self::ORDER_STATUS_CONFIRMED) {
             //throw new \Exception("Order already confirmed");
@@ -658,8 +657,9 @@ class ShopOrdersTable extends Table
         }
 
         // update order status to 'submitted'
+        // @TODO Move to event listener and check if the payment balance is actually zero before updating the status to PAYED
         if (!$this->updateStatus($order, self::ORDER_STATUS_PAYED)) {
-            Log::error("Shop Order: Failed to updated order status to CONFIRMED " . $order->id);
+            Log::error("Shop Order: Failed to updated order status to PAYED " . $order->id);
         }
 
         // dispatch 'afterSubmit' event
