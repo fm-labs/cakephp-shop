@@ -39,6 +39,7 @@ class PaymentListener extends ShopEventListener
             case ShopOrderTransactionsTable::STATUS_RESERVED:
             case ShopOrderTransactionsTable::STATUS_CONFIRMED:
                 $ShopOrders->confirmOrder($order);
+                break;
 
             case ShopOrderTransactionsTable::STATUS_ERROR:
             case ShopOrderTransactionsTable::STATUS_SUSPENDED:

@@ -505,7 +505,7 @@ class ShopOrdersTable extends Table
 
             case ShopOrderTransactionsTable::STATUS_RESERVED:
             case ShopOrderTransactionsTable::STATUS_CONFIRMED:
-                return ShopOrdersTable::ORDER_STATUS_PAYED;
+                return ShopOrdersTable::ORDER_STATUS_CONFIRMED;
 
             case ShopOrderTransactionsTable::STATUS_ERROR:
             case ShopOrderTransactionsTable::STATUS_REJECTED:
@@ -649,6 +649,16 @@ class ShopOrdersTable extends Table
 
         // update order status to 'submitted'
         if (!$this->updateStatus($order, self::ORDER_STATUS_CONFIRMED)) {
+            Log::error("Shop Order: Failed to updated order status to CONFIRMED " . $order->id);
+        }
+
+        // assign invoice nr
+        if (!$this->assignInvoiceNr($order)) {
+            Log::error("Shop Order: " . sprintf("Failed to assign invoice nr for order %s", $order->id));
+        }
+
+        // update order status to 'submitted'
+        if (!$this->updateStatus($order, self::ORDER_STATUS_PAYED)) {
             Log::error("Shop Order: Failed to updated order status to CONFIRMED " . $order->id);
         }
 

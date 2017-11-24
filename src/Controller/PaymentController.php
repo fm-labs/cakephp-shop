@@ -136,8 +136,7 @@ class PaymentController extends AppController
                 break;
         }
 
-        die("REdirect" . $redirectUrl);
-        //return $this->redirect($redirectUrl);
+        return $this->redirect($redirectUrl);
     }
 
     /**
