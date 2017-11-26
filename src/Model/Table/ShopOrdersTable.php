@@ -105,7 +105,10 @@ class ShopOrdersTable extends Table
             'conditions' => ['ShippingAddresses.type' => 'S'],
             'contain' => ['Countries']
         ]);
-
+        $this->hasMany('ShopOrderNotifications', [
+            'foreignKey' => 'shop_order_id',
+            'className' => 'Shop.ShopOrderNotifications'
+        ]);
         $this->addBehavior('Banana.Statusable');
 
         if (Plugin::loaded('Search')) {
@@ -477,6 +480,12 @@ class ShopOrdersTable extends Table
         //@TODO Add order history entry
         Log::info(sprintf("Shop Order: Updated order status for order %s from %s to %s", $order->id, $oldStatus, $newStatus));
 
+
+        $event = new Event('Shop.Model.Order.statusUpdate', $this, [
+            'order' => $order,
+        ]);
+        $this->eventManager()->dispatch($event);
+
         return $order;
     }
 
@@ -647,18 +656,20 @@ class ShopOrdersTable extends Table
         $this->eventManager()->dispatch($event);
 
         // update order status to 'submitted'
+        // @TODO Move to event listener and check if the payment balance is actually zero before updating the status to CONFIRMED
         if (!$this->updateStatus($order, self::ORDER_STATUS_CONFIRMED)) {
             Log::error("Shop Order: Failed to updated order status to CONFIRMED " . $order->id);
         }
 
         // assign invoice nr
+        // @TODO Move to event listener and check if the payment balance is actually zero before assigning an invoice nr
         if (!$this->assignInvoiceNr($order)) {
             Log::error("Shop Order: " . sprintf("Failed to assign invoice nr for order %s", $order->id));
         }
 
         // update order status to 'submitted'
         // @TODO Move to event listener and check if the payment balance is actually zero before updating the status to PAYED
-        if (!$this->updateStatus($order, self::ORDER_STATUS_PAYED)) {
+        elseif (!$this->updateStatus($order, self::ORDER_STATUS_PAYED)) {
             Log::error("Shop Order: Failed to updated order status to PAYED " . $order->id);
         }
 

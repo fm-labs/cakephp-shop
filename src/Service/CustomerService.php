@@ -1,17 +1,18 @@
 <?php
 
-namespace Shop\Event;
+namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
+use Shop\Service\BaseService;
 
 /**
- * Class CustomerListener
+ * Class CustomerService
  *
  * @package Shop\Event
  */
-class CustomerListener extends ShopEventListener
+class CustomerService extends BaseService
 {
     /**
      * @return array
@@ -110,14 +111,14 @@ class CustomerListener extends ShopEventListener
         $address = $order->getBillingAddress();
         if ($address && !$address->shop_customer_address_id) {
             if (!TableRegistry::get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
-                Log::error(sprintf('CustomerListener::newRecordFromOrderAddress [B] failed for order %s', $order->id));
+                Log::error(sprintf('CustomerService::newRecordFromOrderAddress [B] failed for order %s', $order->id));
             }
         }
 
         $address = $order->getShippingAddress();
         if ($address && !$address->shop_customer_address_id) {
             if (!TableRegistry::get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
-                Log::error(sprintf('CustomerListener::newRecordFromOrderAddress [S] failed for order %s', $order->id));
+                Log::error(sprintf('CustomerService::newRecordFromOrderAddress [S] failed for order %s', $order->id));
             }
         }
     }

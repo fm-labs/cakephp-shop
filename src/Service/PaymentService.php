@@ -1,13 +1,16 @@
 <?php
 
-namespace Shop\Event;
+namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopOrderTransactionsTable;
 
-class PaymentListener extends ShopEventListener
+/**
+ * @property ShopOrdersTable $ShopOrders
+ */
+class PaymentService extends BaseService
 {
     public function implementedEvents()
     {
@@ -29,16 +32,16 @@ class PaymentListener extends ShopEventListener
         $transaction = $event->data['transaction'];
         $orderId = $transaction->shop_order_id;
 
-        $ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
 
-        $order = $ShopOrders->get($orderId, ['contain' => []]);
+        $order = $this->ShopOrders->get($orderId, ['contain' => []]);
 
         switch ($transaction->status) {
             case ShopOrderTransactionsTable::STATUS_INIT:
                 break;
             case ShopOrderTransactionsTable::STATUS_RESERVED:
             case ShopOrderTransactionsTable::STATUS_CONFIRMED:
-                $ShopOrders->confirmOrder($order);
+                $this->ShopOrders->confirmOrder($order);
                 break;
 
             case ShopOrderTransactionsTable::STATUS_ERROR:
@@ -46,7 +49,7 @@ class PaymentListener extends ShopEventListener
             case ShopOrderTransactionsTable::STATUS_REJECTED:
             case ShopOrderTransactionsTable::STATUS_REVERSAL:
             case ShopOrderTransactionsTable::STATUS_CREDITED:
-                $ShopOrders->updateStatusFromTransaction($order, $transaction);
+                $this->ShopOrders->updateStatusFromTransaction($order, $transaction);
             default:
                 break;
         }

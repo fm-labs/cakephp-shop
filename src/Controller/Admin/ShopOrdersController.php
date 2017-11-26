@@ -105,7 +105,7 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses'],
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
             'status' => true
         ]);
         $this->set('entity', $shopOrder);
@@ -161,6 +161,9 @@ class ShopOrdersController extends AppController
                 'fields' => [
                     'id', 'type', 'engine', 'currency_code', 'value', 'status', 'ext_txnid', 'ext_status', 'last_message', 'is_test'
                 ]
+            ],
+            'ShopOrderNotifications' => [
+
             ],
             'ShopOrderAddresses' => [
                 'fields' => [

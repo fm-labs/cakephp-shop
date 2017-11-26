@@ -1,11 +1,10 @@
 <?php
 
-namespace Shop\Event;
+namespace Shop\Service;
 
 use Cake\Event\Event;
-use Shop\Event\ShopEventListener;
 
-class DebugListener extends ShopEventListener
+class DebugService extends BaseService
 {
     public function implementedEvents()
     {

@@ -8,6 +8,7 @@ use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Routing\Router;
 use Settings\SettingsManager;
+use Shop\Service\OrderNotificationService;
 
 /**
  * Class ShopPlugin
@@ -250,10 +251,13 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
      */
     public function __invoke(array $config = [])
     {
-        EventManager::instance()->on(new \Shop\Event\CartListener());
-        EventManager::instance()->on(new \Shop\Event\CustomerListener());
-        EventManager::instance()->on(new \Shop\Event\PaymentListener());
-        EventManager::instance()->on(new \Shop\Event\EmailNotificationListener());
+        EventManager::instance()->on(new \Shop\Service\CartService());
+        EventManager::instance()->on(new \Shop\Service\CustomerService());
+        EventManager::instance()->on(new \Shop\Service\PaymentService());
+        EventManager::instance()->on(new \Shop\Service\EmailNotificationService());
+        EventManager::instance()->on(new \Shop\Service\OrderService());
+        EventManager::instance()->on(new \Shop\Service\OrderNotificationService());
+
         EventManager::instance()->on(new \Shop\Sitemap\SitemapListener());
     }
 }

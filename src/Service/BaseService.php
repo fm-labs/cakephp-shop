@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\Event;
+namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -8,7 +8,7 @@ use Cake\Log\Log;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 
-abstract class ShopEventListener implements EventListenerInterface
+abstract class BaseService implements EventListenerInterface
 {
 
     protected function _logEvent($eventName, Event $event)

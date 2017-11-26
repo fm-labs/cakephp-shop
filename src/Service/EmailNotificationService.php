@@ -1,19 +1,18 @@
 <?php
 
-namespace Shop\Event;
+namespace Shop\Service;
 
 use Cake\Event\Event;
-use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
 use Shop\Mailer\CustomerMailer;
 use Shop\Mailer\OwnerMailer;
 
 /**
- * Class EmailNotificationListener
+ * Class EmailNotificationService
  *
  * @package Shop\Event
  */
-class EmailNotificationListener implements EventListenerInterface
+class EmailNotificationService extends BaseService
 {
     /**
      * @return array

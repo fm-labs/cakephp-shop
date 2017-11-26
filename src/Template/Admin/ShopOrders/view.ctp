@@ -106,7 +106,7 @@
                         </tr>
                         <tr class="text-right">
                             <th><?= __d('shop','Total') ?>:</th>
-                            <td><?= $this->Number->currency($entity->items_value_total, $entity->currency); ?></td>
+                            <td><?= $this->Number->currency($entity->items_value_taxed, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
                             <th><?= __d('shop','Discount') ?>:</th>
@@ -242,15 +242,15 @@
                     ['action' => 'sendinvoice', $entity->id, 'mode' => 'invoice'],
                     ['data-icon' => 'envelope-o']); ?>
 
-                <?php elseif ($entity->status == \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
+                <?php elseif (!$entity->invoice_nr && $entity->status >= \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
                 <?= $this->Button->link(__d('shop', 'Create invoice'),
                     ['action' => 'invoice', $entity->id],
                     ['data-icon' => 'refresh']); ?>
 
                 <?php endif; ?>
 
-                <?php if ($entity->status == \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
-                    <?= $this->Button->link(__d('shop', 'Set to payed'),
+                <?php if ($entity->status < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED): ?>
+                    <?= $this->Button->link(__d('shop', 'Mark PAYED'),
                         ['action' => 'payed', $entity->id],
                         ['data-icon' => 'money']); ?>
 
