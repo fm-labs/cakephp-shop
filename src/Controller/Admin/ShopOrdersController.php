@@ -318,13 +318,13 @@ class ShopOrdersController extends AppController
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
         if ($order->status >= ShopOrdersTable::ORDER_STATUS_CONFIRMED) {
-            $this->Flash->error(__('Failed to confirm order: Invalid order status'));
+            $this->Flash->error(__d('shop', 'Failed to confirm order: Invalid order status'));
 
         } elseif ($this->ShopOrders->confirmOrder($order)) {
-            $this->Flash->success(__('Order confirmed'));
+            $this->Flash->success(__d('shop', 'Order confirmed'));
 
         } else {
-            $this->Flash->error(__('Failed to create invoice'));
+            $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
 
         $this->redirect($this->referer(['action' => 'view', $id]));
@@ -335,13 +335,13 @@ class ShopOrdersController extends AppController
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
         if ($order->status != ShopOrdersTable::ORDER_STATUS_CONFIRMED) {
-            $this->Flash->error(__('Failed to create invoice: Invalid order status'));
+            $this->Flash->error(__d('shop', 'Failed to create invoice: Invalid order status'));
 
         } elseif ($this->ShopOrders->assignInvoiceNr($order)) {
-            $this->Flash->success(__('Invoice created'));
+            $this->Flash->success(__d('shop', 'Invoice created'));
 
         } else {
-            $this->Flash->error(__('Failed to create invoice'));
+            $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
 
         $this->redirect($this->referer(['action' => 'view', $id]));
@@ -352,13 +352,13 @@ class ShopOrdersController extends AppController
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
         if ($order->status >= ShopOrdersTable::ORDER_STATUS_PAYED) {
-            $this->Flash->error(__('Failed to change order status: Invalid status'));
+            $this->Flash->error(__d('shop', 'Failed to change order status: Invalid status'));
 
         } elseif ($this->ShopOrders->updateStatus($order, ShopOrdersTable::ORDER_STATUS_PAYED)) {
-            $this->Flash->success(__('Status updated'));
+            $this->Flash->success(__d('shop', 'Status updated'));
 
         } else {
-            $this->Flash->error(__('Failed to update status'));
+            $this->Flash->error(__d('shop', 'Failed to update status'));
         }
 
         $this->redirect($this->referer(['action' => 'view', $id]));

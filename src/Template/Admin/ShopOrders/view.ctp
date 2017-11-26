@@ -220,7 +220,7 @@
             <div class="row" style="margin-bottom: 2em;">
             <!-- accepted payments column -->
             <div class="col-xs-12">
-                <p class="well"><?= __('No invoice'); ?></p>
+                <p class="well"><?= __d('shop', 'No invoice'); ?></p>
             </div>
             <!-- /.col -->
         </div>
