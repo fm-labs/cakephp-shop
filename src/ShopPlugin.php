@@ -2,10 +2,12 @@
 
 namespace Shop;
 
+use Backend\Event\RouteBuilderEvent;
 use Banana\Plugin\PluginInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Settings\SettingsManager;
 use Shop\Service\OrderNotificationService;
@@ -158,15 +160,11 @@ class ShopPlugin implements EventListenerInterface
     /**
      * Build backend routes
      */
-    public function buildBackendRoutes()
+    public function buildBackendRoutes(RouteBuilderEvent $event)
     {
-        Router::scope('/shop/admin', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePrefix' => 'shop:admin:'], function ($routes) {
+        $event->subject()->scope('/shop', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePrefix' => 'shop:admin:'], function (RouteBuilder $routes) {
             //$routes->addExtensions(['pdf']);
-            $routes->connect(
-                '/',
-                ['controller' => 'Shop', 'action' => 'index'],
-                ['_name' => 'index']
-            );
+            $routes->connect('/', ['controller' => 'Shop', 'action' => 'index'], ['_name' => 'index']);
             $routes->fallbacks('DashedRoute');
         });
     }
