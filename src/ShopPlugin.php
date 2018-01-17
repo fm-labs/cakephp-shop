@@ -15,7 +15,7 @@ use Shop\Service\OrderNotificationService;
  *
  * @package Shop
  */
-class ShopPlugin implements PluginInterface, EventListenerInterface
+class ShopPlugin implements EventListenerInterface
 {
 
     /**
@@ -246,18 +246,17 @@ class ShopPlugin implements PluginInterface, EventListenerInterface
     }
 
     /**
-     * @param array $config
-     * @return void
+     * @param EventManager $eventManager
      */
-    public function __invoke(array $config = [])
+    public function __invoke(EventManager $eventManager)
     {
-        EventManager::instance()->on(new \Shop\Service\CartService());
-        EventManager::instance()->on(new \Shop\Service\CustomerService());
-        EventManager::instance()->on(new \Shop\Service\PaymentService());
-        EventManager::instance()->on(new \Shop\Service\EmailNotificationService());
-        EventManager::instance()->on(new \Shop\Service\OrderService());
-        EventManager::instance()->on(new \Shop\Service\OrderNotificationService());
+        $eventManager->on(new \Shop\Service\CartService());
+        $eventManager->on(new \Shop\Service\CustomerService());
+        $eventManager->on(new \Shop\Service\PaymentService());
+        $eventManager->on(new \Shop\Service\EmailNotificationService());
+        $eventManager->on(new \Shop\Service\OrderService());
+        $eventManager->on(new \Shop\Service\OrderNotificationService());
 
-        EventManager::instance()->on(new \Shop\Sitemap\SitemapListener());
+        $eventManager->on(new \Shop\Sitemap\SitemapListener());
     }
 }
