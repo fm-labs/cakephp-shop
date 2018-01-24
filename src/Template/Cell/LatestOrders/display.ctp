@@ -1,3 +1,5 @@
+<?php $this->loadHelper('Number'); ?>
+<?php $this->loadHelper('Banana.Status'); ?>
 <?= $this->cell('Backend.DataTable', [[
     'paginate' => false,
     'filter' => false,
@@ -15,8 +17,12 @@
             'formatter' => function($val) {
                 return $this->Number->currency($val, 'EUR');
             }
+        ],
+        'status' => [
+            'formatter' => 'status'
         ]
     ],
     'rowActions' => false
 ]]);
 ?>
+<?php debug($orders->toArray()); ?>

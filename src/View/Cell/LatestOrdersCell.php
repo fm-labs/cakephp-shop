@@ -30,7 +30,7 @@ class LatestOrdersCell extends Cell
         $this->loadModel('Shop.ShopOrders');
 
         $orders = $this->ShopOrders
-            ->find()
+            ->find('all', ['status' => true])
             ->where(['ShopOrders.is_temporary' => false])
             ->contain(['ShopCustomers'])
             ->limit(5)

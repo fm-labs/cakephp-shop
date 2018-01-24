@@ -69,9 +69,11 @@ class ShopCustomerDiscountsController extends AppController
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop customer discount')));
             }
         }
-        $shopCustomers = $this->ShopCustomerDiscounts->ShopCustomers->find('list', ['limit' => 200]);
-        $shopProducts = $this->ShopCustomerDiscounts->ShopProducts->find('list', ['limit' => 200]);
-        $this->set(compact('shopCustomerDiscount', 'shopCustomers', 'shopProducts'));
+        $shopCustomers = $this->ShopCustomerDiscounts->ShopCustomers->find('list', ['limit' => 200, 'order' => ['last_name' => 'ASC']]);
+        $shopProducts = $this->ShopCustomerDiscounts->ShopProducts->find('list', ['limit' => 200, 'order' => ['title' => 'ASC']]);
+        $types = ['permanent' => __d('shop', 'Permanent')];
+        $valuetypes = ['value' => __d('shop', 'Value'), 'percent' => __d('shop', 'Percentage')];
+        $this->set(compact('shopCustomerDiscount', 'shopCustomers', 'shopProducts', 'types', 'valuetypes'));
         $this->set('_serialize', ['shopCustomerDiscount']);
     }
 

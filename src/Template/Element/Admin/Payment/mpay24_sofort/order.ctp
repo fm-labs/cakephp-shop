@@ -1,3 +1,5 @@
 <div>
-    Payment: mpay24_sofort
+    <p>
+        Sofortüberweisung (Klarna) via mPAY24
+    </p>
 </div>

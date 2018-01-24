@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Model\Entity;
 
+use Banana\Lib\Status;
 use Cake\Core\Configure;
 use Cake\I18n\Number;
 use Cake\ORM\Entity;
@@ -138,6 +139,14 @@ class ShopOrder extends Entity
     protected function _setQty($val)
     {
         return $this->set('amount', $val);
+    }
+
+    public function getStatus()
+    {
+        if ($this->status instanceof Status) {
+            return $this->status->getStatus();
+        }
+        return $this->status;
     }
 
     /**

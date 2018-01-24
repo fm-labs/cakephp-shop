@@ -34,7 +34,7 @@
                     [ 'controller' => 'ShopCustomers', 'action' => 'view', $entity->shop_customer_id]); ?>
                 <?php endif; ?>
                 <br /><br />
-                <b><?= __d('shop','Status'); ?>:</b> <?= $this->Status->label($entity->status__status); ?>
+                <b><?= __d('shop','Status'); ?>:</b> <?= $this->Status->label($entity->status); ?>
             </div>
             <!-- /.col -->
         </div>
@@ -133,9 +133,8 @@
                     <small class="pull-right"><?= __d('shop','Payed') ?>: <?= h($entity->payed); ?></small>
                 </h3>
 
-                <b><?= __d('shop','Payment Type'); ?>:</b> <?= h($entity->payment_type); ?>
-                <br />
-
+                <h4><?= __d('shop','Payment Type'); ?></h4>
+                <p><?= h($entity->payment_type); ?></p>
                 <?php
                 $element = 'Shop.Admin/Payment/' . $entity->payment_type . '/order';
                 if ($this->elementExists($element)) {
@@ -150,12 +149,11 @@
 
                 <h3 class="page-header">
                     <?= __d('shop', 'Shipping'); ?>
-                    <small class="pull-right">Delivered: <?= h($entity->delivered); ?></small>
+                    <small class="pull-right"><?= __d('shop', 'Delivered'); ?>: <?= h($entity->delivered); ?></small>
                 </h3>
 
-                <b><?= __d('shop','Shipping Type'); ?>:</b> <?= h($entity->shipping_type); ?>
-                <br />
-
+                <h4><?= __d('shop','Shipping Type'); ?></h4>
+                <p><?= h($entity->shipping_type); ?></p>
                 <?php
                 $element = 'Shop.Admin/Shipping/' . $entity->shipping_type . '/order';
                 if ($this->elementExists($element)) {
@@ -246,14 +244,14 @@
                     ['data-icon' => 'envelope-o']); ?>
                 -->
 
-                <?php elseif (!$entity->invoice_nr && $entity->status >= \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
+                <?php elseif (!$entity->invoice_nr && $entity->getStatus() >= \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
                 <?= $this->Button->link(__d('shop', 'Create invoice'),
                     ['action' => 'invoice', $entity->id],
                     ['data-icon' => 'refresh']); ?>
 
                 <?php endif; ?>
 
-                <?php if ($entity->status < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED): ?>
+                <?php if ($entity->getStatus() < \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_PAYED): ?>
                     <?= $this->Button->link(__d('shop', 'Mark PAYED'),
                         ['action' => 'payed', $entity->id],
                         ['data-icon' => 'money']); ?>

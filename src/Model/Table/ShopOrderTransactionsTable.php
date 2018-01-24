@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Model\Table;
 
+use Banana\Lib\Status;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -39,6 +40,7 @@ class ShopOrderTransactionsTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Banana.Statusable');
 
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',
@@ -51,6 +53,26 @@ class ShopOrderTransactionsTable extends Table
             'joinType' => 'INNER',
             'className' => 'Shop.ShopOrderTransactionNotifies'
         ]);
+    }
+
+    /**
+     * @return array
+     * @deprecated
+     */
+    public function implementedStati()
+    {
+        return [
+            'status' => [
+                new Status(self::STATUS_INIT, __d('shop', 'Initialized'), 'default'),
+                new Status(self::STATUS_ERROR, __d('shop', 'Error'), 'danger'),
+                new Status(self::STATUS_SUSPENDED, __d('shop', 'Suspended'), 'danger'),
+                new Status(self::STATUS_REJECTED, __d('shop', 'Rejected'), 'danger'),
+                new Status(self::STATUS_RESERVED, __d('shop', 'Reserved'), 'info'),
+                new Status(self::STATUS_CONFIRMED, __d('shop', 'Confirmed'), 'success'),
+                new Status(self::STATUS_REVERSAL, __d('shop', 'Reversal'), 'default'),
+                new Status(self::STATUS_CREDITED, __d('shop', 'Credited'), 'default'),
+            ],
+        ];
     }
 
     /**

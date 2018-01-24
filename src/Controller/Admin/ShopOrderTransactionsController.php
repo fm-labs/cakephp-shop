@@ -11,7 +11,8 @@ use Shop\Controller\Admin\AppController;
 class ShopOrderTransactionsController extends AppController
 {
     public $actions = [
-        'index' => 'Backend.Index'
+        'index' => 'Backend.Index',
+        'view' => 'Backend.View'
     ];
 
     public $paginate = [
@@ -26,13 +27,20 @@ class ShopOrderTransactionsController extends AppController
     public function index()
     {
         $dataUrl = ['rows' => 1];
-        $query = $this->ShopOrderTransactions->find();
+        $query = $this->ShopOrderTransactions->find('all', ['status' => true, 'contain' => ['ShopOrders']]);
         if ($this->request->query('shop_order_id')) {
             $dataUrl['shop_order_id'] = $this->request->query('shop_order_id');
             $query->where(['ShopOrderTransactions.shop_order_id' => $this->request->query('shop_order_id')]);
         }
 
-        $this->set('fields.whitelist', ['type', 'engine', 'currency_code', 'value', 'status', 'ext_status', 'last_message', 'is_test']);
+        $this->set('fields', [
+            'shop_order' => ['formatter' => ['related', 'nr_formatted']],
+            'type', 'engine', 'currency_code',
+            'value' => ['formatter' => ['currency', ['currency_field' => 'currency_code']]],
+            'status' => ['formatter' => 'status'],
+            'ext_status', 'last_message', 'is_test',
+        ]);
+        //$this->set('fields.whitelist', ['type', 'engine', 'currency_code', 'value', 'status', 'ext_status', 'last_message', 'is_test']);
         $this->set('ajax', $dataUrl);
         $this->set('queryObj', $query);
 

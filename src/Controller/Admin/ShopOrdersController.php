@@ -88,8 +88,8 @@ class ShopOrdersController extends AppController
             'nr_formatted' => ['label' => __d('shop', 'Order Nr')],
             'invoice_nr_formatted'  => ['label' => __d('shop', 'Invoice Nr')],
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
-            'order_value_total' => ['label' => 'Total Value', 'formatter' => 'currency' , 'class' => 'text-right'],
-            'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
+            'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-right'],
+            'status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
         ]);
 
         $this->Action->execute();

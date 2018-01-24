@@ -1,3 +1,5 @@
 <div>
-    Payment: mpay24
+    <p>
+        Kreditkartenzahlung via mPAY24
+    </p>
 </div>
