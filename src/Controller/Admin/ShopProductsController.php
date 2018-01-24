@@ -5,6 +5,7 @@ use Backend\Controller\Component\ToggleComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Exception\BadRequestException;
+use Cake\ORM\TableRegistry;
 use Media\Lib\Media\MediaManager;
 
 /**
@@ -60,44 +61,63 @@ class ShopProductsController extends AppController
      */
     public function index()
     {
+        $options = [];
+        $customer_id = $this->request->query('for_customer');
+        if ($customer_id) {
+            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customer_id, ['contain' => false]);
+            if ($customer) {
+                $options = ['for_customer' => $customer->id];
+                $this->Flash->success(__('Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
+            } else {
+                $this->Flash->warning(__('Customer not found'));
+            }
+        }
+
+        $query = $this->ShopProducts->find('all', $options);
+
         $this->paginate = [
-            //'limit' => 200,
+            'limit' => 200,
             //'maxLimit' => 200,
             //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published', 'ShopCategories.name'],
-            'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
+            //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
             'order' => ['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC'],
             //'contain' => ['ShopCategories'],
             'media' => true
         ];
 
         $fields = [
+            'preview_image_file' => [
+                'title' => 'Image',
+                'type' => 'object',
+                'formatter' => 'media_file'
+            ],
+            'type',
+            'sku',
             'title'  => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Html->link(
                     $val,
                     ['action' => 'edit', $row->id]
                 );
             }],
-            'preview_image_file' => [
-                'title' => 'Image',
-                'type' => 'object',
-                'formatter' => 'media_file'
-            ],
-            'sku',
-            'price' => [
+            'price_net' => [
                 'formatter' => 'currency'
             ],
             'is_buyable' => [
+                'title' => __('Buyable'),
                 'formatter' => null
             ],
             'is_published' => [
+                'title' => __('Published'),
                 'formatter' => null,
             ],
         ];
+        $this->set('queryObj', $query);
         $this->set('paginate', true);
         $this->set('ajax', true);
         $this->set('filter', false);
         $this->set('fields', $fields);
-        $this->set('fields.whitelist', ['title', 'sku', 'preview_image_file', 'is_buyable', 'is_published']);
+        //$this->set('fields.whitelist', ['title', 'sku', 'price', 'preview_image_file', 'is_buyable', 'is_published']);
+        //$this->set('debug', true);
 
         $this->Action->execute();
     }
