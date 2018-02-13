@@ -57,6 +57,7 @@ class ShopCustomersController extends AppController
             */
             'user' => ['formatter' => ['related', 'display_name'], 'type' => 'object']
         ]);
+
         $this->set('paginate', true);
         $this->Action->execute();
     }
@@ -70,6 +71,13 @@ class ShopCustomersController extends AppController
      */
     public function view($id = null)
     {
+        $entity = $this->ShopCustomers->get($id, ['contain' => ['Countries', 'ShopCustomerAddresses' => ['Countries'], 'ShopCustomerDiscounts']]);
+        $this->set('entity', $entity);
+        $this->set('related', [
+            'ShopCustomerAddresses' => [
+                'fields' => ['type', 'is_company', 'company_name', 'taxid', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country.name']
+            ],
+            'ShopCustomerDiscounts' => []]);
         $this->Action->execute();
     }
 

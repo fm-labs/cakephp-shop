@@ -33,7 +33,7 @@ class ShopPlugin implements EventListenerInterface
         return [
             'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.build' => 'buildSettings',
-            'Backend.Menu.get' => ['callable' => 'getBackendMenu', 'priority' => 5 ],
+            'Backend.Menu.build' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
             'Backend.Routes.build' => 'buildBackendRoutes'
         ];
     }
@@ -172,7 +172,7 @@ class ShopPlugin implements EventListenerInterface
     /**
      * @param Event $event
      */
-    public function getBackendMenu(Event $event)
+    public function buildBackendMenu(Event $event)
     {
         $event->subject()->addItem([
             'title' => __d('shop', 'Shop'),

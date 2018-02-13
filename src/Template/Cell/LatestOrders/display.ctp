@@ -1,6 +1,8 @@
-<?php $this->loadHelper('Number'); ?>
-<?php $this->loadHelper('Banana.Status'); ?>
-<?= $this->cell('Backend.DataTable', [[
+<?php
+$this->loadHelper('Number');
+$this->loadHelper('Banana.Status');
+
+echo $this->cell('Backend.DataTable', [[
     'paginate' => false,
     'filter' => false,
     'model' => 'Shop.ShopOrders',
@@ -9,8 +11,8 @@
     'fields' => [
         'submitted' => [],
         'nr_formatted' => [
-            'formatter' => function($val) {
-                return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'view', $val], ['class' => 'link-frame']);
+            'formatter' => function($val, $row) {
+                return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'view', $row['id']], ['class' => 'link-frame']);
             }
         ],
         'order_value_total' => [
@@ -24,5 +26,3 @@
     ],
     'rowActions' => false
 ]]);
-?>
-<?php debug($orders->toArray()); ?>

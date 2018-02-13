@@ -44,6 +44,14 @@ class ShopCustomersTable extends Table
             'foreignKey' => 'user_id',
             'className' => 'User.Users'
         ]);
+        $this->hasMany('ShopCustomerAddresses', [
+            'foreignKey' => 'shop_customer_id',
+            'className' => 'Shop.ShopCustomerAddresses'
+        ]);
+        $this->hasMany('ShopCustomerDiscounts', [
+            'foreignKey' => 'shop_customer_id',
+            'className' => 'Shop.ShopCustomerDiscounts'
+        ]);
     }
 
     /**
