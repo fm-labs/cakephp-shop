@@ -3,6 +3,8 @@
 namespace Shop;
 
 use Backend\Event\RouteBuilderEvent;
+use Backend\View\BackendView;
+use Banana\Menu\Menu;
 use Banana\Plugin\PluginInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -34,7 +36,9 @@ class ShopPlugin implements EventListenerInterface
             'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.build' => 'buildSettings',
             'Backend.Menu.build' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
-            'Backend.Routes.build' => 'buildBackendRoutes'
+            'Backend.SysMenu.build' => ['callable' => 'buildBackendSystemMenu' ],
+            'Backend.Routes.build' => 'buildBackendRoutes',
+            'View.beforeLayout' => ['callable' => 'beforeLayout']
         ];
     }
 
@@ -46,6 +50,74 @@ class ShopPlugin implements EventListenerInterface
         $event->result['shop_category'] = [
             'title' => 'Shop Category',
             'className' => 'Shop.ShopCategory'
+        ];
+    }
+
+    public function beforeLayout(Event $event)
+    {
+        if ($event->subject() instanceof BackendView && $event->subject()->plugin == "Shop") {
+            $menu = new Menu($this->_getMenuItems());
+            $event->subject()->set('backend.sidebar.menu', $menu);
+        }
+    }
+
+    protected function _getMenuItems()
+    {
+        return [
+            'orders' => [
+                'title' => __d('shop', 'Orders'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
+                'data-icon' => 'list'
+            ],
+            /*
+            'order_invoices' => [
+                'title' => 'Invoices',
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderInvoices', 'action' => 'index'],
+                'data-icon' => 'eur'
+            ],
+            */
+            'order_transactions' => [
+                'title' => __d('shop', 'Transactions'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderTransactions', 'action' => 'index'],
+                'data-icon' => 'usd'
+            ],
+            'categories' => [
+                'title' => __d('shop', 'Categories'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopCategories', 'action' => 'index'],
+                'data-icon' => 'folder'
+            ],
+            'products' => [
+                'title' => __d('shop', 'Products'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index'],
+                'data-icon' => 'archive'
+            ],
+            'customers' => [
+                'title' => __d('shop', 'Customers'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
+                'data-icon' => 'users'
+            ],
+            'customer_addresses' => [
+                'title' => __d('shop', 'Customer Addresses'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerAddresses', 'action' => 'index'],
+                'data-icon' => 'address-book'
+            ],
+            'customer_discounts' => [
+                'title' => __d('shop', 'Customer Discounts'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerDiscounts', 'action' => 'index'],
+                'data-icon' => 'user-plus'
+            ],
+            /*
+            'stocks' => [
+                'title' => __d('shop', 'Stock'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'Stocks', 'action' => 'index'],
+                'data-icon' => 'truck'
+            ],
+            'stock_transfers' => [
+                'title' => __d('shop', 'Stock Transfers'),
+                'url' => ['plugin' => 'Shop', 'controller' => 'StockTransfers', 'action' => 'index'],
+                'data-icon' => 'truck'
+            ],
+            */
         ];
     }
 
@@ -176,70 +248,18 @@ class ShopPlugin implements EventListenerInterface
     {
         $event->subject()->addItem([
             'title' => __d('shop', 'Shop'),
-            'url' => ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index'],
+            'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',
+            'children' => $this->_getMenuItems()
+        ]);
+    }
 
-            'children' => [
-                'orders' => [
-                    'title' => 'Orders',
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
-                    'data-icon' => 'list'
-                ],
-                /*
-                'order_invoices' => [
-                    'title' => 'Invoices',
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderInvoices', 'action' => 'index'],
-                    'data-icon' => 'eur'
-                ],
-                */
-                'order_transactions' => [
-                    'title' => __d('shop', 'Order Transactions'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderTransactions', 'action' => 'index'],
-                    'data-icon' => 'exchange'
-                ],
-                'categories' => [
-                    'title' => __d('shop', 'Categories'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCategories', 'action' => 'index'],
-                    'data-icon' => 'folder-open-o'
-                ],
-                'products' => [
-                    'title' => __d('shop', 'Products'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index'],
-                    'data-icon' => 'gift'
-                ],
-                'customers' => [
-                    'title' => __d('shop', 'Customers'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
-                    'data-icon' => 'users'
-                ],
-                'customer_addresses' => [
-                    'title' => __d('shop', 'Customer Addresses'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerAddresses', 'action' => 'index'],
-                    'data-icon' => 'users'
-                ],
-                'customer_discounts' => [
-                    'title' => __d('shop', 'Customer Discounts'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerDiscounts', 'action' => 'index'],
-                    'data-icon' => 'users'
-                ],
-                /*
-                'stocks' => [
-                    'title' => __d('shop', 'Stock'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'Stocks', 'action' => 'index'],
-                    'data-icon' => 'truck'
-                ],
-                'stock_transfers' => [
-                    'title' => __d('shop', 'Stock Transfers'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'StockTransfers', 'action' => 'index'],
-                    'data-icon' => 'truck'
-                ],
-                */
-                'countries' => [
-                    'title' => __d('shop', 'Countries'),
-                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCountries', 'action' => 'index'],
-                    'data-icon' => 'flag-checkered'
-                ],
-            ]
+    public function buildBackendSystemMenu(Event $event)
+    {
+        $event->subject()->addItem([
+            'title' => __d('shop', 'Shop Countries'),
+            'url' => ['plugin' => 'Shop', 'controller' => 'ShopCountries', 'action' => 'index'],
+            'data-icon' => 'flag-checkered'
         ]);
     }
 
