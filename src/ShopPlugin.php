@@ -33,7 +33,7 @@ class ShopPlugin implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Content.Model.PageTypes.get' => 'getContentPageTypes',
+            //'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.build' => 'buildSettings',
             'Backend.Menu.build' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
             'Backend.SysMenu.build' => ['callable' => 'buildBackendSystemMenu' ],
@@ -44,6 +44,7 @@ class ShopPlugin implements EventListenerInterface
 
     /**
      * @param Event $event
+     * @deprecated Defined in config file instead. see config/content.php
      */
     public function getContentPageTypes(Event $event)
     {

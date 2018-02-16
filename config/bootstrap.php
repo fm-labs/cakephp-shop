@@ -30,6 +30,7 @@ if (!Log::config('shop')) {
 /**
  * Load default config
  */
+Configure::load('Shop.content');
 Configure::load('Shop.shop');
 
 /**
