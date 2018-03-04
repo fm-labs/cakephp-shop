@@ -36,7 +36,9 @@ class ShopOrdersController extends AppController
         parent::initialize();
         //$this->loadComponent('RequestHandler');
 
+        $this->Action->registerInline('viewOrder', ['label' => __d('shop', 'View Order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
+        $this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         //$this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
         //$this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
@@ -54,7 +56,7 @@ class ShopOrdersController extends AppController
             ]);
             if ($this->ShopOrders->save($order)) {
                 $this->Flash->success(__d('shop', 'Updated'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'viewOrder', $id]);
 
             } else {
                 $this->Flash->error(__d('shop', 'Operation failed'));
@@ -63,6 +65,8 @@ class ShopOrdersController extends AppController
         }
 
         $this->set('order', $order);
+
+        //$this->setAction('viewOrder', $id);
     }
 
     /**
@@ -199,10 +203,26 @@ class ShopOrdersController extends AppController
         ]);
         */
 
-        $this->set('template', 'view');
+        //$this->set('template', 'view');
 
         //$this->noActionTemplate = true;
         $this->Action->execute();
+    }
+
+    public function viewOrder($id = null)
+    {
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
+            'status' => true
+        ]);
+        $this->set('entity', $shopOrder);
+        $this->set('_serialize', 'entity');
+        $this->Action->execute();
+    }
+
+    public function viewInvoice($id = null)
+    {
+
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php $this->loadHelper('Number'); ?>
 <?php $this->loadHelper('Banana.Status'); ?>
-<?php $this->extend('Backend./Admin/Action/view'); ?>
 <div class="view">
 
     <section class="invoice">
@@ -55,6 +54,11 @@
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12 table-responsive">
+                <h3 class="page-header">
+                    <?= __d('shop', 'Order Items'); ?>
+                    <small class="pull-right"><?= $this->Number->currency($entity->order_value_total, $entity->currency); ?></small>
+                </h3>
+
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -84,11 +88,14 @@
         <!-- /.row -->
 
         <div class="row">
-            <!-- accepted payments column -->
+
+            <!-- accepted payments column
             <div class="col-xs-6">
             </div>
+             -->
             <!-- /.col -->
-            <div class="col-xs-6">
+            <div class="col-xs-12">
+
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <tbody>

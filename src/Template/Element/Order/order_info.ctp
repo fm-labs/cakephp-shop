@@ -9,6 +9,6 @@ $this->loadHelper('Banana.Status');
         <dt><?= __d('shop','Date of purchase'); ?></dt>
         <dd><?= h($this->Time->nice($order->submitted)); ?></dd>
         <dt><?= __d('shop','Status'); ?></dt>
-        <dd><?= $this->Status->label($order->_status); ?></dd>
+        <dd><?= $this->Status->label($order->status__status); ?></dd>
     </dl>
 </div>

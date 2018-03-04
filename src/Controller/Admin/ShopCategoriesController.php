@@ -96,6 +96,7 @@ class ShopCategoriesController extends AppController
             'is_published'
         ]);
 
+        /*
         $this->set('_actions', [
             'add' => [
                 __d('shop', 'Add {0}', __d('shop', 'category')),
@@ -107,6 +108,7 @@ class ShopCategoriesController extends AppController
                ['class' => 'link-modal-frame', 'data-modal-reload' => true, 'data-icon' => 'sitemap']
             ]
         ]);
+        */
 
         $this->Action->execute();
     }

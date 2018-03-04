@@ -4,6 +4,7 @@ namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
+use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderNotification;
@@ -50,7 +51,12 @@ class OrderNotificationService implements EventListenerInterface
 
     protected function _saveNotification(ShopOrderNotification $notification)
     {
-        return $this->Notifications->save($notification);
+        try {
+            return $this->Notifications->save($notification);
+        } catch (\Exception $ex) {
+            Log::error("OrderNotificationService::_saveNotification: " . $ex->getMessage());
+            return false;
+        }
     }
 
     /**

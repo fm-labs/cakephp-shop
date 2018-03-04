@@ -10,6 +10,8 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCustomerAddressesController extends AppController
 {
+    public $modelClass = "Shop.ShopCustomerAddresses";
+
     /**
      * @var array
      */
@@ -64,6 +66,8 @@ class ShopCustomerAddressesController extends AppController
      */
     public function view($id = null)
     {
+        $entity = $this->ShopCustomerAddresses->get($id, ['contain' => ['ShopCustomers']]);
+        $this->set('entity', $entity);
         $this->Action->execute();
     }
 

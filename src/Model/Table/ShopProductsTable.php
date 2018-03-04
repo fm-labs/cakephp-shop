@@ -169,6 +169,10 @@ class ShopProductsTable extends Table
             ->notEmpty('title');
 
         $validator
+            ->requirePresence('type', 'create')
+            ->notEmpty('type');
+
+        $validator
             ->allowEmpty('slug');
 
         $validator
@@ -185,8 +189,8 @@ class ShopProductsTable extends Table
 
         $validator
             ->add('is_published', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('is_published', 'create')
-            ->notEmpty('is_published');
+            //->requirePresence('is_published', 'create')
+            ->allowEmpty('is_published');
 
         $validator
             ->add('publish_start_date', 'valid', ['rule' => 'date'])

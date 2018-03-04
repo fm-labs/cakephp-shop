@@ -36,6 +36,7 @@ class ShopPlugin implements EventListenerInterface
             //'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.build' => 'buildSettings',
             'Backend.Menu.build' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
+            'Backend.Sidebar.build' => ['callable' => 'buildSidebarMenu', 'priority' => 5 ],
             'Backend.SysMenu.build' => ['callable' => 'buildBackendSystemMenu' ],
             'Backend.Routes.build' => 'buildBackendRoutes',
             'View.beforeLayout' => ['callable' => 'beforeLayout']
@@ -57,8 +58,8 @@ class ShopPlugin implements EventListenerInterface
     public function beforeLayout(Event $event)
     {
         if ($event->subject() instanceof BackendView && $event->subject()->plugin == "Shop") {
-            $menu = new Menu($this->_getMenuItems());
-            $event->subject()->set('backend.sidebar.menu', $menu);
+            //$menu = new Menu($this->_getMenuItems());
+            //$event->subject()->set('backend.sidebar.menu', $menu);
         }
     }
 
@@ -97,11 +98,13 @@ class ShopPlugin implements EventListenerInterface
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
                 'data-icon' => 'users'
             ],
+            /*
             'customer_addresses' => [
                 'title' => __d('shop', 'Customer Addresses'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerAddresses', 'action' => 'index'],
                 'data-icon' => 'address-book'
             ],
+            */
             'customer_discounts' => [
                 'title' => __d('shop', 'Customer Discounts'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerDiscounts', 'action' => 'index'],
@@ -252,6 +255,24 @@ class ShopPlugin implements EventListenerInterface
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',
             'children' => $this->_getMenuItems()
+        ]);
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function buildSidebarMenu(Event $event)
+    {
+        $children = [];
+        //if ($event->data['request']->param('plugin') == 'Shop') {
+            $children = $this->_getMenuItems();
+        //}
+
+        $event->subject()->addItem([
+            'title' => __d('shop', 'Shop'),
+            'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
+            'data-icon' => 'shopping-cart',
+            'children' => $children
         ]);
     }
 

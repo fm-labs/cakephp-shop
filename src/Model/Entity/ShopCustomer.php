@@ -2,6 +2,7 @@
 namespace Shop\Model\Entity;
 
 use Cake\Auth\AbstractPasswordHasher;
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
 
 /**
@@ -63,7 +64,7 @@ class ShopCustomer extends Entity
     protected function _getDisplayName()
     {
         if ($this->first_name && $this->last_name) {
-            return sprintf("%s %s", $this->first_name, $this->last_name);
+            return sprintf("%s, %s", $this->last_name, $this->first_name);
         }
 
         return $this->_properties['email'];
@@ -76,6 +77,10 @@ class ShopCustomer extends Entity
 
     protected function _getIsDemo()
     {
+        if (Configure::read('Shop.Demo.username') == $this->email) {
+            return true;
+        }
+
         return (preg_match('/@example\.org$/', $this->email));
     }
 }

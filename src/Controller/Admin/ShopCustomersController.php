@@ -43,19 +43,18 @@ class ShopCustomersController extends AppController
     {
 
         $this->paginate = [
-            'order' => ['Users.name'],
+            'order' => ['ShopCustomers.last_name'],
             'contain' => ['Users']
         ];
 
         $this->set('fields.whitelist', ['id', 'user', 'email', 'display_name']);
         $this->set('fields.blacklist', ['password', 'created', 'modified']);
         $this->set('fields', [
-            /*
-            'user_id' => ['formatter' => function ($val, $row, $args, $view) {
-                return ($val) ? $view->Html->link($row->user->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $row->user->id]) : null;
+            'display_name',
+            'user' => ['formatter' => function ($val, $row, $args, $view) {
+                return ($val) ? $view->Html->link($val->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $val->id]) : null;
             }]
-            */
-            'user' => ['formatter' => ['related', 'display_name'], 'type' => 'object']
+            //'user' => ['formatter' => ['related', 'display_name'], 'type' => 'object']
         ]);
 
         $this->set('paginate', true);
@@ -71,7 +70,7 @@ class ShopCustomersController extends AppController
      */
     public function view($id = null)
     {
-        $entity = $this->ShopCustomers->get($id, ['contain' => ['Countries', 'ShopCustomerAddresses' => ['Countries'], 'ShopCustomerDiscounts']]);
+        $entity = $this->ShopCustomers->get($id, ['contain' => [/*'Countries',*/ 'ShopCustomerAddresses' => ['Countries'], 'ShopCustomerDiscounts']]);
         $this->set('entity', $entity);
         $this->set('related', [
             'ShopCustomerAddresses' => [

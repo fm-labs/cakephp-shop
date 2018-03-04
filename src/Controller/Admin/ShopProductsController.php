@@ -61,29 +61,34 @@ class ShopProductsController extends AppController
      */
     public function index()
     {
-        $options = [];
-        $customer_id = $this->request->query('for_customer');
-        if ($customer_id) {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customer_id, ['contain' => false]);
-            if ($customer) {
-                $options = ['for_customer' => $customer->id];
-                $this->Flash->success(__('Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
-            } else {
-                $this->Flash->warning(__('Customer not found'));
-            }
-        }
-
-        $query = $this->ShopProducts->find('all', $options);
-
         $this->paginate = [
             'limit' => 200,
             //'maxLimit' => 200,
             //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published', 'ShopCategories.name'],
             //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
-            'order' => ['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC'],
+            'order' => ['ShopProducts.shop_category_id' => 'ASC', 'ShopProducts.title' => 'ASC'],
             //'contain' => ['ShopCategories'],
             'media' => true
         ];
+
+        $options = ['contain' => ['ShopCategories']];
+        $customer_id = $this->request->query('for_customer');
+        if ($customer_id) {
+            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customer_id, ['contain' => false]);
+            if ($customer) {
+                $options = ['for_customer' => $customer->id];
+                $this->Flash->success(__d('shop','Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
+            } else {
+                $this->Flash->warning(__d('shop','Customer not found'));
+            }
+        }
+        $query = $this->ShopProducts->find('all', $options);
+
+        $parent_id = $this->request->query('parent_id');
+        if ($parent_id) {
+            $query->where(['ShopProducts.parent_id' => $parent_id]);
+        }
+
 
         $fields = [
             'preview_image_file' => [
@@ -99,15 +104,22 @@ class ShopProductsController extends AppController
                     ['action' => 'edit', $row->id]
                 );
             }],
+            'shop_category'  => ['formatter' => function ($val, $row, $args, $view) {
+                if (!$val) return;
+                return $view->Html->link(
+                    $val->name,
+                    ['controller' => 'ShopCategories', 'action' => 'edit', $val->id]
+                );
+            }],
             'price_net' => [
                 'formatter' => 'currency'
             ],
             'is_buyable' => [
-                'title' => __('Buyable'),
+                'title' => __d('shop','Buyable'),
                 'formatter' => null
             ],
             'is_published' => [
-                'title' => __('Published'),
+                'title' => __d('shop','Published'),
                 'formatter' => null,
             ],
         ];
@@ -176,7 +188,7 @@ class ShopProductsController extends AppController
         if ($shopProduct->type == "parent") {
             $tabs['child-products'] = [
                 'title' => __d('shop', 'Productversions'),
-                'url' => ['action' => 'index', 'qry' => ['parent_id' => $shopProduct->id]]
+                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id]
             ];
         }
         $this->set('tabs', $tabs);
@@ -186,12 +198,52 @@ class ShopProductsController extends AppController
         $this->Action->execute();
     }
 
+    public function add()
+    {
+        $this->set('fields', [
+            //'parent_id',
+            'type' => ['input' => ['default' => 'parent']],
+            'sku' => [],
+            'title' => [],
+            'shop_category_id'
+        ]);
+        $this->set('fields.whitelist', ['id', 'type', 'shop_category_id', 'sku', 'title']);
+
+        $this->set('types', ['parent' => __d('shop','Parent Product'), 'child' => __d('shop','Child Product')]);
+
+        $this->Action->execute();
+    }
+
+    public function edit()
+    {
+        $this->set('fieldsets', [
+            ['fields' => ['parent_id', 'type', 'shop_category_id', 'sku', 'title', 'slug']],
+            ['legend' => __d('shop','Descriptions'), 'fields' => ['teaser_html', 'desc_html']],
+            ['legend' => __d('shop','Images'), 'fields' => ['preview_image_file', 'featured_image_file', 'image_files']],
+            ['legend' => __d('shop','Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
+            ['legend' => __d('shop','Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
+            ['legend' => __d('shop','Sorting'), 'fields' => ['priority'], 'collapsed' => true]
+        ]);
+
+        $this->set('fields', [
+            'teaser_html' => ['input' => ['type' => 'htmleditor']],
+            'desc_html' => ['input' => ['type' => 'htmleditor']],
+            'preview_image_file' => ['input' => ['type' => 'media_picker']],
+            'featured_image_file' => ['input' => ['type' => 'media_picker']],
+            'image_files' => ['input' => ['type' => 'media_picker', 'multiple' => true]],
+        ]);
+
+        $this->set('types', ['parent' => __d('shop','Parent Product'), 'child' => __d('shop','Child Product')]);
+
+        $this->Action->execute();
+    }
+
     /**
      * Add method
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function _add()
     {
         $shopProduct = $this->ShopProducts->newEntity($this->request->query, ['validate' => false]);
         if ($this->request->is('post')) {
@@ -217,7 +269,7 @@ class ShopProductsController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function _edit($id = null)
     {
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ShopCategories'],
@@ -244,7 +296,7 @@ class ShopProductsController extends AppController
         if ($shopProduct->type == "parent") {
             $tabs['child-products'] = [
                 'title' => __d('shop', 'Productversions'),
-                'url' => ['action' => 'index', 'qry' => ['parent_id' => $shopProduct->id]]
+                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id]
             ];
         }
         $tabs['media'] = [
