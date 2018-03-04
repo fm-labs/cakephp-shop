@@ -33,7 +33,7 @@
                     [ 'controller' => 'ShopCustomers', 'action' => 'view', $entity->shop_customer_id]); ?>
                 <?php endif; ?>
                 <br /><br />
-                <b><?= __d('shop','Status'); ?>:</b> <?= $this->Status->label($entity->status); ?>
+                <b><?= __d('shop','Status'); ?>:</b> <?= $this->Status->label($entity->status__status); ?>
             </div>
             <!-- /.col -->
         </div>

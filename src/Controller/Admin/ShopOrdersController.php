@@ -38,7 +38,7 @@ class ShopOrdersController extends AppController
 
         $this->Action->registerInline('viewOrder', ['label' => __d('shop', 'View Order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
-        $this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
+        //$this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         //$this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
         //$this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
@@ -93,7 +93,7 @@ class ShopOrdersController extends AppController
             'invoice_nr_formatted'  => ['label' => __d('shop', 'Invoice Nr')],
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
             'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-right'],
-            'status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
+            'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
         ]);
 
         $this->Action->execute();
@@ -354,8 +354,11 @@ class ShopOrdersController extends AppController
     {
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
-        if ($order->status != ShopOrdersTable::ORDER_STATUS_CONFIRMED) {
-            $this->Flash->error(__d('shop', 'Failed to create invoice: Invalid order status'));
+        if ($order->invoice_nr) {
+            $this->Flash->error(__d('shop', 'Failed to create invoice: Already invoiced'));
+
+        } elseif ($order->status < ShopOrdersTable::ORDER_STATUS_CONFIRMED || $order->status >= ShopOrdersTable::ORDER_STATUS_CLOSED) {
+            $this->Flash->error(__d('shop', 'Failed to create invoice: Invalid order status: ' . $order->status));
 
         } elseif ($this->ShopOrders->assignInvoiceNr($order)) {
             $this->Flash->success(__d('shop', 'Invoice created'));
@@ -364,7 +367,7 @@ class ShopOrdersController extends AppController
             $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
 
-        $this->redirect($this->referer(['action' => 'view', $id]));
+        $this->redirect($this->referer(['action' => 'view_order', $id]));
     }
 
     public function payed($id = null)
