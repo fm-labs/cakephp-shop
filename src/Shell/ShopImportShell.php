@@ -2,7 +2,6 @@
 
 namespace Shop\Shell;
 
-
 use Attachment\Model\Table\AttachmentsTable;
 use Cake\Console\Shell;
 use Shop\Model\Table\ShopCategoriesTable;
@@ -37,7 +36,7 @@ class ShopImportShell extends Shell
             $this->error("Import file not found: " . $importFile);
         }
 
-        $file = fopen($importFile,"r");
+        $file = fopen($importFile, "r");
         if (!$file) {
             $this->error("Failed to open file $importFile");
         }
@@ -46,11 +45,9 @@ class ShopImportShell extends Shell
         $header = [];
         $rows = [];
         $i = -1;
-        while(! feof($file))
-        {
+        while (! feof($file)) {
             $i++;
             $line = fgetcsv($file);
-
 
             if (empty($line)) {
                 $this->out("Empty Line");
@@ -78,8 +75,6 @@ class ShopImportShell extends Shell
 
                 continue;
             }
-
-
 
             // r0w
             $row = [];
@@ -136,12 +131,17 @@ class ShopImportShell extends Shell
 
         fclose($file);
 
-
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
-            $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean']));
-
+        $this->out(__d(
+            'shop',
+            "Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
+            $this->_import['added'],
+            $this->_import['fail'],
+            $this->_import['updated'],
+            $this->_import['skipped'],
+            $i,
+            $this->_import['clean']
+        ));
     }
-
 
     public function importShopCustomers($fileName)
     {
@@ -154,7 +154,7 @@ class ShopImportShell extends Shell
             $this->error("Import file not found: " . $importFile);
         }
 
-        $file = fopen($importFile,"r");
+        $file = fopen($importFile, "r");
         if (!$file) {
             $this->error("Failed to open file $importFile");
         }
@@ -163,11 +163,9 @@ class ShopImportShell extends Shell
         $header = [];
         $rows = [];
         $i = -1;
-        while(! feof($file))
-        {
+        while (! feof($file)) {
             $i++;
             $line = fgetcsv($file);
-
 
             if (empty($line)) {
                 $this->out("Empty Line");
@@ -196,8 +194,6 @@ class ShopImportShell extends Shell
                 continue;
             }
 
-
-
             // r0w
             $row = [];
             for ($j = 0; $j < count($fields); $j++) {
@@ -214,7 +210,6 @@ class ShopImportShell extends Shell
                 $count = 'added';
                 $customer = $this->ShopCustomers->newEntity();
             }
-
 
             $entityData = [
                 'email' => $row['email'],
@@ -265,12 +260,18 @@ class ShopImportShell extends Shell
 
         fclose($file);
 
-
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5} | Updated Pass {6}",
-            $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean'], $this->_import['updatepass']));
-
+        $this->out(__d(
+            'shop',
+            "Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5} | Updated Pass {6}",
+            $this->_import['added'],
+            $this->_import['fail'],
+            $this->_import['updated'],
+            $this->_import['skipped'],
+            $i,
+            $this->_import['clean'],
+            $this->_import['updatepass']
+        ));
     }
-
 
     public function importShopProducts($fileName = null, $forceParent = false)
     {
@@ -297,25 +298,23 @@ class ShopImportShell extends Shell
 
         $this->_import = ['fail' => 0, 'updated' => 0, 'added' => 0, 'skipped' => 0, 'clean' => 0];
 
-        $forceParent = (bool) $forceParent;
+        $forceParent = (bool)$forceParent;
 
         $importFile = DATA . 'import' . DS . 'shop_products_' . $fileName . '.csv';
         if (!is_file($importFile)) {
             $this->error("Import file not found: " . $importFile);
         }
 
-        $file = fopen($importFile,"r");
+        $file = fopen($importFile, "r");
         if (!$file) {
             $this->error("Failed to open file $importFile");
-        }
-        ;
+        };
         $fields = ['Kategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
         $subcategories = false;
         $header = [];
         $rows = [];
         $i = -1;
-        while(! feof($file))
-        {
+        while (! feof($file)) {
             $i++;
             $line = fgetcsv($file);
 
@@ -332,8 +331,7 @@ class ShopImportShell extends Shell
                     $fields = ['Kategorie', 'Subkategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
                     $subcategories = true;
                     $this->out("Subcategories enabled");
-                }
-                elseif (count($header) != count($fields)) {
+                } elseif (count($header) != count($fields)) {
                     $this->error("Malformed header: Count mismatch");
                 }
                 for ($j = 0; $j < count($fields); $j++) {
@@ -344,7 +342,6 @@ class ShopImportShell extends Shell
 
                 continue;
             }
-
 
             // r0w
             $row = [];
@@ -400,7 +397,6 @@ class ShopImportShell extends Shell
             }
             $desc = '<p>' . nl2br($row['Text']) . '</p>';
 
-
             $image = null;
             if ($row['Bild']) {
                 $image = $categoryImagePath . $row['Bild'];
@@ -418,13 +414,10 @@ class ShopImportShell extends Shell
             }
             $orderPos = $row['Reihung'];
 
-
-
             // create or update product
             $product = $this->ShopProducts->find()->where(['sku' => $skuId])->first();
 
             if ($product) {
-
                 $stat = 'updated';
                 $entityData = [
                     'shop_category_id' => $categoryId,
@@ -435,9 +428,7 @@ class ShopImportShell extends Shell
                     'tax_rate' => 20.0,
                     'priority' => $orderPos
                 ];
-
             } else {
-
                 $stat = 'added';
                 $product = $this->ShopProducts->newEntity();
                 $entityData = [
@@ -451,7 +442,6 @@ class ShopImportShell extends Shell
                     'tax_rate' => 20.0,
                     'priority' => $orderPos
                 ];
-
             }
 
             if ($image) {
@@ -482,9 +472,16 @@ class ShopImportShell extends Shell
 
         fclose($file);
 
-
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
-            $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean']));
+        $this->out(__d(
+            'shop',
+            "Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
+            $this->_import['added'],
+            $this->_import['fail'],
+            $this->_import['updated'],
+            $this->_import['skipped'],
+            $i,
+            $this->_import['clean']
+        ));
     }
 
     protected function _createCategory($categoryName, $parentId = null)
@@ -498,6 +495,7 @@ class ShopImportShell extends Shell
         if ($category->errors()) {
             $this->out("Category $categoryName has errors");
             debug($category->errors());
+
             return false;
         }
 
@@ -508,7 +506,6 @@ class ShopImportShell extends Shell
     {
         $key = md5($categoryString);
         if (!isset($this->_categoryCache[$key])) {
-
             // using 'LIKE BINARY' to force case sensitive string comparison
             // @see http://stackoverflow.com/questions/5629111/how-can-i-make-sql-case-sensitive-string-comparison-on-mysql
             $filter = ['name LIKE BINARY ' => $categoryString];
@@ -531,10 +528,12 @@ class ShopImportShell extends Shell
             }
             $this->_categoryCache[$key] = $category->id;
         }
+
         return $this->_categoryCache[$key];
     }
 
-    protected function _importError($line, $msg, $stat = 'skipped') {
+    protected function _importError($line, $msg, $stat = 'skipped')
+    {
         $this->_import[$stat]++;
         $this->err("Import error on line $line: $msg");
     }
@@ -551,8 +550,7 @@ class ShopImportShell extends Shell
 
         $products = $this->ShopProducts->find()->where(['shop_category_id' => $categoryId]);
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             // check if already migrated
             $cat = $this->ShopCategories
                 ->find()
@@ -580,7 +578,6 @@ class ShopImportShell extends Shell
                 'custom5' => 'ShopProduct:' . $product->id
             ]);
 
-
             if ($cat->errors()) {
                 $this->err("Category $categoryId has errors");
                 continue;
@@ -601,8 +598,6 @@ class ShopImportShell extends Shell
 
             $this->out("Product " . $product->id . " has been updated with category " . $cat->id);
         }
-
-
     }
     public function convertProductAttachments()
     {

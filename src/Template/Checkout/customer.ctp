@@ -1,10 +1,7 @@
-<?php if (isset($customer)): ?>
 <?php $this->extend('Shop.Checkout/base'); ?>
 <?php $this->assign('heading', __d('shop','Customer Login')); ?>
-<?php endif; ?>
 <?php $this->assign('step_active', 'customer'); ?>
 <div class="shop checkout step index" style="position: relative;">
-    <h1><?= __d('shop','Customer'); ?></h1>
     <div class="row">
 
         <?php
@@ -14,31 +11,44 @@
         ?>
         <?php if (!isset($customer->id)): ?>
             <div class="col-xs-12 col-md-6"style="border-right: 1px solid #e8e8e8;">
+                <?= $this->Flash->render('auth'); ?>
                 <h2><?= __d('shop','Already registered?'); ?></h2>
-                <div class="ui form">
-                    <?= $this->Form->create($customer); ?>
-                    <?= $this->Form->input('email'); ?>
-                    <?= $this->Form->input('password'); ?>
-                    <div class="actions" style="margin-top: 1em;">
-                        <?= $this->Form->submit(__d('shop','Login'), ['class' => 'ui primary submit button']); ?>
-                    </div>
-                    <?= $this->Form->end(); ?>
+                <?= $this->Form->create(null); ?>
+                <?= $this->Form->hidden('op', ['value' => 'login']); ?>
+                <?= $this->Form->input('username', ['required' => true, 'label' => __d('shop','Email')]); ?>
+                <?= $this->Form->input('password', ['required' => true]); ?>
+                <div class="actions" style="margin-top: 1em;">
+                    <?= $this->Form->button(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Html->link(__d('shop','Forgot password?'), ['_name' => 'user:passwordforgotten']); ?>
                 </div>
+                <?= $this->Form->end(); ?>
             </div>
             <div class="col-xs-12 col-md-6">
 
                 <h2><?= __d('shop','I\'m a new customer'); ?></h2>
                 <div style="text-align: center; margin-top: 4em;">
-                    <?= $this->Html->link(__d('shop','Als Neukunde Registrieren'),
-                        ['action' => 'newCustomer'],
+
+                    <!--
+                    <?= $this->Form->create(null); ?>
+                    <?= $this->Form->hidden('op', ['value' => 'signup']); ?>
+                    <?= $this->Form->button(__d('shop','Als Neukunde fortfahren'),
                         ['class' => 'btn btn-large btn-primary']); ?>
+                    <?= $this->Form->end(); ?>
+                    -->
+
+                    <?= $this->Html->link(__d('shop','Als Neukunde fortfahren'),
+                        ['action' => 'customer', $order->cartid, 'op' => 'signup'],
+                        ['class' => 'btn btn-large btn-primary']); ?>
+
                 </div>
 
+                <!--
                 <div style="text-align: center; margin-top: 2em;">
                 <?= $this->Html->link(__d('shop','Weiter ohne Anmeldung'),
-                    ['action' => 'newCustomer', 'guest' => true],
-                    ['class' => 'btn btn-default']); ?>
+                    ['action' => 'customer', $order->cartid, 'guest' => true],
+                    ['class' => 'btn']); ?>
                 </div>
+                -->
             </div>
             </div>
 
@@ -56,8 +66,8 @@
                     <?= h($customer->email); ?>
                 </h3>
 
-                <div class="ui actions" style="text-align: right;">
-                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'ui primary button']); ?>
+                <div style="text-align: right;">
+                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next', $order->cartid], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
 
@@ -72,25 +82,25 @@
                 <h3>
                     Angemeldet als:
                     <br />
-                    <?= h($customer->first_name); ?> <?= h($customer->last_name); ?>
-                    <br />
                     <?= h($customer->email); ?>
+                    <br />
+                    <?= h($customer->first_name); ?> <?= h($customer->last_name); ?>
                 </h3>
 
                 <p>
                     Sie sind nicht <?= h($customer->email); ?>?
                     <br />
-                    <?= $this->Html->link('Als anderer Kunde fortfahren', ['action' => 'resetCustomer']); ?>
+                    <?= $this->Html->link('Als anderer Kunde fortfahren', ['action' => 'resetCustomer', $order->cartid]); ?>
                 </p>
 
-                <div class="ui actions" style="text-align: right;">
-                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'ui primary button']); ?>
+                <hr />
+                <div style="text-align: right;">
+                    <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next', $order->cartid], ['class' => 'btn btn-primary']); ?>
                 </div>
             </div>
         <?php endif; ?>
     </div>
 
     <?php debug($customer); ?>
-
     <?php debug($this->request->session()->read('Shop')); ?>
 </div>

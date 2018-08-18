@@ -2,26 +2,48 @@
 
 namespace Shop\Shell\Task;
 
-
+/**
+ * Class ProductImportTask
+ *
+ * @package Shop\Shell\Task
+ */
 class ProductImportTask extends BaseShopTask
 {
+    /**
+     * @var array
+     */
     protected $_categoryCache = [];
 
+    /**
+     * @var array
+     */
     protected $_import = [];
 
+    /**
+     * @var string
+     */
     protected $_variantRootSku;
+
+    /**
+     * @var int
+     */
     protected $_variantRootId;
 
+    /**
+     * @return \Cake\Console\ConsoleOptionParser
+     */
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__("Import products from CSV file"))
+            ->description(__d('shop', "Import products from CSV file"))
+            /*
             ->addOption('path', [
                 'help' => 'File path',
                 'short' => 'p',
                 'default' => null,
             ])
+            */
             ->addOption('price-net', [
                 'boolean' => true,
                 'help' => 'The price column holds net price values (Default: false)',
@@ -30,6 +52,11 @@ class ProductImportTask extends BaseShopTask
             ->addOption('image-pathprefix', [
                 'help' => 'The image path prefix WITHOUT starting slash and WITH trailing slash',
                 'default' => null
+            ])
+            ->addOption('dry-run', [
+                'boolean' => true,
+                'help' => 'Run without writing changes to the database (Default: false)',
+                'default' => false
             ])
             ->addOption('force-parent', [
                 'boolean' => true,
@@ -51,9 +78,19 @@ class ProductImportTask extends BaseShopTask
                 'help' => 'Force published (Default: false)',
                 'default' => false
             ])
+            ->addOption('clean-text', [
+                'boolean' => true,
+                'help' => "Stip HTML tags from text (Default: false)",
+                'default' => false
+            ])
             ->addOption('wrap-text', [
                 'boolean' => true,
                 'help' => "Convert newline characters to <br> tags and wrap in <p> tag (Default: false)",
+                'default' => false
+            ])
+            ->addOption('skip-priority', [
+                'boolean' => true,
+                'help' => "Skip setting the priority field (Default: false)",
                 'default' => false
             ])
             ->addOption('subcategories', [
@@ -69,31 +106,36 @@ class ProductImportTask extends BaseShopTask
         return $parser;
     }
 
+    /**
+     * Main method
+     */
     public function main()
     {
         $this->out("-- Shop Import --");
-        foreach  ($this->args as $key => $val) {
+        foreach ($this->args as $key => $val) {
             $this->out("Arg: $key - $val");
         }
-        foreach  ($this->params as $key => $val) {
+        foreach ($this->params as $key => $val) {
             $this->out("Param: $key - $val");
         }
 
         //$this->_stop(0);
 
         $fileName = $this->args[0];
+        $dryRun = (isset($this->params['dry-run'])) ? $this->params['dry-run'] : false;
         $forceParent = (isset($this->params['force-parent'])) ? $this->params['force-parent'] : false;
         $forceText = (isset($this->params['force-text'])) ? $this->params['force-text'] : false;
         $forceBuyable = (isset($this->params['force-buyable'])) ? $this->params['force-buyable'] : false;
         $forcePublished = (isset($this->params['force-published'])) ? $this->params['force-published'] : false;
+        $cleanText = (isset($this->params['clean-text'])) ? $this->params['clean-text'] : false;
         $wrapText = (isset($this->params['wrap-text'])) ? $this->params['wrap-text'] : false;
         $usePriceNet = (isset($this->params['price-net'])) ? $this->params['price-net'] : false;
         $subcategories = (isset($this->params['subcategories'])) ? $this->params['subcategories'] : false;
+        $skipPriority = (isset($this->params['skip-priority'])) ? $this->params['skip-priority'] : false;
         $imagePathPrefix = (isset($this->params['image-pathprefix'])) ? $this->params['image-pathprefix'] : ''; // $fileName . '/';
 
         $this->loadModel('Shop.ShopCategories');
         $this->loadModel('Shop.ShopProducts');
-
 
         $this->_import = ['fail' => 0, 'updated' => 0, 'added' => 0, 'skipped' => 0, 'clean' => 0];
 
@@ -102,18 +144,16 @@ class ProductImportTask extends BaseShopTask
             $this->error("Import file not found: " . $importFile);
         }
 
-        $file = fopen($importFile,"r");
+        $file = fopen($importFile, "r");
         if (!$file) {
             $this->error("Failed to open file $importFile");
-        }
-        ;
+        };
         $fields = ['Kategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
         $subcategories = false;
         $header = [];
         $rows = [];
         $i = -1;
-        while(! feof($file))
-        {
+        while (! feof($file)) {
             $i++;
             $line = fgetcsv($file);
 
@@ -131,8 +171,7 @@ class ProductImportTask extends BaseShopTask
                     $fields = ['Kategorie', 'Subkategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
                     //$subcategories = true;
                     $this->out("Subcategories enabled");
-                }
-                elseif (count($header) != count($fields)) {
+                } elseif (count($header) != count($fields)) {
                     $this->error("Malformed header: Count mismatch");
                 }
                 for ($j = 0; $j < count($fields); $j++) {
@@ -143,7 +182,6 @@ class ProductImportTask extends BaseShopTask
 
                 continue;
             }
-
 
             // r0w
             $row = [];
@@ -185,13 +223,12 @@ class ProductImportTask extends BaseShopTask
                 $this->_importError($i, 'Row error: Artikelnummer MISSING');
                 continue;
             }
-            $skuId = $row['Artikelnummer'];
+            $skuId = strtoupper($row['Artikelnummer']);
             // article variant root check
             if ($this->_variantRootSku && preg_match('/^' . $this->_variantRootSku . '/', $skuId, $matches)) {
                 $skuId = $skuId;
                 $this->out('<info>Is Variant Child</info>');
-            }
-            elseif (preg_match('/^[\_](.*)$/', $skuId, $matches)) {
+            } elseif (preg_match('/^[\_](.*)$/', $skuId, $matches)) {
                 $this->out('<info>Is Variant Root</info>');
 
                 $skuId = $matches[1];
@@ -201,7 +238,6 @@ class ProductImportTask extends BaseShopTask
                 $this->_variantRootSku = null;
                 $this->_variantRootId = null;
             }
-
 
             if (!$row['Titel']) {
                 $this->_importError($i, 'Row error: Titel MISSING');
@@ -214,14 +250,16 @@ class ProductImportTask extends BaseShopTask
                 continue;
             }
             $desc = $row['Text'];
+            if ($cleanText) {
+                $desc = strip_tags($desc);
+            }
             if ($wrapText) {
                 $desc = '<p>' . nl2br($row['Text']) . '</p>';
             }
 
-
             $image = null;
             if ($row['Bild']) {
-                $image = $categoryImagePath . $row['Bild'];
+                $image = trim($categoryImagePath, '/') . '/' . ltrim($row['Bild'], '/');
             }
 
             if (!$row['Preis']) {
@@ -235,21 +273,20 @@ class ProductImportTask extends BaseShopTask
                 $price = $price / 1.2;
             }
 
-
-
-            if (!$row['Reihung']) {
-                $this->_importError($i, 'Row error: Reihung MISSING');
-                continue;
+            if ($skipPriority) {
+                $priority = 1;
+            } else {
+                if (!$row['Reihung']) {
+                    $this->_importError($i, 'Row error: Reihung MISSING');
+                    continue;
+                }
+                $priority = $row['Reihung'];
             }
-            $orderPos = $row['Reihung'];
-
-
 
             // create or update product
             $product = $this->ShopProducts->find()->where(['sku' => $skuId])->contain([])->first();
 
             if ($product) {
-
                 $stat = 'updated';
                 $entityData = [
                     'shop_category_id' => $categoryId,
@@ -259,11 +296,9 @@ class ProductImportTask extends BaseShopTask
                     //'featured_image_file' => $image,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $orderPos
+                    'priority' => $priority
                 ];
-
             } else {
-
                 $stat = 'added';
                 $product = $this->ShopProducts->newEntity();
                 $entityData = [
@@ -277,17 +312,18 @@ class ProductImportTask extends BaseShopTask
                     'is_published' => false,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $orderPos
+                    'priority' => $priority
                 ];
-
             }
 
-            if ($this->_variantRootSku == $product->sku) {
-                $entityData['parent_id'] = null;
-                $entityData['type'] = 'parent';
-            } elseif ($this->_variantRootSku && $this->_variantRootId) {
-                $entityData['parent_id'] = $this->_variantRootId;
-                $entityData['type'] = 'child';
+            if ($this->_variantRootSku) {
+                if ($this->_variantRootSku == $product->sku) {
+                    $entityData['parent_id'] = null;
+                    $entityData['type'] = 'parent';
+                } elseif ($this->_variantRootSku && $this->_variantRootId) {
+                    $entityData['parent_id'] = $this->_variantRootId;
+                    $entityData['type'] = 'child';
+                }
             }
 
             if ($image) {
@@ -321,7 +357,7 @@ class ProductImportTask extends BaseShopTask
             continue;
             */
 
-            if (!$this->ShopProducts->save($product)) {
+            if (!$dryRun && !$this->ShopProducts->save($product)) {
                 $this->_importError($i, 'Saving failed', 'fail');
                 continue;
             }
@@ -331,21 +367,30 @@ class ProductImportTask extends BaseShopTask
                 $this->_variantRootId = $product->id;
             }
 
-
             $this->_import[$stat]++;
         }
 
         fclose($file);
 
-
-        $this->out(__("Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
-            $this->_import['added'], $this->_import['fail'], $this->_import['updated'], $this->_import['skipped'], $i, $this->_import['clean']));
-
+        $this->out(__d(
+            'shop',
+            "Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean {5}",
+            $this->_import['added'],
+            $this->_import['fail'],
+            $this->_import['updated'],
+            $this->_import['skipped'],
+            $i,
+            $this->_import['clean']
+        ));
 
         $this->out("<success>Import successful!</success>");
     }
 
-
+    /**
+     * @param $categoryName
+     * @param null $parentId
+     * @return bool
+     */
     protected function _createCategory($categoryName, $parentId = null)
     {
         $category = $this->ShopCategories->newEntity([
@@ -357,17 +402,23 @@ class ProductImportTask extends BaseShopTask
         if ($category->errors()) {
             $this->out("Category $categoryName has errors");
             debug($category->errors());
+
             return false;
         }
 
         return $this->ShopCategories->save($category);
     }
 
+    /**
+     * @param $categoryString
+     * @param null $parentId
+     * @param bool|false $forceParent
+     * @return bool
+     */
     protected function _findCategoryFromString($categoryString, $parentId = null, $forceParent = false)
     {
         $key = md5($categoryString);
         if (!isset($this->_categoryCache[$key])) {
-
             // using 'LIKE BINARY' to force case sensitive string comparison
             // @see http://stackoverflow.com/questions/5629111/how-can-i-make-sql-case-sensitive-string-comparison-on-mysql
             $filter = ['name LIKE BINARY ' => $categoryString];
@@ -390,12 +441,18 @@ class ProductImportTask extends BaseShopTask
             }
             $this->_categoryCache[$key] = $category->id;
         }
+
         return $this->_categoryCache[$key];
     }
 
-    protected function _importError($line, $msg, $stat = 'skipped') {
+    /**
+     * @param $line
+     * @param $msg
+     * @param string $stat
+     */
+    protected function _importError($line, $msg, $stat = 'skipped')
+    {
         $this->_import[$stat]++;
         $this->err("Import error on line $line: $msg");
     }
-
 }

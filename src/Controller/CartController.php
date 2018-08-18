@@ -1,61 +1,67 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 12/8/15
- * Time: 8:42 AM
- */
 
 namespace Shop\Controller;
 
-use Cake\Core\Exception\Exception;
-use Cake\Event\Event;
-use Cake\Utility\Text;
-use Shop\Lib\LibShopCart;
+use Shop\Controller\Component\CartComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class CartController
  * @package Shop\Controller
  * @property ShopOrdersTable $ShopOrders
+ * @property CartComponent $Cart
  */
 class CartController extends AppController
 {
-
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopOrders";
 
-    public $cart;
-
+    /**
+     * Intialize
+     */
     public function initialize()
     {
         parent::initialize();
 
-        $this->loadComponent('Banana.Frontend');
+        $this->loadComponent('Shop.Cart');
+        $this->loadComponent('Shop.Checkout');
         $this->Frontend->setRefScope('Shop.Cart');
 
-        $this->cart = $this->_getCart();
-        $this->cart->getOrder();
+        $this->Auth->allow(['index', 'refresh', 'abort', 'add', 'remove', 'update', 'cartUpdate', 'reset']);
     }
 
-    public function beforeRender(Event $event)
-    {
-        $this->set('cart', $this->cart);
-        $this->set('cartId', $this->cart->cartId);
-        $this->set('sessionId', $this->cart->sessionId);
-        $this->set('order', $this->cart->order);
-        $this->set('customer', $this->cart->customer);
-
-        $this->_writeCartToSession();
-    }
-
+    /**
+     * Cart index
+     */
     public function index()
     {
+        $order = $this->Cart->getOrder();
+        $view = null;
+
+        if (!$order || count($order->shop_order_items) < 1) {
+            $view = 'empty';
+        }
+
+        $this->autoRender = false;
+        $this->render($view);
     }
 
+    /**
+     * Refresh cart
+     */
     public function refresh()
     {
+        $result = $this->Cart->refresh();
 
-        if ($this->cart->refresh()) {
+        if ($this->request->is('ajax')) {
+            $this->viewBuilder()->className('Json');
+            $this->set('result', ['success' => $result]);
+            $this->set('_serialize', 'result');
+        }
+
+        if ($result) {
             $this->Flash->success(__d('shop', 'Cart refreshed'));
         } else {
             $this->Flash->error(__d('shop', 'Failed to refresh cart'));
@@ -63,53 +69,79 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
-    public function add($refid = null, $amount = 1)
+    /**
+     * Abort cart order
+     */
+    public function abort()
     {
-        if ($this->request->is(['put', 'post'])) {
-            $refid = $this->request->data('refid');
-            $amount = $this->request->data('amount');
-        }
 
-        if ($this->cart->addItem($refid, $amount)) {
-            $this->_writeCartToSession();
-            $this->Flash->success(__d('shop', 'Added item to cart'));
+        if ($this->Cart->abortOrder()) {
+            $this->Flash->success(__d('shop', 'The order has been aborted'));
         } else {
-            $this->Flash->error(__d('shop', 'Failed to add item to cart'));
+            $this->Flash->error(__d('shop', 'Failed to abort order'));
         }
-
-        $referer = $this->referer(['action' => 'index'], true);
-        $this->redirect(['action' => 'index', 'referer' => $referer]);
+        $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * Add cart item
+     */
+    public function add()
+    {
+        if ($this->request->is('ajax')) {
+            $this->viewBuilder()->className('Json');
+
+            $result = ['success' => false];
+            try {
+                $this->Cart->addItem($this->request->data());
+                $result['success'] = true;
+            } catch (\Exception $ex) {
+                $result['error'] = $ex->getMessage();
+            }
+
+            $this->set('result', $result);
+            $this->set('_serialize', 'result');
+        } elseif ($this->request->is(['put', 'post'])) {
+            try {
+                $this->Cart->addItem($this->request->data());
+                $this->Flash->success(__d('shop', 'Added item to cart'));
+            } catch (\Exception $ex) {
+                $this->Flash->error(__d('shop', 'Adding item to cart failed: {0}', $ex->getMessage()));
+            }
+
+            $referer = $this->referer(['action' => 'index'], true);
+            $this->redirect(['action' => 'index', 'referer' => $referer]);
+        }
+    }
+
+    /**
+     * Remove cart item
+     *
+     * @param null $orderId
+     * @param null $orderItemId
+     */
     public function remove($orderId = null, $orderItemId = null)
     {
-        if (!$orderId || !$orderItemId) {
-            $this->Flash->error(__d('shop',"Failed to remove item from cart"));
+        //@TODO Allow POST only
+        if ($this->Cart->removeItemById($orderItemId)) {
+            $this->Flash->success(__d('shop', 'Item has been removed from cart'));
         } else {
-            if ($this->ShopOrders->ShopOrderItems->deleteAll([
-                'id' => $orderItemId,
-                'shop_order_id' => $orderId,
-                'refscope' => 'Shop.ShopProducts',
-                ])
-            ) {
-                //$this->cart = $this->_getCart();
-                $this->cart->refresh();
-                $this->_writeCartToSession();
-
-                $this->Flash->success(__d('shop','Item has been removed from cart'));
-            } else {
-                $this->Flash->error(__d('shop','Failed to remove item from cart'));
-            }
+            $this->Flash->error(__d('shop', 'Failed to remove item from cart'));
         }
         $this->redirect($this->referer());
     }
 
-
+    /**
+     * Update cart item
+     *
+     * @param null $orderId
+     * @param null $orderItemId
+     */
     public function update($orderId = null, $orderItemId = null)
     {
 
         if ($this->request->is(['post', 'put'])) {
-            if ($this->cart->updateItem($orderItemId, $this->request->data)) {
+            if ($this->Cart->updateItemById($orderItemId, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'Updated item'));
             } else {
                 $this->Flash->error(__d('shop', 'Failed to update item'));
@@ -119,4 +151,55 @@ class CartController extends AppController
         $this->redirect($this->referer(['action' => 'index']));
     }
 
+    /**
+     * Update cart
+     */
+    public function cartUpdate()
+    {
+        if (!$this->Cart->getOrder()) {
+            $this->Flash->warning(__d('shop', 'Order not found'));
+            $this->redirect(['action' => 'index']);
+        }
+
+        if ($this->request->is(['post', 'put'])) {
+            debug($this->request->data);
+            $order = $this->Cart->getOrder();
+
+            $changed = [];
+            foreach ($order->shop_order_items as $item) {
+                $amountKey = 'amount_' . $item->id;
+                if ($this->request->data($amountKey)) {
+                    $newAmount = $this->request->data($amountKey);
+                    if ($newAmount != $item->amount) {
+                        $this->Cart->updateItemById($item->id, ['amount' => $newAmount]);
+                        $changed[$item->id] = true;
+                    }
+                }
+            }
+
+            //if (count($changed) > 0) {
+                $this->Flash->success(__d('shop', '{0} item(s) updated', count($changed)));
+                $this->Cart->reloadOrder();
+                $this->redirect(['action' => 'index']);
+
+                return;
+            //}
+        }
+
+        $this->autoRender = false;
+        $this->render('index');
+    }
+
+    /**
+     * Reset cart
+     */
+    public function reset()
+    {
+        if ($this->Cart->reset()) {
+            $this->Flash->success(__d('shop', 'The order has been reseted'));
+        } else {
+            $this->Flash->error(__d('shop', 'Failed to reset order'));
+        }
+        $this->redirect($this->referer(['action' => 'index']));
+    }
 }

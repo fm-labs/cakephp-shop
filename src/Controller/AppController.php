@@ -2,55 +2,41 @@
 
 namespace Shop\Controller;
 
-use App\Controller\AppController as BaseAppController;
+use Cake\Event\Event;
+use Content\Controller\ContentController;
+use Content\Controller\Component\FrontendComponent;
+use Cake\Controller\Component\AuthComponent;
 use Cake\Utility\Text;
-use Shop\Lib\LibShopCart;
+use Shop\Controller\Component\CartComponent;
+use Shop\Controller\Component\ShopComponent;
 use Shop\Model\Table\ShopOrdersTable;
 
-class AppController extends BaseAppController
+/**
+ * Class AppController
+ *
+ * @package Shop\Controller
+ * @property ShopComponent $Shop
+ * @property AuthComponent $Auth
+ * @property CartComponent $Cart
+ */
+class AppController extends ContentController
 {
 
     public function initialize()
     {
+        parent::initialize();
 
         $this->helpers['Paginator'] = [
             'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
         ];
 
+        $this->helpers['Ui'] = [
+            'className' => 'Bootstrap.Ui'
+        ];
 
-        $this->loadComponent('Banana.Frontend');
+        $this->loadComponent('Content.Locale');
+        $this->loadComponent('Shop.Shop');
 
-        parent::initialize();
-
-        if ($this->components()->has('Auth')) {
-            $this->Auth->allow();
-        }
-    }
-
-    /**
-     * @return LibShopCart
-     */
-    protected function _getCart($cartid = null)
-    {
-        $sessionid = $this->request->session()->id();
-
-        if ($cartid === null) {
-            $cartid = $this->request->session()->read('Shop.Checkout.cartId');
-        }
-
-        return new LibShopCart($sessionid, $cartid);
-    }
-
-    /**
-     *
-     */
-    protected function _writeCartToSession()
-    {
-        $this->request->session()->write('Shop.Checkout', $this->cart->toArray());
-    }
-
-    protected function _resetCartSession()
-    {
-        $this->request->session()->delete('Shop.Checkout');
+        $this->Auth->config('logoutRedirect', ['_name' => 'shop:index']);
     }
 }

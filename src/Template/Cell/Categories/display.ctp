@@ -1,0 +1,1 @@
+- Shop Categories cell display is not implemented yet -

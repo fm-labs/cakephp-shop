@@ -2,6 +2,8 @@
 namespace Shop\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Utility\Hash;
+use Shop\Lib\EuVatNumber;
 
 /**
  * ShopAddress Entity.
@@ -10,8 +12,6 @@ use Cake\ORM\Entity;
  * @property int $shop_customer_id
  * @property \Shop\Model\Entity\ShopCustomer $shop_customer
  * @property string $type
- * @property string $refscope
- * @property int $refid
  * @property string $first_name
  * @property string $last_name
  * @property bool $is_company
@@ -45,63 +45,145 @@ class ShopAddress extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
+        'shop_order_id' => false,
+        'created' => false,
+        'modified' => false,
     ];
 
     protected $_virtual = [
         'name',
+        'country_name',
+        'display_name',
         'oneline',
-        'formatted'
+        //'formatted'
     ];
 
     protected function _getName()
     {
-        if ($this->_properties['is_company']) {
-            return $this->_properties['company_name'];
+        return sprintf("%s %s", $this->first_name, $this->last_name);
+    }
+
+    protected function _getDisplayName()
+    {
+        if ($this->company_name) {
+            return sprintf("%s, %s, %s", $this->company_name, $this->last_name, $this->first_name);
         }
-        return sprintf("%s, %s", $this->_properties['last_name'], $this->_properties['first_name']);
+        if ($this->last_name && $this->first_name) {
+            return sprintf("%s, %s", $this->last_name, $this->first_name);
+        }
     }
 
     protected function _getOneline()
     {
-
-
-        if ($this->_properties['is_company']) {
-            return sprintf("%s, %s, %s %s (Company)",
-                $this->_properties['company_name'],
-                $this->_properties['street'],
-                $this->_properties['zipcode'],
-                $this->_properties['city']
+        if ($this->is_company) {
+            return sprintf(
+                "%s, %s, %s %s (Company)",
+                $this->company_name,
+                $this->street,
+                $this->zipcode,
+                $this->city
             );
         }
 
-        return sprintf("%s %s, %s, %s %s",
-            $this->_properties['first_name'],
-            $this->_properties['last_name'],
-            $this->_properties['street'],
-            $this->_properties['zipcode'],
-            $this->_properties['city']
+        return sprintf(
+            "%s %s, %s, %s %s",
+            $this->first_name,
+            $this->last_name,
+            $this->street,
+            $this->zipcode,
+            $this->city
+        );
+    }
+
+    protected function _getCountryName()
+    {
+        if ($this->relcountry) {
+            return $this->relcountry->get('name_de');
+        }
+        return null;
+    }
+
+    protected function _getShort()
+    {
+        if ($this->company_name) {
+            return sprintf(
+                "%s, %s %s",
+                $this->last_name,
+                $this->first_name,
+                $this->company_name
+            );
+        }
+
+        return sprintf(
+            "%s, %s",
+            $this->last_name,
+            $this->first_name
         );
     }
 
     protected function _getFormatted()
     {
-        if ($this->_properties['is_company']) {
-            return sprintf("%s\n%s\n%s %s\n%s",
-                $this->_properties['company_name'],
-                $this->_properties['street'],
-                $this->_properties['zipcode'],
-                $this->_properties['city'],
-                $this->_properties['country']
+        if ($this->company_name) {
+            return sprintf(
+                "%s\n%s\n%s %s\n%s",
+                $this->company_name,
+                $this->street,
+                $this->zipcode,
+                $this->city,
+                $this->country
             );
         }
 
-        return sprintf("%s %s\n%s\n%s %s\n%s",
-            $this->_properties['first_name'],
-            $this->_properties['last_name'],
-            $this->_properties['street'],
-            $this->_properties['zipcode'],
-            $this->_properties['city'],
-            $this->_properties['country']
+        return sprintf(
+            "%s %s\n%s\n%s %s\n%s",
+            $this->first_name,
+            $this->last_name,
+            $this->street,
+            $this->zipcode,
+            $this->city,
+            $this->country
         );
+    }
+
+    protected function _setTaxid($val)
+    {
+        //@TODO Add support for non-EU taxids
+        return ($val) ? EuVatNumber::normalize($val) : null;
+    }
+
+    public function extractAddress()
+    {
+        $props = ['company_name', 'first_name', 'last_name', 'street', 'street2', 'zipcode', 'city', 'country', 'country_id', 'taxid'];
+
+        return $this->extract($props);
+    }
+
+    /**
+     * !! Legacy method use by Migration shell !!
+     * !! Do not remove yet !!
+     *
+     * @param $array
+     * @param null $prefix
+     * @return array
+     * @deprecated
+     */
+    public static function xtractAddress($array, $prefix = null)
+    {
+        $address = [];
+        foreach (['is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country', 'taxid'] as $field) {
+            $_field = $field;
+            if ($prefix) {
+                $_field = $prefix . $field;
+            }
+
+            $value = null;
+            if (array_key_exists($_field, $array)) {
+                $value = $array[$_field];
+            }
+
+            $address[$field] = $value;
+        }
+
+        return $address;
     }
 }

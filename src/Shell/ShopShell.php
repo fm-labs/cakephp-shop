@@ -4,21 +4,31 @@ namespace Shop\Shell;
 use Cake\Console\Shell;
 use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopProductsTable;
+use Shop\Shell\Task\CustomerIntegrityCheckTask;
+use Shop\Shell\Task\ProductImportTask;
 
 /**
  * Class ShopShell
- * @package Shop\Shell
  *
+ * @package Shop\Shell
+ * @property ProductImportTask $ProductImport
+ * @property CustomerIntegrityCheckTask $CustomerIntegrityCheck
  * @property ShopOrdersTable $ShopOrders
  * @property ShopProductsTable $ShopProducts
  */
 class ShopShell extends Shell
 {
-
+    /**
+     * @var array
+     */
     public $tasks = [
-        'Shop.ProductImport'
+        'Shop.ProductImport',
+        'Shop.CustomerIntegrityCheck'
     ];
 
+    /**
+     * @return \Cake\Console\ConsoleOptionParser
+     */
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
@@ -26,22 +36,29 @@ class ShopShell extends Shell
             'help' => 'Import shop products from CSV file',
             'parser' => $this->ProductImport->getOptionParser()
         ]);
-
+        $parser->addSubcommand('customer_integrity_check', [
+            'help' => 'Check customer data integrity',
+            'parser' => $this->CustomerIntegrityCheck->getOptionParser()
+        ]);
         $parser->addSubcommand('clean_temp_orders', [
             'help' => 'Execute cleanTempOrders'
         ]);
         $parser->addSubcommand('patch_product_price', [
             'help' => 'Execute patchProductPrice'
         ]);
+        $parser->addSubcommand('patch_order_numbers', [
+            'help' => 'Execute patchOrderNumbers'
+        ]);
+        $parser->addSubcommand('patch_order_customer_email', [
+            'help' => 'Execute patchOrderCustomerEmail'
+        ]);
+
         return $parser;
     }
 
-    /*
-    public function main()
-    {
-    }
-    */
-
+    /**
+     * Cleanup temporary orders
+     */
     public function cleanTempOrders()
     {
         $this->loadModel('Shop.ShopOrders');
@@ -65,6 +82,12 @@ class ShopShell extends Shell
         }
     }
 
+    /**
+     * Patch product prices
+     * Parse price as gros-price and patch to net-price
+     *
+     * @deprecated
+     */
     public function patchProductPrice()
     {
         $this->loadModel('Shop.ShopProducts');
@@ -72,8 +95,7 @@ class ShopShell extends Shell
         $products = $this->ShopProducts->find()->contain([])->all();
 
         $failed = 0;
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $this->out("Processing product #$product->id");
 
             if ($product->price <= 0) {
@@ -106,4 +128,86 @@ class ShopShell extends Shell
 
         $this->out("Failed: $failed");
     }
+
+    /**
+     * Patch order numbers
+     * Assign order numbers to non-temporary orders
+     */
+    public function patchOrderNumbers()
+    {
+        $this->out('<info>Patching order numbers</info>');
+
+        $this->loadModel('Shop.ShopOrders');
+        $orders = $this->ShopOrders->find()
+            ->contain([])
+            ->where(['ShopOrders.is_temporary' => false /*, 'ShopOrders.nr IS NULL' */])
+            ->order(['ShopOrders.submitted' => 'ASC'])
+            ->all();
+
+        foreach ($orders as $order) {
+            //$this->out(sprintf("Patching order [ID:%s] #%s", $order->id, $order->nr_formatted));
+            if ($order->nr) {
+                continue;
+            }
+
+            $submitted = $order->submitted;
+            $year = $submitted->format("Y");
+
+            $nr = $this->ShopOrders->getNextOrderNr($year);
+            $order->ordergroup = $year;
+            $order->nr = $nr;
+            $out = "Next number for order with id " . $year . "|" . $order->id . " -> " . $nr;
+
+            if ($this->ShopOrders->save($order)) {
+                //$this->out($out . ' Patched!');
+            } else {
+                $this->abort($out . ' Failed!');
+            }
+        }
+    }
+
+    /**
+     * Patch order's customer_email data field from customer's email info
+     */
+    public function patchOrderCustomerEmail()
+    {
+        $this->out('<info>Patching order customer_email from shop-customers email</info>');
+
+        $this->loadModel('Shop.ShopOrders');
+        $orders = $this->ShopOrders->find()
+            ->contain(['ShopCustomers'])
+            ->where(['ShopOrders.customer_email IS NULL'])
+            ->all();
+
+        $patched = $failed = 0;
+        foreach ($orders as $order) {
+            if (!$order->shop_customer || $order->customer_email) {
+                continue;
+            }
+
+            $order->customer_email = $order->shop_customer->email;
+
+            $out = "Customer email for order with id " . $order->id . " -> " . $order->customer_email;
+            if ($this->ShopOrders->save($order)) {
+                //$this->out($out . ': Patched!');
+                $patched++;
+            } else {
+                $this->abort($out . ': Failed!');
+                $failed++;
+            }
+        }
+
+        $this->out("<info>Patched: $patched - Failed: $failed</info>");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function _welcome()
+    {
+        $this->out();
+        $this->out(sprintf('<info>Welcome to Shop Console</info>'));
+        $this->hr();
+    }
+
 }

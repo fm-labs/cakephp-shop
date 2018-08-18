@@ -1,32 +1,32 @@
-<?php $this->Html->addCrumb(__d('shop','Shop Customers'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop','New {0}', __d('shop','Shop Customer'))); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Breadcrumbs->add(__d('shop','Shop Customers'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop','New {0}', __d('shop','Shop Customer'))); ?>
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Customers')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Addresses')),
     ['controller' => 'ShopAddresses', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Address')),
     ['controller' => 'ShopAddresses', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Orders')),
     ['controller' => 'ShopOrders', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop','New {0}', __d('shop','Shop Order')),
     ['controller' => 'ShopOrders', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">

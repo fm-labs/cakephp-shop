@@ -1,57 +1,119 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: flow
- * Date: 5/16/16
- * Time: 9:48 PM
- */
 
 namespace Shop\Page;
 
-use Banana\Model\Entity\Page;
-use Banana\Page\AbstractPageType;
+use Banana\Menu\MenuItem;
+use Cake\Controller\Controller;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
+use Content\Controller\PagesController;
+use Content\Model\Entity\Page;
+use Content\Page\AbstractPageType;
 use Shop\Model\Entity\ShopCategory;
 
+/**
+ * Class ShopCategoryPageType
+ * @package Shop\Page
+ */
 class ShopCategoryPageType extends AbstractPageType
 {
+
     /**
-     * @var ShopCategory
+     * @param EntityInterface $entity
+     * @return string
      */
-    protected $category;
-
-    public function __construct(Page $page)
+    public function getLabel(EntityInterface $entity)
     {
-        parent::__construct($page);
-
-        $categoryId = $page->redirect_location;
-        $this->category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+        $label = null;
+        if ($entity instanceof Page) {
+            $label = $entity->title;
+        } elseif ($entity instanceof ShopCategory) {
+            $label = $entity->name;
+        }
+        return $label;
     }
 
-    function getUrl()
+    /**
+     * {@inheritDoc}
+     */
+    public function findChildren(EntityInterface $entity)
     {
-        return $this->category->getPageUrl();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+
+            return TableRegistry::get('Shop.ShopCategories')
+                ->find()
+                ->where(['parent_id' => $categoryId])
+                ->contain([])
+                ->orderAsc('lft')
+                ->all();
+        }
+
+        return [];
     }
 
-    public function getAdminUrl()
+    /**
+     * {@inheritDoc}
+     */
+    public function toMenuItem(EntityInterface $entity, $maxDepth = 1)
     {
-        return $this->category->getPageAdminUrl();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+        } elseif ($entity instanceof ShopCategory) {
+            $category = $entity;
+        }
+        $title = $this->getLabel($entity);
+        $url = $this->toUrl($category);
+
+        $item = new MenuItem($title, $url);
+        return $item;
     }
 
-    public function getChildren()
+    /**
+     * {@inheritDoc}
+     */
+    public function toUrl(EntityInterface $entity)
     {
-        return $this->category->getPageChildren();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+            return $category->getViewUrl();
+        } elseif ($entity instanceof ShopCategory) {
+            return $entity->getViewUrl();
+        }
     }
 
-    public function isPublished()
+    /**
+     * @param EntityInterface $entity
+     * @return bool|mixed
+     */
+    public function isEnabled(EntityInterface $entity)
     {
-        return $this->category->isPagePublished();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
+            return $category->is_published;
+        } elseif ($entity instanceof ShopCategory) {
+            return $entity->is_published;
+        }
+        return false;
     }
 
-    public function isHiddenInNav()
+    /**
+     * @param Controller $controller
+     * @param EntityInterface $entity
+     * @return
+     */
+    public function execute(Controller &$controller, EntityInterface $entity)
     {
-        return $this->category->isPageHiddenInNav();
+        if ($entity instanceof Page) {
+            $categoryId = $entity->redirect_location;
+            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
+            $url = $category->url;
+            $controller->redirect($url);
+        } elseif ($entity instanceof ShopCategory) {
+            $controller->redirect($entity->url);
+        }
     }
-
 }

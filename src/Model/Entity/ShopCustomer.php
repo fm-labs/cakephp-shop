@@ -2,6 +2,7 @@
 namespace Shop\Model\Entity;
 
 use Cake\Auth\AbstractPasswordHasher;
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
 
 /**
@@ -38,18 +39,18 @@ class ShopCustomer extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
-        'password' => false,
         'password1' => false,
         'password2' => false,
     ];
 
     protected $_virtual = [
-        'display_name'
+        'display_name',
+        'is_demo'
     ];
 
-    protected function _setPassword($password)
+    protected function _setEmail($email)
     {
-        return $this->getPasswordHasher()->hash($password);
+        return strtolower($email);
     }
 
     /**
@@ -60,8 +61,26 @@ class ShopCustomer extends Entity
         return (new static::$passwordHasherClass());
     }
 
-    public function _getDisplayName()
+    protected function _getDisplayName()
     {
+        if ($this->first_name && $this->last_name) {
+            return sprintf("%s, %s", $this->last_name, $this->first_name);
+        }
+
         return $this->_properties['email'];
+    }
+
+    protected function _getIsGuest()
+    {
+        return (!isset($this->_properties['user_id']));
+    }
+
+    protected function _getIsDemo()
+    {
+        if (Configure::read('Shop.Demo.username') == $this->email) {
+            return true;
+        }
+
+        return (preg_match('/@example\.org$/', $this->email));
     }
 }

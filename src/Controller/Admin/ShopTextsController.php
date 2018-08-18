@@ -53,6 +53,7 @@ class ShopTextsController extends AppController
             $shopText = $this->ShopTexts->patchEntity($shopText, $this->request->data);
             if ($this->ShopTexts->save($shopText)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop text')));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop text')));
@@ -92,6 +93,7 @@ class ShopTextsController extends AppController
             $shopText = $this->ShopTexts->patchEntity($shopText, $data);
             if ($this->ShopTexts->save($shopText)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop text')));
+
                 return $this->redirect($redirect);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop text')));
@@ -102,11 +104,14 @@ class ShopTextsController extends AppController
         $this->set('_serialize', ['shopText']);
     }
 
+    /**
+     * @param null $id
+     * @deprecated
+     */
     public function edit_iframe($id = null)
     {
         $this->layout = "Backend.iframe";
         if ($id !== null) {
-
             $shopText = $this->ShopTexts->get($id, [
                 'contain' => []
             ]);
@@ -119,7 +124,7 @@ class ShopTextsController extends AppController
                 'model' => $model,
                 'model_id' => $modelId,
                 'model_scope' => $modelScope,
-                'locale' => (string) $locale,
+                'locale' => (string)$locale,
             ])->first();
 
             if (!$shopText) {
@@ -155,6 +160,7 @@ class ShopTextsController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop text')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

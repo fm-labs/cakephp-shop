@@ -12,7 +12,7 @@ use Shop\Model\Entity\ShopOrderItem;
 /**
  * ShopOrderItems Model
  *
- * @property \Cake\ORM\Association\BelongsTo $ShopOrders
+ * @property ShopOrdersTable $ShopOrders
  */
 class ShopOrderItemsTable extends Table
 {
@@ -38,6 +38,8 @@ class ShopOrderItemsTable extends Table
             'joinType' => 'INNER',
             'className' => 'Shop.ShopOrders'
         ]);
+
+        $this->schema()->columnType('options', 'json');
     }
 
     /**
@@ -59,9 +61,11 @@ class ShopOrderItemsTable extends Table
             ->add('refid', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('refid');
 
+        /*
         $validator
             ->requirePresence('title', 'create')
             ->notEmpty('title');
+        */
 
         $validator
             ->add('amount', 'valid', ['rule' => 'numeric'])
@@ -105,10 +109,38 @@ class ShopOrderItemsTable extends Table
 
     public function beforeRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
     {
+        //debug("beforeRules");
+        //$entity->calculate();
+    }
+
+    public function beforeValidate(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        //debug("beforeValidate");
+        //$entity->calculate();
+    }
+
+    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        //debug("beforeSave");
         $entity->calculate();
+
+        $options = [];
+        foreach ($entity->visibleProperties() as $prop) {
+            if (preg_match('/^options\_\_(.*)$/', $prop, $matches)) {
+                $options[$matches[1]] = $entity->get($prop);
+            }
+        }
+        $entity->options = $options;
     }
 
     public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        if ($entity->shop_order_id) {
+            $this->ShopOrders->calculate($entity->shop_order_id);
+        }
+    }
+
+    public function afterDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($entity->shop_order_id) {
             $this->ShopOrders->calculate($entity->shop_order_id);
@@ -125,6 +157,7 @@ class ShopOrderItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
+
         return $rules;
     }
 }

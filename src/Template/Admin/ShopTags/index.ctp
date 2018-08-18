@@ -1,15 +1,15 @@
-<?php $this->Html->addCrumb(__d('shop', 'Shop Tags')); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Tags')); ?>
 
-<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Tag')), ['action' => 'add'], ['icon' => 'plus']); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Tag')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products Tags')),
     ['controller' => 'ShopProductsTags', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Products Tag')),
     ['controller' => 'ShopProductsTags', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <div class="shopTags index">
     <?= $this->cell('Backend.DataTable', [[

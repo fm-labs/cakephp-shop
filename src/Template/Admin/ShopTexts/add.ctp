@@ -1,9 +1,9 @@
-<?php $this->Html->addCrumb(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop', 'New {0}', __d('shop', 'Shop Text'))); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'New {0}', __d('shop', 'Shop Text'))); ?>
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Texts')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?php $this->Toolbar->endGroup(); ?>

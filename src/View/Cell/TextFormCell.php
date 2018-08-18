@@ -34,7 +34,6 @@ class TextFormCell extends Cell
             extract($model, EXTR_IF_EXISTS);
         }
 
-
         $entity = $this->Texts->newEntity();
         $this->set('entity', $entity);
     }

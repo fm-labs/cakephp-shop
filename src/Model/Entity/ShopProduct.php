@@ -2,17 +2,23 @@
 namespace Shop\Model\Entity;
 
 use Cake\Core\Configure;
+use Cake\Database\Query;
 use Cake\ORM\Behavior\Translate\TranslateTrait;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+//use Eav\Model\EntityAttributesInterface;
+//use Eav\Model\EntityAttributesTrait;
+use Shop\Core\Product\ShopProductInterface;
+use Shop\Lib\Shop;
 
 /**
  * ShopProduct Entity.
  */
-class ShopProduct extends Entity
+class ShopProduct extends Entity implements ShopProductInterface
 {
 
     use TranslateTrait;
+    //use EntityAttributesTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -43,21 +49,28 @@ class ShopProduct extends Entity
     }
     */
 
+    public function getPath()
+    {
+        if (isset($this->_properties['shop_category_id'])) {
+            return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $this->_properties['shop_category_id']]);
+        }
+    }
+
     protected function _getShopText($model, $id, $field, $locale = null)
     {
         $ShopTexts = TableRegistry::get('Shop.ShopTexts');
+
         return $ShopTexts->find()->where([
             'model' => $model,
             'model_id' => $id,
             'model_scope' => $field,
-            'locale' => (string) ($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
+            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
         ])->first();
     }
 
     protected function _getShopCategory()
     {
         if (!isset($this->_properties['shop_category'])) {
-
             $Table = TableRegistry::get('Shop.ShopCategories');
             $category = $Table
                 ->find()
@@ -77,13 +90,18 @@ class ShopProduct extends Entity
         return [
             'prefix' => false,
             'plugin' => 'Shop',
-            'controller' => 'ShopProducts',
+            'controller' => 'Products',
             'action' => 'view',
             'product_id' => $this->id,
             'product' => $this->slug,
             'category' => ($this->shop_category) ? $this->shop_category->url_path : null,
             //$this->id
         ];
+    }
+
+    protected function _getAdminUrl()
+    {
+        return ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'edit', $this->id];
     }
 
     protected function _getPreviewImage()
@@ -104,5 +122,47 @@ class ShopProduct extends Entity
         $taxRate = $this->tax_rate;
 
         return round($priceNet * (1 + ($taxRate / 100)), 2);
+    }
+
+    protected function _getDisplayPrice()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->price_net : $this->price;
+    }
+
+    /*** Shop Product Interface ***/
+
+    public function getTitle()
+    {
+        return $this->get('title');
+    }
+
+    public function getSku()
+    {
+        return $this->get('sku');
+    }
+
+    public function getPrice()
+    {
+        return $this->get('price_net');
+    }
+
+    public function getTaxRate()
+    {
+        return $this->get('tax_rate');
+    }
+
+    public function getUnit()
+    {
+        return $this->get('unit');
+    }
+
+    public function isBuyable()
+    {
+        return $this->get('is_buyable');
+    }
+
+    public function getAdminUrl()
+    {
+        return $this->get('admin_url');
     }
 }

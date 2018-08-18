@@ -8,7 +8,8 @@
 
 namespace Shop\View\Cell;
 
-use Banana\View\Cell\ModuleCell;
+use Cake\Core\Configure;
+use Content\View\Cell\ModuleCell;
 use Cake\ORM\TableRegistry;
 
 class RandomCategoryProductModuleCell extends ModuleCell
@@ -34,6 +35,9 @@ class RandomCategoryProductModuleCell extends ModuleCell
         $this->loadModel('Shop.ShopProducts');
 
         $catId = $this->params['shop_category_id'];
+        if (!$catId) {
+            $catId = Configure::read('Shop.Catalogue.index_category_id');
+        }
         $element = ($this->params['element']) ?: 'Shop.RandomCategoryProduct/default';
 
         $products = $this->ShopProducts

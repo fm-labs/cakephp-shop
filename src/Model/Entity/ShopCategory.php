@@ -1,9 +1,8 @@
 <?php
 namespace Shop\Model\Entity;
 
-use Banana\Model\Behavior\PageMeta\PageMetaTrait;
-use Banana\Model\Entity\Page\PageInterface;
-use Banana\Model\Entity\PageTypeTrait;
+use Cake\Routing\Router;
+use Content\Model\Behavior\PageMeta\PageMetaTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -11,10 +10,9 @@ use Cake\ORM\TableRegistry;
 /**
  * ShopCategory Entity.
  */
-class ShopCategory extends Entity implements PageInterface
+class ShopCategory extends Entity
 {
     use PageMetaTrait;
-    //use PageTypeTrait;
 
     /**
      * @var string PageMetaTrait model definition
@@ -34,12 +32,38 @@ class ShopCategory extends Entity implements PageInterface
         'id' => false,
     ];
 
+    /**
+     * @var array
+     */
+    protected $_virtual = [
+        'url', 'url_full'
+    ];
 
+    /**
+     * @param null $for
+     * @return \Cake\ORM\Query
+     */
     public function getPath($for = null)
     {
+        if ($for === null) {
+            $for = $this->get('id');
+        }
+
         return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $for]);
     }
 
+    /**
+     * Workaround hack to work as page
+     * @return string
+     */
+    public function _getType()
+    {
+        return 'shop_category';
+    }
+
+    /**
+     * @return \Cake\Datasource\EntityInterface|mixed
+     */
     protected function _getParent()
     {
         if (!isset($this->_properties['parent_shop_category'])
@@ -48,6 +72,7 @@ class ShopCategory extends Entity implements PageInterface
         ) {
             $this->parent_shop_category = TableRegistry::get('Shop.ShopCategories')->get($this->_properties['parent_id']);
         }
+
         return $this->parent_shop_category;
     }
 
@@ -75,14 +100,43 @@ class ShopCategory extends Entity implements PageInterface
     protected function _getShopText($model, $id, $field, $locale = null)
     {
         $ShopTexts = TableRegistry::get('Shop.ShopTexts');
+
         return $ShopTexts->find()->where([
             'model' => $model,
             'model_id' => $id,
             'model_scope' => $field,
-            'locale' => (string) ($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
+            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
         ])->first();
     }
 
+    /**
+     * @return array
+     */
+    protected function _getUrl()
+    {
+        return $this->getViewUrl();
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getUrlFull()
+    {
+        return Router::url($this->_getUrl(), true);
+    }
+
+    /**
+     * @return array
+     * @todo: Use _getUrl() instead
+     */
+    protected function _getViewUrl()
+    {
+        return $this->getViewUrl();
+    }
+
+    /**
+     * @return mixed
+     */
     protected function _getUrlPath()
     {
         if (!isset($this->_properties['url_path'])) {
@@ -101,107 +155,73 @@ class ShopCategory extends Entity implements PageInterface
     }
 
     /**
-     * @return array
-     * @deprecated Use getPageUrl() instead
+     * @return \Cake\ORM\Query
      */
-    protected function _getUrl()
-    {
-        return $this->getPageUrl();
-    }
-
-    protected function _getPermaUrl()
-    {
-        return [
-            'prefix' => false,
-            'plugin' => 'Shop',
-            'controller' => 'ShopCategories',
-            'action' => 'view',
-            $this->id
-        ];
-    }
-
     protected function _getSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
-            ->find('children', ['for' => $this->id, 'direct' => true])
-            ->find('media');
+            ->find('children', ['for' => $this->id, 'direct' => true, 'media' => true]);
+            //->find('media')
     }
 
+    /**
+     * @return \Cake\ORM\Query
+     */
     protected function _getPublishedSubcategories()
     {
         return TableRegistry::get('Shop.ShopCategories')
+            ->find('all', ['media' => true])
             ->find('published')
-            ->find('children', ['for' => $this->id, 'direct' => true])
-            ->find('media');
+            ->find('children', ['for' => $this->id, 'direct' => true]);
+            //->find('media')
     }
 
+    /**
+     * @return array
+     */
     protected function _getProducts()
     {
         return TableRegistry::get('Shop.ShopProducts')
+            ->find('all', ['media' => true])
             ->find('published')
-            ->find('media')
-            ->where(['shop_category_id' => $this->id])
+            //->find('media')
+            ->where(['shop_category_id' => $this->id, ['parent_id IS' => null]])
+            ->order(['title' => 'ASC'])
             ->toArray();
     }
 
-
-    /** PAGE AWARE **/
-    public function getPageId() {
-        return $this->id;
-    }
-
-    public function getPageTitle()
+    /**
+     * @return array
+     */
+    protected function _getModules()
     {
-        return $this->name;
+        $contentModules = TableRegistry::get('Content.ContentModules')
+            ->find()
+            //->find('published')
+            ->contain(['Modules'])
+            ->where(['refscope' => 'Shop.ShopCategories', 'refid' => $this->id])
+            ->all()
+            ->toArray();
+
+        $modules = [];
+        foreach ($contentModules as $contentModule) {
+            //$section = $contentModule->section;
+            $modules[$contentModule->module->id] = $contentModule->module;
+        }
+
+        return $modules;
     }
 
-
-    public function getPageType()
-    {
-        return 'shop_category';
-    }
-
-    public function getPageUrl()
+    public function getViewUrl()
     {
         return [
             'prefix' => false,
             'plugin' => 'Shop',
-            'controller' => 'ShopCategories',
+            'controller' => 'Categories',
             'action' => 'view',
             'category_id' => $this->id,
             //'category' => $this->slug,
             'category' => $this->url_path,
         ];
-    }
-
-    public function getPageAdminUrl()
-    {
-        return [
-            'prefix' => 'admin',
-            'plugin' => 'Shop',
-            'controller' => 'ShopCategories',
-            'action' => 'manage',
-            $this->id,
-        ];
-    }
-
-    public function getPageChildren()
-    {
-        return TableRegistry::get('Shop.ShopCategories')
-            ->find()
-            ->where(['parent_id' => $this->id])
-            ->contain([])
-            ->orderAsc('lft')
-            ->all();
-    }
-
-    public function isPagePublished()
-    {
-        return $this->is_published;
-    }
-
-    public function isPageHiddenInNav()
-    {
-        return null;
     }
 }

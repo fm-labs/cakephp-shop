@@ -5,6 +5,7 @@ use Backend\Controller\Component\ToggleComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Exception\BadRequestException;
+use Cake\ORM\TableRegistry;
 use Media\Lib\Media\MediaManager;
 
 /**
@@ -15,63 +16,155 @@ use Media\Lib\Media\MediaManager;
  */
 class ShopProductsController extends AppController
 {
+    /**
+     * @var string
+     */
     public $modelClass = "Shop.ShopProducts";
 
+    /**
+     * @var array
+     */
+    public $actions = [
+        'index'     => 'Backend.Index',
+        'view'      => 'Backend.View',
+        'add'       => 'Backend.Add',
+        'edit'      => 'Backend.Edit',
+        'media'      => 'Backend.Media',
+        'publish'   => 'Backend.Publish',
+        'unpublish'   => 'Backend.Unpublish'
+    ];
+
+    /**
+     * Initialize method
+     */
     public function initialize()
     {
         parent::initialize();
         $this->loadComponent('Backend.Toggle');
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['index', 'search']
+        ]);
     }
 
-
+    /**
+     * @param Event $event
+     * @return \Cake\Network\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-
         $this->ShopProducts->locale($this->locale);
     }
 
     /**
      * Index method
-     *
-     * @return void
      */
     public function index()
     {
-
         $this->paginate = [
-            'contain' => ['ShopCategories'],
             'limit' => 200,
-            'maxLimit' => 200,
-            'order' => ['ShopProducts.title' => 'ASC', 'ShopProducts.shop_category_id' => 'ASC'],
+            //'maxLimit' => 200,
+            //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published', 'ShopCategories.name'],
+            //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
+            'order' => ['ShopProducts.shop_category_id' => 'ASC', 'ShopProducts.title' => 'ASC'],
+            //'contain' => ['ShopCategories'],
             'media' => true
         ];
 
-        /*
-        if ($this->request->is(['post','put'])) {
-            $search = $this->request->data('search');
-            $this->paginate['conditions'] = ['ShopProducts.title LIKE' => '%' . $search];
+        $options = ['contain' => ['ShopCategories']];
+        $customer_id = $this->request->query('for_customer');
+        if ($customer_id) {
+            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customer_id, ['contain' => false]);
+            if ($customer) {
+                $options = ['for_customer' => $customer->id];
+                $this->Flash->success(__d('shop','Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
+            } else {
+                $this->Flash->warning(__d('shop','Customer not found'));
+            }
         }
-        */
+        $query = $this->ShopProducts->find('all', $options);
 
-        $this->set('shopProductsList', $this->ShopProducts->find('list')->order(['title' => 'ASC']));
+        $parent_id = $this->request->query('parent_id');
+        if ($parent_id) {
+            $query->where(['ShopProducts.parent_id' => $parent_id]);
+        }
 
-        $this->set('shopProducts', $this->paginate($this->ShopProducts));
-        $this->set('_serialize', ['shopProducts']);
 
+        $fields = [
+            'preview_image_file' => [
+                'title' => 'Image',
+                'type' => 'object',
+                'formatter' => 'media_file'
+            ],
+            'type',
+            'sku',
+            'title'  => ['formatter' => function ($val, $row, $args, $view) {
+                return $view->Html->link(
+                    $val,
+                    ['action' => 'edit', $row->id]
+                );
+            }],
+            'shop_category'  => ['formatter' => function ($val, $row, $args, $view) {
+                if (!$val) return;
+                return $view->Html->link(
+                    $val->name,
+                    ['controller' => 'ShopCategories', 'action' => 'edit', $val->id]
+                );
+            }],
+            'price_net' => [
+                'formatter' => 'currency'
+            ],
+            'is_buyable' => [
+                'title' => __d('shop','Buyable'),
+                'formatter' => null
+            ],
+            'is_published' => [
+                'title' => __d('shop','Published'),
+                'formatter' => null,
+            ],
+        ];
+        $this->set('queryObj', $query);
+        $this->set('paginate', true);
+        $this->set('ajax', true);
+        $this->set('filter', false);
+        $this->set('fields', $fields);
+        //$this->set('fields.whitelist', ['title', 'sku', 'price', 'preview_image_file', 'is_buyable', 'is_published']);
+        //$this->set('debug', true);
+
+        $this->Action->execute();
     }
 
+    /**
+     * Search method
+     */
+    public function search()
+    {
+        $query = $this->ShopProducts->find('search', ['search' => $this->request->query]);
+        $this->set('shopProducts', $this->paginate($query));
+        $this->set('_serialize', ['shopProducts']);
+        $this->render('index');
+    }
+
+    /**
+     * @param null $id
+     * @param $field
+     * @todo Refactore with ToggleAction
+     */
     public function toggle($id = null, $field)
     {
         $this->Toggle->toggleBoolean($this->ShopProducts, $id, $field);
     }
 
+    /**
+     * @deprecated Use Search isntead
+     */
     public function quick()
     {
-        if ($this->request->is(['post','put'])) {
+        if ($this->request->is(['post', 'put'])) {
             $id = $this->request->data('shop_product_id');
             if ($id) {
                 $this->redirect(['action' => 'edit', $id]);
+
                 return;
             }
         }
@@ -89,14 +182,60 @@ class ShopProductsController extends AppController
      */
     public function view($id = null)
     {
-        $shopProduct = $this->ShopProducts->get($id, [
-            'contain' => ['ShopCategories'],
-            'media' => true
-        ]);
-        $this->set('shopProduct', $shopProduct);
-        $this->set('_serialize', ['shopProduct']);
+        $shopProduct = $this->ShopProducts->get($id);
 
-        debug($this->ShopProducts->find('translations')->all()->toArray());
+        $tabs = [];
+        if ($shopProduct->type == "parent") {
+            $tabs['child-products'] = [
+                'title' => __d('shop', 'Productversions'),
+                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id]
+            ];
+        }
+        $this->set('tabs', $tabs);
+
+        $this->set('entity', $shopProduct);
+
+        $this->Action->execute();
+    }
+
+    public function add()
+    {
+        $this->set('fields', [
+            //'parent_id',
+            'type' => ['input' => ['default' => 'parent']],
+            'sku' => [],
+            'title' => [],
+            'shop_category_id'
+        ]);
+        $this->set('fields.whitelist', ['id', 'type', 'shop_category_id', 'sku', 'title']);
+
+        $this->set('types', ['parent' => __d('shop','Parent Product'), 'child' => __d('shop','Child Product')]);
+
+        $this->Action->execute();
+    }
+
+    public function edit()
+    {
+        $this->set('fieldsets', [
+            ['fields' => ['parent_id', 'type', 'shop_category_id', 'sku', 'title', 'slug']],
+            ['legend' => __d('shop','Descriptions'), 'fields' => ['teaser_html', 'desc_html']],
+            ['legend' => __d('shop','Images'), 'fields' => ['preview_image_file', 'featured_image_file', 'image_files']],
+            ['legend' => __d('shop','Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
+            ['legend' => __d('shop','Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
+            ['legend' => __d('shop','Sorting'), 'fields' => ['priority'], 'collapsed' => true]
+        ]);
+
+        $this->set('fields', [
+            'teaser_html' => ['input' => ['type' => 'htmleditor']],
+            'desc_html' => ['input' => ['type' => 'htmleditor']],
+            'preview_image_file' => ['input' => ['type' => 'media_picker']],
+            'featured_image_file' => ['input' => ['type' => 'media_picker']],
+            'image_files' => ['input' => ['type' => 'media_picker', 'multiple' => true]],
+        ]);
+
+        $this->set('types', ['parent' => __d('shop','Parent Product'), 'child' => __d('shop','Child Product')]);
+
+        $this->Action->execute();
     }
 
     /**
@@ -104,13 +243,14 @@ class ShopProductsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function _add()
     {
-        $shopProduct = $this->ShopProducts->newEntity();
+        $shopProduct = $this->ShopProducts->newEntity($this->request->query, ['validate' => false]);
         if ($this->request->is('post')) {
             //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
             if ($this->ShopProducts->add($shopProduct, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop product')));
+
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
             } else {
                 debug($shopProduct->errors());
@@ -129,7 +269,7 @@ class ShopProductsController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function _edit($id = null)
     {
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ShopCategories'],
@@ -139,15 +279,45 @@ class ShopProductsController extends AppController
             //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
             if ($this->ShopProducts->edit($shopProduct, $this->request->data)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop product')));
+
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop product')));
             }
         }
-        $this->set(compact('shopProduct'));
+        $this->set('parentShopProducts', $this->ShopProducts->find('list')->orderAsc('title'));
         $this->set('shopCategories', $this->_getCategoriesList());
         $this->set('galleryList', $this->_getGalleryList());
         $this->set('locales', Configure::read('Shop.locales'));
+        $this->set('shopProduct', $shopProduct);
+        $this->set('entity', $shopProduct);
+
+        $tabs = [];
+        if ($shopProduct->type == "parent") {
+            $tabs['child-products'] = [
+                'title' => __d('shop', 'Productversions'),
+                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id]
+            ];
+        }
+        $tabs['media'] = [
+            'title' => __d('shop', 'Media'),
+            'url' => ['action' => 'media', $shopProduct->id]
+        ];
+        $this->set('tabs', $tabs);
+
+        $this->Action->execute();
+    }
+
+    /**
+     * @param null $id
+     */
+    public function relatedProducts($id = null)
+    {
+        $shopProduct = $this->ShopProducts->get($id, [
+            'contain' => ['ChildShopProducts'],
+            'media' => true
+        ]);
+        $this->set(compact('shopProduct'));
         $this->set('_serialize', ['shopProduct']);
     }
 
@@ -167,16 +337,23 @@ class ShopProductsController extends AppController
         } else {
             $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop product')));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @return \Cake\ORM\Query
+     */
     protected function _getCategoriesList()
     {
         return $this->ShopProducts->ShopCategories->find('treeList');
     }
 
-
-
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     * @deprecated Use MediaBehavior instead
+     */
     public function setImage($id = null)
     {
         $scope = $this->request->query('scope');
@@ -192,13 +369,13 @@ class ShopProductsController extends AppController
             $content = $this->ShopProducts->patchEntity($content, $this->request->data);
             //$content->$scope = $this->request->data[$scope];
             if ($this->ShopProducts->save($content)) {
-                $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','content')));
+                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
 
                 if (!$this->request->is('iframe')) {
                     return $this->redirect(['action' => 'edit', $content->id]);
                 }
             } else {
-                $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','content')));
+                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'content')));
             }
         } else {
         }
@@ -213,6 +390,11 @@ class ShopProductsController extends AppController
         $this->set('_serialize', ['content']);
     }
 
+    /**
+     * @param null $id
+     * @return \Cake\Network\Response|null
+     * @deprecated Use Mediabehavior instead
+     */
     public function deleteImage($id = null)
     {
         $scope = $this->request->query('scope');
@@ -230,10 +412,11 @@ class ShopProductsController extends AppController
         $content->set($scope, '');
 
         if ($this->ShopProducts->save($content)) {
-            $this->Flash->success(__d('shop','The {0} has been saved.', __d('shop','content')));
+            $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
         } else {
-            $this->Flash->error(__d('shop','The {0} could not be saved. Please, try again.', __d('shop','content')));
+            $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'content')));
         }
+
         return $this->redirect(['action' => 'edit', $content->id]);
-    }    
+    }
 }

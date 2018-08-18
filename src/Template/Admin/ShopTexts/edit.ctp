@@ -1,15 +1,15 @@
-<?php $this->Html->addCrumb(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Text'))); ?>
-<?= $this->Toolbar->addPostLink(
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Texts'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Text'))); ?>
+<?php $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopText->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopText->id)]
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopText->id)]
 )
 ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Texts')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
 <?php $this->Toolbar->endGroup(); ?>

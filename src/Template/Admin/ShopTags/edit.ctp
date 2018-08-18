@@ -1,27 +1,27 @@
-<?php $this->Html->addCrumb(__d('shop', 'Shop Tags'), ['action' => 'index']); ?>
-<?php $this->Html->addCrumb(__d('shop', 'Edit {0}', __d('shop', 'Shop Tag'))); ?>
-<?= $this->Toolbar->addPostLink(
+<?php $this->Breadcrumbs->add(__d('shop', 'Shop Tags'), ['action' => 'index']); ?>
+<?php $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Tag'))); ?>
+<?php $this->Toolbar->addPostLink(
     __d('shop', 'Delete'),
     ['action' => 'delete', $shopTag->id],
-    ['icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopTag->id)]
+    ['data-icon' => 'remove', 'confirm' => __d('shop', 'Are you sure you want to delete # {0}?', $shopTag->id)]
 )
 ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Tags')),
     ['action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 <?php $this->Toolbar->startGroup('More'); ?>
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'List {0}', __d('shop', 'Shop Products Tags')),
     ['controller' => 'ShopProductsTags', 'action' => 'index'],
-    ['icon' => 'list']
+    ['data-icon' => 'list']
 ) ?>
 
-<?= $this->Toolbar->addLink(
+<?php $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Products Tag')),
     ['controller' => 'ShopProductsTags', 'action' => 'add'],
-    ['icon' => 'plus']
+    ['data-icon' => 'plus']
 ) ?>
 <?php $this->Toolbar->endGroup(); ?>
 <div class="form">

@@ -1,10 +1,17 @@
 <?php
 namespace Shop\Model\Table;
 
+use Cake\Cache\Cache;
+use Cake\Collection\Collection;
+use Cake\Core\Plugin;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Routing\Router;
 use Cake\Validation\Validator;
+use Seo\Sitemap\SitemapLocation;
 use Shop\Model\Entity\ShopCategory;
 
 /**
@@ -13,6 +20,8 @@ use Shop\Model\Entity\ShopCategory;
  * @property \Cake\ORM\Association\BelongsTo $ParentShopCategories
  * @property \Cake\ORM\Association\HasMany $ChildShopCategories
  * @property \Cake\ORM\Association\HasMany $ShopProducts
+ *
+ * @method string|null locale(string $locale)
  */
 class ShopCategoriesTable extends Table
 {
@@ -55,44 +64,51 @@ class ShopCategoriesTable extends Table
             'propertyName' => 'tags',
             'joinTable' => 'shop_categories_tags',
         ]);
-        $this->addBehavior('Banana.ContentModule', [
+        $this->addBehavior('Content.ContentModule', [
             'alias' => 'ContentModules',
             'scope' => 'Shop.ShopCategories'
         ]);
-        /*
-        $this->addBehavior('Attachment.Attachment', [
-            'dataDir' =>  MEDIA . 'gallery' . DS,
-            'dataUrl' => MEDIA_URL . '/gallery',
-            'fields' => [
-                'preview_image_file' => [
-                ],
-                'featured_image_file' => [
-                    //'multiple' => true
-                ]
-            ]
-        ]);
-        */
-        $this->addBehavior('Media.Media', [
-            'model' => 'Shop.ShopCategories',
-            'fields' => [
-                'preview_image_file' => [
-                    'config' => 'shop'
-                ],
-                'featured_image_file' => [
-                    'config' => 'shop'
-                ],
-                'image_files' => [
-                    'config' => 'shop',
-                    'multiple' => true
-                ],
-                'media_images' => [
-                    'mode' => 'table',
-                    'config' => 'shop',
-                    'multiple' => true
-                ]
 
-            ]
-        ]);
+        if (Plugin::loaded('Media')) {
+            $this->addBehavior('Media.Media', [
+                'model' => 'Shop.ShopCategories',
+                'fields' => [
+                    'preview_image_file' => [
+                        'config' => 'shop'
+                    ],
+                    'featured_image_file' => [
+                        'config' => 'shop'
+                    ],
+                    'image_files' => [
+                        'config' => 'shop',
+                        'multiple' => true
+                    ],
+                    'media_images' => [
+                        'mode' => 'table',
+                        'config' => 'shop',
+                        'multiple' => true
+                    ],
+                    'custom_file1' => [
+                        'config' => 'default'
+                    ],
+                    'custom_file2' => [
+                        'config' => 'default'
+                    ],
+                    'custom_file3' => [
+                        'config' => 'default'
+                    ],
+                    'custom_file4' => [
+                        'config' => 'default'
+                    ],
+                    'custom_file5' => [
+                        'config' => 'default'
+                    ]
+                ]
+            ]);
+        }
+
+        //$this->addBehavior('Eav.Attributes');
+
         $this->addBehavior('Banana.Sluggable', [
             'field' => 'name'
         ]);
@@ -107,11 +123,29 @@ class ShopCategoriesTable extends Table
             'translationTable' => 'ShopI18n'
         ]);
         //$this->locale('de');
+
+        if (Plugin::loaded('Search')) {
+            $this->addBehavior('Search.Search');
+            $this->searchManager()
+                ->add('name', 'Search.Like', [
+                    'before' => true,
+                    'after' => true,
+                    'fieldMode' => 'OR',
+                    'comparison' => 'LIKE',
+                    'wildcardAny' => '*',
+                    'wildcardOne' => '?',
+                    'field' => ['title']
+                ])
+                ->value('is_published', [
+                    'filterEmpty' => true
+                ]);
+        }
     }
 
     protected function _initializeSchema(\Cake\Database\Schema\Table $schema)
     {
         $schema->columnType('image_files', 'media_file');
+
         return $schema;
     }
 
@@ -166,5 +200,50 @@ class ShopCategoriesTable extends Table
     {
         //$rules->add($rules->existsIn(['parent_id'], 'ParentShopCategories'));
         return $rules;
+    }
+
+    /**
+     * @param Event $event
+     * @param EntityInterface $entity
+     * @param \ArrayObject $options
+     */
+    public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        Cache::clear(false, 'content_menu');
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function findSitemap()
+    {
+        $locations = [];
+        $categories = $this->find('published')->find('threaded')->order(['lft' => 'ASC'])->contain([])->all();
+        $this->_buildSitemap($locations, $categories);
+
+        return new Collection($locations);
+    }
+
+    /**
+     * @param $locations
+     * @param $pages
+     * @return void
+     */
+    protected function _buildSitemap(&$locations, $categories, $level = 0)
+    {
+        foreach ($categories as $category) {
+
+            $url = Router::url($category->url, true);
+            $priority = 1 - ( $level / 10 );
+            $lastmod = $category->modified;
+            $changefreq = 'weekly';
+
+            $locations[] = new SitemapLocation($url, $priority, $lastmod, $changefreq);
+
+            if ($category->children) {
+                $this->_buildSitemap($locations, $category->children, $level + 1);
+            }
+        }
     }
 }

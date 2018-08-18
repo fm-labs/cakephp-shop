@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BananaCakePHP Shop\n"
-"POT-Creation-Date: 2016-04-25 21:57+0000\n"
-"PO-Revision-Date: 2016-04-25 23:59+0100\n"
+"POT-Creation-Date: 2018-03-04 19:54+0100\n"
+"PO-Revision-Date: 2018-03-04 20:02+0100\n"
 "Last-Translator: fm-labs <flowmotionlabs@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -13,1500 +13,1730 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: Controller/CartController.php:59
+#: ShopPlugin.php:70 Template/Admin/ShopCustomers/_view.ctp:69
+#: Template/Customer/index.ctp:11
+msgid "Orders"
+msgstr "Bestellungen"
+
+#: ShopPlugin.php:82
+msgid "Transactions"
+msgstr "Transaktionen"
+
+#: ShopPlugin.php:87
+msgid "Categories"
+msgstr "Kategorien"
+
+#: ShopPlugin.php:92 Template/Admin/ShopCategories/edit.ctp:175
+#: Template/Admin/ShopCategories/manage.ctp:48
+msgid "Products"
+msgstr "Produkte"
+
+#: ShopPlugin.php:97
+msgid "Customers"
+msgstr "Kunden"
+
+#: ShopPlugin.php:109
+msgid "Customer Discounts"
+msgstr "Kundenrabatte"
+
+#: ShopPlugin.php:254;272 Template/Admin/ShopCategories/_index.ctp:2
+#: Template/Admin/ShopCategories/index_tree.ctp:1
+#: Template/Admin/ShopOrders/add.ctp:2 Template/Admin/ShopOrders/costs.ctp:5
+#: Template/Admin/ShopOrders/edit.ctp:2 Template/Cart/empty.ctp:2
+#: Template/Cart/index.ctp:7 Template/Checkout/cart.ctp:5
+#: Template/Checkout/customer_signup.ctp:2 Template/CustomerAddresses/add.ctp:2
+#: Template/CustomerAddresses/edit.ctp:3 Template/CustomerAddresses/index.ctp:2
+#: Template/Layout/checkout.ctp:27 Template/Layout/frontend.ctp:27
+#: Template/Orders/view.ctp:2 Template/Orders/view_public.ctp:2
+#: Template/Payment/index.ctp:2 View/ShopCategoryView.php:31;34
+#: View/ShopProductView.php:75
+msgid "Shop"
+msgstr "Shop"
+
+#: ShopPlugin.php:282 Template/Admin/ShopCountries/_index.ctp:1
+#: Template/Admin/ShopCountries/_view.ctp:1;14
+#: Template/Admin/ShopCountries/add.ctp:1;4
+#: Template/Admin/ShopCountries/edit.ctp:1;10
+msgid "Shop Countries"
+msgstr "Länder"
+
+#: Controller/CartController.php:65
 msgid "Cart refreshed"
 msgstr "Warenkorb aktualisiert"
 
-#: Controller/CartController.php:61
+#: Controller/CartController.php:67
 msgid "Failed to refresh cart"
 msgstr "Fehler beim Aktualisieren des Warenkorbs"
 
-#: Controller/CartController.php:75
+#: Controller/CartController.php:79
+msgid "The order has been aborted"
+msgstr "Bestellung wurde abgebrochen"
+
+#: Controller/CartController.php:81
+msgid "Failed to abort order"
+msgstr "Fehler beim Abruch der Bestellung"
+
+#: Controller/CartController.php:107
 msgid "Added item to cart"
 msgstr "Artikel wurde dem Warenkorb hinzugefügt"
 
-#: Controller/CartController.php:77
-msgid "Failed to add item to cart"
-msgstr "Fehler beim Hinzufügen des Artikel zum Warenkorb"
+#: Controller/CartController.php:109
+msgid "Adding item to cart failed: {0}"
+msgstr "Artikel konte nicht dem Warenkorb hinzugefügt werden: {0}"
 
-#: Controller/CartController.php:87;101
-msgid "Failed to remove item from cart"
-msgstr "Fehler beim Entfernen des Artikels"
-
-#: Controller/CartController.php:99
+#: Controller/CartController.php:127
 msgid "Item has been removed from cart"
 msgstr "Artikel wurde aus dem Warenkorb entfernt"
 
-#: Controller/CartController.php:113
+#: Controller/CartController.php:129
+msgid "Failed to remove item from cart"
+msgstr "Fehler beim Entfernen des Artikels"
+
+#: Controller/CartController.php:145
 msgid "Updated item"
 msgstr "Artikel aktualisiert"
 
-#: Controller/CartController.php:115
+#: Controller/CartController.php:147
 msgid "Failed to update item"
 msgstr "Fehler beim Aktualisieren"
 
-#: Controller/CheckoutController.php:134
-msgid "Order process canceled. No order found."
-msgstr "Bestellung abgebrochen: Bestellung nicht gefunden"
+#: Controller/CartController.php:160
+msgid "Order not found"
+msgstr "Bestellung nicht gefunden"
 
-#: Controller/CheckoutController.php:190
-msgid "Login successful"
-msgstr "Anmeldung erfolgreich"
+#: Controller/CartController.php:181
+msgid "{0} item(s) updated"
+msgstr "{0} Artikel aktualisiert"
 
-#: Controller/CheckoutController.php:197
-msgid "Login failed"
-msgstr "Anmeldung ist fehlgeschlagen"
+#: Controller/CartController.php:199
+msgid "The order has been reseted"
+msgstr "Bestellung wurde zurückgesetzt"
 
-#: Controller/CheckoutController.php:213;220;264;290;302;316;339;377;423
-msgid "Ups. Something went wrong. Please try again."
-msgstr "Ups. Da ist etwas schiefgegangen. Bitte nochmal probieren."
+#: Controller/CartController.php:201
+msgid "Failed to reset order"
+msgstr "Fehler beim Zurücksetzen der Bestellung"
 
-#: Controller/CheckoutController.php:259;287
-msgid "Billing information has been updated"
-msgstr "Rechnungsinformation wurde aktualisiert"
+#: Controller/CategoriesController.php:164
+msgid "Sorry, nothing there"
+msgstr "Leider nichts gefunden"
 
-#: Controller/CheckoutController.php:299;313;334
-msgid "Shipping information has been updated"
-msgstr "Versandauswahl wurde aktualisiert"
+#: Controller/CheckoutController.php:71;109
+msgid "Something went wrong. Please try again."
+msgstr "Da ist etwas schiefgegangen. Bitte nochmal probieren."
 
-#: Controller/CheckoutController.php:374
-msgid "Payment information has been updated"
-msgstr "Bezahlauswahl wurde aktualisiert"
+#: Controller/CustomerAddressesController.php:49;76
+msgid "Saved"
+msgstr "Gespeichert"
 
-#: Controller/CheckoutController.php:420
-msgid "Order has been submitted"
-msgstr "Bestellung wurde abgeschickt"
+#: Controller/CustomerAddressesController.php:52;79
+#: Core/Checkout/Step/CustomerStep.php:147 Core/Checkout/Step/SubmitStep.php:44
+msgid "Please fill all required fields"
+msgstr "Bitte füllen Sie alle Pflichtfelder aus"
 
-#: Controller/Admin/ShopAddressesController.php:55;81
-#: Controller/Admin/ShopCategoriesController.php:144;233;281;385;424
-#: Controller/Admin/ShopCustomersController.php:58;83
-#: Controller/Admin/ShopOrderItemsController.php:55;81
-#: Controller/Admin/ShopOrdersController.php:58;86
-#: Controller/Admin/ShopProductsController.php:113;141;194;232
-#: Controller/Admin/ShopTagsController.php:52;77
-#: Controller/Admin/ShopTextsController.php:55;94;132
-msgid "The {0} has been saved."
-msgstr "{0} wurde gespeichert."
+#: Controller/OrdersController.php:109
+msgid "The {0} could not be cancled. Please, try again."
+msgstr "{0} konnte nicht abgebrochen werden. Bitte nochmals probieren."
 
-#: Controller/Admin/ShopAddressesController.php:55;58;81;84;104;106
-msgid "shop address"
-msgstr ""
-
-#: Controller/Admin/ShopAddressesController.php:58;84
-#: Controller/Admin/ShopCategoriesController.php:147;237;284;391;426
-#: Controller/Admin/ShopCustomersController.php:61;86
-#: Controller/Admin/ShopOrderItemsController.php:58;84
-#: Controller/Admin/ShopOrdersController.php:61;89
-#: Controller/Admin/ShopProductsController.php:117;144;200;234
-#: Controller/Admin/ShopTagsController.php:55;80
-#: Controller/Admin/ShopTextsController.php:58;97;134
-msgid "The {0} could not be saved. Please, try again."
-msgstr "{0} konnte nicht gespeichert werden. Bitte nochmals probieren."
-
-#: Controller/Admin/ShopAddressesController.php:104
-#: Controller/Admin/ShopCategoriesController.php:326
-#: Controller/Admin/ShopCustomersController.php:105
-#: Controller/Admin/ShopOrderItemsController.php:104
-#: Controller/Admin/ShopOrdersController.php:111
-#: Controller/Admin/ShopProductsController.php:165
-#: Controller/Admin/ShopTagsController.php:99
-#: Controller/Admin/ShopTextsController.php:154
-msgid "The {0} has been deleted."
-msgstr ""
-
-#: Controller/Admin/ShopAddressesController.php:106
-#: Controller/Admin/ShopCategoriesController.php:328
-#: Controller/Admin/ShopCustomersController.php:107
-#: Controller/Admin/ShopOrderItemsController.php:106
-#: Controller/Admin/ShopOrdersController.php:113
-#: Controller/Admin/ShopProductsController.php:167
-#: Controller/Admin/ShopTagsController.php:101
-#: Controller/Admin/ShopTextsController.php:156
-msgid "The {0} could not be deleted. Please, try again."
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:144;147;233;237;281;284;326;328;337;339;348;350
-msgid "shop category"
-msgstr "Shop Kategorie"
-
-#: Controller/Admin/ShopCategoriesController.php:257
-msgid "The content module has been saved for Shop Category {0}."
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:259
-msgid "The content module could not be saved for Shop Category {0}."
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:337
-msgid "The {0} has been moved up."
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:339;350
-msgid "The {0} could not be moved. Please, try again."
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:348
-msgid "The {0} has been moved down."
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:364
-msgid "Shop Category tree recovery has been executed"
-msgstr ""
-
-#: Controller/Admin/ShopCategoriesController.php:385;391;424;426
-#: Controller/Admin/ShopProductsController.php:194;200;232;234
-msgid "content"
-msgstr ""
-
-#: Controller/Admin/ShopCustomersController.php:58;61;83;86;105;107
-msgid "shop customer"
-msgstr "Kunde"
-
-#: Controller/Admin/ShopOrderItemsController.php:55;58;81;84;104;106
-msgid "shop order item"
-msgstr ""
-
-#: Controller/Admin/ShopOrdersController.php:58;61;86;89;111;113
+#: Controller/OrdersController.php:109
 msgid "shop order"
 msgstr "Bestellung"
 
-#: Controller/Admin/ShopOrdersController.php:129
+#: Controller/PaymentController.php:112
+msgid "The order is temporary"
+msgstr "Diese Bestellung wurde noch nicht abgeschickt"
+
+#: Controller/PaymentController.php:116
+msgid "The order has been canceled"
+msgstr "Bestellung wurde abgebrochen"
+
+#: Controller/PaymentController.php:120
+msgid "The order is already closed"
+msgstr "Die Bestellung ist bereits abgeschlossen"
+
+#: Controller/PaymentController.php:135
+msgid "We are processing your order"
+msgstr "Ihre Bestellung wird bearbeitet"
+
+#: Controller/PaymentController.php:176
+msgid "Your payment was successful"
+msgstr "Ihre Zahlung war erfolgreich"
+
+#: Controller/PaymentController.php:194
+msgid "The payment could not be completed"
+msgstr "Die Zahlung konnte nicht abgeschlossen werden"
+
+#: Controller/PaymentController.php:212
+msgid "The payment has been canceled"
+msgstr "Die Zahlung wurde abgebrochen"
+
+#: Controller/Admin/ShopCategoriesController.php:51
+#: Template/Admin/ShopCategories/_index.ctp:40
+msgid "Preview"
+msgstr "Vorschau"
+
+#: Controller/Admin/ShopCategoriesController.php:210;248;313;408;526;571
+#: Controller/Admin/ShopCountriesController.php:78;104
+#: Controller/Admin/ShopCustomerAddressesController.php:85;112
+#: Controller/Admin/ShopCustomerDiscountsController.php:65;95
+#: Controller/Admin/ShopCustomersController.php:94;120
+#: Controller/Admin/ShopOrderAddressesController.php:66;95
+#: Controller/Admin/ShopOrderInvoicesController.php:47;75
+#: Controller/Admin/ShopOrderItemsController.php:103;130
+#: Controller/Admin/ShopOrderTransactionNotifiesController.php:47;74
+#: Controller/Admin/ShopOrderTransactionsController.php:73;100
+#: Controller/Admin/ShopProductsController.php:252;281;372;415
+#: Controller/Admin/ShopTagsController.php:52;78
+#: Controller/Admin/ShopTextsController.php:55;95;137
+#: Controller/Admin/StockTransfersController.php:55;84
+#: Controller/Admin/StockValuesController.php:55;83
+#: Controller/Admin/StocksController.php:52;78
+msgid "The {0} has been saved."
+msgstr "{0} wurde gespeichert."
+
+#: Controller/Admin/ShopCategoriesController.php:210;213;248;252;313;317;408;413;458;460;474;476;489;491
+msgid "shop category"
+msgstr "Shop Kategorie"
+
+#: Controller/Admin/ShopCategoriesController.php:213;252;317;413;532;573
+#: Controller/Admin/ShopCountriesController.php:82;108
+#: Controller/Admin/ShopCustomerAddressesController.php:89;116
+#: Controller/Admin/ShopCustomerDiscountsController.php:69;99
+#: Controller/Admin/ShopCustomersController.php:98;124
+#: Controller/Admin/ShopOrderAddressesController.php:70;99
+#: Controller/Admin/ShopOrderInvoicesController.php:51;79
+#: Controller/Admin/ShopOrderItemsController.php:107;134
+#: Controller/Admin/ShopOrderTransactionNotifiesController.php:51;78
+#: Controller/Admin/ShopOrderTransactionsController.php:77;104
+#: Controller/Admin/ShopProductsController.php:257;285;378;417
+#: Controller/Admin/ShopTagsController.php:56;82
+#: Controller/Admin/ShopTextsController.php:59;99;139
+#: Controller/Admin/StockTransfersController.php:59;88
+#: Controller/Admin/StockValuesController.php:59;87
+#: Controller/Admin/StocksController.php:56;82
+msgid "The {0} could not be saved. Please, try again."
+msgstr "{0} konnte nicht gespeichert werden. Bitte nochmals probieren."
+
+#: Controller/Admin/ShopCategoriesController.php:437
+msgid "The content module has been saved for Shop Category {0}."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:439
+msgid "The content module could not be saved for Shop Category {0}."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:458
+#: Controller/Admin/ShopCountriesController.php:127
+#: Controller/Admin/ShopCustomerAddressesController.php:136
+#: Controller/Admin/ShopCustomerDiscountsController.php:120
+#: Controller/Admin/ShopCustomersController.php:143
+#: Controller/Admin/ShopOrderAddressesController.php:121
+#: Controller/Admin/ShopOrderInvoicesController.php:100
+#: Controller/Admin/ShopOrderItemsController.php:154
+#: Controller/Admin/ShopOrderTransactionNotifiesController.php:98
+#: Controller/Admin/ShopOrderTransactionsController.php:124
+#: Controller/Admin/ShopProductsController.php:336
+#: Controller/Admin/ShopTagsController.php:101
+#: Controller/Admin/ShopTextsController.php:159
+#: Controller/Admin/StockTransfersController.php:110
+#: Controller/Admin/StockValuesController.php:108
+#: Controller/Admin/StocksController.php:101
+msgid "The {0} has been deleted."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:460
+#: Controller/Admin/ShopCountriesController.php:129
+#: Controller/Admin/ShopCustomerAddressesController.php:138
+#: Controller/Admin/ShopCustomerDiscountsController.php:122
+#: Controller/Admin/ShopCustomersController.php:145
+#: Controller/Admin/ShopOrderAddressesController.php:123
+#: Controller/Admin/ShopOrderInvoicesController.php:102
+#: Controller/Admin/ShopOrderItemsController.php:156
+#: Controller/Admin/ShopOrderTransactionNotifiesController.php:100
+#: Controller/Admin/ShopOrderTransactionsController.php:126
+#: Controller/Admin/ShopProductsController.php:338
+#: Controller/Admin/ShopTagsController.php:103
+#: Controller/Admin/ShopTextsController.php:161
+#: Controller/Admin/StockTransfersController.php:112
+#: Controller/Admin/StockValuesController.php:110
+#: Controller/Admin/StocksController.php:103
+msgid "The {0} could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:474
+msgid "The {0} has been moved up."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:476;491
+msgid "The {0} could not be moved. Please, try again."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:489
+msgid "The {0} has been moved down."
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:502
+msgid "Shop Category tree recovery has been executed"
+msgstr ""
+
+#: Controller/Admin/ShopCategoriesController.php:526;532;571;573
+#: Controller/Admin/ShopProductsController.php:372;378;415;417
+msgid "content"
+msgstr ""
+
+#: Controller/Admin/ShopCountriesController.php:78;82;104;108;127;129
+msgid "shop country"
+msgstr "Land"
+
+#: Controller/Admin/ShopCustomerAddressesController.php:85;89;112;116;136;138
+msgid "shop address"
+msgstr "Adresse"
+
+#: Controller/Admin/ShopCustomerDiscountsController.php:65;69;95;99;120;122
+msgid "shop customer discount"
+msgstr "Kundenrabatt"
+
+#: Controller/Admin/ShopCustomerDiscountsController.php:74
+msgid "Permanent"
+msgstr "Permanent"
+
+#: Controller/Admin/ShopCustomerDiscountsController.php:75
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:44
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:84
+#: Template/Admin/ShopOrderItems/_view.ctp:44
+#: Template/Admin/ShopTags/view.ctp:44 Template/Admin/ShopTexts/view.ctp:34
+#: Template/Admin/StockValues/view.ctp:76 Template/Admin/Stocks/view.ctp:134
+msgid "Value"
+msgstr "Wert"
+
+#: Controller/Admin/ShopCustomerDiscountsController.php:75
+msgid "Percentage"
+msgstr "Prozentsatz"
+
+#: Controller/Admin/ShopCustomersController.php:94;98;120;124;143;145
+msgid "shop customer"
+msgstr "Kunde"
+
+#: Controller/Admin/ShopOrderAddressesController.php:66;70;95;99;121;123
+msgid "shop order address"
+msgstr "Bestelladdresse"
+
+#: Controller/Admin/ShopOrderInvoicesController.php:47;51;75;79;100;102
+msgid "shop order invoice"
+msgstr "Rechnung"
+
+#: Controller/Admin/ShopOrderItemsController.php:73
+#: Template/Admin/ShopCountries/_index.ctp:15
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:35
+#: Template/Admin/ShopOrderItems/_index.ctp:61
+#: Template/Admin/ShopTags/view.ctp:92
+#: Template/Admin/StockTransfers/view.ctp:151
+#: Template/Admin/Stocks/view.ctp:111;153
+msgid "View"
+msgstr "Ansehen"
+
+#: Controller/Admin/ShopOrderItemsController.php:103;107;130;134;154;156
+msgid "shop order item"
+msgstr "Bestellartikel"
+
+#: Controller/Admin/ShopOrderTransactionNotifiesController.php:47;51;74;78;98;100
+msgid "shop order transaction notify"
+msgstr "Transaktionsbestätigung"
+
+#: Controller/Admin/ShopOrderTransactionsController.php:73;77;100;104;124;126
+msgid "shop order transaction"
+msgstr "Transaktion"
+
+#: Controller/Admin/ShopOrdersController.php:39
+msgid "View Order"
+msgstr "Bestellung ansehen"
+
+#: Controller/Admin/ShopOrdersController.php:40
+#: Template/Checkout/submit.ctp:113
+msgid "Cancel order"
+msgstr "Bestellung stornieren"
+
+#: Controller/Admin/ShopOrdersController.php:41
+msgid "View Invoice"
+msgstr "Rechnung ansehen"
+
+#: Controller/Admin/ShopOrdersController.php:58
+msgid "Updated"
+msgstr "Aktualisiert"
+
+#: Controller/Admin/ShopOrdersController.php:62
+msgid "Operation failed"
+msgstr "Aktion ist fehlgeschlagen"
+
+#: Controller/Admin/ShopOrdersController.php:92 Template/Orders/index.ctp:18
+msgid "Order Nr"
+msgstr "Bestellnummer"
+
+#: Controller/Admin/ShopOrdersController.php:93
+msgid "Invoice Nr"
+msgstr "Rechnungsnummer"
+
+#: Controller/Admin/ShopOrdersController.php:287
 msgid "The notification has been sent."
 msgstr "Die Benachrichtigung wurde gesendet"
 
-#: Controller/Admin/ShopOrdersController.php:131
+#: Controller/Admin/ShopOrdersController.php:289
 msgid "The notification could not be sent."
 msgstr "Die Benachrichtigung konnte nicht gesendet werden."
 
-#: Controller/Admin/ShopProductsController.php:113;117;141;144;165;167
+#: Controller/Admin/ShopOrdersController.php:341
+msgid "Failed to confirm order: Invalid order status"
+msgstr "Bestellung konnte nicht bestätigt werden: Ungültiger Bestellstatus"
+
+#: Controller/Admin/ShopOrdersController.php:344
+msgid "Order confirmed"
+msgstr "Bestellung bestätigt"
+
+#: Controller/Admin/ShopOrdersController.php:347;364
+msgid "Failed to create invoice"
+msgstr "Fehler beim Erstellen der Rechnung"
+
+#: Controller/Admin/ShopOrdersController.php:358
+msgid "Failed to create invoice: Invalid order status"
+msgstr "Rechnung konnte nicht generiert werden: Ungültiger Bestellstatus"
+
+#: Controller/Admin/ShopOrdersController.php:361
+msgid "Invoice created"
+msgstr "Rechnung erstellt"
+
+#: Controller/Admin/ShopOrdersController.php:375
+msgid "Failed to change order status: Invalid status"
+msgstr "Bestellstatus konnte nicht geändert werden: Ungültiger Status"
+
+#: Controller/Admin/ShopOrdersController.php:378
+msgid "Status updated"
+msgstr "Status aktualisiert"
+
+#: Controller/Admin/ShopOrdersController.php:381
+msgid "Failed to update status"
+msgstr "Status konnte nicht aktualisiert werden"
+
+#: Controller/Admin/ShopProductsController.php:80
+msgid "Product net prices for customer {0} (CustomerID: {1})"
+msgstr "Netto Produktpreise für Kunde {0} (KundenID: {1})"
+
+#: Controller/Admin/ShopProductsController.php:82
+msgid "Customer not found"
+msgstr "Kunde nicht gefunden"
+
+#: Controller/Admin/ShopProductsController.php:118
+msgid "Buyable"
+msgstr "Kaufbar"
+
+#: Controller/Admin/ShopProductsController.php:122
+#: Template/Admin/ShopCategories/edit.ctp:115
+#: Template/Admin/ShopTags/view.ctp:66
+msgid "Published"
+msgstr "Veröffentlicht"
+
+#: Controller/Admin/ShopProductsController.php:190;298
+msgid "Productversions"
+msgstr "Produktversionen"
+
+#: Controller/Admin/ShopProductsController.php:212;236
+msgid "Parent Product"
+msgstr "Übergeordnetes Produkt"
+
+#: Controller/Admin/ShopProductsController.php:212;236
+msgid "Child Product"
+msgstr ""
+
+#: Controller/Admin/ShopProductsController.php:221
+msgid "Descriptions"
+msgstr "Beschreibungen"
+
+#: Controller/Admin/ShopProductsController.php:222
+#: Template/Products/view.ctp:36
+msgid "Images"
+msgstr "Bilder"
+
+#: Controller/Admin/ShopProductsController.php:223
+#: Template/Element/Checkout/cart.ctp:10
+#: Template/Element/Products/product_info_price.ctp:16
+msgid "Price"
+msgstr "Preis"
+
+#: Controller/Admin/ShopProductsController.php:224
+#: Template/Admin/ShopProducts/edit.bak.ctp:70
+msgid "Publish"
+msgstr "Veröffentlichen"
+
+#: Controller/Admin/ShopProductsController.php:225
+msgid "Sorting"
+msgstr "Sortierung"
+
+#: Controller/Admin/ShopProductsController.php:252;257;281;285;336;338
 msgid "shop product"
+msgstr "Produkt"
+
+#: Controller/Admin/ShopProductsController.php:303
+#: Template/Admin/ShopCategories/edit.ctp:126
+#: Template/Admin/ShopProducts/edit.bak.ctp:80
+msgid "Media"
 msgstr ""
 
-#: Controller/Admin/ShopTagsController.php:52;55;77;80;99;101
+#: Controller/Admin/ShopTagsController.php:52;56;78;82;101;103
 msgid "shop tag"
-msgstr ""
+msgstr "Tag"
 
-#: Controller/Admin/ShopTextsController.php:55;58;94;97;132;134;154;156
+#: Controller/Admin/ShopTextsController.php:55;59;95;99;137;139;159;161
 msgid "shop text"
+msgstr "Text"
+
+#: Controller/Admin/StockTransfersController.php:55;59;84;88;110;112
+msgid "stock transfer"
 msgstr ""
 
-#: Model/Table/ShopCustomersTable.php:135
-msgid "Invalid password"
-msgstr "Ungültiges Passwort"
+#: Controller/Admin/StockValuesController.php:55;59;83;87;108;110
+msgid "stock value"
+msgstr ""
 
-#: Model/Table/ShopCustomersTable.php:143
-msgid "Passwords do not match"
-msgstr "Die Passwörter stimmen nicht überein"
+#: Controller/Admin/StocksController.php:52;56;78;82;101;103
+msgid "stock"
+msgstr ""
 
-#: Model/Table/ShopCustomersTable.php:239
-msgid "Password too short. Minimum {0} characters"
-msgstr "Passwort zu kurz. Mindestens {0} Zeichen"
+#: Controller/Component/CheckoutComponent.php:145
+msgid "Checkout aborted: Your cart is empty"
+msgstr "Kaufvorgang abgebrochen: Ihr Warenkorb ist leer"
 
-#: Model/Table/ShopCustomersTable.php:244
-msgid "Password contains illegal characters"
-msgstr "Passwort beinhaltet ungülte Zeichen"
+#: Core/Checkout/Step/BillingAddressStep.php:22
+#: Template/Admin/ShopOrders/add.ctp:29 Template/Admin/ShopOrders/edit.ctp:25
+msgid "Billing Address"
+msgstr "Rechnungsadresse"
 
-#: Model/Table/ShopCustomersTable.php:268
-msgid "The passwords do not match"
-msgstr "Die Passwörter stimmen nicht überein"
+#: Core/Checkout/Step/BillingAddressStep.php:75
+msgid "Billing information has been updated!"
+msgstr "Rechnungsinformation wurde aktualisiert!"
 
-#: Model/Table/ShopOrdersTable.php:360
-msgid "This option is mandatory"
-msgstr "Das ist ein Pflichtfeld"
+#: Core/Checkout/Step/BillingAddressStep.php:85
+msgid "Billing information has been updated"
+msgstr "Rechnungsinformation wurde aktualisiert"
 
-#: Model/Table/ShopOrdersTable.php:429
-msgid "Billing not selected"
-msgstr "Bezahloption nicht gewählt"
+#: Core/Checkout/Step/CustomerStep.php:98
+msgid "Logged in as {0}"
+msgstr "Angemeldet als {0}"
 
-#: Template/Admin/ShopAddresses/add.ctp:1;4
-#: Template/Admin/ShopAddresses/edit.ctp:1;10
-#: Template/Admin/ShopAddresses/index.ctp:1
-#: Template/Admin/ShopAddresses/view.ctp:1;14
-#: Template/Admin/ShopCustomers/add.ctp:10
-#: Template/Admin/ShopCustomers/edit.ctp:16
-#: Template/Admin/ShopCustomers/index.ctp:5
-#: Template/Admin/ShopCustomers/view.ctp:25
-msgid "Shop Addresses"
-msgstr "Adresse"
+#: Core/Checkout/Step/CustomerStep.php:103
+msgid "Login failed :("
+msgstr "Anmeldung ist fehlgeschlagen"
 
-#: Template/Admin/ShopAddresses/add.ctp:2;16
-#: Template/Admin/ShopAddresses/edit.ctp:22
-#: Template/Admin/ShopAddresses/index.ctp:3;10
-#: Template/Admin/ShopAddresses/view.ctp:19;30
+#: Core/Checkout/Step/CustomerStep.php:143
+msgid "Signup was successful"
+msgstr "Anmeldung erfolgreich"
+
+#: Core/Checkout/Step/PaymentStep.php:44
+#: Template/Admin/ShopOrders/view_order.ctp:143
+msgid "Payment Type"
+msgstr "Zahlungsart"
+
+#: Core/Checkout/Step/ShippingAddressStep.php:20
+msgid "Shipping Address"
+msgstr "Lieferadresse"
+
+#: Core/Checkout/Step/ShippingAddressStep.php:81;91
+msgid "Shipping address has been updated"
+msgstr "Lieferadresse wurde aktualisiert"
+
+#: Core/Checkout/Step/ShippingStep.php:35
+#: Template/Admin/ShopOrders/view_order.ctp:107;158
+msgid "Shipping"
+msgstr "Versand"
+
+#: Core/Checkout/Step/SubmitStep.php:19
+msgid "Review"
+msgstr "Überprüfen"
+
+#: Core/Checkout/Step/SubmitStep.php:39
+msgid "Order has been submitted"
+msgstr "Bestellung wurde abgeschickt"
+
+#: Core/Payment/Engine/Mpay24SelectPayment.php:166
+#: Template/Admin/ShopOrders/costs.ctp:17 Template/Admin/ShopOrders/edit.ctp:4
+#: Template/Orders/view.ctp:7 Template/Orders/view_public.ctp:7
+msgid "Order {0}"
+msgstr "Bestellung {0}"
+
+#: Core/Payment/Engine/Mpay24SelectPayment.php:243
+msgid "Payment failed"
+msgstr "Zahlung ist fehlgeschlagen"
+
+#: Model/Table/ShopAddressesTable.php:126
+msgid "Please provide a valid European VAT ID"
+msgstr "Bitte geben Sie eine gültige europäische Steuernummer an"
+
+#: Model/Table/ShopOrderTransactionsTable.php:66
+msgid "Initialized"
+msgstr "Initialisiert"
+
+#: Model/Table/ShopOrderTransactionsTable.php:67
+#: Model/Table/ShopOrdersTable.php:977
+msgid "Error"
+msgstr "Fehler"
+
+#: Model/Table/ShopOrderTransactionsTable.php:68
+msgid "Suspended"
+msgstr "Angehalten"
+
+#: Model/Table/ShopOrderTransactionsTable.php:69
+msgid "Rejected"
+msgstr "Abgelehnt"
+
+#: Model/Table/ShopOrderTransactionsTable.php:70
+msgid "Reserved"
+msgstr "Reserviert"
+
+#: Model/Table/ShopOrderTransactionsTable.php:71
+msgid "Confirmed"
+msgstr "Bestätigt"
+
+#: Model/Table/ShopOrderTransactionsTable.php:72
+msgid "Reversal"
+msgstr "Storniert"
+
+#: Model/Table/ShopOrderTransactionsTable.php:73
+msgid "Credited"
+msgstr "Zahlung erhalten"
+
+#: Model/Table/ShopOrdersTable.php:935
+msgid "Please agree to the general terms & conditions"
+msgstr "Bitte stimmen Sie den Allgemeinen Geschäftsbedingungen zu"
+
+#: Model/Table/ShopOrdersTable.php:969
+msgid "Quote"
+msgstr "Im Warenkorb"
+
+#: Model/Table/ShopOrdersTable.php:970
+msgid "Purchased"
+msgstr "Bestellt"
+
+#: Model/Table/ShopOrdersTable.php:971;986
+msgid "Waiting for payment"
+msgstr "Warten auf Zahlung"
+
+#: Model/Table/ShopOrdersTable.php:972
+msgid "Processing payment"
+msgstr "Zahlung wird bearbeitet"
+
+#: Model/Table/ShopOrdersTable.php:973;988
+#: Template/Admin/ShopOrders/view_order.ctp:140
+msgid "Payed"
+msgstr "Bezahlt"
+
+#: Model/Table/ShopOrdersTable.php:974;983
+#: Template/Admin/ShopOrders/view_order.ctp:159
+msgid "Delivered"
+msgstr "Geliefert"
+
+#: Model/Table/ShopOrdersTable.php:975
+msgid "Closed"
+msgstr "Abgeschlossen"
+
+#: Model/Table/ShopOrdersTable.php:976
+msgid "Storno"
+msgstr "Storniert"
+
+#: Model/Table/ShopOrdersTable.php:978
+msgid "Error Delivery"
+msgstr "Fehler bei Lieferung"
+
+#: Model/Table/ShopOrdersTable.php:981
+msgid "Not delivered"
+msgstr "Nicht geliefert"
+
+#: Model/Table/ShopOrdersTable.php:982
+msgid "Pending"
+msgstr "Warten auf Bestätigung"
+
+#: Model/Table/ShopOrdersTable.php:987
+msgid "Teilzahlung erhalten"
+msgstr ""
+
+#: Shell/ShopImportShell.php:134;475 Shell/Task/ProductImportTask.php:375
+msgid ""
+"Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean "
+"{5}"
+msgstr ""
+
+#: Shell/ShopImportShell.php:263
+msgid ""
+"Added {0} | Failed {1} | Updated {2} | Skipped {3} | Processed {4} | Clean "
+"{5} | Updated Pass {6}"
+msgstr ""
+
+#: Shell/Task/CustomerIntegrityCheckTask.php:32
+msgid "Check shop customer data integrity"
+msgstr "Datenintegrität überprüfen"
+
+#: Shell/Task/ProductImportTask.php:39
+msgid "Import products from CSV file"
+msgstr "Produkte von CSV Datei importieren"
+
+#: Template/Admin/ShopCategories/_index.ctp:3;13
+#: Template/Admin/ShopCategories/add.ctp:1;4
+#: Template/Admin/ShopCategories/edit.ctp:10
+#: Template/Admin/ShopCategories/index_tree.ctp:2;16
+#: Template/Admin/ShopCategories/manage.ctp:9
+#: Template/Admin/ShopCategories/view.ctp:9
+#: Template/Admin/ShopProducts/_add.ctp:10
+msgid "Shop Categories"
+msgstr "Shop Kategorien"
+
+#: Template/Admin/ShopCategories/_index.ctp:4;6
 #: Template/Admin/ShopCategories/add.ctp:2;16;27
-#: Template/Admin/ShopCategories/edit.bak.ctp:38;49
-#: Template/Admin/ShopCategories/edit.bak2.ctp:37
-#: Template/Admin/ShopCategories/edit.ctp:37
-#: Template/Admin/ShopCategories/index.bak.ctp:3;10
-#: Template/Admin/ShopCategories/index.ctp:3;10
-#: Template/Admin/ShopCategories/manage.ctp:37
-#: Template/Admin/ShopCategories/table.ctp:3;10
-#: Template/Admin/ShopCategories/view.ctp:24;35
+#: Template/Admin/ShopCategories/index_tree.ctp:4;6
+#: Template/Admin/ShopCategories/manage.ctp:13
+#: Template/Admin/ShopCategories/related_products.ctp:51
+#: Template/Admin/ShopCountries/_index.ctp:3
+#: Template/Admin/ShopCountries/_view.ctp:19
+#: Template/Admin/ShopCountries/add.ctp:2
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:3;10
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:19;30
+#: Template/Admin/ShopCustomerAddresses/add.ctp:2;16
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:22
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:3;10;20
+#: Template/Admin/ShopCustomerDiscounts/add.ctp:2
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:22;33
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:19;30;40
+#: Template/Admin/ShopCustomers/_index.ctp:3;10;20
+#: Template/Admin/ShopCustomers/_view.ctp:19;30;40
 #: Template/Admin/ShopCustomers/add.ctp:2;16;27
 #: Template/Admin/ShopCustomers/edit.ctp:22;33
-#: Template/Admin/ShopCustomers/index.ctp:3;10;20
-#: Template/Admin/ShopCustomers/view.ctp:19;30;40
+#: Template/Admin/ShopOrderInvoices/add.ctp:2;16;27
+#: Template/Admin/ShopOrderInvoices/edit.ctp:22;33
+#: Template/Admin/ShopOrderItems/_index.ctp:3;10
+#: Template/Admin/ShopOrderItems/_view.ctp:19;30
 #: Template/Admin/ShopOrderItems/add.ctp:2;16
 #: Template/Admin/ShopOrderItems/edit.ctp:22
-#: Template/Admin/ShopOrderItems/index.ctp:3;10
-#: Template/Admin/ShopOrderItems/view.ctp:19;30
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:2;16
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:22
+#: Template/Admin/ShopOrderTransactions/add.ctp:2;16
+#: Template/Admin/ShopOrderTransactions/edit.ctp:22
 #: Template/Admin/ShopOrders/add.ctp:4;18;29;40;51
-#: Template/Admin/ShopOrders/edit.ctp:24;35;46;57
-#: Template/Admin/ShopOrders/index.bak.ctp:3;10
-#: Template/Admin/ShopOrders/index.ctp:5;12
-#: Template/Admin/ShopOrders/view.baked.ctp:21;32;42;52;62
-#: Template/Admin/ShopProducts/add.ctp:2;16
-#: Template/Admin/ShopProducts/edit.bak.ctp:27
-#: Template/Admin/ShopProducts/edit.ctp:27
-#: Template/Admin/ShopProducts/index.ctp:3;10
-#: Template/Admin/ShopProducts/view.ctp:19;30
+#: Template/Admin/ShopOrders/edit.ctp:14;25;36;47
+#: Template/Admin/ShopProducts/_add.ctp:2;16
+#: Template/Admin/ShopProducts/related_products.ctp:51
 #: Template/Admin/ShopTags/add.ctp:2;16 Template/Admin/ShopTags/edit.ctp:22
 #: Template/Admin/ShopTags/index.ctp:3;10
 #: Template/Admin/ShopTags/view.ctp:19;30 Template/Admin/ShopTexts/add.ctp:2
 #: Template/Admin/ShopTexts/index.ctp:3 Template/Admin/ShopTexts/view.ctp:19
+#: Template/Admin/StockTransfers/add.ctp:2;16;27;38
+#: Template/Admin/StockTransfers/edit.ctp:22;33;44
+#: Template/Admin/StockTransfers/index.ctp:3;10;20;30
+#: Template/Admin/StockTransfers/view.ctp:19;30;40;50
+#: Template/Admin/StockValues/add.ctp:2;16;27
+#: Template/Admin/StockValues/edit.ctp:22;33
+#: Template/Admin/StockValues/index.ctp:3;10;20
+#: Template/Admin/StockValues/view.ctp:19;30;40
+#: Template/Admin/Stocks/add.ctp:2;16;27 Template/Admin/Stocks/edit.ctp:22;33
+#: Template/Admin/Stocks/index.ctp:3;10;20
+#: Template/Admin/Stocks/view.ctp:19;30;40
 msgid "New {0}"
 msgstr "{0} hinzufügen"
 
-#: Template/Admin/ShopAddresses/add.ctp:2;23
-#: Template/Admin/ShopAddresses/edit.ctp:2;29
-#: Template/Admin/ShopAddresses/index.ctp:3
-#: Template/Admin/ShopAddresses/view.ctp:4;9;19
-#: Template/Admin/ShopCustomers/add.ctp:16
-#: Template/Admin/ShopCustomers/edit.ctp:22
-#: Template/Admin/ShopCustomers/index.ctp:10
-#: Template/Admin/ShopCustomers/view.ctp:30
-msgid "Shop Address"
-msgstr ""
+#: Template/Admin/ShopCategories/_index.ctp:4
+#: Template/Admin/ShopCategories/manage.ctp:38
+#: Template/Element/Products/product_info.ctp:8
+#: Template/Products/view.bak.ctp:6
+msgid "Category"
+msgstr "Kategorie"
 
-#: Template/Admin/ShopAddresses/add.ctp:4;10
-#: Template/Admin/ShopAddresses/edit.ctp:10;16
-#: Template/Admin/ShopAddresses/index.ctp:5
-#: Template/Admin/ShopAddresses/view.ctp:14;25
+#: Template/Admin/ShopCategories/_index.ctp:6
+#: Template/Admin/ShopOrders/view_order.ctp:68
+#: Template/Admin/ShopProducts/edit.bak.ctp:14;15 Template/Cart/index.ctp:20
+#: Template/Cell/ReportTopSeller/products.ctp:15
+#: Template/Element/Checkout/cart.ctp:8
+msgid "Product"
+msgstr "Produkt"
+
+#: Template/Admin/ShopCategories/_index.ctp:10
+msgid "Sort"
+msgstr "Sortieren"
+
+#: Template/Admin/ShopCategories/_index.ctp:39
+#: Template/Admin/ShopCategories/related_products.ctp:43
+#: Template/Admin/ShopCategories/view.ctp:14
+#: Template/Admin/ShopCountries/_index.ctp:16
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:40
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:36
+#: Template/Admin/ShopCustomers/_index.ctp:41
+#: Template/Admin/ShopCustomers/_view.ctp:53
+#: Template/Admin/ShopOrderItems/_index.ctp:62
+#: Template/Admin/ShopOrders/edit.ctp:5
+#: Template/Admin/ShopProducts/related_products.ctp:43
+#: Template/Admin/ShopTags/index.ctp:27 Template/Admin/ShopTags/view.ctp:94
+#: Template/Admin/ShopTexts/index.ctp:19
+#: Template/Admin/StockTransfers/index.ctp:45
+#: Template/Admin/StockTransfers/view.ctp:153
+#: Template/Admin/StockValues/index.ctp:35 Template/Admin/Stocks/index.ctp:35
+#: Template/Admin/Stocks/view.ctp:113;155 Template/Element/address.ctp:22
+#: Template/Element/Admin/address.ctp:22
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: Template/Admin/ShopCategories/_index.ctp:41
+msgid "Move Up"
+msgstr "Nach oben"
+
+#: Template/Admin/ShopCategories/_index.ctp:42
+msgid "Move Down"
+msgstr "Nach unten"
+
+#: Template/Admin/ShopCategories/_index.ctp:43
+#: Template/Admin/ShopCategories/manage.ctp:18
+#: Template/Admin/ShopCategories/related_products.ctp:44
+#: Template/Admin/ShopCountries/_index.ctp:17
+#: Template/Admin/ShopCountries/edit.ctp:4
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:41
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:4
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:37
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:4
+#: Template/Admin/ShopCustomers/_index.ctp:42
+#: Template/Admin/ShopCustomers/edit.ctp:4
+#: Template/Admin/ShopOrderInvoices/edit.ctp:4
+#: Template/Admin/ShopOrderItems/edit.ctp:4
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:4
+#: Template/Admin/ShopOrderTransactions/edit.ctp:4
+#: Template/Admin/ShopProducts/related_products.ctp:44
+#: Template/Admin/ShopTags/edit.ctp:4 Template/Admin/ShopTags/index.ctp:28
+#: Template/Admin/ShopTags/view.ctp:96 Template/Admin/ShopTexts/edit.ctp:4
+#: Template/Admin/ShopTexts/index.ctp:21
+#: Template/Admin/StockTransfers/edit.ctp:4
+#: Template/Admin/StockTransfers/index.ctp:46
+#: Template/Admin/StockTransfers/view.ctp:155
+#: Template/Admin/StockValues/edit.ctp:4
+#: Template/Admin/StockValues/index.ctp:36 Template/Admin/Stocks/edit.ctp:4
+#: Template/Admin/Stocks/index.ctp:36 Template/Admin/Stocks/view.ctp:115;157
+msgid "Delete"
+msgstr "Löschen"
+
+#: Template/Admin/ShopCategories/_index.ctp:43
+#: Template/Admin/ShopCategories/manage.ctp:20
+#: Template/Admin/ShopCategories/related_products.ctp:44
+#: Template/Admin/ShopCountries/_index.ctp:17
+#: Template/Admin/ShopCountries/_view.ctp:11
+#: Template/Admin/ShopCountries/edit.ctp:6
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:41
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:11
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:6
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:37
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:6
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:11
+#: Template/Admin/ShopCustomers/_index.ctp:42
+#: Template/Admin/ShopCustomers/_view.ctp:11
+#: Template/Admin/ShopCustomers/edit.ctp:6
+#: Template/Admin/ShopOrderInvoices/edit.ctp:6
+#: Template/Admin/ShopOrderItems/_view.ctp:11
+#: Template/Admin/ShopOrderItems/edit.ctp:6
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:6
+#: Template/Admin/ShopOrderTransactions/edit.ctp:6
+#: Template/Admin/ShopOrders/costs.ctp:16
+#: Template/Admin/ShopProducts/related_products.ctp:44
+#: Template/Admin/ShopTags/edit.ctp:6 Template/Admin/ShopTags/index.ctp:28
+#: Template/Admin/ShopTags/view.ctp:11;96 Template/Admin/ShopTexts/edit.ctp:6
+#: Template/Admin/ShopTexts/index.ctp:21 Template/Admin/ShopTexts/view.ctp:11
+#: Template/Admin/StockTransfers/edit.ctp:6
+#: Template/Admin/StockTransfers/index.ctp:46
+#: Template/Admin/StockTransfers/view.ctp:11;155
+#: Template/Admin/StockValues/edit.ctp:6
+#: Template/Admin/StockValues/index.ctp:36
+#: Template/Admin/StockValues/view.ctp:11 Template/Admin/Stocks/edit.ctp:6
+#: Template/Admin/Stocks/index.ctp:36 Template/Admin/Stocks/view.ctp:11;115;157
+msgid "Are you sure you want to delete # {0}?"
+msgstr "# {0} wirklich löschen?"
+
+#: Template/Admin/ShopCategories/add.ctp:2;34
+#: Template/Admin/ShopCategories/edit.ctp:11
+#: Template/Admin/ShopCategories/index_tree.ctp:4
+#: Template/Admin/ShopCategories/manage.ctp:10
+#: Template/Admin/ShopProducts/_add.ctp:16
+#: Template/Admin/ShopProducts/edit.bak.ctp:63
+msgid "Shop Category"
+msgstr "Shop Kategorie"
+
 #: Template/Admin/ShopCategories/add.ctp:4;10;21
-#: Template/Admin/ShopCategories/edit.bak.ctp:16;32;43
-#: Template/Admin/ShopCategories/edit.bak2.ctp:16;31
-#: Template/Admin/ShopCategories/edit.ctp:16;31
-#: Template/Admin/ShopCategories/index.bak.ctp:5
-#: Template/Admin/ShopCategories/index.ctp:5
-#: Template/Admin/ShopCategories/manage.ctp:16;31
-#: Template/Admin/ShopCategories/table.ctp:5
-#: Template/Admin/ShopCategories/view.ctp:19;30
+#: Template/Admin/ShopCountries/_view.ctp:14
+#: Template/Admin/ShopCountries/add.ctp:4
+#: Template/Admin/ShopCountries/edit.ctp:10
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:5
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:14;25
+#: Template/Admin/ShopCustomerAddresses/add.ctp:4;10
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:10;16
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:5;15
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:10;16;27
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:14;25;35
+#: Template/Admin/ShopCustomers/_index.ctp:5;15
+#: Template/Admin/ShopCustomers/_view.ctp:14;25;35
 #: Template/Admin/ShopCustomers/add.ctp:4;10;21
 #: Template/Admin/ShopCustomers/edit.ctp:10;16;27
-#: Template/Admin/ShopCustomers/index.ctp:5;15
-#: Template/Admin/ShopCustomers/view.ctp:14;25;35
+#: Template/Admin/ShopOrderInvoices/add.ctp:4;10;21
+#: Template/Admin/ShopOrderInvoices/edit.ctp:10;16;27
+#: Template/Admin/ShopOrderItems/_index.ctp:5
+#: Template/Admin/ShopOrderItems/_view.ctp:14;25
 #: Template/Admin/ShopOrderItems/add.ctp:4;10
 #: Template/Admin/ShopOrderItems/edit.ctp:10;16
-#: Template/Admin/ShopOrderItems/index.ctp:5
-#: Template/Admin/ShopOrderItems/view.ctp:14;25
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:4;10
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:10;16
+#: Template/Admin/ShopOrderTransactions/add.ctp:4;10
+#: Template/Admin/ShopOrderTransactions/edit.ctp:10;16
 #: Template/Admin/ShopOrders/add.ctp:6;12;23;34;45
-#: Template/Admin/ShopOrders/edit.ctp:12;18;29;40;51
-#: Template/Admin/ShopOrders/index.bak.ctp:5;15
-#: Template/Admin/ShopOrders/index.ctp:7;17
-#: Template/Admin/ShopOrders/view.baked.ctp:16;27;37;47;57
-#: Template/Admin/ShopProducts/add.ctp:4;10
-#: Template/Admin/ShopProducts/edit.bak.ctp:15;21
-#: Template/Admin/ShopProducts/edit.ctp:16;21
-#: Template/Admin/ShopProducts/index.ctp:5
-#: Template/Admin/ShopProducts/view.ctp:14;25
+#: Template/Admin/ShopOrders/edit.ctp:8;19;30;41
+#: Template/Admin/ShopProducts/_add.ctp:4;10
 #: Template/Admin/ShopTags/add.ctp:4;10 Template/Admin/ShopTags/edit.ctp:10;16
 #: Template/Admin/ShopTags/index.ctp:5 Template/Admin/ShopTags/view.ctp:14;25
 #: Template/Admin/ShopTexts/add.ctp:4 Template/Admin/ShopTexts/edit.ctp:10
 #: Template/Admin/ShopTexts/view.ctp:14
+#: Template/Admin/StockTransfers/add.ctp:4;10;21;32
+#: Template/Admin/StockTransfers/edit.ctp:10;16;27;38
+#: Template/Admin/StockTransfers/index.ctp:5;15;25
+#: Template/Admin/StockTransfers/view.ctp:14;25;35;45
+#: Template/Admin/StockValues/add.ctp:4;10;21
+#: Template/Admin/StockValues/edit.ctp:10;16;27
+#: Template/Admin/StockValues/index.ctp:5;15
+#: Template/Admin/StockValues/view.ctp:14;25;35
+#: Template/Admin/Stocks/add.ctp:4;10;21
+#: Template/Admin/Stocks/edit.ctp:10;16;27 Template/Admin/Stocks/index.ctp:5;15
+#: Template/Admin/Stocks/view.ctp:14;25;35
 msgid "List {0}"
 msgstr "{0} auflisten"
 
-#: Template/Admin/ShopAddresses/add.ctp:10
-#: Template/Admin/ShopAddresses/edit.ctp:16
-#: Template/Admin/ShopAddresses/index.ctp:5
-#: Template/Admin/ShopAddresses/view.ctp:25
-#: Template/Admin/ShopCustomers/add.ctp:1;4
-#: Template/Admin/ShopCustomers/edit.ctp:1;10
-#: Template/Admin/ShopCustomers/index.ctp:1
-#: Template/Admin/ShopCustomers/view.ctp:1;14
-#: Template/Admin/ShopOrders/add.ctp:12 Template/Admin/ShopOrders/edit.ctp:18
-#: Template/Admin/ShopOrders/index.bak.ctp:5
-#: Template/Admin/ShopOrders/index.ctp:7
-#: Template/Admin/ShopOrders/view.baked.ctp:27
-msgid "Shop Customers"
-msgstr "Kunden"
-
-#: Template/Admin/ShopAddresses/add.ctp:16
-#: Template/Admin/ShopAddresses/edit.ctp:22
-#: Template/Admin/ShopAddresses/index.ctp:10
-#: Template/Admin/ShopAddresses/view.ctp:30;64
-#: Template/Admin/ShopCustomers/add.ctp:2;34
-#: Template/Admin/ShopCustomers/edit.ctp:2;40
-#: Template/Admin/ShopCustomers/index.ctp:3
-#: Template/Admin/ShopCustomers/view.ctp:4;9;19
-#: Template/Admin/ShopOrders/add.ctp:18 Template/Admin/ShopOrders/edit.ctp:24
-#: Template/Admin/ShopOrders/index.bak.ctp:10
-#: Template/Admin/ShopOrders/index.ctp:12
-#: Template/Admin/ShopOrders/view.baked.ctp:32;94
-#: Template/Admin/ShopOrders/view.ctp:47;158
-msgid "Shop Customer"
-msgstr "Kunde"
-
-#: Template/Admin/ShopAddresses/add.ctp:23
-#: Template/Admin/ShopCategories/add.ctp:34
-#: Template/Admin/ShopCategories/edit.bak.ctp:21;26
-#: Template/Admin/ShopCategories/edit.bak2.ctp:21;26
-#: Template/Admin/ShopCategories/edit.ctp:21;26
-#: Template/Admin/ShopCategories/manage.ctp:21;26
-#: Template/Admin/ShopCustomers/add.ctp:34
-#: Template/Admin/ShopOrderItems/add.ctp:23
-#: Template/Admin/ShopOrders/add.ctp:58 Template/Admin/ShopProducts/add.ctp:23
-#: Template/Admin/ShopTags/add.ctp:23 Template/Admin/ShopTexts/add.ctp:12
-msgid "Add {0}"
-msgstr "{0} hinzufügen"
-
-#: Template/Admin/ShopAddresses/add.ctp:52
-#: Template/Admin/ShopAddresses/edit.ctp:58
-#: Template/Admin/ShopCategories/add.ctp:48
-#: Template/Admin/ShopCategories/edit.bak.ctp:173
-#: Template/Admin/ShopCategories/edit.bak2.ctp:220;250
-#: Template/Admin/ShopCategories/related_custom_texts.ctp:25
-#: Template/Admin/ShopCategories/related_page_meta.ctp:17
-#: Template/Admin/ShopCustomers/add.ctp:61
-#: Template/Admin/ShopCustomers/edit.ctp:67
-#: Template/Admin/ShopOrderItems/add.ctp:45
-#: Template/Admin/ShopOrderItems/edit.ctp:51
-#: Template/Admin/ShopOrders/add.ctp:123
-#: Template/Admin/ShopOrders/edit.ctp:129
-#: Template/Admin/ShopProducts/add.ctp:44
-#: Template/Admin/ShopProducts/edit.bak.ctp:70
-#: Template/Admin/ShopProducts/edit.ctp:99
-#: Template/Admin/ShopProducts/related_page_meta.ctp:17
-#: Template/Admin/ShopTags/add.ctp:37 Template/Admin/ShopTags/edit.ctp:43
-#: Template/Admin/ShopTexts/add.ctp:29 Template/Admin/ShopTexts/edit.ctp:35
-#: Template/Admin/ShopTexts/edit_iframe.ctp:22
-msgid "Submit"
-msgstr "Senden"
-
-#: Template/Admin/ShopAddresses/edit.ctp:2;29
-#: Template/Admin/ShopAddresses/view.ctp:4
-#: Template/Admin/ShopCategories/edit.bak.ctp:8;88
-#: Template/Admin/ShopCategories/edit.bak2.ctp:8;104
-#: Template/Admin/ShopCategories/edit.ctp:8
-#: Template/Admin/ShopCategories/manage.ctp:8
-#: Template/Admin/ShopCategories/view.ctp:9
-#: Template/Admin/ShopCustomers/edit.ctp:2;40
-#: Template/Admin/ShopCustomers/view.ctp:4
-#: Template/Admin/ShopOrderItems/edit.ctp:2;29
-#: Template/Admin/ShopOrderItems/view.ctp:4
-#: Template/Admin/ShopOrders/edit.ctp:4;64
-#: Template/Admin/ShopOrders/view.baked.ctp:6
-#: Template/Admin/ShopOrders/view.ctp:7
-#: Template/Admin/ShopProducts/edit.bak.ctp:7
-#: Template/Admin/ShopProducts/edit.ctp:7;67;68
-#: Template/Admin/ShopProducts/view.ctp:4
-#: Template/Admin/ShopTags/edit.ctp:2;29 Template/Admin/ShopTags/view.ctp:4
-#: Template/Admin/ShopTexts/edit.ctp:2;18 Template/Admin/ShopTexts/view.ctp:4
-msgid "Edit {0}"
-msgstr "{0} bearbeiten"
-
-#: Template/Admin/ShopAddresses/edit.ctp:4
-#: Template/Admin/ShopAddresses/index.ctp:41
-#: Template/Admin/ShopCategories/edit.bak.ctp:10
-#: Template/Admin/ShopCategories/edit.bak2.ctp:10
-#: Template/Admin/ShopCategories/edit.ctp:10
-#: Template/Admin/ShopCategories/index.bak.ctp:39
-#: Template/Admin/ShopCategories/manage.ctp:10
-#: Template/Admin/ShopCategories/related_products.ctp:43
-#: Template/Admin/ShopCategories/table.ctp:84
-#: Template/Admin/ShopCustomers/edit.ctp:4
-#: Template/Admin/ShopCustomers/index.ctp:42
-#: Template/Admin/ShopCustomers/view.ctp:206;348
-#: Template/Admin/ShopOrderItems/edit.ctp:4
-#: Template/Admin/ShopOrderItems/index.ctp:52
-#: Template/Admin/ShopOrders/edit.ctp:6
-#: Template/Admin/ShopOrders/index.bak.ctp:62
-#: Template/Admin/ShopOrders/index.ctp:45
-#: Template/Admin/ShopOrders/view.baked.ctp:358;414
-#: Template/Admin/ShopOrders/view.ctp:122;426;482
-#: Template/Admin/ShopProducts/edit.bak.ctp:9
-#: Template/Admin/ShopProducts/edit.ctp:10
-#: Template/Admin/ShopProducts/index.ctp:74 Template/Admin/ShopTags/edit.ctp:4
-#: Template/Admin/ShopTags/index.ctp:28 Template/Admin/ShopTags/view.ctp:96
-#: Template/Admin/ShopTexts/edit.ctp:4 Template/Admin/ShopTexts/index.ctp:21
-msgid "Delete"
-msgstr "Löschen"
-
-#: Template/Admin/ShopAddresses/edit.ctp:6
-#: Template/Admin/ShopAddresses/index.ctp:41
-#: Template/Admin/ShopAddresses/view.ctp:11
-#: Template/Admin/ShopCategories/edit.bak.ctp:12
-#: Template/Admin/ShopCategories/edit.bak2.ctp:12
-#: Template/Admin/ShopCategories/edit.ctp:12
-#: Template/Admin/ShopCategories/index.bak.ctp:41
-#: Template/Admin/ShopCategories/manage.ctp:12
-#: Template/Admin/ShopCategories/related_products.ctp:43
-#: Template/Admin/ShopCategories/table.ctp:86
-#: Template/Admin/ShopCategories/view.ctp:16
-#: Template/Admin/ShopCustomers/edit.ctp:6
-#: Template/Admin/ShopCustomers/index.ctp:42
-#: Template/Admin/ShopCustomers/view.ctp:11;206;348
-#: Template/Admin/ShopOrderItems/edit.ctp:6
-#: Template/Admin/ShopOrderItems/index.ctp:54
-#: Template/Admin/ShopOrderItems/view.ctp:11
-#: Template/Admin/ShopOrders/edit.ctp:8
-#: Template/Admin/ShopOrders/index.bak.ctp:64
-#: Template/Admin/ShopOrders/index.ctp:45
-#: Template/Admin/ShopOrders/view.baked.ctp:13;358;414
-#: Template/Admin/ShopOrders/view.ctp:14;122;426;482
-#: Template/Admin/ShopProducts/edit.bak.ctp:11
-#: Template/Admin/ShopProducts/edit.ctp:12
-#: Template/Admin/ShopProducts/index.ctp:74
-#: Template/Admin/ShopProducts/view.ctp:11 Template/Admin/ShopTags/edit.ctp:6
-#: Template/Admin/ShopTags/index.ctp:28 Template/Admin/ShopTags/view.ctp:11;96
-#: Template/Admin/ShopTexts/edit.ctp:6 Template/Admin/ShopTexts/index.ctp:21
-#: Template/Admin/ShopTexts/view.ctp:11
-msgid "Are you sure you want to delete # {0}?"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/index.ctp:40
-#: Template/Admin/ShopCategories/related_products.ctp:42
-#: Template/Admin/ShopCustomers/index.ctp:41
-#: Template/Admin/ShopCustomers/view.ctp:204;346
-#: Template/Admin/ShopOrderItems/index.ctp:47
-#: Template/Admin/ShopOrders/index.bak.ctp:52
-#: Template/Admin/ShopOrders/index.ctp:43
-#: Template/Admin/ShopOrders/view.baked.ctp:356;412
-#: Template/Admin/ShopOrders/view.ctp:121;424;480
-#: Template/Admin/ShopProducts/index.ctp:72
-#: Template/Admin/ShopTags/index.ctp:27 Template/Admin/ShopTags/view.ctp:94
-#: Template/Admin/ShopTexts/index.ctp:19
-msgid "Edit"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:9
-#: Template/Admin/ShopCategories/view.ctp:14
-#: Template/Admin/ShopCustomers/view.ctp:9
-#: Template/Admin/ShopOrderItems/view.ctp:9
-#: Template/Admin/ShopOrders/view.baked.ctp:11
-#: Template/Admin/ShopOrders/view.ctp:12
-#: Template/Admin/ShopProducts/view.ctp:9 Template/Admin/ShopTags/view.ctp:9
-#: Template/Admin/ShopTexts/view.ctp:9
-msgid "Delete {0}"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:23
-#: Template/Admin/ShopCategories/view.ctp:28
-#: Template/Admin/ShopCustomers/view.ctp:23
-#: Template/Admin/ShopOrderItems/view.ctp:23
-#: Template/Admin/ShopOrders/view.baked.ctp:25
-#: Template/Admin/ShopProducts/view.ctp:23 Template/Admin/ShopTags/view.ctp:23
-#: Template/Admin/ShopTexts/view.ctp:23
-msgid "More"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:43
-#: Template/Admin/ShopCustomers/view.ctp:53
-#: Template/Admin/ShopOrderItems/view.ctp:43
-#: Template/Admin/ShopOrders/view.baked.ctp:75
-#: Template/Admin/ShopOrders/view.ctp:139
-#: Template/Admin/ShopProducts/view.ctp:43 Template/Admin/ShopTags/view.ctp:43
-#: Template/Admin/ShopTexts/view.ctp:33
-msgid "Label"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:44
-#: Template/Admin/ShopCustomers/view.ctp:54
-#: Template/Admin/ShopOrderItems/view.ctp:44
-#: Template/Admin/ShopOrders/view.baked.ctp:76
-#: Template/Admin/ShopOrders/view.ctp:140
-#: Template/Admin/ShopProducts/view.ctp:44 Template/Admin/ShopTags/view.ctp:44
-#: Template/Admin/ShopTexts/view.ctp:34
-msgid "Value"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:50
-#: Template/Admin/ShopCategories/view.ctp:73
-#: Template/Admin/ShopCustomers/view.ctp:118;152;222
-#: Template/Admin/ShopOrderItems/view.ctp:68
-#: Template/Admin/ShopOrders/view.baked.ctp:212;326;374
-#: Template/Admin/ShopOrders/view.ctp:102;276;394;442
-#: Template/Admin/ShopProducts/view.ctp:76
-#: Template/Admin/ShopTags/view.ctp:50;80 Template/Admin/ShopTexts/view.ctp:62
-msgid "Id"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:55
-#: Template/Admin/ShopCustomers/view.ctp:159
-msgid "Is Company"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:56;60
-#: Template/Admin/ShopCustomers/view.ctp:134;138;142
-#: Template/Admin/ShopOrders/view.baked.ctp:280;284;288;292;296;300;304;308
-#: Template/Admin/ShopOrders/view.ctp:344;348;352;356;360;364;368;372
-#: Template/Admin/ShopProducts/view.ctp:92
-msgid "Yes"
-msgstr "Ja"
-
-#: Template/Admin/ShopAddresses/view.ctp:56;60
-#: Template/Admin/ShopCustomers/view.ctp:134;138;142
-#: Template/Admin/ShopOrders/view.baked.ctp:280;284;288;292;296;300;304;308
-#: Template/Admin/ShopOrders/view.ctp:344;348;352;356;360;364;368;372
-#: Template/Admin/ShopProducts/view.ctp:92
-msgid "No"
-msgstr "Nein"
-
-#: Template/Admin/ShopAddresses/view.ctp:59
-#: Template/Admin/ShopCustomers/view.ctp:171
-msgid "Is Archived"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:68
-#: Template/Admin/ShopCustomers/view.ctp:154
-msgid "Type"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:73
-#: Template/Admin/ShopCustomers/view.ctp:72;157
-#: Template/Checkout/billing.ctp:40 Template/Checkout/index.ctp:82
-#: Template/Checkout/shipping.ctp:67
-msgid "First Name"
-msgstr "Vorname"
-
-#: Template/Admin/ShopAddresses/view.ctp:77
-#: Template/Admin/ShopCustomers/view.ctp:76;158
-#: Template/Checkout/billing.ctp:41 Template/Checkout/index.ctp:83
-#: Template/Checkout/shipping.ctp:68
-msgid "Last Name"
-msgstr "Nachname"
-
-#: Template/Admin/ShopAddresses/view.ctp:81
-msgid "Taxid"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:85
-#: Template/Admin/ShopCustomers/view.ctp:80 Template/Checkout/billing.ctp:43
-#: Template/Checkout/shipping.ctp:70
-msgid "Street"
-msgstr "Strasse"
-
-#: Template/Admin/ShopAddresses/view.ctp:89
-#: Template/Admin/ShopCustomers/view.ctp:163
-msgid "Street2"
-msgstr "Adresse 2"
-
-#: Template/Admin/ShopAddresses/view.ctp:93
-#: Template/Admin/ShopCustomers/view.ctp:84;164
-#: Template/Checkout/billing.ctp:45 Template/Checkout/index.ctp:87
-#: Template/Checkout/shipping.ctp:72
-msgid "Zipcode"
-msgstr "PLZ"
-
-#: Template/Admin/ShopAddresses/view.ctp:97
-#: Template/Admin/ShopCustomers/view.ctp:88;165
-#: Template/Checkout/billing.ctp:46 Template/Checkout/index.ctp:88
-#: Template/Checkout/shipping.ctp:73
-msgid "City"
-msgstr "Stadt"
-
-#: Template/Admin/ShopAddresses/view.ctp:101
-#: Template/Admin/ShopCustomers/view.ctp:92;166
-#: Template/Checkout/billing.ctp:47 Template/Checkout/index.ctp:89
-#: Template/Checkout/shipping.ctp:74
-msgid "Country"
-msgstr "Land"
-
-#: Template/Admin/ShopAddresses/view.ctp:105
-#: Template/Admin/ShopCustomers/view.ctp:96;167
-msgid "Country Iso2"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:112
-#: Template/Admin/ShopCustomers/view.ctp:124;172;279
-#: Template/Admin/ShopOrderItems/view.ctp:102
-#: Template/Admin/ShopOrders/view.baked.ctp:274;335;387
-#: Template/Admin/ShopOrders/view.ctp:338;403;455
-msgid "Created"
-msgstr ""
-
-#: Template/Admin/ShopAddresses/view.ctp:116
-#: Template/Admin/ShopCustomers/view.ctp:128;173;278
-#: Template/Admin/ShopOrderItems/view.ctp:106
-#: Template/Admin/ShopOrders/view.baked.ctp:270;336;388
-#: Template/Admin/ShopOrders/view.ctp:334;404;456
-msgid "Modified"
-msgstr ""
-
-#: Template/Admin/ShopCategories/add.ctp:1;4
-#: Template/Admin/ShopCategories/edit.bak.ctp:7;16
-#: Template/Admin/ShopCategories/edit.bak2.ctp:7;16
-#: Template/Admin/ShopCategories/edit.ctp:7;16
-#: Template/Admin/ShopCategories/index.bak.ctp:1
-#: Template/Admin/ShopCategories/index.ctp:2
-#: Template/Admin/ShopCategories/manage.ctp:7;16
-#: Template/Admin/ShopCategories/table.ctp:1
-#: Template/Admin/ShopCategories/view.ctp:6;19
-#: Template/Admin/ShopProducts/add.ctp:10
-#: Template/Admin/ShopProducts/index.ctp:5
-#: Template/Admin/ShopProducts/view.ctp:25
-msgid "Shop Categories"
-msgstr ""
-
-#: Template/Admin/ShopCategories/add.ctp:2;34
-#: Template/Admin/ShopCategories/edit.bak.ctp:8;21;59;88
-#: Template/Admin/ShopCategories/edit.bak2.ctp:8;21;57;73;104
-#: Template/Admin/ShopCategories/edit.ctp:8;21
-#: Template/Admin/ShopCategories/index.bak.ctp:3
-#: Template/Admin/ShopCategories/index.ctp:3
-#: Template/Admin/ShopCategories/manage.ctp:8;21;46;65
-#: Template/Admin/ShopCategories/table.ctp:3
-#: Template/Admin/ShopCategories/view.ctp:9;14;24
-#: Template/Admin/ShopProducts/add.ctp:16
-#: Template/Admin/ShopProducts/index.ctp:10
-#: Template/Admin/ShopProducts/view.ctp:30;50
-msgid "Shop Category"
-msgstr ""
-
 #: Template/Admin/ShopCategories/add.ctp:10
-#: Template/Admin/ShopCategories/edit.bak.ctp:32
 msgid "Parent Shop Categories"
 msgstr ""
 
 #: Template/Admin/ShopCategories/add.ctp:16
-#: Template/Admin/ShopCategories/edit.bak.ctp:38
-#: Template/Admin/ShopCategories/view.ctp:90
 msgid "Parent Shop Category"
 msgstr ""
 
 #: Template/Admin/ShopCategories/add.ctp:21
-#: Template/Admin/ShopCategories/edit.bak.ctp:43
-#: Template/Admin/ShopCategories/edit.bak2.ctp:31
-#: Template/Admin/ShopCategories/edit.ctp:31
-#: Template/Admin/ShopCategories/index.bak.ctp:5
-#: Template/Admin/ShopCategories/index.ctp:5
-#: Template/Admin/ShopCategories/manage.ctp:31
-#: Template/Admin/ShopCategories/table.ctp:5
-#: Template/Admin/ShopCategories/view.ctp:30
-#: Template/Admin/ShopProducts/add.ctp:1;4
-#: Template/Admin/ShopProducts/edit.bak.ctp:6;15;21
-#: Template/Admin/ShopProducts/edit.ctp:6;16;21
-#: Template/Admin/ShopProducts/index.ctp:1
-#: Template/Admin/ShopProducts/view.ctp:1;14
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:15
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:27
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:35
+#: Template/Admin/ShopProducts/_add.ctp:1;4
+#: Template/Admin/ShopProducts/edit.bak.ctp:7
+#: Template/Admin/StockTransfers/add.ctp:32
+#: Template/Admin/StockTransfers/edit.ctp:38
+#: Template/Admin/StockTransfers/index.ctp:25
+#: Template/Admin/StockTransfers/view.ctp:45
+#: Template/Admin/StockValues/add.ctp:21 Template/Admin/StockValues/edit.ctp:27
+#: Template/Admin/StockValues/index.ctp:15
+#: Template/Admin/StockValues/view.ctp:35
 msgid "Shop Products"
-msgstr ""
+msgstr "Produkte"
 
 #: Template/Admin/ShopCategories/add.ctp:27
-#: Template/Admin/ShopCategories/edit.bak.ctp:49
-#: Template/Admin/ShopCategories/edit.bak2.ctp:37
-#: Template/Admin/ShopCategories/edit.ctp:37
-#: Template/Admin/ShopCategories/index.bak.ctp:10
-#: Template/Admin/ShopCategories/index.ctp:10
-#: Template/Admin/ShopCategories/manage.ctp:37
-#: Template/Admin/ShopCategories/table.ctp:10
-#: Template/Admin/ShopCategories/view.ctp:35
-#: Template/Admin/ShopProducts/add.ctp:2;23
-#: Template/Admin/ShopProducts/edit.bak.ctp:7;27;34
-#: Template/Admin/ShopProducts/edit.ctp:7;27
-#: Template/Admin/ShopProducts/index.ctp:3
-#: Template/Admin/ShopProducts/view.ctp:4;9;19
+#: Template/Admin/ShopCategories/index_tree.ctp:6
+#: Template/Admin/ShopCategories/manage.ctp:13
+#: Template/Admin/ShopCategories/related_products.ctp:51
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:20
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:33
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:40;66
+#: Template/Admin/ShopProducts/_add.ctp:2;23
+#: Template/Admin/ShopProducts/edit.bak.ctp:8
+#: Template/Admin/ShopProducts/related_products.ctp:51
+#: Template/Admin/StockTransfers/add.ctp:38
+#: Template/Admin/StockTransfers/edit.ctp:44
+#: Template/Admin/StockTransfers/index.ctp:30
+#: Template/Admin/StockTransfers/view.ctp:50;80
+#: Template/Admin/StockValues/add.ctp:27 Template/Admin/StockValues/edit.ctp:33
+#: Template/Admin/StockValues/index.ctp:20
+#: Template/Admin/StockValues/view.ctp:40;66
 msgid "Shop Product"
-msgstr ""
+msgstr "Produkt"
 
-#: Template/Admin/ShopCategories/edit.bak.ctp:26
-#: Template/Admin/ShopCategories/edit.bak2.ctp:26
-#: Template/Admin/ShopCategories/edit.ctp:26
-#: Template/Admin/ShopCategories/manage.ctp:26
-msgid "Sub Category"
-msgstr ""
+#: Template/Admin/ShopCategories/add.ctp:34
+#: Template/Admin/ShopCountries/add.ctp:12
+#: Template/Admin/ShopCustomerAddresses/add.ctp:23
+#: Template/Admin/ShopCustomerDiscounts/add.ctp:5
+#: Template/Admin/ShopCustomers/add.ctp:34
+#: Template/Admin/ShopOrderInvoices/add.ctp:34
+#: Template/Admin/ShopOrderItems/add.ctp:23
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:23
+#: Template/Admin/ShopOrderTransactions/add.ctp:23
+#: Template/Admin/ShopOrders/add.ctp:58 Template/Admin/ShopProducts/_add.ctp:23
+#: Template/Admin/ShopTags/add.ctp:23 Template/Admin/ShopTexts/add.ctp:12
+#: Template/Admin/StockTransfers/add.ctp:45
+#: Template/Admin/StockValues/add.ctp:34 Template/Admin/Stocks/add.ctp:34
+msgid "Add {0}"
+msgstr "{0} hinzufügen"
 
-#: Template/Admin/ShopCategories/edit.bak.ctp:59
-#: Template/Admin/ShopCategories/edit.bak2.ctp:57;73
-msgid "Edit {0}: {2} [{1}]"
-msgstr ""
+#: Template/Admin/ShopCategories/add.ctp:48
+#: Template/Admin/ShopCategories/related_custom_texts.ctp:25
+#: Template/Admin/ShopCategories/related_page_meta.ctp:17
+#: Template/Admin/ShopCountries/add.ctp:26
+#: Template/Admin/ShopCountries/edit.ctp:32
+#: Template/Admin/ShopCustomerAddresses/add.ctp:52
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:58
+#: Template/Admin/ShopCustomerDiscounts/add.ctp:21
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:56
+#: Template/Admin/ShopCustomers/add.ctp:61
+#: Template/Admin/ShopCustomers/edit.ctp:50
+#: Template/Admin/ShopOrderInvoices/add.ctp:51
+#: Template/Admin/ShopOrderInvoices/edit.ctp:57
+#: Template/Admin/ShopOrderItems/add.ctp:45
+#: Template/Admin/ShopOrderItems/edit.ctp:51
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:39
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:45
+#: Template/Admin/ShopOrderTransactions/add.ctp:44
+#: Template/Admin/ShopOrderTransactions/edit.ctp:50
+#: Template/Admin/ShopOrders/add.ctp:123 Template/Admin/ShopOrders/edit.ctp:144
+#: Template/Admin/ShopProducts/_add.ctp:44
+#: Template/Admin/ShopProducts/related_page_meta.ctp:17
+#: Template/Admin/ShopTags/add.ctp:37 Template/Admin/ShopTags/edit.ctp:43
+#: Template/Admin/ShopTexts/add.ctp:29 Template/Admin/ShopTexts/edit.ctp:35
+#: Template/Admin/ShopTexts/edit_iframe.ctp:22
+#: Template/Admin/StockTransfers/add.ctp:60
+#: Template/Admin/StockTransfers/edit.ctp:66
+#: Template/Admin/StockValues/add.ctp:47 Template/Admin/StockValues/edit.ctp:53
+#: Template/Admin/Stocks/add.ctp:44 Template/Admin/Stocks/edit.ctp:50
+msgid "Submit"
+msgstr "Senden"
 
-#: Template/Admin/ShopCategories/edit.bak.ctp:69
-#: Template/Admin/ShopCategories/edit.bak2.ctp:83
-msgid "Author"
-msgstr ""
+#: Template/Admin/ShopCategories/edit.ctp:11
+#: Template/Admin/ShopCategories/manage.ctp:10
+#: Template/Admin/ShopCountries/_view.ctp:4
+#: Template/Admin/ShopCountries/edit.ctp:2;18
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:4
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:2;29
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:2;40
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:4
+#: Template/Admin/ShopCustomers/_view.ctp:4
+#: Template/Admin/ShopCustomers/edit.ctp:2;40
+#: Template/Admin/ShopOrderInvoices/edit.ctp:2;40
+#: Template/Admin/ShopOrderItems/_view.ctp:4
+#: Template/Admin/ShopOrderItems/edit.ctp:2;29
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:2;29
+#: Template/Admin/ShopOrderTransactions/edit.ctp:2;29
+#: Template/Admin/ShopOrders/costs.ctp:9
+#: Template/Admin/ShopProducts/edit.bak.ctp:8;14;15
+#: Template/Admin/ShopTags/edit.ctp:2;29 Template/Admin/ShopTags/view.ctp:4
+#: Template/Admin/ShopTexts/edit.ctp:2;18 Template/Admin/ShopTexts/view.ctp:4
+#: Template/Admin/StockTransfers/edit.ctp:2;51
+#: Template/Admin/StockTransfers/view.ctp:4
+#: Template/Admin/StockValues/edit.ctp:2;40
+#: Template/Admin/StockValues/view.ctp:4 Template/Admin/Stocks/edit.ctp:2;40
+#: Template/Admin/Stocks/view.ctp:4
+msgid "Edit {0}"
+msgstr "{0} bearbeiten"
 
-#: Template/Admin/ShopCategories/edit.bak.ctp:73
-#: Template/Admin/ShopCategories/edit.bak2.ctp:87
-#: Template/Admin/ShopTags/view.ctp:66
-msgid "Published"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak.ctp:77
-#: Template/Admin/ShopCategories/edit.bak2.ctp:91
+#: Template/Admin/ShopCategories/edit.ctp:37
+#: Template/Admin/ShopProducts/edit.bak.ctp:56
 msgid "Languages"
+msgstr "Sprachen"
+
+#: Template/Admin/ShopCategories/edit.ctp:42
+msgid "{0}"
+msgstr "{0}"
+
+#: Template/Admin/ShopCategories/edit.ctp:48
+msgid "Current"
 msgstr ""
 
-#: Template/Admin/ShopCategories/edit.bak.ctp:153
-#: Template/Admin/ShopCategories/edit.bak2.ctp:200
-msgid "Edit Parent: {0}"
-msgstr ""
+#: Template/Admin/ShopCategories/edit.ctp:55
+msgid "General"
+msgstr "Allgemein"
 
-#: Template/Admin/ShopCategories/edit.bak.ctp:179
-msgid "Images"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak.ctp:187;189
-#: Template/Admin/ShopProducts/edit.bak.ctp:180;182
-msgid "- No image -"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak.ctp:210
-#: Template/Admin/ShopCategories/edit.bak2.ctp:256
-msgid "Related Products"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak.ctp:290
-#: Template/Admin/ShopProducts/edit.bak.ctp:87
-msgid "Texts"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak2.ctp:47
-msgid "[{0} version]"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak2.ctp:49
-#: Template/Admin/ShopCategories/edit.ctp:50
-msgid "Edit {0} version"
-msgstr "Version {0} bearbeiten"
-
-#: Template/Admin/ShopCategories/edit.bak2.ctp:136
-#: Template/Admin/ShopCategories/edit.ctp:101;162
-#: Template/Admin/ShopProducts/edit.ctp:104
-msgid "Save Changes"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak2.ctp:157;181
-msgid "Select Image"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.bak2.ctp:164;188
-msgid "Remove Image"
-msgstr "Bild entfernen"
-
-#: Template/Admin/ShopCategories/edit.bak2.ctp:225
-#, fuzzy
-msgid "Custom Texts"
-msgstr "Kunde"
-
-#: Template/Admin/ShopCategories/edit.ctp:47
-msgid "[{0}]"
-msgstr ""
-
-#: Template/Admin/ShopCategories/edit.ctp:143
+#: Template/Admin/ShopCategories/edit.ctp:65
 msgid "Manage Parent: {0}"
+msgstr "Übergeordnetes Element bearbeiten: {0}"
+
+#: Template/Admin/ShopCategories/edit.ctp:76
+msgid "Teaser"
 msgstr ""
 
-#: Template/Admin/ShopCategories/index.bak.ctp:21
-#: Template/Admin/ShopCategories/table.ctp:42
-#: Template/Admin/ShopCustomers/view.ctp:174;280
-#: Template/Admin/ShopOrderItems/index.ctp:25
-#: Template/Admin/ShopOrders/index.bak.ctp:30
-#: Template/Admin/ShopOrders/view.baked.ctp:337;389
-#: Template/Admin/ShopOrders/view.ctp:108;405;457
-#: Template/Admin/ShopTags/view.ctp:83 Template/Checkout/index.ctp:13
-msgid "Actions"
-msgstr "Aktionen"
+#: Template/Admin/ShopCategories/edit.ctp:83
+msgid "Description"
+msgstr "Beschreibung"
 
-#: Template/Admin/ShopCategories/index.bak.ctp:35
-#: Template/Admin/ShopCategories/table.ctp:65
-#: Template/Admin/ShopCustomers/view.ctp:202;344
-#: Template/Admin/ShopOrderItems/index.ctp:43
-#: Template/Admin/ShopOrders/index.bak.ctp:48
-#: Template/Admin/ShopOrders/index.ctp:42
-#: Template/Admin/ShopOrders/view.baked.ctp:354;410
-#: Template/Admin/ShopOrders/view.ctp:120;422;478
-#: Template/Admin/ShopTags/view.ctp:92
-msgid "View"
+#: Template/Admin/ShopCategories/edit.ctp:92
+msgid "Layout"
 msgstr ""
 
-#: Template/Admin/ShopCategories/index.ctp:1
-#: Template/Admin/ShopOrders/add.ctp:2 Template/Admin/ShopOrders/edit.ctp:2
-#: Template/Admin/ShopOrders/index.ctp:2
-#: Template/Admin/ShopOrders/view.baked.ctp:2
-#: Template/Admin/ShopOrders/view.ctp:3
-#, fuzzy
-msgid "Shop"
-msgstr "Warenkorb"
+#: Template/Admin/ShopCategories/edit.ctp:93;94
+msgid "Default"
+msgstr "Standardwert"
 
-#: Template/Admin/ShopCategories/index.ctp:15
-#: Template/Admin/ShopCategories/table.ctp:15
+#: Template/Admin/ShopCategories/edit.ctp:98
+#: Template/Admin/ShopProducts/_edit.ctp:45
+#: Template/Admin/ShopProducts/edit.bak.ctp:87
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: Template/Admin/ShopCategories/edit.ctp:103
+msgid "Tags"
+msgstr ""
+
+#: Template/Admin/ShopCategories/edit.ctp:131;148;166
+#: Template/Admin/ShopProducts/_edit.ctp:53
+#: Template/Admin/ShopProducts/edit.bak.ctp:52
+msgid "Save Changes"
+msgstr "Änderungen übernehmen"
+
+#: Template/Admin/ShopCategories/edit.ctp:135;138
+msgid "Custom Texts"
+msgstr "Texte"
+
+#: Template/Admin/ShopCategories/edit.ctp:153;156
+msgid "Custom Files"
+msgstr "Dateien"
+
+#: Template/Admin/ShopCategories/index_tree.ctp:11
 msgid "Repair"
-msgstr ""
+msgstr "Reparieren"
 
-#: Template/Admin/ShopCategories/index.ctp:17
-#: Template/Admin/ShopCategories/table.ctp:17
+#: Template/Admin/ShopCategories/index_tree.ctp:13
 msgid "Do you really want to repair the category tree?"
 msgstr ""
 
-#: Template/Admin/ShopCategories/manage.ctp:46
-msgid "{2} [{1}]"
+#: Template/Admin/ShopCategories/manage.ctp:28
+msgid "[{0}]"
 msgstr ""
 
-#: Template/Admin/ShopCategories/manage.ctp:76
-#, fuzzy
-msgid "Products"
-msgstr "Produkt"
+#: Template/Admin/ShopCategories/manage.ctp:31
+msgid "Edit {0} version"
+msgstr "Version {0} bearbeiten"
 
-#: Template/Admin/ShopCategories/table.ctp:69
-msgid "Preview"
+#: Template/Admin/ShopCategories/manage.ctp:63
+#: Template/Admin/ShopProducts/edit.bak.ctp:103
+msgid "Debug"
 msgstr ""
 
-#: Template/Admin/ShopCategories/table.ctp:74
-msgid "Move Up"
+#: Template/Admin/ShopCategories/view.ctp:27
+#: Template/Element/debug_shop_category.ctp:17
+msgid "Parent Category"
+msgstr "Überkategorie"
+
+#: Template/Admin/ShopCategories/view.ctp:30
+msgid "Root Page"
 msgstr ""
 
-#: Template/Admin/ShopCategories/table.ctp:79
-msgid "Move Down"
+#: Template/Admin/ShopCountries/_index.ctp:3
+#: Template/Admin/ShopCountries/_view.ctp:4;9;19
+#: Template/Admin/ShopCountries/add.ctp:2;12
+#: Template/Admin/ShopCountries/edit.ctp:2;18
+msgid "Shop Country"
+msgstr "Land"
+
+#: Template/Admin/ShopCountries/_view.ctp:9
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:9
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:9
+#: Template/Admin/ShopCustomers/_view.ctp:9
+#: Template/Admin/ShopOrderItems/_view.ctp:9
+#: Template/Admin/ShopOrders/costs.ctp:14 Template/Admin/ShopTags/view.ctp:9
+#: Template/Admin/ShopTexts/view.ctp:9 Template/Admin/StockTransfers/view.ctp:9
+#: Template/Admin/StockValues/view.ctp:9 Template/Admin/Stocks/view.ctp:9
+msgid "Delete {0}"
+msgstr "{0} löschen"
+
+#: Template/Admin/ShopCountries/_view.ctp:23
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:23
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:23
+#: Template/Admin/ShopCustomers/_view.ctp:23
+#: Template/Admin/ShopOrderItems/_view.ctp:23
+#: Template/Admin/ShopTags/view.ctp:23 Template/Admin/ShopTexts/view.ctp:23
+#: Template/Admin/StockTransfers/view.ctp:23
+#: Template/Admin/StockValues/view.ctp:23 Template/Admin/Stocks/view.ctp:23
+msgid "More"
+msgstr "Mehr"
+
+#: Template/Admin/ShopCountries/_view.ctp:42
+msgid "Iso2"
 msgstr ""
 
-#: Template/Admin/ShopCategories/view.ctp:78
-#: Template/Admin/ShopProducts/view.ctp:91
-msgid "Is Published"
+#: Template/Admin/ShopCountries/_view.ctp:46
+msgid "Iso3"
 msgstr ""
 
-#: Template/Admin/ShopCategories/view.ctp:82
-#: Template/Admin/ShopTags/view.ctp:58 Template/Checkout/index.ctp:84
+#: Template/Admin/ShopCountries/_view.ctp:50
+#: Template/Admin/ShopTags/view.ctp:58
 msgid "Name"
 msgstr ""
 
-#: Template/Admin/ShopCategories/view.ctp:86
-#: Template/Admin/ShopProducts/view.ctp:62
-msgid "Slug"
+#: Template/Admin/ShopCountries/_view.ctp:54
+msgid "Name De"
 msgstr ""
 
-#: Template/Admin/ShopCategories/view.ctp:94
-#: Template/Admin/ShopProducts/view.ctp:66
-msgid "Preview Image File"
+#: Template/Admin/ShopCountries/_view.ctp:60
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:50
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:80
+#: Template/Admin/ShopOrderItems/_view.ctp:68
+#: Template/Admin/ShopTags/view.ctp:50;80 Template/Admin/ShopTexts/view.ctp:62
+#: Template/Admin/StockTransfers/view.ctp:90;125
+#: Template/Admin/StockValues/view.ctp:72
+#: Template/Admin/Stocks/view.ctp:68;85;131
+msgid "Id"
 msgstr ""
 
-#: Template/Admin/ShopCategories/view.ctp:106
-#: Template/Admin/ShopProducts/view.ctp:70
-msgid "Featured Image File"
+#: Template/Admin/ShopCountries/_view.ctp:64
+msgid "Priority"
 msgstr ""
 
+#: Template/Admin/ShopCountries/_view.ctp:69
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:99
+msgid "Is Published"
+msgstr "Veröffentlicht"
+
+#: Template/Admin/ShopCountries/_view.ctp:70
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:56;60
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:100
+#: Template/Admin/Stocks/view.ctp:74
+msgid "Yes"
+msgstr "Ja"
+
+#: Template/Admin/ShopCountries/_view.ctp:70
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:56;60
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:100
+#: Template/Admin/Stocks/view.ctp:74
+msgid "No"
+msgstr "Nein"
+
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:1
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:1;14
+#: Template/Admin/ShopCustomerAddresses/add.ctp:1;4
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:1;10
+#: Template/Admin/ShopCustomers/_index.ctp:5
+#: Template/Admin/ShopCustomers/_view.ctp:25
+#: Template/Admin/ShopCustomers/add.ctp:10
+#: Template/Admin/ShopCustomers/edit.ctp:16
+msgid "Shop Addresses"
+msgstr "Adresse"
+
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:3
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:4;9;19
+#: Template/Admin/ShopCustomerAddresses/add.ctp:2;23
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:2;29
+#: Template/Admin/ShopCustomers/_index.ctp:10
+#: Template/Admin/ShopCustomers/_view.ctp:30
+#: Template/Admin/ShopCustomers/add.ctp:16
+#: Template/Admin/ShopCustomers/edit.ctp:22
+msgid "Shop Address"
+msgstr "Adresse"
+
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:5
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:25
+#: Template/Admin/ShopCustomerAddresses/add.ctp:10
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:16
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:5
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:16
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:25
+#: Template/Admin/ShopCustomers/_index.ctp:1
+#: Template/Admin/ShopCustomers/_view.ctp:1;14
+#: Template/Admin/ShopCustomers/add.ctp:1;4
+#: Template/Admin/ShopCustomers/edit.ctp:1;10
+#: Template/Admin/ShopOrders/add.ctp:12 Template/Admin/ShopOrders/edit.ctp:8
+msgid "Shop Customers"
+msgstr "Kunden"
+
+#: Template/Admin/ShopCustomerAddresses/_index.ctp:10
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:30;64
+#: Template/Admin/ShopCustomerAddresses/add.ctp:16
+#: Template/Admin/ShopCustomerAddresses/edit.ctp:22
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:10
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:22
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:30;62
+#: Template/Admin/ShopCustomers/_index.ctp:3
+#: Template/Admin/ShopCustomers/_view.ctp:4;9;19
+#: Template/Admin/ShopCustomers/add.ctp:2;34
+#: Template/Admin/ShopCustomers/edit.ctp:2;40
+#: Template/Admin/ShopOrders/add.ctp:18 Template/Admin/ShopOrders/edit.ctp:14
+msgid "Shop Customer"
+msgstr "Kunde"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:43
+#: Template/Admin/ShopOrderItems/_view.ctp:43
+#: Template/Admin/ShopTags/view.ctp:43 Template/Admin/ShopTexts/view.ctp:33
+msgid "Label"
+msgstr "Bezeichnung"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:55
+msgid "Is Company"
+msgstr ""
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:59
+msgid "Is Archived"
+msgstr ""
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:68
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:70
+msgid "Type"
+msgstr ""
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:73
+#: Template/Cell/AddressForm/display.ctp:7
+#: Template/Cell/AddressForm/fancy.ctp:14
+#: Template/Cell/AddressForm/horizontal.ctp:6
+msgid "First Name"
+msgstr "Vorname"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:77
+#: Template/Cell/AddressForm/display.ctp:8
+#: Template/Cell/AddressForm/fancy.ctp:17
+#: Template/Cell/AddressForm/horizontal.ctp:7
+msgid "Last Name"
+msgstr "Nachname"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:81
+msgid "Taxid"
+msgstr ""
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:85
+#: Template/Cell/AddressForm/display.ctp:9
+#: Template/Cell/AddressForm/fancy.ctp:22
+#: Template/Cell/AddressForm/horizontal.ctp:8
+msgid "Street"
+msgstr "Strasse"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:89
+msgid "Street2"
+msgstr "Adresse 2"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:93
+#: Template/Cell/AddressForm/display.ctp:10
+#: Template/Cell/AddressForm/fancy.ctp:27
+#: Template/Cell/AddressForm/horizontal.ctp:9
+msgid "Zipcode"
+msgstr "PLZ"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:97
+#: Template/Cell/AddressForm/display.ctp:11
+#: Template/Cell/AddressForm/fancy.ctp:30
+#: Template/Cell/AddressForm/horizontal.ctp:10
+msgid "City"
+msgstr "Stadt"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:101
+#: Template/Cell/AddressForm/display.ctp:12
+#: Template/Cell/AddressForm/fancy.ctp:35
+#: Template/Cell/AddressForm/horizontal.ctp:11
+msgid "Country"
+msgstr "Land"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:105
+msgid "Country Iso2"
+msgstr ""
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:112
+#: Template/Admin/ShopOrderItems/_view.ctp:102
+#: Template/Admin/StockTransfers/view.ctp:108;133
+#: Template/Admin/StockValues/view.ctp:90 Template/Admin/Stocks/view.ctp:93;137
+msgid "Created"
+msgstr "Erstellt"
+
+#: Template/Admin/ShopCustomerAddresses/_view.ctp:116
+#: Template/Admin/ShopOrderItems/_view.ctp:106
+#: Template/Admin/StockTransfers/view.ctp:112;134
+#: Template/Admin/StockValues/view.ctp:94 Template/Admin/Stocks/view.ctp:94;138
+msgid "Modified"
+msgstr "Bearbeitet"
+
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:1
+#: Template/Admin/ShopCustomerDiscounts/add.ctp:1
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:1;10
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:1;14
+msgid "Shop Customer Discounts"
+msgstr "Kundenrabatte"
+
+#: Template/Admin/ShopCustomerDiscounts/_index.ctp:3
+#: Template/Admin/ShopCustomerDiscounts/add.ctp:2;5
+#: Template/Admin/ShopCustomerDiscounts/edit.ctp:2;40
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:4;9;19
+msgid "Shop Customer Discount"
+msgstr "Kundenrabatt"
+
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:74
+msgid "Valuetype"
+msgstr ""
+
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:90
+msgid "Publish Start"
+msgstr "Veröffentlichen ab"
+
+#: Template/Admin/ShopCustomerDiscounts/view.ctp:94
+msgid "Publish End"
+msgstr "Veröffentlichen bis"
+
+#: Template/Admin/ShopCustomers/_index.ctp:15
+#: Template/Admin/ShopCustomers/_view.ctp:35
 #: Template/Admin/ShopCustomers/add.ctp:21
 #: Template/Admin/ShopCustomers/edit.ctp:27
-#: Template/Admin/ShopCustomers/index.ctp:15
-#: Template/Admin/ShopCustomers/view.ctp:35
+#: Template/Admin/ShopOrderInvoices/add.ctp:21
+#: Template/Admin/ShopOrderInvoices/edit.ctp:27
+#: Template/Admin/ShopOrderItems/_index.ctp:5
+#: Template/Admin/ShopOrderItems/_view.ctp:25
 #: Template/Admin/ShopOrderItems/add.ctp:10
 #: Template/Admin/ShopOrderItems/edit.ctp:16
-#: Template/Admin/ShopOrderItems/index.ctp:5
-#: Template/Admin/ShopOrderItems/view.ctp:25
-#: Template/Admin/ShopOrders/add.ctp:3;6
-#: Template/Admin/ShopOrders/edit.ctp:3;12
-#: Template/Admin/ShopOrders/index.bak.ctp:1
-#: Template/Admin/ShopOrders/index.ctp:3
-#: Template/Admin/ShopOrders/view.baked.ctp:3;16
-#: Template/Admin/ShopOrders/view.ctp:4
+#: Template/Admin/ShopOrderTransactions/add.ctp:10
+#: Template/Admin/ShopOrderTransactions/edit.ctp:16
+#: Template/Admin/ShopOrders/add.ctp:3;6 Template/Admin/ShopOrders/costs.ctp:6
+#: Template/Admin/ShopOrders/edit.ctp:3
 msgid "Shop Orders"
 msgstr "Bestellungen"
 
+#: Template/Admin/ShopCustomers/_index.ctp:20
+#: Template/Admin/ShopCustomers/_view.ctp:40
 #: Template/Admin/ShopCustomers/add.ctp:27
 #: Template/Admin/ShopCustomers/edit.ctp:33
-#: Template/Admin/ShopCustomers/index.ctp:20
-#: Template/Admin/ShopCustomers/view.ctp:40
+#: Template/Admin/ShopOrderInvoices/add.ctp:27
+#: Template/Admin/ShopOrderInvoices/edit.ctp:33
+#: Template/Admin/ShopOrderItems/_index.ctp:10
+#: Template/Admin/ShopOrderItems/_view.ctp:30;50
 #: Template/Admin/ShopOrderItems/add.ctp:16
 #: Template/Admin/ShopOrderItems/edit.ctp:22
-#: Template/Admin/ShopOrderItems/index.ctp:10
-#: Template/Admin/ShopOrderItems/view.ctp:30;50
+#: Template/Admin/ShopOrderTransactions/add.ctp:16
+#: Template/Admin/ShopOrderTransactions/edit.ctp:22
 #: Template/Admin/ShopOrders/add.ctp:4;58
-#: Template/Admin/ShopOrders/edit.ctp:4;64
-#: Template/Admin/ShopOrders/index.bak.ctp:3
-#: Template/Admin/ShopOrders/index.ctp:5
-#: Template/Admin/ShopOrders/view.baked.ctp:6;11;21
-#: Template/Admin/ShopOrders/view.ctp:7;12
+#: Template/Admin/ShopOrders/costs.ctp:9;14
+#: Template/Admin/ShopOrders/edit.ctp:54
 msgid "Shop Order"
 msgstr "Bestellung"
 
-#: Template/Admin/ShopCustomers/view.ctp:60;169
-msgid "Email"
-msgstr "Email"
+#: Template/Admin/ShopCustomers/_view.ctp:50
+#: Template/Admin/ShopOrders/view_order.ctp:32
+#: Template/Checkout/customer_signup.ctp:4
+msgid "Customer"
+msgstr "Kunde"
 
-#: Template/Admin/ShopCustomers/view.ctp:64
-#: Template/Checkout/new_customer.ctp:17;18
-msgid "Password"
-msgstr "Passwort"
-
-#: Template/Admin/ShopCustomers/view.ctp:68
-msgid "Greeting"
-msgstr "Anrede"
-
-#: Template/Admin/ShopCustomers/view.ctp:100;168
-msgid "Phone"
-msgstr "Telefon"
-
-#: Template/Admin/ShopCustomers/view.ctp:104
-msgid "Fax"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:108;277
-#: Template/Admin/ShopOrders/view.baked.ctp:206
-#: Template/Admin/ShopOrders/view.ctp:270
-msgid "Locale"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:112
-msgid "Email Verification Code"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:133
-msgid "Email Verified"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:137
-msgid "Is Guest"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:141
-msgid "Is Blocked"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:148;218
-#: Template/Admin/ShopOrders/view.baked.ctp:322;370
-#: Template/Admin/ShopOrders/view.ctp:95;390;438
-#: Template/Admin/ShopTags/view.ctp:76
-msgid "Related {0}"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:148
-msgid "ShopAddresses"
+#: Template/Admin/ShopCustomers/_view.ctp:70
+msgid "Addresses"
 msgstr "Adressen"
 
-#: Template/Admin/ShopCustomers/view.ctp:153;226
-msgid "Shop Customer Id"
-msgstr "Kunden Id"
+#: Template/Admin/ShopOrderInvoices/add.ctp:1;4
+#: Template/Admin/ShopOrderInvoices/edit.ctp:1;10
+msgid "Shop Order Invoices"
+msgstr "Rechnungen"
 
-#: Template/Admin/ShopCustomers/view.ctp:155
-#: Template/Admin/ShopOrderItems/view.ctp:54
-#: Template/Admin/ShopOrders/view.baked.ctp:329;376
-#: Template/Admin/ShopOrders/view.ctp:397;444
+#: Template/Admin/ShopOrderInvoices/add.ctp:2;34
+#: Template/Admin/ShopOrderInvoices/edit.ctp:2;40
+msgid "Shop Order Invoice"
+msgstr "Rechnung"
+
+#: Template/Admin/ShopOrderInvoices/add.ctp:10
+#: Template/Admin/ShopOrderInvoices/edit.ctp:16
+msgid "Parent Shop Order Invoices"
+msgstr ""
+
+#: Template/Admin/ShopOrderInvoices/add.ctp:16
+#: Template/Admin/ShopOrderInvoices/edit.ctp:22
+msgid "Parent Shop Order Invoice"
+msgstr ""
+
+#: Template/Admin/ShopOrderItems/_index.ctp:1
+#: Template/Admin/ShopOrderItems/_view.ctp:1;14
+#: Template/Admin/ShopOrderItems/add.ctp:1;4
+#: Template/Admin/ShopOrderItems/edit.ctp:1;10
+#: Template/Admin/ShopOrders/add.ctp:45 Template/Admin/ShopOrders/edit.ctp:41
+msgid "Shop Order Items"
+msgstr "Bestellartikel"
+
+#: Template/Admin/ShopOrderItems/_index.ctp:3
+#: Template/Admin/ShopOrderItems/_view.ctp:4;9;19
+#: Template/Admin/ShopOrderItems/add.ctp:2;23
+#: Template/Admin/ShopOrderItems/edit.ctp:2;29
+#: Template/Admin/ShopOrders/add.ctp:51 Template/Admin/ShopOrders/edit.ctp:47
+msgid "Shop Order Item"
+msgstr "Bestellartikel"
+
+#: Template/Admin/ShopOrderItems/_index.ctp:51
+#: Template/Admin/ShopOrders/view_order.ctp:115 Template/Cart/index.ctp:23
+msgid "Total"
+msgstr "Gesamt"
+
+#: Template/Admin/ShopOrderItems/_view.ctp:54
 msgid "Refscope"
 msgstr ""
 
-#: Template/Admin/ShopCustomers/view.ctp:156
-#: Template/Admin/ShopOrderItems/view.ctp:72
-#: Template/Admin/ShopOrders/view.baked.ctp:330;377
-#: Template/Admin/ShopOrders/view.ctp:398;445
-msgid "Refid"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:160
-msgid "Company Name"
-msgstr "Firmenname"
-
-#: Template/Admin/ShopCustomers/view.ctp:161
-msgid "Company Taxid"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:162
-msgid "Street1"
-msgstr "Straße"
-
-#: Template/Admin/ShopCustomers/view.ctp:170
-msgid "Email Secondary"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:218
-msgid "ShopOrders"
-msgstr "Bestellungen"
-
-#: Template/Admin/ShopCustomers/view.ctp:223
-#: Template/Admin/ShopOrders/view.baked.ctp:82
-#: Template/Admin/ShopOrders/view.ctp:35;146
-msgid "Uuid"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:224
-#: Template/Admin/ShopOrders/view.baked.ctp:86
-#: Template/Admin/ShopOrders/view.ctp:39;150
-msgid "Cartid"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:225
-#: Template/Admin/ShopOrders/view.baked.ctp:90;327
-#: Template/Admin/ShopOrders/view.ctp:43;154;395
-msgid "Sessionid"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:227
-#: Template/Admin/ShopOrders/view.baked.ctp:216
-#: Template/Admin/ShopOrders/view.ctp:280
-msgid "Nr"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:228
-#: Template/Admin/ShopOrderItems/view.ctp:58
-#: Template/Admin/ShopOrders/view.baked.ctp:98;378
-#: Template/Admin/ShopOrders/view.ctp:51;103;162;446
-#: Template/Admin/ShopProducts/view.ctp:58
+#: Template/Admin/ShopOrderItems/_view.ctp:58 Template/Admin/Stocks/view.ctp:62
 msgid "Title"
 msgstr "Titel"
 
-#: Template/Admin/ShopCustomers/view.ctp:229
-#: Template/Admin/ShopOrders/view.baked.ctp:220
-#: Template/Admin/ShopOrders/view.ctp:284
-msgid "Items Value Net"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:230
-#: Template/Admin/ShopOrders/view.baked.ctp:224
-#: Template/Admin/ShopOrders/view.ctp:288
-msgid "Items Value Tax"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:231
-#: Template/Admin/ShopOrders/view.baked.ctp:228
-#: Template/Admin/ShopOrders/view.ctp:292
-msgid "Items Value Taxed"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:232
-#: Template/Admin/ShopOrders/view.baked.ctp:102
-#: Template/Admin/ShopOrders/view.ctp:55;166
-msgid "Shipping Type"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:233
-#: Template/Admin/ShopOrders/view.baked.ctp:232
-#: Template/Admin/ShopOrders/view.ctp:296
-msgid "Shipping Value Net"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:234
-#: Template/Admin/ShopOrders/view.baked.ctp:236
-#: Template/Admin/ShopOrders/view.ctp:300
-msgid "Shipping Value Tax"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:235
-#: Template/Admin/ShopOrders/view.baked.ctp:240
-#: Template/Admin/ShopOrders/view.ctp:304
-msgid "Shipping Value Taxed"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:236
-#: Template/Admin/ShopOrders/view.baked.ctp:244
-#: Template/Admin/ShopOrders/view.ctp:308
-msgid "Order Value Total"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:237
-#: Template/Admin/ShopOrders/view.baked.ctp:106
-#: Template/Admin/ShopOrders/view.ctp:59;170
-msgid "Status"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:238
-#: Template/Admin/ShopOrders/view.baked.ctp:250
-#: Template/Admin/ShopOrders/view.ctp:314
-msgid "Submitted"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:239
-#: Template/Admin/ShopOrders/view.baked.ctp:254
-#: Template/Admin/ShopOrders/view.ctp:318
-msgid "Confirmed"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:240
-#: Template/Admin/ShopOrders/view.baked.ctp:258
-#: Template/Admin/ShopOrders/view.ctp:322
-msgid "Delivered"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:241
-#: Template/Admin/ShopOrders/view.baked.ctp:262
-#: Template/Admin/ShopOrders/view.ctp:326
-msgid "Invoiced"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:242
-#: Template/Admin/ShopOrders/view.baked.ctp:266
-#: Template/Admin/ShopOrders/view.ctp:330
-msgid "Payed"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:243
-#: Template/Admin/ShopOrders/view.baked.ctp:311
-#: Template/Admin/ShopOrders/view.ctp:375
-msgid "Customer Notes"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:244
-#: Template/Admin/ShopOrders/view.baked.ctp:315
-#: Template/Admin/ShopOrders/view.ctp:379
-msgid "Staff Notes"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:245
-msgid "Billing Address Id"
-msgstr "Rechnungsadresse Id"
-
-#: Template/Admin/ShopCustomers/view.ctp:246
-#: Template/Admin/ShopOrders/view.baked.ctp:114
-#: Template/Admin/ShopOrders/view.ctp:178
-msgid "Billing First Name"
-msgstr "Vorname"
-
-#: Template/Admin/ShopCustomers/view.ctp:247
-#: Template/Admin/ShopOrders/view.baked.ctp:118
-#: Template/Admin/ShopOrders/view.ctp:182
-msgid "Billing Last Name"
-msgstr "Nachname"
-
-#: Template/Admin/ShopCustomers/view.ctp:248
-#: Template/Admin/ShopOrders/view.baked.ctp:122
-#: Template/Admin/ShopOrders/view.ctp:186
-msgid "Billing Name"
-msgstr "Name"
-
-#: Template/Admin/ShopCustomers/view.ctp:249
-#: Template/Admin/ShopOrders/view.baked.ctp:279
-#: Template/Admin/ShopOrders/view.ctp:343
-msgid "Billing Is Company"
-msgstr "Firma"
-
-#: Template/Admin/ShopCustomers/view.ctp:250
-#: Template/Admin/ShopOrders/view.baked.ctp:126
-#: Template/Admin/ShopOrders/view.ctp:190
-msgid "Billing Street"
-msgstr "Strasse"
-
-#: Template/Admin/ShopCustomers/view.ctp:251
-#: Template/Admin/ShopOrders/view.baked.ctp:130
-#: Template/Admin/ShopOrders/view.ctp:194
-msgid "Billing Taxid"
-msgstr "UID-Nummer"
-
-#: Template/Admin/ShopCustomers/view.ctp:252
-#: Template/Admin/ShopOrders/view.baked.ctp:134
-#: Template/Admin/ShopOrders/view.ctp:198
-msgid "Billing Zipcode"
-msgstr "PLZ"
-
-#: Template/Admin/ShopCustomers/view.ctp:253
-#: Template/Admin/ShopOrders/view.baked.ctp:138
-#: Template/Admin/ShopOrders/view.ctp:202
-msgid "Billing City"
-msgstr "Stadt"
-
-#: Template/Admin/ShopCustomers/view.ctp:254
-#: Template/Admin/ShopOrders/view.baked.ctp:142
-#: Template/Admin/ShopOrders/view.ctp:206
-msgid "Billing Country"
-msgstr "Land"
-
-#: Template/Admin/ShopCustomers/view.ctp:255
-msgid "Shipping Address Id"
-msgstr "Lieferadresse Id"
-
-#: Template/Admin/ShopCustomers/view.ctp:256
-#: Template/Admin/ShopOrders/view.baked.ctp:283
-#: Template/Admin/ShopOrders/view.ctp:347
-msgid "Shipping Use Billing"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:257
-#: Template/Admin/ShopOrders/view.baked.ctp:150
-#: Template/Admin/ShopOrders/view.ctp:214
-msgid "Shipping First Name"
-msgstr "Vorname"
-
-#: Template/Admin/ShopCustomers/view.ctp:258
-#: Template/Admin/ShopOrders/view.baked.ctp:154
-#: Template/Admin/ShopOrders/view.ctp:218
-msgid "Shipping Last Name"
-msgstr "Nachname"
-
-#: Template/Admin/ShopCustomers/view.ctp:259
-#: Template/Admin/ShopOrders/view.baked.ctp:158
-#: Template/Admin/ShopOrders/view.ctp:222
-msgid "Shipping Name"
-msgstr "Name"
-
-#: Template/Admin/ShopCustomers/view.ctp:260
-#: Template/Admin/ShopOrders/view.baked.ctp:287
-#: Template/Admin/ShopOrders/view.ctp:351
-msgid "Shipping Is Company"
-msgstr "Firma"
-
-#: Template/Admin/ShopCustomers/view.ctp:261
-#: Template/Admin/ShopOrders/view.baked.ctp:162
-#: Template/Admin/ShopOrders/view.ctp:226
-msgid "Shipping Street"
-msgstr "Strasse"
-
-#: Template/Admin/ShopCustomers/view.ctp:262
-#: Template/Admin/ShopOrders/view.baked.ctp:166
-#: Template/Admin/ShopOrders/view.ctp:230
-msgid "Shipping Zipcode"
-msgstr "PLZ"
-
-#: Template/Admin/ShopCustomers/view.ctp:263
-#: Template/Admin/ShopOrders/view.baked.ctp:170
-#: Template/Admin/ShopOrders/view.ctp:234
-msgid "Shippping City"
-msgstr "Stadt"
-
-#: Template/Admin/ShopCustomers/view.ctp:264
-#: Template/Admin/ShopOrders/view.baked.ctp:174
-#: Template/Admin/ShopOrders/view.ctp:238
-msgid "Shipping Country"
-msgstr "Land"
-
-#: Template/Admin/ShopCustomers/view.ctp:265
-#: Template/Admin/ShopOrders/view.baked.ctp:178
-#: Template/Admin/ShopOrders/view.ctp:242
-msgid "Customer Phone"
-msgstr "Telefon"
-
-#: Template/Admin/ShopCustomers/view.ctp:266
-#: Template/Admin/ShopOrders/view.baked.ctp:182
-#: Template/Admin/ShopOrders/view.ctp:246
-msgid "Customer Email"
-msgstr "Email"
-
-#: Template/Admin/ShopCustomers/view.ctp:267
-#: Template/Admin/ShopOrders/view.baked.ctp:186
-#: Template/Admin/ShopOrders/view.ctp:250
-msgid "Customer Ip"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:268
-#: Template/Admin/ShopOrders/view.baked.ctp:190
-#: Template/Admin/ShopOrders/view.ctp:254
-msgid "Payment Type"
-msgstr "Zahlungsart"
-
-#: Template/Admin/ShopCustomers/view.ctp:269
-#: Template/Admin/ShopOrders/view.baked.ctp:194
-#: Template/Admin/ShopOrders/view.ctp:258
-msgid "Payment Info 1"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:270
-#: Template/Admin/ShopOrders/view.baked.ctp:198
-#: Template/Admin/ShopOrders/view.ctp:262
-msgid "Payment Info 2"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:271
-#: Template/Admin/ShopOrders/view.baked.ctp:202
-#: Template/Admin/ShopOrders/view.ctp:266
-msgid "Payment Info 3"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:272
-#: Template/Admin/ShopOrders/view.baked.ctp:291
-#: Template/Admin/ShopOrders/view.ctp:355
-msgid "Is Temporary"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:273
-#: Template/Admin/ShopOrders/view.baked.ctp:295
-#: Template/Admin/ShopOrders/view.ctp:359
-msgid "Is Storno"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:274
-#: Template/Admin/ShopOrders/view.baked.ctp:299
-#: Template/Admin/ShopOrders/view.ctp:363
-msgid "Is Deleted"
-msgstr ""
-
-#: Template/Admin/ShopCustomers/view.ctp:275
-#: Template/Admin/ShopOrders/view.baked.ctp:303
-#: Template/Admin/ShopOrders/view.ctp:367 Template/Checkout/review.ctp:74
-msgid "Agree Terms"
-msgstr "Ich stimme den AGB zu"
-
-#: Template/Admin/ShopCustomers/view.ctp:276
-#: Template/Admin/ShopOrders/view.baked.ctp:307
-#: Template/Admin/ShopOrders/view.ctp:371
-msgid "Agree Newsletter"
-msgstr "Ich möchte den Newsletter erhalten"
-
-#: Template/Admin/ShopOrderItems/add.ctp:1;4
-#: Template/Admin/ShopOrderItems/edit.ctp:1;10
-#: Template/Admin/ShopOrderItems/index.ctp:1
-#: Template/Admin/ShopOrderItems/view.ctp:1;14
-#: Template/Admin/ShopOrders/add.ctp:45 Template/Admin/ShopOrders/edit.ctp:51
-#: Template/Admin/ShopOrders/index.bak.ctp:15
-#: Template/Admin/ShopOrders/index.ctp:17
-#: Template/Admin/ShopOrders/view.baked.ctp:57
-msgid "Shop Order Items"
-msgstr ""
-
-#: Template/Admin/ShopOrderItems/add.ctp:2;23
-#: Template/Admin/ShopOrderItems/edit.ctp:2;29
-#: Template/Admin/ShopOrderItems/index.ctp:3
-#: Template/Admin/ShopOrderItems/view.ctp:4;9;19
-#: Template/Admin/ShopOrders/add.ctp:51 Template/Admin/ShopOrders/edit.ctp:57
-#: Template/Admin/ShopOrders/view.baked.ctp:62
-msgid "Shop Order Item"
-msgstr ""
-
-#: Template/Admin/ShopOrderItems/view.ctp:62
-#: Template/Admin/ShopOrders/view.baked.ctp:380
-#: Template/Admin/ShopOrders/view.ctp:105;448
+#: Template/Admin/ShopOrderItems/_view.ctp:62 Template/Products/view.bak.ctp:58
 msgid "Unit"
 msgstr "Einheit"
 
-#: Template/Admin/ShopOrderItems/view.ctp:76
-#: Template/Admin/ShopOrders/view.baked.ctp:379
-#: Template/Admin/ShopOrders/view.ctp:104;447 Template/Cart/index.ctp:11
-#: Template/Checkout/index.ctp:9 Template/Element/Checkout/cart.ctp:14
+#: Template/Admin/ShopOrderItems/_view.ctp:72
+msgid "Refid"
+msgstr ""
+
+#: Template/Admin/ShopOrderItems/_view.ctp:76
+#: Template/Admin/StockTransfers/view.ctp:98;130
+#: Template/Admin/Stocks/view.ctp:90 Template/Cart/index.ctp:21
+#: Template/Element/Checkout/cart.ctp:6
 msgid "Amount"
 msgstr "Menge"
 
-#: Template/Admin/ShopOrderItems/view.ctp:80
-#: Template/Admin/ShopOrders/view.baked.ctp:381
-#: Template/Admin/ShopOrders/view.ctp:449
+#: Template/Admin/ShopOrderItems/_view.ctp:80
 msgid "Item Value Net"
-msgstr ""
+msgstr "Einzelpreis Netto"
 
-#: Template/Admin/ShopOrderItems/view.ctp:84
-#: Template/Admin/ShopOrders/view.baked.ctp:382
-#: Template/Admin/ShopOrders/view.ctp:106;450
+#: Template/Admin/ShopOrderItems/_view.ctp:84
 msgid "Tax Rate"
 msgstr "Steuersatz"
 
-#: Template/Admin/ShopOrderItems/view.ctp:88
-#: Template/Admin/ShopOrders/view.baked.ctp:383
-#: Template/Admin/ShopOrders/view.ctp:451
+#: Template/Admin/ShopOrderItems/_view.ctp:88
 msgid "Value Net"
-msgstr ""
+msgstr "Netto"
 
-#: Template/Admin/ShopOrderItems/view.ctp:92
-#: Template/Admin/ShopOrders/view.baked.ctp:384
-#: Template/Admin/ShopOrders/view.ctp:452
+#: Template/Admin/ShopOrderItems/_view.ctp:92
 msgid "Value Tax"
-msgstr ""
+msgstr "Steuern"
 
-#: Template/Admin/ShopOrderItems/view.ctp:96
-#: Template/Admin/ShopOrders/view.baked.ctp:385
-#: Template/Admin/ShopOrders/view.ctp:107;453
+#: Template/Admin/ShopOrderItems/_view.ctp:96
 msgid "Value Total"
-msgstr ""
+msgstr "Gesamt"
 
-#: Template/Admin/ShopOrderItems/view.ctp:111
-#: Template/Admin/ShopOrders/view.baked.ctp:386
-#: Template/Admin/ShopOrders/view.ctp:454
+#: Template/Admin/ShopOrderItems/_view.ctp:111
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
-#: Template/Admin/ShopOrders/add.ctp:23 Template/Admin/ShopOrders/edit.ctp:29
-#: Template/Admin/ShopOrders/view.baked.ctp:37
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:1;4
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:1;10
+msgid "Shop Order Transaction Notifies"
+msgstr "Transaktionsbenachrichtigungen"
+
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:2;23
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:2;29
+msgid "Shop Order Transaction Notify"
+msgstr "Transaktionsbenachrichtigung"
+
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:10
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:16
+#: Template/Admin/ShopOrderTransactions/add.ctp:1;4
+#: Template/Admin/ShopOrderTransactions/edit.ctp:1;10
+msgid "Shop Order Transactions"
+msgstr "Transaktionen"
+
+#: Template/Admin/ShopOrderTransactionNotifies/add.ctp:16
+#: Template/Admin/ShopOrderTransactionNotifies/edit.ctp:22
+#: Template/Admin/ShopOrderTransactions/add.ctp:2;23
+#: Template/Admin/ShopOrderTransactions/edit.ctp:2;29
+msgid "Shop Order Transaction"
+msgstr "Transaktion"
+
+#: Template/Admin/ShopOrders/add.ctp:23 Template/Admin/ShopOrders/edit.ctp:19
 msgid "Billing Addresses"
 msgstr "Rechnungsadressen"
 
-#: Template/Admin/ShopOrders/add.ctp:29 Template/Admin/ShopOrders/edit.ctp:35
-#: Template/Admin/ShopOrders/view.baked.ctp:42;110
-#: Template/Admin/ShopOrders/view.ctp:174 Template/Checkout/billing.ctp:8;20
-msgid "Billing Address"
-msgstr "Rechnungsadresse"
-
-#: Template/Admin/ShopOrders/add.ctp:34 Template/Admin/ShopOrders/edit.ctp:40
-#: Template/Admin/ShopOrders/view.baked.ctp:47
+#: Template/Admin/ShopOrders/add.ctp:34 Template/Admin/ShopOrders/edit.ctp:30
 msgid "Shop Carts"
 msgstr "Warenkörbe"
 
-#: Template/Admin/ShopOrders/add.ctp:40 Template/Admin/ShopOrders/edit.ctp:46
-#: Template/Admin/ShopOrders/view.baked.ctp:52
+#: Template/Admin/ShopOrders/add.ctp:40 Template/Admin/ShopOrders/edit.ctp:36
 msgid "Shop Cart"
 msgstr "Warenkorb"
 
-#: Template/Admin/ShopOrders/index.bak.ctp:57
-#: Template/Admin/ShopOrders/index.ctp:44
-msgid "Send Owner Order Notification"
-msgstr "Bestellbenachrichtigung an Shopbesitzer"
+#: Template/Admin/ShopOrders/costs.ctp:7
+msgid "Order #{0}"
+msgstr "Bestellung #{0}"
 
-#: Template/Admin/ShopOrders/view.baked.ctp:146
-#: Template/Admin/ShopOrders/view.ctp:210
-msgid "Shipping Address"
-msgstr "Lieferadresse"
+#: Template/Admin/ShopOrders/costs.ctp:21
+msgid "Order calculation"
+msgstr "Bestellungsrechner"
 
-#: Template/Admin/ShopOrders/view.baked.ctp:322
-#: Template/Admin/ShopOrders/view.ctp:390
-msgid "ShopCarts"
-msgstr ""
-
-#: Template/Admin/ShopOrders/view.baked.ctp:328
-#: Template/Admin/ShopOrders/view.ctp:396
-msgid "Userid"
-msgstr ""
-
-#: Template/Admin/ShopOrders/view.baked.ctp:331;375
-#: Template/Admin/ShopOrders/view.ctp:399;443
-msgid "Shop Order Id"
-msgstr ""
-
-#: Template/Admin/ShopOrders/view.baked.ctp:332
-#: Template/Admin/ShopOrders/view.ctp:400
-msgid "Token"
-msgstr ""
-
-#: Template/Admin/ShopOrders/view.baked.ctp:333
-#: Template/Admin/ShopOrders/view.ctp:401
-msgid "Items Value"
-msgstr ""
-
-#: Template/Admin/ShopOrders/view.baked.ctp:334
-#: Template/Admin/ShopOrders/view.ctp:402
-msgid "Items Count"
-msgstr ""
-
-#: Template/Admin/ShopOrders/view.baked.ctp:370
-#: Template/Admin/ShopOrders/view.ctp:95;438
-msgid "ShopOrderItems"
-msgstr ""
-
-#: Template/Admin/ShopProducts/edit.bak.ctp:34
-msgid "Edit {0} ({1})"
+#: Template/Admin/ShopOrders/edit.ctp:54
+msgid "Edit {0} {1}"
 msgstr "{0} bearbeiten ({1})"
 
-#: Template/Admin/ShopProducts/edit.bak.ctp:162
-msgid "Media"
+#: Template/Admin/ShopOrders/printview.ctp:35
+msgid "Date of order: {0}"
+msgstr "Bestelldatum: {0}"
+
+#: Template/Admin/ShopOrders/printview.ctp:39
+msgid "Rechnungsdatum: {0}"
 msgstr ""
 
-#: Template/Admin/ShopProducts/edit.ctp:46
-msgid "Category"
-msgstr "Kategorie"
+#: Template/Admin/ShopOrders/printview.ctp:46
+msgid "Order: {0}"
+msgstr "Bestellung: {0}"
 
-#: Template/Admin/ShopProducts/edit.ctp:67;68 Template/Cart/index.ctp:12
-#: Template/Checkout/index.ctp:10 Template/Element/Checkout/cart.ctp:15
-msgid "Product"
-msgstr "Produkt"
+#: Template/Admin/ShopOrders/printview.ctp:47
+msgid "Invoice: {0}"
+msgstr "Rechnung: {0}"
 
-#: Template/Admin/ShopProducts/edit.ctp:156
-msgid "Attachments"
+#: Template/Admin/ShopOrders/printview.ctp:53
+msgid "Nr."
+msgstr "Nr."
+
+#: Template/Admin/ShopOrders/printview.ctp:55
+msgid "Menge"
 msgstr ""
 
-#: Template/Admin/ShopProducts/index.ctp:73
-msgid "Edit English version"
-msgstr "Englische Version bearbeiten"
-
-#: Template/Admin/ShopProducts/view.ctp:54
-msgid "Sku"
+#: Template/Admin/ShopOrders/printview.ctp:57
+msgid "Bezeichnung"
 msgstr ""
 
-#: Template/Admin/ShopProducts/view.ctp:82
-msgid "Publish Start Date"
+#: Template/Admin/ShopOrders/printview.ctp:59
+msgid "Betrag"
 msgstr ""
 
-#: Template/Admin/ShopProducts/view.ctp:86
-msgid "Publish End Date"
+#: Template/Admin/ShopOrders/printview.ctp:76
+msgid "Summe exkl. MwSt."
 msgstr ""
 
-#: Template/Admin/ShopProducts/view.ctp:95
-msgid "Teaser Html"
+#: Template/Admin/ShopOrders/printview.ctp:81
+msgid "Gutschein Rabatt"
 msgstr ""
 
-#: Template/Admin/ShopProducts/view.ctp:99
-msgid "Desc Html"
+#: Template/Admin/ShopOrders/printview.ctp:85
+msgid "Endsumme exkl. MwSt."
 msgstr ""
+
+#: Template/Admin/ShopOrders/printview.ctp:90
+msgid "{0}% MwSt."
+msgstr ""
+
+#: Template/Admin/ShopOrders/printview.ctp:94
+msgid "Gesamtsumme"
+msgstr ""
+
+#: Template/Admin/ShopOrders/storno.ctp:2
+msgid "Do you really want to storno order {0}?"
+msgstr "Bestellung {0} jetzt stornieren?"
+
+#: Template/Admin/ShopOrders/storno.ctp:3
+msgid "Storno order"
+msgstr "Bestellung stornieren"
+
+#: Template/Admin/ShopOrders/view_order.ctp:10
+#: Template/Orders/view_public.ctp:10
+msgid "Order"
+msgstr "Bestellung"
+
+#: Template/Admin/ShopOrders/view_order.ctp:11
+msgid "Ordered"
+msgstr "Bestellt am"
+
+#: Template/Admin/ShopOrders/view_order.ctp:19
+#: Template/Checkout/billing_address.ctp:3 Template/Checkout/submit.ctp:15
+#: Template/Orders/view.ctp:30
+msgid "Billing address"
+msgstr "Rechnungsadresse"
+
+#: Template/Admin/ShopOrders/view_order.ctp:24
+#: Template/Checkout/shipping_address.ctp:3 Template/Checkout/submit.ctp:25
+#: Template/Orders/view.ctp:38
+msgid "Shipping address"
+msgstr "Lieferadresse"
+
+#: Template/Admin/ShopOrders/view_order.ctp:29
+msgid "Order ID"
+msgstr "Bestellungs ID"
+
+#: Template/Admin/ShopOrders/view_order.ctp:30
+msgid "Order Date"
+msgstr "Bestelldatum"
+
+#: Template/Admin/ShopOrders/view_order.ctp:36
+#: Template/Element/Order/order_info.ctp:11
+msgid "Status"
+msgstr "Status"
+
+#: Template/Admin/ShopOrders/view_order.ctp:47;58
+#: Template/Checkout/submit.ctp:74 Template/Orders/view.ctp:21
+msgid "Order Items"
+msgstr "Bestellartikel"
+
+#: Template/Admin/ShopOrders/view_order.ctp:65
+#: Template/Element/Checkout/cart.ctp:5
+msgid "Pos"
+msgstr "Pos"
+
+#: Template/Admin/ShopOrders/view_order.ctp:66
+msgid "Qty"
+msgstr "Menge"
+
+#: Template/Admin/ShopOrders/view_order.ctp:67
+msgid "Serial"
+msgstr "Art.Nr."
+
+#: Template/Admin/ShopOrders/view_order.ctp:69;103
+msgid "Subtotal"
+msgstr "Zwischensumme"
+
+#: Template/Admin/ShopOrders/view_order.ctp:111
+msgid "Tax"
+msgstr "Steuer"
+
+#: Template/Admin/ShopOrders/view_order.ctp:119
+msgid "Discount"
+msgstr "Rabatte"
+
+#: Template/Admin/ShopOrders/view_order.ctp:123 Template/Cart/index.ctp:65
+msgid "Order total"
+msgstr "Gesamtsumme"
+
+#: Template/Admin/ShopOrders/view_order.ctp:139 Template/Payment/pay.ctp:3
+msgid "Payment"
+msgstr "Zahlung"
+
+#: Template/Admin/ShopOrders/view_order.ctp:150;169
+msgid "Element missing: "
+msgstr "Element nicht gefunden:"
+
+#: Template/Admin/ShopOrders/view_order.ctp:162
+msgid "Shipping Type"
+msgstr "Versandart"
+
+#: Template/Admin/ShopOrders/view_order.ctp:181;239
+msgid "Print"
+msgstr "Drucken"
+
+#: Template/Admin/ShopOrders/view_order.ctp:186
+msgid "Generate Order PDF"
+msgstr "Bestellungs PDF erstellen"
+
+#: Template/Admin/ShopOrders/view_order.ctp:191
+msgid "Send Order confirmation"
+msgstr "Bestellbenachrichtigung senden"
+
+#: Template/Admin/ShopOrders/view_order.ctp:204
+msgid "Invoice"
+msgstr "Rechnung"
+
+#: Template/Admin/ShopOrders/view_order.ctp:205
+msgid "Invoiced"
+msgstr "Rechnung erstellt am"
+
+#: Template/Admin/ShopOrders/view_order.ctp:215
+msgid "Invoice #"
+msgstr "Rechnung Nr. "
+
+#: Template/Admin/ShopOrders/view_order.ctp:216
+msgid "Invoice date"
+msgstr "Rechnungsdatum"
+
+#: Template/Admin/ShopOrders/view_order.ctp:228
+msgid "No invoice"
+msgstr "Keine Rechnung vorhanden"
+
+#: Template/Admin/ShopOrders/view_order.ctp:244
+msgid "Generate Invoice PDF"
+msgstr "Rechnungs PDF erstellen"
+
+#: Template/Admin/ShopOrders/view_order.ctp:249
+msgid "Send Invoice"
+msgstr "Rechnung senden"
+
+#: Template/Admin/ShopOrders/view_order.ctp:255
+msgid "Create invoice"
+msgstr "Rechnung erstellen"
+
+#: Template/Admin/ShopOrders/view_order.ctp:262
+msgid "Mark PAYED"
+msgstr "Als BEZAHLT markieren"
+
+#: Template/Admin/ShopProducts/_edit.ctp:16
+#: Template/Admin/ShopProducts/edit.bak.ctp:24
+msgid "Edit Parent"
+msgstr "Übergeordnetes Element bearbeiten"
+
+#: Template/Admin/ShopProducts/set_image.ctp:30
+msgid "- Choose Image -"
+msgstr "- Bild wählen -"
 
 #: Template/Admin/ShopTags/add.ctp:1;4 Template/Admin/ShopTags/edit.ctp:1;10
 #: Template/Admin/ShopTags/index.ctp:1 Template/Admin/ShopTags/view.ctp:1;14
@@ -1537,10 +1767,18 @@ msgid "Class"
 msgstr ""
 
 #: Template/Admin/ShopTags/view.ctp:76
+#: Template/Admin/StockTransfers/view.ctp:121
+#: Template/Admin/Stocks/view.ctp:81;127
+msgid "Related {0}"
+msgstr "Verwandte {0}"
+
+#: Template/Admin/ShopTags/view.ctp:76
 msgid "ShopProductsTags"
 msgstr ""
 
 #: Template/Admin/ShopTags/view.ctp:81
+#: Template/Admin/StockTransfers/view.ctp:128
+#: Template/Admin/Stocks/view.ctp:88;133
 msgid "Shop Product Id"
 msgstr ""
 
@@ -1548,19 +1786,24 @@ msgstr ""
 msgid "Shop Tag Id"
 msgstr ""
 
+#: Template/Admin/ShopTags/view.ctp:83
+#: Template/Admin/StockTransfers/view.ctp:135
+#: Template/Admin/Stocks/view.ctp:95;139 Template/Orders/index.ctp:22
+msgid "Actions"
+msgstr "Aktionen"
+
 #: Template/Admin/ShopTexts/add.ctp:1;4 Template/Admin/ShopTexts/edit.ctp:1;10
 #: Template/Admin/ShopTexts/index.ctp:1 Template/Admin/ShopTexts/view.ctp:1;14
 msgid "Shop Texts"
 msgstr ""
 
-#: Template/Admin/ShopTexts/add.ctp:2;12
-#: Template/Admin/ShopTexts/edit.ctp:2;18 Template/Admin/ShopTexts/index.ctp:3
+#: Template/Admin/ShopTexts/add.ctp:2;12 Template/Admin/ShopTexts/edit.ctp:2;18
+#: Template/Admin/ShopTexts/index.ctp:3
 #: Template/Admin/ShopTexts/view.ctp:4;9;19
 msgid "Shop Text"
 msgstr ""
 
 #: Template/Admin/ShopTexts/index.ctp:20
-#, fuzzy
 msgid "Edit Iframe"
 msgstr "In Iframe bearbeiten"
 
@@ -1588,235 +1831,563 @@ msgstr ""
 msgid "Text"
 msgstr "Text"
 
-#: Template/Cart/index.ctp:2 Template/Checkout/cart.ctp:3
+#: Template/Admin/StockTransfers/add.ctp:1;4
+#: Template/Admin/StockTransfers/edit.ctp:1;10
+#: Template/Admin/StockTransfers/index.ctp:1
+#: Template/Admin/StockTransfers/view.ctp:1;14
+msgid "Stock Transfers"
+msgstr ""
+
+#: Template/Admin/StockTransfers/add.ctp:2;45
+#: Template/Admin/StockTransfers/edit.ctp:2;51
+#: Template/Admin/StockTransfers/index.ctp:3
+#: Template/Admin/StockTransfers/view.ctp:4;9;19
+msgid "Stock Transfer"
+msgstr ""
+
+#: Template/Admin/StockTransfers/add.ctp:10
+#: Template/Admin/StockTransfers/edit.ctp:16
+#: Template/Admin/StockTransfers/index.ctp:5
+#: Template/Admin/StockTransfers/view.ctp:25
+msgid "Parent Stock Transfers"
+msgstr ""
+
+#: Template/Admin/StockTransfers/add.ctp:16
+#: Template/Admin/StockTransfers/edit.ctp:22
+#: Template/Admin/StockTransfers/index.ctp:10
+#: Template/Admin/StockTransfers/view.ctp:30;72
+msgid "Parent Stock Transfer"
+msgstr ""
+
+#: Template/Admin/StockTransfers/add.ctp:21
+#: Template/Admin/StockTransfers/edit.ctp:27
+#: Template/Admin/StockTransfers/index.ctp:15
+#: Template/Admin/StockTransfers/view.ctp:35
+#: Template/Admin/StockValues/add.ctp:10 Template/Admin/StockValues/edit.ctp:16
+#: Template/Admin/StockValues/index.ctp:5
+#: Template/Admin/StockValues/view.ctp:25
+msgid "Shop Stocks"
+msgstr ""
+
+#: Template/Admin/StockTransfers/add.ctp:27
+#: Template/Admin/StockTransfers/edit.ctp:33
+#: Template/Admin/StockTransfers/index.ctp:20
+#: Template/Admin/StockTransfers/view.ctp:40;76
+#: Template/Admin/StockValues/add.ctp:16 Template/Admin/StockValues/edit.ctp:22
+#: Template/Admin/StockValues/index.ctp:10
+#: Template/Admin/StockValues/view.ctp:30;62
+msgid "Shop Stock"
+msgstr ""
+
+#: Template/Admin/StockTransfers/view.ctp:84;132
+#: Template/Admin/Stocks/view.ctp:92
+msgid "Comment"
+msgstr ""
+
+#: Template/Admin/StockTransfers/view.ctp:94;129
+#: Template/Admin/Stocks/view.ctp:89
+msgid "Op"
+msgstr ""
+
+#: Template/Admin/StockTransfers/view.ctp:104;131
+#: Template/Admin/Stocks/view.ctp:91 Template/Orders/index.ctp:19
+msgid "Date"
+msgstr ""
+
+#: Template/Admin/StockTransfers/view.ctp:121
+msgid "StockTransfers"
+msgstr ""
+
+#: Template/Admin/StockTransfers/view.ctp:126 Template/Admin/Stocks/view.ctp:86
+msgid "Parent Id"
+msgstr ""
+
+#: Template/Admin/StockTransfers/view.ctp:127
+#: Template/Admin/Stocks/view.ctp:87;132
+msgid "Shop Stock Id"
+msgstr ""
+
+#: Template/Admin/StockValues/add.ctp:1;4
+#: Template/Admin/StockValues/edit.ctp:1;10
+#: Template/Admin/StockValues/index.ctp:1
+#: Template/Admin/StockValues/view.ctp:1;14
+msgid "Stock Values"
+msgstr ""
+
+#: Template/Admin/StockValues/add.ctp:2;34
+#: Template/Admin/StockValues/edit.ctp:2;40
+#: Template/Admin/StockValues/index.ctp:3
+#: Template/Admin/StockValues/view.ctp:4;9;19
+msgid "Stock Value"
+msgstr ""
+
+#: Template/Admin/StockValues/view.ctp:82 Template/Admin/Stocks/view.ctp:135
+msgid "Last Transfer In"
+msgstr ""
+
+#: Template/Admin/StockValues/view.ctp:86 Template/Admin/Stocks/view.ctp:136
+msgid "Last Transfer Out"
+msgstr ""
+
+#: Template/Admin/Stocks/add.ctp:1;4 Template/Admin/Stocks/edit.ctp:1;10
+#: Template/Admin/Stocks/index.ctp:1 Template/Admin/Stocks/view.ctp:1;14
+msgid "Stocks"
+msgstr ""
+
+#: Template/Admin/Stocks/add.ctp:2;34 Template/Admin/Stocks/edit.ctp:2;40
+#: Template/Admin/Stocks/index.ctp:3 Template/Admin/Stocks/view.ctp:4;9;19
+msgid "Stock"
+msgstr ""
+
+#: Template/Admin/Stocks/add.ctp:10 Template/Admin/Stocks/edit.ctp:16
+#: Template/Admin/Stocks/index.ctp:5 Template/Admin/Stocks/view.ctp:25
+msgid "Shop Stock Transfers"
+msgstr ""
+
+#: Template/Admin/Stocks/add.ctp:16 Template/Admin/Stocks/edit.ctp:22
+#: Template/Admin/Stocks/index.ctp:10 Template/Admin/Stocks/view.ctp:30
+msgid "Shop Stock Transfer"
+msgstr ""
+
+#: Template/Admin/Stocks/add.ctp:21 Template/Admin/Stocks/edit.ctp:27
+#: Template/Admin/Stocks/index.ctp:15 Template/Admin/Stocks/view.ctp:35
+msgid "Shop Stock Values"
+msgstr ""
+
+#: Template/Admin/Stocks/add.ctp:27 Template/Admin/Stocks/edit.ctp:33
+#: Template/Admin/Stocks/index.ctp:20 Template/Admin/Stocks/view.ctp:40
+msgid "Shop Stock Value"
+msgstr ""
+
+#: Template/Admin/Stocks/view.ctp:73
+msgid "Is Default"
+msgstr "Ist Standard"
+
+#: Template/Admin/Stocks/view.ctp:81
+msgid "ShopStockTransfers"
+msgstr ""
+
+#: Template/Admin/Stocks/view.ctp:127
+msgid "ShopStockValues"
+msgstr ""
+
+#: Template/Cart/empty.ctp:3;4;9 Template/Cart/index.ctp:8;9
+#: Template/Checkout/base.ctp:4 Template/Checkout/cart.ctp:3;7
 msgid "Cart"
 msgstr "Warenkorb"
 
-#: Template/Cart/index.ctp:13 Template/Checkout/index.ctp:11
-#: Template/Element/Checkout/cart.ctp:16
+#: Template/Cart/empty.ctp:10
+msgid "You don't have any products in your cart"
+msgstr "Sie haben noch keinen Artikel im Warenkorb"
+
+#: Template/Cart/empty.ctp:12
+msgid "View products"
+msgstr "Produkte ansehen"
+
+#: Template/Cart/index.ctp:13
+msgid "Your shopping cart"
+msgstr "Ihr Warenkorb"
+
+#: Template/Cart/index.ctp:22 Template/Element/Checkout/cart.ctp:9
 msgid "Item Price"
 msgstr "Einzelpreis"
 
-#: Template/Cart/index.ctp:14 Template/Checkout/index.ctp:12
-#: Template/Element/Checkout/cart.ctp:17
-msgid "Price"
-msgstr "Preis"
-
-#: Template/Cart/index.ctp:28
+#: Template/Cart/index.ctp:40
 msgid "Remove from cart"
 msgstr "Aus dem Warenkorb entfernen"
 
-#: Template/Cart/index.ctp:43;54
-msgid "Continue Shopping"
-msgstr "Weiter Einkaufen"
+#: Template/Cart/index.ctp:42
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
 
-#: Template/Cart/index.ctp:44 Template/Checkout/base.ctp:6
+#: Template/Cart/index.ctp:71
+msgid "Update cart"
+msgstr "Warenkorb aktualisieren"
+
+#: Template/Cart/index.ctp:72
+msgid "Continue shopping"
+msgstr "Weiter einkaufen"
+
+#: Template/Cart/index.ctp:73 Template/Checkout/base.ctp:5
+#: Template/Checkout/cart.ctp:6 Template/Checkout/customer_signup.ctp:3
+#: Template/Checkout/shipping_type.ctp:3
 msgid "Checkout"
 msgstr "Zur Kasse"
 
-#: Template/Cart/index.ctp:52 Template/Element/Checkout/cart.ctp:3
-msgid "No items in cart"
-msgstr "Keine Artikel im Warenkorb"
+#: Template/Categories/view.ctp:82 Template/Categories/view_products.ctp:48
+#: Template/Categories/view_subcategories.ctp:20
+#: Template/Products/view.bak.ctp:96
+msgid "Go back"
+msgstr "Zurück"
 
-#: Template/Cell/ProductsList/category.ctp:43
-msgid "Produkte ansehen"
-msgstr ""
+#: Template/Cell/AddToCart/_display.ctp:3
+msgid "Not available"
+msgstr "Nicht verfügbar"
 
-#: Template/Cell/ProductsList/category.ctp:51
-#: Template/ShopProducts/index.ctp:27
+#: Template/Cell/AddToCart/_display.ctp:7 Template/Cell/AddToCart/display.ctp:6
+msgid "View product"
+msgstr "Produkt ansehen"
+
+#: Template/Cell/AddToCart/_display.ctp:15
+#: Template/Cell/AddToCart/display.ctp:24
+#: Template/Cell/Category/products_list.ctp:57
+#: Template/Cell/ProductsList/category.ctp:65 Template/Products/index.ctp:27
+#: Template/Products/view.bak.ctp:63
 msgid "Add to cart"
 msgstr "In den Warenkorb"
 
-#: Template/Checkout/base.ctp:13
+#: Template/Cell/AddToCart/display.ctp:2
+msgid "This item is currently not available in our online store"
+msgstr "Dieser Artikel ist zur Zeit nicht in unserem Online-Store erhältlich."
+
+#: Template/Cell/AddToCart/display.ctp:19
+msgid "Login to purchase this product"
+msgstr "Sie müssen sich anmelden um dieses Produkt zu kaufen"
+
+#: Template/Cell/AddToCart/noauth.ctp:3 Template/Checkout/customer.ctp:21
+#: Template/Layout/checkout.ctp:38 Template/Layout/frontend.ctp:38
+msgid "Login"
+msgstr "Einloggen"
+
+#: Template/Cell/AddressForm/display.ctp:5
+#: Template/Cell/AddressForm/fancy.ctp:6
+#: Template/Cell/AddressForm/horizontal.ctp:4
+msgid "Company Name"
+msgstr "Firmenname"
+
+#: Template/Cell/AddressForm/display.ctp:14
+#: Template/Cell/AddressForm/fancy.ctp:9
+#: Template/Cell/AddressForm/horizontal.ctp:5
+msgid "Tax Id"
+msgstr "UID"
+
+#: Template/Cell/AddressForm/fancy.ctp:39
+#: Template/Cell/AddressForm/horizontal.ctp:14
+msgid "Save"
+msgstr "Speichern"
+
+#: Template/Cell/Category/products_list.ctp:63
+#: Template/Cell/ProductsList/category.ctp:71
+msgid "Produkt ansehen"
+msgstr ""
+
+#: Template/Cell/ReportTopSeller/products.ctp:22
+msgid "Sales"
+msgstr "Verkäufe"
+
+#: Template/Checkout/base_panel.ctp:7
+msgid "Your Order"
+msgstr "Ihre Bestellung"
+
+#: Template/Checkout/base_panel.ctp:13
 msgid "See cart"
 msgstr "Warenkorb anzeigen"
 
-#: Template/Checkout/billing.ctp:3
-msgid "Billing"
-msgstr "Rechnungsinfo"
-
-#: Template/Checkout/billing.ctp:15
-msgid "Change billing address"
-msgstr "Rechnungsadresse ändern"
-
-#: Template/Checkout/billing.ctp:20
-msgid "Select {0}"
-msgstr "{0} wählen"
-
-#: Template/Checkout/billing.ctp:23 Template/Checkout/shipping.ctp:48
-msgid "Stored addresses"
+#: Template/Checkout/billing_address.ctp:14
+#: Template/Checkout/shipping_address.ctp:14 Template/Customer/index.ctp:27
+#: Template/CustomerAddresses/add.ctp:4 Template/CustomerAddresses/edit.ctp:5
+#: Template/CustomerAddresses/index.ctp:4;8
+msgid "Saved addresses"
 msgstr "Gespeicherte Adressen"
 
-#: Template/Checkout/billing.ctp:30
-msgid "Select address"
-msgstr "Rechnungsadresse wählen"
+#: Template/Checkout/billing_address.ctp:16
+#: Template/Checkout/shipping_address.ctp:16
+msgid "Use this address"
+msgstr "Diese Adresse benutzen"
 
-#: Template/Checkout/billing.ctp:38
-msgid "Add new billing address"
-msgstr "Neue Rechnungsadresse hinzufügen"
+#: Template/Checkout/billing_address.ctp:20
+msgid "New address"
+msgstr "Neue Adresse"
 
-#: Template/Checkout/billing.ctp:51
-msgid "Add billing address and continue"
-msgstr "Rechnungsadresse hinzufügen und weiter"
-
-#: Template/Checkout/cart.ctp:8 Template/Checkout/customer.ctp:60;87
-#: Template/Checkout/index.ctp:112 Template/Checkout/new_customer.ctp:21
-#: Template/Checkout/payment.ctp:29 Template/Checkout/shipping.ctp:36
+#: Template/Checkout/billing_address.ctp:23 Template/Checkout/cart.ctp:17
+#: Template/Checkout/customer.ctp:70;98 Template/Checkout/customer_guest.ctp:21
+#: Template/Checkout/customer_signup.ctp:31 Template/Checkout/payment.ctp:45
+#: Template/Checkout/payment_credit_card_internal.ctp:35
+#: Template/Checkout/shipping.ctp:44 Template/Checkout/shipping_address.ctp:23
 #: Template/Checkout/success.ctp:7
 msgid "Continue"
 msgstr "Weiter"
 
-#: Template/Checkout/customer.ctp:3
+#: Template/Checkout/cart.ctp:21
+msgid "You don't have selected any items yet"
+msgstr "Sie haben noch keinen Artikel gewählt"
+
+#: Template/Checkout/cart.ctp:23 Template/Orders/index.ctp:13
+msgid "Browse shop"
+msgstr "Shop durchstöbern"
+
+#: Template/Checkout/customer.ctp:2
 msgid "Customer Login"
 msgstr "Kunden Anmeldung"
 
-#: Template/Checkout/customer.ctp:7
-msgid "Customer"
-msgstr "Kunde"
-
-#: Template/Checkout/customer.ctp:17
+#: Template/Checkout/customer.ctp:15
 msgid "Already registered?"
 msgstr "Bereits registriert?"
 
-#: Template/Checkout/customer.ctp:23 Template/Checkout/index.ctp:72
-msgid "Login"
-msgstr "Einloggen"
+#: Template/Checkout/customer.ctp:18
+msgid "Email"
+msgstr "Email"
 
-#: Template/Checkout/customer.ctp:30
+#: Template/Checkout/customer.ctp:22
+msgid "Forgot password?"
+msgstr "Passwort vergessen?"
+
+#: Template/Checkout/customer.ctp:28
 msgid "I'm a new customer"
 msgstr "Ich bin Neukunde"
 
-#: Template/Checkout/customer.ctp:32
-msgid "Als Neukunde Registrieren"
+#: Template/Checkout/customer.ctp:34;39
+msgid "Als Neukunde fortfahren"
 msgstr ""
 
-#: Template/Checkout/customer.ctp:38
+#: Template/Checkout/customer.ctp:47
 msgid "Weiter ohne Anmeldung"
 msgstr ""
 
-#: Template/Checkout/index.ctp:25
-msgid "Remove"
-msgstr "Löschen"
+#: Template/Checkout/customer_guest.ctp:2
+msgid "Order without registration"
+msgstr "Weiter ohne Kundenregistrierung"
 
-#: Template/Checkout/index.ctp:85
-msgid "Address"
-msgstr "Adresse"
+#: Template/Checkout/customer_guest.ctp:3
+#: Template/Checkout/customer_signup.ctp:8
+msgid "Already registered? Sign in here"
+msgstr "Bereits registriert? Hier anmelden."
 
-#: Template/Checkout/index.ctp:86
-msgid "Tax Id"
-msgstr "UID"
+#: Template/Checkout/customer_guest.ctp:13
+msgid "This email is already registered"
+msgstr "Diese Email-Adresse ist bereits registriert"
 
-#: Template/Checkout/new_customer.ctp:2
-msgid "New Customer"
+#: Template/Checkout/customer_guest.ctp:15
+#: Template/Checkout/customer_signup.ctp:18
+msgid "Forgot your password?"
+msgstr "Passwort vergessen?"
+
+#: Template/Checkout/customer_signup.ctp:7
+msgid "New customer"
 msgstr "Neuer Kunde"
 
-#: Template/Checkout/new_customer.ctp:14
-msgid "Continue as guest"
-msgstr "Ohne Registrierung fortfahren"
+#: Template/Checkout/customer_signup.ctp:17
+msgid "The email address {0} is already registered"
+msgstr "Die Email-Adresse {0} ist bereits in Verwendung"
 
-#: Template/Checkout/payment.ctp:3 Template/Checkout/review.ctp:50
-msgid "Payment"
-msgstr "Zahlung"
+#: Template/Checkout/customer_signup.ctp:27
+msgid "Password"
+msgstr "Passwort"
 
-#: Template/Checkout/payment.ctp:17
-msgid "Select Payment Method"
-msgstr "Zahlungsmethode auswählen"
+#: Template/Checkout/customer_signup.ctp:28
+msgid "Repeat Password"
+msgstr "Passwort wiederholen"
 
-#: Template/Checkout/review.ctp:3;6
+#: Template/Checkout/payment.ctp:3
+msgid "Select your payment method"
+msgstr "Wählen Sie Ihre Zahlungsmethode"
+
+#: Template/Checkout/payment.ctp:25
+msgid "Currently selected payment method"
+msgstr "Gewählte Zahlungsmethode"
+
+#: Template/Checkout/payment.ctp:33 Template/Checkout/shipping.ctp:31
+#: Template/Checkout/shipping_type.ctp:25
+msgid "Select"
+msgstr "Auswählen"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:3
+msgid "Pay with Credit Card"
+msgstr "Mit Kreditkarte bezahlen"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:20
+msgid "Card Type"
+msgstr "Kartentyp"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:20
+msgid "Please select"
+msgstr "Bitte wählen"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:22
+msgid "Card Holder"
+msgstr "Karteninhaber"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:22
+msgid "Firstname Lastname"
+msgstr "Vorname Nachname"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:24
+msgid "Card Number"
+msgstr "Kartennummer"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:24
+msgid "16 digits, no spaces"
+msgstr "16 Ziffern, keine Leerzeichen"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:26
+msgid "Card valid until"
+msgstr "Karte gültig bis"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:26
+msgid "MM/YYYY"
+msgstr "MM/JJJJ"
+
+#: Template/Checkout/payment_credit_card_internal.ctp:30
+msgid "Back to payment selection"
+msgstr "Zurück zur Zahlungsauswahl"
+
+#: Template/Checkout/shipping.ctp:3 Template/Checkout/shipping_type.ctp:4
+msgid "Select your shipping method"
+msgstr "Wählen Sie eine Versandart"
+
+#: Template/Checkout/shipping.ctp:25
+msgid "Currently selected shipping method"
+msgstr "Gewählte Versandart"
+
+#: Template/Checkout/shipping_address.ctp:20
+msgid "Add new address"
+msgstr "Neue Adresse hinzufügen"
+
+#: Template/Checkout/submit.ctp:8
 msgid "Review your order"
 msgstr "Überprüfen Sie Ihre Bestellung"
 
-#: Template/Checkout/review.ctp:15
-msgid "Billing address"
-msgstr "Rechnungsadresse"
-
-#: Template/Checkout/review.ctp:16;29
+#: Template/Checkout/submit.ctp:16;26;38;56
 msgid "Change"
 msgstr "Ändern"
 
-#: Template/Checkout/review.ctp:28
-msgid "Shipping address"
-msgstr "Lieferadresse"
+#: Template/Checkout/submit.ctp:37 Template/Orders/view.ctp:51
+msgid "Payment Method"
+msgstr "Zahlungsart"
 
-#: Template/Checkout/review.ctp:41 Template/Checkout/shipping.ctp:3
-msgid "Shipping"
-msgstr "Versand"
+#: Template/Checkout/submit.ctp:55 Template/Orders/view.ctp:72
+msgid "Shipping Method"
+msgstr "Versandart"
 
-#: Template/Checkout/review.ctp:63
+#: Template/Checkout/submit.ctp:87
 msgid "Additional Information"
 msgstr "Zusätzliche Informationen"
 
-#: Template/Checkout/review.ctp:65
-msgid "Callback phone number"
-msgstr "Telefonnummer für eventuelle Rückfragen"
-
-#: Template/Checkout/review.ctp:66
+#: Template/Checkout/submit.ctp:91
 msgid "Additional Notes"
 msgstr "Zusätzliche Information für den Verkäufer"
 
-#: Template/Checkout/review.ctp:72
-msgid "Terms"
-msgstr "Bedingungen"
+#: Template/Checkout/submit.ctp:97
+msgid "Callback phone number"
+msgstr "Telefonnummer für eventuelle Rückfragen"
 
-#: Template/Checkout/review.ctp:84
+#: Template/Checkout/submit.ctp:104
+msgid "I agree to the terms & conditions and accept the privacy policy"
+msgstr ""
+"Ich stimme den Allgemeinen Geschäftsbedingungen zu und akzeptiere die "
+"Datenschutzbestimmungen"
+
+#: Template/Checkout/submit.ctp:115
 msgid "Order Now"
 msgstr "Jetzt kostenpflichtig bestellen"
-
-#: Template/Checkout/shipping.ctp:17
-msgid "Change shipping address"
-msgstr "Lieferadresse ändern"
-
-#: Template/Checkout/shipping.ctp:56
-msgid "Ship to this address"
-msgstr "Lieferung an diese Adresse"
-
-#: Template/Checkout/shipping.ctp:65
-msgid "Add new shipping address"
-msgstr "Neue Lieferadresse hinzufügen"
-
-#: Template/Checkout/shipping.ctp:78
-msgid "Add shipping address and continue"
-msgstr "Lieferadresse hinzufügen und weiter"
 
 #: Template/Checkout/success.ctp:2
 msgid "Your order was successful!"
 msgstr "Ihre Bestellung war erfolgreich"
 
-#: Template/Element/Checkout/cart.ctp:6
-msgid "Continue shopping"
-msgstr "Weiter einkaufen"
+#: Template/Customer/index.ctp:1
+msgid "Your account"
+msgstr "Ihr Konto"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:16
-msgid "Card Type"
-msgstr "Kartentyp"
+#: Template/Customer/index.ctp:14
+msgid "List orders"
+msgstr "Bestellungen auflisten"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:16
-msgid "Please select"
-msgstr "Bitte wählen"
+#: Template/Customer/index.ctp:22
+msgid "My profile"
+msgstr "Mein Profil"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:17
-msgid "Card Holder"
-msgstr "Karteninhaber"
+#: Template/Customer/index.ctp:30
+msgid "Edit profile"
+msgstr "Profil bearbeiten"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:17
-msgid "Firstname Lastname"
-msgstr "Vorname Nachname"
+#: Template/Customer/index.ctp:33
+msgid "Change password"
+msgstr "Passwort ändern"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:18
-msgid "Card Number"
-msgstr "Kartennummer"
+#: Template/Customer/index.ctp:36
+msgid "Sign out"
+msgstr "Abmelden"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:18
-msgid "16 digits, no spaces"
-msgstr "16 Ziffern, keine Leerzeichen"
+#: Template/CustomerAddresses/add.ctp:3 Template/CustomerAddresses/edit.ctp:4
+#: Template/CustomerAddresses/index.ctp:3 Template/Orders/index.ctp:1
+msgid "My Account"
+msgstr "Mein Konto"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:19
-msgid "Card valid until"
-msgstr "Karte gültig bis"
+#: Template/CustomerAddresses/add.ctp:8 Template/CustomerAddresses/index.ctp:12
+msgid "Add address"
+msgstr "Adresse hinzufügen"
 
-#: Template/Element/Checkout/Payment/credit_card_internal.ctp:19
-msgid "MM/YYYY"
-msgstr "MM/JJJJ"
+#: Template/CustomerAddresses/edit.ctp:1
+msgid "Edit billing address"
+msgstr "Rechnungsadresse bearbeiten"
+
+#: Template/CustomerAddresses/edit.ctp:9
+#: Template/CustomerAddresses/index.ctp:25
+msgid "Edit address"
+msgstr "Adresse bearbeiten"
+
+#: Template/CustomerAddresses/index.ctp:10
+msgid "This addresses can be used during the checkout process"
+msgstr ""
+"Die gespeicherten Adressen können Sie während des Bestellvorgangs auswählen."
+
+#: Template/CustomerAddresses/index.ctp:17
+msgid "No saved addresses"
+msgstr "Keine gespeicherte Adressen"
+
+#: Template/Element/Admin/Dashboard/latest_orders.ctp:3
+#: Template/Orders/index.ctp:5
+msgid "Latest orders"
+msgstr "Letzten Bestellungen"
+
+#: Template/Element/Admin/Dashboard/latest_orders.ctp:9
+msgid "All orders"
+msgstr "Alle Bestellungen"
+
+#: Template/Element/Admin/Dashboard/topseller_products.ctp:4
+msgid "Top selling products"
+msgstr "Meistverkaufte Produkte"
+
+#: Template/Element/Admin/Dashboard/topseller_products.ctp:10
+msgid "List all products"
+msgstr "Alle Produkte auflisten"
+
+#: Template/Element/Checkout/cart.ctp:34
+msgid "plus 20% Tax"
+msgstr "zzgl. 20% MwSt."
+
+#: Template/Element/Checkout/cart.ctp:50
+msgid "includes 20% Tax"
+msgstr "inkl. 20% MwSt."
+
+#: Template/Element/Order/messages.ctp:4
+msgid "Your order has been submitted"
+msgstr "Bestellung wurde abgeschickt"
+
+#: Template/Element/Order/messages.ctp:5
+msgid "A confirmation email has been sent."
+msgstr "Eine Bestätigungsemail wurde gesendet"
+
+#: Template/Element/Order/order_info.ctp:7
+msgid "Order reference"
+msgstr "Referenz Nr."
+
+#: Template/Element/Order/order_info.ctp:9
+msgid "Date of purchase"
+msgstr "Bestelldatum:"
+
+#: Template/Element/Order/payment_status.ctp:19
+msgid "We are processing your payment"
+msgstr "Ihre Zahlung wird bearbeitet"
+
+#: Template/Element/Order/payment_status.ctp:26
+msgid "Payment status: UNPAYED"
+msgstr "Zahlungsstatus: UNBEZAHLT"
+
+#: Template/Element/Order/payment_status.ctp:29
+msgid "Go to payment page"
+msgstr "Zur Bezahlseite"
 
 #: Template/Element/Pagination/default.ctp:3
 msgid "previous"
@@ -1826,13 +2397,441 @@ msgstr "zurück"
 msgid "next"
 msgstr "vor"
 
+#: Template/Element/Payment/credit_card_internal/checkout.ctp:2
+msgid "We accept: Visa and Mastercard"
+msgstr "Wir akzeptieren Visa und Mastercard"
+
+#: Template/Element/Payment/credit_card_internal/order.ctp:4
+msgid "{0} ending with {1}"
+msgstr "{0} endet mit {1}"
+
+#: Template/Element/Payment/credit_card_internal/order.ctp:6
+msgid "Valid until {0}"
+msgstr "Gültig bis {0}"
+
+#: Template/Element/Payment/mpay24/pay.ctp:8
+#: Template/Element/Payment/mpay24_sofort/pay.ctp:7
+msgid "Continue to secure payment page"
+msgstr "Weiter zur sicheren Bezahlseite"
+
+#: Template/Element/Products/product_info.ctp:4
+msgid "Art-Nr."
+msgstr "Art-Nr."
+
+#: Template/Element/Products/product_info_availability.ctp:2
+msgid "Availability"
+msgstr "Verfügbarkeit"
+
+#: Template/Element/Products/product_info_availability.ctp:3
+msgid "Online 24/7"
+msgstr ""
+
+#: Template/Element/Products/product_info_price.ctp:7
+msgid "Price is only available for logged in customers"
+msgstr "Preise sind nur für angemeldete Benutzer sichtbar"
+
+#: Template/Element/Products/product_info_price.ctp:10
+msgid "Please login to see prices"
+msgstr "Bitte melden Sie sich an, um Preise zu sehen"
+
 #: Template/Element/RandomCategoryProduct/default.ctp:7
 msgid "See more"
 msgstr "Mehr anzeigen"
 
-#: Template/ShopCategories/extend_view.ctp:1
-msgid "Categories"
-msgstr "Kategorie"
+#: Template/Element/Shipping/standard/checkout.ctp:2
+#: Template/Element/Shipping/standard/order.ctp:2
+msgid "Standard Shipping"
+msgstr "Standard Versand"
+
+#: Template/Element/Shipping/standard/checkout.ctp:3
+#: Template/Element/Shipping/standard/order.ctp:3
+msgid "Usually within 7 - 10 days"
+msgstr "Gewönlich innerhalb von 7 - 10 Tagen"
+
+#: Template/Layout/checkout.ctp:35 Template/Layout/frontend.ctp:35
+msgid "Hello, {0}"
+msgstr "Hallo, {0}"
+
+#: Template/Layout/checkout.ctp:36 Template/Layout/frontend.ctp:36
+msgid "Logout"
+msgstr "Abmelden"
+
+#: Template/Orders/index.ctp:2
+msgid "Latest Orders"
+msgstr "Letzten Bestellungen"
+
+#: Template/Orders/index.ctp:8
+msgid "Your latest orders"
+msgstr "Ihre letzten Bestellungen"
+
+#: Template/Orders/index.ctp:12
+msgid "No orders found"
+msgstr "Keine Bestellungen gefunden"
+
+#: Template/Orders/index.ctp:20
+msgid "Order Total"
+msgstr "Gesamtsumme"
+
+#: Template/Orders/index.ctp:31
+msgid "View details"
+msgstr "Details ansehen"
+
+#: Template/Orders/view.ctp:3 Template/Orders/view_public.ctp:3
+#: Template/Payment/index.ctp:3
+msgid "My Orders"
+msgstr "Meine Bestellungen"
+
+#: Template/Orders/view.ctp:4 Template/Orders/view_public.ctp:4
+#: Template/Payment/index.ctp:4
+msgid "View order details and status"
+msgstr "Bestellungsdetails und Status ansehen"
+
+#: Template/Orders/view.ctp:10
+msgid "Order purchased on {0}"
+msgstr "Bestellung vom {0}"
+
+#: Template/Orders/view.ctp:96
+msgid "List all orders"
+msgstr "Alle Bestellungen auflisten"
+
+#: Template/Orders/view_public.ctp:18
+msgid "Order details only available for logged in customers"
+msgstr "Bestellungsdetails sind nur für angemeldete Benutzer sichtbar"
+
+#: Template/Orders/view_public.ctp:20
+msgid "Login here"
+msgstr "Hier anmelden"
+
+#: Template/Payment/disabled.ctp:2
+msgid "We are sorry, but the payment page is currently not available"
+msgstr "Es tut uns leid, aber die Bezahl"
+
+#: Template/Payment/index.ctp:8
+msgid "Order payment"
+msgstr "Zahlung"
+
+#: Template/Payment/index.ctp:21 Template/Payment/pay.ctp:15
+msgid "Back to order"
+msgstr "Zurück zur Bestellung"
+
+#: Template/Products/view.bak.ctp:27
+msgid "Art-Nr.:"
+msgstr "Art-Nr.:"
+
+#: Template/Products/view.ctp:26
+msgid "Product description"
+msgstr "Produktbeschreibung"
+
+#: View/ShopCategoryView.php:42
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: View/Cell/AddToCartCell.php:78
+msgid "Product version"
+msgstr "Produktversion"
+
+#: View/Cell/AddToCartCell.php:94
+msgid "Quantity"
+msgstr "Menge"
+
+#~ msgid "category"
+#~ msgstr "Kategorie"
+
+#~ msgid "Cancel order?"
+#~ msgstr "Bestellung abbrechen?"
+
+#~ msgid "Confirm"
+#~ msgstr "Bestätigen"
+
+#~ msgid "*Data missing*"
+#~ msgstr "*Daten fehlen*"
+
+#~ msgid "Send Owner Order Notification"
+#~ msgstr "Bestellbenachrichtigung an Shopbesitzer"
+
+#~ msgid "Order details"
+#~ msgstr "Bestellungsdetails"
+
+#~ msgid "Confirm order"
+#~ msgstr "Bestellung bestätigen"
+
+#~ msgid "Order No. {0}"
+#~ msgstr "Bestellung Nr. {0}"
+
+#~ msgid "Billing First Name"
+#~ msgstr "Vorname"
+
+#~ msgid "Billing Last Name"
+#~ msgstr "Nachname"
+
+#~ msgid "Billing Name"
+#~ msgstr "Name"
+
+#~ msgid "Billing Street"
+#~ msgstr "Strasse"
+
+#~ msgid "Billing Taxid"
+#~ msgstr "UID-Nummer"
+
+#~ msgid "Billing Zipcode"
+#~ msgstr "PLZ"
+
+#~ msgid "Billing City"
+#~ msgstr "Stadt"
+
+#~ msgid "Billing Country"
+#~ msgstr "Land"
+
+#~ msgid "Shipping First Name"
+#~ msgstr "Vorname"
+
+#~ msgid "Shipping Last Name"
+#~ msgstr "Nachname"
+
+#~ msgid "Shipping Name"
+#~ msgstr "Name"
+
+#~ msgid "Shipping Street"
+#~ msgstr "Strasse"
+
+#~ msgid "Shipping Zipcode"
+#~ msgstr "PLZ"
+
+#~ msgid "Shippping City"
+#~ msgstr "Stadt"
+
+#~ msgid "Shipping Country"
+#~ msgstr "Land"
+
+#~ msgid "Customer Phone"
+#~ msgstr "Telefon"
+
+#~ msgid "Customer Email"
+#~ msgstr "Email"
+
+#~ msgid "Billing Is Company"
+#~ msgstr "Firma"
+
+#~ msgid "Shipping Is Company"
+#~ msgstr "Firma"
+
+#~ msgid "Agree Terms"
+#~ msgstr "Ich stimme den AGB zu"
+
+#~ msgid "Agree Newsletter"
+#~ msgstr "Ich möchte den Newsletter erhalten"
+
+#~ msgid "No payment type selected"
+#~ msgstr "Keine Zahlungsmethode ausgewählt"
+
+#~ msgid "No shipping type selected"
+#~ msgstr "Keine Liefermethode ausgewählt"
+
+#~ msgid "View PDF"
+#~ msgstr "PDF ansehen"
+
+#~ msgid "Download PDF"
+#~ msgstr "PDF herunterladen"
+
+#~ msgid "{0} version"
+#~ msgstr "Version {0}"
+
+#~ msgid "Order process canceled. No order found."
+#~ msgstr "Bestellung abgebrochen: Bestellung nicht gefunden"
+
+#~ msgid "Login successful"
+#~ msgstr "Anmeldung erfolgreich"
+
+#~ msgid "Ups. Something went wrong. Please try again."
+#~ msgstr "Ups. Da ist etwas schiefgegangen. Bitte nochmal probieren."
+
+#~ msgid "Ups. Something went wrong. Please try again"
+#~ msgstr "Ups. Da ist etwas schiefgegangen. Bitte nochmal probieren."
+
+#~ msgid "Shipping information has been updated"
+#~ msgstr "Versandauswahl wurde aktualisiert"
+
+#~ msgid "Payment information has been updated"
+#~ msgstr "Bezahlauswahl wurde aktualisiert"
+
+#~ msgid "VAT ID: {0}"
+#~ msgstr "Steuernummer: {0}"
+
+#~ msgid "Shop Products ({0})"
+#~ msgstr "Produkte ({0})"
+
+#~ msgid "Edit English version"
+#~ msgstr "Englische Version bearbeiten"
+
+#~ msgid "Login required"
+#~ msgstr "Bitten melden Sie sich an"
+
+#~ msgid ""
+#~ "Sorry, but we are unable to process your order at the moment. Please try "
+#~ "again later."
+#~ msgstr ""
+#~ "Entschuldigen Sie, wir können Ihre Bestellung zur Zeit nicht durchführen. "
+#~ "Bitte versuchen Sie es später nocheinmal."
+
+#~ msgid "No items in cart"
+#~ msgstr "Keine Artikel im Warenkorb"
+
+#~ msgid "New Customer"
+#~ msgstr "Neuer Kunde"
+
+#~ msgid "Continue as guest"
+#~ msgstr "Ohne Registrierung fortfahren"
+
+#~ msgid "Terms"
+#~ msgstr "Bedingungen"
+
+#~ msgid "Agree to Terms & Conditions"
+#~ msgstr "Ich stimme den Allgemeinen Geschäftsbedingungen zu"
+
+#~ msgid "Select shipping address"
+#~ msgstr "Lieferadresse wählen"
+
+#~ msgid "Change shipping address"
+#~ msgstr "Lieferadresse ändern"
+
+#~ msgid "Stored addresses"
+#~ msgstr "Gespeicherte Adressen"
+
+#~ msgid "Ship to this address"
+#~ msgstr "Lieferung an diese Adresse"
+
+#~ msgid "Add new shipping address"
+#~ msgstr "Neue Lieferadresse hinzufügen"
+
+#~ msgid "Select shipping method"
+#~ msgstr "Versandart wählen"
+
+#~ msgid ""
+#~ "We are sorry, but the payment page is currently not available. Please try "
+#~ "again later."
+#~ msgstr ""
+#~ "Es tut uns leid :( Die Zahlung steht zur Zeit nicht zur Verfügung. Bitte "
+#~ "versuchen Sie es später nocheinmal."
+
+#~ msgid "This option is mandatory"
+#~ msgstr "Das ist ein Pflichtfeld"
+
+#~ msgid "Addressbook"
+#~ msgstr "Adressbuch"
+
+#~ msgid "No address set"
+#~ msgstr "Keine Adresse gewählt"
+
+#~ msgid "Customer signup successful"
+#~ msgstr "Ihre Registrierung war erfolgreich"
+
+#~ msgid "Customer login after signup failed"
+#~ msgstr "Automatischer Kundenlogin nach Registrierung ist fehlgeschlagen"
+
+#~ msgid "Customer signup failed"
+#~ msgstr "Die Registrierung ist leider fehlgeschlagen"
+
+#~ msgid "Please select your prefered shipping method"
+#~ msgstr "Bitte wählen Sie Ihre bevorzugte Versandart"
+
+#~ msgid "Invalid password"
+#~ msgstr "Ungültiges Passwort"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Die Passwörter stimmen nicht überein"
+
+#~ msgid "Password too short. Minimum {0} characters"
+#~ msgstr "Passwort zu kurz. Mindestens {0} Zeichen"
+
+#~ msgid "Password contains illegal characters"
+#~ msgstr "Passwort beinhaltet ungülte Zeichen"
+
+#~ msgid "The passwords do not match"
+#~ msgstr "Die Passwörter stimmen nicht überein"
+
+#~ msgid "Email for notifications"
+#~ msgstr "Emailadresse für Benachrichtigungen"
+
+#~ msgid "New order"
+#~ msgstr "Neue Bestellung"
+
+#~ msgid "Please select your preferred payment method"
+#~ msgstr "Bitte wählen Sie Ihre bevorzugte Zahlungsart"
+
+#~ msgid "Please fill all the required fields"
+#~ msgstr "Bitte füllen Sie alle Pflichtfelder aus."
+
+#~ msgid "login"
+#~ msgstr "Anmelden"
+
+#~ msgid "Thank you for your order!"
+#~ msgstr "Vielen Dank für Ihre Bestellung!"
+
+#~ msgid "Go back to shop"
+#~ msgstr "Zurück zum Shop"
+
+#~ msgid "View order details"
+#~ msgstr "Bestellungsdetails ansehen"
+
+#~ msgid "Reference number: #{0}"
+#~ msgstr "Referenznr. #{0}"
+
+#~ msgid "Failed to add item to cart"
+#~ msgstr "Fehler beim Hinzufügen des Artikel zum Warenkorb"
+
+#~ msgid "Remove Image"
+#~ msgstr "Bild entfernen"
+
+#~ msgid "Open"
+#~ msgstr "Öffnen"
+
+#~ msgid "Sure ?"
+#~ msgstr "Sicher?"
+
+#~ msgid "Greeting"
+#~ msgstr "Anrede"
+
+#~ msgid "Phone"
+#~ msgstr "Telefon"
+
+#~ msgid "ShopAddresses"
+#~ msgstr "Adressen"
+
+#~ msgid "Shop Customer Id"
+#~ msgstr "Kunden Id"
+
+#~ msgid "Street1"
+#~ msgstr "Straße"
+
+#~ msgid "Billing Address Id"
+#~ msgstr "Rechnungsadresse Id"
+
+#~ msgid "Shipping Address Id"
+#~ msgstr "Lieferadresse Id"
+
+#~ msgid "Continue Shopping"
+#~ msgstr "Weiter Einkaufen"
+
+#~ msgid "Billing"
+#~ msgstr "Rechnungsinfo"
+
+#~ msgid "Change billing address"
+#~ msgstr "Rechnungsadresse ändern"
+
+#~ msgid "Select address"
+#~ msgstr "Rechnungsadresse wählen"
+
+#~ msgid "Add billing address and continue"
+#~ msgstr "Rechnungsadresse hinzufügen und weiter"
+
+#~ msgid "Remove"
+#~ msgstr "Löschen"
+
+#~ msgid "Select Payment Method"
+#~ msgstr "Zahlungsart wählen"
+
+#~ msgid "Add shipping address and continue"
+#~ msgstr "Lieferadresse hinzufügen und weiter"
 
 #~ msgid "Refresh"
 #~ msgstr "Aktualisieren"
@@ -1842,9 +2841,6 @@ msgstr "Kategorie"
 
 #~ msgid "New customer has been added"
 #~ msgstr "Neuer Kunde wurde hinzugefügt"
-
-#~ msgid "View Order"
-#~ msgstr "Bestellung ansehen"
 
 #~ msgid "Added {0} {1} to cart"
 #~ msgstr "{0} {1} wurde dem Warenkorb hinzugefügt"

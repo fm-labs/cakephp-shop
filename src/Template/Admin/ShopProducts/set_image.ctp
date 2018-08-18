@@ -27,7 +27,7 @@
         'options' => $imageFiles,
         'class' => 'grouped',
         'id' => 'imagepicker-select',
-        'empty' => __d('banana','- Choose Image -'),
+        'empty' => __d('shop','- Choose Image -'),
     ]); ?>
 
 <?= $this->Form->submit('Save'); ?>
@@ -35,7 +35,7 @@
 </div>
 
 
-<?php $this->append('scriptBottom'); ?>
+<?php $this->append('script'); ?>
 <script>
 
     $('#imagepicker-on').click(function(e) {

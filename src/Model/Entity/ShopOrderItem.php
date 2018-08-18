@@ -1,8 +1,11 @@
 <?php
 namespace Shop\Model\Entity;
 
+use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Shop\Core\Product\ShopProductInterface;
+use Shop\Lib\Shop;
 
 /**
  * ShopOrderItem Entity.
@@ -41,6 +44,38 @@ class ShopOrderItem extends Entity
         'id' => false,
     ];
 
+    protected $_virtual = [
+        'product',
+        'title',
+        'sku',
+        'currency',
+        'base_currency',
+        'value_net',
+        'value_tax',
+        'value_total',
+    ];
+
+    /**
+     * @var ShopProductInterface
+     */
+    protected $_product;
+
+    public function requiresShipping()
+    {
+        return ($this->type === 'virtual') ? false : true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProcessed()
+    {
+        return (bool)$this->is_processed;
+    }
+
+    /**
+     * @return EntityInterface
+     */
     protected function _getRef()
     {
         if (!isset($this->_properties['ref'])) {
@@ -48,19 +83,90 @@ class ShopOrderItem extends Entity
             if (isset($this->_properties['refscope']) && isset($this->_properties['refid'])) {
                 $refscope = $this->_properties['refscope'];
                 $refid = $this->_properties['refid'];
-
-                $ref = TableRegistry::get($refscope)->get($refid);
+                try {
+                    $ref = TableRegistry::get($refscope)->find('product')->where(['id' => $refid])->first();
+                } catch (\Exception $ex) {
+                }
             }
             $this->_properties['ref'] = $ref;
         }
+
         return $this->_properties['ref'];
     }
 
-    protected function _getItemValueTaxed()
+    protected function _getSku()
     {
-        return $this->item_value_net * (1 + $this->tax_rate/100);
+        return ($this->getProduct()) ? $this->getProduct()->getSku() : null;
     }
 
+    protected function _getTitle()
+    {
+        if (!isset($this->_properties['title'])) {
+            $this->_properties['title'] = ($this->getProduct()) ? $this->getProduct()->getTitle() : null;
+        }
+
+        return $this->_properties['title'];
+    }
+
+    /**
+     * Get the currency for this order
+     *
+     * @return string
+     * @todo Implement currency support for orders
+     */
+    protected function _getCurrency()
+    {
+        //@TODO Implement shop order item currencies
+        return 'EUR';
+    }
+
+    /**
+     * Get the currency for this order
+     *
+     * @return string
+     * @todo Implement currency support for orders
+     */
+    protected function _getBaseCurrency()
+    {
+        return 'EUR';
+    }
+
+    /**
+     * @return float
+     */
+    protected function _getItemValueTaxed()
+    {
+        return $this->item_value_net * (1 + $this->tax_rate / 100);
+    }
+
+    protected function _getItemValueDisplay()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->item_value_net : $this->item_value_taxed;
+    }
+
+    /**
+     * Total net value
+     *
+     * @return float
+    protected function _getValueTotal()
+    {
+        return $this->item_value_net * $this->amount;
+    }
+     */
+
+    /**
+     * Total gros value
+     *
+     * @return float
+    protected function _getValueTotalTaxed()
+    {
+        return $this->item_value_net * $this->amount * (1 + $this->tax_rate/100);
+    }
+     */
+
+    /**
+     * @param $val
+     * @return float
     protected function _setAmount($val)
     {
         if ($val < 0) {
@@ -69,11 +175,55 @@ class ShopOrderItem extends Entity
 
         return $val;
     }
+     */
 
+    /**
+     * @return ShopProductInterface
+     */
+    public function getProduct()
+    {
+        $this->_getRef();
+        if (!$this->_properties['ref']) {
+            //throw new \RuntimeException(sprintf('ShopOrderItem: Referenced product item not loaded'));
+        }
+
+        if (!($this->_properties['ref'] instanceof ShopProductInterface)) {
+            //throw new \RuntimeException(sprintf('ShopOrderItem: %s is not an instance of ShopProductInterface',
+            //    get_class($this->_properties['ref'])));
+        }
+
+        return $this->_properties['ref'];
+    }
+
+    /**
+     * Calculate totals
+     * @return void
+     * @deprecated Use virtual fields instead
+     */
     public function calculate()
     {
         $this->value_net = $this->item_value_net * $this->amount;
-        $this->value_tax = $this->value_net * ($this->tax_rate/100);
+        $this->value_tax = $this->value_net * ($this->tax_rate / 100);
         $this->value_total = $this->value_net + $this->value_tax;
+    }
+
+    protected function _getValueNet()
+    {
+        return $this->item_value_net * $this->amount;
+    }
+
+    protected function _getValueTax()
+    {
+        return $this->value_net * ($this->tax_rate / 100);
+    }
+
+    protected function _getValueTotal()
+    {
+        return $this->value_net + $this->value_tax;
+    }
+
+    protected function _getValueDisplay()
+    {
+        return (Shop::config('Price.displayNet')) ? $this->value_net : $this->value_total;
     }
 }
