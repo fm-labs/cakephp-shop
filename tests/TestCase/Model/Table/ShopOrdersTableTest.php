@@ -5,8 +5,8 @@ use Cake\Core\Configure;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Shop\Event\CustomerListener;
-use Shop\Event\EmailNotificationListener;
+use Shop\Service\CustomerService;
+use Shop\Service\EmailNotificationService;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -55,8 +55,8 @@ class ShopOrdersTableTest extends TestCase
         parent::setUp();
         $config = TableRegistry::exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
         $this->ShopOrders = TableRegistry::get('ShopOrders', $config);
-        $this->ShopOrders->eventManager()->on(new CustomerListener());
-        $this->ShopOrders->eventManager()->on(new EmailNotificationListener());
+        $this->ShopOrders->eventManager()->on(new CustomerService());
+        $this->ShopOrders->eventManager()->on(new EmailNotificationService());
 
         // use custom ordergroup for testing
         Configure::write('Shop.Order.nrStart', 1000);
