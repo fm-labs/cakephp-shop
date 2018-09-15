@@ -32,6 +32,10 @@ class CustomerMailer extends Mailer
      */
     public function orderSubmission(ShopOrder $order)
     {
+        if (!$order->shop_customer || !$order->shop_customer->user) {
+            return;
+        }
+
         $this
             ->subject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
             ->to($order->shop_customer->user->email)
@@ -45,6 +49,10 @@ class CustomerMailer extends Mailer
      */
     public function orderConfirmation(ShopOrder $order)
     {
+        if (!$order->shop_customer || !$order->shop_customer->user) {
+            return;
+        }
+
         $this
             ->subject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
             ->to($order->shop_customer->user->email)
