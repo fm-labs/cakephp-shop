@@ -96,8 +96,8 @@ class ShopProductsController extends AppController
                 'type' => 'object',
                 'formatter' => 'media_file'
             ],
-            'type',
-            'sku',
+            'type' => [],
+            'sku' => [],
             'title'  => ['formatter' => function ($val, $row, $args, $view) {
                 return $view->Html->link(
                     $val,
@@ -128,9 +128,7 @@ class ShopProductsController extends AppController
         $this->set('ajax', true);
         $this->set('filter', false);
         $this->set('fields', $fields);
-        //$this->set('fields.whitelist', ['title', 'sku', 'price', 'preview_image_file', 'is_buyable', 'is_published']);
-        //$this->set('debug', true);
-
+        $this->set('fields.whitelist', array_keys($fields));
         $this->Action->execute();
     }
 

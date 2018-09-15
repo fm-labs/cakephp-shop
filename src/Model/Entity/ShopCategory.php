@@ -172,8 +172,9 @@ class ShopCategory extends Entity
         return TableRegistry::get('Shop.ShopCategories')
             ->find('all', ['media' => true])
             ->find('published')
-            ->find('children', ['for' => $this->id, 'direct' => true]);
+            ->find('children', ['for' => $this->id, 'direct' => true])
             //->find('media')
+            ->all();
     }
 
     /**

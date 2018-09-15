@@ -74,7 +74,7 @@ class ShopProduct extends Entity implements ShopProductInterface
             $Table = TableRegistry::get('Shop.ShopCategories');
             $category = $Table
                 ->find()
-                ->where(['id' => $this->shop_category_id])
+                ->where(['ShopCategories.id' => $this->shop_category_id])
                 ->contain([])
                 ->first();
 

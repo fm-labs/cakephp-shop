@@ -95,6 +95,7 @@ class ShopOrdersController extends AppController
             'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-right'],
             'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
         ]);
+        $this->set('fields.whitelist', ['submitted', 'nr_formatted', 'invoice_nr_formatted', 'shop_customer', 'order_value_total', 'status__status']);
 
         $this->Action->execute();
     }

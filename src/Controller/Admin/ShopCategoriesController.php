@@ -95,6 +95,7 @@ class ShopCategoriesController extends AppController
             }],
             'is_published'
         ]);
+        $this->set('fields.whitelist', ['name', 'featured_image_file', 'language', 'is_published']);
 
         /*
         $this->set('_actions', [
@@ -328,11 +329,15 @@ class ShopCategoriesController extends AppController
     public function relatedProducts($id = null)
     {
         $shopCategory = $this->ShopCategories->get($id, [
-            'contain' => ['ShopProducts'],
+            'contain' => [],
         ]);
 
+        $shopProducts = $this->ShopCategories->ShopProducts->find()
+            ->where(['shop_category_id' => $id]);
+
         $this->set('shopCategory', $shopCategory);
-        $this->set('_serialize', ['shopCategory']);
+        $this->set('shopProducts', $shopProducts);
+        $this->set('_serialize', ['shopCategory', 'shopProducts']);
     }
 
     /**
