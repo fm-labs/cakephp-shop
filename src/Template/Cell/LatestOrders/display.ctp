@@ -20,7 +20,7 @@ echo $this->cell('Backend.DataTable', [[
                 return $this->Number->currency($val, 'EUR');
             }
         ],
-        'status' => [
+        'status__status' => [
             'formatter' => 'status'
         ]
     ],

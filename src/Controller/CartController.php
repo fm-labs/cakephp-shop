@@ -162,7 +162,6 @@ class CartController extends AppController
         }
 
         if ($this->request->is(['post', 'put'])) {
-            debug($this->request->data);
             $order = $this->Cart->getOrder();
 
             $changed = [];

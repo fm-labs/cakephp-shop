@@ -9,6 +9,7 @@ $this->loadHelper('Bootstrap.Tabs');
 
 $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']);
 $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
+$this->extend('Backend./Base/form');
 ?>
 <?php /* $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),
@@ -54,7 +55,7 @@ $this->Toolbar->addLink(
     <!-- General -->
     <?php $this->Tabs->add(__d('shop', 'General')); ?>
 
-        <?= $this->Form->create($shopCategory, ['horizontal' => true]); ?>
+        <?= $this->Form->create($shopCategory, $this->get('form.options')); ?>
 
                 <?php //echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
 
@@ -111,9 +112,14 @@ $this->Toolbar->addLink(
                 ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
+                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
+                <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
+                <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
+                <?= $this->Form->fieldsetEnd(); ?>
+
                 <?= $this->Form->fieldsetStart([
                     'legend' => sprintf("%s %s", __d('shop','Published'), $this->Ui->statusLabel($shopCategory->is_published)),
-                    'collapsed' => false
+                    'collapsed' => true
                 ]); ?>
                 <?php
                 echo $this->Form->input('is_published');
@@ -121,13 +127,6 @@ $this->Toolbar->addLink(
                 echo $this->Form->input('publish_end_date', ['type' => 'datepicker']);
                 ?>
                 <?= $this->Form->fieldsetEnd(); ?>
-
-
-                <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
-                <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
-                <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
-                <?= $this->Form->fieldsetEnd(); ?>
-
         <?= $this->Form->button(__d('shop', 'Save Changes')) ?>
         <?= $this->Form->end() ?>
 

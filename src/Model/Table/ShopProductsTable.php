@@ -245,16 +245,18 @@ class ShopProductsTable extends Table
                 $customerDiscount = $ShopCustomerDiscounts->find()->where([
                     'shop_customer_id' => $options['for_customer'],
                     'shop_product_id' => $row['id'],
-                    'is_published' => true
-                ])->first();
+                    'is_published' => true,
+                    'min_amount <=' => 1
+                ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
 
                 // find customer discounts for parent product, if no product discount found
                 if (!$customerDiscount && $row['parent_id'] > 0 /* && $row['type'] == "child" */) {
                     $customerDiscount = $ShopCustomerDiscounts->find()->where([
                         'shop_customer_id' => $options['for_customer'],
                         'shop_product_id' => $row['parent_id'],
-                        'is_published' => true
-                    ])->first();
+                        'is_published' => true,
+                        'min_amount <=' => 1
+                    ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
                 }
 
                 // find customer discounts, if no product discount found
@@ -262,8 +264,9 @@ class ShopProductsTable extends Table
                     $customerDiscount = $ShopCustomerDiscounts->find()->where([
                         'shop_customer_id' => $options['for_customer'],
                         'shop_product_id IS' => null,
-                        'is_published' => true
-                    ])->first();
+                        'is_published' => true,
+                        'min_amount <=' => 1
+                    ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
                 }
 
                 // apply customer discount

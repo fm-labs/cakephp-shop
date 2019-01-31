@@ -27,7 +27,7 @@ class ShopCustomersTable extends Table
         parent::initialize($config);
 
         $this->table('shop_customers');
-        //$this->displayField('last_name');
+        $this->displayField('email');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -139,4 +139,5 @@ class ShopCustomersTable extends Table
 
         return $customer;
     }
+
 }

@@ -65,11 +65,20 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['pass' => []]
     );
 
+    $routes->connect('/customer/:action/*',
+        ['controller' => 'Customer', 'action' => 'index']
+    );
+    $routes->connect('/customer/:action',
+        ['controller' => 'Customer', 'action' => 'index']
+    );
     $routes->connect('/customer',
         ['controller' => 'Customer', 'action' => 'index'],
         ['_name' => 'customer']
     );
 
+    $routes->connect('/customer-addresses/:action/*',
+        ['controller' => 'CustomerAddresses', 'action' => 'index']
+    );
     $routes->connect('/customer-addresses/:action',
         ['controller' => 'CustomerAddresses', 'action' => 'index']
     );

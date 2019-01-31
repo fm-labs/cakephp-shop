@@ -97,4 +97,20 @@ class ShopCustomerDiscountsTable extends Table
 
         return $rules;
     }
+
+    public function listTypes()
+    {
+        return [
+            'permanent' => __('Permanent'),
+            //'single' => __('Single Usage')
+        ];
+    }
+
+    public function listValueTypes()
+    {
+        return [
+            'value' => __('Fixwert'),
+            'percent' => __('Prozent')
+        ];
+    }
 }

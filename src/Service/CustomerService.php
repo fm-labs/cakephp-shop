@@ -20,10 +20,10 @@ class CustomerService extends BaseService
     public function implementedEvents()
     {
         return [
-            'User.login'                    => 'onUserLogin',
-            'User.logout'                   => 'onUserLogout',
-            'User.Model.User.register'      => 'onUserRegister',
-            'Shop.Model.Order.afterSubmit'  => 'afterOrderSubmit'
+            'User.Auth.login' => 'onUserLogin',
+            'User.Auth.logout' => 'onUserLogout',
+            'User.Model.User.register' => 'onUserRegister',
+            'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit'
             //'Auth.identifyUser' => 'onUserLogin', // <-- Hmm, can't capture this event...
             //'Auth.logout' => 'onUserLogout',
         ];

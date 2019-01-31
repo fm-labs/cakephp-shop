@@ -187,38 +187,19 @@ class ShopOrdersController extends AppController
             ]
         ]);
 
-        /*
-        $this->set('tabs', [
-            'order-items' => [
-                'title' => __d('shop', 'Order Items'),
-                'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]
-            ],
-            'order-transactions' => [
-                'title' => __d('shop', 'Transactions'),
-                'url' => ['controller' => 'ShopOrderTransactions', 'action' => 'index', 'shop_order_id' => $shopOrder->id]
-            ],
-            //'raw' => [
-            //    'title' => __d('shop', 'Raw Data'),
-            //    'url' => ['plugin' => 'Backend', 'controller' => 'Entity', 'action' => 'view', 'Shop.ShopOrders', $shopOrder->id]
-            //]
-        ]);
-        */
-
-        //$this->set('template', 'view');
-
-        //$this->noActionTemplate = true;
         $this->Action->execute();
     }
 
     public function viewOrder($id = null)
     {
+        Configure::write('debug', true);
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
             'status' => true
         ]);
         $this->set('entity', $shopOrder);
         $this->set('_serialize', 'entity');
-        $this->Action->execute();
+        $this->Action->execute('view');
     }
 
     public function viewInvoice($id = null)

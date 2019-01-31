@@ -66,7 +66,7 @@ class ShopProductsController extends AppController
             //'maxLimit' => 200,
             //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published', 'ShopCategories.name'],
             //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
-            'order' => ['ShopProducts.shop_category_id' => 'ASC', 'ShopProducts.title' => 'ASC'],
+            'order' => [/*'ShopProducts.shop_category_id' => 'ASC',*/ 'ShopProducts.title' => 'ASC'],
             //'contain' => ['ShopCategories'],
             'media' => true
         ];

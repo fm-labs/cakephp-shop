@@ -296,6 +296,7 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
 
     public function backendRoutes(RouteBuilder $routes)
     {
+        $routes->connect('/', ['controller' => 'ShopOrders', 'action' => 'index']);
         $routes->fallbacks('DashedRoute');
     }
 
@@ -303,6 +304,7 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
     {
         $eventManager = EventManager::instance();
         $eventManager->on(new \Shop\Service\CartService());
+        $eventManager->on(new \Shop\Service\ShopRulesService());
         $eventManager->on(new \Shop\Service\CustomerService());
         $eventManager->on(new \Shop\Service\PaymentService());
         $eventManager->on(new \Shop\Service\EmailNotificationService());

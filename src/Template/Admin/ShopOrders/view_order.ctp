@@ -1,5 +1,16 @@
 <?php $this->loadHelper('Number'); ?>
 <?php $this->loadHelper('Banana.Status'); ?>
+<?php $this->loadHelper('Bootstrap.Button'); ?>
+<?php $this->extend('Backend./Base/form'); ?>
+<style>
+    .invoice {
+        position: relative;
+        background: #fff;
+        border: 1px solid #f4f4f4;
+        padding: 20px;
+        margin: 10px 25px;
+    }
+</style>
 <div class="view">
 
     <section class="invoice">
@@ -8,7 +19,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <?= __d('shop', 'Order'); ?>  <?= h($entity->nr_formatted); ?>
-                    <small class="pull-right"><?= __d('shop','Ordered') ?>: <?= h($entity->submitted); ?></small>
+                    <small class="pull-right"><?= __d('shop', 'Ordered') ?>: <?= h($entity->submitted); ?></small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -26,14 +37,14 @@
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <b><?= __d('shop','Order ID'); ?>:</b> <?= h($entity->nr_formatted); ?><br>
-                <b><?= __d('shop','Order Date'); ?>:</b> <?= $this->Time->nice($entity->submitted); ?><br>
+                <b><?= __d('shop', 'Order ID'); ?>:</b> <?= h($entity->nr_formatted); ?><br>
+                <b><?= __d('shop', 'Order Date'); ?>:</b> <?= $this->Time->nice($entity->submitted); ?><br>
                 <?php if ($entity->shop_customer): ?>
-                <b><?= __d('shop','Customer'); ?>:</b> <?= $this->Html->link($entity->shop_customer->display_name,
+                <b><?= __d('shop', 'Customer'); ?>:</b> <?= $this->Html->link($entity->shop_customer->display_name,
                     [ 'controller' => 'ShopCustomers', 'action' => 'view', $entity->shop_customer_id]); ?>
                 <?php endif; ?>
                 <br /><br />
-                <b><?= __d('shop','Status'); ?>:</b> <?= $this->Status->label($entity->status__status); ?>
+                <b><?= __d('shop', 'Status'); ?>:</b> <?= $this->Status->label($entity->status__status); ?>
             </div>
             <!-- /.col -->
         </div>
@@ -62,11 +73,11 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th><?= __d('shop','Pos'); ?></th>
-                        <th><?= __d('shop','Qty'); ?></th>
-                        <th><?= __d('shop','Serial'); ?></th>
-                        <th><?= __d('shop','Product'); ?></th>
-                        <th class="text-right"><?= __d('shop','Subtotal'); ?></th>
+                        <th><?= __d('shop', 'Pos'); ?></th>
+                        <th><?= __d('shop', 'Qty'); ?></th>
+                        <th><?= __d('shop', 'Serial'); ?></th>
+                        <th><?= __d('shop', 'Product'); ?></th>
+                        <th class="text-right"><?= __d('shop', 'Subtotal'); ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -100,27 +111,27 @@
                     <table class="table table-condensed">
                         <tbody>
                         <tr class="text-right">
-                            <th style="width:50%"><?= __d('shop','Subtotal') ?>:</th>
+                            <th style="width:50%"><?= __d('shop', 'Subtotal') ?>:</th>
                             <td><?= $this->Number->currency($entity->items_value_net, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th><?= __d('shop','Shipping') ?>:</th>
+                            <th><?= __d('shop', 'Shipping') ?>:</th>
                             <td><?= $this->Number->currency($entity->shipping_value_net, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th><?= __d('shop','Tax') ?>:</th>
+                            <th><?= __d('shop', 'Tax') ?>:</th>
                             <td><?= $this->Number->currency($entity->items_value_tax, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th><?= __d('shop','Total') ?>:</th>
+                            <th><?= __d('shop', 'Total') ?>:</th>
                             <td><?= $this->Number->currency($entity->items_value_taxed, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th><?= __d('shop','Discount') ?>:</th>
+                            <th><?= __d('shop', 'Discount') ?>:</th>
                             <td><?= $this->Number->currency($entity->coupon_value, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-right">
-                            <th><?= __d('shop','Order total') ?>:</th>
+                            <th><?= __d('shop', 'Order total') ?>:</th>
                             <td><?= $this->Number->currency($entity->order_value_total, $entity->currency); ?></td>
                         </tr>
                         </tbody>
@@ -137,10 +148,10 @@
 
                 <h3 class="page-header">
                     <?= __d('shop', 'Payment'); ?>
-                    <small class="pull-right"><?= __d('shop','Payed') ?>: <?= h($entity->payed); ?></small>
+                    <small class="pull-right"><?= __d('shop', 'Payed') ?>: <?= h($entity->payed); ?></small>
                 </h3>
 
-                <h4><?= __d('shop','Payment Type'); ?></h4>
+                <h4><?= __d('shop', 'Payment Type'); ?></h4>
                 <p><?= h($entity->payment_type); ?></p>
                 <?php
                 $element = 'Shop.Admin/Payment/' . $entity->payment_type . '/order';
@@ -159,7 +170,7 @@
                     <small class="pull-right"><?= __d('shop', 'Delivered'); ?>: <?= h($entity->delivered); ?></small>
                 </h3>
 
-                <h4><?= __d('shop','Shipping Type'); ?></h4>
+                <h4><?= __d('shop', 'Shipping Type'); ?></h4>
                 <p><?= h($entity->shipping_type); ?></p>
                 <?php
                 $element = 'Shop.Admin/Shipping/' . $entity->shipping_type . '/order';
@@ -177,21 +188,17 @@
         <!-- this row will not appear when printing -->
         <div class="row no-print">
             <div class="col-xs-12">
-                <!--
                 <?= $this->Button->link(__d('shop', 'Print'),
                     ['action' => 'printview', $entity->id, 'mode' => 'order'],
                     ['data-icon' => 'print', 'target' => '_blank', 'class' => 'pull-right']); ?>
-                -->
 
                 <?= $this->Button->link(__d('shop', 'Generate Order PDF'),
                     ['action' => 'pdfview', $entity->id, 'mode' => 'order'],
                     ['data-icon' => 'file-pdf-o', 'target' => '_blank', 'type' => 'primary', 'class' => '']); ?>
 
-                <!--
                 <?= $this->Button->link(__d('shop', 'Send Order confirmation'),
                     ['action' => 'sendorder', $entity->id, 'mode' => 'invoice'],
                     ['data-icon' => 'envelope-o']); ?>
-                -->
             </div>
         </div>
     </section>
@@ -202,7 +209,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <?= __d('shop', 'Invoice'); ?> <?= h($entity->invoice_nr_formatted); ?>
-                    <small class="pull-right"><?= __d('shop','Invoiced') ?>: <?= h($entity->invoiced); ?></small>
+                    <small class="pull-right"><?= __d('shop', 'Invoiced') ?>: <?= h($entity->invoiced); ?></small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -212,8 +219,8 @@
         <div class="row" style="margin-bottom: 2em;">
             <!-- accepted payments column -->
             <div class="col-xs-6">
-                <b><?= __d('shop','Invoice #') ?>:</b> <?= h($entity->invoice_nr_formatted); ?><br>
-                <b><?= __d('shop','Invoice date') ?>:</b> <?= h($entity->invoiced); ?><br>
+                <b><?= __d('shop', 'Invoice #') ?>:</b> <?= h($entity->invoice_nr_formatted); ?><br>
+                <b><?= __d('shop', 'Invoice date') ?>:</b> <?= h($entity->invoiced); ?><br>
             </div>
             <!-- /.col -->
             <div class="col-xs-6">

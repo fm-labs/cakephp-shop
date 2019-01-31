@@ -1,8 +1,6 @@
 <?php
 namespace Shop\Controller\Admin;
 
-use Shop\Controller\Admin\AppController;
-
 /**
  * ShopCustomerDiscounts Controller
  *
@@ -10,7 +8,6 @@ use Shop\Controller\Admin\AppController;
  */
 class ShopCustomerDiscountsController extends AppController
 {
-
     /**
      * Index method
      *
@@ -19,23 +16,50 @@ class ShopCustomerDiscountsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopCustomers', 'ShopProducts']
+            'contain' => ['ShopCustomers', 'ShopProducts'],
+            'limit' => 100,
+            'order' => ['shop_customer_id' => 'ASC', 'shop_product_id' => 'ASC']
         ];
 
         $this->set('fields', [
             'id' => [],
             'shop_customer' => ['formatter' => function ($val, $row, $args, $view) {
-                return ($val) ? $val->display_name : null;
+                return ($val)
+                    ? $view->Html->link($val->display_name, ['controller' => 'ShopCustomers', 'action' => 'view', $val->id])
+                    : __('All customers');
             }],
-            'shop_product_id' => ['formatter' => function ($val, $row, $args, $view) {
-                return ($val) ? $row->shop_product->title : null;
+            'shop_product' => ['formatter' => function ($val, $row, $args, $view) {
+                return ($val)
+                    ? $view->Html->link($val->title, ['controller' => 'ShopProducts', 'action' => 'view', $val->id])
+                    : __('All products');
             }],
-            'type' => [],
             'valuetype' => [],
             'value' => [],
-
+            'min_amount',
+            'is_published'
         ]);
-        $this->set('fields.whitelist', true);
+        $this->set('fields.blacklist', ['publish_start', 'publish_end']);
+
+        $this->Action->execute();
+    }
+
+    public function add()
+    {
+        $this->set('types', $this->ShopCustomerDiscounts->listTypes());
+        $this->set('valuetypes', $this->ShopCustomerDiscounts->listValueTypes());
+        //$this->set('shopCustomers', $this->ShopCustomerDiscounts->ShopCustomers->find('list'));
+        //$this->set('shopProducts', $this->ShopCustomerDiscounts->ShopProducts->find('list'));
+        $this->set('fields.blacklist', ['publish_start', 'publish_end']);
+        $this->Action->execute();
+    }
+
+    public function edit()
+    {
+        $this->set('types', $this->ShopCustomerDiscounts->listTypes());
+        $this->set('valuetypes', $this->ShopCustomerDiscounts->listValueTypes());
+        //$this->set('shopCustomers', $this->ShopCustomerDiscounts->ShopCustomers->find('list'));
+        //$this->set('shopProducts', $this->ShopCustomerDiscounts->ShopProducts->find('list'));
+        $this->set('fields.blacklist', ['publish_start', 'publish_end']);
         $this->Action->execute();
     }
 }

@@ -15,8 +15,8 @@ class CartService extends BaseService
             'Shop.Cart.afterItemUpdate' => 'afterUpdate',
             'Shop.Cart.beforeItemDelete' => 'beforeDelete',
             'Shop.Cart.afterItemDelete' => 'afterDelete',
-            'User.login' => 'onUserLogin',
-            'User.logout' => 'onUserLogout'
+            'User.Auth.login' => 'onUserLogin',
+            'User.Auth.logout' => 'onUserLogout'
         ];
     }
 

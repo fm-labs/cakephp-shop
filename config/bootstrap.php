@@ -31,7 +31,8 @@ if (!Log::config('shop')) {
  * Load default config
  */
 Configure::load('Shop.content');
-Configure::load('Shop.shop');
+Configure::load('Shop.html_editor');
+//Configure::load('Shop.shop');
 
 /**
  * Register classes

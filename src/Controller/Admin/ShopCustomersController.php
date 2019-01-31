@@ -71,7 +71,7 @@ class ShopCustomersController extends AppController
      */
     public function view($id = null)
     {
-        $entity = $this->ShopCustomers->get($id, ['contain' => [/*'Countries',*/ 'ShopCustomerAddresses' => ['Countries'], 'ShopCustomerDiscounts']]);
+        $entity = $this->ShopCustomers->get($id, ['contain' => [ 'Users', /*'Countries',*/ 'ShopCustomerAddresses' => ['Countries'], 'ShopCustomerDiscounts']]);
         $this->set('entity', $entity);
         $this->set('related', [
             'ShopCustomerAddresses' => [
