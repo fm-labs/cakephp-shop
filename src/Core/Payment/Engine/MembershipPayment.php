@@ -60,7 +60,7 @@ class MembershipPayment implements PaymentEngineInterface
     {
         //debug($transaction);
         //debug($order);
-        //$Payment->getController()->Flash->error(__('Membership Payment is not activated yet'));
+        //$Payment->getController()->Flash->error(__d('shop', 'Membership Payment is not activated yet'));
 
         if ($order->status == ShopOrdersTable::ORDER_STATUS_SUBMITTED || $order->status == ShopOrdersTable::ORDER_STATUS_PENDING) {
 

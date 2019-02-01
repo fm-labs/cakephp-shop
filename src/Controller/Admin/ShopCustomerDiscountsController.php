@@ -26,12 +26,12 @@ class ShopCustomerDiscountsController extends AppController
             'shop_customer' => ['formatter' => function ($val, $row, $args, $view) {
                 return ($val)
                     ? $view->Html->link($val->display_name, ['controller' => 'ShopCustomers', 'action' => 'view', $val->id])
-                    : __('All customers');
+                    : __d('shop', 'All customers');
             }],
             'shop_product' => ['formatter' => function ($val, $row, $args, $view) {
                 return ($val)
                     ? $view->Html->link($val->title, ['controller' => 'ShopProducts', 'action' => 'view', $val->id])
-                    : __('All products');
+                    : __d('shop', 'All products');
             }],
             'valuetype' => [],
             'value' => [],

@@ -101,16 +101,16 @@ class ShopCustomerDiscountsTable extends Table
     public function listTypes()
     {
         return [
-            'permanent' => __('Permanent'),
-            //'single' => __('Single Usage')
+            'permanent' => __d('shop', 'Permanent'),
+            //'single' => __d('shop', 'Single Usage')
         ];
     }
 
     public function listValueTypes()
     {
         return [
-            'value' => __('Fixwert'),
-            'percent' => __('Prozent')
+            'value' => __d('shop', 'Fixwert'),
+            'percent' => __d('shop', 'Prozent')
         ];
     }
 }
