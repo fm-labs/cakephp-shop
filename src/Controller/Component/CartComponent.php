@@ -206,19 +206,18 @@ class CartComponent extends Component
     {
         $this->_resumeOrder(['create' => true]);
 
-        if (!isset($item['refid'])) {
-            throw new \InvalidArgumentException('CartComponent:addItem: RefId missing');
-        }
-
         $item = array_merge([
             'shop_order_id' => $this->order->id,
             'refscope' => 'Shop.ShopProducts',
             'refid' => null,
-            'amount' => 1,
+            'amount' => 0
         ], $item);
 
+        if (!isset($item['refid'])) {
+            throw new \InvalidArgumentException('RefId missing');
+        }
         if ($item['amount'] < 0) {
-            $item['amount'] = abs($item['amount']);
+            throw new \InvalidArgumentException('Negative value not accepted');
         }
 
         $orderItem = null;
@@ -238,35 +237,71 @@ class CartComponent extends Component
                 'unit' => ($product->getUnit()) ?: 'x', // @deprecated. Redundant information. Can be resolved from product data.
                 'item_value_original_net' => $product->getPrice(),
                 'item_value_net' => $product->getPrice(),
-                'tax_rate' => $product->getTaxRate()
+                'tax_rate' => $product->getTaxRate(),
+                'amount' => 1
             ];
 
             $orderItem = $this->ShopOrders->ShopOrderItems->newEntity($item, ['validate' => true]);
             $orderItem->calculate();
-        } elseif ($orderItem && $item['amount'] == 0) {
-            return $this->removeItem($orderItem);
         } else {
             $item['amount'] += $orderItem->amount;
-
-            return $this->updateItem($orderItem, $item);
         }
-
-        //$this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.beforeItemAdd', $this, ['item' => $orderItem]));
-        //$orderItem->calculate();
-        if (!$this->ShopOrders->ShopOrderItems->save($orderItem)) {
-            debug($orderItem->errors());
-            Log::debug('Failed to add order item to order with ID ' . $this->order->id);
-            throw new Exception('Failed to add order item to order with ID ' . $this->order->id);
-        }
-
-        $this->reloadOrder();
+        $orderItem = $this->updateItem($orderItem, $item);
 
         $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
             'item' => $orderItem
         ]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
 
-        return true;
+        return $orderItem;
+    }
+
+    /**
+     * @param $orderItem
+     * @param array $data
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
+    public function updateItem($orderItem, $data = [])
+    {
+        if (isset($data['amount']) && $data['amount'] == 0) {
+            return $this->removeItem($orderItem);
+        }
+
+        $orderItem->accessible('shop_order_id', false);
+        $orderItem->accessible('refscope', false);
+        $orderItem->accessible('refid', false);
+
+        $event = $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
+            'item' => $orderItem,
+            'data' => $data,
+            'customer' => $this->Shop->getCustomer()
+        ]));
+
+        $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $event->data['data']);
+        $orderItem->calculate();
+        $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
+
+        $this->reloadOrder();
+
+        $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
+            'item' => $orderItem,
+            'data' => $data,
+            'customer' => $this->Shop->getCustomer()
+        ]));
+
+        return $success;
+    }
+
+    /**
+     * @param $orderItemId
+     * @param array $data
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
+    public function updateItemById($orderItemId, $data = [])
+    {
+        $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
+
+        return $this->updateItem($orderItem, $data);
     }
 
     /**
@@ -295,49 +330,6 @@ class CartComponent extends Component
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
 
         return $this->removeItem($orderItem);
-    }
-
-    /**
-     * @param $orderItem
-     * @param array $data
-     * @return bool|\Cake\Datasource\EntityInterface|mixed
-     */
-    public function updateItem($orderItem, $data = [])
-    {
-        $orderItem->accessible('shop_order_id', false);
-        $orderItem->accessible('refscope', false);
-        $orderItem->accessible('refid', false);
-
-        $event = $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
-            'item' => $orderItem,
-            'data' => $data,
-            'customer' => $this->Shop->getCustomer()
-        ]));
-
-        $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $event->data['data']);
-        $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
-
-        $this->reloadOrder();
-
-        $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
-            'item' => $orderItem,
-            'data' => $data,
-            'customer' => $this->Shop->getCustomer()
-        ]));
-
-        return $success;
-    }
-
-    /**
-     * @param $orderItemId
-     * @param array $data
-     * @return bool|\Cake\Datasource\EntityInterface|mixed
-     */
-    public function updateItemById($orderItemId, $data = [])
-    {
-        $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
-
-        return $this->updateItem($orderItem, $data);
     }
 
     /**

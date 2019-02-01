@@ -30,6 +30,7 @@ class ShopRulesService implements EventListenerInterface
         $priceNet = $product->getPrice();
 
         if (Shop::config('Shop.CustomerDiscounts.enabled') == true && $customer) {
+            debug("discounts");
             $ShopCustomerDiscounts = TableRegistry::get('Shop.ShopCustomerDiscounts');
 
             // find customer discounts for specific product
@@ -39,6 +40,7 @@ class ShopRulesService implements EventListenerInterface
                 'is_published' => true,
                 'min_amount <=' => $data['amount']
             ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
+            debug($customerDiscount);
 
             // find customer discounts for parent product, if no product discount found
             if (!$customerDiscount && $product['parent_id'] > 0 /* && $row['type'] == "child" */) {
@@ -48,6 +50,7 @@ class ShopRulesService implements EventListenerInterface
                     'is_published' => true,
                     'min_amount <=' => $data['amount']
                 ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
+                debug($customerDiscount);
             }
 
             // find customer discounts, if no product discount found
@@ -58,6 +61,7 @@ class ShopRulesService implements EventListenerInterface
                     'is_published' => true,
                     'min_amount <=' => $data['amount']
                 ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
+                debug($customerDiscount);
             }
 
             // apply customer discount
