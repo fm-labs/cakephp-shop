@@ -34,11 +34,11 @@ class CustomerService extends BaseService
      */
     public function onUserRegister(Event $event)
     {
-        $user = $event->subject();
+        $user = $event->data['user'];
         $customer = null;
 
         try {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUser($user, $event->data());
+            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUser($user, $event->data['data']);
         } catch (\Exception $ex) {
             Log::error('CustomerEventListener::onUserRegister: ' . $ex->getMessage());
         }
