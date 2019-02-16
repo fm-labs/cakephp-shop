@@ -21,8 +21,8 @@ class CategoriesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.content.page_metas',
-        'plugin.media.media_attachments',
+        //'plugin.content.page_metas',
+        //'plugin.media.media_attachments',
         'plugin.shop.shop_orders',
         'plugin.shop.shop_customers',
         'plugin.shop.shop_customer_addresses',

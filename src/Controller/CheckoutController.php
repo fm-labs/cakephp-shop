@@ -39,8 +39,7 @@ class CheckoutController extends AppController
     }
 
     /**
-     * @param Event $event
-     * @return \Cake\Network\Response|null|void
+     * {@inheritDoc}
      */
     public function beforeFilter(Event $event)
     {
@@ -49,8 +48,7 @@ class CheckoutController extends AppController
     }
 
     /**
-     * @param Event $event
-     * @return \Cake\Network\Response|null|void
+     * {@inheritDoc}
      */
     public function beforeRender(Event $event)
     {

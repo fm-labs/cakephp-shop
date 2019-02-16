@@ -51,6 +51,9 @@ class CheckoutControllerTest extends IntegrationTestCase
      */
     public $ShopOrders;
 
+    /**
+     * {@inheritDoc}
+     */
     public function setUp()
     {
         parent::setUp();
@@ -119,7 +122,7 @@ class CheckoutControllerTest extends IntegrationTestCase
     private function _setupCart($orderId = 1, array $orderData = [])
     {
         $order = $this->ShopOrders->get($orderId, ['contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'ShopOrderAddresses']]);
-        foreach($orderData as $k => $v) {
+        foreach ($orderData as $k => $v) {
             $order->$k = $v;
         }
 
@@ -146,6 +149,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
     /**
      * Test checkout with empty cart
+     * @return void
      */
     public function testCheckoutWithEmptyCart()
     {
@@ -155,6 +159,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
     /**
      * Test checkout
+     * @return void
      */
     public function testCheckout()
     {
@@ -166,6 +171,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
     /**
      * Test customer signup during checkout process
+     * @return void
      */
     public function testCustomerSignup()
     {
@@ -202,6 +208,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
     /**
      * Test customer login during checkout process
+     * @return void
      */
     public function testCustomerLogin()
     {
@@ -250,6 +257,7 @@ class CheckoutControllerTest extends IntegrationTestCase
 
     /**
      * Test checkout shipping address step
+     * @return void
      */
     public function testShippingAddress()
     {
