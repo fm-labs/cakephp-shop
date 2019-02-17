@@ -67,6 +67,7 @@ class CategoriesController extends AppController
         if ($id === null && Configure::read('Shop.Catalogue.index_category_id')) {
             $id = Configure::read('Shop.Catalogue.index_category_id');
             $this->redirect(['action' => 'view', $id]);
+
             return;
         }
 

@@ -139,5 +139,4 @@ class ShopCustomersTable extends Table
 
         return $customer;
     }
-
 }

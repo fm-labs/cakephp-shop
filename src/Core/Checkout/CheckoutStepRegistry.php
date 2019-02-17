@@ -139,6 +139,7 @@ class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \Seekabl
         if ($this->_current === null) {
             $this->rewind();
         }
+
         return $this->_current;
     }
 

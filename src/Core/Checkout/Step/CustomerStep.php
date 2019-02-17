@@ -57,7 +57,6 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
         //  POST request
         if ($controller->request->is(['put', 'post'])) {
-
             // try to authenticate user
             $controller->Auth->login();
 
@@ -120,7 +119,6 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
             //$customer = $controller->ShopCustomers->add($customer, $controller->request->data);
             $user = $controller->ShopCustomers->Users->register($controller->request->data);
             if ($user && $user->id) {
-
                 // authenticate user
                 // @TODO Make 'automatic user login after signup' configurable
                 //$userQuery = $controller->ShopCustomers->Users->find()->where(['Users.id' => $customer->user_id]);

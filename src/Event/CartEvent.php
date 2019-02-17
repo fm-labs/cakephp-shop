@@ -66,6 +66,4 @@ class CartEvent extends Event
     {
         return $this->getCart()->getProduct($this->data['item']['refid'], $this->data['item']['refscope']);
     }
-
-
 }

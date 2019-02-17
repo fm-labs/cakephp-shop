@@ -212,7 +212,6 @@ class ShopCategoriesTable extends Table
         Cache::clear(false, 'content_menu');
     }
 
-
     /**
      * @return Collection
      */
@@ -233,7 +232,6 @@ class ShopCategoriesTable extends Table
     protected function _buildSitemap(&$locations, $categories, $level = 0)
     {
         foreach ($categories as $category) {
-
             $url = Router::url($category->url, true);
             $priority = 1 - ( $level / 10 );
             $lastmod = $category->modified;

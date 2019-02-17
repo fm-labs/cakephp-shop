@@ -205,7 +205,6 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
                     'type' => 'boolean',
                 ],
 
-
                 // Layout
                 'Layout.default' => [
                     'type' => 'string',
@@ -291,7 +290,6 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
 
     public function backendBootstrap(Backend $backend)
     {
-
     }
 
     public function backendRoutes(RouteBuilder $routes)
@@ -316,11 +314,9 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
 
     public function routes(RouteBuilder $routes)
     {
-
     }
 
     public function middleware(MiddlewareQueue $middleware)
     {
-
     }
 }

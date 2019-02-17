@@ -63,13 +63,10 @@ class MembershipPayment implements PaymentEngineInterface
         //$Payment->getController()->Flash->error(__d('shop', 'Membership Payment is not activated yet'));
 
         if ($order->status == ShopOrdersTable::ORDER_STATUS_SUBMITTED || $order->status == ShopOrdersTable::ORDER_STATUS_PENDING) {
-
             // @TODO check if customer has enough credit left in membership
 
             $Payment->ShopOrders->updateOrderStatus($order, ShopOrdersTable::ORDER_STATUS_PAYED);
         }
-
-
 
         return $Payment->redirect(['controller' => 'Orders', 'action' => 'view', $order->uuid]);
     }

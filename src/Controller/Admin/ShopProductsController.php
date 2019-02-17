@@ -72,23 +72,22 @@ class ShopProductsController extends AppController
         ];
 
         $options = ['contain' => ['ShopCategories']];
-        $customer_id = $this->request->query('for_customer');
-        if ($customer_id) {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customer_id, ['contain' => false]);
+        $customerId = $this->request->query('for_customer');
+        if ($customerId) {
+            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customerId, ['contain' => false]);
             if ($customer) {
                 $options = ['for_customer' => $customer->id];
-                $this->Flash->success(__d('shop','Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
+                $this->Flash->success(__d('shop', 'Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
             } else {
-                $this->Flash->warning(__d('shop','Customer not found'));
+                $this->Flash->warning(__d('shop', 'Customer not found'));
             }
         }
         $query = $this->ShopProducts->find('all', $options);
 
-        $parent_id = $this->request->query('parent_id');
-        if ($parent_id) {
-            $query->where(['ShopProducts.parent_id' => $parent_id]);
+        $parentId = $this->request->query('parent_id');
+        if ($parentId) {
+            $query->where(['ShopProducts.parent_id' => $parentId]);
         }
-
 
         $fields = [
             'preview_image_file' => [
@@ -105,7 +104,10 @@ class ShopProductsController extends AppController
                 );
             }],
             'shop_category'  => ['formatter' => function ($val, $row, $args, $view) {
-                if (!$val) return;
+                if (!$val) {
+                    return;
+                }
+
                 return $view->Html->link(
                     $val->name,
                     ['controller' => 'ShopCategories', 'action' => 'edit', $val->id]
@@ -115,11 +117,11 @@ class ShopProductsController extends AppController
                 'formatter' => 'currency'
             ],
             'is_buyable' => [
-                'title' => __d('shop','Buyable'),
+                'title' => __d('shop', 'Buyable'),
                 'formatter' => null
             ],
             'is_published' => [
-                'title' => __d('shop','Published'),
+                'title' => __d('shop', 'Published'),
                 'formatter' => null,
             ],
         ];
@@ -207,7 +209,7 @@ class ShopProductsController extends AppController
         ]);
         $this->set('fields.whitelist', ['id', 'type', 'shop_category_id', 'sku', 'title']);
 
-        $this->set('types', ['parent' => __d('shop','Parent Product'), 'child' => __d('shop','Child Product')]);
+        $this->set('types', ['parent' => __d('shop', 'Parent Product'), 'child' => __d('shop', 'Child Product')]);
 
         $this->Action->execute();
     }
@@ -216,11 +218,11 @@ class ShopProductsController extends AppController
     {
         $this->set('fieldsets', [
             ['fields' => ['parent_id', 'type', 'shop_category_id', 'sku', 'title', 'slug']],
-            ['legend' => __d('shop','Descriptions'), 'fields' => ['teaser_html', 'desc_html']],
-            ['legend' => __d('shop','Images'), 'fields' => ['preview_image_file', 'featured_image_file', 'image_files']],
-            ['legend' => __d('shop','Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
-            ['legend' => __d('shop','Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
-            ['legend' => __d('shop','Sorting'), 'fields' => ['priority'], 'collapsed' => true]
+            ['legend' => __d('shop', 'Descriptions'), 'fields' => ['teaser_html', 'desc_html']],
+            ['legend' => __d('shop', 'Images'), 'fields' => ['preview_image_file', 'featured_image_file', 'image_files']],
+            ['legend' => __d('shop', 'Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
+            ['legend' => __d('shop', 'Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
+            ['legend' => __d('shop', 'Sorting'), 'fields' => ['priority'], 'collapsed' => true]
         ]);
 
         $this->set('fields', [
@@ -231,7 +233,7 @@ class ShopProductsController extends AppController
             'image_files' => ['input' => ['type' => 'media_picker', 'multiple' => true]],
         ]);
 
-        $this->set('types', ['parent' => __d('shop','Parent Product'), 'child' => __d('shop','Child Product')]);
+        $this->set('types', ['parent' => __d('shop', 'Parent Product'), 'child' => __d('shop', 'Child Product')]);
 
         $this->Action->execute();
     }

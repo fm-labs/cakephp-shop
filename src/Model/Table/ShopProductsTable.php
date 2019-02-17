@@ -357,7 +357,6 @@ class ShopProductsTable extends Table
             ->where(['parent_id' => $id, 'is_published' => true]);
     }
 
-
     /**
      * @return Collection
      */
@@ -388,7 +387,6 @@ class ShopProductsTable extends Table
     protected function _buildSitemap(&$locations, $products, $level = 0)
     {
         foreach ($products as $product) {
-
             $url = Router::url($product->url, true);
             $priority = 0.9;
             $lastmod = $product->modified;

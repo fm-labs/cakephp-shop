@@ -59,5 +59,4 @@ class CustomerMailer extends Mailer
             ->template('Shop.customer/order_submit')
             ->viewVars(['order' => $order]);
     }
-
 }

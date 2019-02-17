@@ -146,6 +146,7 @@ class ShopOrder extends Entity
         if ($this->status instanceof Status) {
             return $this->status->getStatus();
         }
+
         return $this->status;
     }
 
@@ -308,6 +309,7 @@ class ShopOrder extends Entity
     protected function _getOrderValueTotalFormatted()
     {
         $Number = new Number();
+
         return $Number->currency($this->order_value_total, $this->currency);
     }
 

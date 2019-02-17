@@ -14,7 +14,6 @@ use Cake\TestSuite\IntegrationTestCase;
 class CategoriesControllerTest extends IntegrationTestCase
 {
 
-
     /**
      * Fixtures
      *

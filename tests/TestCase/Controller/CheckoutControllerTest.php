@@ -2,7 +2,6 @@
 
 namespace Shop\Test\TestCase\Controller;
 
-
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\ORM\TableRegistry;

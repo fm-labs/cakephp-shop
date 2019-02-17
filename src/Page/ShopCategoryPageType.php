@@ -30,6 +30,7 @@ class ShopCategoryPageType extends AbstractPageType
         } elseif ($entity instanceof ShopCategory) {
             $label = $entity->name;
         }
+
         return $label;
     }
 
@@ -67,6 +68,7 @@ class ShopCategoryPageType extends AbstractPageType
         $url = $this->toUrl($category);
 
         $item = new MenuItem($title, $url);
+
         return $item;
     }
 
@@ -78,6 +80,7 @@ class ShopCategoryPageType extends AbstractPageType
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
             $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+
             return $category->getViewUrl();
         } elseif ($entity instanceof ShopCategory) {
             return $entity->getViewUrl();
@@ -93,10 +96,12 @@ class ShopCategoryPageType extends AbstractPageType
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
             $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
+
             return $category->is_published;
         } elseif ($entity instanceof ShopCategory) {
             return $entity->is_published;
         }
+
         return false;
     }
 

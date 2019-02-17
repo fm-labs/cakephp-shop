@@ -2,7 +2,6 @@
 
 namespace Shop\tests\TestCase\Controller;
 
-
 use Cake\TestSuite\IntegrationTestCase;
 
 class OrdersControllerTest extends IntegrationTestCase

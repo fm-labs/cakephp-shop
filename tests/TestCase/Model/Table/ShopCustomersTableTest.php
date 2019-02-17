@@ -57,7 +57,7 @@ class ShopCustomersTableTest extends TestCase
 
         $user = $this->ShopCustomers->Users->newEntity();
         $user->accessible('*', true);
-        $user = $this->ShopCustomers->Users->patchEntity($user, $this->_testUserData,['validate' => false]);
+        $user = $this->ShopCustomers->Users->patchEntity($user, $this->_testUserData, ['validate' => false]);
 
         if (!$save) {
             return $user;
@@ -68,6 +68,7 @@ class ShopCustomersTableTest extends TestCase
             debug($user->errors());
             $this->fail('Failed to create test user');
         }
+
         return $user;
     }
 
