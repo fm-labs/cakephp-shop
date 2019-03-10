@@ -28,7 +28,9 @@ class CheckoutStepRegistryTest extends TestCase
     {
         parent::setUp();
 
-        $this->request = new ServerRequest('checkout/index');
+        //$this->request = new ServerRequest();
+        //$this->request = $this->request->withUri('checkout/index');
+        $this->request = new \Cake\Network\Request();
         $controller = new Controller($this->request);
         $registry = new ComponentRegistry($controller);
         $this->Checkout = new CheckoutComponent($registry, []);

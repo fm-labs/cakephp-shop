@@ -82,7 +82,6 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
 
-
         $_t = $this->_getTransaction($t->id);
 
         $this->assertEquals('MPAY123', $_t->ext_txnid);
@@ -111,7 +110,6 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
             ]
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
-
 
         $_t = $this->_getTransaction($t->id);
 

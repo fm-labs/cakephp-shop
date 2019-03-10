@@ -3,7 +3,7 @@
     <?= $this->cell('Backend.DataTable', [[
         'paginate' => false,
         'model' => 'Shop.ShopProducts',
-        'data' => $shopCategory->shop_products,
+        'data' => $this->get('shopProducts'),
         'fieldsWhitelist' => true,
         'fields' => [
             //'id' => [],
@@ -40,8 +40,8 @@
             ],
         ],
         'rowActions' => [
-            [__d('shop','Edit'), ['controller' => 'ShopProducts', 'action' => 'edit', ':id'], ['class' => 'edit link-frame']],
-            [__d('shop','Delete'), ['controller' => 'ShopProducts', 'action' => 'delete', ':id'], ['class' => 'delete', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', ':id')]]
+            //[__d('shop','Edit'), ['controller' => 'ShopProducts', 'action' => 'edit', ':id'], ['class' => 'edit link-frame']],
+            //[__d('shop','Delete'), ['controller' => 'ShopProducts', 'action' => 'delete', ':id'], ['class' => 'delete', 'confirm' => __d('shop','Are you sure you want to delete # {0}?', ':id')]]
         ]
     ]]);
     ?>

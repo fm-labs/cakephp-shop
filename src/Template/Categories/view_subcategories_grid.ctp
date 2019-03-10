@@ -3,7 +3,7 @@
     <h1 class="title"><?= h($shopCategory->name); ?></h1>
     <div class="row">
         <?php $i = 0; ?>
-        <?php foreach ($shopCategory->published_subcategories as $category): ?>
+        <?php foreach ($shopCategory->published_subcategories->toArray() as $category): ?>
             <?php
             $viewUrl = $category->url;
             ?>

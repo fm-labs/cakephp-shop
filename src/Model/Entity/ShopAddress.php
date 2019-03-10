@@ -100,6 +100,7 @@ class ShopAddress extends Entity
         if ($this->relcountry) {
             return $this->relcountry->get('name_de');
         }
+
         return null;
     }
 

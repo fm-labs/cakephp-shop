@@ -40,7 +40,7 @@ class ShopOrderTransactionsController extends AppController
             'status' => ['formatter' => 'status'],
             'ext_status', 'last_message', 'is_test',
         ]);
-        //$this->set('fields.whitelist', ['type', 'engine', 'currency_code', 'value', 'status', 'ext_status', 'last_message', 'is_test']);
+        $this->set('fields.whitelist', ['shop_order', 'type', 'engine', 'currency_code', 'value', 'status', 'ext_status', 'last_message', 'is_test']);
         $this->set('ajax', $dataUrl);
         $this->set('queryObj', $query);
 

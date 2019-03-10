@@ -162,7 +162,6 @@ class PaymentComponent extends Component
 
             $this->getController()->Flash->error($ex->getMessage());
         } finally {
-
             if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
                 debug($this->_transaction->errors());
                 throw new \RuntimeException("Payment::initTransaction: Failed to update transaction");

@@ -86,15 +86,17 @@ class ShopCategoriesController extends AppController
         $this->set('fields', [
             'name',
             'featured_image_file' => ['formatter' => 'media_file'],
-            'language' => ['formatter' => function($val, $row, $args, $view) {
-               $links = [];
-               foreach (Configure::read('Shop.locales') as $_locale => $_localeName) {
-                   $links[] = $view->Html->link($_localeName, ['action' => 'edit', $row->id, 'locale' => $_locale], ['data-locale' => $_locale]);
-               }
-               return join("&nbsp;", $links);
+            'language' => ['formatter' => function ($val, $row, $args, $view) {
+                $links = [];
+                foreach (Configure::read('Shop.locales') as $_locale => $_localeName) {
+                    $links[] = $view->Html->link($_localeName, ['action' => 'edit', $row->id, 'locale' => $_locale], ['data-locale' => $_locale]);
+                }
+
+                return join("&nbsp;", $links);
             }],
             'is_published'
         ]);
+        $this->set('fields.whitelist', ['name', 'featured_image_file', 'language', 'is_published']);
 
         /*
         $this->set('_actions', [
@@ -118,7 +120,7 @@ class ShopCategoriesController extends AppController
     public function indexTree()
     {
     }
-*/
+     */
 
     /**
      * @deprecated Use TreeDataAction instread
@@ -151,7 +153,7 @@ class ShopCategoriesController extends AppController
         $this->set('treeData', $treeData);
         $this->set('_serialize', 'treeData');
     }
-*/
+     */
 
     /**
      * View method
@@ -166,7 +168,6 @@ class ShopCategoriesController extends AppController
             'contain' => ['ParentShopCategories', 'ChildShopCategories'],
             'media' => true
         ]);
-
 
         $this->set('model', 'Shop.ShopCategories');
         $this->set('entity', $shopCategory);
@@ -208,6 +209,7 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+
                 return $this->redirect(['action' => 'edit', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
@@ -219,7 +221,6 @@ class ShopCategoriesController extends AppController
         $tagList = $this->ShopCategories->ShopTags->find('list')->toArray();
 
         $this->set(compact('shopCategory', 'parentShopCategories', 'tagList'));
-
 
         $this->noActionTemplate = true;
         $this->Action->execute();
@@ -328,11 +329,15 @@ class ShopCategoriesController extends AppController
     public function relatedProducts($id = null)
     {
         $shopCategory = $this->ShopCategories->get($id, [
-            'contain' => ['ShopProducts'],
+            'contain' => [],
         ]);
 
+        $shopProducts = $this->ShopCategories->ShopProducts->find()
+            ->where(['shop_category_id' => $id]);
+
         $this->set('shopCategory', $shopCategory);
-        $this->set('_serialize', ['shopCategory']);
+        $this->set('shopProducts', $shopProducts);
+        $this->set('_serialize', ['shopCategory', 'shopProducts']);
     }
 
     /**

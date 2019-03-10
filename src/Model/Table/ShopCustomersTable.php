@@ -27,15 +27,15 @@ class ShopCustomersTable extends Table
         parent::initialize($config);
 
         $this->table('shop_customers');
-        $this->displayField('display_name');
+        $this->displayField('email');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('ShopAddresses', [
-            'foreignKey' => 'shop_customer_id',
-            'className' => 'Shop.ShopAddresses'
-        ]);
+//        $this->hasMany('ShopAddresses', [
+//            'foreignKey' => 'shop_customer_id',
+//            'className' => 'Shop.ShopAddresses'
+//        ]);
         $this->hasMany('ShopOrders', [
             'foreignKey' => 'shop_customer_id',
             'className' => 'Shop.ShopOrders'

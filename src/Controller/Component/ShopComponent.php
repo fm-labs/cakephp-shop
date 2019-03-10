@@ -4,11 +4,13 @@ namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\ResultSet;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Entity\ShopCustomer;
+use Shop\Model\Table\ShopCustomersTable;
 
 /**
  * Class ShopComponent
@@ -16,6 +18,8 @@ use Shop\Model\Entity\ShopCustomer;
  */
 class ShopComponent extends Component
 {
+    public $components  = ['Auth'];
+
     /**
      * @var ShopCustomer
      */
@@ -26,7 +30,6 @@ class ShopComponent extends Component
      */
     public function initialize(array $config)
     {
-
         $defaultLayout = Configure::read('Shop.Layout.default');
         if ($defaultLayout) {
             $this->_registry->getController()->viewBuilder()->layout($defaultLayout);
@@ -35,16 +38,24 @@ class ShopComponent extends Component
 
     /**
      * @param Event $event
+     * @return void
      */
     public function beforeFilter(Event $event)
     {
-        if ($this->request->session()->check('Shop.Customer.id')) {
-            $customerId = $this->request->session()->read('Shop.Customer.id');
-            try {
-                $this->_customer = TableRegistry::get('Shop.ShopCustomers')->get($customerId, ['contain' => []]);
-            } catch (\Exception $ex) {
-                Log::error('ShopComponent::beforeFilter: ' . $ex->getMessage());
-            }
+        $this->_loadCustomer();
+    }
+
+    /**
+     * Load customer entity
+     * @return void
+     */
+    protected function _loadCustomer()
+    {
+        if ($this->Auth->user()) {
+            /** @var ShopCustomersTable $ShopCustomers */
+            $ShopCustomers = TableRegistry::get('Shop.ShopCustomers');
+            $customer = $ShopCustomers->createFromUserId($this->Auth->user('id'));
+            $this->setCustomer($customer);
         }
     }
 

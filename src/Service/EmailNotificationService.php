@@ -21,7 +21,7 @@ class EmailNotificationService extends BaseService
     {
         return [
             'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit',
-            'Shop.Model.Order.afterConfirm' => 'afterOrderConfirm',
+            //'Shop.Model.Order.afterConfirm' => 'afterOrderConfirm',
         ];
     }
 

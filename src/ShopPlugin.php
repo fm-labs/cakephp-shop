@@ -2,13 +2,17 @@
 
 namespace Shop;
 
+use Backend\Backend;
+use Backend\BackendPluginInterface;
 use Backend\Event\RouteBuilderEvent;
 use Backend\View\BackendView;
+use Banana\Application;
 use Banana\Menu\Menu;
 use Banana\Plugin\PluginInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
+use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Settings\SettingsManager;
@@ -19,7 +23,7 @@ use Shop\Service\OrderNotificationService;
  *
  * @package Shop
  */
-class ShopPlugin implements EventListenerInterface
+class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPluginInterface
 {
 
     /**
@@ -201,7 +205,6 @@ class ShopPlugin implements EventListenerInterface
                     'type' => 'boolean',
                 ],
 
-
                 // Layout
                 'Layout.default' => [
                     'type' => 'string',
@@ -285,18 +288,35 @@ class ShopPlugin implements EventListenerInterface
         ]);
     }
 
-    /**
-     * @param EventManager $eventManager
-     */
-    public function __invoke(EventManager $eventManager)
+    public function backendBootstrap(Backend $backend)
     {
+    }
+
+    public function backendRoutes(RouteBuilder $routes)
+    {
+        $routes->connect('/', ['controller' => 'ShopOrders', 'action' => 'index']);
+        $routes->fallbacks('DashedRoute');
+    }
+
+    public function bootstrap(Application $app)
+    {
+        $eventManager = EventManager::instance();
         $eventManager->on(new \Shop\Service\CartService());
+        $eventManager->on(new \Shop\Service\ShopRulesService());
         $eventManager->on(new \Shop\Service\CustomerService());
         $eventManager->on(new \Shop\Service\PaymentService());
         $eventManager->on(new \Shop\Service\EmailNotificationService());
         $eventManager->on(new \Shop\Service\OrderService());
         $eventManager->on(new \Shop\Service\OrderNotificationService());
-
         $eventManager->on(new \Shop\Sitemap\SitemapListener());
+        $eventManager->on($this);
+    }
+
+    public function routes(RouteBuilder $routes)
+    {
+    }
+
+    public function middleware(MiddlewareQueue $middleware)
+    {
     }
 }

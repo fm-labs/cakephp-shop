@@ -56,8 +56,8 @@ class ShopOrdersController extends AppController
             ]);
             if ($this->ShopOrders->save($order)) {
                 $this->Flash->success(__d('shop', 'Updated'));
-                return $this->redirect(['action' => 'viewOrder', $id]);
 
+                return $this->redirect(['action' => 'viewOrder', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'Operation failed'));
                 debug($order->errors());
@@ -95,6 +95,7 @@ class ShopOrdersController extends AppController
             'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-right'],
             'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
         ]);
+        $this->set('fields.whitelist', ['submitted', 'nr_formatted', 'invoice_nr_formatted', 'shop_customer', 'order_value_total', 'status__status']);
 
         $this->Action->execute();
     }
@@ -120,19 +121,21 @@ class ShopOrdersController extends AppController
             'model' => 'Shop.ShopOrders',
             'fields.whitelist' => true,
             'fields' => [
-                '_status' => ['formatter' => function($val, $row, $args, View $view) {
+                '_status' => ['formatter' => function ($val, $row, $args, View $view) {
                     $view->loadHelper('Banana.Status');
+
                     return $view->Status->label($val);
                 }],
-                'shop_customer_id' => ['formatter' => function($val, $row, $args, $view) {
+                'shop_customer_id' => ['formatter' => function ($val, $row, $args, $view) {
                     return ($row->shop_customer) ? $view->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
                 }],
                 'submitted' => [],
-                'nr_formatted' => ['formatter' => function($val, $row, $args, $view) {
+                'nr_formatted' => ['formatter' => function ($val, $row, $args, $view) {
                     return $view->Html->link($val, ['action' => 'view', $row->id]);
                 }],
                 'ordergroup' => [],
-                'title' => ['formatter' => function() {}],
+                'title' => ['formatter' => function () {
+                }],
                 'items_value_taxed' => [],
                 'order_value_total' => [],
                 'shipping_type' => [],
@@ -186,43 +189,23 @@ class ShopOrdersController extends AppController
             ]
         ]);
 
-        /*
-        $this->set('tabs', [
-            'order-items' => [
-                'title' => __d('shop', 'Order Items'),
-                'url' => ['controller' => 'ShopOrderItems', 'action' => 'index', 'order_id' => $shopOrder->id]
-            ],
-            'order-transactions' => [
-                'title' => __d('shop', 'Transactions'),
-                'url' => ['controller' => 'ShopOrderTransactions', 'action' => 'index', 'shop_order_id' => $shopOrder->id]
-            ],
-            //'raw' => [
-            //    'title' => __d('shop', 'Raw Data'),
-            //    'url' => ['plugin' => 'Backend', 'controller' => 'Entity', 'action' => 'view', 'Shop.ShopOrders', $shopOrder->id]
-            //]
-        ]);
-        */
-
-        //$this->set('template', 'view');
-
-        //$this->noActionTemplate = true;
         $this->Action->execute();
     }
 
     public function viewOrder($id = null)
     {
+        Configure::write('debug', true);
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
             'status' => true
         ]);
         $this->set('entity', $shopOrder);
         $this->set('_serialize', 'entity');
-        $this->Action->execute();
+        $this->Action->execute('view');
     }
 
     public function viewInvoice($id = null)
     {
-
     }
 
     /**
@@ -339,10 +322,8 @@ class ShopOrdersController extends AppController
 
         if ($order->status >= ShopOrdersTable::ORDER_STATUS_CONFIRMED) {
             $this->Flash->error(__d('shop', 'Failed to confirm order: Invalid order status'));
-
         } elseif ($this->ShopOrders->confirmOrder($order)) {
             $this->Flash->success(__d('shop', 'Order confirmed'));
-
         } else {
             $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
@@ -356,13 +337,10 @@ class ShopOrdersController extends AppController
 
         if ($order->invoice_nr) {
             $this->Flash->error(__d('shop', 'Failed to create invoice: Already invoiced'));
-
         } elseif ($order->status < ShopOrdersTable::ORDER_STATUS_CONFIRMED || $order->status >= ShopOrdersTable::ORDER_STATUS_CLOSED) {
             $this->Flash->error(__d('shop', 'Failed to create invoice: Invalid order status: ' . $order->status));
-
         } elseif ($this->ShopOrders->assignInvoiceNr($order)) {
             $this->Flash->success(__d('shop', 'Invoice created'));
-
         } else {
             $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
@@ -376,10 +354,8 @@ class ShopOrdersController extends AppController
 
         if ($order->status >= ShopOrdersTable::ORDER_STATUS_PAYED) {
             $this->Flash->error(__d('shop', 'Failed to change order status: Invalid status'));
-
         } elseif ($this->ShopOrders->updateStatus($order, ShopOrdersTable::ORDER_STATUS_PAYED)) {
             $this->Flash->success(__d('shop', 'Status updated'));
-
         } else {
             $this->Flash->error(__d('shop', 'Failed to update status'));
         }
@@ -393,6 +369,7 @@ class ShopOrdersController extends AppController
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
+
         return $events;
     }
 }

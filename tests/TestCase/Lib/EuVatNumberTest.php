@@ -59,7 +59,7 @@ class EuVatNumberTest extends TestCase
     {
         $id = 'ATU99999999';
         $n = new EuVatNumber($id);
-        $this->assertEquals($id, (string) $n);
+        $this->assertEquals($id, (string)$n);
     }
 
     /**

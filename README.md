@@ -9,8 +9,8 @@ BananaCake v1.4+
 
 ## Dependencies
 
-fm-labs/cakephp3-banana
-fm-labs/cakephp3-backend
+fm-labs/cakephp-banana
+fm-labs/cakephp-backend
 
 ## Installation
 
@@ -19,7 +19,7 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:
 
 ```
-composer require fm-labs/cakephp3-shop
+composer require fm-labs/cakephp-shop
 ```
 
 - Enable in your ROOT/config/bootstrap.php

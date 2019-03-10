@@ -46,6 +46,7 @@ class OrderNotificationService implements EventListenerInterface
         ];
 
         $notify = array_merge($default, $notify);
+
         return $this->Notifications->newEntity($notify);
     }
 
@@ -55,6 +56,7 @@ class OrderNotificationService implements EventListenerInterface
             return $this->Notifications->save($notification);
         } catch (\Exception $ex) {
             Log::error("OrderNotificationService::_saveNotification: " . $ex->getMessage());
+
             return false;
         }
     }

@@ -81,6 +81,7 @@ class ProductsController extends AppController
         if ($this->request->is(['post', 'put']) && $this->request->data('id')) {
             $id = $this->request->data('id');
             $shopProduct = $this->ShopProducts->get($id, ['contain' => []]);
+
             return $this->redirect($shopProduct->url);
         }
 

@@ -209,5 +209,4 @@ class ShopShell extends Shell
         $this->out(sprintf('<info>Welcome to Shop Console</info>'));
         $this->hr();
     }
-
 }

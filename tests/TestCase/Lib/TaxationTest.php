@@ -81,5 +81,4 @@ class TaxationTest extends TestCase
         $this->assertEquals(0.2, Taxation::extractTax(1.2, 20.00));
         $this->assertEquals(2, Taxation::extractTax(12, 20.00));
     }
-
 }

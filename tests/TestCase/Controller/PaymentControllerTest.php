@@ -2,7 +2,6 @@
 
 namespace Shop\Test\TestCase\Controller;
 
-
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\ORM\TableRegistry;
@@ -109,7 +108,6 @@ class PaymentControllerTest extends IntegrationTestCase
         return $this->ShopOrderTransactions->get($id);
     }
 
-
     public function testIndex()
     {
         $this->get('/shop/payment');
@@ -127,7 +125,6 @@ class PaymentControllerTest extends IntegrationTestCase
 
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
 
-
         $_t = $this->_getTransaction($t->id);
 
         $this->assertEquals('TEST123', $_t->ext_txnid);
@@ -135,7 +132,6 @@ class PaymentControllerTest extends IntegrationTestCase
         $this->assertEquals(ShopOrderTransactionsTable::STATUS_CONFIRMED, $_t->status);
         $this->assertEquals(true, $_t->is_test);
     }
-
 
     public function testPay()
     {
@@ -149,18 +145,15 @@ class PaymentControllerTest extends IntegrationTestCase
         $this->markTestIncomplete();
     }
 
-
     public function testError()
     {
         $this->get('/shop/payment/error');
         $this->markTestIncomplete();
     }
 
-
     public function testCancel()
     {
         $this->get('/shop/payment/cancel');
         $this->markTestIncomplete();
     }
-
 }

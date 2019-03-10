@@ -7,12 +7,12 @@ use Cake\Log\Log;
 /**
  * Check dependencies
  */
-if (!Plugin::loaded('Banana')) {
-    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Banana']);
-}
-if (!Plugin::loaded('Content')) {
-    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);
-}
+//if (!Plugin::loaded('Banana')) {
+//    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Banana']);
+//}
+//if (!Plugin::loaded('Content')) {
+//    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);
+//}
 
 /**
  * Log configuration
@@ -31,20 +31,21 @@ if (!Log::config('shop')) {
  * Load default config
  */
 Configure::load('Shop.content');
-Configure::load('Shop.shop');
+Configure::load('Shop.html_editor');
+//Configure::load('Shop.shop');
 
 /**
  * Register classes
  * @deprecated
  */
 ClassRegistry::register('PostType', [
-    'shop_category' => 'Shop\Model\Entity\Post\ShopCategoryPostType'
+    'shop_category' => '\Shop\Model\Entity\Post\ShopCategoryPostType'
 ]);
 
 ClassRegistry::register('ContentModule', [
-    'shop_random_category_product' => 'Shop\View\Cell\RandomCategoryProductModuleCell'
+    'shop_random_category_product' => '\Shop\View\Cell\RandomCategoryProductModuleCell'
 ]);
 
 ClassRegistry::register('PageType', [
-    'shop_category' => 'Shop\Page\ShopCategoryPageType'
+    'shop_category' => '\Shop\Page\ShopCategoryPageType'
 ]);

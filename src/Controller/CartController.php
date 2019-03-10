@@ -103,12 +103,15 @@ class CartController extends AppController
             $this->set('_serialize', 'result');
         } elseif ($this->request->is(['put', 'post'])) {
             try {
-                $this->Cart->addItem($this->request->data());
+                if (!$this->Cart->addItem($this->request->data())) {
+                    throw new \RuntimeException("Operation failed");
+                }
                 $this->Flash->success(__d('shop', 'Added item to cart'));
             } catch (\Exception $ex) {
                 $this->Flash->error(__d('shop', 'Adding item to cart failed: {0}', $ex->getMessage()));
             }
 
+            $this->autoRender = false;
             $referer = $this->referer(['action' => 'index'], true);
             $this->redirect(['action' => 'index', 'referer' => $referer]);
         }
@@ -162,7 +165,6 @@ class CartController extends AppController
         }
 
         if ($this->request->is(['post', 'put'])) {
-            debug($this->request->data);
             $order = $this->Cart->getOrder();
 
             $changed = [];

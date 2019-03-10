@@ -41,7 +41,6 @@ class ShopCustomersFixture extends TestFixture
             'fax' => null,
             'locale' => null,
 
-
             'email_verification_code' => null,
             'email_verified' => null,
             'is_guest' => null,

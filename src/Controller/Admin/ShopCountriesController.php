@@ -1,8 +1,6 @@
 <?php
 namespace Shop\Controller\Admin;
 
-use Shop\Controller\Admin\AppController;
-
 /**
  * ShopCountries Controller
  *
@@ -67,7 +65,7 @@ class ShopCountriesController extends AppController
     /**
      * Add method
      *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return void|\Cake\Network\Response Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -90,7 +88,7 @@ class ShopCountriesController extends AppController
      * Edit method
      *
      * @param string|null $id Shop Country id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return void|\Cake\Network\Response Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
@@ -116,7 +114,7 @@ class ShopCountriesController extends AppController
      * Delete method
      *
      * @param string|null $id Shop Country id.
-     * @return void Redirects to index.
+     * @return void|\Cake\Network\Response Redirects to index.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function delete($id = null)

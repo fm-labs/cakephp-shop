@@ -47,8 +47,7 @@ class CustomerIntegrityCheckTask extends BaseShopTask
         $this->loadModel('Shop.ShopCustomers');
 
         $customers = $this->ShopCustomers->find()->contain(['Users'])->all();
-        foreach ($customers as $customer)
-        {
+        foreach ($customers as $customer) {
             // check customer data
             foreach (['first_name', 'last_name', 'email', 'user_id', 'user'] as $prop) {
                 $val = $customer->get($prop);
@@ -96,9 +95,15 @@ class CustomerIntegrityCheckTask extends BaseShopTask
         $this->_counter[$level]++;
 
         switch ($level) {
-            case 'warn': $tag = 'warning'; break;
-            case 'crit': $tag = 'error'; break;
-            default: $tag = 'info'; break;
+            case 'warn':
+                $tag = 'warning';
+                break;
+            case 'crit':
+                $tag = 'error';
+                break;
+            default:
+                $tag = 'info';
+                break;
         }
 
         $this->out(sprintf("<%s>[%d][%s] %s</%s>", $tag, $id, $level, $msg, $tag));

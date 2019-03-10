@@ -11,13 +11,24 @@ use Cake\Core\Configure;
         </div>
     <?php elseif ($shopProduct->is_buyable): ?>
 
-        <?php if ($shopProduct->price > 0): ?>
+        <?php if ($shopProduct->price >= 0): ?>
             <div class="price price-big" itemprop="price">
-                <?= __d('shop','Price'); ?>: <span class="price-item"><?= $this->Number->currency($shopProduct->displayPrice, 'EUR'); ?></span>
+                <?= __d('shop','Price'); ?>:
+                <span class="price-item"><?= $this->Number->currency($shopProduct->displayPrice, 'EUR'); ?></span>
             </div>
+            <?php if ($shopProduct->price_net_original != $shopProduct->price_net) : ?>
+                <div class="price">
+                    <span style="font-size: 90%">statt</span>
+                    <small style="font-size: 90%; text-decoration: line-through;"><?= $this->Number->currency($shopProduct->price_net_original, 'EUR'); ?></small>
+                </div>
+            <?php endif; ?>
         <?php elseif ($shopProduct->price == -1): ?>
-            <div class="price" itemprop="price">
+            <div class="price">
                 Preis auf Anfrage
+            </div>
+        <?php else : ?>
+            <div class="price">
+                Preis nicht verfügbar
             </div>
         <?php endif; ?>
 

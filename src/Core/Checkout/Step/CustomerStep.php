@@ -57,8 +57,6 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
         //  POST request
         if ($controller->request->is(['put', 'post'])) {
-            // @TODO Check if CustomerListener is attached, where automatic customer creation happens
-
             // try to authenticate user
             $controller->Auth->login();
 
@@ -121,17 +119,15 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
             //$customer = $controller->ShopCustomers->add($customer, $controller->request->data);
             $user = $controller->ShopCustomers->Users->register($controller->request->data);
             if ($user && $user->id) {
-                // create a shop customer profile for user
-                // @TODO DIY. The CustomerListener creates shop customer profile on login
-                $customer = $controller->ShopCustomers->createFromUser($user, $controller->request->data);
-
                 // authenticate user
                 // @TODO Make 'automatic user login after signup' configurable
                 //$userQuery = $controller->ShopCustomers->Users->find()->where(['Users.id' => $customer->user_id]);
                 //$user = $controller->ShopCustomers->Users->findAuthUser($userQuery, [])->first();
                 $controller->Auth->setUser($user->toArray());
-                $controller->eventManager()->dispatch(new Event('User.login', $controller, compact('user')));
+                //$controller->eventManager()->dispatch(new Event('User.Auth.login', $controller, compact('user')));
 
+                // create a shop customer profile for user
+                $customer = $controller->ShopCustomers->createFromUser($user, $controller->request->data);
                 // set customer in shop scope
                 $this->Checkout->Shop->setCustomer($customer);
 

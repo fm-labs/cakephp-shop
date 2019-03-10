@@ -20,10 +20,10 @@ class CustomerService extends BaseService
     public function implementedEvents()
     {
         return [
-            'User.login'                    => 'onUserLogin',
-            'User.logout'                   => 'onUserLogout',
-            'User.Model.User.register'      => 'onUserRegister',
-            'Shop.Model.Order.afterSubmit'  => 'afterOrderSubmit'
+            'User.Auth.login' => 'onUserLogin',
+            'User.Auth.logout' => 'onUserLogout',
+            'User.Model.User.register' => 'onUserRegister',
+            'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit'
             //'Auth.identifyUser' => 'onUserLogin', // <-- Hmm, can't capture this event...
             //'Auth.logout' => 'onUserLogout',
         ];
@@ -34,11 +34,11 @@ class CustomerService extends BaseService
      */
     public function onUserRegister(Event $event)
     {
-        $user = $event->subject();
+        $user = $event->data['user'];
         $customer = null;
 
         try {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUser($user, $event->data());
+            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUser($user, $event->data['data']);
         } catch (\Exception $ex) {
             Log::error('CustomerEventListener::onUserRegister: ' . $ex->getMessage());
         }

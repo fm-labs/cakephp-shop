@@ -5,8 +5,8 @@ use Cake\Core\Configure;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Shop\Event\CustomerListener;
-use Shop\Event\EmailNotificationListener;
+use Shop\Service\CustomerService;
+use Shop\Service\EmailNotificationService;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -55,13 +55,12 @@ class ShopOrdersTableTest extends TestCase
         parent::setUp();
         $config = TableRegistry::exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
         $this->ShopOrders = TableRegistry::get('ShopOrders', $config);
-        $this->ShopOrders->eventManager()->on(new CustomerListener());
-        $this->ShopOrders->eventManager()->on(new EmailNotificationListener());
+        $this->ShopOrders->eventManager()->on(new CustomerService());
+        $this->ShopOrders->eventManager()->on(new EmailNotificationService());
 
         // use custom ordergroup for testing
         Configure::write('Shop.Order.nrStart', 1000);
         Configure::write('Shop.Order.nrGroup', 'test');
-
     }
 
     /**
@@ -84,7 +83,6 @@ class ShopOrdersTableTest extends TestCase
         $result = $this->ShopOrders->find('order');
         $this->assertInstanceOf('Shop\\Model\\Entity\\ShopOrder', $result);
     }
-
 
     /**
      * Test setOrderAddress method
@@ -175,7 +173,6 @@ class ShopOrdersTableTest extends TestCase
         $this->assertArraySubset($expected, $result->toArray());
     }
 
-
     /**
      * Test getNextOrderNr method
      *
@@ -187,7 +184,7 @@ class ShopOrdersTableTest extends TestCase
         $this->assertEquals(1000, $this->ShopOrders->getNextOrderNr('test2'));
 
         // add some dummy entries
-        foreach(['test', 'test2'] as $ordergroup) {
+        foreach (['test', 'test2'] as $ordergroup) {
             for ($i = 1; $i < 3; $i++) {
                 $order = $this->ShopOrders->newEntity([
                     'is_temporary' => false,
@@ -220,7 +217,6 @@ class ShopOrdersTableTest extends TestCase
         $this->assertEquals('test', $result->ordergroup);
     }
 
-
     /**
      * Test updateOrderStatus method
      *
@@ -249,7 +245,6 @@ class ShopOrdersTableTest extends TestCase
         $this->assertArrayHasKey('agree_terms', $order->errors());
         $this->assertArrayHasKey('checked', $order->errors('agree_terms'));
 
-
         // test with agree_term
         $order = $this->ShopOrders->find('order', ['ShopOrders.id' => 1]);
         $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 1]);
@@ -270,7 +265,6 @@ class ShopOrdersTableTest extends TestCase
         //$customerAddress = $ShopCustomerAddresses->find()->where($billingAddress->extractAddress())->first();
         //$this->assertNotNull($customerAddress);
     }
-
 
     /**
      * Test validationDefault method
@@ -311,7 +305,6 @@ class ShopOrdersTableTest extends TestCase
         $this->markTestIncomplete('Not implemented yet.');
     }
 */
-
 
     /**
      * Test calculate method

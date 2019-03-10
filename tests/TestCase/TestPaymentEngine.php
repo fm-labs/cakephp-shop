@@ -2,7 +2,6 @@
 
 namespace Shop\Test\TestCase;
 
-
 use Cake\Network\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
@@ -40,7 +39,6 @@ class TestPaymentEngine implements PaymentEngineInterface
         return $Payment->redirect('/go/to/test/payment');
     }
 
-
     /**
      * @param PaymentComponent $Payment
      * @param ShopOrderTransaction $transaction
@@ -65,6 +63,5 @@ class TestPaymentEngine implements PaymentEngineInterface
         }
 
         return $transaction;
-
     }
 }
