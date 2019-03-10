@@ -1,6 +1,6 @@
 {
-  "name": "cakephp3-shop",
-  "version": "0.2.0",
+  "name": "cakephp-shop",
+  "version": "0.3.0",
   "description": "CakePHP Shop Plugin",
   "keywords": [
     "cakephp",
