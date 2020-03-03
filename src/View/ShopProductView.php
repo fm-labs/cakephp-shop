@@ -77,7 +77,7 @@ class ShopProductView extends ContentView
             if ($path) {
                 $path = $path->toArray();
                 array_walk($path, function ($category) {
-                    $this->Breadcrumbs->add($category->name, $category->url);
+                    $this->Breadcrumbs->add($category->name, $category->getUrl());
                 });
                 $this->Breadcrumbs->add($shopProduct->title);
             }

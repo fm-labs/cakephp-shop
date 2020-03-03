@@ -387,7 +387,7 @@ class ShopProductsTable extends Table
     protected function _buildSitemap(&$locations, $products, $level = 0)
     {
         foreach ($products as $product) {
-            $url = Router::url($product->url, true);
+            $url = Router::url($product->getUrl(), true);
             $priority = 0.9;
             $lastmod = $product->modified;
             $changefreq = 'weekly';

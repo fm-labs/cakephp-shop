@@ -1,7 +1,6 @@
 <?php
 use Banana\Lib\ClassRegistry; //@TODO Remove dependency. Use event system instead
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Log\Log;
 
 /**

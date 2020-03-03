@@ -216,21 +216,31 @@ class ShopProductsController extends AppController
 
     public function edit()
     {
+        //$this->helpers['Media'] = ['className' => 'Media.Media'];
+        //$this->helpers['MediaPicker'] = ['className' => 'Media.MediaPicker'];
+
         $this->set('fieldsets', [
             ['fields' => ['parent_id', 'type', 'shop_category_id', 'sku', 'title', 'slug']],
-            ['legend' => __d('shop', 'Descriptions'), 'fields' => ['teaser_html', 'desc_html']],
-            ['legend' => __d('shop', 'Images'), 'fields' => ['preview_image_file', 'featured_image_file', 'image_files']],
+            ['legend' => __d('shop', 'Descriptions'), 'fields' => [
+                'teaser_html' => ['type' => 'htmleditor'],
+                'desc_html' => ['type' => 'htmleditor']
+            ]],
+            ['legend' => __d('shop', 'Images'), 'fields' => [
+                'preview_image_file' => ['type' => 'media_picker', 'config' => 'shop'],
+                'featured_image_file' => ['type' => 'media_picker'],
+                'image_files' => ['type' => 'media_picker', 'multiple' => true]
+            ]],
             ['legend' => __d('shop', 'Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
             ['legend' => __d('shop', 'Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
             ['legend' => __d('shop', 'Sorting'), 'fields' => ['priority'], 'collapsed' => true]
         ]);
 
         $this->set('fields', [
-            'teaser_html' => ['input' => ['type' => 'htmleditor']],
-            'desc_html' => ['input' => ['type' => 'htmleditor']],
-            'preview_image_file' => ['input' => ['type' => 'media_picker']],
-            'featured_image_file' => ['input' => ['type' => 'media_picker']],
-            'image_files' => ['input' => ['type' => 'media_picker', 'multiple' => true]],
+            'teaser_html' => ['type' => 'htmleditor'],
+            'desc_html' => ['type' => 'htmleditor'],
+            'preview_image_file' => ['type' => 'media_picker'],
+            'featured_image_file' => ['type' => 'media_picker'],
+            'image_files' => ['type' => 'media_picker', 'multiple' => true],
         ]);
 
         $this->set('types', ['parent' => __d('shop', 'Parent Product'), 'child' => __d('shop', 'Child Product')]);

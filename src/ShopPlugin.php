@@ -8,6 +8,7 @@ use Backend\Event\RouteBuilderEvent;
 use Backend\View\BackendView;
 use Banana\Application;
 use Banana\Menu\Menu;
+use Banana\Plugin\BasePlugin;
 use Banana\Plugin\PluginInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -23,8 +24,9 @@ use Shop\Service\OrderNotificationService;
  *
  * @package Shop
  */
-class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPluginInterface
+class ShopPlugin extends BasePlugin implements EventListenerInterface
 {
+    protected $_name = "Shop";
 
     /**
      * Returns a list of events this object is implementing. When the class is registered
@@ -39,11 +41,9 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
         return [
             //'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.build' => 'buildSettings',
-            'Backend.Menu.build' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
-            'Backend.Sidebar.build' => ['callable' => 'buildSidebarMenu', 'priority' => 5 ],
-            'Backend.SysMenu.build' => ['callable' => 'buildBackendSystemMenu' ],
-            'Backend.Routes.build' => 'buildBackendRoutes',
-            'View.beforeLayout' => ['callable' => 'beforeLayout']
+            //'Backend.Menu.build.admin_primary' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
+            'Backend.Menu.build.admin_primary' => ['callable' => 'buildSidebarMenu', 'priority' => 5 ],
+            'Backend.Menu.build.admin_system' => ['callable' => 'buildBackendSystemMenu' ],
         ];
     }
 
@@ -57,14 +57,6 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
             'title' => 'Shop Category',
             'className' => 'Shop.ShopCategory'
         ];
-    }
-
-    public function beforeLayout(Event $event)
-    {
-        if ($event->subject() instanceof BackendView && $event->subject()->plugin == "Shop") {
-            //$menu = new Menu($this->_getMenuItems());
-            //$event->subject()->set('backend.sidebar.menu', $menu);
-        }
     }
 
     protected function _getMenuItems()
@@ -239,13 +231,12 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
     /**
      * Build backend routes
      */
-    public function buildBackendRoutes(RouteBuilderEvent $event)
+    public function backendRoutes(RouteBuilder $routes)
     {
-        $event->subject()->scope('/shop', ['plugin' => 'Shop', 'prefix' => 'admin', '_namePrefix' => 'shop:admin:'], function (RouteBuilder $routes) {
-            //$routes->addExtensions(['pdf']);
-            $routes->connect('/', ['controller' => 'Shop', 'action' => 'index'], ['_name' => 'index']);
-            $routes->fallbacks('DashedRoute');
-        });
+        //$routes->addExtensions(['pdf']);
+        $routes->connect('/', ['controller' => 'Shop', 'action' => 'index'], ['_name' => 'index']);
+        //$routes->connect('/', ['controller' => 'ShopOrders', 'action' => 'index']);
+        $routes->fallbacks('DashedRoute');
     }
 
     /**
@@ -264,14 +255,14 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
     /**
      * @param Event $event
      */
-    public function buildSidebarMenu(Event $event)
+    public function buildSidebarMenu(Event $event, \Banana\Menu\Menu $menu)
     {
         $children = [];
         //if ($event->data['request']->param('plugin') == 'Shop') {
             $children = $this->_getMenuItems();
         //}
 
-        $event->subject()->addItem([
+        $menu->addItem([
             'title' => __d('shop', 'Shop'),
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',
@@ -279,27 +270,19 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
         ]);
     }
 
-    public function buildBackendSystemMenu(Event $event)
+    public function buildBackendSystemMenu(Event $event, \Banana\Menu\Menu $menu)
     {
-        $event->subject()->addItem([
+        $menu->addItem([
             'title' => __d('shop', 'Shop Countries'),
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopCountries', 'action' => 'index'],
             'data-icon' => 'flag-checkered'
         ]);
     }
 
-    public function backendBootstrap(Backend $backend)
-    {
-    }
-
-    public function backendRoutes(RouteBuilder $routes)
-    {
-        $routes->connect('/', ['controller' => 'ShopOrders', 'action' => 'index']);
-        $routes->fallbacks('DashedRoute');
-    }
-
     public function bootstrap(Application $app)
     {
+        parent::bootstrap($app);
+
         $eventManager = EventManager::instance();
         $eventManager->on(new \Shop\Service\CartService());
         $eventManager->on(new \Shop\Service\ShopRulesService());
@@ -310,13 +293,5 @@ class ShopPlugin implements EventListenerInterface, PluginInterface, BackendPlug
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Sitemap\SitemapListener());
         $eventManager->on($this);
-    }
-
-    public function routes(RouteBuilder $routes)
-    {
-    }
-
-    public function middleware(MiddlewareQueue $middleware)
-    {
     }
 }

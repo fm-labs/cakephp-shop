@@ -4,7 +4,7 @@
         <h1 class="title" itemprop="name"><?= h($shopProduct->title); ?></h1>
         <?php if ($shopProduct->shop_category): ?>
         <h3><?= __d('shop','Category'); ?>:
-            <?= $this->Html->link($shopProduct->shop_category->name, $shopProduct->shop_category->url); ?></h3>
+            <?= $this->Html->link($shopProduct->shop_category->name, $shopProduct->shop_category->getUrl()); ?></h3>
         <?php endif; ?>
         <div class="ui grid">
             <div class="row">

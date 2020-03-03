@@ -115,7 +115,7 @@ class ShopCategoryPageType extends AbstractPageType
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
             $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
-            $url = $category->url;
+            $url = $category->getUrl();
             $controller->redirect($url);
         } elseif ($entity instanceof ShopCategory) {
             $controller->redirect($entity->url);

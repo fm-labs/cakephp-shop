@@ -5,7 +5,7 @@
         <?php $i = 0; ?>
         <?php foreach ($shopCategory->published_subcategories->toArray() as $category): ?>
             <?php
-            $viewUrl = $category->url;
+            $viewUrl = $category->getUrl();
             ?>
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="category">

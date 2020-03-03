@@ -98,62 +98,8 @@ class ShopCategoriesController extends AppController
         ]);
         $this->set('fields.whitelist', ['name', 'featured_image_file', 'language', 'is_published']);
 
-        /*
-        $this->set('_actions', [
-            'add' => [
-                __d('shop', 'Add {0}', __d('shop', 'category')),
-                ['action' => 'add']
-            ],
-            'sort' => [
-               __d('shop', 'Sort'),
-               ['plugin' => 'Backend', 'controller' => 'Tree', 'action' => 'index', 'model' => 'Shop.ShopCategories'],
-               ['class' => 'link-modal-frame', 'data-modal-reload' => true, 'data-icon' => 'sitemap']
-            ]
-        ]);
-        */
-
         $this->Action->execute();
     }
-
-    /**
-     * @deprecated Use TreeIndexAction instead
-    public function indexTree()
-    {
-    }
-     */
-
-    /**
-     * @deprecated Use TreeDataAction instread
-    public function treeData()
-    {
-        $this->viewBuilder()->className('Json');
-
-        $id = $this->request->query('id');
-        $conditions = (!$id || $id == '#') ? ['parent_id IS NULL'] : ['parent_id' => $id];
-        $nodes = $this->ShopCategories->find()->where($conditions)->orderAsc('lft')->all()->toArray();
-
-        //debug($pages);
-        $treeData = [];
-        array_walk($nodes, function ($val) use (&$treeData, &$id) {
-
-            $publishedClass = ($val->is_published) ? 'published' : 'unpublished';
-            $treeData[] = [
-                'id' => $val->id,
-                'text' => $val->name . " (". $val->id . ")",
-                'children' => ($val->getChildNodes()) ? true : false,
-                'icon' => 'shop_category ' . $publishedClass,
-                'parent' => ($val->parent_id) ?: '#',
-                'data' => [
-                    'type' => 'shop_category',
-                    'viewUrl' => Router::url(['action' => 'manage', $val->id], true),
-                ]
-            ];
-        });
-
-        $this->set('treeData', $treeData);
-        $this->set('_serialize', 'treeData');
-    }
-     */
 
     /**
      * View method
@@ -184,7 +130,7 @@ class ShopCategoriesController extends AppController
     public function preview($id = null)
     {
         $shopCategory = $this->ShopCategories->get($id, ['contain' => []]);
-        $url = $shopCategory->view_url;
+        $url = $shopCategory->getViewUrl();
         $url['prefix'] = false;
         $url['admin'] = false;
         $url['_tk'] = uniqid(time());

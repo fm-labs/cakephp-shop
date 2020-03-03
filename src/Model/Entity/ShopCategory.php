@@ -1,11 +1,11 @@
 <?php
 namespace Shop\Model\Entity;
 
-use Cake\Routing\Router;
-use Content\Model\Behavior\PageMeta\PageMetaTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
+use Content\Model\Behavior\PageMeta\PageMetaTrait;
 
 /**
  * ShopCategory Entity.
@@ -53,6 +53,48 @@ class ShopCategory extends Entity
     }
 
     /**
+     * @return array
+     */
+    public function getViewUrl()
+    {
+        return [
+            'prefix' => false,
+            'plugin' => 'Shop',
+            'controller' => 'Categories',
+            'action' => 'view',
+            'category_id' => $this->id,
+            //'category' => $this->slug,
+            'category' => $this->url_path,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getUrl()
+    {
+        return $this->getViewUrl();
+    }
+
+    /**
+     * @deprecated Use teaser_html property instead
+     */
+    public function getDescShort($locale = null)
+    {
+        //return $this->_getShopText('Shop.ShopCategories', $this->id, 'desc_short_text', $locale);
+        return $this->teaser_html;
+    }
+
+    /**
+     * @deprecated Use desc_html property instead
+     */
+    public function getDescLong($locale = null)
+    {
+        //return $this->_getShopText('Shop.ShopCategories', $this->id, 'desc_long_text', $locale);
+        return $this->desc_html;
+    }
+
+    /**
      * Workaround hack to work as page
      * @return string
      */
@@ -74,24 +116,6 @@ class ShopCategory extends Entity
         }
 
         return $this->parent_shop_category;
-    }
-
-    /**
-     * @deprecated Use teaser_html property instead
-     */
-    public function getDescShort($locale = null)
-    {
-        //return $this->_getShopText('Shop.ShopCategories', $this->id, 'desc_short_text', $locale);
-        return $this->teaser_html;
-    }
-
-    /**
-     * @deprecated Use desc_html property instead
-     */
-    public function getDescLong($locale = null)
-    {
-        //return $this->_getShopText('Shop.ShopCategories', $this->id, 'desc_long_text', $locale);
-        return $this->desc_html;
     }
 
     /**
@@ -127,7 +151,7 @@ class ShopCategory extends Entity
 
     /**
      * @return array
-     * @todo: Use _getUrl() instead
+     * @deprecated
      */
     protected function _getViewUrl()
     {
@@ -211,18 +235,5 @@ class ShopCategory extends Entity
         }
 
         return $modules;
-    }
-
-    public function getViewUrl()
-    {
-        return [
-            'prefix' => false,
-            'plugin' => 'Shop',
-            'controller' => 'Categories',
-            'action' => 'view',
-            'category_id' => $this->id,
-            //'category' => $this->slug,
-            'category' => $this->url_path,
-        ];
     }
 }

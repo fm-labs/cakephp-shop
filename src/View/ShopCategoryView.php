@@ -2,17 +2,24 @@
 
 namespace Shop\View;
 
+use Cake\I18n\I18n;
 use Cake\Routing\Exception\MissingRouteException;
 use Content\View\ContentView;
-use Cake\I18n\I18n;
 
 /**
  * Class ShopCategoryView
  *
  * @package Shop\View
+ * @property \Content\View\Helper\MetaHelper $Meta
  */
 class ShopCategoryView extends ContentView
 {
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadHelper('Content.Meta');
+    }
 
     /**
      * @param null $view
@@ -56,7 +63,7 @@ class ShopCategoryView extends ContentView
             // bread crumbs
             $path = $shopCategory->getPath($shopCategory->id)->toArray();
             array_walk($path, function ($category) {
-                $this->Breadcrumbs->add($category->name, $category->url);
+                $this->Breadcrumbs->add($category->name, $category->getUrl());
             });
             //$this->Breadcrumbs->add($shopCategory->name);
         }
@@ -72,13 +79,18 @@ class ShopCategoryView extends ContentView
         $this->assign('title', $metaTitle);
 
         // canonical url
-        $this->Html->meta(['link' => $shopCategoryUrl, 'rel' => 'canonical'], null, ['block' => true]);
+        //$this->Html->meta(['link' => $shopCategoryUrl, 'rel' => 'canonical'], null, ['block' => true]);
 
         // meta tags
-        $this->Html->meta(['name' => 'language', 'content' => $metaLang], null, ['block' => true]);
-        $this->Html->meta(['name' => 'robots', 'content' => $metaRobots], null, ['block' => true]);
-        $this->Html->meta(['name' => 'description', 'content' => $metaDescription, 'lang' => $metaLang], null, ['block' => true]);
-        $this->Html->meta(['name' => 'keywords', 'content' => $metaKeywords, 'lang' => $metaLang], null, ['block' => true]);
+        //$this->Html->meta(['name' => 'language', 'content' => $metaLang], null, ['block' => true]);
+        //$this->Html->meta(['name' => 'robots', 'content' => $metaRobots], null, ['block' => true]);
+        //$this->Html->meta(['name' => 'description', 'content' => $metaDescription, 'lang' => $metaLang], null, ['block' => true]);
+        //$this->Html->meta(['name' => 'keywords', 'content' => $metaKeywords, 'lang' => $metaLang], null, ['block' => true]);
+        $this->Meta->setLanguage($metaLang);
+        $this->Meta->setRobots($metaRobots);
+        $this->Meta->setDescription($metaDescription);
+        $this->Meta->setKeywords($metaKeywords);
+        $this->Meta->setLinkCanonical($shopCategoryUrl);
 
         //$this->Html->meta(['name' => 'revisit-after', 'content' => '7 days'], null, ['block' => true]);
         //$this->Html->meta(['name' => 'expires', 'content' => 0], null, ['block' => true]);
@@ -96,16 +108,16 @@ class ShopCategoryView extends ContentView
         //$this->Html->meta(['http-equiv' => 'pragma', 'content' => 'no-cache'], null, ['block' => true]);
 
         // Open Graph Tags
-        $this->Html->meta(['property' => 'og:type', 'content' => 'website'], null, ['block' => true]);
-        $this->Html->meta(['property' => 'og:title', 'content' => $metaTitle], null, ['block' => true]);
-        $this->Html->meta(['property' => 'og:description', 'content' => $metaDescription], null, ['block' => true]);
-        $this->Html->meta(['property' => 'og:url', 'content' => $shopCategoryUrl], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'og:type', 'content' => 'website'], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'og:title', 'content' => $metaTitle], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'og:description', 'content' => $metaDescription], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'og:url', 'content' => $shopCategoryUrl], null, ['block' => true]);
 
         // Twitter Tags
-        $this->Html->meta(['property' => 'twitter:card', 'content' => 'summary'], null, ['block' => true]);
-        $this->Html->meta(['property' => 'twitter:title', 'content' => $metaTitle], null, ['block' => true]);
-        $this->Html->meta(['property' => 'twitter:description', 'content' => $metaDescription], null, ['block' => true]);
-        $this->Html->meta(['property' => 'twitter:url', 'content' => $shopCategoryUrl], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'twitter:card', 'content' => 'summary'], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'twitter:title', 'content' => $metaTitle], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'twitter:description', 'content' => $metaDescription], null, ['block' => true]);
+        //$this->Html->meta(['property' => 'twitter:url', 'content' => $shopCategoryUrl], null, ['block' => true]);
 
         return parent::render($view, $layout);
     }

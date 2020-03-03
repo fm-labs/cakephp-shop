@@ -6,7 +6,7 @@
 
         <?php if ($shopProduct->shop_category): ?>
         <dt style="text-align: left;"><?= __d('shop','Category'); ?></dt>
-        <dd><?= $this->Html->link($shopProduct->shop_category->name, $shopProduct->shop_category->url); ?></dd>
+        <dd><?= $this->Html->link($shopProduct->shop_category->name, $shopProduct->shop_category->getUrl()); ?></dd>
         <?php endif; ?>
     </dl>
 

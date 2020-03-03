@@ -50,6 +50,7 @@ class PaymentService extends BaseService
             case ShopOrderTransactionsTable::STATUS_REVERSAL:
             case ShopOrderTransactionsTable::STATUS_CREDITED:
                 $this->ShopOrders->updateStatusFromTransaction($order, $transaction);
+                break;
             default:
                 break;
         }

@@ -232,7 +232,7 @@ class ShopCategoriesTable extends Table
     protected function _buildSitemap(&$locations, $categories, $level = 0)
     {
         foreach ($categories as $category) {
-            $url = Router::url($category->url, true);
+            $url = Router::url($category->getUrl(), true);
             $priority = 1 - ( $level / 10 );
             $lastmod = $category->modified;
             $changefreq = 'weekly';
