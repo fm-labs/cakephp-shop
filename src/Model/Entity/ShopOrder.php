@@ -262,7 +262,7 @@ class ShopOrder extends Entity
     protected function _getNrFormatted()
     {
         if (isset($this->_properties['nr'])) {
-            $orderCfg = Shop::getConfig('Order');
+            $orderCfg = Shop::config('Order');
 
             $prefix = $orderCfg['nrPrefix'];
             $suffix = $orderCfg['nrSuffix'];
@@ -287,7 +287,7 @@ class ShopOrder extends Entity
     protected function _getInvoiceNrFormatted()
     {
         if (isset($this->_properties['invoice_nr'])) {
-            $orderCfg = Shop::getConfig('Invoice');
+            $orderCfg = Shop::config('Invoice');
 
             $prefix = $orderCfg['nrPrefix'];
             $suffix = $orderCfg['nrSuffix'];

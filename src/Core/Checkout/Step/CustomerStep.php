@@ -30,13 +30,13 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
      */
     public function execute(Controller $controller)
     {
-        if ($controller->request->data('op') == 'login') {
+        if ($controller->getRequest()->data('op') == 'login') {
             return $this->_executeLogin($controller);
-        } elseif ($controller->request->data('op') == 'signup'
-            || $controller->request->getQuery('op') == 'signup') {
+        } elseif ($controller->getRequest()->data('op') == 'signup'
+            || $controller->getRequest()->getQuery('op') == 'signup') {
             return $this->_executeSignup($controller);
-        //} elseif ($controller->request->getQuery('guest')) {
-        //    $controller->request->data['nologin'] = true;
+        //} elseif ($controller->getRequest()->getQuery('guest')) {
+        //    $controller->getRequest()->data['nologin'] = true;
         //    return $this->_executeSignup($controller);
         }
 
@@ -56,7 +56,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         }
 
         //  POST request
-        if ($controller->request->is(['put', 'post'])) {
+        if ($controller->getRequest()->is(['put', 'post'])) {
             // try to authenticate user
             $controller->Auth->login();
 
@@ -114,10 +114,10 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         $controller->loadModel('Shop.ShopCustomers');
         $customer = $controller->ShopCustomers->newEntity();
         $user = $controller->ShopCustomers->Users->newEntity(null, ['validate' => 'register']);
-        if ($controller->request->is(['put', 'post'])) {
-            //debug($controller->request->data);
-            //$customer = $controller->ShopCustomers->add($customer, $controller->request->data);
-            $user = $controller->ShopCustomers->Users->register($controller->request->data);
+        if ($controller->getRequest()->is(['put', 'post'])) {
+            //debug($controller->getRequest()->data);
+            //$customer = $controller->ShopCustomers->add($customer, $controller->getRequest()->data);
+            $user = $controller->ShopCustomers->Users->register($controller->getRequest()->data);
             if ($user && $user->id) {
                 // authenticate user
                 // @TODO Make 'automatic user login after signup' configurable
@@ -127,7 +127,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 //$controller->getEventManager()->dispatch(new Event('User.Auth.login', $controller, compact('user')));
 
                 // create a shop customer profile for user
-                $customer = $controller->ShopCustomers->createFromUser($user, $controller->request->data);
+                $customer = $controller->ShopCustomers->createFromUser($user, $controller->getRequest()->data);
                 // set customer in shop scope
                 $this->Checkout->Shop->setCustomer($customer);
 

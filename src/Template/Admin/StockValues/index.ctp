@@ -63,7 +63,7 @@
 		
 		},
 		'modelClass' => 'Shop.StockValues',
-		'schema' => object(Cake\Database\Schema\Table) {
+		'schema' => object(Cake\Database\Schema\TableSchema) {
 			[protected] _table => 'shop_stock_values'
 			[protected] _columns => [
 				'id' => [
@@ -340,7 +340,7 @@
 	
 	},
 	'modelClass' => 'Shop.StockValues',
-	'schema' => object(Cake\Database\Schema\Table) {
+	'schema' => object(Cake\Database\Schema\TableSchema) {
 		[protected] _table => 'shop_stock_values'
 		[protected] _columns => [
 			'id' => [

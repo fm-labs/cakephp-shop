@@ -53,7 +53,7 @@ class ShopProductsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->ShopProducts->locale($this->locale);
+        $this->ShopProducts->setLocale($this->locale);
     }
 
     /**

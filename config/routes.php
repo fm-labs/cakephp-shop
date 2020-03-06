@@ -5,7 +5,7 @@ use Cake\Routing\Router;
 Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function (\Cake\Routing\RouteBuilder $routes) {
 
     //$routes->addExtensions(['json', 'xml']);
-    $routes->routeClass('Cake\Routing\Route\DashedRoute');
+    //$routes->routeClass('Cake\Routing\Route\DashedRoute');
 
     $routes->connect(
         '/',

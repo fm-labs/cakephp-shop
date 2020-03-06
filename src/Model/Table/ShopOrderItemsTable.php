@@ -39,7 +39,7 @@ class ShopOrderItemsTable extends Table
             'className' => 'Shop.ShopOrders'
         ]);
 
-        $this->schema()->columnType('options', 'json');
+        $this->getSchema()->setColumnType('options', 'json');
     }
 
     /**

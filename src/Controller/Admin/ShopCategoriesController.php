@@ -46,7 +46,7 @@ class ShopCategoriesController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->ShopCategories->locale($this->locale);
+        $this->ShopCategories->setLocale($this->locale);
 
         $this->Action->registerInline('preview', ['label' => __d('shop', 'Preview'), 'attrs' => ['data-icon' => 'search', 'target' => '_blank']]);
     }

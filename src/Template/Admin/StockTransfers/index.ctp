@@ -75,7 +75,7 @@
 		
 		},
 		'modelClass' => 'Shop.StockTransfers',
-		'schema' => object(Cake\Database\Schema\Table) {
+		'schema' => object(Cake\Database\Schema\TableSchema) {
 			[protected] _table => 'shop_stock_transfers'
 			[protected] _columns => [
 				'id' => [
@@ -425,7 +425,7 @@
 	
 	},
 	'modelClass' => 'Shop.StockTransfers',
-	'schema' => object(Cake\Database\Schema\Table) {
+	'schema' => object(Cake\Database\Schema\TableSchema) {
 		[protected] _table => 'shop_stock_transfers'
 		[protected] _columns => [
 			'id' => [

@@ -4,6 +4,7 @@ namespace Shop\Model\Table;
 use Cake\Cache\Cache;
 use Cake\Collection\Collection;
 use Cake\Core\Plugin;
+use Cake\Database\Schema\TableSchema;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Query;
@@ -122,7 +123,7 @@ class ShopCategoriesTable extends Table
             'fields' => ['name', 'slug', 'desc_html', 'teaser_html'],
             'translationTable' => 'ShopI18n'
         ]);
-        //$this->locale('de');
+        //$this->setLocale('de');
 
         if (Plugin::isLoaded('Search')) {
             $this->addBehavior('Search.Search');
@@ -142,9 +143,9 @@ class ShopCategoriesTable extends Table
         }
     }
 
-    protected function _initializeSchema(\Cake\Database\Schema\Table $schema)
+    protected function _initializeSchema(TableSchema $schema)
     {
-        $schema->columnType('image_files', 'media_file');
+        $schema->setColumnType('image_files', 'media_file');
 
         return $schema;
     }

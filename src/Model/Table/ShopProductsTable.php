@@ -140,9 +140,9 @@ class ShopProductsTable extends Table
         }
     }
 
-    protected function _initializeSchema(\Cake\Database\Schema\Table $schema)
+    protected function _initializeSchema(\Cake\Database\Schema\TableSchema $schema)
     {
-        $schema->columnType('image_files', 'media_file');
+        $schema->setColumnType('image_files', 'media_file');
 
         return $schema;
     }
@@ -364,8 +364,8 @@ class ShopProductsTable extends Table
     {
         $locations = [];
 
-        $this->locale('de');
-        $this->ShopCategories->locale('de');
+        $this->setLocale('de');
+        $this->ShopCategories->setLocale('de');
 
         $products = $this
             ->find('published')

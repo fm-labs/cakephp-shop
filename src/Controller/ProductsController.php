@@ -90,14 +90,14 @@ class ProductsController extends AppController
                 $id = $this->request->getQuery('id');
             } elseif (isset($this->request->query['product_id'])) {
                 $id = $this->request->query['product_id'];
-            } elseif (isset($this->request->getParam('product_id'))) {
+            } elseif ($this->request->getParam('product_id')) {
                 $id = $this->request->getParam('product_id');
             }
         }
 
         $shopProductVersionId = $id;
 
-        $this->ShopProducts->locale($this->Locale->getLocale());
+        $this->ShopProducts->setLocale($this->Locale->getLocale());
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ParentShopProducts'],
             'media' => true,

@@ -32,6 +32,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
         parent::bootstrap($app);
 
         $eventManager = EventManager::instance();
+        /*
         $eventManager->on(new \Shop\Service\CartService());
         $eventManager->on(new \Shop\Service\ShopRulesService());
         $eventManager->on(new \Shop\Service\CustomerService());
@@ -40,6 +41,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
         $eventManager->on(new \Shop\Service\OrderService());
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Sitemap\SitemapListener());
+        */
         $eventManager->on($this);
     }
 
@@ -56,9 +58,8 @@ class Plugin extends BasePlugin implements EventListenerInterface
         return [
             //'Content.Model.PageTypes.get' => 'getContentPageTypes',
             'Settings.build' => 'buildSettings',
-            //'Backend.Menu.build.admin_primary' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
-            'Backend.Menu.build.admin_primary' => ['callable' => 'buildSidebarMenu', 'priority' => 5 ],
-            'Backend.Menu.build.admin_system' => ['callable' => 'buildBackendMenu' ],
+            'Backend.Menu.build.admin_primary' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
+            'Backend.Menu.build.admin_system' => ['callable' => 'buildBackendSystemMenu' ],
         ];
     }
 

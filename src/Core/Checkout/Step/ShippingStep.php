@@ -105,9 +105,9 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
     {
         $engine = $this->engine();
 
-        if (!$engine || $controller->request->getQuery('change')) {
-            if ($controller->request->is(['post', 'put'])) {
-                $engineName = $controller->request->data('shipping_type');
+        if (!$engine || $controller->getRequest()->getQuery('change')) {
+            if ($controller->getRequest()->is(['post', 'put'])) {
+                $engineName = $controller->getRequest()->data('shipping_type');
 
                 if ($this->_registry->has($engineName)) {
                     $engine = $this->_registry->get($engineName);

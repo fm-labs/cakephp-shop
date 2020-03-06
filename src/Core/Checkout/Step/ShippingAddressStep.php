@@ -70,11 +70,11 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }
 
-        if ($controller->request->is(['put', 'post'])) {
-            $op = $controller->request->data('_op');
+        if ($controller->getRequest()->is(['put', 'post'])) {
+            $op = $controller->getRequest()->data('_op');
             switch ($op) {
                 case "shipping-customer-select":
-                    $addressId = $controller->request->data('customer_address_id');
+                    $addressId = $controller->getRequest()->data('customer_address_id');
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'S')) {
                         $this->Checkout->reloadOrder();
@@ -85,7 +85,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     break;
 
                 default:
-                    $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->request->data);
+                    $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->getRequest()->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
                         $this->Checkout->reloadOrder();
                         $controller->Flash->success(__d('shop', 'Shipping address has been updated'));

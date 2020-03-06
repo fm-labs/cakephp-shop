@@ -64,11 +64,11 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
             $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
         }
 
-        if ($controller->request->is(['put', 'post'])) {
-            $op = $controller->request->data('_op');
+        if ($controller->getRequest()->is(['put', 'post'])) {
+            $op = $controller->getRequest()->data('_op');
             switch ($op) {
                 case "billing-customer-select":
-                    $addressId = $controller->request->data('customer_address_id');
+                    $addressId = $controller->getRequest()->data('customer_address_id');
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'B')) {
                         $this->Checkout->reloadOrder();
@@ -79,7 +79,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
                     break;
 
                 default:
-                    $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($billingAddress, $controller->request->data);
+                    $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($billingAddress, $controller->getRequest()->data);
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $billingAddress, 'B')) {
                         $this->Checkout->reloadOrder();
                         $controller->Flash->success(__d('shop', 'Billing information has been updated'));
