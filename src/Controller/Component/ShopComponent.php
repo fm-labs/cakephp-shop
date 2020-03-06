@@ -53,7 +53,7 @@ class ShopComponent extends Component
     {
         if ($this->Auth->user()) {
             /** @var ShopCustomersTable $ShopCustomers */
-            $ShopCustomers = TableRegistry::get('Shop.ShopCustomers');
+            $ShopCustomers = TableRegistry::getTableLocator()->get('Shop.ShopCustomers');
             $customer = $ShopCustomers->createFromUserId($this->Auth->user('id'));
             $this->setCustomer($customer);
         }
@@ -64,7 +64,7 @@ class ShopComponent extends Component
      */
     public function beforeRender(Event $event)
     {
-        $event->subject()->set('customer', $this->getCustomer());
+        $event->getSubject()->set('customer', $this->getCustomer());
     }
 
     /**
@@ -128,7 +128,7 @@ class ShopComponent extends Component
      */
     public function getCountriesList()
     {
-        $countries = TableRegistry::get('Shop.ShopCountries')
+        $countries = TableRegistry::getTableLocator()->get('Shop.ShopCountries')
             ->find('list')
             ->find('published')
             ->order(['name_de' => 'ASC'])
@@ -144,7 +144,7 @@ class ShopComponent extends Component
     {
         $addresses = null;
         if ($this->_customer && !$this->customer('is_guest')) {
-            $addresses = TableRegistry::get('Shop.ShopCustomerAddresses')
+            $addresses = TableRegistry::getTableLocator()->get('Shop.ShopCustomerAddresses')
                 ->find()
                 ->where(['ShopCustomerAddresses.shop_customer_id' => $this->getCustomerId()]);
         }

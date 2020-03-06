@@ -5,9 +5,9 @@ namespace Shop\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Event\Event;
 use Cake\Log\Log;
-use Cake\Network\Exception\InternalErrorException;
-use Cake\Network\Exception\NotImplementedException;
-use Cake\Network\Response;
+use Cake\Http\Exception\InternalErrorException;
+use Cake\Http\Exception\NotImplementedException;
+use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Checkout\CheckoutStepRegistry;
@@ -72,8 +72,8 @@ class CheckoutComponent extends Component
      */
     public function initialize(array $config)
     {
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
-        $this->ShopOrders->eventManager()->on($this);
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
+        $this->ShopOrders->getEventManager()->on($this);
         $this->_stepRegistry = new CheckoutStepRegistry($this);
 
         $steps = (isset($config['steps'])) ? $config['steps'] : [];
@@ -110,9 +110,9 @@ class CheckoutComponent extends Component
      */
     public function beforeRender(Event $event)
     {
-        $event->subject()->set('order', $this->_order);
-        $event->subject()->set('step', $this->_activeStep);
-        $event->subject()->set('stepId', $this->_active);
+        $event->getSubject()->set('order', $this->_order);
+        $event->getSubject()->set('step', $this->_activeStep);
+        $event->getSubject()->set('stepId', $this->_active);
     }
 
     /**
@@ -142,7 +142,7 @@ class CheckoutComponent extends Component
     {
         // check if order is ready for checkout
         if (!$this->getOrder() || count($this->getOrder()->shop_order_items) < 1) {
-            $event->subject()->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
+            $event->getSubject()->Flash->error(__d('shop', 'Checkout aborted: Your cart is empty'));
 
             return $this->getController()->redirect(['_name' => 'shop:cart']);
         }
@@ -274,7 +274,7 @@ class CheckoutComponent extends Component
      * Execute step in controller context
      *
      * @param CheckoutStepInterface $step
-     * @return null|\Cake\Network\Response
+     * @return null|\Cake\Http\Response
      */
     protected function _executeStep(CheckoutStepInterface $step)
     {
@@ -283,7 +283,7 @@ class CheckoutComponent extends Component
         $this->request->session()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
 
         // before step
-        $event = $this->getController()->eventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
+        $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
         if ($event->result instanceof Response) {
             return $event->result;
         } elseif ($event->result instanceof CheckoutStepInterface) {
@@ -294,7 +294,7 @@ class CheckoutComponent extends Component
         $response = $step->execute($this->_registry->getController());
 
         // after step
-        $event = $this->getController()->eventManager()->dispatch(new CheckoutEvent('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
+        $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
         if ($event->result instanceof Response) {
             return $event->result;
         }
@@ -318,7 +318,7 @@ class CheckoutComponent extends Component
     /**
      * Redirect to next step
      *
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function redirectNext()
     {
@@ -497,7 +497,7 @@ class CheckoutComponent extends Component
             return false;
         }
 
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
 
         $order = $this->getOrder();
         $order->accessible('shipping_type', true);

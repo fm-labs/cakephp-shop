@@ -26,9 +26,9 @@ class StocksTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_stocks');
-        $this->displayField('title');
-        $this->primaryKey('id');
+        $this->setTable('shop_stocks');
+        $this->setDisplayField('title');
+        $this->setPrimaryKey('id');
 
         $this->hasMany('ShopStockTransfers', [
             'foreignKey' => 'shop_stock_id',

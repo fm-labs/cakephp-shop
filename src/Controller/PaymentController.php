@@ -6,8 +6,8 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Log\Log;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Controller\Component\ShopComponent;
 use Shop\Model\Entity\ShopOrder;
@@ -38,7 +38,7 @@ class PaymentController extends AppController
 
     /**
      * @param Event $event
-     * @return \Cake\Network\Response|null|void
+     * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(Event $event)
     {
@@ -92,7 +92,7 @@ class PaymentController extends AppController
 
     /**
      * @param null $orderUUID
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function index($orderUUID = null)
     {
@@ -144,7 +144,7 @@ class PaymentController extends AppController
      * Redirects to 3rd party site, if necessary.
      *
      * @param null $orderUUID
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function pay($orderUUID = null)
     {
@@ -164,7 +164,7 @@ class PaymentController extends AppController
      * Return URL for successful payments
      *
      * @param null $txnId
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function success($txnId = null)
     {
@@ -182,7 +182,7 @@ class PaymentController extends AppController
      * Return URL for failed payments
      *
      * @param null $txnId
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function error($txnId = null)
     {
@@ -200,7 +200,7 @@ class PaymentController extends AppController
      * Return URL for failed payments
      *
      * @param null $txnId
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function cancel($txnId = null)
     {

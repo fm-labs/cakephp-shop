@@ -38,17 +38,17 @@ class CustomerService extends BaseService
         $customer = null;
 
         try {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUser($user, $event->data['data']);
+            $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->createFromUser($user, $event->data['data']);
         } catch (\Exception $ex) {
             Log::error('CustomerEventListener::onUserRegister: ' . $ex->getMessage());
         }
 
         if ($customer) {
             Log::debug('[shop] Set customer for user ' . $user->id);
-            //$event->subject()->request->session()->write('Shop.Customer', $customer->toArray());
+            //$event->getSubject()->request->session()->write('Shop.Customer', $customer->toArray());
         } else {
             Log::alert('[shop] Failed to create customer for user ' . $user->id);
-            //$event->subject()->request->session()->delete('Shop.Customer');
+            //$event->getSubject()->request->session()->delete('Shop.Customer');
         }
     }
 
@@ -65,7 +65,7 @@ class CustomerService extends BaseService
             return;
         }
 
-        $customer = TableRegistry::get('Shop.ShopCustomers')->find()
+        $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->find()
             ->where(['ShopCustomers.user_id' => $userId])
             ->contain([])
             ->first();
@@ -73,7 +73,7 @@ class CustomerService extends BaseService
         // attempt to auto-create customer for user
         if (!$customer) {
             try {
-                $customer = TableRegistry::get('Shop.ShopCustomers')->createFromUserId($userId);
+                $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->createFromUserId($userId);
             } catch (\Exception $ex) {
                 Log::error('CustomerEventListener::onUserLogin: ' . $ex->getMessage());
             }
@@ -81,10 +81,10 @@ class CustomerService extends BaseService
 
         if ($customer) {
             Log::debug('[shop] Set customer for user ' . $userId);
-            $event->subject()->request->session()->write('Shop.Customer', $customer->toArray());
+            $event->getSubject()->request->session()->write('Shop.Customer', $customer->toArray());
         } else {
             Log::alert('[shop] Failed to create customer for user ' . $userId);
-            $event->subject()->request->session()->delete('Shop.Customer');
+            $event->getSubject()->request->session()->delete('Shop.Customer');
         }
     }
 
@@ -93,10 +93,10 @@ class CustomerService extends BaseService
      */
     public function onUserLogout(Event $event)
     {
-        $event->subject()->request->session()->delete('Shop.Customer');
-        $event->subject()->request->session()->delete('Shop.Order');
-        $event->subject()->request->session()->delete('Shop.Cart');
-        $event->subject()->request->session()->delete('Shop.Checkout');
+        $event->getSubject()->request->session()->delete('Shop.Customer');
+        $event->getSubject()->request->session()->delete('Shop.Order');
+        $event->getSubject()->request->session()->delete('Shop.Cart');
+        $event->getSubject()->request->session()->delete('Shop.Checkout');
     }
 
     /**
@@ -110,14 +110,14 @@ class CustomerService extends BaseService
 
         $address = $order->getBillingAddress();
         if ($address && !$address->shop_customer_address_id) {
-            if (!TableRegistry::get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
+            if (!TableRegistry::getTableLocator()->get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
                 Log::error(sprintf('CustomerService::newRecordFromOrderAddress [B] failed for order %s', $order->id));
             }
         }
 
         $address = $order->getShippingAddress();
         if ($address && !$address->shop_customer_address_id) {
-            if (!TableRegistry::get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
+            if (!TableRegistry::getTableLocator()->get('Shop.ShopCustomerAddresses')->newRecordFromOrderAddress($order->shop_customer_id, $address)) {
                 Log::error(sprintf('CustomerService::newRecordFromOrderAddress [S] failed for order %s', $order->id));
             }
         }

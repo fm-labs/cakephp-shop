@@ -29,18 +29,18 @@ class SubmitStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function execute(Controller $controller)
     {
         if ($controller->request->is(['put', 'post'])) {
             $order = $this->Checkout->submitOrder($controller->request->data);
-            if ($order && empty($order->errors()) && $order->is_temporary == false) {
+            if ($order && empty($order->getErrors()) && $order->is_temporary == false) {
                 $controller->Flash->success(__d('shop', 'Order has been submitted'));
 
                 return $controller->redirect(['plugin' => 'Shop', 'controller' => 'Orders', 'action' => 'process', $order->uuid]);
             } else {
-                debug($this->Checkout->getOrder()->errors());
+                debug($this->Checkout->getOrder()->getErrors());
                 $controller->Flash->error(__d('shop', 'Please fill all required fields'));
                 //$this->Checkout->redirectNext();
             }

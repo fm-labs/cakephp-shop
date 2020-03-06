@@ -6,7 +6,7 @@ use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Shipping\ShippingEngineInterface;
 use Shop\Core\Shipping\ShippingEngineRegistry;
@@ -99,13 +99,13 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
 
-        if (!$engine || $controller->request->query('change')) {
+        if (!$engine || $controller->request->getQuery('change')) {
             if ($controller->request->is(['post', 'put'])) {
                 $engineName = $controller->request->data('shipping_type');
 

@@ -31,7 +31,7 @@ class ShopRulesService implements EventListenerInterface
 
         if (Shop::config('Shop.CustomerDiscounts.enabled') == true && $customer) {
             debug("discounts");
-            $ShopCustomerDiscounts = TableRegistry::get('Shop.ShopCustomerDiscounts');
+            $ShopCustomerDiscounts = TableRegistry::getTableLocator()->get('Shop.ShopCustomerDiscounts');
 
             // find customer discounts for specific product
             $customerDiscount = $ShopCustomerDiscounts->find()->where([

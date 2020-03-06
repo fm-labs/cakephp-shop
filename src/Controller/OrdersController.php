@@ -2,8 +2,8 @@
 namespace Shop\Controller;
 
 use Cake\Core\Configure;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -46,7 +46,7 @@ class OrdersController extends AppController
      *
      * @param null $uuid Shop Order id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($uuid = null)
     {
@@ -92,7 +92,7 @@ class OrdersController extends AppController
      *
      * @param string|null $id Shop Order id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function cancel($id = null)
     {

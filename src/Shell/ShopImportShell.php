@@ -108,9 +108,9 @@ class ShopImportShell extends Shell
 
             $customer->accessible('*', true);
             $customer = $this->ShopCustomers->patchEntity($customer, $entityData);
-            if ($customer->errors()) {
+            if ($customer->getErrors()) {
                 $this->_importError($i, 'Customer has errors', 'fail');
-                debug($customer->errors());
+                debug($customer->getErrors());
                 continue;
             }
 
@@ -235,9 +235,9 @@ class ShopImportShell extends Shell
 
             $customer->accessible('*', true);
             $customer = $this->ShopCustomers->patchEntity($customer, $entityData);
-            if ($customer->errors()) {
+            if ($customer->getErrors()) {
                 $this->_importError($i, 'Customer has errors', 'fail');
-                debug($customer->errors());
+                debug($customer->getErrors());
                 continue;
             }
 
@@ -449,9 +449,9 @@ class ShopImportShell extends Shell
             }
 
             $product = $this->ShopProducts->patchEntity($product, $entityData);
-            if ($product->errors()) {
+            if ($product->getErrors()) {
                 $this->_importError($i, 'Product has errors', 'fail');
-                debug($product->errors());
+                debug($product->getErrors());
                 continue;
             }
 
@@ -492,9 +492,9 @@ class ShopImportShell extends Shell
             'is_published' => true,
         ]);
 
-        if ($category->errors()) {
+        if ($category->getErrors()) {
             $this->out("Category $categoryName has errors");
-            debug($category->errors());
+            debug($category->getErrors());
 
             return false;
         }
@@ -578,7 +578,7 @@ class ShopImportShell extends Shell
                 'custom5' => 'ShopProduct:' . $product->id
             ]);
 
-            if ($cat->errors()) {
+            if ($cat->getErrors()) {
                 $this->err("Category $categoryId has errors");
                 continue;
             }

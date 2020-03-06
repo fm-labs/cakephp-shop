@@ -35,7 +35,7 @@ class ClearCreditcardDataCronTask extends CronTask
      */
     public function execute()
     {
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
 
         // find orders with credit card data, older than 3 days
         $orders = $this->ShopOrders->find()

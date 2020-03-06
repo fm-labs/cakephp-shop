@@ -2,7 +2,7 @@
 
 namespace Shop\Core\Shipping;
 
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 
 /**

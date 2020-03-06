@@ -58,7 +58,7 @@ class CategoriesControllerTest extends IntegrationTestCase
         Configure::write('Shop.Categories.layout', false);
         Configure::write('Shop.Router.enablePrettyUrls', false);
 
-        TableRegistry::get('Shop.ShopCategories')->behaviors()->unload('Media');
+        TableRegistry::getTableLocator()->get('Shop.ShopCategories')->behaviors()->unload('Media');
     }
 
     /**

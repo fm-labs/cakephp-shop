@@ -4,7 +4,7 @@ namespace Shop\Core\Payment\Engine;
 
 use Cake\Core\Configure;
 use Cake\Log\Log;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest as Request;
 use Cake\Routing\Router;
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Config;
@@ -35,7 +35,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
     /**
      * @param CheckoutComponent $Checkout
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function checkout(CheckoutComponent $Checkout)
     {
@@ -49,10 +49,10 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             if ($Checkout->setOrder($order, true)) {
                 return $Checkout->redirectNext();
             } else {
-                debug($order->errors());
+                debug($order->getErrors());
                 $Checkout->getController()->Flash->error("Failed to update payment info");
             }
-        } elseif (!$Checkout->request->query('change')) {
+        } elseif (!$Checkout->request->getQuery('change')) {
             return $Checkout->redirectNext();
         }
     }
@@ -125,7 +125,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
      * @param PaymentComponent $Payment
      * @param ShopOrderTransaction $transaction
      * @param ShopOrder $order
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      * @throws \Exception
      */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
@@ -270,7 +270,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
         $isTest = ('213.208.153.58' == $Payment->request->clientIp());
 
-        $query = $Payment->request->query; // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
+        $query = $Payment->request->getQuery(); // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
         if ($transaction->id != $query['TID']) { //@TODO Compary hash instead of id
             throw new \RuntimeException('Mpay24Payment::confirm: Transaction Ids do not match');
         }

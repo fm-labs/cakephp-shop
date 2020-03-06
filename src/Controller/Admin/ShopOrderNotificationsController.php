@@ -34,7 +34,7 @@ class ShopOrderNotificationsController extends AppController
      *
      * @param string|null $id Shop Order Notification id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {

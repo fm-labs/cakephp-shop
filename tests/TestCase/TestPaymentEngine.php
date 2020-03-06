@@ -2,7 +2,7 @@
 
 namespace Shop\Test\TestCase;
 
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
@@ -47,9 +47,9 @@ class TestPaymentEngine implements PaymentEngineInterface
     public function confirm(PaymentComponent $Payment, ShopOrderTransaction $transaction)
     {
         $transaction->is_test = true;
-        $transaction->ext_txnid = $Payment->request->query('txnid');
+        $transaction->ext_txnid = $Payment->request->getQuery('txnid');
 
-        switch ($Payment->request->query('test_status')) {
+        switch ($Payment->request->getQuery('test_status')) {
             case "denied":
                 $transaction->ext_status = "DENIED";
                 $transaction->status = ShopOrderTransactionsTable::STATUS_REJECTED;

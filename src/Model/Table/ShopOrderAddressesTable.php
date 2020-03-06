@@ -25,9 +25,9 @@ class ShopOrderAddressesTable extends ShopAddressesTable
      */
     public function initialize(array $config)
     {
-        $this->table('shop_order_addresses');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_order_addresses');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

@@ -54,9 +54,9 @@ class ShopOrdersTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
-        $this->ShopOrders = TableRegistry::get('ShopOrders', $config);
-        $this->ShopOrders->eventManager()->on(new CustomerService());
-        $this->ShopOrders->eventManager()->on(new EmailNotificationService());
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('ShopOrders', $config);
+        $this->ShopOrders->getEventManager()->on(new CustomerService());
+        $this->ShopOrders->getEventManager()->on(new EmailNotificationService());
 
         // use custom ordergroup for testing
         Configure::write('Shop.Order.nrStart', 1000);
@@ -241,8 +241,8 @@ class ShopOrdersTableTest extends TestCase
         // test without agree_terms
         $order = $this->ShopOrders->find('order', ['ShopOrders.id' => 1]);
         $result = $this->ShopOrders->submitOrder($order, ['agree_terms' => 0]);
-        $this->assertNotEmpty($order->errors());
-        $this->assertArrayHasKey('agree_terms', $order->errors());
+        $this->assertNotEmpty($order->getErrors());
+        $this->assertArrayHasKey('agree_terms', $order->getErrors());
         $this->assertArrayHasKey('checked', $order->errors('agree_terms'));
 
         // test with agree_term
@@ -261,7 +261,7 @@ class ShopOrdersTableTest extends TestCase
         $this->assertNotEmpty($billingAddress);
 
         $this->markTestIncomplete('Test if customer address has been created from billing address');
-        //$ShopCustomerAddresses = TableRegistry::get('Shop.ShopCustomerAddresses');
+        //$ShopCustomerAddresses = TableRegistry::getTableLocator()->get('Shop.ShopCustomerAddresses');
         //$customerAddress = $ShopCustomerAddresses->find()->where($billingAddress->extractAddress())->first();
         //$this->assertNotNull($customerAddress);
     }

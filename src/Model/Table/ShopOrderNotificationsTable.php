@@ -34,9 +34,9 @@ class ShopOrderNotificationsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_order_notifications');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_order_notifications');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

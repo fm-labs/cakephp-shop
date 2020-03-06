@@ -60,7 +60,7 @@ class ShopOrdersController extends AppController
                 return $this->redirect(['action' => 'viewOrder', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'Operation failed'));
-                debug($order->errors());
+                debug($order->getErrors());
             }
         }
 
@@ -105,7 +105,7 @@ class ShopOrdersController extends AppController
      *
      * @param string|null $id Shop Order id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -214,7 +214,7 @@ class ShopOrdersController extends AppController
      */
     public function printview($id = null, $mode = null)
     {
-        $mode = ($mode) ?: $this->request->query('mode');
+        $mode = ($mode) ?: $this->request->getQuery('mode');
 
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
@@ -233,7 +233,7 @@ class ShopOrdersController extends AppController
      */
     public function pdfview($id = null, $mode = null)
     {
-        $mode = ($mode) ?: $this->request->query('mode');
+        $mode = ($mode) ?: $this->request->getQuery('mode');
 
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
@@ -241,7 +241,7 @@ class ShopOrdersController extends AppController
         ]);
         $this->set('shopOrder', $shopOrder);
 
-        $this->viewBuilder()->className('Tcpdf.Pdf');
+        $this->viewBuilder()->setClassName('Tcpdf.Pdf');
         $this->viewBuilder()->layout('Shop.print');
 
         $this->set('pdfEngine', Configure::read('Shop.Pdf.engine'));
@@ -261,7 +261,7 @@ class ShopOrdersController extends AppController
      *
      * @param string|null $id Shop Order id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      * //@TODO Implement emailOwnerOrderNotify action
      */
     public function emailOwnerOrderNotify($id = null)
@@ -284,7 +284,7 @@ class ShopOrdersController extends AppController
      *
      * @param string|null $id Shop Order id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function calculate($id = null)
     {
@@ -302,7 +302,7 @@ class ShopOrdersController extends AppController
      *
      * @param string|null $id Shop Order id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function costs($id = null)
     {

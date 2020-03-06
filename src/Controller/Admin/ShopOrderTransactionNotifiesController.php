@@ -26,7 +26,7 @@ class ShopOrderTransactionNotifiesController extends AppController
      *
      * @param string|null $id Shop Order Transaction Notify id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -61,7 +61,7 @@ class ShopOrderTransactionNotifiesController extends AppController
      *
      * @param string|null $id Shop Order Transaction Notify id.
      * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -88,7 +88,7 @@ class ShopOrderTransactionNotifiesController extends AppController
      *
      * @param string|null $id Shop Order Transaction Notify id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function delete($id = null)
     {

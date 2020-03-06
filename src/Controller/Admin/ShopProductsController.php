@@ -4,7 +4,7 @@ namespace Shop\Controller\Admin;
 use Backend\Controller\Component\ToggleComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
 use Media\Lib\Media\MediaManager;
 
@@ -48,7 +48,7 @@ class ShopProductsController extends AppController
 
     /**
      * @param Event $event
-     * @return \Cake\Network\Response|null|void
+     * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(Event $event)
     {
@@ -72,9 +72,9 @@ class ShopProductsController extends AppController
         ];
 
         $options = ['contain' => ['ShopCategories']];
-        $customerId = $this->request->query('for_customer');
+        $customerId = $this->request->getQuery('for_customer');
         if ($customerId) {
-            $customer = TableRegistry::get('Shop.ShopCustomers')->get($customerId, ['contain' => false]);
+            $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->get($customerId, ['contain' => false]);
             if ($customer) {
                 $options = ['for_customer' => $customer->id];
                 $this->Flash->success(__d('shop', 'Product net prices for customer {0} (CustomerID: {1})', $customer->display_name, $customer->id));
@@ -84,7 +84,7 @@ class ShopProductsController extends AppController
         }
         $query = $this->ShopProducts->find('all', $options);
 
-        $parentId = $this->request->query('parent_id');
+        $parentId = $this->request->getQuery('parent_id');
         if ($parentId) {
             $query->where(['ShopProducts.parent_id' => $parentId]);
         }
@@ -178,7 +178,7 @@ class ShopProductsController extends AppController
      *
      * @param string|null $id Shop Product id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -263,7 +263,7 @@ class ShopProductsController extends AppController
 
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
             } else {
-                debug($shopProduct->errors());
+                debug($shopProduct->getErrors());
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop product')));
             }
         }
@@ -277,7 +277,7 @@ class ShopProductsController extends AppController
      *
      * @param string|null $id Shop Product id.
      * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function _edit($id = null)
     {
@@ -336,7 +336,7 @@ class ShopProductsController extends AppController
      *
      * @param string|null $id Shop Product id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function delete($id = null)
     {
@@ -361,13 +361,13 @@ class ShopProductsController extends AppController
 
     /**
      * @param null $id
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      * @deprecated Use MediaBehavior instead
      */
     public function setImage($id = null)
     {
-        $scope = $this->request->query('scope');
-        $multiple = $this->request->query('multiple');
+        $scope = $this->request->getQuery('scope');
+        $multiple = $this->request->getQuery('multiple');
 
         $this->ShopProducts->behaviors()->unload('Media');
         $content = $this->ShopProducts->get($id, [
@@ -402,12 +402,12 @@ class ShopProductsController extends AppController
 
     /**
      * @param null $id
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      * @deprecated Use Mediabehavior instead
      */
     public function deleteImage($id = null)
     {
-        $scope = $this->request->query('scope');
+        $scope = $this->request->getQuery('scope');
 
         $this->ShopProducts->behaviors()->unload('Media');
         $content = $this->ShopProducts->get($id, [

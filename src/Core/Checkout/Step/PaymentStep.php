@@ -5,7 +5,7 @@ namespace Shop\Core\Checkout\Step;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
@@ -144,7 +144,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
-        if (!$engine || $controller->request->data('op') == "change" || $controller->request->query('change') == true) {
+        if (!$engine || $controller->request->data('op') == "change" || $controller->request->getQuery('change') == true) {
             if ($controller->request->is(['post', 'put'])) {
                 $paymentType = $controller->request->data('payment_type');
 

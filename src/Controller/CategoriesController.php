@@ -43,7 +43,7 @@ class CategoriesController extends AppController
 
     /**
      * @param Event $event
-     * @return \Cake\Network\Response|null|void
+     * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(Event $event)
     {
@@ -51,7 +51,7 @@ class CategoriesController extends AppController
         //$this->viewBuilder()->layout(Configure::read('Shop.Categories.layout'));
 
         //if ($this->request->param('_ext') === 'json') {
-        //    $this->viewBuilder()->layout(false);
+        //    $this->viewBuilder()->setLayout(false);
         //    $this->RequestHandler->renderAs($this, 'json');
         //}
     }
@@ -95,7 +95,7 @@ class CategoriesController extends AppController
         $this->loadModel('Shop.ShopCategories');
 
         if ($categoryId === null) {
-            $categoryId = $this->request->query('category_id');
+            $categoryId = $this->request->getQuery('category_id');
         }
 
         $this->paginate = [
@@ -128,7 +128,7 @@ class CategoriesController extends AppController
      *
      * @param string|null $id Category id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -136,7 +136,7 @@ class CategoriesController extends AppController
 
         $slug = null;
         $id = ($id) ?: $this->request->param('category_id');
-        $id = ($id) ?: $this->request->query('category_id');
+        $id = ($id) ?: $this->request->getQuery('category_id');
 
         // check if id is numeric or a string
         //@TODO Sanitize user input
@@ -149,7 +149,7 @@ class CategoriesController extends AppController
         // attempt to resolve category from slug
         if (!$id) {
             $slug = ($slug) ?: $this->request->param('category');
-            $slug = ($slug) ?: $this->request->query('category');
+            $slug = ($slug) ?: $this->request->getQuery('category');
             if ($slug) {
                 //@TODO Replace with slug finder
                 $_category = $this->ShopCategories->find('published')->where(['slug' => $slug])->first();
@@ -198,7 +198,7 @@ class CategoriesController extends AppController
 
         // Template injection
         //@TODO Sanitize input vars
-        $template = $this->request->query('template');
+        $template = $this->request->getQuery('template');
         $template = ($template) ?: $shopCategory->view_template;
         $template = ($template) ? strtolower($template) : null;
         $template = ($template == 'index') ? 'subcategories_grid' : $template; // legacy support

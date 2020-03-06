@@ -14,10 +14,10 @@ class PagesController extends AppController
         parent::beforeFilter($event);
         $this->Auth->allow();
 
-        if ($this->request->params['action'] !== 'display') {
-            $action = $this->request->params['action'];
-            $this->request->params['action'] = 'display';
-            $this->request->params['pass'][0] = $action;
+        if ($this->request->getParam('action') !== 'display') {
+            $action = $this->request->getParam('action');
+            $this->request->getParam('action') = 'display';
+            $this->request->getParam('pass')[0] = $action;
         }
     }
 }

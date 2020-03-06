@@ -35,9 +35,9 @@ class ShopOrderTransactionsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_order_transactions');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_order_transactions');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Banana.Statusable');

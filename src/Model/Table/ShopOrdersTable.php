@@ -63,9 +63,9 @@ class ShopOrdersTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_orders');
-        $this->displayField('nr_formatted');
-        $this->primaryKey('id');
+        $this->setTable('shop_orders');
+        $this->setDisplayField('nr_formatted');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -483,7 +483,7 @@ class ShopOrdersTable extends Table
         $event = new Event('Shop.Model.Order.statusUpdate', $this, [
             'order' => $order,
         ]);
-        $this->eventManager()->dispatch($event);
+        $this->getEventManager()->dispatch($event);
 
         return $order;
     }
@@ -601,8 +601,8 @@ class ShopOrdersTable extends Table
             'customer_email' => ($order->customer_email) ?: $order->shop_customer->email,
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
-        if ($order->errors()) {
-            //debug($order->errors());
+        if ($order->getErrors()) {
+            //debug($order->getErrors());
             Log::error("Order submitted with errors: " . $order->id);
             //throw new \Exception("Failed to submit order");
             return $order;
@@ -612,7 +612,7 @@ class ShopOrdersTable extends Table
         $event = new Event('Shop.Model.Order.beforeSubmit', $this, [
             'order' => $order
         ]);
-        $this->eventManager()->dispatch($event);
+        $this->getEventManager()->dispatch($event);
 
         // place that order now!
         $order = $this->save($order);
@@ -632,7 +632,7 @@ class ShopOrdersTable extends Table
         $event = new Event('Shop.Model.Order.afterSubmit', $this, [
             'order' => $order
         ]);
-        $this->eventManager()->dispatch($event);
+        $this->getEventManager()->dispatch($event);
 
         return $order;
     }
@@ -652,7 +652,7 @@ class ShopOrdersTable extends Table
         $event = new Event('Shop.Model.Order.beforeConfirm', $this, [
             'order' => $order
         ]);
-        $this->eventManager()->dispatch($event);
+        $this->getEventManager()->dispatch($event);
 
         // update order status to 'submitted'
         // @TODO Move to event listener and check if the payment balance is actually zero before updating the status to CONFIRMED
@@ -674,7 +674,7 @@ class ShopOrdersTable extends Table
         $event = new Event('Shop.Model.Order.afterConfirm', $this, [
             'order' => $order
         ]);
-        $this->eventManager()->dispatch($event);
+        $this->getEventManager()->dispatch($event);
 
         return $order;
     }

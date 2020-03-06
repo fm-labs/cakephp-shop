@@ -60,7 +60,7 @@ class CheckoutController extends AppController
      * Load order from cartID and redirect to next checkout step
      *
      * @param null|string $cartId
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function index($cartId = null)
     {
@@ -89,7 +89,7 @@ class CheckoutController extends AppController
      * Invokes controller actions or fallback to checkout step,
      * where the controller action is mapped to checkout stepID of same name
      *
-     * @return \Cake\Network\Response|mixed|null
+     * @return \Cake\Http\Response|mixed|null
      */
     public function invokeAction()
     {
@@ -97,7 +97,7 @@ class CheckoutController extends AppController
             return parent::invokeAction();
         } catch (MissingActionException $ex) {
             // read stepID from request
-            $stepId = $this->request->params['action'];
+            $stepId = $this->request->getParam('action');
             $stepId = Inflector::underscore($stepId);
 
             // read cartID from request
@@ -118,9 +118,9 @@ class CheckoutController extends AppController
 
         throw new MissingActionException([
             'controller' => $this->name . "Controller",
-            'action' => $this->request->params['action'],
-            'prefix' => isset($this->request->params['prefix']) ? $this->request->params['prefix'] : '',
-            'plugin' => $this->request->params['plugin'],
+            'action' => $this->request->getParam('action'),
+            'prefix' => isset($this->request->getParam('prefix')) ? $this->request->getParam('prefix') : '',
+            'plugin' => $this->request->getParam('plugin'),
         ]);
     }
 }

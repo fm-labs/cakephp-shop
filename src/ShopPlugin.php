@@ -126,8 +126,8 @@ class ShopPlugin extends BasePlugin implements EventListenerInterface
      */
     public function buildSettings(Event $event)
     {
-        if ($event->subject() instanceof SettingsManager) {
-            $event->subject()->add('Shop', [
+        if ($event->getSubject() instanceof SettingsManager) {
+            $event->getSubject()->add('Shop', [
 
                 // Owner
                 'Owner.name' => [
@@ -244,7 +244,7 @@ class ShopPlugin extends BasePlugin implements EventListenerInterface
      */
     public function buildBackendMenu(Event $event)
     {
-        $event->subject()->addItem([
+        $event->getSubject()->addItem([
             'title' => __d('shop', 'Shop'),
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',

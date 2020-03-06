@@ -22,13 +22,13 @@ class SitemapListener implements EventListenerInterface
     public function getSitemap(Event $event)
     {
         // Shop categories
-        $ShopCategories = TableRegistry::get('Shop.ShopCategories');
+        $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
         $ShopCategories->addBehavior('Seo.Sitemap', ['fields' => ['loc' => 'url', 'lastmod' => 'modified']]);
-        $event->subject()->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_categories');
+        $event->getSubject()->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_categories');
 
         // Shop products
-        $ShopCategories = TableRegistry::get('Shop.ShopProducts');
+        $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
         $ShopCategories->addBehavior('Seo.Sitemap', ['fields' => ['loc' => 'url', 'lastmod' => 'modified']]);
-        $event->subject()->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_products');
+        $event->getSubject()->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_products');
     }
 }

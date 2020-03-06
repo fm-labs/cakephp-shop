@@ -29,7 +29,7 @@ abstract class BaseStep implements EventListenerInterface
     public function __construct(CheckoutComponent $Checkout)
     {
         $this->Checkout =& $Checkout;
-        $this->Checkout->getController()->eventManager()->on($this);
+        $this->Checkout->getController()->getEventManager()->on($this);
         $this->initialize();
     }
 

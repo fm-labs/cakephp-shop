@@ -36,9 +36,9 @@ class ShopCategoriesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_categories');
-        $this->displayField('name');
-        $this->primaryKey('id');
+        $this->setTable('shop_categories');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('ParentShopCategories', [
             'className' => 'Shop.ShopCategories',

@@ -56,7 +56,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return bool|\Cake\Network\Response
+     * @return bool|\Cake\Http\Response
      */
     public function execute(Controller $controller)
     {

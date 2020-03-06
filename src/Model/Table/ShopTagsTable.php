@@ -25,9 +25,9 @@ class ShopTagsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_tags');
-        $this->displayField('name');
-        $this->primaryKey('id');
+        $this->setTable('shop_tags');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
         $this->hasMany('ShopProductsTags', [
             'foreignKey' => 'shop_tag_id',

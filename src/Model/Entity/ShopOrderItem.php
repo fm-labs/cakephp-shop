@@ -85,7 +85,7 @@ class ShopOrderItem extends Entity
                 $refscope = $this->_properties['refscope'];
                 list($plugin, $refModel) = pluginSplit($refscope);
                 try {
-                    $ref = TableRegistry::get($refscope)->find('product')->where([$refModel . '.id' => $refid])->first();
+                    $ref = TableRegistry::getTableLocator()->get($refscope)->find('product')->where([$refModel . '.id' => $refid])->first();
                 } catch (\Exception $ex) {
                     debug($ex->getMessage());
                 }

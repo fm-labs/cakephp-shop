@@ -28,9 +28,9 @@ class StockTransfersTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_stock_transfers');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_stock_transfers');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

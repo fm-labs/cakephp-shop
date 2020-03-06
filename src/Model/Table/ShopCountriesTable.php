@@ -30,9 +30,9 @@ class ShopCountriesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_countries');
-        $this->displayField('name_de');
-        $this->primaryKey('id');
+        $this->setTable('shop_countries');
+        $this->setDisplayField('name_de');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Banana.Publishable');
     }

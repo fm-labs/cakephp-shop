@@ -29,9 +29,9 @@ abstract class ShopAddressesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_customer_addresses');
-        $this->displayField('oneline');
-        $this->primaryKey('id');
+        $this->setTable('shop_customer_addresses');
+        $this->setDisplayField('oneline');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

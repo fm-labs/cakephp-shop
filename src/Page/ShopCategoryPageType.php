@@ -42,7 +42,7 @@ class ShopCategoryPageType extends AbstractPageType
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
 
-            return TableRegistry::get('Shop.ShopCategories')
+            return TableRegistry::getTableLocator()->get('Shop.ShopCategories')
                 ->find()
                 ->where(['parent_id' => $categoryId])
                 ->contain([])
@@ -60,7 +60,7 @@ class ShopCategoryPageType extends AbstractPageType
     {
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
-            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+            $category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($categoryId);
         } elseif ($entity instanceof ShopCategory) {
             $category = $entity;
         }
@@ -79,7 +79,7 @@ class ShopCategoryPageType extends AbstractPageType
     {
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
-            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId);
+            $category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($categoryId);
 
             return $category->getViewUrl();
         } elseif ($entity instanceof ShopCategory) {
@@ -95,7 +95,7 @@ class ShopCategoryPageType extends AbstractPageType
     {
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
-            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
+            $category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
 
             return $category->is_published;
         } elseif ($entity instanceof ShopCategory) {
@@ -114,7 +114,7 @@ class ShopCategoryPageType extends AbstractPageType
     {
         if ($entity instanceof Page) {
             $categoryId = $entity->redirect_location;
-            $category = TableRegistry::get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
+            $category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($categoryId, ['contain' => []]);
             $url = $category->getUrl();
             $controller->redirect($url);
         } elseif ($entity instanceof ShopCategory) {

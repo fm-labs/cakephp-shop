@@ -5,7 +5,7 @@ namespace Shop\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Filesystem\File;
 use Cake\Log\Log;
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
 use Shop\Event\PaymentListener;
@@ -88,7 +88,7 @@ class PaymentComponent extends Component
         }
         $this->engines = $engines;
 
-        //$this->getController()->eventManager()->on(new PaymentListener());
+        //$this->getController()->getEventManager()->on(new PaymentListener());
     }
 
     /**
@@ -140,7 +140,7 @@ class PaymentComponent extends Component
         ]);
 
         if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
-            debug($this->_transaction->errors());
+            debug($this->_transaction->getErrors());
             throw new \RuntimeException("Payment::initTransaction: Failed to create transaction");
         }
 
@@ -163,7 +163,7 @@ class PaymentComponent extends Component
             $this->getController()->Flash->error($ex->getMessage());
         } finally {
             if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
-                debug($this->_transaction->errors());
+                debug($this->_transaction->getErrors());
                 throw new \RuntimeException("Payment::initTransaction: Failed to update transaction");
             }
         }
@@ -180,7 +180,7 @@ class PaymentComponent extends Component
         $clientIp = $this->request->clientIp();
         $url = $this->request->url;
         $params = $this->request->params;
-        $query = $this->request->query;
+        $query = $this->request->getQuery();
         $data = $this->request->data;
 
         Log::debug(sprintf('Payment::confirm: [%s] %s', $clientIp, $txnId), ['shop', 'payment']);
@@ -220,7 +220,7 @@ class PaymentComponent extends Component
             'is_processed' => false
         ]);
         if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
-            debug($notification->errors());
+            debug($notification->getErrors());
             Log::error("Payment::confirmTransaction: Failed to save transaction notification");
         }
 
@@ -249,14 +249,14 @@ class PaymentComponent extends Component
         }
 
         if ($transaction->dirty() && !$this->ShopOrders->ShopOrderTransactions->save($transaction)) {
-            debug($transaction->errors());
+            debug($transaction->getErrors());
             throw new \RuntimeException("Payment::confirmTransaction: Failed to update transaction");
         }
 
         $notification->is_valid = true;
         $notification->is_processed = ($transaction->status == 1);
         if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
-            debug($notification->errors());
+            debug($notification->getErrors());
             Log::error("Payment::confirmTransaction: Failed to update transaction notification");
         }
 

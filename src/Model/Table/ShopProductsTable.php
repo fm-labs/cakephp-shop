@@ -36,9 +36,9 @@ class ShopProductsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_products');
-        $this->displayField('title');
-        $this->primaryKey('id');
+        $this->setTable('shop_products');
+        $this->setDisplayField('title');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('ShopCategories', [
             'className' => 'Shop.ShopCategories',
@@ -237,7 +237,7 @@ class ShopProductsTable extends Table
             //$row['price_net'] = $row['price_net'];
 
             if (Shop::config('Shop.CustomerDiscounts.enabled') == true && isset($options['for_customer'])) {
-                $ShopCustomerDiscounts = TableRegistry::get('Shop.ShopCustomerDiscounts');
+                $ShopCustomerDiscounts = TableRegistry::getTableLocator()->get('Shop.ShopCustomerDiscounts');
 
                 //debug($options['for_customer']);
 

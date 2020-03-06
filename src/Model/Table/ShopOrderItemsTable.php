@@ -27,9 +27,9 @@ class ShopOrderItemsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_order_items');
-        $this->displayField('title');
-        $this->primaryKey('id');
+        $this->setTable('shop_order_items');
+        $this->setDisplayField('title');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

@@ -22,7 +22,7 @@ class OrderNotificationService implements EventListenerInterface
      */
     public function __construct()
     {
-        $this->Notifications = TableRegistry::get('Shop.ShopOrderNotifications');
+        $this->Notifications = TableRegistry::getTableLocator()->get('Shop.ShopOrderNotifications');
     }
 
     public function onOrderStatusUpdate(Event $event)

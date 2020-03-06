@@ -2,7 +2,7 @@
 namespace Shop\Controller;
 
 use Cake\Core\Configure;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Shop\Controller\Component\CartComponent;
 use Shop\Controller\Component\ShopComponent;
@@ -43,7 +43,7 @@ class ProductsController extends AppController
     public function index($categoryId = null)
     {
         if ($categoryId === null) {
-            $categoryId = $this->request->query('category_id');
+            $categoryId = $this->request->getQuery('category_id');
         }
 
         $this->Frontend->setRefScope('Shop.ShopCategories');
@@ -72,11 +72,11 @@ class ProductsController extends AppController
      *
      * @param string|null $id Shop Product id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $this->viewBuilder()->className('Shop.ShopProduct');
+        $this->viewBuilder()->setClassName('Shop.ShopProduct');
 
         if ($this->request->is(['post', 'put']) && $this->request->data('id')) {
             $id = $this->request->data('id');
@@ -86,12 +86,12 @@ class ProductsController extends AppController
         }
 
         if ($id === null) {
-            if ($this->request->query('id')) {
-                $id = $this->request->query('id');
+            if ($this->request->getQuery('id')) {
+                $id = $this->request->getQuery('id');
             } elseif (isset($this->request->query['product_id'])) {
                 $id = $this->request->query['product_id'];
-            } elseif (isset($this->request->params['product_id'])) {
-                $id = $this->request->params['product_id'];
+            } elseif (isset($this->request->getParam('product_id'))) {
+                $id = $this->request->getParam('product_id');
             }
         }
 

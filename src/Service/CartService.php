@@ -23,13 +23,13 @@ class CartService extends BaseService
     public function onUserLogin(Event $event)
     {
         //@TODO restore user cart
-        $event->subject()->request->session()->delete('Shop.Customer');
+        $event->getSubject()->request->session()->delete('Shop.Customer');
     }
 
     public function onUserLogout(Event $event)
     {
         // save cart for user and delete from session
-        $event->subject()->request->session()->delete('Shop.Customer');
+        $event->getSubject()->request->session()->delete('Shop.Customer');
         $this->_logEvent(__FUNCTION__, $event);
     }
 

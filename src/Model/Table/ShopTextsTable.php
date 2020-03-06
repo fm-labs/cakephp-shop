@@ -25,9 +25,9 @@ class ShopTextsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_texts');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_texts');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         /*
         $this->belongsTo('Models', [

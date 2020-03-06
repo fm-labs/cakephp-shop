@@ -2,8 +2,8 @@
 
 namespace Shop\Controller;
 
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\View\CellTrait;
 use Shop\Model\Table\ShopCustomerAddressesTable;
 

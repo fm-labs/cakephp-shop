@@ -3,7 +3,7 @@
 namespace Shop\Controller;
 
 use Cake\Core\Configure;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 
 /**
  * Class ShopController

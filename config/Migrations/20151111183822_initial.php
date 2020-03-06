@@ -5,7 +5,7 @@ class Initial extends AbstractMigration
 {
     public function up()
     {
-        $table = $this->table('shop_categories');
+        $table = $this->setTable('shop_categories');
         $table
             ->addColumn('lft', 'string', [
                 'default' => null,
@@ -74,7 +74,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $table = $this->table('shop_categories_tags');
+        $table = $this->setTable('shop_categories_tags');
         $table
             ->addColumn('shop_category_id', 'integer', [
                 'default' => null,
@@ -88,7 +88,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $table = $this->table('shop_products');
+        $table = $this->setTable('shop_products');
         $table
             ->addColumn('shop_category_id', 'integer', [
                 'default' => null,
@@ -172,7 +172,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $table = $this->table('shop_products_tags');
+        $table = $this->setTable('shop_products_tags');
         $table
             ->addColumn('shop_product_id', 'integer', [
                 'default' => null,
@@ -186,7 +186,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $table = $this->table('shop_tags');
+        $table = $this->setTable('shop_tags');
         $table
             ->addColumn('group', 'string', [
                 'default' => null,
@@ -210,7 +210,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $table = $this->table('shop_texts');
+        $table = $this->setTable('shop_texts');
         $table
             ->addColumn('model', 'string', [
                 'default' => null,

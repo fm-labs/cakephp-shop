@@ -52,13 +52,13 @@ class ShopProduct extends Entity implements ShopProductInterface
     public function getPath()
     {
         if (isset($this->_properties['shop_category_id'])) {
-            return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $this->_properties['shop_category_id']]);
+            return TableRegistry::getTableLocator()->get('Shop.ShopCategories')->find('path', ['for' => $this->_properties['shop_category_id']]);
         }
     }
 
     protected function _getShopText($model, $id, $field, $locale = null)
     {
-        $ShopTexts = TableRegistry::get('Shop.ShopTexts');
+        $ShopTexts = TableRegistry::getTableLocator()->get('Shop.ShopTexts');
 
         return $ShopTexts->find()->where([
             'model' => $model,
@@ -71,7 +71,7 @@ class ShopProduct extends Entity implements ShopProductInterface
     protected function _getShopCategory()
     {
         if (!isset($this->_properties['shop_category'])) {
-            $Table = TableRegistry::get('Shop.ShopCategories');
+            $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
             $category = $Table
                 ->find()
                 ->where(['ShopCategories.id' => $this->shop_category_id])
@@ -111,7 +111,7 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getShopProducts()
     {
-        return TableRegistry::get('Shop.ShopProducts')
+        return TableRegistry::getTableLocator()->get('Shop.ShopProducts')
             ->find()
             ->where(['ShopProducts.shop_category_id' => $this->id, 'is_published' => true]);
     }

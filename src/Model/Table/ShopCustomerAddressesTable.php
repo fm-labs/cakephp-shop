@@ -26,10 +26,10 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
      */
     public function initialize(array $config)
     {
-        $this->table('shop_customer_addresses');
-        $this->primaryKey('id');
+        $this->setTable('shop_customer_addresses');
+        $this->setPrimaryKey('id');
         $this->entityClass('Shop.ShopAddress');
-        $this->displayField('name');
+        $this->setDisplayField('name');
 
         $this->addBehavior('Timestamp');
 
@@ -75,8 +75,8 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
         }
 
         $customerAddress = $this->newEntity($data);
-        if ($customerAddress->errors()) {
-            Log::error("ShopCustomerAddresses::newRecordFromOrderAddress: Address invalid: " . json_encode($customerAddress->errors()));
+        if ($customerAddress->getErrors()) {
+            Log::error("ShopCustomerAddresses::newRecordFromOrderAddress: Address invalid: " . json_encode($customerAddress->getErrors()));
         }
 
         return $this->save($customerAddress, ['checkRules' => false]);

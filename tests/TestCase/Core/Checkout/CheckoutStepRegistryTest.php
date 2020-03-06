@@ -30,7 +30,7 @@ class CheckoutStepRegistryTest extends TestCase
 
         //$this->request = new ServerRequest();
         //$this->request = $this->request->withUri('checkout/index');
-        $this->request = new \Cake\Network\Request();
+        $this->request = new \Cake\Http\ServerRequest();
         $controller = new Controller($this->request);
         $registry = new ComponentRegistry($controller);
         $this->Checkout = new CheckoutComponent($registry, []);

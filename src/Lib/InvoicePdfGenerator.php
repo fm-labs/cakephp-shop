@@ -30,7 +30,7 @@ class InvoicePdfGenerator
      */
     public function __construct()
     {
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
     }
 
     /**

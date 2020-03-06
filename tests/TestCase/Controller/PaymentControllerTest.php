@@ -69,8 +69,8 @@ class PaymentControllerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
-        $this->ShopOrderTransactions = TableRegistry::get('Shop.ShopOrderTransactions');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
+        $this->ShopOrderTransactions = TableRegistry::getTableLocator()->get('Shop.ShopOrderTransactions');
 
         Configure::write('Shop.Payment.Engines', [
             'test' => [
@@ -96,7 +96,7 @@ class PaymentControllerTest extends IntegrationTestCase
 
         $this->transaction = $this->ShopOrderTransactions->save($transaction);
         if (!$this->transaction) {
-            debug($transaction->errors());
+            debug($transaction->getErrors());
             $this->fail("Failed to setup new test transaction");
         }
 

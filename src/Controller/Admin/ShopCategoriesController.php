@@ -41,7 +41,7 @@ class ShopCategoriesController extends AppController
 
     /**
      * @param Event $event
-     * @return \Cake\Network\Response|null|void
+     * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(Event $event)
     {
@@ -106,7 +106,7 @@ class ShopCategoriesController extends AppController
      *
      * @param string|null $id Shop Category id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -177,7 +177,7 @@ class ShopCategoriesController extends AppController
      *
      * @param string|null $id Shop Category id.
      * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function manage($id = null)
     {
@@ -225,7 +225,7 @@ class ShopCategoriesController extends AppController
         $this->set(compact('teaserTemplates', 'viewTemplates'));
 
         $this->set(compact('shopCategory', 'parentShopCategories', 'galleryList', 'descShort', 'descLong', 'tags'));
-        //$this->set('attributeSets', TableRegistry::get('Eav.EavAttributeSets')->find('list')->toArray());
+        //$this->set('attributeSets', TableRegistry::getTableLocator()->get('Eav.EavAttributeSets')->find('list')->toArray());
         $this->set('_serialize', ['shopCategory']);
     }
 
@@ -246,7 +246,7 @@ class ShopCategoriesController extends AppController
 
     /**
      * @param null $id
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function relatedCustomTexts($id = null)
     {
@@ -291,7 +291,7 @@ class ShopCategoriesController extends AppController
      */
     public function relatedPageMeta($id = null)
     {
-        $PageMetas = TableRegistry::get('Content.PageMetas');
+        $PageMetas = TableRegistry::getTableLocator()->get('Content.PageMetas');
 
         $content = $this->ShopCategories->get($id, [
             'contain' => []
@@ -360,7 +360,7 @@ class ShopCategoriesController extends AppController
 
                 return $this->redirect(['action' => 'edit', $shopCategory->id]);
             } else {
-                debug($shopCategory->errors());
+                debug($shopCategory->getErrors());
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
             }
         } else {
@@ -373,7 +373,7 @@ class ShopCategoriesController extends AppController
 
     /**
      * @param null $id
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function linkModule($id = null)
     {
@@ -399,7 +399,7 @@ class ShopCategoriesController extends AppController
      *
      * @param string|null $id Shop Category id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function delete($id = null)
     {
@@ -456,13 +456,13 @@ class ShopCategoriesController extends AppController
 
     /**
      * @param null $id
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      * @deprecated
      */
     public function setImage($id = null)
     {
-        $scope = $this->request->query('scope');
-        $multiple = $this->request->query('multiple');
+        $scope = $this->request->getQuery('scope');
+        $multiple = $this->request->getQuery('multiple');
 
         $this->ShopCategories->behaviors()->unload('Media');
         $content = $this->ShopCategories->get($id, [
@@ -497,13 +497,13 @@ class ShopCategoriesController extends AppController
 
     /**
      * @param null $id
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      * @throws BadRequestException
      * @deprecated
      */
     public function deleteImage($id = null)
     {
-        $scope = $this->request->query('scope');
+        $scope = $this->request->getQuery('scope');
 
         $this->ShopCategories->behaviors()->unload('Media');
         $content = $this->ShopCategories->get($id, [

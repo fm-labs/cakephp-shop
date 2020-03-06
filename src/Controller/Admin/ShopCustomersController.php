@@ -67,7 +67,7 @@ class ShopCustomersController extends AppController
      *
      * @param string|null $id Shop Customer id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {

@@ -25,7 +25,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return bool|\Cake\Network\Response
+     * @return bool|\Cake\Http\Response
      * @throws \Exception
      */
     public function execute(Controller $controller)
@@ -33,9 +33,9 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
         if ($controller->request->data('op') == 'login') {
             return $this->_executeLogin($controller);
         } elseif ($controller->request->data('op') == 'signup'
-            || $controller->request->query('op') == 'signup') {
+            || $controller->request->getQuery('op') == 'signup') {
             return $this->_executeSignup($controller);
-        //} elseif ($controller->request->query('guest')) {
+        //} elseif ($controller->request->getQuery('guest')) {
         //    $controller->request->data['nologin'] = true;
         //    return $this->_executeSignup($controller);
         }
@@ -45,7 +45,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return bool|\Cake\Network\Response
+     * @return bool|\Cake\Http\Response
      * @throws \Exception
      */
     protected function _executeLogin(Controller $controller)
@@ -107,7 +107,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return bool|\Cake\Network\Response
+     * @return bool|\Cake\Http\Response
      */
     protected function _executeSignup(Controller $controller)
     {
@@ -124,7 +124,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
                 //$userQuery = $controller->ShopCustomers->Users->find()->where(['Users.id' => $customer->user_id]);
                 //$user = $controller->ShopCustomers->Users->findAuthUser($userQuery, [])->first();
                 $controller->Auth->setUser($user->toArray());
-                //$controller->eventManager()->dispatch(new Event('User.Auth.login', $controller, compact('user')));
+                //$controller->getEventManager()->dispatch(new Event('User.Auth.login', $controller, compact('user')));
 
                 // create a shop customer profile for user
                 $customer = $controller->ShopCustomers->createFromUser($user, $controller->request->data);

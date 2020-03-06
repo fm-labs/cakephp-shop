@@ -26,9 +26,9 @@ class ShopCustomersTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_customers');
-        $this->displayField('email');
-        $this->primaryKey('id');
+        $this->setTable('shop_customers');
+        $this->setDisplayField('email');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

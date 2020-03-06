@@ -56,7 +56,7 @@ class CartController extends AppController
         $result = $this->Cart->refresh();
 
         if ($this->request->is('ajax')) {
-            $this->viewBuilder()->className('Json');
+            $this->viewBuilder()->setClassName('Json');
             $this->set('result', ['success' => $result]);
             $this->set('_serialize', 'result');
         }
@@ -89,7 +89,7 @@ class CartController extends AppController
     public function add()
     {
         if ($this->request->is('ajax')) {
-            $this->viewBuilder()->className('Json');
+            $this->viewBuilder()->setClassName('Json');
 
             $result = ['success' => false];
             try {

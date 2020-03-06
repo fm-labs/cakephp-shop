@@ -31,7 +31,7 @@ class EmailNotificationService extends BaseService
      */
     public function afterOrderSubmit(Event $event)
     {
-        $ShopOrders = $event->subject();
+        $ShopOrders = $event->getSubject();
 
         $orderId = $event->data['order']['id'];
         $order = $ShopOrders
@@ -64,7 +64,7 @@ class EmailNotificationService extends BaseService
      */
     public function afterOrderConfirm(Event $event)
     {
-        $ShopOrders = $event->subject();
+        $ShopOrders = $event->getSubject();
 
         $orderId = $event->data['order']['id'];
         $order = $ShopOrders

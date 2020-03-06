@@ -155,7 +155,7 @@ class ShopOrder extends Entity
      */
     public function getShopCustomer()
     {
-        return TableRegistry::get('Shop.ShopCustomers')
+        return TableRegistry::getTableLocator()->get('Shop.ShopCustomers')
             ->find()
             ->where(['ShopCustomers.id' => $this->shop_customer_id])
             ->first();
@@ -178,7 +178,7 @@ class ShopOrder extends Entity
      */
     public function getOrderItemsCount()
     {
-        return (int)TableRegistry::get('Shop.ShopOrderItems')
+        return (int)TableRegistry::getTableLocator()->get('Shop.ShopOrderItems')
             ->find('list')
             ->where(['shop_order_id' => $this->id])->count();
     }
@@ -200,7 +200,7 @@ class ShopOrder extends Entity
      */
     public function getOrderItemsQty()
     {
-        $orderItems = TableRegistry::get('Shop.ShopOrderItems')
+        $orderItems = TableRegistry::getTableLocator()->get('Shop.ShopOrderItems')
             ->find()
             ->where(['shop_order_id' => $this->id])
             ->contain([])

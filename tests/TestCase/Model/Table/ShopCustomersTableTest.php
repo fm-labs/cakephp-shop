@@ -49,7 +49,7 @@ class ShopCustomersTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::exists('ShopCustomers') ? [] : ['className' => 'Shop\Model\Table\ShopCustomersTable'];
-        $this->ShopCustomers = TableRegistry::get('ShopCustomers', $config);
+        $this->ShopCustomers = TableRegistry::getTableLocator()->get('ShopCustomers', $config);
     }
 
     protected function _createUser($save = true)
@@ -65,7 +65,7 @@ class ShopCustomersTableTest extends TestCase
 
         $user = $this->ShopCustomers->Users->save($user);
         if (!$user || !$user->id) {
-            debug($user->errors());
+            debug($user->getErrors());
             $this->fail('Failed to create test user');
         }
 

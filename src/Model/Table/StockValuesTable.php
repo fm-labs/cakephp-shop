@@ -26,9 +26,9 @@ class StockValuesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_stock_values');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_stock_values');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

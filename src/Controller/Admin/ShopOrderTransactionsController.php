@@ -28,9 +28,9 @@ class ShopOrderTransactionsController extends AppController
     {
         $dataUrl = ['rows' => 1];
         $query = $this->ShopOrderTransactions->find('all', ['status' => true, 'contain' => ['ShopOrders']]);
-        if ($this->request->query('shop_order_id')) {
-            $dataUrl['shop_order_id'] = $this->request->query('shop_order_id');
-            $query->where(['ShopOrderTransactions.shop_order_id' => $this->request->query('shop_order_id')]);
+        if ($this->request->getQuery('shop_order_id')) {
+            $dataUrl['shop_order_id'] = $this->request->getQuery('shop_order_id');
+            $query->where(['ShopOrderTransactions.shop_order_id' => $this->request->getQuery('shop_order_id')]);
         }
 
         $this->set('fields', [
@@ -52,7 +52,7 @@ class ShopOrderTransactionsController extends AppController
      *
      * @param string|null $id Shop Order Transaction id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -87,7 +87,7 @@ class ShopOrderTransactionsController extends AppController
      *
      * @param string|null $id Shop Order Transaction id.
      * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -114,7 +114,7 @@ class ShopOrderTransactionsController extends AppController
      *
      * @param string|null $id Shop Order Transaction id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
     public function delete($id = null)
     {

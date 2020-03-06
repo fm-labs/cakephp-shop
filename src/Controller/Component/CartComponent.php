@@ -8,7 +8,7 @@ use Cake\Controller\Controller;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
 use Cake\Log\Log;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
@@ -61,8 +61,8 @@ class CartComponent extends Component
      */
     public function initialize(array $config)
     {
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
-        $this->ShopProducts = TableRegistry::get('Shop.ShopProducts');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
+        $this->ShopProducts = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
 
         $this->Cookie->configKey(self::$cookieName, [
             //'path' => '/',
@@ -115,8 +115,8 @@ class CartComponent extends Component
     public function beforeRender(Event $event)
     {
         $this->updateSession();
-        if ($event->subject() instanceof Controller) {
-            $event->subject()->set('cart', $this->getOrder());
+        if ($event->getSubject() instanceof Controller) {
+            $event->getSubject()->set('cart', $this->getOrder());
         }
     }
 
@@ -160,7 +160,7 @@ class CartComponent extends Component
         if (!isset($this->{$modelName})) {
             $this->{$modelName} = $this->_registry->getController()->loadModel($modelName);
             //if ($this->{$modelName} instanceof EventDispatcher) {
-            //    $this->{$modelName}->eventManager()->on($this);
+            //    $this->{$modelName}->getEventManager()->on($this);
             //}
         }
         if (!$this->{$modelName}) {
@@ -248,7 +248,7 @@ class CartComponent extends Component
         }
         $orderItem = $this->updateItem($orderItem, $item);
 
-        $this->_registry->getController()->eventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
+        $this->_registry->getController()->getEventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
             'item' => $orderItem
         ]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
@@ -271,7 +271,7 @@ class CartComponent extends Component
         $orderItem->accessible('refscope', false);
         $orderItem->accessible('refid', false);
 
-        $event = $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
+        $event = $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
             'item' => $orderItem,
             'data' => $data,
             'customer' => $this->Shop->getCustomer()
@@ -283,7 +283,7 @@ class CartComponent extends Component
 
         $this->reloadOrder();
 
-        $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
+        $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
             'item' => $orderItem,
             'data' => $data,
             'customer' => $this->Shop->getCustomer()
@@ -310,13 +310,13 @@ class CartComponent extends Component
      */
     public function removeItem($orderItem)
     {
-        $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
+        $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
 
         $success = $this->ShopOrders->ShopOrderItems->delete($orderItem);
         //$this->refresh();
         $this->reloadOrder();
 
-        $this->_registry->getController()->eventManager()->dispatch(new CartEvent('Shop.Cart.afterItemRemove', $this, ['item' => $orderItem]));
+        $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemRemove', $this, ['item' => $orderItem]));
 
         return $success;
     }
@@ -464,7 +464,7 @@ class CartComponent extends Component
         ]);
 
         if (!$this->ShopOrders->save($order)) {
-            debug($order->errors());
+            debug($order->getErrors());
             throw new Exception('Fatal error: Failed to create cart order');
         }
         Log::info("Created cart order with id " . $order->id . " cartId: " . $order->cartid);

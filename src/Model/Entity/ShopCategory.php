@@ -49,7 +49,7 @@ class ShopCategory extends Entity
             $for = $this->get('id');
         }
 
-        return TableRegistry::get('Shop.ShopCategories')->find('path', ['for' => $for]);
+        return TableRegistry::getTableLocator()->get('Shop.ShopCategories')->find('path', ['for' => $for]);
     }
 
     /**
@@ -112,7 +112,7 @@ class ShopCategory extends Entity
             && isset($this->_properties['parent_id'])
             //&& !empty($this->_properties['parent_id'])
         ) {
-            $this->parent_shop_category = TableRegistry::get('Shop.ShopCategories')->get($this->_properties['parent_id']);
+            $this->parent_shop_category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($this->_properties['parent_id']);
         }
 
         return $this->parent_shop_category;
@@ -123,7 +123,7 @@ class ShopCategory extends Entity
      */
     protected function _getShopText($model, $id, $field, $locale = null)
     {
-        $ShopTexts = TableRegistry::get('Shop.ShopTexts');
+        $ShopTexts = TableRegistry::getTableLocator()->get('Shop.ShopTexts');
 
         return $ShopTexts->find()->where([
             'model' => $model,
@@ -164,7 +164,7 @@ class ShopCategory extends Entity
     protected function _getUrlPath()
     {
         if (!isset($this->_properties['url_path'])) {
-            $Table = TableRegistry::get('Shop.ShopCategories');
+            $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
             $_path = "";
             $_categories = $Table->find('path', ['for' => $this->id])->toArray();
             //array_pop($_categories); // drop last element (this category)
@@ -183,7 +183,7 @@ class ShopCategory extends Entity
      */
     protected function _getSubcategories()
     {
-        return TableRegistry::get('Shop.ShopCategories')
+        return TableRegistry::getTableLocator()->get('Shop.ShopCategories')
             ->find('children', ['for' => $this->id, 'direct' => true, 'media' => true]);
             //->find('media')
     }
@@ -193,7 +193,7 @@ class ShopCategory extends Entity
      */
     protected function _getPublishedSubcategories()
     {
-        return TableRegistry::get('Shop.ShopCategories')
+        return TableRegistry::getTableLocator()->get('Shop.ShopCategories')
             ->find('all', ['media' => true])
             ->find('published')
             ->find('children', ['for' => $this->id, 'direct' => true])
@@ -206,7 +206,7 @@ class ShopCategory extends Entity
      */
     protected function _getProducts()
     {
-        return TableRegistry::get('Shop.ShopProducts')
+        return TableRegistry::getTableLocator()->get('Shop.ShopProducts')
             ->find('all', ['media' => true])
             ->find('published')
             //->find('media')
@@ -220,7 +220,7 @@ class ShopCategory extends Entity
      */
     protected function _getModules()
     {
-        $contentModules = TableRegistry::get('Content.ContentModules')
+        $contentModules = TableRegistry::getTableLocator()->get('Content.ContentModules')
             ->find()
             //->find('published')
             ->contain(['Modules'])

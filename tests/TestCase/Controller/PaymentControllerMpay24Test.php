@@ -20,8 +20,8 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
     {
         parent::setUp();
 
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
-        $this->ShopOrderTransactions = TableRegistry::get('Shop.ShopOrderTransactions');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
+        $this->ShopOrderTransactions = TableRegistry::getTableLocator()->get('Shop.ShopOrderTransactions');
 
         Configure::write('Mpay24', [
             'merchantID' => '9****',

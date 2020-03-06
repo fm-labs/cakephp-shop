@@ -339,9 +339,9 @@ class ProductImportTask extends BaseShopTask
             }
 
             $product = $this->ShopProducts->patchEntity($product, $entityData);
-            if ($product->errors()) {
+            if ($product->getErrors()) {
                 $this->_importError($i, 'Product has errors', 'fail');
-                debug($product->errors());
+                debug($product->getErrors());
                 continue;
             }
 
@@ -399,9 +399,9 @@ class ProductImportTask extends BaseShopTask
             'is_published' => true,
         ]);
 
-        if ($category->errors()) {
+        if ($category->getErrors()) {
             $this->out("Category $categoryName has errors");
-            debug($category->errors());
+            debug($category->getErrors());
 
             return false;
         }

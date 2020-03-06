@@ -3,7 +3,7 @@ namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
 use Cake\Log\Log;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
 /**
@@ -50,7 +50,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
 
     /**
      * @param Controller $controller
-     * @return bool|\Cake\Network\Response
+     * @return bool|\Cake\Http\Response
      */
     public function execute(Controller $controller)
     {

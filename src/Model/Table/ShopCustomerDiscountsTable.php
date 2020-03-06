@@ -26,9 +26,9 @@ class ShopCustomerDiscountsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_customer_discounts');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('shop_customer_discounts');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('ShopCustomers', [
             'foreignKey' => 'shop_customer_id',

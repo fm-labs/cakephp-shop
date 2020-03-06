@@ -27,9 +27,9 @@ class ShopOrderInvoicesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('shop_order_invoices');
-        $this->displayField('title');
-        $this->primaryKey('id');
+        $this->setTable('shop_order_invoices');
+        $this->setDisplayField('title');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

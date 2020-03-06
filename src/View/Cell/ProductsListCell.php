@@ -25,7 +25,7 @@ class ProductsListCell extends Cell
      */
     public function display($scope = [])
     {
-        $Table = TableRegistry::get('Shop.ShopProducts');
+        $Table = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
         $products =  $Table->find('published'); //->find('media');
         if ($scope) {
             $products->where($scope);
@@ -48,7 +48,7 @@ class ProductsListCell extends Cell
             'show_teaser' => null,
         ], $options);
 
-        $Table = TableRegistry::get('Shop.ShopProducts');
+        $Table = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
         $products =  $Table->find('published'); //->find('media');
         $products->where(['shop_category_id' => $categoryId, 'parent_id IS NULL']);
 

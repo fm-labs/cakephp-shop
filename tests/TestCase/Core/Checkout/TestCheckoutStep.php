@@ -3,7 +3,7 @@
 namespace Shop\Test\TestCase\Core\Checkout;
 
 use Cake\Controller\Controller;
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Core\Checkout\CheckoutStepInterface;
 

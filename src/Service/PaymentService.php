@@ -32,7 +32,7 @@ class PaymentService extends BaseService
         $transaction = $event->data['transaction'];
         $orderId = $transaction->shop_order_id;
 
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
 
         $order = $this->ShopOrders->get($orderId, ['contain' => []]);
 

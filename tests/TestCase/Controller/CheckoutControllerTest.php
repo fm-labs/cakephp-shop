@@ -57,8 +57,8 @@ class CheckoutControllerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->ShopOrders = TableRegistry::get('Shop.ShopOrders');
-        $this->Users = TableRegistry::get('User.Users');
+        $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
+        $this->Users = TableRegistry::getTableLocator()->get('User.Users');
 
         Configure::delete('Shop.Checkout.Steps');
         Configure::write('Shop.Checkout.Steps', [
@@ -176,8 +176,8 @@ class CheckoutControllerTest extends IntegrationTestCase
     {
         $order = $this->_setupCart(2);
 
-        $usersCount = TableRegistry::get('User.Users')->find()->count();
-        $customersCount = TableRegistry::get('Shop.ShopCustomers')->find()->count();
+        $usersCount = TableRegistry::getTableLocator()->get('User.Users')->find()->count();
+        $customersCount = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->find()->count();
         $expectedCustomerId = $customersCount + 1;
 
         // POST register form to customer step
@@ -214,7 +214,7 @@ class CheckoutControllerTest extends IntegrationTestCase
         $order = $this->_setupCart(2);
 
         // Normal user from User plugin
-        $this->Users = TableRegistry::get('User.Users');
+        $this->Users = TableRegistry::getTableLocator()->get('User.Users');
         $user = $this->Users->get(2);
 
         // Workaround: need to set password a new password with actual password hasher instance
@@ -227,7 +227,7 @@ class CheckoutControllerTest extends IntegrationTestCase
         }
 
         // Check if we prepared a customer profile for that user
-        $customer = TableRegistry::get('Shop.ShopCustomers')->find()->where(['user_id' => $user->id])->first();
+        $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->find()->where(['user_id' => $user->id])->first();
         if (!$customer) {
             $this->fail('No test customer found for test user with id ' . $user->id);
         }
@@ -262,7 +262,7 @@ class CheckoutControllerTest extends IntegrationTestCase
     {
         $this->ShopOrders->updateAll(['shop_customer_id' => 1], ['id' => 2]);
 
-        $this->ShopCustomers = TableRegistry::get('Shop.ShopCustomers');
+        $this->ShopCustomers = TableRegistry::getTableLocator()->get('Shop.ShopCustomers');
         $customer = $this->ShopCustomers->get(1, ['contain' => 'Users']);
 
         // setup cart order
