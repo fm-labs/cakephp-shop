@@ -36,8 +36,8 @@
     <?= $this->Form->create($stock, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                echo $this->Form->input('title');
-                echo $this->Form->input('is_default');
+                echo $this->Form->control('title');
+                echo $this->Form->control('is_default');
         ?>
         </div>
 

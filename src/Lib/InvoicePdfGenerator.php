@@ -44,7 +44,7 @@ class InvoicePdfGenerator
             'status' => true
         ]);
 
-        if (!Plugin::loaded('Tcpdf')) {
+        if (!Plugin::isLoaded('Tcpdf')) {
             throw new MissingPluginException(['plugin' => 'Tcpdf']);
         }
 

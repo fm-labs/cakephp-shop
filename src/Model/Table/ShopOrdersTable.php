@@ -111,7 +111,7 @@ class ShopOrdersTable extends Table
         ]);
         $this->addBehavior('Banana.Statusable');
 
-        if (Plugin::loaded('Search')) {
+        if (Plugin::isLoaded('Search')) {
             // Add the behaviour to your table
             $this->addBehavior('Search.Search');
 

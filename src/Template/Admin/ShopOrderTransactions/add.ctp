@@ -25,19 +25,19 @@
     <?= $this->Form->create($shopOrderTransaction, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                    echo $this->Form->input('shop_order_id', ['options' => $shopOrders]);
-                echo $this->Form->input('type');
-                echo $this->Form->input('engine');
-                echo $this->Form->input('currency_code');
-                echo $this->Form->input('value');
-                echo $this->Form->input('status');
-                echo $this->Form->input('ext_txnid');
-                echo $this->Form->input('ext_status');
-                echo $this->Form->input('init_response');
-                echo $this->Form->input('init_request');
-                echo $this->Form->input('redirect_url');
-                echo $this->Form->input('custom1');
-                echo $this->Form->input('custom2');
+                    echo $this->Form->control('shop_order_id', ['options' => $shopOrders]);
+                echo $this->Form->control('type');
+                echo $this->Form->control('engine');
+                echo $this->Form->control('currency_code');
+                echo $this->Form->control('value');
+                echo $this->Form->control('status');
+                echo $this->Form->control('ext_txnid');
+                echo $this->Form->control('ext_status');
+                echo $this->Form->control('init_response');
+                echo $this->Form->control('init_request');
+                echo $this->Form->control('redirect_url');
+                echo $this->Form->control('custom1');
+                echo $this->Form->control('custom2');
         ?>
         </div>
 

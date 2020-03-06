@@ -13,7 +13,7 @@ class CustomerController extends AppController
     public function index()
     {
         //$this->autoRender = false;
-        $customer = $this->request->session()->read('Shop.Customer');
+        $customer = $this->request->getSession()->read('Shop.Customer');
         $this->set(compact('customer'));
     }
 }

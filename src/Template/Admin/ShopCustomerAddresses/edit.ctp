@@ -32,25 +32,25 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                    echo $this->Form->input('shop_customer_id', ['options' => $shopCustomers, 'empty' => true]);
-                echo $this->Form->input('type');
-                echo $this->Form->input('refscope');
-                echo $this->Form->input('refid');
-                echo $this->Form->input('first_name');
-                echo $this->Form->input('last_name');
-                echo $this->Form->input('is_company');
-                echo $this->Form->input('company_name');
-                echo $this->Form->input('company_taxid');
-                echo $this->Form->input('street1');
-                echo $this->Form->input('street2');
-                echo $this->Form->input('zipcode');
-                echo $this->Form->input('city');
-                echo $this->Form->input('country');
-                echo $this->Form->input('country_iso2');
-                echo $this->Form->input('phone');
-                echo $this->Form->input('email');
-                echo $this->Form->input('email_secondary');
-                echo $this->Form->input('is_archived');
+                    echo $this->Form->control('shop_customer_id', ['options' => $shopCustomers, 'empty' => true]);
+                echo $this->Form->control('type');
+                echo $this->Form->control('refscope');
+                echo $this->Form->control('refid');
+                echo $this->Form->control('first_name');
+                echo $this->Form->control('last_name');
+                echo $this->Form->control('is_company');
+                echo $this->Form->control('company_name');
+                echo $this->Form->control('company_taxid');
+                echo $this->Form->control('street1');
+                echo $this->Form->control('street2');
+                echo $this->Form->control('zipcode');
+                echo $this->Form->control('city');
+                echo $this->Form->control('country');
+                echo $this->Form->control('country_iso2');
+                echo $this->Form->control('phone');
+                echo $this->Form->control('email');
+                echo $this->Form->control('email_secondary');
+                echo $this->Form->control('is_archived');
         ?>
         </div>
     </div>

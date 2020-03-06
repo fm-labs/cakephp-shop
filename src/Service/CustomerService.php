@@ -34,21 +34,21 @@ class CustomerService extends BaseService
      */
     public function onUserRegister(Event $event)
     {
-        $user = $event->data['user'];
+        $user = $event->getData('user');
         $customer = null;
 
         try {
-            $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->createFromUser($user, $event->data['data']);
+            $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->createFromUser($user, $event->getData('data'));
         } catch (\Exception $ex) {
             Log::error('CustomerEventListener::onUserRegister: ' . $ex->getMessage());
         }
 
         if ($customer) {
             Log::debug('[shop] Set customer for user ' . $user->id);
-            //$event->getSubject()->request->session()->write('Shop.Customer', $customer->toArray());
+            //$event->getSubject()->request->getSession()->write('Shop.Customer', $customer->toArray());
         } else {
             Log::alert('[shop] Failed to create customer for user ' . $user->id);
-            //$event->getSubject()->request->session()->delete('Shop.Customer');
+            //$event->getSubject()->request->getSession()->delete('Shop.Customer');
         }
     }
 
@@ -58,7 +58,7 @@ class CustomerService extends BaseService
     public function onUserLogin(Event $event)
     {
         // user login detected
-        $userId = $event->data['user']['id'];
+        $userId = $event->getData('user')['id'];
         if (!$userId) {
             Log::alert('[shop] Login without userId detected');
 
@@ -81,10 +81,10 @@ class CustomerService extends BaseService
 
         if ($customer) {
             Log::debug('[shop] Set customer for user ' . $userId);
-            $event->getSubject()->request->session()->write('Shop.Customer', $customer->toArray());
+            $event->getSubject()->request->getSession()->write('Shop.Customer', $customer->toArray());
         } else {
             Log::alert('[shop] Failed to create customer for user ' . $userId);
-            $event->getSubject()->request->session()->delete('Shop.Customer');
+            $event->getSubject()->request->getSession()->delete('Shop.Customer');
         }
     }
 
@@ -93,10 +93,10 @@ class CustomerService extends BaseService
      */
     public function onUserLogout(Event $event)
     {
-        $event->getSubject()->request->session()->delete('Shop.Customer');
-        $event->getSubject()->request->session()->delete('Shop.Order');
-        $event->getSubject()->request->session()->delete('Shop.Cart');
-        $event->getSubject()->request->session()->delete('Shop.Checkout');
+        $event->getSubject()->request->getSession()->delete('Shop.Customer');
+        $event->getSubject()->request->getSession()->delete('Shop.Order');
+        $event->getSubject()->request->getSession()->delete('Shop.Cart');
+        $event->getSubject()->request->getSession()->delete('Shop.Checkout');
     }
 
     /**
@@ -106,7 +106,7 @@ class CustomerService extends BaseService
     {
         $this->_logEvent(__FUNCTION__, $event);
 
-        $order = $event->data['order'];
+        $order = $event->getData('order');
 
         $address = $order->getBillingAddress();
         if ($address && !$address->shop_customer_address_id) {

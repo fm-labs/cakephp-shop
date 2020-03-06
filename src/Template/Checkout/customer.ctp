@@ -15,8 +15,8 @@
                 <h2><?= __d('shop','Already registered?'); ?></h2>
                 <?= $this->Form->create(null); ?>
                 <?= $this->Form->hidden('op', ['value' => 'login']); ?>
-                <?= $this->Form->input('username', ['required' => true, 'label' => __d('shop','Email')]); ?>
-                <?= $this->Form->input('password', ['required' => true]); ?>
+                <?= $this->Form->control('username', ['required' => true, 'label' => __d('shop','Email')]); ?>
+                <?= $this->Form->control('password', ['required' => true]); ?>
                 <div class="actions" style="margin-top: 1em;">
                     <?= $this->Form->button(__d('shop','Login'), ['class' => 'btn btn-primary']); ?>
                     <?= $this->Html->link(__d('shop','Forgot password?'), ['_name' => 'user:passwordforgotten']); ?>
@@ -102,5 +102,5 @@
     </div>
 
     <?php debug($customer); ?>
-    <?php debug($this->request->session()->read('Shop')); ?>
+    <?php debug($this->request->getSession()->read('Shop')); ?>
 </div>

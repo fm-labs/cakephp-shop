@@ -88,11 +88,11 @@
             -->
 
             <?php if (\Cake\Core\Configure::read('Shop.Checkout.customerNotes')): ?>
-            <?= $this->Form->input('customer_notes', ['label' => __d('shop','Additional Notes')]); ?>
+            <?= $this->Form->control('customer_notes', ['label' => __d('shop','Additional Notes')]); ?>
             <?php endif; ?>
 
             <?php if (\Cake\Core\Configure::read('Shop.Checkout.customerPhone')): ?>
-            <?= $this->Form->input('customer_phone', [
+            <?= $this->Form->control('customer_phone', [
                 'required' => true,
                 'label' => __d('shop','Callback phone number') . '*',
             ]); ?>
@@ -103,7 +103,7 @@
             $termsUrl = (Cake\Core\Configure::read('Shop.Pages.termsUrl')) ?: ['plugin' => 'Content', 'controller' => 'Pages', 'action' => 'view', 'slug' => 'terms'];
             $termsLink = $this->Html->link(__d('shop','I agree to the terms & conditions and accept the privacy policy'),
                 $termsUrl, ['target' => '_blank', 'class' => 'link-modal']);
-            echo $this->Form->input('agree_terms', ['label' => $termsLink . '*', 'escape' => false]);
+            echo $this->Form->control('agree_terms', ['label' => $termsLink . '*', 'escape' => false]);
             ?>
         </div>
     </div>

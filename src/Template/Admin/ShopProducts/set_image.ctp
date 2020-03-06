@@ -21,7 +21,7 @@
     'multiple' => $multiple
 ]]); ?>
     <?php
-    echo $this->Form->input($scope, [
+    echo $this->Form->control($scope, [
         'type' => 'imageselect',
         'multiple' => $multiple,
         'options' => $imageFiles,

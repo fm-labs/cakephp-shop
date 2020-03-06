@@ -41,7 +41,7 @@
                         ]); ?>
 
                         <?php if ($shopProduct->type == 'parent'): ?>
-                            <?= $this->Form->input('refid', [
+                            <?= $this->Form->control('refid', [
                                 'type' => 'select',
                                 'options' => $childProducts,
                                 'label' => false

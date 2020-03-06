@@ -47,13 +47,13 @@
     <?= $this->Form->create($stockTransfer, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                    echo $this->Form->input('parent_id', ['options' => $parentStockTransfers, 'empty' => true]);
-                    echo $this->Form->input('shop_stock_id', ['options' => $shopStocks]);
-                    echo $this->Form->input('shop_product_id', ['options' => $shopProducts]);
-                echo $this->Form->input('op');
-                echo $this->Form->input('amount');
-                //echo $this->Form->input('date');
-                echo $this->Form->input('comment');
+                    echo $this->Form->control('parent_id', ['options' => $parentStockTransfers, 'empty' => true]);
+                    echo $this->Form->control('shop_stock_id', ['options' => $shopStocks]);
+                    echo $this->Form->control('shop_product_id', ['options' => $shopProducts]);
+                echo $this->Form->control('op');
+                echo $this->Form->control('amount');
+                //echo $this->Form->control('date');
+                echo $this->Form->control('comment');
         ?>
         </div>
 

@@ -11,7 +11,7 @@
     <?php if (!empty($shippingAddresses)): ?>
         <?= $this->Form->create(null); ?>
             <?= $this->Form->hidden('_op', ['value' => 'shipping-customer-select']); ?>
-            <?= $this->Form->input('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $shippingAddresses]); ?>
+            <?= $this->Form->control('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $shippingAddresses]); ?>
             <div class="text-right">
                 <?= $this->Form->button(__d('shop','Use this address'), ['class' => 'btn btn-primary']); ?>
             </div>

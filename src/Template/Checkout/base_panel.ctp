@@ -35,7 +35,7 @@ $this->assign('title', $this->fetch('heading'));
                 </div>
                 <div class="panel-body">
                     <?php
-                    debug($this->request->session()->read('Shop'))
+                    debug($this->request->getSession()->read('Shop'))
                     ?>
                 </div>
             </div>

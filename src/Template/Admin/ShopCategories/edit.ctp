@@ -57,9 +57,9 @@ $this->Toolbar->addLink(
 
         <?= $this->Form->create($shopCategory, $this->get('form.options')); ?>
 
-                <?php //echo $this->Form->input('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
+                <?php //echo $this->Form->control('eav_attribute_set_id', ['options' => $attributeSets, 'empty' => true]); ?>
 
-                <?= $this->Form->input('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']); ?>
+                <?= $this->Form->control('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']); ?>
                 <!--
                 <?php if ($shopCategory->parent_id): ?>
                     <?= $this->Html->link(
@@ -68,21 +68,21 @@ $this->Toolbar->addLink(
                 <?php endif; ?>
                 -->
                 <?php
-                echo $this->Form->input('name');
-                echo $this->Form->input('slug');
+                echo $this->Form->control('name');
+                echo $this->Form->control('slug');
 
-                //echo $this->Form->input('file1', ['type' => 'media_picker', 'config' => 'default']);
-                //echo $this->Form->input('file2', ['type' => 'media_picker', 'config' => 'default']);
+                //echo $this->Form->control('file1', ['type' => 'media_picker', 'config' => 'default']);
+                //echo $this->Form->control('file2', ['type' => 'media_picker', 'config' => 'default']);
 
                 echo $this->Form->fieldsetStart(['legend' => __d('shop','Teaser'), 'collapsed' => true]);
-                echo $this->Form->input('teaser_html', [
+                echo $this->Form->control('teaser_html', [
                     'type' => 'htmleditor',
                     'editor' => 'shop'
                 ]);
                 echo $this->Form->fieldsetEnd();
 
                 echo $this->Form->fieldsetStart(['legend' => __d('shop','Description'), 'collapsed' => false]);
-                echo $this->Form->input('desc_html', [
+                echo $this->Form->control('desc_html', [
                     'type' => 'htmleditor',
                     'editor' => 'shop'
                 ]);
@@ -91,19 +91,19 @@ $this->Toolbar->addLink(
 
 
                 <?= $this->Form->fieldsetStart(['legend' => __d('shop','Layout'), 'collapsed' => true]); ?>
-                <?= $this->Form->input('teaser_template', ['empty' => __d('shop', 'Default')]); ?>
-                <?= $this->Form->input('view_template', ['empty' => __d('shop', 'Default')]); ?>
+                <?= $this->Form->control('teaser_template', ['empty' => __d('shop', 'Default')]); ?>
+                <?= $this->Form->control('view_template', ['empty' => __d('shop', 'Default')]); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
 
                 <?= $this->Form->fieldsetStart(['legend' => __d('shop','Advanced'), 'collapsed' => true]); ?>
-                <?= $this->Form->input('is_alias'); ?>
-                <?= $this->Form->input('alias_id', ['empty' => '- Not selected -', 'options' => $parentShopCategories]); ?>
+                <?= $this->Form->control('is_alias'); ?>
+                <?= $this->Form->control('alias_id', ['empty' => '- Not selected -', 'options' => $parentShopCategories]); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
                 <?= $this->Form->fieldsetStart(['legend' => __d('shop','Tags'), 'collapsed' => true]); ?>
                 <?php
-                echo $this->Form->input('tags._ids', [
+                echo $this->Form->control('tags._ids', [
                     'type' => 'select',
                     'multiple' => true,
                     //'multiple' => 'checkbox',
@@ -113,8 +113,8 @@ $this->Toolbar->addLink(
                 <?= $this->Form->fieldsetEnd(); ?>
 
                 <?= $this->Form->fieldsetStart(['legend' => __d('shop','Media')]); ?>
-                <?= $this->Form->input('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
-                <?= $this->Form->input('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
+                <?= $this->Form->control('preview_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
+                <?= $this->Form->control('featured_image_file', ['type' => 'media_picker', 'config' => 'shop']); ?>
                 <?= $this->Form->fieldsetEnd(); ?>
 
                 <?= $this->Form->fieldsetStart([
@@ -122,9 +122,9 @@ $this->Toolbar->addLink(
                     'collapsed' => true
                 ]); ?>
                 <?php
-                echo $this->Form->input('is_published');
-                echo $this->Form->input('publish_start_date', ['type' => 'datepicker']);
-                echo $this->Form->input('publish_end_date', ['type' => 'datepicker']);
+                echo $this->Form->control('is_published');
+                echo $this->Form->control('publish_start_date', ['type' => 'datepicker']);
+                echo $this->Form->control('publish_end_date', ['type' => 'datepicker']);
                 ?>
                 <?= $this->Form->fieldsetEnd(); ?>
         <?= $this->Form->button(__d('shop', 'Save Changes')) ?>
@@ -138,7 +138,7 @@ $this->Toolbar->addLink(
         <?php for($i = 1; $i <= 5; $i++): ?>
             <?php
             $_field = sprintf('custom_text%d', $i);
-            echo $this->Form->input($_field, [
+            echo $this->Form->control($_field, [
             'type' => 'htmleditor',
             'label' => Configure::read('Shop.Admin.Categories.Labels.' . $_field),
             'editor' => ['lazy' => true]
@@ -156,7 +156,7 @@ $this->Toolbar->addLink(
     <?php for($i = 1; $i <= 5; $i++): ?>
         <?php
         $_field = sprintf('custom_file%d', $i);
-        echo $this->Form->input($_field, [
+        echo $this->Form->control($_field, [
             'type' => 'media_picker',
             'config' => 'default',
             'label' => Configure::read('Shop.Admin.Categories.Labels.' . $_field),

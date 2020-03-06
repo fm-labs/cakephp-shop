@@ -101,7 +101,7 @@ class CheckoutController extends AppController
             $stepId = Inflector::underscore($stepId);
 
             // read cartID from request
-            $cartId = $this->request->param('cartid');
+            $cartId = $this->request->getParam('cartid');
             if (!$cartId) {
                 //@TODO Log bad request
                 $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));

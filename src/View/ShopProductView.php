@@ -32,7 +32,7 @@ class ShopProductView extends ContentView
             $this->Html->meta(['link' => $shopProductUrl, 'rel' => 'canonical'], null, ['block' => true]);
 
             // meta tags
-            $metaLang = ($shopProduct->meta_lang) ?: I18n::locale();
+            $metaLang = ($shopProduct->meta_lang) ?: I18n::getLocale();
             $this->Html->meta(['name' => 'language', 'content' => $metaLang], null, ['block' => true]);
 
             $metaRobots = 'index,follow';

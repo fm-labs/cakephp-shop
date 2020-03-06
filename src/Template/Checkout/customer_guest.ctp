@@ -5,9 +5,9 @@
     <div class="form">
         <?= $this->Form->create($newCustomer); ?>
 
-        <?= $this->Form->input('first_name', ['required' => true]); ?>
-        <?= $this->Form->input('last_name', ['required' => true]); ?>
-        <?= $this->Form->input('email'); ?>
+        <?= $this->Form->control('first_name', ['required' => true]); ?>
+        <?= $this->Form->control('last_name', ['required' => true]); ?>
+        <?= $this->Form->control('email'); ?>
         <?php if ($this->Form->error('email')): ?>
         <div class="alert alert-danger">
             <h2><?= __d('shop','This email is already registered'); ?></h2>

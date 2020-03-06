@@ -41,11 +41,11 @@
     </h2>
     <?= $this->Form->create($shopCustomer); ?>
     <?php
-    echo $this->Form->input('email');
-    echo $this->Form->input('first_name');
-    echo $this->Form->input('last_name');
-    echo $this->Form->input('locale');
-    echo $this->Form->input('is_guest');
+    echo $this->Form->control('email');
+    echo $this->Form->control('first_name');
+    echo $this->Form->control('last_name');
+    echo $this->Form->control('locale');
+    echo $this->Form->control('is_guest');
     ?>
     <?= $this->Form->button(__d('shop','Submit')) ?>
     <?= $this->Form->end() ?>

@@ -37,8 +37,8 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                echo $this->Form->input('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']);
-                echo $this->Form->input('name');
+                echo $this->Form->control('parent_id', ['options' => $parentShopCategories, 'empty' => '- No parent -']);
+                echo $this->Form->control('name');
                 echo $this->Form->hidden('slug');
                 echo $this->Form->hidden('is_published', ['default' => 0]);
         ?>

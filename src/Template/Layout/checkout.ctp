@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?= Cake\I18n\I18n::locale(); ?>">
+<html lang="<?= Cake\I18n\I18n::getLocale(); ?>">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,8 +31,8 @@
 
                 <div id="header-user" class="navbar-right">
                     <span style="padding: 1em 5px; display: inline-block;">
-                    <?php if ($this->request->session()->check('Auth.User.id')): ?>
-                        <?= __d('shop', 'Hello, {0}', $this->request->session()->read('Auth.User.name')); ?>
+                    <?php if ($this->request->getSession()->check('Auth.User.id')): ?>
+                        <?= __d('shop', 'Hello, {0}', $this->request->getSession()->read('Auth.User.name')); ?>
                         <?= $this->Html->link(__d('shop', 'Logout'), ['_name' => 'user:logout'] ); ?>
                     <?php else: ?>
                         <?= $this->Html->link(__d('shop', 'Login'), ['_name' => 'user:login'] ); ?>

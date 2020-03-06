@@ -33,7 +33,7 @@ class EmailNotificationService extends BaseService
     {
         $ShopOrders = $event->getSubject();
 
-        $orderId = $event->data['order']['id'];
+        $orderId = $event->getData('order')['id'];
         $order = $ShopOrders
             ->find('order', ['ShopOrders.id' => $orderId]);
 
@@ -66,7 +66,7 @@ class EmailNotificationService extends BaseService
     {
         $ShopOrders = $event->getSubject();
 
-        $orderId = $event->data['order']['id'];
+        $orderId = $event->getData('order')['id'];
         $order = $ShopOrders
             ->find('order', ['ShopOrders.id' => $orderId]);
 

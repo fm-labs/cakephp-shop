@@ -79,5 +79,5 @@ $this->assign('title', __d('shop', 'Cart'));
     <?= $this->Form->end(); ?>
 
     <?php debug($cart); ?>
-    <?php debug($this->request->session()->read('Shop')); ?>
+    <?php debug($this->request->getSession()->read('Shop')); ?>
 </div>

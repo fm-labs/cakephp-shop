@@ -25,14 +25,14 @@
     <?= $this->Form->create($shopOrderTransactionNotify, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                    echo $this->Form->input('shop_order_transaction_id', ['options' => $shopOrderTransactions]);
-                echo $this->Form->input('type');
-                echo $this->Form->input('engine');
-                echo $this->Form->input('request_ip');
-                echo $this->Form->input('request_url');
-                echo $this->Form->input('request_json');
-                echo $this->Form->input('is_valid');
-                echo $this->Form->input('is_processed');
+                    echo $this->Form->control('shop_order_transaction_id', ['options' => $shopOrderTransactions]);
+                echo $this->Form->control('type');
+                echo $this->Form->control('engine');
+                echo $this->Form->control('request_ip');
+                echo $this->Form->control('request_url');
+                echo $this->Form->control('request_json');
+                echo $this->Form->control('is_valid');
+                echo $this->Form->control('is_processed');
         ?>
         </div>
 

@@ -10,6 +10,7 @@ use Banana\Application;
 use Banana\Menu\Menu;
 use Banana\Plugin\BasePlugin;
 use Banana\Plugin\PluginInterface;
+use Cake\Core\PluginApplicationInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
@@ -24,9 +25,23 @@ use Shop\Service\OrderNotificationService;
  *
  * @package Shop
  */
-class ShopPlugin extends BasePlugin implements EventListenerInterface
+class Plugin extends BasePlugin implements EventListenerInterface
 {
-    protected $_name = "Shop";
+    public function bootstrap(PluginApplicationInterface $app)
+    {
+        parent::bootstrap($app);
+
+        $eventManager = EventManager::instance();
+        $eventManager->on(new \Shop\Service\CartService());
+        $eventManager->on(new \Shop\Service\ShopRulesService());
+        $eventManager->on(new \Shop\Service\CustomerService());
+        $eventManager->on(new \Shop\Service\PaymentService());
+        $eventManager->on(new \Shop\Service\EmailNotificationService());
+        $eventManager->on(new \Shop\Service\OrderService());
+        $eventManager->on(new \Shop\Service\OrderNotificationService());
+        $eventManager->on(new \Shop\Sitemap\SitemapListener());
+        $eventManager->on($this);
+    }
 
     /**
      * Returns a list of events this object is implementing. When the class is registered
@@ -43,7 +58,7 @@ class ShopPlugin extends BasePlugin implements EventListenerInterface
             'Settings.build' => 'buildSettings',
             //'Backend.Menu.build.admin_primary' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
             'Backend.Menu.build.admin_primary' => ['callable' => 'buildSidebarMenu', 'priority' => 5 ],
-            'Backend.Menu.build.admin_system' => ['callable' => 'buildBackendSystemMenu' ],
+            'Backend.Menu.build.admin_system' => ['callable' => 'buildBackendMenu' ],
         ];
     }
 
@@ -124,108 +139,106 @@ class ShopPlugin extends BasePlugin implements EventListenerInterface
     /**
      * @param Event $event
      */
-    public function buildSettings(Event $event)
+    public function buildSettings(Event $event, SettingsManager $settings)
     {
-        if ($event->getSubject() instanceof SettingsManager) {
-            $event->getSubject()->add('Shop', [
+        $settings->add('Shop', [
 
-                // Owner
-                'Owner.name' => [
-                    'type' => 'string',
-                ],
-                'Owner.street1' => [
-                    'type' => 'string',
-                ],
-                'Owner.street2' => [
-                    'type' => 'string',
-                ],
-                'Owner.zipcode' => [
-                    'type' => 'string',
-                ],
-                'Owner.city' => [
-                    'type' => 'string',
-                ],
-                'Owner.country' => [
-                    'type' => 'string',
-                ],
-                'Owner.taxId' => [
-                    'type' => 'string',
-                ],
+            // Owner
+            'Owner.name' => [
+                'type' => 'string',
+            ],
+            'Owner.street1' => [
+                'type' => 'string',
+            ],
+            'Owner.street2' => [
+                'type' => 'string',
+            ],
+            'Owner.zipcode' => [
+                'type' => 'string',
+            ],
+            'Owner.city' => [
+                'type' => 'string',
+            ],
+            'Owner.country' => [
+                'type' => 'string',
+            ],
+            'Owner.taxId' => [
+                'type' => 'string',
+            ],
 
-                // Pages
-                'Pages.termsUrl' => [
-                    'type' => 'string',
-                ],
+            // Pages
+            'Pages.termsUrl' => [
+                'type' => 'string',
+            ],
 
-                // Demo
-                'Demo.enabled' => [
-                    'type' => 'boolean',
-                ],
-                'Demo.username' => [
-                    'type' => 'string',
-                ],
+            // Demo
+            'Demo.enabled' => [
+                'type' => 'boolean',
+            ],
+            'Demo.username' => [
+                'type' => 'string',
+            ],
 
-                // Cart
-                'Cart.requireAuth' => [
-                    'type' => 'boolean',
-                ],
+            // Cart
+            'Cart.requireAuth' => [
+                'type' => 'boolean',
+            ],
 
-                // Order
-                'Order.nrPrefix' => [
-                    'type' => 'string',
-                ],
-                'Order.nrSuffix' => [
-                    'type' => 'string',
-                ],
+            // Order
+            'Order.nrPrefix' => [
+                'type' => 'string',
+            ],
+            'Order.nrSuffix' => [
+                'type' => 'string',
+            ],
 
-                // Invoice
-                'Invoice.nrPrefix' => [
-                    'type' => 'string',
-                ],
-                'Invoice.nrSuffix' => [
-                    'type' => 'string',
-                ],
+            // Invoice
+            'Invoice.nrPrefix' => [
+                'type' => 'string',
+            ],
+            'Invoice.nrSuffix' => [
+                'type' => 'string',
+            ],
 
-                // Price
-                'Price.baseCurrency' => [
-                    'type' => 'string',
-                ],
-                'Price.requireAuth' => [
-                    'type' => 'boolean',
-                ],
-                'Price.displayNet' => [
-                    'type' => 'boolean',
-                ],
+            // Price
+            'Price.baseCurrency' => [
+                'type' => 'string',
+            ],
+            'Price.requireAuth' => [
+                'type' => 'boolean',
+            ],
+            'Price.displayNet' => [
+                'type' => 'boolean',
+            ],
 
-                // Layout
-                'Layout.default' => [
-                    'type' => 'string',
-                ],
-                'Layout.checkout' => [
-                    'type' => 'string',
-                ],
-                'Layout.payment' => [
-                    'type' => 'string',
-                ],
-                'Layout.order' => [
-                    'type' => 'string',
-                ],
+            // Layout
+            'Layout.default' => [
+                'type' => 'string',
+            ],
+            'Layout.checkout' => [
+                'type' => 'string',
+            ],
+            'Layout.payment' => [
+                'type' => 'string',
+            ],
+            'Layout.order' => [
+                'type' => 'string',
+            ],
 
-                // Catalogue
-                'Catalogue.index_category_id' => [
-                    'type' => 'string',
-                ],
+            // Catalogue
+            'Catalogue.index_category_id' => [
+                'type' => 'string',
+            ],
 
-                // Routing
-                'Router.enablePrettyUrls' => [
-                    'type' => 'boolean',
-                ],
-                'Router.forceCanonical' => [
-                    'type' => 'boolean',
-                ],
+            // Routing
+            'Router.enablePrettyUrls' => [
+                'type' => 'boolean',
+            ],
+            'Router.forceCanonical' => [
+                'type' => 'boolean',
+            ],
 
-            ]);
-        }
+        ]);
     }
 
     /**
@@ -242,31 +255,13 @@ class ShopPlugin extends BasePlugin implements EventListenerInterface
     /**
      * @param Event $event
      */
-    public function buildBackendMenu(Event $event)
+    public function buildBackendMenu(Event $event, \Banana\Menu\Menu $menu)
     {
-        $event->getSubject()->addItem([
-            'title' => __d('shop', 'Shop'),
-            'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
-            'data-icon' => 'shopping-cart',
-            'children' => $this->_getMenuItems()
-        ]);
-    }
-
-    /**
-     * @param Event $event
-     */
-    public function buildSidebarMenu(Event $event, \Banana\Menu\Menu $menu)
-    {
-        $children = [];
-        //if ($event->data['request']->param('plugin') == 'Shop') {
-            $children = $this->_getMenuItems();
-        //}
-
         $menu->addItem([
             'title' => __d('shop', 'Shop'),
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',
-            'children' => $children
+            'children' => $this->_getMenuItems()
         ]);
     }
 
@@ -277,21 +272,5 @@ class ShopPlugin extends BasePlugin implements EventListenerInterface
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopCountries', 'action' => 'index'],
             'data-icon' => 'flag-checkered'
         ]);
-    }
-
-    public function bootstrap(Application $app)
-    {
-        parent::bootstrap($app);
-
-        $eventManager = EventManager::instance();
-        $eventManager->on(new \Shop\Service\CartService());
-        $eventManager->on(new \Shop\Service\ShopRulesService());
-        $eventManager->on(new \Shop\Service\CustomerService());
-        $eventManager->on(new \Shop\Service\PaymentService());
-        $eventManager->on(new \Shop\Service\EmailNotificationService());
-        $eventManager->on(new \Shop\Service\OrderService());
-        $eventManager->on(new \Shop\Service\OrderNotificationService());
-        $eventManager->on(new \Shop\Sitemap\SitemapListener());
-        $eventManager->on($this);
     }
 }

@@ -27,7 +27,7 @@ if (!isset($shopText)) {
     <?= $this->Form->hidden('model_id'); ?>
     <?= $this->Form->hidden('model_scope'); ?>
     <?= $this->Form->hidden('locale'); ?>
-    <?= $this->Form->input($shopText->model_scope, [
+    <?= $this->Form->control($shopText->model_scope, [
         'type' => 'textarea',
         'class' => 'htmleditor',
         'default' => $shopText->text

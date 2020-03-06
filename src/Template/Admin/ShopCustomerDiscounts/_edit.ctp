@@ -42,14 +42,14 @@
     <?= $this->Form->create($shopCustomerDiscount, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                    echo $this->Form->input('shop_customer_id', ['options' => $shopCustomers]);
-                    echo $this->Form->input('shop_product_id', ['options' => $shopProducts]);
-                echo $this->Form->input('type');
-                echo $this->Form->input('valuetype');
-                echo $this->Form->input('value');
-                echo $this->Form->input('is_published');
-                //echo $this->Form->input('publish_start');
-                //echo $this->Form->input('publish_end');
+                    echo $this->Form->control('shop_customer_id', ['options' => $shopCustomers]);
+                    echo $this->Form->control('shop_product_id', ['options' => $shopProducts]);
+                echo $this->Form->control('type');
+                echo $this->Form->control('valuetype');
+                echo $this->Form->control('value');
+                echo $this->Form->control('is_published');
+                //echo $this->Form->control('publish_start');
+                //echo $this->Form->control('publish_end');
         ?>
         </div>
 

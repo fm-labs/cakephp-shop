@@ -6,18 +6,18 @@ use Cake\Log\Log;
 /**
  * Check dependencies
  */
-//if (!Plugin::loaded('Banana')) {
+//if (!Plugin::isLoaded('Banana')) {
 //    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Banana']);
 //}
-//if (!Plugin::loaded('Content')) {
+//if (!Plugin::isLoaded('Content')) {
 //    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);
 //}
 
 /**
  * Log configuration
  */
-if (!Log::config('shop')) {
-    Log::config('shop', [
+if (!Log::getConfig('shop')) {
+    Log::setConfig('shop', [
         'className' => 'Cake\Log\Engine\FileLog',
         'path' => LOGS,
         'file' => 'shop',

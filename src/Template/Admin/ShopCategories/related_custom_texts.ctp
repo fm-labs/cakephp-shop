@@ -1,7 +1,7 @@
 <div class="shop categories custom-texts">
     <div class="ui form">
         <?= $this->Form->create($shopCategory); ?>
-        <?= $this->Form->input('custom_text1', [
+        <?= $this->Form->control('custom_text1', [
             'type' => 'htmleditor',
             'label' => 'Related ll',
             'editor' => [
@@ -10,7 +10,7 @@
                 'convert_urls' => false,
             ]
         ]); ?>
-        <?= $this->Form->input('custom_text2', [
+        <?= $this->Form->control('custom_text2', [
             'type' => 'htmleditor',
             'label' => 'Related stone',
             'editor' => [
@@ -19,9 +19,9 @@
                 'convert_urls' => false,
             ]
         ]); ?>
-        <?= ''//$this->Form->input('custom_text3', ['type' => 'htmleditor']); ?>
-        <?= ''//$this->Form->input('custom_text4', ['type' => 'htmleditor']); ?>
-        <?= ''//$this->Form->input('custom_text5', ['type' => 'htmleditor']); ?>
+        <?= ''//$this->Form->control('custom_text3', ['type' => 'htmleditor']); ?>
+        <?= ''//$this->Form->control('custom_text4', ['type' => 'htmleditor']); ?>
+        <?= ''//$this->Form->control('custom_text5', ['type' => 'htmleditor']); ?>
         <?= $this->Form->button(__d('shop', 'Submit')) ?>
         <?= $this->Form->end() ?>
     </div>

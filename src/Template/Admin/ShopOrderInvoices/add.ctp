@@ -36,15 +36,15 @@
     <?= $this->Form->create($shopOrderInvoice, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                    echo $this->Form->input('parent_id', ['options' => $parentShopOrderInvoices, 'empty' => true]);
-                    echo $this->Form->input('shop_order_id', ['options' => $shopOrders]);
-                echo $this->Form->input('group');
-                echo $this->Form->input('nr');
-                echo $this->Form->input('date_invoice');
-                echo $this->Form->input('title');
-                echo $this->Form->input('value_total');
-                echo $this->Form->input('status');
-                echo $this->Form->input('customer_notify_sent');
+                    echo $this->Form->control('parent_id', ['options' => $parentShopOrderInvoices, 'empty' => true]);
+                    echo $this->Form->control('shop_order_id', ['options' => $shopOrders]);
+                echo $this->Form->control('group');
+                echo $this->Form->control('nr');
+                echo $this->Form->control('date_invoice');
+                echo $this->Form->control('title');
+                echo $this->Form->control('value_total');
+                echo $this->Form->control('status');
+                echo $this->Form->control('customer_notify_sent');
         ?>
         </div>
 

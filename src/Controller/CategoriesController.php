@@ -50,7 +50,7 @@ class CategoriesController extends AppController
         //@TODO Use ShopComponent to override controller layouts by configuration
         //$this->viewBuilder()->layout(Configure::read('Shop.Categories.layout'));
 
-        //if ($this->request->param('_ext') === 'json') {
+        //if ($this->request->getParam('_ext') === 'json') {
         //    $this->viewBuilder()->setLayout(false);
         //    $this->RequestHandler->renderAs($this, 'json');
         //}
@@ -135,7 +135,7 @@ class CategoriesController extends AppController
         //debug($this->request);
 
         $slug = null;
-        $id = ($id) ?: $this->request->param('category_id');
+        $id = ($id) ?: $this->request->getParam('category_id');
         $id = ($id) ?: $this->request->getQuery('category_id');
 
         // check if id is numeric or a string
@@ -148,7 +148,7 @@ class CategoriesController extends AppController
         // If no category ID found,
         // attempt to resolve category from slug
         if (!$id) {
-            $slug = ($slug) ?: $this->request->param('category');
+            $slug = ($slug) ?: $this->request->getParam('category');
             $slug = ($slug) ?: $this->request->getQuery('category');
             if ($slug) {
                 //@TODO Replace with slug finder

@@ -161,7 +161,7 @@ class CheckoutComponent extends Component
         if ($this->_order) {
             $order = $this->_order->toArray();
         }
-        $this->request->session()->write('Shop.Order', $order);
+        $this->request->getSession()->write('Shop.Order', $order);
     }
 
     /**
@@ -280,7 +280,7 @@ class CheckoutComponent extends Component
     {
         // set active step and store session
         $this->_activeStep = $step;
-        $this->request->session()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
+        $this->request->getSession()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
 
         // before step
         $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
@@ -404,9 +404,9 @@ class CheckoutComponent extends Component
     {
         $this->_order = null;
 
-        $this->request->session()->delete('Shop.Cart');
-        $this->request->session()->delete('Shop.Checkout');
-        $this->request->session()->delete('Shop.Order');
+        $this->request->getSession()->delete('Shop.Cart');
+        $this->request->getSession()->delete('Shop.Checkout');
+        $this->request->getSession()->delete('Shop.Order');
     }
 
     /**

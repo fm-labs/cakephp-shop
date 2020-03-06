@@ -36,11 +36,11 @@
     <?= $this->Form->create($stockValue, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                    echo $this->Form->input('shop_stock_id', ['options' => $shopStocks]);
-                    echo $this->Form->input('shop_product_id', ['options' => $shopProducts]);
-                echo $this->Form->input('value');
-                //echo $this->Form->input('last_transfer_in');
-                //echo $this->Form->input('last_transfer_out');
+                    echo $this->Form->control('shop_stock_id', ['options' => $shopStocks]);
+                    echo $this->Form->control('shop_product_id', ['options' => $shopProducts]);
+                echo $this->Form->control('value');
+                //echo $this->Form->control('last_transfer_in');
+                //echo $this->Form->control('last_transfer_out');
         ?>
         </div>
 

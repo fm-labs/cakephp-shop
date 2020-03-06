@@ -87,6 +87,6 @@ class ShopRulesService implements EventListenerInterface
             }
         }
 
-        $event->data['data']['item_value_net'] = $priceNet;
+        $event->getData('data')['item_value_net'] = $priceNet;
     }
 }

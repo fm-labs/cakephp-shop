@@ -11,7 +11,7 @@
     <?php if (!empty($billingAddresses)): ?>
         <?= $this->Form->create(null); ?>
             <?= $this->Form->hidden('_op', ['value' => 'billing-customer-select']); ?>
-            <?= $this->Form->input('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $billingAddresses]); ?>
+            <?= $this->Form->control('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $billingAddresses]); ?>
             <div class="text-right">
                 <?= $this->Form->button(__d('shop','Use this address'), ['class' => 'btn btn-primary']); ?>
             </div>

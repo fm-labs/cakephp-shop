@@ -32,7 +32,7 @@ class ShopComponent extends Component
     {
         $defaultLayout = Configure::read('Shop.Layout.default');
         if ($defaultLayout) {
-            $this->_registry->getController()->viewBuilder()->layout($defaultLayout);
+            $this->_registry->getController()->viewBuilder()->setLayout($defaultLayout);
         }
     }
 
@@ -107,7 +107,7 @@ class ShopComponent extends Component
     public function setCustomer(ShopCustomer $customer)
     {
         $this->_customer = $customer;
-        $this->request->session()->write('Shop.Customer', $this->_customer->toArray());
+        $this->request->getSession()->write('Shop.Customer', $this->_customer->toArray());
 
         return $this;
     }
@@ -118,7 +118,7 @@ class ShopComponent extends Component
     public function resetCustomer()
     {
         $this->_customer = null;
-        $this->request->session()->delete('Shop.Customer');
+        $this->request->getSession()->delete('Shop.Customer');
 
         return $this;
     }

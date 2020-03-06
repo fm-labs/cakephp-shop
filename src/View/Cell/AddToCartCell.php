@@ -229,7 +229,7 @@ class AddToCartCell extends Cell
 
     protected function _checkAuth()
     {
-        if (Configure::read('Shop.Cart.requireAuth') && !$this->request->session()->read('Shop.Customer.id')) {
+        if (Configure::read('Shop.Cart.requireAuth') && !$this->request->getSession()->read('Shop.Customer.id')) {
             return false;
         }
 

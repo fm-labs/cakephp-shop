@@ -46,7 +46,7 @@ $this->loadHelper('Media.Media');
                                     <?= $this->Form->hidden('amount', ['value' => 1]); ?>
 
                                     <?php if (isset($childProducts)): ?>
-                                        <?= $this->Form->input('refid', [
+                                        <?= $this->Form->control('refid', [
                                             'type' => 'select',
                                             'options' => $childProducts,
                                             'label' => false

@@ -59,41 +59,41 @@
     echo $this->Form->hidden('uuid');
     echo $this->Form->hidden('cartid');
     echo $this->Form->hidden('sessionid');
-    echo $this->Form->input('nr', ['readonly' => true]);
-    echo $this->Form->input('title');
+    echo $this->Form->control('nr', ['readonly' => true]);
+    echo $this->Form->control('title');
     ?>
     <div class="row">
         <div class="col-md-6">
             <h3>Billing</h3>
             <?php
-            //echo $this->Form->input('billing_address_id', ['options' => $billingAddresses, 'empty' => true]);
-            echo $this->Form->input('billing_is_company');
-            echo $this->Form->input('billing_first_name');
-            echo $this->Form->input('billing_last_name');
-            echo $this->Form->input('billing_name');
-            echo $this->Form->input('billing_street');
-            echo $this->Form->input('billing_taxid');
-            echo $this->Form->input('billing_zipcode');
-            echo $this->Form->input('billing_city');
-            echo $this->Form->input('billing_country');
-            echo $this->Form->input('shipping_use_billing');
+            //echo $this->Form->control('billing_address_id', ['options' => $billingAddresses, 'empty' => true]);
+            echo $this->Form->control('billing_is_company');
+            echo $this->Form->control('billing_first_name');
+            echo $this->Form->control('billing_last_name');
+            echo $this->Form->control('billing_name');
+            echo $this->Form->control('billing_street');
+            echo $this->Form->control('billing_taxid');
+            echo $this->Form->control('billing_zipcode');
+            echo $this->Form->control('billing_city');
+            echo $this->Form->control('billing_country');
+            echo $this->Form->control('shipping_use_billing');
             ?>
         </div>
         <div class="col-md-6">
             <h3>Shipping</h3>
             <?php
 
-            //echo $this->Form->input('shipping_address_id', ['options' => $shippingAddresses, 'empty' => true]);
-            echo $this->Form->input('shipping_is_company');
-            echo $this->Form->input('shipping_first_name');
-            echo $this->Form->input('shipping_last_name');
-            echo $this->Form->input('shipping_name');
-            echo $this->Form->input('shipping_street');
-            echo $this->Form->input('shipping_zipcode');
-            echo $this->Form->input('shipping_city');
-            echo $this->Form->input('shipping_country');
+            //echo $this->Form->control('shipping_address_id', ['options' => $shippingAddresses, 'empty' => true]);
+            echo $this->Form->control('shipping_is_company');
+            echo $this->Form->control('shipping_first_name');
+            echo $this->Form->control('shipping_last_name');
+            echo $this->Form->control('shipping_name');
+            echo $this->Form->control('shipping_street');
+            echo $this->Form->control('shipping_zipcode');
+            echo $this->Form->control('shipping_city');
+            echo $this->Form->control('shipping_country');
 
-            echo $this->Form->input('shipping_type');
+            echo $this->Form->control('shipping_type');
             ?>
         </div>
     </div>
@@ -103,10 +103,10 @@
         <legend>Payment</legend>
         <?php
 
-        echo $this->Form->input('payment_type');
-        echo $this->Form->input('payment_info_1');
-        echo $this->Form->input('payment_info_2');
-        echo $this->Form->input('payment_info_3');
+        echo $this->Form->control('payment_type');
+        echo $this->Form->control('payment_info_1');
+        echo $this->Form->control('payment_info_2');
+        echo $this->Form->control('payment_info_3');
         ?>
     </fieldset>
 
@@ -114,14 +114,14 @@
         <legend>Info</legend>
         <?php
 
-        echo $this->Form->input('customer_notes');
-        echo $this->Form->input('staff_notes');
-        echo $this->Form->input('customer_phone');
-        echo $this->Form->input('customer_email');
-        echo $this->Form->input('customer_ip');
-        echo $this->Form->input('agree_terms');
-        echo $this->Form->input('agree_newsletter');
-        echo $this->Form->input('locale');
+        echo $this->Form->control('customer_notes');
+        echo $this->Form->control('staff_notes');
+        echo $this->Form->control('customer_phone');
+        echo $this->Form->control('customer_email');
+        echo $this->Form->control('customer_ip');
+        echo $this->Form->control('agree_terms');
+        echo $this->Form->control('agree_newsletter');
+        echo $this->Form->control('locale');
         ?>
     </fieldset>
 
@@ -129,15 +129,15 @@
         <legend>Status</legend>
         <?php
 
-        echo $this->Form->input('status');
-        //echo $this->Form->input('submitted');
-        //echo $this->Form->input('confirmed');
-        //echo $this->Form->input('delivered');
-        //echo $this->Form->input('invoiced');
-        //echo $this->Form->input('payed');
-        echo $this->Form->input('is_temporary');
-        echo $this->Form->input('is_storno');
-        echo $this->Form->input('is_deleted');
+        echo $this->Form->control('status');
+        //echo $this->Form->control('submitted');
+        //echo $this->Form->control('confirmed');
+        //echo $this->Form->control('delivered');
+        //echo $this->Form->control('invoiced');
+        //echo $this->Form->control('payed');
+        echo $this->Form->control('is_temporary');
+        echo $this->Form->control('is_storno');
+        echo $this->Form->control('is_deleted');
         ?>
     </fieldset>
 

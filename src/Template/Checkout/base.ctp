@@ -42,6 +42,6 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
         <hr />
         CartID: <br />
         <?= h($this->get('cartId')); ?>
-        <?php debug($this->request->session()->read('Shop')); ?>
+        <?php debug($this->request->getSession()->read('Shop')); ?>
     <?php endif; ?>
 </div>

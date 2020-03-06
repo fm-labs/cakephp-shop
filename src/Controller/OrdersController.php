@@ -30,7 +30,7 @@ class OrdersController extends AppController
      */
     public function index()
     {
-        $customerId = $this->request->session()->read('Shop.Customer.id');
+        $customerId = $this->request->getSession()->read('Shop.Customer.id');
         $this->paginate = [
             'contain' => ['ShopCustomers'],
             'conditions' => ['ShopOrders.is_temporary' => false, 'ShopOrders.shop_customer_id' => $customerId],
@@ -57,7 +57,7 @@ class OrdersController extends AppController
         $shopOrder = $this->ShopOrders->find('order', ['ShopOrders.uuid' => $uuid]);
 
         if (!$this->Auth->user() || $this->Shop->getCustomerId() != $shopOrder->shop_customer_id) {
-            $this->viewBuilder()->template('view_public');
+            $this->viewBuilder()->setTemplate('view_public');
         }
 
         $this->set('order', $shopOrder);

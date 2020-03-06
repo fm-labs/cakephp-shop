@@ -20,12 +20,12 @@ $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Checkout', 'ac
             </div>
         <?php endif; ?>
 
-        <?= $this->Form->input('first_name'); ?>
-        <?= $this->Form->input('last_name'); ?>
-        <?= $this->Form->input('email'); ?>
+        <?= $this->Form->control('first_name'); ?>
+        <?= $this->Form->control('last_name'); ?>
+        <?= $this->Form->control('email'); ?>
 
-        <?= $this->Form->input('password1', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Password')]); ?>
-        <?= $this->Form->input('password2', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Repeat Password')]); ?>
+        <?= $this->Form->control('password1', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Password')]); ?>
+        <?= $this->Form->control('password2', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Repeat Password')]); ?>
 
         <div class="actions text-right" style="margin-top: 1em;">
             <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>

@@ -2,7 +2,7 @@
 
 <div class="shop customer view container">
 
-    <h1>Welcome, <?= $this->request->session()->read('Auth.User.display_name'); ?></h1>
+    <h1>Welcome, <?= $this->request->getSession()->read('Auth.User.display_name'); ?></h1>
 
     <div class="row">
         <div class="col-md-12">

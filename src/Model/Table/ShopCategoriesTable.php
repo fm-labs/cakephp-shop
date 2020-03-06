@@ -69,7 +69,7 @@ class ShopCategoriesTable extends Table
             'scope' => 'Shop.ShopCategories'
         ]);
 
-        if (Plugin::loaded('Media')) {
+        if (Plugin::isLoaded('Media')) {
             $this->addBehavior('Media.Media', [
                 'model' => 'Shop.ShopCategories',
                 'fields' => [
@@ -124,7 +124,7 @@ class ShopCategoriesTable extends Table
         ]);
         //$this->locale('de');
 
-        if (Plugin::loaded('Search')) {
+        if (Plugin::isLoaded('Search')) {
             $this->addBehavior('Search.Search');
             $this->searchManager()
                 ->add('name', 'Search.Like', [

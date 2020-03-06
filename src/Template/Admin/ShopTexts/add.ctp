@@ -15,13 +15,13 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                echo $this->Form->input('model');
-                echo $this->Form->input('model_id');
-                echo $this->Form->input('model_scope');
-                echo $this->Form->input('locale');
-                echo $this->Form->input('format');
-                echo $this->Form->input('text');
-                echo $this->Form->input('class');
+                echo $this->Form->control('model');
+                echo $this->Form->control('model_id');
+                echo $this->Form->control('model_scope');
+                echo $this->Form->control('locale');
+                echo $this->Form->control('format');
+                echo $this->Form->control('text');
+                echo $this->Form->control('class');
         ?>
         </div>
     </div>

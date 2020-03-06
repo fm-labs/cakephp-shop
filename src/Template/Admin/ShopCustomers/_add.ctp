@@ -37,23 +37,23 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                echo $this->Form->input('email');
-                //echo $this->Form->input('password');
-                echo $this->Form->input('greeting');
-                echo $this->Form->input('first_name');
-                echo $this->Form->input('last_name');
-                echo $this->Form->input('street');
-                echo $this->Form->input('zipcode');
-                echo $this->Form->input('city');
-                echo $this->Form->input('country');
-                echo $this->Form->input('country_iso2');
-                echo $this->Form->input('phone');
-                echo $this->Form->input('fax');
-                echo $this->Form->input('locale');
-                echo $this->Form->input('email_verification_code');
-                echo $this->Form->input('email_verified');
-                echo $this->Form->input('is_guest');
-                echo $this->Form->input('is_blocked');
+                echo $this->Form->control('email');
+                //echo $this->Form->control('password');
+                echo $this->Form->control('greeting');
+                echo $this->Form->control('first_name');
+                echo $this->Form->control('last_name');
+                echo $this->Form->control('street');
+                echo $this->Form->control('zipcode');
+                echo $this->Form->control('city');
+                echo $this->Form->control('country');
+                echo $this->Form->control('country_iso2');
+                echo $this->Form->control('phone');
+                echo $this->Form->control('fax');
+                echo $this->Form->control('locale');
+                echo $this->Form->control('email_verification_code');
+                echo $this->Form->control('email_verified');
+                echo $this->Form->control('is_guest');
+                echo $this->Form->control('is_blocked');
         ?>
         </div>
     </div>

@@ -20,12 +20,12 @@
     <?= $this->Form->create($shopCountry, ['class' => 'no-ajax']); ?>
         <div class="ui form">
         <?php
-                echo $this->Form->input('iso2');
-                echo $this->Form->input('iso3');
-                echo $this->Form->input('name');
-                echo $this->Form->input('name_de');
-                echo $this->Form->input('priority');
-                echo $this->Form->input('is_published');
+                echo $this->Form->control('iso2');
+                echo $this->Form->control('iso3');
+                echo $this->Form->control('name');
+                echo $this->Form->control('name_de');
+                echo $this->Form->control('priority');
+                echo $this->Form->control('is_published');
         ?>
         </div>
 

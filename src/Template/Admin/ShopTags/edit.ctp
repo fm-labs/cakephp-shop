@@ -32,10 +32,10 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                echo $this->Form->input('group');
-                echo $this->Form->input('name');
-                echo $this->Form->input('class');
-                echo $this->Form->input('published');
+                echo $this->Form->control('group');
+                echo $this->Form->control('name');
+                echo $this->Form->control('class');
+                echo $this->Form->control('published');
         ?>
         </div>
     </div>

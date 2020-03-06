@@ -26,14 +26,14 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                echo $this->Form->input('shop_category_id', ['options' => $shopCategories, 'empty' => true]);
-                echo $this->Form->input('sku');
-                echo $this->Form->input('title');
+                echo $this->Form->control('shop_category_id', ['options' => $shopCategories, 'empty' => true]);
+                echo $this->Form->control('sku');
+                echo $this->Form->control('title');
                 echo $this->Form->hidden('slug');
-                //echo $this->Form->input('desc_short_text');
-                //echo $this->Form->input('desc_long_text');
-                //echo $this->Form->input('preview_image_file');
-                //echo $this->Form->input('featured_image_file');
+                //echo $this->Form->control('desc_short_text');
+                //echo $this->Form->control('desc_long_text');
+                //echo $this->Form->control('preview_image_file');
+                //echo $this->Form->control('featured_image_file');
                 echo $this->Form->hidden('is_published', ['value' => 0]);
                 echo $this->Form->hidden('publish_start_date', ['default' => null]);
                 echo $this->Form->hidden('publish_end_date', ['default' => null]);

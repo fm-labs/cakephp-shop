@@ -14,7 +14,7 @@
             echo $this->Form->hidden('model_scope');
             echo $this->Form->hidden('locale');
             echo $this->Form->hidden('format', ['default' => 'html']);
-            echo $this->Form->input('text', ['class' => 'htmleditor']);
+            echo $this->Form->control('text', ['class' => 'htmleditor']);
             echo $this->Form->hidden('class');
     ?>
     </div>

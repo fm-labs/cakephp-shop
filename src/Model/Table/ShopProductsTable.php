@@ -68,7 +68,7 @@ class ShopProductsTable extends Table
         ]);
         */
 
-        if (Plugin::loaded('Media')) {
+        if (Plugin::isLoaded('Media')) {
             $this->addBehavior('Media.Media', [
                 'fields' => [
                     'preview_image_file' => [
@@ -98,7 +98,7 @@ class ShopProductsTable extends Table
             'translationTable' => 'ShopI18n'
         ]);
 
-        if (Plugin::loaded('Search')) {
+        if (Plugin::isLoaded('Search')) {
             $this->addBehavior('Search.Search');
             $this->searchManager()
                 ->add('q', 'Search.Like', [

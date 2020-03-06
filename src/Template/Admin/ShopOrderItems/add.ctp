@@ -26,18 +26,18 @@
     <div class="users ui basic segment">
         <div class="ui form">
         <?php
-                    echo $this->Form->input('shop_order_id', ['options' => $shopOrders]);
-                echo $this->Form->input('refscope');
-                echo $this->Form->input('refid');
-                echo $this->Form->input('title');
-                echo $this->Form->input('amount');
-                echo $this->Form->input('unit');
-                echo $this->Form->input('item_value_net');
-                echo $this->Form->input('tax_rate');
-                echo $this->Form->input('value_net');
-                echo $this->Form->input('value_tax');
-                echo $this->Form->input('value_total');
-                echo $this->Form->input('options');
+                    echo $this->Form->control('shop_order_id', ['options' => $shopOrders]);
+                echo $this->Form->control('refscope');
+                echo $this->Form->control('refid');
+                echo $this->Form->control('title');
+                echo $this->Form->control('amount');
+                echo $this->Form->control('unit');
+                echo $this->Form->control('item_value_net');
+                echo $this->Form->control('tax_rate');
+                echo $this->Form->control('value_net');
+                echo $this->Form->control('value_tax');
+                echo $this->Form->control('value_total');
+                echo $this->Form->control('options');
         ?>
         </div>
     </div>

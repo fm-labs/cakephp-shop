@@ -30,7 +30,7 @@ class ShopCategoryView extends ContentView
     {
         $metaDescription = $metaKeywords = null;
         $metaRobots = 'index,follow';
-        $metaLang = I18n::locale();
+        $metaLang = I18n::getLocale();
 
         // bread crumbs - shop index
         // @TODO Refactor with event listener
@@ -56,7 +56,7 @@ class ShopCategoryView extends ContentView
             $shopCategoryUrl = $shopCategory->url;
 
             $metaTitle = ($shopCategory->meta_title) ?: $shopCategory->name;
-            $metaLang = ($shopCategory->meta_lang) ?: I18n::locale();
+            $metaLang = ($shopCategory->meta_lang) ?: I18n::getLocale();
             $metaDescription = ($shopCategory->meta_desc) ?: $metaTitle;
             $metaKeywords = ($shopCategory->meta_keywords) ?: $metaTitle;
 

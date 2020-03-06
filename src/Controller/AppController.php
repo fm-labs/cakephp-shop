@@ -37,6 +37,6 @@ class AppController extends ContentController
         $this->loadComponent('Content.Locale');
         $this->loadComponent('Shop.Shop');
 
-        $this->Auth->config('logoutRedirect', ['_name' => 'shop:index']);
+        $this->Auth->setConfig('logoutRedirect', ['_name' => 'shop:index']);
     }
 }
