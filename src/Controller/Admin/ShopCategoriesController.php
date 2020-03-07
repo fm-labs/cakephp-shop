@@ -155,8 +155,8 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
-
-                return $this->redirect(['action' => 'edit', $id]);
+                return;
+                //return $this->redirect(['action' => 'edit', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
             }

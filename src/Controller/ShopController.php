@@ -3,7 +3,6 @@
 namespace Shop\Controller;
 
 use Cake\Core\Configure;
-use Cake\Http\Exception\NotFoundException;
 
 /**
  * Class ShopController
@@ -17,6 +16,7 @@ use Cake\Http\Exception\NotFoundException;
  */
 class ShopController extends AppController
 {
+    public $modelClass = false;
 
     public function initialize()
     {

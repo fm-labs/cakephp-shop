@@ -32,7 +32,6 @@ class Plugin extends BasePlugin implements EventListenerInterface
         parent::bootstrap($app);
 
         $eventManager = EventManager::instance();
-        /*
         $eventManager->on(new \Shop\Service\CartService());
         $eventManager->on(new \Shop\Service\ShopRulesService());
         $eventManager->on(new \Shop\Service\CustomerService());
@@ -41,6 +40,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
         $eventManager->on(new \Shop\Service\OrderService());
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Sitemap\SitemapListener());
+        /*
         */
         $eventManager->on($this);
     }

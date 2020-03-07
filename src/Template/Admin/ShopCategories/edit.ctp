@@ -4,7 +4,7 @@ use Cake\Core\Configure;
 use Cake\Routing\Router;
 //$this->extend('base');
 
-$this->loadHelper('Media.Media');
+//$this->loadHelper('Media.Media');
 $this->loadHelper('Bootstrap.Tabs');
 
 $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']);

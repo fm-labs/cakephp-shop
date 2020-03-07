@@ -145,7 +145,9 @@ class ShopCategoriesTable extends Table
 
     protected function _initializeSchema(TableSchema $schema)
     {
-        $schema->setColumnType('image_files', 'media_file');
+        //$schema->setColumnType('preview_image_file', 'media_file');
+        //$schema->setColumnType('featured_image_file', 'media_file');
+        //$schema->setColumnType('image_files', 'media_file');
 
         return $schema;
     }
