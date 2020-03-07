@@ -26,15 +26,7 @@ class AppController extends ContentController
     {
         parent::initialize();
 
-        $this->helpers['Paginator'] = [
-            'templates' => 'Shop.paginator_templates' // @TODO copy paginator templates to app dir. DRY!?
-        ];
-
-        $this->helpers['Ui'] = [
-            'className' => 'Bootstrap.Ui'
-        ];
-
-        $this->loadComponent('Content.Locale');
+        $this->viewBuilder()->setClassName('Shop.Shop');
         $this->loadComponent('Shop.Shop');
 
         $this->Auth->setConfig('logoutRedirect', ['_name' => 'shop:index']);

@@ -543,7 +543,7 @@ class ShopOrdersTable extends Table
 
         $config = Shop::config('Shop.Order');
 
-        return $this->connection()->transactional(function ($conn) use (&$order, $config) {
+        return $this->getConnection()->transactional(function ($conn) use (&$order, $config) {
             $order->nr = $this->getNextOrderNr();
             $order->ordergroup = $config['nrGroup'];
 

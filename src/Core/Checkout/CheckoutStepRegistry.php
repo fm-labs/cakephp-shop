@@ -9,7 +9,7 @@ use Shop\Controller\Component\CheckoutComponent;
 /**
  * Registry of loaded log engines
  */
-class CheckoutStepRegistry extends ObjectRegistry implements \Iterator, \SeekableIterator
+class CheckoutStepRegistry extends ObjectRegistry /*implements \Iterator, \SeekableIterator*/
 {
     /**
      * @var CheckoutComponent

@@ -3,9 +3,9 @@
 namespace Shop\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -13,8 +13,9 @@ use Shop\Model\Table\ShopOrdersTable;
  *
  * @package Shop\Test\TestCase\Controller
  */
-class CheckoutControllerTest extends IntegrationTestCase
+class CheckoutControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
 
     /**
      * Fixtures
@@ -22,27 +23,27 @@ class CheckoutControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.shop.shop_orders',
-        'plugin.shop.shop_customers',
-        'plugin.shop.shop_customer_addresses',
-        //'plugin.shop.shop_addresses',
-        //'plugin.shop.users',
-        //'plugin.shop.primary_group',
-        //'plugin.shop.primary_users',
-        //'plugin.shop.groups',
-        //'plugin.shop.user_groups_users',
-        //'plugin.shop.shop_carts',
-        'plugin.shop.shop_order_items',
-        'plugin.shop.shop_order_addresses',
-        'plugin.shop.shop_products',
-        'plugin.shop.shop_countries',
-        //'plugin.shop.billing_address',
-        //'plugin.shop.shipping_address'
-        'plugin.user.users',
-        'plugin.user.groups',
-        'plugin.user.groups_users',
-        'plugin.content.content_modules',
-        'plugin.content.modules',
+        'plugin.Shop.ShopOrders',
+        'plugin.Shop.ShopCustomers',
+        'plugin.Shop.ShopCustomerAddresses',
+        //'plugin.Shop.shop_addresses',
+        //'plugin.Shop.users',
+        //'plugin.Shop.primary_group',
+        //'plugin.Shop.primary_users',
+        //'plugin.Shop.groups',
+        //'plugin.Shop.user_groups_users',
+        //'plugin.Shop.shop_carts',
+        'plugin.Shop.ShopOrderItems',
+        'plugin.Shop.ShopOrderAddresses',
+        'plugin.Shop.ShopProducts',
+        'plugin.Shop.ShopCountries',
+        //'plugin.Shop.billing_address',
+        //'plugin.Shop.shipping_address'
+        'plugin.User.Users',
+        'plugin.User.Groups',
+        'plugin.User.GroupsUsers',
+        'plugin.Content.ContentModules',
+        'plugin.Content.Modules',
     ];
 
     /**
@@ -152,7 +153,7 @@ class CheckoutControllerTest extends IntegrationTestCase
      */
     public function testCheckoutWithEmptyCart()
     {
-        $this->get('/shop/checkout/index');
+        $this->get(['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => 'index']);
         $this->assertRedirect(['controller' => 'Cart', 'action' => 'index']);
     }
 

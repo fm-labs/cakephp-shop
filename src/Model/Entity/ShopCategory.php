@@ -210,7 +210,7 @@ class ShopCategory extends Entity
             ->find('all', ['media' => true])
             ->find('published')
             //->find('media')
-            ->where(['shop_category_id' => $this->id, ['parent_id IS' => null]])
+            ->where(['shop_category_id' => $this->id, 'parent_id IS' => null])
             ->order(['title' => 'ASC'])
             ->toArray();
     }

@@ -2,10 +2,12 @@
 
 namespace Shop\tests\TestCase\Controller;
 
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 
-class ShopControllerTest extends IntegrationTestCase
+class ShopControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
 
     /**
      * Fixtures
@@ -13,30 +15,30 @@ class ShopControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.shop.shop_orders',
-        'plugin.shop.shop_customers',
-        'plugin.shop.shop_customer_addresses',
-        //'plugin.shop.shop_addresses',
-        //'plugin.shop.users',
-        //'plugin.shop.primary_group',
-        //'plugin.shop.primary_users',
-        //'plugin.shop.groups',
-        //'plugin.shop.user_groups_users',
-        //'plugin.shop.shop_carts',
-        'plugin.shop.shop_order_items',
-        'plugin.shop.shop_order_addresses',
-        //'plugin.shop.shop_order_transactions',
-        //'plugin.shop.shop_order_transaction_notifies',
-        'plugin.shop.shop_products',
-        'plugin.shop.shop_categories',
-        'plugin.shop.shop_countries',
-        //'plugin.shop.billing_address',
-        //'plugin.shop.shipping_address'
-        'plugin.user.users',
-        'plugin.user.groups',
-        'plugin.user.groups_users',
-        'plugin.content.content_modules',
-        'plugin.content.modules',
+        'plugin.Shop.ShopOrders',
+        'plugin.Shop.ShopCustomers',
+        'plugin.Shop.ShopCustomerAddresses',
+        //'plugin.Shop.shop_addresses',
+        //'plugin.Shop.users',
+        //'plugin.Shop.primary_group',
+        //'plugin.Shop.primary_users',
+        //'plugin.Shop.groups',
+        //'plugin.Shop.user_groups_users',
+        //'plugin.Shop.shop_carts',
+        'plugin.Shop.ShopOrderItems',
+        'plugin.Shop.ShopOrderAddresses',
+        //'plugin.Shop.ShopOrderTransactions',
+        //'plugin.Shop.ShopOrderTransactionNotifies',
+        'plugin.Shop.ShopProducts',
+        'plugin.Shop.ShopCategories',
+        'plugin.Shop.ShopCountries',
+        //'plugin.Shop.billing_address',
+        //'plugin.Shop.shipping_address'
+        'plugin.User.Users',
+        'plugin.User.Groups',
+        'plugin.User.GroupsUsers',
+        'plugin.Content.ContentModules',
+        'plugin.Content.Modules',
     ];
 
     public function testIndex()

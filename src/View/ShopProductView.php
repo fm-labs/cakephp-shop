@@ -2,7 +2,6 @@
 
 namespace Shop\View;
 
-use Content\View\ContentView;
 use Cake\I18n\I18n;
 
 /**
@@ -10,7 +9,7 @@ use Cake\I18n\I18n;
  *
  * @package Shop\View
  */
-class ShopProductView extends ContentView
+class ShopProductView extends ShopView
 {
     /**
      * @param null $view

@@ -96,7 +96,7 @@ class PaymentComponent extends Component
      */
     public function getController()
     {
-        return $this->_registry->getController();
+        return $this->getController();
     }
 
     /**

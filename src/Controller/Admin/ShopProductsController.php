@@ -220,7 +220,14 @@ class ShopProductsController extends AppController
         //$this->helpers['MediaPicker'] = ['className' => 'Media.MediaPicker'];
 
         $this->set('fieldsets', [
-            ['fields' => ['parent_id', 'type', 'shop_category_id', 'sku', 'title', 'slug']],
+            ['fields' => [
+                'parent_id'=> ['type' => 'select', 'empty' => 'Parent'],
+                'type',
+                'shop_category_id',
+                'sku',
+                'title',
+                'slug']
+            ],
             ['legend' => __d('shop', 'Descriptions'), 'fields' => [
                 'teaser_html' => ['type' => 'htmleditor'],
                 'desc_html' => ['type' => 'htmleditor']

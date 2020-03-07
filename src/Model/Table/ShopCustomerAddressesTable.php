@@ -28,7 +28,7 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
     {
         $this->setTable('shop_customer_addresses');
         $this->setPrimaryKey('id');
-        $this->entityClass('Shop.ShopAddress');
+        $this->setEntityClass('Shop.ShopAddress');
         $this->setDisplayField('name');
 
         $this->addBehavior('Timestamp');

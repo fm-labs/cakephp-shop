@@ -158,7 +158,7 @@ class CartComponent extends Component
     {
         list(, $modelName) = pluginSplit($modelClass);
         if (!isset($this->{$modelName})) {
-            $this->{$modelName} = $this->_registry->getController()->loadModel($modelName);
+            $this->{$modelName} = $this->getController()->loadModel($modelName);
             //if ($this->{$modelName} instanceof EventDispatcher) {
             //    $this->{$modelName}->getEventManager()->on($this);
             //}
@@ -248,7 +248,7 @@ class CartComponent extends Component
         }
         $orderItem = $this->updateItem($orderItem, $item);
 
-        $this->_registry->getController()->getEventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
+        $this->getController()->getEventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
             'item' => $orderItem
         ]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
@@ -271,7 +271,7 @@ class CartComponent extends Component
         $orderItem->accessible('refscope', false);
         $orderItem->accessible('refid', false);
 
-        $event = $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
+        $event = $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
             'item' => $orderItem,
             'data' => $data,
             'customer' => $this->Shop->getCustomer()
@@ -283,7 +283,7 @@ class CartComponent extends Component
 
         $this->reloadOrder();
 
-        $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
+        $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
             'item' => $orderItem,
             'data' => $data,
             'customer' => $this->Shop->getCustomer()
@@ -310,13 +310,13 @@ class CartComponent extends Component
      */
     public function removeItem($orderItem)
     {
-        $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
+        $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
 
         $success = $this->ShopOrders->ShopOrderItems->delete($orderItem);
         //$this->refresh();
         $this->reloadOrder();
 
-        $this->_registry->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemRemove', $this, ['item' => $orderItem]));
+        $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemRemove', $this, ['item' => $orderItem]));
 
         return $success;
     }

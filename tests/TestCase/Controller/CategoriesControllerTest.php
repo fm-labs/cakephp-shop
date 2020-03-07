@@ -4,15 +4,17 @@ namespace Shop\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 
 /**
  * Class CategoriesControllerTest
  *
  * @package Shop\Test\TestCase\Controller
  */
-class CategoriesControllerTest extends IntegrationTestCase
+class CategoriesControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
 
     /**
      * Fixtures
@@ -22,30 +24,30 @@ class CategoriesControllerTest extends IntegrationTestCase
     public $fixtures = [
         //'plugin.content.page_metas',
         //'plugin.media.media_attachments',
-        'plugin.shop.shop_orders',
-        'plugin.shop.shop_customers',
-        'plugin.shop.shop_customer_addresses',
-        //'plugin.shop.shop_addresses',
-        //'plugin.shop.users',
-        //'plugin.shop.primary_group',
-        //'plugin.shop.primary_users',
-        //'plugin.shop.groups',
-        //'plugin.shop.user_groups_users',
-        //'plugin.shop.shop_carts',
-        'plugin.shop.shop_order_items',
-        'plugin.shop.shop_order_addresses',
-        'plugin.shop.shop_categories',
-        'plugin.shop.shop_products',
-        'plugin.shop.shop_countries',
-        'plugin.shop.shop_tags',
-        'plugin.shop.shop_categories_tags',
-        //'plugin.shop.billing_address',
-        //'plugin.shop.shipping_address'
-        'plugin.user.users',
-        'plugin.user.groups',
-        'plugin.user.groups_users',
-        //'plugin.content.content_modules',
-        //'plugin.content.modules',
+        'plugin.Shop.ShopOrders',
+        'plugin.Shop.ShopCustomers',
+        'plugin.Shop.ShopCustomerAddresses',
+        //'plugin.Shop.shop_addresses',
+        //'plugin.Shop.users',
+        //'plugin.Shop.primary_group',
+        //'plugin.Shop.primary_users',
+        //'plugin.Shop.groups',
+        //'plugin.Shop.user_groups_users',
+        //'plugin.Shop.shop_carts',
+        'plugin.Shop.ShopOrderItems',
+        'plugin.Shop.ShopOrderAddresses',
+        'plugin.Shop.ShopCategories',
+        'plugin.Shop.ShopProducts',
+        'plugin.Shop.ShopCountries',
+        'plugin.Shop.ShopTags',
+        'plugin.Shop.ShopCategoriesTags',
+        //'plugin.Shop.billing_address',
+        //'plugin.Shop.shipping_address'
+        'plugin.User.Users',
+        'plugin.User.Groups',
+        'plugin.User.GroupsUsers',
+        //'plugin.Content.ContentModules',
+        //'plugin.Content.Modules',
     ];
 
     /**
@@ -102,8 +104,6 @@ class CategoriesControllerTest extends IntegrationTestCase
         $this->markTestIncomplete();
         $this->get('/shop/categories/view/1');
         $this->assertResponseOk();
-
-        $this->markTestIncomplete();
     }
 
     /**

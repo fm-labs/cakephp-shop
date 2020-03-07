@@ -57,10 +57,10 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
             }
 
             if (!isset(self::$_config[$alias])) {
-                self::config($alias, $config);
+                self::setConfig($alias, $config);
             }
 
-            $this->_registry->load($alias, self::config($alias));
+            $this->_registry->load($alias, self::getConfig($alias));
             $this->_allowed[$alias] = true;
         }
     }
@@ -144,9 +144,9 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
-        if (!$engine || $controller->getRequest()->data('op') == "change" || $controller->getRequest()->getQuery('change') == true) {
+        if (!$engine || $controller->getRequest()->getData('op') == "change" || $controller->getRequest()->getQuery('change') == true) {
             if ($controller->getRequest()->is(['post', 'put'])) {
-                $paymentType = $controller->getRequest()->data('payment_type');
+                $paymentType = $controller->getRequest()->getData('payment_type');
 
                 if ($this->isPaymentTypeAllowed($paymentType)) {
                     $engine = $this->_registry->get($paymentType);

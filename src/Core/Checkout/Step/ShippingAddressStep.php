@@ -43,6 +43,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         if ($this->Checkout->getOrder()->getBillingAddress()) {
             $address = $this->Checkout->getOrder()->getBillingAddress();
 
+            /** @var \Shop\Model\Entity\ShopOrderAddress $shippingAddress */
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($address->extractAddress(), ['validate' => false]);
             if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
                 $this->Checkout->reloadOrder();
@@ -71,10 +72,10 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
         }
 
         if ($controller->getRequest()->is(['put', 'post'])) {
-            $op = $controller->getRequest()->data('_op');
+            $op = $controller->getRequest()->getData('_op');
             switch ($op) {
                 case "shipping-customer-select":
-                    $addressId = $controller->getRequest()->data('customer_address_id');
+                    $addressId = $controller->getRequest()->getData('customer_address_id');
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'S')) {
                         $this->Checkout->reloadOrder();
@@ -85,7 +86,8 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
                     break;
 
                 default:
-                    $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->getRequest()->data);
+                    /** @var \Shop\Model\Entity\ShopOrderAddress $shippingAddress */
+                    $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($shippingAddress, $controller->getRequest()->getData());
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $shippingAddress, 'S')) {
                         $this->Checkout->reloadOrder();
                         $controller->Flash->success(__d('shop', 'Shipping address has been updated'));

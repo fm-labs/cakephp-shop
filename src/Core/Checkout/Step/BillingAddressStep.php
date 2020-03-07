@@ -2,8 +2,6 @@
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
-use Cake\Log\Log;
-use Cake\Http\Exception\BadRequestException;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
 /**
@@ -35,6 +33,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
         if ($this->Checkout->getOrder()->getShippingAddress()) {
             $address = $this->Checkout->getOrder()->getShippingAddress();
 
+            /** @var \Shop\Model\Entity\ShopOrderAddress $billingAddress */
             $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($address->extractAddress(), ['validate' => false]);
             if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $billingAddress, 'B')) {
                 $this->Checkout->reloadOrder();
@@ -65,10 +64,10 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
         }
 
         if ($controller->getRequest()->is(['put', 'post'])) {
-            $op = $controller->getRequest()->data('_op');
+            $op = $controller->getRequest()->getData('_op');
             switch ($op) {
                 case "billing-customer-select":
-                    $addressId = $controller->getRequest()->data('customer_address_id');
+                    $addressId = $controller->getRequest()->getData('customer_address_id');
 
                     if ($this->Checkout->ShopOrders->setOrderAddressFromCustomerAddress($this->Checkout->getOrder(), $addressId, 'B')) {
                         $this->Checkout->reloadOrder();
@@ -79,7 +78,8 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
                     break;
 
                 default:
-                    $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($billingAddress, $controller->getRequest()->data);
+                    /** @var \Shop\Model\Entity\ShopOrderAddress $billingAddress */
+                    $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->patchEntity($billingAddress, $controller->getRequest()->getData());
                     if ($this->Checkout->ShopOrders->setOrderAddress($this->Checkout->getOrder(), $billingAddress, 'B')) {
                         $this->Checkout->reloadOrder();
                         $controller->Flash->success(__d('shop', 'Billing information has been updated'));

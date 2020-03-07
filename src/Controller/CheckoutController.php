@@ -119,7 +119,7 @@ class CheckoutController extends AppController
         throw new MissingActionException([
             'controller' => $this->name . "Controller",
             'action' => $this->request->getParam('action'),
-            'prefix' => isset($this->request->getParam('prefix')) ? $this->request->getParam('prefix') : '',
+            'prefix' => $this->request->getParam('prefix'),
             'plugin' => $this->request->getParam('plugin'),
         ]);
     }

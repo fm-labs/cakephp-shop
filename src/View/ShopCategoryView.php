@@ -4,7 +4,6 @@ namespace Shop\View;
 
 use Cake\I18n\I18n;
 use Cake\Routing\Exception\MissingRouteException;
-use Content\View\ContentView;
 
 /**
  * Class ShopCategoryView
@@ -12,15 +11,8 @@ use Content\View\ContentView;
  * @package Shop\View
  * @property \Content\View\Helper\MetaHelper $Meta
  */
-class ShopCategoryView extends ContentView
+class ShopCategoryView extends ShopView
 {
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadHelper('Content.Meta');
-    }
-
     /**
      * @param null $view
      * @param null $layout

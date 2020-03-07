@@ -7,6 +7,7 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Shipping\ShippingEngineInterface;
 use Shop\Core\Shipping\ShippingEngineRegistry;
@@ -48,9 +49,9 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
             }
 
             if (!isset(self::$_config[$alias])) {
-                self::config($alias, $config);
+                self::setConfig($alias, $config);
             }
-            $this->_registry->load($alias, self::config($alias));
+            $this->_registry->load($alias, self::getConfig($alias));
         }
 
         $this->shippingMethods = self::$_config;
@@ -68,7 +69,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
         // auto-select shipping type
         if (count($this->shippingMethods) == 1) {
             $shippingMethodId = key($this->shippingMethods);
-            if ($this->Checkout->setShippingType($shippingMethodId, [])) {
+            if ($this->Checkout->setShippingType($shippingMethodId)) {
                 $this->Checkout->reloadOrder();
 
                 return true;
@@ -107,7 +108,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
 
         if (!$engine || $controller->getRequest()->getQuery('change')) {
             if ($controller->getRequest()->is(['post', 'put'])) {
-                $engineName = $controller->getRequest()->data('shipping_type');
+                $engineName = $controller->getRequest()->getData('shipping_type');
 
                 if ($this->_registry->has($engineName)) {
                     $engine = $this->_registry->get($engineName);

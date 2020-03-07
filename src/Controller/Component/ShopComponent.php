@@ -32,7 +32,7 @@ class ShopComponent extends Component
     {
         $defaultLayout = Configure::read('Shop.Layout.default');
         if ($defaultLayout) {
-            $this->_registry->getController()->viewBuilder()->setLayout($defaultLayout);
+            $this->getController()->viewBuilder()->setLayout($defaultLayout);
         }
     }
 

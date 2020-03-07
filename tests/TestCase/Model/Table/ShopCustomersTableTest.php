@@ -23,15 +23,15 @@ class ShopCustomersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.shop.shop_customers',
-        'plugin.shop.shop_orders',
-        'plugin.shop.shop_order_items',
-        'plugin.shop.shop_order_addresses',
-        'plugin.shop.shop_customer_addresses',
-        'plugin.shop.shop_countries',
-        'plugin.user.users',
-        'plugin.user.groups',
-        //'plugin.shop.user_groups_users'
+        'plugin.Shop.ShopCustomers',
+        'plugin.Shop.ShopOrders',
+        'plugin.Shop.ShopOrderItems',
+        'plugin.Shop.ShopOrderAddresses',
+        'plugin.Shop.ShopCustomerAddresses',
+        'plugin.Shop.ShopCountries',
+        'plugin.User.Users',
+        'plugin.User.Groups',
+        //'plugin.Shop.user_groups_users'
     ];
 
     protected $_testUserData = [

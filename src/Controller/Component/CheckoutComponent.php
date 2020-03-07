@@ -116,14 +116,6 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @return \Cake\Controller\Controller
-     */
-    public function getController()
-    {
-        return $this->_registry->getController();
-    }
-
-    /**
      * @param $cartId
      */
     public function initFromCartId($cartId)
@@ -161,7 +153,7 @@ class CheckoutComponent extends Component
         if ($this->_order) {
             $order = $this->_order->toArray();
         }
-        $this->request->getSession()->write('Shop.Order', $order);
+        $this->getController()->getRequest()->getSession()->write('Shop.Order', $order);
     }
 
     /**
@@ -280,7 +272,7 @@ class CheckoutComponent extends Component
     {
         // set active step and store session
         $this->_activeStep = $step;
-        $this->request->getSession()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
+        $this->getController()->getRequest()->getSession()->write('Shop.Checkout.Step', $this->_activeStep->toArray());
 
         // before step
         $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
@@ -291,7 +283,7 @@ class CheckoutComponent extends Component
         }
 
         // execute
-        $response = $step->execute($this->_registry->getController());
+        $response = $step->execute($this->getController());
 
         // after step
         $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
@@ -324,7 +316,7 @@ class CheckoutComponent extends Component
     {
         $step = $this->nextStep();
         if ($step) {
-            return $this->_registry->getController()->redirect($this->buildStepUrl($step));
+            return $this->getController()->redirect($this->buildStepUrl($step));
         }
     }
 
@@ -404,9 +396,9 @@ class CheckoutComponent extends Component
     {
         $this->_order = null;
 
-        $this->request->getSession()->delete('Shop.Cart');
-        $this->request->getSession()->delete('Shop.Checkout');
-        $this->request->getSession()->delete('Shop.Order');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Cart');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Checkout');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Order');
     }
 
     /**
@@ -479,7 +471,7 @@ class CheckoutComponent extends Component
         }
 
         $order = $this->getOrder();
-        $order->accessible(array_keys($data), true);
+        $order->setAccess(array_keys($data), true);
         $order = $this->ShopOrders->patchEntity($order, $data, ['validate' => $validate]);
 
         return $this->setOrder($order, true);
@@ -500,7 +492,7 @@ class CheckoutComponent extends Component
         $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
 
         $order = $this->getOrder();
-        $order->accessible('shipping_type', true);
+        $order->setAccess('shipping_type', true);
         $order = $this->ShopOrders->patchEntity($order, ['shipping_type' => $type], ['validate' => false]);
 
         return $this->setOrder($order, true);
