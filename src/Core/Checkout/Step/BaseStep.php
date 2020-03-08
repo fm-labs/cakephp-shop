@@ -41,7 +41,7 @@ abstract class BaseStep implements EventListenerInterface
         return [
             'Shop.Checkout.beforeStep' => 'beforeStep',
             'Shop.Checkout.afterStep' => 'afterStep',
-            'Controller.beforeRedirect' => 'beforeRedirect'
+            'Controller.beforeRedirect' => 'beforeRedirect',
         ];
     }
 
@@ -115,7 +115,7 @@ abstract class BaseStep implements EventListenerInterface
     {
         return [
             'id'    => $this->getId(),
-            'title' => $this->getTitle()
+            'title' => $this->getTitle(),
         ];
     }
 

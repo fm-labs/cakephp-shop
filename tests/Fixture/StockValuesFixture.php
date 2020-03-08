@@ -57,7 +57,7 @@ class StockValuesFixture extends TestFixture
             'last_transfer_in' => '2016-09-04 19:01:09',
             'last_transfer_out' => '2016-09-04 19:01:09',
             'created' => '2016-09-04 19:01:09',
-            'modified' => '2016-09-04 19:01:09'
+            'modified' => '2016-09-04 19:01:09',
         ],
     ];
 }

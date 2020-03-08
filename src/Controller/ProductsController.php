@@ -53,7 +53,7 @@ class ProductsController extends AppController
             //'contain' => ['ShopCategories'],
             'conditions' => ['ShopProducts.is_published' => true],
             'media' => true,
-            'for_customer' => $this->Shop->getCustomerId()
+            'for_customer' => $this->Shop->getCustomerId(),
         ];
 
         if ($categoryId) {
@@ -101,7 +101,7 @@ class ProductsController extends AppController
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ParentShopProducts'],
             'media' => true,
-            'for_customer' => $this->Shop->getCustomerId()
+            'for_customer' => $this->Shop->getCustomerId(),
         ]);
 
         /*

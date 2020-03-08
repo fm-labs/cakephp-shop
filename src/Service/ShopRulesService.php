@@ -16,7 +16,7 @@ class ShopRulesService implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Shop.Cart.beforeItemUpdate' => 'cartBeforeItemUpdate'
+            'Shop.Cart.beforeItemUpdate' => 'cartBeforeItemUpdate',
         ];
     }
 
@@ -38,7 +38,7 @@ class ShopRulesService implements EventListenerInterface
                 'shop_customer_id' => $customer->id,
                 'shop_product_id' => $product->id,
                 'is_published' => true,
-                'min_amount <=' => $data['amount']
+                'min_amount <=' => $data['amount'],
             ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
             debug($customerDiscount);
 
@@ -48,7 +48,7 @@ class ShopRulesService implements EventListenerInterface
                     'shop_customer_id' => $customer->id,
                     'shop_product_id' => $product['parent_id'],
                     'is_published' => true,
-                    'min_amount <=' => $data['amount']
+                    'min_amount <=' => $data['amount'],
                 ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
                 debug($customerDiscount);
             }
@@ -59,7 +59,7 @@ class ShopRulesService implements EventListenerInterface
                     'shop_customer_id' => $customer->id,
                     'shop_product_id IS' => null,
                     'is_published' => true,
-                    'min_amount <=' => $data['amount']
+                    'min_amount <=' => $data['amount'],
                 ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
                 debug($customerDiscount);
             }

@@ -27,13 +27,13 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
             'merchantID' => '9****',
             'soapPassword' => 'foobaz',
             'test' => true,
-            'debug' => true
+            'debug' => true,
         ]);
 
         Configure::delete('Shop.Payment.Engines');
         Configure::write('Shop.Payment.Engines', [
             'mpay24' => [
-                'className' => 'Shop.Mpay24Select'
+                'className' => 'Shop.Mpay24Select',
             ],
         ]);
     }
@@ -72,13 +72,13 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
             'TID' => $t->id,
             'MPAYTID' => 'MPAY123',
             'STATUS' => 'BILLED',
-            'APPR_CODE' => '-test-'
+            'APPR_CODE' => '-test-',
         ]);
 
         $this->configRequest([
             'environment' => [
-                'REMOTE_ADDR' => '213.208.153.58'
-            ]
+                'REMOTE_ADDR' => '213.208.153.58',
+            ],
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
 
@@ -101,13 +101,13 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
             'TID' => $t->id,
             'MPAYTID' => 'MPAY123',
             'STATUS' => 'RESERVED',
-            'APPR_CODE' => '-test-'
+            'APPR_CODE' => '-test-',
         ]);
 
         $this->configRequest([
             'environment' => [
-                'REMOTE_ADDR' => '213.208.153.58'
-            ]
+                'REMOTE_ADDR' => '213.208.153.58',
+            ],
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
 
@@ -129,14 +129,14 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
             'TID' => $t->id,
             'MPAYTID' => 'MPAY123',
             'STATUS' => 'RESERVED',
-            'APPR_CODE' => '-test-'
+            'APPR_CODE' => '-test-',
         ]);
 
         // test confirmations from server with ip 213.208.153.58
         $this->configRequest([
             'environment' => [
-                'REMOTE_ADDR' => '213.208.153.58'
-            ]
+                'REMOTE_ADDR' => '213.208.153.58',
+            ],
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
         $this->assertResponseSuccess();
@@ -144,8 +144,8 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
         // real confirmations from server with ip 213.164.25.245
         $this->configRequest([
             'environment' => [
-                'REMOTE_ADDR' => '213.164.25.245'
-            ]
+                'REMOTE_ADDR' => '213.164.25.245',
+            ],
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
         $this->assertResponseSuccess();
@@ -153,8 +153,8 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
         // do not process from other ips
         $this->configRequest([
             'environment' => [
-                'REMOTE_ADDR' => '127.0.1.1'
-            ]
+                'REMOTE_ADDR' => '127.0.1.1',
+            ],
         ]);
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);
         $this->assertResponseError();

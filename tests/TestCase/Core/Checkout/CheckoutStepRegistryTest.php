@@ -56,7 +56,7 @@ class CheckoutStepRegistryTest extends TestCase
     public function testLoad()
     {
         $result = $this->steps->load('test', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->assertInstanceOf('\\Shop\\Core\\Checkout\\CheckoutStepInterface', $result);
     }
@@ -67,13 +67,13 @@ class CheckoutStepRegistryTest extends TestCase
     public function testIteratorInterface()
     {
         $this->steps->load('test', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->steps->load('test2', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->steps->load('test3', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
 
         $this->assertEquals('test', $this->steps->key());
@@ -102,13 +102,13 @@ class CheckoutStepRegistryTest extends TestCase
     public function testSeekableInterface()
     {
         $this->steps->load('test', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->steps->load('test2', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->steps->load('test3', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
 
         $this->steps->seek('test');
@@ -126,13 +126,13 @@ class CheckoutStepRegistryTest extends TestCase
     public function testSeekableInterfaceOutOfBounds()
     {
         $this->steps->load('test', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->steps->load('test2', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
         $this->steps->load('test3', [
-            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep'
+            'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
 
         $this->setExpectedException('\\OutOfBoundsException');

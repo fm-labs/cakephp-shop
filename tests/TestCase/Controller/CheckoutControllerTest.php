@@ -64,22 +64,22 @@ class CheckoutControllerTest extends TestCase
         Configure::delete('Shop.Checkout.Steps');
         Configure::write('Shop.Checkout.Steps', [
             'customer' => [
-                'className' => 'Shop.Customer'
+                'className' => 'Shop.Customer',
             ],
             'shipping_address' => [
-                'className' => 'Shop.ShippingAddress'
+                'className' => 'Shop.ShippingAddress',
             ],
             'shipping' => [
-                'className' => 'Shop.Shipping'
+                'className' => 'Shop.Shipping',
             ],
             'billing_address' => [
-                'className' => 'Shop.BillingAddress'
+                'className' => 'Shop.BillingAddress',
             ],
             'payment' => [
-                'className' => 'Shop.Payment'
+                'className' => 'Shop.Payment',
             ],
             'submit' => [
-                'className' => 'Shop.Submit'
+                'className' => 'Shop.Submit',
             ],
         ]);
 
@@ -94,7 +94,7 @@ class CheckoutControllerTest extends TestCase
                 'className' => 'Shop.FixedRate',
                 'enabled' => false,
                 'name' => 'Standard Versand Express',
-                'cost' => 10.00
+                'cost' => 10.00,
             ],
         ]);
 
@@ -115,7 +115,7 @@ class CheckoutControllerTest extends TestCase
                 //'logoUrl' => '',
                 'guest' => false,
                 'enabled' => true,
-            ]
+            ],
         ]);
     }
 
@@ -129,7 +129,7 @@ class CheckoutControllerTest extends TestCase
         $session = ['Shop' => [
             'Cart' => ['id' => $order->cartid],
             'Customer' => ($order->shop_customer) ? $order->shop_customer->toArray() : null,
-            'Order' => $order
+            'Order' => $order,
         ]];
         $this->session($session);
 
@@ -142,8 +142,8 @@ class CheckoutControllerTest extends TestCase
 
         $this->session([
             'Auth' => [
-                'User' => $user->toArray()
-            ]
+                'User' => $user->toArray(),
+            ],
         ]);
     }
 
@@ -188,7 +188,7 @@ class CheckoutControllerTest extends TestCase
             'last_name' => 'Mario',
             'email' => 'supermario@example.org',
             'password1' => 'testtest',
-            'password2' => 'testtest'
+            'password2' => 'testtest',
         ]);
 
         // expects a new & authenticated user

@@ -34,16 +34,16 @@ class ShopOrderAddressesTable extends ShopAddressesTable
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrders'
+            'className' => 'Shop.ShopOrders',
         ]);
         $this->belongsTo('ShopCustomerAddresses', [
             'foreignKey' => 'shop_customer_address_id',
-            'className' => 'Shop.ShopCustomerAddresses'
+            'className' => 'Shop.ShopCustomerAddresses',
         ]);
         $this->belongsTo('Countries', [
             'foreignKey' => 'country_id',
             'className' => 'Shop.ShopCountries',
-            'propertyName' => 'relcountry'
+            'propertyName' => 'relcountry',
         ]);
     }
 

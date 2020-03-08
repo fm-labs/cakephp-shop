@@ -16,8 +16,8 @@ use Shop\Lib\Shop;
  */
 class ShopProduct extends Entity implements ShopProductInterface
 {
-
     use TranslateTrait;
+
     //use EntityAttributesTrait;
 
     /**
@@ -34,7 +34,7 @@ class ShopProduct extends Entity implements ShopProductInterface
     ];
 
     protected $_virtual = [
-        'shop_category'
+        'shop_category',
     ];
 
     /*
@@ -64,7 +64,7 @@ class ShopProduct extends Entity implements ShopProductInterface
             'model' => $model,
             'model_id' => $id,
             'model_scope' => $field,
-            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
+            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale'),
         ])->first();
     }
 

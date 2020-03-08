@@ -103,7 +103,7 @@ class ShopImportShell extends Shell
                 'country' => $row['Land'],
                 'country_iso2' => $row['Land'],
                 'phone' => $row['Tel'],
-                'fax' => $row['Fax']
+                'fax' => $row['Fax'],
             ];
 
             $customer->accessible('*', true);
@@ -426,7 +426,7 @@ class ShopImportShell extends Shell
                     //'featured_image_file' => $image,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $orderPos
+                    'priority' => $orderPos,
                 ];
             } else {
                 $stat = 'added';
@@ -440,7 +440,7 @@ class ShopImportShell extends Shell
                     'is_published' => true,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $orderPos
+                    'priority' => $orderPos,
                 ];
             }
 
@@ -575,7 +575,7 @@ class ShopImportShell extends Shell
                 'image_files' => $product->image_files,
                 'is_published' => true,
                 //'view_template' => null,
-                'custom5' => 'ShopProduct:' . $product->id
+                'custom5' => 'ShopProduct:' . $product->id,
             ]);
 
             if ($cat->getErrors()) {
@@ -599,6 +599,7 @@ class ShopImportShell extends Shell
             $this->out("Product " . $product->id . " has been updated with category " . $cat->id);
         }
     }
+
     public function convertProductAttachments()
     {
         $this->loadModel('Shop.ShopCategories');

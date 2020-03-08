@@ -35,16 +35,16 @@ class ShopOrderInvoicesTable extends Table
 
         $this->belongsTo('ParentShopOrderInvoices', [
             'className' => 'Shop.ShopOrderInvoices',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrders'
+            'className' => 'Shop.ShopOrders',
         ]);
         $this->hasMany('ChildShopOrderInvoices', [
             'className' => 'Shop.ShopOrderInvoices',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
     }
 

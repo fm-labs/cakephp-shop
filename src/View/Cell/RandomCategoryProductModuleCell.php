@@ -24,9 +24,9 @@ class RandomCategoryProductModuleCell extends ModuleCell
         return [
           'shop_category_id' => [
               'type' => 'select',
-              'options' => TableRegistry::getTableLocator()->get('Shop.ShopCategories')->find('treeList')
+              'options' => TableRegistry::getTableLocator()->get('Shop.ShopCategories')->find('treeList'),
           ],
-            'element' => []
+            'element' => [],
         ];
     }
 

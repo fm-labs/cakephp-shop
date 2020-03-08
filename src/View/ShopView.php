@@ -13,7 +13,7 @@ class ShopView extends ContentView
         $this->loadHelper('Bootstrap.Ui');
         $this->loadHelper('Media.Media');
         $this->loadHelper('Paginator', [
-            'templates' => 'Shop.paginator_templates'
+            'templates' => 'Shop.paginator_templates',
         ]);
     }
 }

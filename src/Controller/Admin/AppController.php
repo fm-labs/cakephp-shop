@@ -15,6 +15,6 @@ class AppController extends ContentAdminController
      * @var array
      */
     public $paginate = [
-        'limit' => 50
+        'limit' => 50,
     ];
 }

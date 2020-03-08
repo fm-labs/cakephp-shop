@@ -70,7 +70,7 @@ class TestCheckoutStep implements CheckoutStepInterface
     {
         return [
             'id' => $this->getId(),
-            'title' => $this->getTitle()
+            'title' => $this->getTitle(),
         ];
     }
 }

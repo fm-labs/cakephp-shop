@@ -14,7 +14,7 @@ class ShopCountriesController extends AppController
     public $paginate = [
         'order' => ['ShopCountries.priority' => 'DESC', 'ShopCountries.iso2' => 'ASC'],
         'limit' => 250,
-        'maxLimit' => 250
+        'maxLimit' => 250,
     ];
 
     /**
@@ -27,7 +27,7 @@ class ShopCountriesController extends AppController
         'edit' => 'Backend.Edit',
         'delete' => 'Backend.Delete',
         'publish' => 'Backend.Publish',
-        'unpublish' => 'Backend.Unpublish'
+        'unpublish' => 'Backend.Unpublish',
     ];
 
     /**
@@ -40,7 +40,7 @@ class ShopCountriesController extends AppController
         $this->paginate = [
             'order' => ['ShopCountries.is_published' => 'DESC', 'ShopCountries.name_de' => 'ASC'],
             'limit' => 200,
-            'maxLimit' => 200
+            'maxLimit' => 200,
         ];
 
         $this->set('paginate', true);

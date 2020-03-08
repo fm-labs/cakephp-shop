@@ -76,7 +76,7 @@ class CategoriesController extends AppController
             'limit' => 100,
             'conditions' => ['ShopCategories.parent_id IS' => $id],
             'published' => true,
-            'media' => true
+            'media' => true,
         ];
 
         $categories = $this->paginate($this->ShopCategories);
@@ -103,7 +103,7 @@ class CategoriesController extends AppController
             'limit' => 9,
             'conditions' => ['ShopProducts.shop_category_id' => $categoryId],
             'published' => true,
-            'media' => true
+            'media' => true,
         ];
 
         $view = null;
@@ -171,14 +171,14 @@ class CategoriesController extends AppController
         $shopCategory = $this->ShopCategories->get($id, [
             'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts', 'ShopTags'],
             //'published' => true,
-            'media' => true
+            'media' => true,
         ]);
 
         // Aliasing
         if ($shopCategory->is_alias) {
             $shopCategory = $this->ShopCategories->get($shopCategory->alias_id, [
                 'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts', 'ShopTags'],
-                'media' => true
+                'media' => true,
             ]);
 
             // @TODO Inject alias shop category id into products

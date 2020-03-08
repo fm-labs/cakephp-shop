@@ -12,11 +12,11 @@ class ShopOrderTransactionsController extends AppController
 {
     public $actions = [
         'index' => 'Backend.Index',
-        'view' => 'Backend.View'
+        'view' => 'Backend.View',
     ];
 
     public $paginate = [
-        'order' => ['ShopOrderTransactions.id' => 'DESC']
+        'order' => ['ShopOrderTransactions.id' => 'DESC'],
     ];
 
     /**
@@ -92,7 +92,7 @@ class ShopOrderTransactionsController extends AppController
     public function edit($id = null)
     {
         $shopOrderTransaction = $this->ShopOrderTransactions->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->data);

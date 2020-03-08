@@ -43,11 +43,11 @@ class ShopCategoriesTable extends Table
 
         $this->belongsTo('ParentShopCategories', [
             'className' => 'Shop.ShopCategories',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
         $this->hasMany('ChildShopCategories', [
             'className' => 'Shop.ShopCategories',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
         $this->hasMany('ShopProducts', [
             'foreignKey' => 'shop_category_id',
@@ -56,7 +56,7 @@ class ShopCategoriesTable extends Table
         $this->hasMany('ShopTexts', [
             'foreignKey' => 'model_id',
             'className' => 'Shop.ShopTexts',
-            'conditions' => ['ShopTexts.model' => 'Shop.ShopCategories']
+            'conditions' => ['ShopTexts.model' => 'Shop.ShopCategories'],
         ]);
 
         $this->belongsToMany('ShopTags', [
@@ -67,7 +67,7 @@ class ShopCategoriesTable extends Table
         ]);
         $this->addBehavior('Content.ContentModule', [
             'alias' => 'ContentModules',
-            'scope' => 'Shop.ShopCategories'
+            'scope' => 'Shop.ShopCategories',
         ]);
 
         if (Plugin::isLoaded('Media')) {
@@ -75,53 +75,53 @@ class ShopCategoriesTable extends Table
                 'model' => 'Shop.ShopCategories',
                 'fields' => [
                     'preview_image_file' => [
-                        'config' => 'shop'
+                        'config' => 'shop',
                     ],
                     'featured_image_file' => [
-                        'config' => 'shop'
+                        'config' => 'shop',
                     ],
                     'image_files' => [
                         'config' => 'shop',
-                        'multiple' => true
+                        'multiple' => true,
                     ],
                     'media_images' => [
                         'mode' => 'table',
                         'config' => 'shop',
-                        'multiple' => true
+                        'multiple' => true,
                     ],
                     'custom_file1' => [
-                        'config' => 'default'
+                        'config' => 'default',
                     ],
                     'custom_file2' => [
-                        'config' => 'default'
+                        'config' => 'default',
                     ],
                     'custom_file3' => [
-                        'config' => 'default'
+                        'config' => 'default',
                     ],
                     'custom_file4' => [
-                        'config' => 'default'
+                        'config' => 'default',
                     ],
                     'custom_file5' => [
-                        'config' => 'default'
-                    ]
-                ]
+                        'config' => 'default',
+                    ],
+                ],
             ]);
         }
 
         //$this->addBehavior('Eav.Attributes');
 
         $this->addBehavior('Banana.Sluggable', [
-            'field' => 'name'
+            'field' => 'name',
         ]);
         $this->addBehavior('Banana.Publishable');
 
         $this->addBehavior('Tree.Tree', [
-            'level' => 'level'
+            'level' => 'level',
         ]);
 
         $this->addBehavior('Translate', [
             'fields' => ['name', 'slug', 'desc_html', 'teaser_html'],
-            'translationTable' => 'ShopI18n'
+            'translationTable' => 'ShopI18n',
         ]);
         //$this->setLocale('de');
 
@@ -135,10 +135,10 @@ class ShopCategoriesTable extends Table
                     'comparison' => 'LIKE',
                     'wildcardAny' => '*',
                     'wildcardOne' => '?',
-                    'field' => ['title']
+                    'field' => ['title'],
                 ])
                 ->value('is_published', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ]);
         }
     }

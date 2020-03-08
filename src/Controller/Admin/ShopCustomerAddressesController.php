@@ -20,7 +20,7 @@ class ShopCustomerAddressesController extends AppController
         'view'      => 'Backend.View',
         'add'       => 'Backend.Add',
         'edit'      => 'Backend.Edit',
-        'delete'    => 'Backend.Delete'
+        'delete'    => 'Backend.Delete',
     ];
 
     /**
@@ -49,7 +49,7 @@ class ShopCustomerAddressesController extends AppController
         $this->set('fields', [
             'id' => [],
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
-            'oneline' => []
+            'oneline' => [],
         ]);
         $this->set('fields.whitelist', ['id', 'shop_customer', 'oneline']);
         $this->set('paginate', true);
@@ -104,7 +104,7 @@ class ShopCustomerAddressesController extends AppController
     public function edit($id = null)
     {
         $shopCustomerAddress = $this->ShopCustomerAddresses->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopCustomerAddress = $this->ShopCustomerAddresses->patchEntity($shopCustomerAddress, $this->request->data);

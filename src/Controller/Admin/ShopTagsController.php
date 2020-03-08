@@ -32,7 +32,7 @@ class ShopTagsController extends AppController
     public function view($id = null)
     {
         $shopTag = $this->ShopTags->get($id, [
-            'contain' => ['ShopProductsTags']
+            'contain' => ['ShopProductsTags'],
         ]);
         $this->set('shopTag', $shopTag);
         $this->set('_serialize', ['shopTag']);
@@ -70,7 +70,7 @@ class ShopTagsController extends AppController
     public function edit($id = null)
     {
         $shopTag = $this->ShopTags->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->data);

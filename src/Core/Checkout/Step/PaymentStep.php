@@ -18,7 +18,6 @@ use Shop\Lib\Shop;
  */
 class PaymentStep extends BaseStep implements CheckoutStepInterface
 {
-
     use StaticConfigTrait;
 
     /**

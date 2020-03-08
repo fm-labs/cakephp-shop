@@ -32,11 +32,11 @@ class StocksTable extends Table
 
         $this->hasMany('ShopStockTransfers', [
             'foreignKey' => 'shop_stock_id',
-            'className' => 'Shop.ShopStockTransfers'
+            'className' => 'Shop.ShopStockTransfers',
         ]);
         $this->hasMany('ShopStockValues', [
             'foreignKey' => 'shop_stock_id',
-            'className' => 'Shop.ShopStockValues'
+            'className' => 'Shop.ShopStockValues',
         ]);
     }
 

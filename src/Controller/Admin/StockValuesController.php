@@ -19,7 +19,7 @@ class StockValuesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopStocks', 'ShopProducts']
+            'contain' => ['ShopStocks', 'ShopProducts'],
         ];
         $this->set('stockValues', $this->paginate($this->StockValues));
         $this->set('_serialize', ['stockValues']);
@@ -35,7 +35,7 @@ class StockValuesController extends AppController
     public function view($id = null)
     {
         $stockValue = $this->StockValues->get($id, [
-            'contain' => ['ShopStocks', 'ShopProducts']
+            'contain' => ['ShopStocks', 'ShopProducts'],
         ]);
         $this->set('stockValue', $stockValue);
         $this->set('_serialize', ['stockValue']);
@@ -75,7 +75,7 @@ class StockValuesController extends AppController
     public function edit($id = null)
     {
         $stockValue = $this->StockValues->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->data);

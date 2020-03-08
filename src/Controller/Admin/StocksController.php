@@ -32,7 +32,7 @@ class StocksController extends AppController
     public function view($id = null)
     {
         $stock = $this->Stocks->get($id, [
-            'contain' => ['ShopStockTransfers', 'ShopStockValues']
+            'contain' => ['ShopStockTransfers', 'ShopStockValues'],
         ]);
         $this->set('stock', $stock);
         $this->set('_serialize', ['stock']);
@@ -70,7 +70,7 @@ class StocksController extends AppController
     public function edit($id = null)
     {
         $stock = $this->Stocks->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $stock = $this->Stocks->patchEntity($stock, $this->request->data);

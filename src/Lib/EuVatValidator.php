@@ -19,7 +19,7 @@ use SoapClient;
 class EuVatValidator
 {
     //static public $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl";
-    static public $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
+    public static $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
 
     /**
      * @var SoapClient
@@ -41,7 +41,7 @@ class EuVatValidator
             $this->_client = new SoapClient(static::$wsdl);
             $result = $this->_client->checkVat([
                 'countryCode' => $vatNumber->getCountryCode(),
-                'vatNumber' => $vatNumber->getNumber()
+                'vatNumber' => $vatNumber->getNumber(),
             ]);
 
             if (!$result) {

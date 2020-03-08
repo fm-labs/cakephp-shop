@@ -53,7 +53,7 @@ class ShopProductsFixture extends TestFixture
             'custom5' => null,
             'view_template' => '',
             'modified' => null,
-            'created' => null
+            'created' => null,
         ],
     ];
 }

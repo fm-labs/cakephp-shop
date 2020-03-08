@@ -37,7 +37,7 @@ abstract class ShopAddressesTable extends Table
 
         $this->belongsTo('ShopCustomers', [
             'foreignKey' => 'shop_customer_id',
-            'className' => 'Shop.ShopCustomers'
+            'className' => 'Shop.ShopCustomers',
         ]);
     }
 
@@ -123,7 +123,7 @@ abstract class ShopAddressesTable extends Table
             return $validator->checkVat($entity->taxid);
         }, 'eu_vat_validation', [
             'errorField' => 'taxid',
-            'message' => __d('shop', 'Please provide a valid European VAT ID')
+            'message' => __d('shop', 'Please provide a valid European VAT ID'),
         ]);
 
         return $rules;

@@ -52,7 +52,7 @@ class ShopOrdersController extends AppController
         if ($this->request->is('post')) {
             $order = $this->ShopOrders->patchEntity($order, [
                 'status' => ShopOrdersTable::ORDER_STATUS_STORNO,
-                'invoice_nr' => null
+                'invoice_nr' => null,
             ]);
             if ($this->ShopOrders->save($order)) {
                 $this->Flash->success(__d('shop', 'Updated'));
@@ -93,7 +93,7 @@ class ShopOrdersController extends AppController
             'invoice_nr_formatted'  => ['label' => __d('shop', 'Invoice Nr')],
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
             'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-right'],
-            'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object']
+            'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object'],
         ]);
         $this->set('fields.whitelist', ['submitted', 'nr_formatted', 'invoice_nr_formatted', 'shop_customer', 'order_value_total', 'status__status']);
 
@@ -111,7 +111,7 @@ class ShopOrdersController extends AppController
     {
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
-            'status' => true
+            'status' => true,
         ]);
         $this->set('entity', $shopOrder);
         $this->set('_serialize', 'entity');
@@ -153,7 +153,7 @@ class ShopOrdersController extends AppController
                 'shop_order_items' => [],
                 'shop_order_addresses' => [],
                 'billing_addresses' => [],
-                'shipping_addresses' => []
+                'shipping_addresses' => [],
             ],
         ]);
 
@@ -161,32 +161,32 @@ class ShopOrdersController extends AppController
             //'ShopCustomers',
             'ShopOrderItems' => [
                 'fields' => [
-                    'id', 'title', 'amount', 'item_value_net', 'tax_rate', 'value_net', 'value_tax', 'value_total', 'is_processed', 'last_message'
-                ]
+                    'id', 'title', 'amount', 'item_value_net', 'tax_rate', 'value_net', 'value_tax', 'value_total', 'is_processed', 'last_message',
+                ],
             ],
             'ShopOrderTransactions' => [
                 'fields' => [
-                    'id', 'type', 'engine', 'currency_code', 'value', 'status', 'ext_txnid', 'ext_status', 'last_message', 'is_test'
-                ]
+                    'id', 'type', 'engine', 'currency_code', 'value', 'status', 'ext_txnid', 'ext_status', 'last_message', 'is_test',
+                ],
             ],
             'ShopOrderNotifications' => [
 
             ],
             'ShopOrderAddresses' => [
                 'fields' => [
-                    'id', 'type', 'is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city'
-                ]
+                    'id', 'type', 'is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city',
+                ],
             ],
             'BillingAddresses' => [
                 'fields' => [
-                    'id', 'is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city'
-                ]
+                    'id', 'is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city',
+                ],
             ],
             'ShippingAddresses' => [
                 'fields' => [
-                    'id', 'is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city'
-                ]
-            ]
+                    'id', 'is_company', 'company_name', 'first_name', 'last_name', 'street', 'zipcode', 'city',
+                ],
+            ],
         ]);
 
         $this->Action->execute();
@@ -197,7 +197,7 @@ class ShopOrdersController extends AppController
         Configure::write('debug', true);
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
-            'status' => true
+            'status' => true,
         ]);
         $this->set('entity', $shopOrder);
         $this->set('_serialize', 'entity');
@@ -218,7 +218,7 @@ class ShopOrdersController extends AppController
 
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true
+            'status' => true,
         ]);
         $this->set('shopOrder', $shopOrder);
         $this->set('mode', $mode);
@@ -237,7 +237,7 @@ class ShopOrdersController extends AppController
 
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true
+            'status' => true,
         ]);
         $this->set('shopOrder', $shopOrder);
 
@@ -308,7 +308,7 @@ class ShopOrdersController extends AppController
     {
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true
+            'status' => true,
         ]);
         $calculator = $this->ShopOrders->calculateOrderCosts($shopOrder);
         $this->set('shopOrder', $shopOrder);

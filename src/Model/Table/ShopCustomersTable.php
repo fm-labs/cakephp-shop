@@ -38,19 +38,19 @@ class ShopCustomersTable extends Table
 //        ]);
         $this->hasMany('ShopOrders', [
             'foreignKey' => 'shop_customer_id',
-            'className' => 'Shop.ShopOrders'
+            'className' => 'Shop.ShopOrders',
         ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
-            'className' => 'User.Users'
+            'className' => 'User.Users',
         ]);
         $this->hasMany('ShopCustomerAddresses', [
             'foreignKey' => 'shop_customer_id',
-            'className' => 'Shop.ShopCustomerAddresses'
+            'className' => 'Shop.ShopCustomerAddresses',
         ]);
         $this->hasMany('ShopCustomerDiscounts', [
             'foreignKey' => 'shop_customer_id',
-            'className' => 'Shop.ShopCustomerDiscounts'
+            'className' => 'Shop.ShopCustomerDiscounts',
         ]);
     }
 

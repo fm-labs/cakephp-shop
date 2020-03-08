@@ -40,7 +40,7 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
         $this->belongsTo('Countries', [
             'foreignKey' => 'country_id',
             'className' => 'Shop.ShopCountries',
-            'propertyName' => 'relcountry'
+            'propertyName' => 'relcountry',
         ]);
     }
 

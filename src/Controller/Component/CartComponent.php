@@ -34,7 +34,7 @@ class CartComponent extends Component
     /**
      * @var string
      */
-    static public $cookieName = 'Cart';
+    public static $cookieName = 'Cart';
 
     /**
      * @var array
@@ -70,7 +70,7 @@ class CartComponent extends Component
             'httpOnly' => true,
             //'domain' => $_SERVER['HTTP_HOST'],
             'secure' => true,
-            'encryption' => true
+            'encryption' => true,
         ]);
     }
 
@@ -179,7 +179,7 @@ class CartComponent extends Component
     public function getProductForCustomer($productId, $modelClass = 'Shop.ShopProducts')
     {
         $product = $this->_getProductTable($modelClass)->get($productId, [
-            'for_customer' => $this->Shop->getCustomerId()
+            'for_customer' => $this->Shop->getCustomerId(),
         ]);
 
         return $product;
@@ -210,7 +210,7 @@ class CartComponent extends Component
             'shop_order_id' => $this->order->id,
             'refscope' => 'Shop.ShopProducts',
             'refid' => null,
-            'amount' => 0
+            'amount' => 0,
         ], $item);
 
         if (!isset($item['refid'])) {
@@ -238,7 +238,7 @@ class CartComponent extends Component
                 'item_value_original_net' => $product->getPrice(),
                 'item_value_net' => $product->getPrice(),
                 'tax_rate' => $product->getTaxRate(),
-                'amount' => 1
+                'amount' => 1,
             ];
 
             $orderItem = $this->ShopOrders->ShopOrderItems->newEntity($item, ['validate' => true]);
@@ -249,7 +249,7 @@ class CartComponent extends Component
         $orderItem = $this->updateItem($orderItem, $item);
 
         $this->getController()->getEventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
-            'item' => $orderItem
+            'item' => $orderItem,
         ]));
         Log::debug('Added order item to order with ID ' . $this->order->id);
 
@@ -274,7 +274,7 @@ class CartComponent extends Component
         $event = $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
             'item' => $orderItem,
             'data' => $data,
-            'customer' => $this->Shop->getCustomer()
+            'customer' => $this->Shop->getCustomer(),
         ]));
 
         $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $event->getData('data'));
@@ -286,7 +286,7 @@ class CartComponent extends Component
         $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.afterItemUpdate', $this, [
             'item' => $orderItem,
             'data' => $data,
-            'customer' => $this->Shop->getCustomer()
+            'customer' => $this->Shop->getCustomer(),
         ]));
 
         return $success;
@@ -429,7 +429,7 @@ class CartComponent extends Component
     {
         $order = null;
         $cart = [
-            'id' => $this->cartId
+            'id' => $this->cartId,
         ];
 
         if ($this->getOrder()) {
@@ -460,7 +460,7 @@ class CartComponent extends Component
             'sessionid' => $this->sessionId,
             'cartid' => $this->cartId,
             'is_temporary' => true,
-            'shop_customer_id' => $this->Shop->getCustomerId()
+            'shop_customer_id' => $this->Shop->getCustomerId(),
         ]);
 
         if (!$this->ShopOrders->save($order)) {
@@ -492,7 +492,7 @@ class CartComponent extends Component
                 //'sessionid' => $this->sessionId,
                 'cartid' => $this->cartId,
                 //'shop_customer_id IS' => $this->Shop->getCustomerId(),
-                'is_temporary' => true
+                'is_temporary' => true,
             ]);
 
             //debug("resuming order with cardid " . $this->cartId);

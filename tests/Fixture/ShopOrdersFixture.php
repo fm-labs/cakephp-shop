@@ -66,7 +66,7 @@ class ShopOrdersFixture extends TestFixture
             'created' => '2015-12-23 08:37:53',
             'ordergroup' => null,
             'coupon_code' => null,
-            'coupon_value' => 0
+            'coupon_value' => 0,
         ],
         [
             'id' => 2,
@@ -111,7 +111,7 @@ class ShopOrdersFixture extends TestFixture
             'created' => '2015-12-23 08:37:53',
             'ordergroup' => null,
             'coupon_code' => null,
-            'coupon_value' => 0
+            'coupon_value' => 0,
         ],
     ];
 }

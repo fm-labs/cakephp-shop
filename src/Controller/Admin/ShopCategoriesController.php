@@ -78,7 +78,7 @@ class ShopCategoriesController extends AppController
             'contain' => ['ParentShopCategories'],
             'order' => ['ShopCategories.lft ASC'],
             'limit' => 100,
-            'media' => true
+            'media' => true,
         ];
 
         $this->set('tree.displayField', 'name');
@@ -94,7 +94,7 @@ class ShopCategoriesController extends AppController
 
                 return join("&nbsp;", $links);
             }],
-            'is_published'
+            'is_published',
         ]);
         $this->set('fields.whitelist', ['name', 'featured_image_file', 'language', 'is_published']);
 
@@ -112,7 +112,7 @@ class ShopCategoriesController extends AppController
     {
         $shopCategory = $this->ShopCategories->get($id, [
             'contain' => ['ParentShopCategories', 'ChildShopCategories'],
-            'media' => true
+            'media' => true,
         ]);
 
         $this->set('model', 'Shop.ShopCategories');
@@ -155,6 +155,7 @@ class ShopCategoriesController extends AppController
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+
                 return;
                 //return $this->redirect(['action' => 'edit', $id]);
             } else {
@@ -294,7 +295,7 @@ class ShopCategoriesController extends AppController
         $PageMetas = TableRegistry::getTableLocator()->get('Content.PageMetas');
 
         $content = $this->ShopCategories->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
 
         $pageMeta = $content->meta;
@@ -326,7 +327,7 @@ class ShopCategoriesController extends AppController
     public function relatedContentModules($id = null)
     {
         $content = $this->ShopCategories->get($id, [
-            'contain' => ['ContentModules' => ['Modules']]
+            'contain' => ['ContentModules' => ['Modules']],
         ]);
 
         //@TODO Read custom sections from page layout
@@ -467,7 +468,7 @@ class ShopCategoriesController extends AppController
         $this->ShopCategories->behaviors()->unload('Media');
         $content = $this->ShopCategories->get($id, [
             'contain' => [],
-            'media' => true
+            'media' => true,
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -508,7 +509,7 @@ class ShopCategoriesController extends AppController
         $this->ShopCategories->behaviors()->unload('Media');
         $content = $this->ShopCategories->get($id, [
             'contain' => [],
-            'media' => true
+            'media' => true,
         ]);
 
         if (!in_array($scope, ['preview_image_file', 'featured_image_file'])) {

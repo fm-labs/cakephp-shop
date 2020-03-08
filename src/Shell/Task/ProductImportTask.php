@@ -47,60 +47,60 @@ class ProductImportTask extends BaseShopTask
             ->addOption('price-net', [
                 'boolean' => true,
                 'help' => 'The price column holds net price values (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addOption('image-pathprefix', [
                 'help' => 'The image path prefix WITHOUT starting slash and WITH trailing slash',
-                'default' => null
+                'default' => null,
             ])
             ->addOption('dry-run', [
                 'boolean' => true,
                 'help' => 'Run without writing changes to the database (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addOption('force-parent', [
                 'boolean' => true,
                 'help' => 'Create parent category if it does not exist (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addOption('force-text', [
                 'boolean' => true,
                 'help' => 'Force non-empty Text column (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addOption('force-buyable', [
                 'boolean' => true,
                 'help' => 'Force buyable (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addOption('force-published', [
                 'boolean' => true,
                 'help' => 'Force published (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addOption('clean-text', [
                 'boolean' => true,
                 'help' => "Stip HTML tags from text (Default: false)",
-                'default' => false
+                'default' => false,
             ])
             ->addOption('wrap-text', [
                 'boolean' => true,
                 'help' => "Convert newline characters to <br> tags and wrap in <p> tag (Default: false)",
-                'default' => false
+                'default' => false,
             ])
             ->addOption('skip-priority', [
                 'boolean' => true,
                 'help' => "Skip setting the priority field (Default: false)",
-                'default' => false
+                'default' => false,
             ])
             ->addOption('subcategories', [
                 'boolean' => true,
                 'help' => 'CSV has additional Subkatogrie column after Kategorie column (Default: false)',
-                'default' => false
+                'default' => false,
             ])
             ->addArgument('filename', [
                 'help' => 'Filename',
-                'required' => true
+                'required' => true,
             ]);
 
         return $parser;
@@ -296,7 +296,7 @@ class ProductImportTask extends BaseShopTask
                     //'featured_image_file' => $image,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $priority
+                    'priority' => $priority,
                 ];
             } else {
                 $stat = 'added';
@@ -312,7 +312,7 @@ class ProductImportTask extends BaseShopTask
                     'is_published' => false,
                     'price_net' => $price,
                     'tax_rate' => 20.0,
-                    'priority' => $priority
+                    'priority' => $priority,
                 ];
             }
 

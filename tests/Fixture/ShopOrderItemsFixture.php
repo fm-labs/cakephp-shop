@@ -38,7 +38,7 @@ class ShopOrderItemsFixture extends TestFixture
             'value_total' => 120,
             'options' => null,
             'created' => '2015-12-23 08:40:04',
-            'modified' => '2015-12-23 08:40:04'
+            'modified' => '2015-12-23 08:40:04',
         ],
         [
             'id' => 2,
@@ -55,7 +55,7 @@ class ShopOrderItemsFixture extends TestFixture
             'value_total' => 120,
             'options' => null,
             'created' => '2015-12-23 08:40:04',
-            'modified' => '2015-12-23 08:40:04'
+            'modified' => '2015-12-23 08:40:04',
         ],
     ];
 }

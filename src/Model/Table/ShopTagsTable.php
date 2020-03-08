@@ -31,12 +31,12 @@ class ShopTagsTable extends Table
 
         $this->hasMany('ShopProductsTags', [
             'foreignKey' => 'shop_tag_id',
-            'className' => 'Shop.ShopProductsTags'
+            'className' => 'Shop.ShopProductsTags',
         ]);
 
         $this->hasMany('ShopCategoriesTags', [
             'foreignKey' => 'shop_tag_id',
-            'className' => 'Shop.ShopCategoriesTags'
+            'className' => 'Shop.ShopCategoriesTags',
         ]);
     }
 

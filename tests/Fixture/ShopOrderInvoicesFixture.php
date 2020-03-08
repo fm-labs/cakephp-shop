@@ -57,7 +57,7 @@ class ShopOrderInvoicesFixture extends TestFixture
             'status' => 1,
             'customer_notify_sent' => 1,
             'created' => '2017-05-16 21:50:59',
-            'modified' => '2017-05-16 21:50:59'
+            'modified' => '2017-05-16 21:50:59',
         ],
     ];
 }

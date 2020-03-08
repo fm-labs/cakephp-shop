@@ -35,12 +35,12 @@ class StockValuesTable extends Table
         $this->belongsTo('ShopStocks', [
             'foreignKey' => 'shop_stock_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopStocks'
+            'className' => 'Shop.ShopStocks',
         ]);
         $this->belongsTo('ShopProducts', [
             'foreignKey' => 'shop_product_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopProducts'
+            'className' => 'Shop.ShopProducts',
         ]);
     }
 

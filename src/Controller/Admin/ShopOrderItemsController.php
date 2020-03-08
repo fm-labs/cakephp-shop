@@ -16,7 +16,7 @@ class ShopOrderItemsController extends AppController
      */
     public $actions = [
         'index' => 'Backend.Index',
-        'view' => 'Backend.View'
+        'view' => 'Backend.View',
     ];
 
     /**
@@ -67,10 +67,10 @@ class ShopOrderItemsController extends AppController
             //'_status' => ['formatter' => function($val, $row, $args, $view) {
             //    return $view->Status->label($val);
             //}],
-            'last_message' => []
+            'last_message' => [],
         ]);
         $this->set('rowActions', [
-            [__d('shop', 'View'), ['action' => 'view', ':id']]
+            [__d('shop', 'View'), ['action' => 'view', ':id']],
         ]);
         $this->set('queryObj', $query);
 
@@ -122,7 +122,7 @@ class ShopOrderItemsController extends AppController
     public function edit($id = null)
     {
         $shopOrderItem = $this->ShopOrderItems->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderItem = $this->ShopOrderItems->patchEntity($shopOrderItem, $this->request->data);

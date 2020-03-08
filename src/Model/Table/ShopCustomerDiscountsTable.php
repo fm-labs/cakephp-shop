@@ -33,12 +33,12 @@ class ShopCustomerDiscountsTable extends Table
         $this->belongsTo('ShopCustomers', [
             'foreignKey' => 'shop_customer_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopCustomers'
+            'className' => 'Shop.ShopCustomers',
         ]);
         $this->belongsTo('ShopProducts', [
             'foreignKey' => 'shop_product_id',
             //'joinType' => 'INNER',
-            'className' => 'Shop.ShopProducts'
+            'className' => 'Shop.ShopProducts',
         ]);
     }
 
@@ -110,7 +110,7 @@ class ShopCustomerDiscountsTable extends Table
     {
         return [
             'value' => __d('shop', 'Fixwert'),
-            'percent' => __d('shop', 'Prozent')
+            'percent' => __d('shop', 'Prozent'),
         ];
     }
 }

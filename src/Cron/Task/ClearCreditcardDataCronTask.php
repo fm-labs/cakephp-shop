@@ -43,7 +43,7 @@ class ClearCreditcardDataCronTask extends CronTask
             ->where([
                 'payment_type' => 'credit_card_internal',
                 'payment_info_1 IS NOT' => 'DELETED',
-                'created <=' => (new \DateTime())->setTimestamp(time() - $this->daysKeep * DAY)
+                'created <=' => (new \DateTime())->setTimestamp(time() - $this->daysKeep * DAY),
             ])
             ->order(['id' => 'ASC'])
             ->all();

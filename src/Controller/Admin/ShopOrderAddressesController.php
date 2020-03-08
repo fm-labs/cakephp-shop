@@ -18,7 +18,7 @@ class ShopOrderAddressesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopOrders', 'ShopCustomerAddresses', 'Countries']
+            'contain' => ['ShopOrders', 'ShopCustomerAddresses', 'Countries'],
         ];
 
         $filter = $this->request->getQuery();
@@ -46,7 +46,7 @@ class ShopOrderAddressesController extends AppController
     public function view($id = null)
     {
         $shopOrderAddress = $this->ShopOrderAddresses->get($id, [
-            'contain' => ['ShopOrders', 'ShopCustomerAddresses', 'Countries']
+            'contain' => ['ShopOrders', 'ShopCustomerAddresses', 'Countries'],
         ]);
         $this->set('shopOrderAddress', $shopOrderAddress);
         $this->set('_serialize', ['shopOrderAddress']);
@@ -87,7 +87,7 @@ class ShopOrderAddressesController extends AppController
     public function edit($id = null)
     {
         $shopOrderAddress = $this->ShopOrderAddresses->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->data);

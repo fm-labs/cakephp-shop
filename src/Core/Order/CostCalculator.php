@@ -114,7 +114,7 @@ class CostCalculator implements CostValueInterface
             'net' => $this->getNetValue(),
             'tax' => $this->getTaxValue(),
             'total' => $this->getTotalValue(),
-            'taxes' => $this->getTaxes()
+            'taxes' => $this->getTaxes(),
         ];
     }
 }

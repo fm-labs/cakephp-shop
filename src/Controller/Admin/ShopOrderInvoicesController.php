@@ -67,7 +67,7 @@ class ShopOrderInvoicesController extends AppController
     public function edit($id = null)
     {
         $shopOrderInvoice = $this->ShopOrderInvoices->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);

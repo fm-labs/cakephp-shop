@@ -29,7 +29,7 @@ class CustomerAddressesController extends AppController
     {
         $this->paginate = [
             'conditions' => ['ShopCustomerAddresses.shop_customer_id' => $this->Shop->customer('id')],
-            'contain' => ['Countries']
+            'contain' => ['Countries'],
         ];
         $addresses = $this->paginate($this->ShopCustomerAddresses);
         $this->set(compact('addresses'));

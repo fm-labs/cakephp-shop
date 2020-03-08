@@ -43,7 +43,7 @@ class ShopOrderNotificationsTable extends Table
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrders'
+            'className' => 'Shop.ShopOrders',
         ]);
     }
 

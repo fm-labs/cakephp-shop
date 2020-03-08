@@ -46,7 +46,7 @@ class StocksFixture extends TestFixture
         [
             'id' => 1,
             'title' => 'Lorem ipsum dolor sit amet',
-            'is_default' => 1
+            'is_default' => 1,
         ],
     ];
 }

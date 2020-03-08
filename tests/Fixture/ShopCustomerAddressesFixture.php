@@ -38,7 +38,7 @@ class ShopCustomerAddressesFixture extends TestFixture
             'country_id' => 1,
             'created' => '2017-01-27 20:51:57',
             'modified' => '2017-01-27 20:51:57',
-            'company_name' => ''
+            'company_name' => '',
         ],
     ];
 }

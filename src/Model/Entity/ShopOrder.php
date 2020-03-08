@@ -105,7 +105,7 @@ class ShopOrder extends Entity
         'is_reverse_charge',
 
         // formatted values
-        'order_value_total_formatted'
+        'order_value_total_formatted',
     ];
 
     /**

@@ -71,7 +71,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
     {
         $event->result['shop_category'] = [
             'title' => 'Shop Category',
-            'className' => 'Shop.ShopCategory'
+            'className' => 'Shop.ShopCategory',
         ];
     }
 
@@ -81,7 +81,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
             'orders' => [
                 'title' => __d('shop', 'Orders'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
-                'data-icon' => 'list'
+                'data-icon' => 'list',
             ],
             /*
             'order_invoices' => [
@@ -93,22 +93,22 @@ class Plugin extends BasePlugin implements EventListenerInterface
             'order_transactions' => [
                 'title' => __d('shop', 'Transactions'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderTransactions', 'action' => 'index'],
-                'data-icon' => 'usd'
+                'data-icon' => 'usd',
             ],
             'categories' => [
                 'title' => __d('shop', 'Categories'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopCategories', 'action' => 'index'],
-                'data-icon' => 'folder'
+                'data-icon' => 'folder',
             ],
             'products' => [
                 'title' => __d('shop', 'Products'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index'],
-                'data-icon' => 'archive'
+                'data-icon' => 'archive',
             ],
             'customers' => [
                 'title' => __d('shop', 'Customers'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
-                'data-icon' => 'users'
+                'data-icon' => 'users',
             ],
             /*
             'customer_addresses' => [
@@ -120,7 +120,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
             'customer_discounts' => [
                 'title' => __d('shop', 'Customer Discounts'),
                 'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerDiscounts', 'action' => 'index'],
-                'data-icon' => 'user-plus'
+                'data-icon' => 'user-plus',
             ],
             /*
             'stocks' => [
@@ -262,7 +262,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
             'title' => __d('shop', 'Shop'),
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',
-            'children' => $this->_getMenuItems()
+            'children' => $this->_getMenuItems(),
         ]);
     }
 
@@ -271,7 +271,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
         $menu->addItem([
             'title' => __d('shop', 'Shop Countries'),
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopCountries', 'action' => 'index'],
-            'data-icon' => 'flag-checkered'
+            'data-icon' => 'flag-checkered',
         ]);
     }
 }

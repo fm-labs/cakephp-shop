@@ -18,7 +18,7 @@ class ShopCustomerDiscountsController extends AppController
         $this->paginate = [
             'contain' => ['ShopCustomers', 'ShopProducts'],
             'limit' => 100,
-            'order' => ['shop_customer_id' => 'ASC', 'shop_product_id' => 'ASC']
+            'order' => ['shop_customer_id' => 'ASC', 'shop_product_id' => 'ASC'],
         ];
 
         $this->set('fields', [
@@ -36,7 +36,7 @@ class ShopCustomerDiscountsController extends AppController
             'valuetype' => [],
             'value' => [],
             'min_amount',
-            'is_published'
+            'is_published',
         ]);
         $this->set('fields.blacklist', ['publish_start', 'publish_end']);
 

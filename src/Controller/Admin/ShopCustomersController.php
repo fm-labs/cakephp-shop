@@ -21,7 +21,7 @@ class ShopCustomersController extends AppController
     public $paginate = [
         'limit' => 100,
         'order' => ['ShopCustomers.last_name' => 'ASC', 'ShopCustomers.first_name' => 'ASC'],
-        'contain' => ['Users']
+        'contain' => ['Users'],
     ];
 
     /**
@@ -44,7 +44,7 @@ class ShopCustomersController extends AppController
 
         $this->paginate = [
             'order' => ['ShopCustomers.last_name'],
-            'contain' => ['Users']
+            'contain' => ['Users'],
         ];
 
         $this->set('fields.whitelist', ['id', 'user', 'email', 'display_name']);
@@ -54,7 +54,7 @@ class ShopCustomersController extends AppController
             'user' => ['formatter' => function ($val, $row, $args, $view) {
                 //return ($val) ? $view->Html->link($val->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $val->id]) : null;
                 return ($val) ? $val->display_name : $val;
-            }]
+            }],
             //'user' => ['formatter' => ['related', 'display_name'], 'type' => 'object']
         ]);
 
@@ -75,7 +75,7 @@ class ShopCustomersController extends AppController
         $this->set('entity', $entity);
         $this->set('related', [
             'ShopCustomerAddresses' => [
-                'fields' => ['type', 'is_company', 'company_name', 'taxid', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country.name']
+                'fields' => ['type', 'is_company', 'company_name', 'taxid', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country.name'],
             ],
             'ShopCustomerDiscounts' => []]);
         $this->Action->execute();

@@ -77,7 +77,7 @@ class PaymentControllerTest extends TestCase
 
         Configure::write('Shop.Payment.Engines', [
             'test' => [
-                'className' => new TestPaymentEngine()
+                'className' => new TestPaymentEngine(),
             ],
         ]);
     }
@@ -94,7 +94,7 @@ class PaymentControllerTest extends TestCase
             'engine' => $engine,
             'currency_code' => 'EUR',
             'value' => 120.00,
-            'status' => 0
+            'status' => 0,
         ]);
 
         $this->transaction = $this->ShopOrderTransactions->save($transaction);
@@ -123,7 +123,7 @@ class PaymentControllerTest extends TestCase
 
         $query = http_build_query([
             'test_status' => 'ok',
-            'txnid' => 'TEST123'
+            'txnid' => 'TEST123',
         ]);
 
         $this->get('/shop/payment/confirm/' . $t->id . '?' . $query);

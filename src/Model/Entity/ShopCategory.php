@@ -36,7 +36,7 @@ class ShopCategory extends Entity
      * @var array
      */
     protected $_virtual = [
-        'url', 'url_full'
+        'url', 'url_full',
     ];
 
     /**
@@ -108,7 +108,8 @@ class ShopCategory extends Entity
      */
     protected function _getParent()
     {
-        if (!isset($this->_properties['parent_shop_category'])
+        if (
+            !isset($this->_properties['parent_shop_category'])
             && isset($this->_properties['parent_id'])
             //&& !empty($this->_properties['parent_id'])
         ) {
@@ -129,7 +130,7 @@ class ShopCategory extends Entity
             'model' => $model,
             'model_id' => $id,
             'model_scope' => $field,
-            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale')
+            'locale' => (string)($locale !== null) ? $locale : Configure::read('Shop.defaultLocale'),
         ])->first();
     }
 

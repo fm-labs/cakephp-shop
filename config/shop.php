@@ -15,11 +15,11 @@ return [
             'zipcode'       => '',
             'city'          => '',
             'country'       => '',
-            'taxId'			=> '',
+            'taxId'         => '',
         ],
 
         'Pages' => [
-            'termsUrl' => '/content/terms'
+            'termsUrl' => '/content/terms',
         ],
 
         'Layout' => [
@@ -33,7 +33,6 @@ return [
             'enablePrettyUrls' => false,
             'forceCanonical' => false,
         ],
-
 
         'Address' => [
             'useCompanyName' => false,
@@ -62,13 +61,13 @@ return [
                     'className' => 'Shop.Submit'
                 ],
                 */
-            ]
+            ],
         ],
 
         'Shipping' => [
             'Engines' => [
 
-            ]
+            ],
         ],
 
         'Payment' => [
@@ -87,7 +86,7 @@ return [
                     'enabled' => false,
                 ],
                 */
-            ]
+            ],
         ],
 
         'Order' => [
@@ -95,7 +94,7 @@ return [
             'nrStart' => 1,
             'nrGroup' => date('Y'),
             'nrSuffix' => '',
-            'nrZerofill' => 5
+            'nrZerofill' => 5,
         ],
 
         'Invoice' => [
@@ -103,16 +102,16 @@ return [
             'nrStart' => 1,
             'nrGroup' => date('Y'),
             'nrSuffix' => '',
-            'nrZerofill' => 5
+            'nrZerofill' => 5,
         ],
 
         'Catalogue' => [
-            'index_category_id' => null
+            'index_category_id' => null,
         ],
 
         'Pdf' => [
-            'engine' => '\\Tcpdf\\Lib\\CakeTcpdf'
-        ]
+            'engine' => '\\Tcpdf\\Lib\\CakeTcpdf',
+        ],
 
-    ]
+    ],
 ];

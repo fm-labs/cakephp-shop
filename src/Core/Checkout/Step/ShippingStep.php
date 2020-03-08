@@ -15,7 +15,6 @@ use Shop\Lib\Shop;
 
 class ShippingStep extends BaseStep implements CheckoutStepInterface
 {
-
     use StaticConfigTrait;
 
     /**

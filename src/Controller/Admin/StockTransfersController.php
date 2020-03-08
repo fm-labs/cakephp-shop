@@ -19,7 +19,7 @@ class StockTransfersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ParentStockTransfers', 'ShopStocks', 'ShopProducts']
+            'contain' => ['ParentStockTransfers', 'ShopStocks', 'ShopProducts'],
         ];
         $this->set('stockTransfers', $this->paginate($this->StockTransfers));
         $this->set('_serialize', ['stockTransfers']);
@@ -35,7 +35,7 @@ class StockTransfersController extends AppController
     public function view($id = null)
     {
         $stockTransfer = $this->StockTransfers->get($id, [
-            'contain' => ['ParentStockTransfers', 'ShopStocks', 'ShopProducts', 'ChildStockTransfers']
+            'contain' => ['ParentStockTransfers', 'ShopStocks', 'ShopProducts', 'ChildStockTransfers'],
         ]);
         $this->set('stockTransfer', $stockTransfer);
         $this->set('_serialize', ['stockTransfer']);
@@ -76,7 +76,7 @@ class StockTransfersController extends AppController
     public function edit($id = null)
     {
         $stockTransfer = $this->StockTransfers->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->data);

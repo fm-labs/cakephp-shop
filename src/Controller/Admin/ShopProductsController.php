@@ -31,7 +31,7 @@ class ShopProductsController extends AppController
         'edit'      => 'Backend.Edit',
         'media'      => 'Backend.Media',
         'publish'   => 'Backend.Publish',
-        'unpublish'   => 'Backend.Unpublish'
+        'unpublish'   => 'Backend.Unpublish',
     ];
 
     /**
@@ -42,7 +42,7 @@ class ShopProductsController extends AppController
         parent::initialize();
         $this->loadComponent('Backend.Toggle');
         $this->loadComponent('Search.Prg', [
-            'actions' => ['index', 'search']
+            'actions' => ['index', 'search'],
         ]);
     }
 
@@ -68,7 +68,7 @@ class ShopProductsController extends AppController
             //'fields' => ['ShopProducts.id', 'ShopProducts.shop_category_id', 'ShopProducts.sku', 'ShopProducts.preview_image_file', 'ShopProducts.title', 'ShopProducts.price', 'ShopProducts.is_buyable', 'ShopProducts.is_published'],
             'order' => [/*'ShopProducts.shop_category_id' => 'ASC',*/ 'ShopProducts.title' => 'ASC'],
             //'contain' => ['ShopCategories'],
-            'media' => true
+            'media' => true,
         ];
 
         $options = ['contain' => ['ShopCategories']];
@@ -93,7 +93,7 @@ class ShopProductsController extends AppController
             'preview_image_file' => [
                 'title' => 'Image',
                 'type' => 'object',
-                'formatter' => 'media_file'
+                'formatter' => 'media_file',
             ],
             'type' => [],
             'sku' => [],
@@ -114,11 +114,11 @@ class ShopProductsController extends AppController
                 );
             }],
             'price_net' => [
-                'formatter' => 'currency'
+                'formatter' => 'currency',
             ],
             'is_buyable' => [
                 'title' => __d('shop', 'Buyable'),
-                'formatter' => null
+                'formatter' => null,
             ],
             'is_published' => [
                 'title' => __d('shop', 'Published'),
@@ -188,7 +188,7 @@ class ShopProductsController extends AppController
         if ($shopProduct->type == "parent") {
             $tabs['child-products'] = [
                 'title' => __d('shop', 'Productversions'),
-                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id]
+                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id],
             ];
         }
         $this->set('tabs', $tabs);
@@ -205,7 +205,7 @@ class ShopProductsController extends AppController
             'type' => ['input' => ['default' => 'parent']],
             'sku' => [],
             'title' => [],
-            'shop_category_id'
+            'shop_category_id',
         ]);
         $this->set('fields.whitelist', ['id', 'type', 'shop_category_id', 'sku', 'title']);
 
@@ -221,25 +221,25 @@ class ShopProductsController extends AppController
 
         $this->set('fieldsets', [
             ['fields' => [
-                'parent_id'=> ['type' => 'select', 'empty' => 'Parent'],
+                'parent_id' => ['type' => 'select', 'empty' => 'Parent'],
                 'type',
                 'shop_category_id',
                 'sku',
                 'title',
-                'slug']
+                'slug'],
             ],
             ['legend' => __d('shop', 'Descriptions'), 'fields' => [
                 'teaser_html' => ['type' => 'htmleditor'],
-                'desc_html' => ['type' => 'htmleditor']
+                'desc_html' => ['type' => 'htmleditor'],
             ]],
             ['legend' => __d('shop', 'Images'), 'fields' => [
                 'preview_image_file' => ['type' => 'media_picker', 'config' => 'shop'],
                 'featured_image_file' => ['type' => 'media_picker'],
-                'image_files' => ['type' => 'media_picker', 'multiple' => true]
+                'image_files' => ['type' => 'media_picker', 'multiple' => true],
             ]],
             ['legend' => __d('shop', 'Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
             ['legend' => __d('shop', 'Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
-            ['legend' => __d('shop', 'Sorting'), 'fields' => ['priority'], 'collapsed' => true]
+            ['legend' => __d('shop', 'Sorting'), 'fields' => ['priority'], 'collapsed' => true],
         ]);
 
         $this->set('fields', [
@@ -290,7 +290,7 @@ class ShopProductsController extends AppController
     {
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ShopCategories'],
-            'media' => true
+            'media' => true,
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
@@ -313,12 +313,12 @@ class ShopProductsController extends AppController
         if ($shopProduct->type == "parent") {
             $tabs['child-products'] = [
                 'title' => __d('shop', 'Productversions'),
-                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id]
+                'url' => ['action' => 'index', 'parent_id' => $shopProduct->id],
             ];
         }
         $tabs['media'] = [
             'title' => __d('shop', 'Media'),
-            'url' => ['action' => 'media', $shopProduct->id]
+            'url' => ['action' => 'media', $shopProduct->id],
         ];
         $this->set('tabs', $tabs);
 
@@ -332,7 +332,7 @@ class ShopProductsController extends AppController
     {
         $shopProduct = $this->ShopProducts->get($id, [
             'contain' => ['ChildShopProducts'],
-            'media' => true
+            'media' => true,
         ]);
         $this->set(compact('shopProduct'));
         $this->set('_serialize', ['shopProduct']);
@@ -379,7 +379,7 @@ class ShopProductsController extends AppController
         $this->ShopProducts->behaviors()->unload('Media');
         $content = $this->ShopProducts->get($id, [
             'contain' => [],
-            'media' => true
+            'media' => true,
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -418,7 +418,7 @@ class ShopProductsController extends AppController
 
         $this->ShopProducts->behaviors()->unload('Media');
         $content = $this->ShopProducts->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
 
         if (!in_array($scope, ['preview_image_file', 'featured_image_file'])) {

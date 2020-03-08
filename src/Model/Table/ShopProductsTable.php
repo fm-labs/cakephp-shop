@@ -52,7 +52,7 @@ class ShopProductsTable extends Table
 
         $this->hasMany('ChildShopProducts', [
             'className' => 'Shop.ShopProducts',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
 
         /*
@@ -72,21 +72,21 @@ class ShopProductsTable extends Table
             $this->addBehavior('Media.Media', [
                 'fields' => [
                     'preview_image_file' => [
-                        'config' => 'shop'
+                        'config' => 'shop',
                     ],
                     'featured_image_file' => [
-                        'config' => 'shop'
+                        'config' => 'shop',
                     ],
                     //'image_files' => [
                     //    'config' => 'shop',
                     //    'multiple' => true
                     //]
-                ]
+                ],
             ]);
         }
 
         $this->addBehavior('Banana.Sluggable', [
-            'field' => 'title'
+            'field' => 'title',
         ]);
 
         //$this->addBehavior('Eav.Attributes');
@@ -95,7 +95,7 @@ class ShopProductsTable extends Table
 
         $this->addBehavior('Translate', [
             'fields' => ['title', 'slug', 'desc_long_text', 'desc_short_text'],
-            'translationTable' => 'ShopI18n'
+            'translationTable' => 'ShopI18n',
         ]);
 
         if (Plugin::isLoaded('Search')) {
@@ -108,7 +108,7 @@ class ShopProductsTable extends Table
                     'comparison' => 'LIKE',
                     'wildcardAny' => '*',
                     'wildcardOne' => '?',
-                    'field' => ['title', 'sku']
+                    'field' => ['title', 'sku'],
                 ])
                 ->add('title', 'Search.Like', [
                     'before' => true,
@@ -117,7 +117,7 @@ class ShopProductsTable extends Table
                     'comparison' => 'LIKE',
                     'wildcardAny' => '*',
                     'wildcardOne' => '?',
-                    'field' => ['title']
+                    'field' => ['title'],
                 ])
                 ->add('sku', 'Search.Like', [
                     'before' => false,
@@ -126,13 +126,13 @@ class ShopProductsTable extends Table
                     'comparison' => 'LIKE',
                     'wildcardAny' => '*',
                     'wildcardOne' => '?',
-                    'field' => ['sku']
+                    'field' => ['sku'],
                 ])
                 ->value('shop_category_id', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ])
                 ->boolean('is_buyable', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ])
                 ->boolean('is_published', [
                     'filterEmpty' => true,
@@ -214,6 +214,7 @@ class ShopProductsTable extends Table
      * @param array $options
      * @param $primary
      */
+
     /**
      * 'beforeFind' callback
      *
@@ -246,7 +247,7 @@ class ShopProductsTable extends Table
                     'shop_customer_id' => $options['for_customer'],
                     'shop_product_id' => $row['id'],
                     'is_published' => true,
-                    'min_amount <=' => 1
+                    'min_amount <=' => 1,
                 ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
 
                 // find customer discounts for parent product, if no product discount found
@@ -255,7 +256,7 @@ class ShopProductsTable extends Table
                         'shop_customer_id' => $options['for_customer'],
                         'shop_product_id' => $row['parent_id'],
                         'is_published' => true,
-                        'min_amount <=' => 1
+                        'min_amount <=' => 1,
                     ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
                 }
 
@@ -265,7 +266,7 @@ class ShopProductsTable extends Table
                         'shop_customer_id' => $options['for_customer'],
                         'shop_product_id IS' => null,
                         'is_published' => true,
-                        'min_amount <=' => 1
+                        'min_amount <=' => 1,
                     ])->order(['ShopCustomerDiscounts.min_amount' => 'DESC'])->first();
                 }
 

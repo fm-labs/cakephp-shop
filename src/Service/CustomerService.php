@@ -23,7 +23,7 @@ class CustomerService extends BaseService
             'User.Auth.login' => 'onUserLogin',
             'User.Auth.logout' => 'onUserLogout',
             'User.Model.User.register' => 'onUserRegister',
-            'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit'
+            'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit',
             //'Auth.identifyUser' => 'onUserLogin', // <-- Hmm, can't capture this event...
             //'Auth.logout' => 'onUserLogout',
         ];

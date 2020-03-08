@@ -54,7 +54,7 @@ class AddToCartCell extends Cell
     {
         $formOptions = [
             'idPrefix' => $this->shopProduct->id,
-            'url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]
+            'url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ],
         ];
         $formInputsOptions = ['legend' => false, 'fieldset' => false];
         $inputs = [];
@@ -62,11 +62,11 @@ class AddToCartCell extends Cell
         // Product version
         $inputs['refscope'] = [
             'type' => 'hidden',
-            'value' => 'Shop.ShopProducts'
+            'value' => 'Shop.ShopProducts',
         ];
         $inputs['refid'] = [
             'type' => 'hidden',
-            'value' => $this->shopProduct->id
+            'value' => $this->shopProduct->id,
         ];
 
         // Multiple product versions
@@ -75,7 +75,7 @@ class AddToCartCell extends Cell
             $inputs['refid'] = [
                 'type' => 'select',
                 'options' => $productVersions,
-                'label' => __d('shop', 'Product version')
+                'label' => __d('shop', 'Product version'),
             ];
         }
 
@@ -83,7 +83,7 @@ class AddToCartCell extends Cell
         $inputs['amount'] = [
             'type' => 'hidden',
             'default' => 1,
-            'label' => false
+            'label' => false,
         ];
 
         if ($this->params['qty'] !== false) {
@@ -91,7 +91,7 @@ class AddToCartCell extends Cell
                 'type' => 'select',
                 'options' => $this->_getQtyOptions(),
                 'default' => 1,
-                'label' => __d('shop', 'Quantity')
+                'label' => __d('shop', 'Quantity'),
             ];
         }
         //unset($params['qty']);
@@ -166,16 +166,16 @@ class AddToCartCell extends Cell
         $inputs = [];
         $inputs['refid'] = [
             'type' => 'hidden',
-            'value' => $this->shopProduct->id
+            'value' => $this->shopProduct->id,
         ];
         $inputs['refscope'] = [
             'type' => 'hidden',
-            'value' => 'shop_product'
+            'value' => 'shop_product',
         ];
         $inputs['amount'] = [
             'type' => 'hidden',
             'default' => 1,
-            'label' => false
+            'label' => false,
         ];
 
         $formOptions = ['url' => ['plugin' => 'Shop', 'controller' => 'Cart', 'action' => 'add', $this->shopProduct->id ]];

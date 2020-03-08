@@ -64,7 +64,7 @@ class CostValue implements CostValueInterface
             'taxrate' => $this->_taxrate,
             'tax' => $this->getTaxValue(),
             'total' => $this->getTotalValue(),
-            'label' => $this->getLabel()
+            'label' => $this->getLabel(),
         ];
     }
 }

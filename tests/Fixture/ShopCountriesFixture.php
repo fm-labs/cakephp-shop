@@ -30,7 +30,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Andorra',
             'name_de' => 'Andorra',
             'priority' => 0,
-            'is_published' => true
+            'is_published' => true,
         ],
         [
             'id' => 2,
@@ -39,7 +39,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'United Arab Emirates',
             'name_de' => 'Vereinigte Arabische Emirate',
             'priority' => 0,
-            'is_published' => true
+            'is_published' => true,
         ],
         [
             'id' => 3,
@@ -48,7 +48,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Afghanistan',
             'name_de' => 'Afghanistan',
             'priority' => 0,
-            'is_published' => true
+            'is_published' => true,
         ],
         [
             'id' => 4,
@@ -57,7 +57,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Antigua and Barbuda',
             'name_de' => 'Antigua und Barbuda',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
         [
             'id' => 5,
@@ -66,7 +66,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Anguilla',
             'name_de' => 'Anguilla',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
         [
             'id' => 6,
@@ -75,7 +75,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Albania',
             'name_de' => 'Albanien',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
         [
             'id' => 7,
@@ -84,7 +84,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Armenia',
             'name_de' => 'Armenien',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
         [
             'id' => 8,
@@ -93,7 +93,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Netherlands Antilles',
             'name_de' => 'Niederländische Antillen',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
         [
             'id' => 9,
@@ -102,7 +102,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Angola',
             'name_de' => 'Angola',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
         [
             'id' => 10,
@@ -111,7 +111,7 @@ class ShopCountriesFixture extends TestFixture
             'name' => 'Antarctica',
             'name_de' => 'Antarktis',
             'priority' => 0,
-            'is_published' => false
+            'is_published' => false,
         ],
     ];
 }

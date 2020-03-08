@@ -248,7 +248,6 @@ class Initial extends AbstractMigration
                 'null' => true,
             ])
             ->create();
-
     }
 
     public function down()

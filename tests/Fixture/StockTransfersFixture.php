@@ -60,7 +60,7 @@ class StockTransfersFixture extends TestFixture
             'date' => '2016-09-04 19:01:10',
             'comment' => 'Lorem ipsum dolor sit amet',
             'created' => '2016-09-04 19:01:10',
-            'modified' => '2016-09-04 19:01:10'
+            'modified' => '2016-09-04 19:01:10',
         ],
     ];
 }

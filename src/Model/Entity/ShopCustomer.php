@@ -45,7 +45,7 @@ class ShopCustomer extends Entity
 
     protected $_virtual = [
         'display_name',
-        'is_demo'
+        'is_demo',
     ];
 
     protected function _setEmail($email)

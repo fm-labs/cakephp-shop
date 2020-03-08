@@ -23,7 +23,7 @@ class ShopShell extends Shell
      */
     public $tasks = [
         'Shop.ProductImport',
-        'Shop.CustomerIntegrityCheck'
+        'Shop.CustomerIntegrityCheck',
     ];
 
     /**
@@ -34,23 +34,23 @@ class ShopShell extends Shell
         $parser = parent::getOptionParser();
         $parser->addSubcommand('product_import', [
             'help' => 'Import shop products from CSV file',
-            'parser' => $this->ProductImport->getOptionParser()
+            'parser' => $this->ProductImport->getOptionParser(),
         ]);
         $parser->addSubcommand('customer_integrity_check', [
             'help' => 'Check customer data integrity',
-            'parser' => $this->CustomerIntegrityCheck->getOptionParser()
+            'parser' => $this->CustomerIntegrityCheck->getOptionParser(),
         ]);
         $parser->addSubcommand('clean_temp_orders', [
-            'help' => 'Execute cleanTempOrders'
+            'help' => 'Execute cleanTempOrders',
         ]);
         $parser->addSubcommand('patch_product_price', [
-            'help' => 'Execute patchProductPrice'
+            'help' => 'Execute patchProductPrice',
         ]);
         $parser->addSubcommand('patch_order_numbers', [
-            'help' => 'Execute patchOrderNumbers'
+            'help' => 'Execute patchOrderNumbers',
         ]);
         $parser->addSubcommand('patch_order_customer_email', [
-            'help' => 'Execute patchOrderCustomerEmail'
+            'help' => 'Execute patchOrderCustomerEmail',
         ]);
 
         return $parser;

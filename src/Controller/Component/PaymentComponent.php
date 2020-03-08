@@ -48,7 +48,7 @@ class PaymentComponent extends Component
      * @var array
      */
     protected $_defaultConfig = [
-        'engines' => []
+        'engines' => [],
     ];
 
     /**
@@ -136,7 +136,7 @@ class PaymentComponent extends Component
             'currency_code' => $order->currency,
             'type' => 'P',
             'engine' => $order->payment_type,
-            'status' => 0
+            'status' => 0,
         ]);
 
         if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
@@ -217,7 +217,7 @@ class PaymentComponent extends Component
             'request_ip' => $this->request->clientIp(),
             'request_json' => $json,
             'is_valid' => false,
-            'is_processed' => false
+            'is_processed' => false,
         ]);
         if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
             debug($notification->getErrors());
@@ -228,7 +228,7 @@ class PaymentComponent extends Component
             // Dispatch Shop.Payment.beforeConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.beforeConfirm', [
                 'transaction' => $transaction,
-                'request' => $this->request
+                'request' => $this->request,
             ], $this);
 
             $engine = $this->_engineRegistry->get($transaction->engine);
@@ -237,10 +237,10 @@ class PaymentComponent extends Component
             // Dispatch Shop.Payment.afterConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.afterConfirm', [
                 'transaction' => $transaction,
-                'request' => $this->request
+                'request' => $this->request,
             ], $this);
         } catch (\Exception $ex) {
-            Log::error("Payment::confirmTransaction:".$transaction->engine.":" . $ex->getMessage());
+            Log::error("Payment::confirmTransaction:" . $transaction->engine . ":" . $ex->getMessage());
             throw $ex;
         }
 

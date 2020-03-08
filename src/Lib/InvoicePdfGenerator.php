@@ -41,7 +41,7 @@ class InvoicePdfGenerator
     {
         $shopOrder = $this->ShopOrders->get($orderId, [
             'contain' => ['ShopCustomers', 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true
+            'status' => true,
         ]);
 
         if (!Plugin::isLoaded('Tcpdf')) {
@@ -60,13 +60,13 @@ class InvoicePdfGenerator
             'subject' => $shopOrder->nr_formatted,
             'keywords' => $shopOrder->nr_formatted,
             'output' => 'F',
-            'filename' => null
+            'filename' => null,
         ], $pdf);
         $viewVars = [
             'pdfEngine' => static::$engineClass,
             'pdf' => $pdf,
             'shopOrder' => $shopOrder,
-            'mode' => 'invoice'
+            'mode' => 'invoice',
         ];
         $view->set($viewVars);
         $view->render('printview');

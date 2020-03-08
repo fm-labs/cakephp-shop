@@ -278,7 +278,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         if ($query['OPERATION'] == "CONFIRMATION") {
             $transaction->ext_txnid = $query['MPAYTID'];
             $transaction->ext_status = $query['STATUS'];
-            $transaction->last_message = $query['OPERATION'].":".$query['STATUS'];
+            $transaction->last_message = $query['OPERATION'] . ":" . $query['STATUS'];
             $transaction->is_test = $isTest;
 
             switch ($query['STATUS']) {

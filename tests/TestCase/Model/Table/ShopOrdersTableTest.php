@@ -95,7 +95,7 @@ class ShopOrdersTableTest extends TestCase
             'street' => 'Teststreet 1',
             'zipcode' => '1111',
             'city' => 'Test',
-            'country_id' => 1
+            'country_id' => 1,
         ];
         $address = $this->ShopOrders->ShopOrderAddresses->newEntity($addressData);
 
@@ -116,7 +116,7 @@ class ShopOrdersTableTest extends TestCase
             'street' => 'Teststreet 2',
             'zipcode' => '1111',
             'city' => 'Test',
-            'country_id' => 1
+            'country_id' => 1,
         ];
         $address = $this->ShopOrders->ShopOrderAddresses->newEntity($addressData);
         $order = $this->ShopOrders->get(1, ['contain' => ['BillingAddresses', 'ShippingAddresses']]);
@@ -190,7 +190,7 @@ class ShopOrdersTableTest extends TestCase
                     'is_temporary' => false,
                     'submitted' => Time::now(),
                     'ordergroup' => $ordergroup,
-                    'nr' => 1000 + $i
+                    'nr' => 1000 + $i,
                 ], ['validate' => false]);
                 if (!$this->ShopOrders->save($order)) {
                     $this->fail('Failed to inject test data');
@@ -266,53 +266,48 @@ class ShopOrdersTableTest extends TestCase
         //$this->assertNotNull($customerAddress);
     }
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
+/**
+ * Test validationDefault method
+ *
+ * @return void
     public function testValidationDefault()
     {
         $this->markTestIncomplete('Not implemented yet.');
-    }
-*/
+    } */
 
-    /**
-     * Test validationPayment method
-     *
-     * @return void
+/**
+ * Test validationPayment method
+ *
+ * @return void
     public function testValidationPayment()
     {
         $this->markTestIncomplete('Not implemented yet.');
-    }
-*/
+    } */
 
-    /**
-     * Test validationPaymentCreditCardInternal method
-     *
-     * @return void
+/**
+ * Test validationPaymentCreditCardInternal method
+ *
+ * @return void
     public function testValidationPaymentCreditCardInternal()
     {
         $this->markTestIncomplete('Not implemented yet.');
-    }
-*/
+    } */
 
-    /**
-     * Test validationSubmit method
-     *
-     * @return void
+/**
+ * Test validationSubmit method
+ *
+ * @return void
     public function testValidationSubmit()
     {
         $this->markTestIncomplete('Not implemented yet.');
-    }
-*/
+    } */
 
-    /**
-     * Test calculate method
-     *
-     * @return void
+/**
+ * Test calculate method
+ *
+ * @return void
     public function testCalculate()
     {
         $this->markTestIncomplete('Not implemented yet.');
-    }
-*/
+    } */
 }

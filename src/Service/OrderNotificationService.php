@@ -28,7 +28,7 @@ class OrderNotificationService implements EventListenerInterface
     public function onOrderStatusUpdate(Event $event)
     {
         $this->_saveNotification($this->_createNotification($event, [
-            'type' => 'status_update'
+            'type' => 'status_update',
         ]));
     }
 
@@ -67,7 +67,7 @@ class OrderNotificationService implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Shop.Model.Order.statusUpdate' => 'onOrderStatusUpdate'
+            'Shop.Model.Order.statusUpdate' => 'onOrderStatusUpdate',
         ];
     }
 }

@@ -45,13 +45,13 @@ class ShopOrderTransactionsTable extends Table
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrders'
+            'className' => 'Shop.ShopOrders',
         ]);
 
         $this->hasMany('ShopOrderTransactionNotifies', [
             'foreignKey' => 'shop_order_transaction_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopOrderTransactionNotifies'
+            'className' => 'Shop.ShopOrderTransactionNotifies',
         ]);
     }
 

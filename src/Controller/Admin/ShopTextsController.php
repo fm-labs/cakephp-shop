@@ -77,7 +77,7 @@ class ShopTextsController extends AppController
             $shopText = $this->ShopTexts->newEntity($this->request->query);
         } else {
             $shopText = $this->ShopTexts->get($id, [
-                'contain' => []
+                'contain' => [],
             ]);
         }
         $redirect = $this->request->getQuery('redirect');
@@ -113,7 +113,7 @@ class ShopTextsController extends AppController
         $this->layout = "Backend.iframe";
         if ($id !== null) {
             $shopText = $this->ShopTexts->get($id, [
-                'contain' => []
+                'contain' => [],
             ]);
         } else {
             $model = $this->request->getQuery('model');

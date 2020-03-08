@@ -66,7 +66,7 @@ class ShopOrderTransactionNotifiesController extends AppController
     public function edit($id = null)
     {
         $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);

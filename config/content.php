@@ -5,6 +5,6 @@
 return [
     'Content.PageTypes.shop_category' => [
         'title' => 'Shop Category',
-        'className' => 'Shop.ShopCategory'
-    ]
+        'className' => 'Shop.ShopCategory',
+    ],
 ];

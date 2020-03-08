@@ -71,7 +71,7 @@ class ShopOrdersTable extends Table
 
         $this->belongsTo('ShopCustomers', [
             'foreignKey' => 'shop_customer_id',
-            'className' => 'Shop.ShopCustomers'
+            'className' => 'Shop.ShopCustomers',
         ]);
         /*
         $this->hasMany('ShopCarts', [
@@ -81,7 +81,7 @@ class ShopOrdersTable extends Table
         */
         $this->hasMany('ShopOrderItems', [
             'foreignKey' => 'shop_order_id',
-            'className' => 'Shop.ShopOrderItems'
+            'className' => 'Shop.ShopOrderItems',
         ]);
         $this->hasMany('ShopOrderAddresses', [
             'foreignKey' => 'shop_order_id',
@@ -97,17 +97,17 @@ class ShopOrdersTable extends Table
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderAddresses',
             'conditions' => ['BillingAddresses.type' => 'B'],
-            'contain' => ['Countries']
+            'contain' => ['Countries'],
         ]);
         $this->hasOne('ShippingAddresses', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderAddresses',
             'conditions' => ['ShippingAddresses.type' => 'S'],
-            'contain' => ['Countries']
+            'contain' => ['Countries'],
         ]);
         $this->hasMany('ShopOrderNotifications', [
             'foreignKey' => 'shop_order_id',
-            'className' => 'Shop.ShopOrderNotifications'
+            'className' => 'Shop.ShopOrderNotifications',
         ]);
         $this->addBehavior('Banana.Statusable');
 
@@ -128,24 +128,24 @@ class ShopOrdersTable extends Table
                     'comparison' => 'LIKE',
                     'wildcardAny' => '*',
                     'wildcardOne' => '?',
-                    'field' => ['title']
+                    'field' => ['title'],
                 ])
                 ->value('shop_customer_id', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ])
                 ->value('status', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ])
                 ->value('payment_status', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ])
                 ->value('shipping_status', [
-                    'filterEmpty' => true
+                    'filterEmpty' => true,
                 ])
                 ->add('nr_formatted', 'Search.Callback', [
                     'callback' => function ($query, $args, $filter) {
                          return $query;
-                    }
+                    },
                 ]);
         }
     }
@@ -274,7 +274,7 @@ class ShopOrdersTable extends Table
                 ->find()
                 ->where([
                     'ShopCustomerAddresses.id' => $addressId,
-                    'ShopCustomerAddresses.shop_customer_id' => $order->shop_customer_id
+                    'ShopCustomerAddresses.shop_customer_id' => $order->shop_customer_id,
                 ])
                 ->first();
 
@@ -610,7 +610,7 @@ class ShopOrdersTable extends Table
 
         // dispatch 'beforeSubmit' event
         $event = new Event('Shop.Model.Order.beforeSubmit', $this, [
-            'order' => $order
+            'order' => $order,
         ]);
         $this->getEventManager()->dispatch($event);
 
@@ -630,7 +630,7 @@ class ShopOrdersTable extends Table
 
         // dispatch 'afterSubmit' event
         $event = new Event('Shop.Model.Order.afterSubmit', $this, [
-            'order' => $order
+            'order' => $order,
         ]);
         $this->getEventManager()->dispatch($event);
 
@@ -650,7 +650,7 @@ class ShopOrdersTable extends Table
 
         // dispatch 'beforeSubmit' event
         $event = new Event('Shop.Model.Order.beforeConfirm', $this, [
-            'order' => $order
+            'order' => $order,
         ]);
         $this->getEventManager()->dispatch($event);
 
@@ -672,7 +672,7 @@ class ShopOrdersTable extends Table
 
         // dispatch 'afterSubmit' event
         $event = new Event('Shop.Model.Order.afterConfirm', $this, [
-            'order' => $order
+            'order' => $order,
         ]);
         $this->getEventManager()->dispatch($event);
 
@@ -982,7 +982,7 @@ class ShopOrdersTable extends Table
             'payment_status' => [
                 new Status(self::PAYMENT_STATUS_PENDING, __d('shop', 'Waiting for payment'), 'warning'),
                 new Status(self::PAYMENT_STATUS_PARTIAL, __d('shop', 'Teilzahlung erhalten'), 'warning'),
-                new Status(self::PAYMENT_STATUS_PAYED, __d('shop', 'Payed'), 'success')
+                new Status(self::PAYMENT_STATUS_PAYED, __d('shop', 'Payed'), 'success'),
             ],
         ];
     }

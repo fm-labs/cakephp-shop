@@ -36,21 +36,21 @@ class StockTransfersTable extends Table
 
         $this->belongsTo('ParentStockTransfers', [
             'className' => 'Shop.StockTransfers',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
         $this->belongsTo('ShopStocks', [
             'foreignKey' => 'shop_stock_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopStocks'
+            'className' => 'Shop.ShopStocks',
         ]);
         $this->belongsTo('ShopProducts', [
             'foreignKey' => 'shop_product_id',
             'joinType' => 'INNER',
-            'className' => 'Shop.ShopProducts'
+            'className' => 'Shop.ShopProducts',
         ]);
         $this->hasMany('ChildStockTransfers', [
             'className' => 'Shop.StockTransfers',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
     }
 

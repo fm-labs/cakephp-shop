@@ -22,7 +22,7 @@ if (!Log::getConfig('shop')) {
         'path' => LOGS,
         'file' => 'shop',
         //'levels' => ['notice', 'info', 'debug'],
-        'scopes' => ['shop', 'order', 'payment', 'invoice', 'checkout']
+        'scopes' => ['shop', 'order', 'payment', 'invoice', 'checkout'],
     ]);
 }
 
@@ -38,13 +38,13 @@ Configure::load('Shop.html_editor');
  * @deprecated
  */
 ClassRegistry::register('PostType', [
-    'shop_category' => '\Shop\Model\Entity\Post\ShopCategoryPostType'
+    'shop_category' => '\Shop\Model\Entity\Post\ShopCategoryPostType',
 ]);
 
 ClassRegistry::register('ContentModule', [
-    'shop_random_category_product' => '\Shop\View\Cell\RandomCategoryProductModuleCell'
+    'shop_random_category_product' => '\Shop\View\Cell\RandomCategoryProductModuleCell',
 ]);
 
 ClassRegistry::register('PageType', [
-    'shop_category' => '\Shop\Page\ShopCategoryPageType'
+    'shop_category' => '\Shop\Page\ShopCategoryPageType',
 ]);
