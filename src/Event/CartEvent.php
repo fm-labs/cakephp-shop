@@ -14,9 +14,9 @@ class CartEvent extends Event
     /**
      * @return \Shop\Controller\Component\CartComponent
      */
-    public function subject()
+    public function getSubject()
     {
-        return parent::subject();
+        return parent::getSubject();
     }
 
     /**
@@ -24,7 +24,7 @@ class CartEvent extends Event
      */
     public function getCart()
     {
-        return $this->subject();
+        return $this->getSubject();
     }
 
     /**
@@ -32,7 +32,7 @@ class CartEvent extends Event
      */
     public function getItem()
     {
-        return $this->data['item'];
+        return $this->getData()['item'];
     }
 
     /**
@@ -40,7 +40,7 @@ class CartEvent extends Event
      */
     public function getCustomer()
     {
-        return (isset($this->data['customer'])) ? $this->data['customer'] : null;
+        return $this->getData('customer');
     }
 
     /**
@@ -48,7 +48,7 @@ class CartEvent extends Event
      */
     public function getUserData()
     {
-        return (isset($this->data['data'])) ? $this->data['data'] : [];
+        return $this->getData()['data'] ?? [];
     }
 
     /**
@@ -56,7 +56,10 @@ class CartEvent extends Event
      */
     public function getProductForCustomer()
     {
-        return $this->getCart()->getProductForCustomer($this->data['item']['refid'], $this->data['item']['refscope']);
+        return $this->getCart()->getProductForCustomer(
+            $this->getData()['item']['refid'],
+            $this->getData()['item']['refscope']
+        );
     }
 
     /**
@@ -64,6 +67,9 @@ class CartEvent extends Event
      */
     public function getProduct()
     {
-        return $this->getCart()->getProduct($this->data['item']['refid'], $this->data['item']['refscope']);
+        return $this->getCart()->getProduct(
+            $this->getData()['item']['refid'],
+            $this->getData()['item']['refscope']
+        );
     }
 }

@@ -50,7 +50,7 @@ class StockValuesController extends AppController
     {
         $stockValue = $this->StockValues->newEntity();
         if ($this->request->is('post')) {
-            $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->data);
+            $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->getData());
             if ($this->StockValues->save($stockValue)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock value')));
 
@@ -78,7 +78,7 @@ class StockValuesController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->data);
+            $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->getData());
             if ($this->StockValues->save($stockValue)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock value')));
 

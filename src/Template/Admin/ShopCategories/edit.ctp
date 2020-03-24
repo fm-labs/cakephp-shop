@@ -176,14 +176,14 @@ $this->Toolbar->addLink(
     ]); ?>
 
     <!-- Related HTML meta data -->
-    <?php $this->Tabs->add('Meta', [
+    <?php /* $this->Tabs->add('Meta', [
         'url' => ['action' => 'relatedPageMeta', $shopCategory->id]
-    ]); ?>
+    ]); */ ?>
 
     <!-- Related Content modules -->
-    <?php $this->Tabs->add('Content Modules', [
+    <?php /*$this->Tabs->add('Content Modules', [
         'url' => ['action' => 'relatedContentModules', $shopCategory->id]
-    ]); ?>
+    ]); */?>
 
     <!-- Debug -->
     <?php //$this->Tabs->add(__d('shop', 'Debug')); ?>

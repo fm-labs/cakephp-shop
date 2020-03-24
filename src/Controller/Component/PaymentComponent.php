@@ -181,7 +181,7 @@ class PaymentComponent extends Component
         $url = $this->request->url;
         $params = $this->request->params;
         $query = $this->request->getQuery();
-        $data = $this->request->data;
+        $data = $this->request->getData();
 
         Log::debug(sprintf('Payment::confirm: [%s] %s', $clientIp, $txnId), ['shop', 'payment']);
 

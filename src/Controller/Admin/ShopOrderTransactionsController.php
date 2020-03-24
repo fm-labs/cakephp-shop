@@ -68,7 +68,7 @@ class ShopOrderTransactionsController extends AppController
     {
         $shopOrderTransaction = $this->ShopOrderTransactions->newEntity();
         if ($this->request->is('post')) {
-            $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->data);
+            $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->getData());
             if ($this->ShopOrderTransactions->save($shopOrderTransaction)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction')));
 
@@ -95,7 +95,7 @@ class ShopOrderTransactionsController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->data);
+            $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->getData());
             if ($this->ShopOrderTransactions->save($shopOrderTransaction)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction')));
 

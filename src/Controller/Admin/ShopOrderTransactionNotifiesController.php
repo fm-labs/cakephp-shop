@@ -42,7 +42,7 @@ class ShopOrderTransactionNotifiesController extends AppController
     {
         $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->newEntity();
         if ($this->request->is('post')) {
-            $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);
+            $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->getData());
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction notify')));
 
@@ -69,7 +69,7 @@ class ShopOrderTransactionNotifiesController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->data);
+            $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->getData());
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order transaction notify')));
 

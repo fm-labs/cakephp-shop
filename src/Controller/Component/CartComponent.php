@@ -267,9 +267,9 @@ class CartComponent extends Component
             return $this->removeItem($orderItem);
         }
 
-        $orderItem->accessible('shop_order_id', false);
-        $orderItem->accessible('refscope', false);
-        $orderItem->accessible('refid', false);
+        $orderItem->setAccess('shop_order_id', false);
+        $orderItem->setAccess('refscope', false);
+        $orderItem->setAccess('refid', false);
 
         $event = $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemUpdate', $this, [
             'item' => $orderItem,

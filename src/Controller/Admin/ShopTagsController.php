@@ -47,7 +47,7 @@ class ShopTagsController extends AppController
     {
         $shopTag = $this->ShopTags->newEntity();
         if ($this->request->is('post')) {
-            $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->data);
+            $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->getData());
             if ($this->ShopTags->save($shopTag)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop tag')));
 
@@ -73,7 +73,7 @@ class ShopTagsController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->data);
+            $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->getData());
             if ($this->ShopTags->save($shopTag)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop tag')));
 

@@ -50,7 +50,7 @@ class StockTransfersController extends AppController
     {
         $stockTransfer = $this->StockTransfers->newEntity();
         if ($this->request->is('post')) {
-            $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->data);
+            $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->getData());
             if ($this->StockTransfers->save($stockTransfer)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock transfer')));
 
@@ -79,7 +79,7 @@ class StockTransfersController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->data);
+            $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->getData());
             if ($this->StockTransfers->save($stockTransfer)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'stock transfer')));
 

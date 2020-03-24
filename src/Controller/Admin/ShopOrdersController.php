@@ -223,7 +223,7 @@ class ShopOrdersController extends AppController
         $this->set('shopOrder', $shopOrder);
         $this->set('mode', $mode);
 
-        $this->viewBuilder()->layout('Shop.print');
+        $this->viewBuilder()->setLayout('Shop.print');
         $this->render('printview');
     }
 
@@ -242,7 +242,7 @@ class ShopOrdersController extends AppController
         $this->set('shopOrder', $shopOrder);
 
         $this->viewBuilder()->setClassName('Tcpdf.Pdf');
-        $this->viewBuilder()->layout('Shop.print');
+        $this->viewBuilder()->setLayout('Shop.print');
 
         $this->set('pdfEngine', Configure::read('Shop.Pdf.engine'));
         $this->set('pdf', [

@@ -131,7 +131,7 @@ class ShopCustomersTable extends Table
         $customer->user_id = $user->get('id');
         $customer->email = $user->get('email');
 
-        $customer->accessible(['user_id', 'email'], false);
+        $customer->setAccess(['user_id', 'email'], false);
         $customer = $this->patchEntity($customer, $data);
         if ($save === true) {
             $customer = $this->save($customer);

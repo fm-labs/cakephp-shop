@@ -93,7 +93,7 @@ class CartController extends AppController
 
             $result = ['success' => false];
             try {
-                $this->Cart->addItem($this->request->data());
+                $this->Cart->addItem($this->request->getData());
                 $result['success'] = true;
             } catch (\Exception $ex) {
                 $result['error'] = $ex->getMessage();
@@ -103,7 +103,7 @@ class CartController extends AppController
             $this->set('_serialize', 'result');
         } elseif ($this->request->is(['put', 'post'])) {
             try {
-                if (!$this->Cart->addItem($this->request->data())) {
+                if (!$this->Cart->addItem($this->request->getData())) {
                     throw new \RuntimeException("Operation failed");
                 }
                 $this->Flash->success(__d('shop', 'Added item to cart'));
@@ -144,7 +144,7 @@ class CartController extends AppController
     {
 
         if ($this->request->is(['post', 'put'])) {
-            if ($this->Cart->updateItemById($orderItemId, $this->request->data)) {
+            if ($this->Cart->updateItemById($orderItemId, $this->request->getData())) {
                 $this->Flash->success(__d('shop', 'Updated item'));
             } else {
                 $this->Flash->error(__d('shop', 'Failed to update item'));

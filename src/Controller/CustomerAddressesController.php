@@ -43,7 +43,7 @@ class CustomerAddressesController extends AppController
         );
 
         if ($this->request->is(['put', 'post'])) {
-            $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->data);
+            $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->getData());
             $address->shop_customer_id = $this->Shop->getCustomerId();
             if ($this->ShopCustomerAddresses->save($address)) {
                 $this->Flash->success(__d('shop', 'Saved'));
@@ -70,7 +70,7 @@ class CustomerAddressesController extends AppController
         }
 
         if ($this->request->is(['put', 'post'])) {
-            $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->data);
+            $address = $this->ShopCustomerAddresses->patchEntity($address, $this->request->getData());
             $address->shop_customer_id = $this->Shop->getCustomerId();
             if ($this->ShopCustomerAddresses->save($address)) {
                 $this->Flash->success(__d('shop', 'Saved'));

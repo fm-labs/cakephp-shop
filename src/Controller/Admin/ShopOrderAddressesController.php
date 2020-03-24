@@ -61,7 +61,7 @@ class ShopOrderAddressesController extends AppController
     {
         $shopOrderAddress = $this->ShopOrderAddresses->newEntity();
         if ($this->request->is('post')) {
-            $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->data);
+            $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->getData());
             if ($this->ShopOrderAddresses->save($shopOrderAddress)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order address')));
 
@@ -90,7 +90,7 @@ class ShopOrderAddressesController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->data);
+            $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->getData());
             if ($this->ShopOrderAddresses->save($shopOrderAddress)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order address')));
 

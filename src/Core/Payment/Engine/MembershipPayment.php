@@ -32,11 +32,11 @@ class MembershipPayment implements PaymentEngineInterface
      */
     public function checkout(CheckoutComponent $Checkout)
     {
-        if ($Checkout->request->is(['post', 'put'])) {
-            $data = $Checkout->request->data();
+        if ($Checkout->getController()->getRequest()->is(['post', 'put'])) {
+            $data = $Checkout->getController()->getRequest()->getData();
 
             $order = $Checkout->getOrder();
-            $order->accessible(['payment_type'], true);
+            $order->setAccess(['payment_type'], true);
             $order = $Checkout->ShopOrders->patchEntity($order, $data, ['validate' => 'payment']);
 
             //@TODO Check if

@@ -148,11 +148,11 @@ class ShopCategoriesController extends AppController
             //->find('media')
             //->find('attributes')
             ->where(['ShopCategories.id' => $id])
-            ->contain(['ParentShopCategories', 'ShopTags', 'ShopProducts', 'ContentModules' => ['Modules']])
+            ->contain(['ParentShopCategories', 'ShopTags', 'ShopProducts'/*, 'ContentModules' => ['Modules']*/])
             ->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
+            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
 
@@ -191,7 +191,7 @@ class ShopCategoriesController extends AppController
             ->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
+            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
 
@@ -256,7 +256,7 @@ class ShopCategoriesController extends AppController
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
+            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
 
@@ -280,7 +280,8 @@ class ShopCategoriesController extends AppController
         ]);
 
         $shopProducts = $this->ShopCategories->ShopProducts->find()
-            ->where(['shop_category_id' => $id]);
+            ->where(['shop_category_id' => $id])
+            ->all();
 
         $this->set('shopCategory', $shopCategory);
         $this->set('shopProducts', $shopProducts);
@@ -307,7 +308,7 @@ class ShopCategoriesController extends AppController
         }
 
         if ($this->request->is(['put', 'post'])) {
-            $pageMeta = $PageMetas->patchEntity($pageMeta, $this->request->data);
+            $pageMeta = $PageMetas->patchEntity($pageMeta, $this->request->getData());
             if ($PageMetas->save($pageMeta)) {
                 $this->Flash->success('Successful');
                 $this->redirect(['action' => 'manage', $id]);
@@ -355,7 +356,7 @@ class ShopCategoriesController extends AppController
     {
         $shopCategory = $this->ShopCategories->newEntity();
         if ($this->request->is('post')) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->data);
+            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
             if ($this->ShopCategories->save($shopCategory)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
 
@@ -365,7 +366,7 @@ class ShopCategoriesController extends AppController
                 $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
             }
         } else {
-            $this->ShopCategories->patchEntity($shopCategory, $this->request->query, ['validate' => false]);
+            $this->ShopCategories->patchEntity($shopCategory, $this->request->getQuery(), ['validate' => false]);
         }
         $parentShopCategories = $this->ShopCategories->find('treeList');
         $this->set(compact('shopCategory', 'parentShopCategories'));
@@ -384,7 +385,7 @@ class ShopCategoriesController extends AppController
             ['validate' => false]
         );
         if ($this->request->is(['post', 'put'])) {
-            $contentModule = $this->ShopCategories->ContentModules->patchEntity($contentModule, $this->request->data);
+            $contentModule = $this->ShopCategories->ContentModules->patchEntity($contentModule, $this->request->getData());
             if ($this->ShopCategories->ContentModules->save($contentModule)) {
                 $this->Flash->success(__d('shop', 'The content module has been saved for Shop Category {0}.', $id));
             } else {
@@ -472,7 +473,7 @@ class ShopCategoriesController extends AppController
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $content = $this->ShopCategories->patchEntity($content, $this->request->data);
+            $content = $this->ShopCategories->patchEntity($content, $this->request->getData());
             //$content->$scope = $this->request->data[$scope];
             if ($this->ShopCategories->save($content)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));

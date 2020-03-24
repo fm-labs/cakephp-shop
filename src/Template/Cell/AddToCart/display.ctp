@@ -9,7 +9,7 @@
 <div class="add-to-cart">
     <div class="add-to-cart-form">
         <?= $this->Form->create($form, $formOptions); ?>
-        <?= $this->Form->inputs($formInputs, $formInputsOptions); ?>
+        <?= $this->Form->controls($formInputs, $formInputsOptions); ?>
         <div class="add-to-cart-submit" style="margin-top: 0.5em;">
             <?php if (!$auth): ?>
                 <div class="add-to-cart add-to-cart-noauth">

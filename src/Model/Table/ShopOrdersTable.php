@@ -680,8 +680,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
-     * @return bool|EntityInterface|mixed
+     * @param ShopOrder|EntityInterface $order
+     * @return bool|ShopOrder|EntityInterface
      */
     public function saveOrder(ShopOrder $order)
     {

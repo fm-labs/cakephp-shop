@@ -30,7 +30,7 @@ class ShopCategoryView extends ShopView
             $this->Breadcrumbs->add(__d('shop', 'Shop'), ['_name' => 'shop:index']);
         } catch (MissingRouteException $ex) {
             // the named route might not be connected. fallback to ShopController::index
-            $this->Breadcrumbs->add(__d('shop', 'Shop'), ['plugin' => 'Shop', 'controller' => 'ShopController', 'action' => 'index']);
+            //$this->Breadcrumbs->add(__d('shop', 'Shop'), ['plugin' => 'Shop', 'controller' => 'ShopController', 'action' => 'index']);
         }
 
         // gather meta info

@@ -44,7 +44,7 @@ class CheckoutController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->viewBuilder()->layout((Configure::read('Shop.Checkout.layout')) ?: null); //@TODO Move layout handling to ShopComponent
+        $this->viewBuilder()->setLayout((Configure::read('Shop.Checkout.layout')) ?: null); //@TODO Move layout handling to ShopComponent
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-use Banana\Lib\ClassRegistry; //@TODO Remove dependency. Use event system instead
+use Banana\Lib\ClassRegistry;
 use Cake\Core\Configure;
 use Cake\Log\Log;
 
@@ -29,7 +29,7 @@ if (!Log::getConfig('shop')) {
 /**
  * Load default config
  */
-Configure::load('Shop.content');
+//Configure::load('Shop.content');
 Configure::load('Shop.html_editor');
 //Configure::load('Shop.shop');
 
@@ -37,14 +37,12 @@ Configure::load('Shop.html_editor');
  * Register classes
  * @deprecated
  */
-ClassRegistry::register('PostType', [
-    'shop_category' => '\Shop\Model\Entity\Post\ShopCategoryPostType',
-]);
-
-ClassRegistry::register('ContentModule', [
-    'shop_random_category_product' => '\Shop\View\Cell\RandomCategoryProductModuleCell',
-]);
-
-ClassRegistry::register('PageType', [
-    'shop_category' => '\Shop\Page\ShopCategoryPageType',
-]);
+//ClassRegistry::register('ContentModule', [
+//    'shop_random_category_product' => '\Shop\View\Cell\RandomCategoryProductModuleCell',
+//]);
+//ClassRegistry::register('PostType', [
+//    'shop_category' => '\Shop\Model\Entity\Post\ShopCategoryPostType',
+//]);
+//ClassRegistry::register('PageType', [
+//    'shop_category' => '\Shop\Page\ShopCategoryPageType',
+//]);

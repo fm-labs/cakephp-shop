@@ -32,11 +32,11 @@ class PaymentSlipPayment implements PaymentEngineInterface
      */
     public function checkout(CheckoutComponent $Checkout)
     {
-        if ($Checkout->request->is(['post', 'put'])) {
-            $data = $Checkout->request->data();
+        if ($Checkout->getController()->getRequest()->is(['post', 'put'])) {
+            $data = $Checkout->getController()->getRequest()->getData();
 
             $order = $Checkout->getOrder();
-            $order->accessible(['payment_type', 'payment_info_1', 'payment_info_2', 'payment_info_3'], true);
+            $order->setAccess(['payment_type', 'payment_info_1', 'payment_info_2', 'payment_info_3'], true);
             $order = $Checkout->ShopOrders->patchEntity($order, $data, ['validate' => 'payment']);
 
             if ($Checkout->ShopOrders->saveOrder($order)) {

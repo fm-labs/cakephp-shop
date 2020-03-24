@@ -39,11 +39,11 @@ class Mpay24SelectPayment implements PaymentEngineInterface
      */
     public function checkout(CheckoutComponent $Checkout)
     {
-        if ($Checkout->request->is(['post', 'put'])) {
-            $data = $Checkout->request->data();
+        if ($Checkout->getController()->getRequest()->is(['post', 'put'])) {
+            $data = $Checkout->getController()->getRequest()->getData();
 
             $order = $Checkout->getOrder();
-            $order->accessible(['payment_type'], true);
+            $order->setAccess(['payment_type'], true);
             $order = $Checkout->ShopOrders->patchEntity($order, $data, ['validate' => 'payment']);
 
             if ($Checkout->setOrder($order, true)) {
@@ -52,7 +52,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 debug($order->getErrors());
                 $Checkout->getController()->Flash->error("Failed to update payment info");
             }
-        } elseif (!$Checkout->request->getQuery('change')) {
+        } elseif (!$Checkout->getController()->getRequest()->getQuery('change')) {
             return $Checkout->redirectNext();
         }
     }

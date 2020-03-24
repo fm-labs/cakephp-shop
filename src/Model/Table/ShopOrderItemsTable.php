@@ -125,7 +125,7 @@ class ShopOrderItemsTable extends Table
         $entity->calculate();
 
         $options = [];
-        foreach ($entity->visibleProperties() as $prop) {
+        foreach ($entity->getVisible() as $prop) {
             if (preg_match('/^options\_\_(.*)$/', $prop, $matches)) {
                 $options[$matches[1]] = $entity->get($prop);
             }

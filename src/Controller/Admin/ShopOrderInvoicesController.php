@@ -42,7 +42,7 @@ class ShopOrderInvoicesController extends AppController
     {
         $shopOrderInvoice = $this->ShopOrderInvoices->newEntity();
         if ($this->request->is('post')) {
-            $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);
+            $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->getData());
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order invoice')));
 
@@ -70,7 +70,7 @@ class ShopOrderInvoicesController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->data);
+            $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->getData());
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop order invoice')));
 

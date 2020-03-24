@@ -39,8 +39,8 @@ class CreditCardInternalPayment implements PaymentEngineInterface
      */
     public function checkout(CheckoutComponent $Checkout)
     {
-        if ($Checkout->request->is(['post', 'put'])) {
-            $data = $Checkout->request->data();
+        if ($Checkout->getController()->getRequest()->is(['post', 'put'])) {
+            $data = $Checkout->getController()->getRequest()->getData();
 
             if (isset($data['cc_brand']) && isset($data['cc_number'])) {
                 $data['payment_info_1'] = sprintf("%s:%s", $data['cc_brand'], $data['cc_number']);
@@ -53,7 +53,7 @@ class CreditCardInternalPayment implements PaymentEngineInterface
             }
 
             $order = $Checkout->getOrder();
-            $order->accessible(['cc_brand', 'cc_number', 'cc_holder_name', 'cc_expires_at', 'payment_type', 'payment_info_1', 'payment_info_2', 'payment_info_3'], true);
+            $order->setAccess(['cc_brand', 'cc_number', 'cc_holder_name', 'cc_expires_at', 'payment_type', 'payment_info_1', 'payment_info_2', 'payment_info_3'], true);
             $order = $Checkout->ShopOrders->patchEntity($order, $data, ['validate' => 'paymentCreditCardInternal']);
 
             if ($Checkout->setOrder($order, true)) {
@@ -66,8 +66,9 @@ class CreditCardInternalPayment implements PaymentEngineInterface
 
     /**
      * @param PaymentComponent $Payment
-     * @param ShopOrder $transaction
-     * @return null|Response
+     * @param ShopOrderTransaction $transaction
+     * @param ShopOrder $order
+     * @return Response|null
      */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
     {

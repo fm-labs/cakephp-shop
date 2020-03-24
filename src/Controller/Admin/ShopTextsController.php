@@ -50,7 +50,7 @@ class ShopTextsController extends AppController
     {
         $shopText = $this->ShopTexts->newEntity();
         if ($this->request->is('post')) {
-            $shopText = $this->ShopTexts->patchEntity($shopText, $this->request->data);
+            $shopText = $this->ShopTexts->patchEntity($shopText, $this->request->getData());
             if ($this->ShopTexts->save($shopText)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop text')));
 
@@ -74,7 +74,7 @@ class ShopTextsController extends AppController
     public function edit($id = null)
     {
         if (!$id) {
-            $shopText = $this->ShopTexts->newEntity($this->request->query);
+            $shopText = $this->ShopTexts->newEntity($this->request->getQuery());
         } else {
             $shopText = $this->ShopTexts->get($id, [
                 'contain' => [],
@@ -85,7 +85,7 @@ class ShopTextsController extends AppController
             $redirect = ['action' => 'index'];
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $data = $this->request->data;
+            $data = $this->request->getData();
             if (!isset($data['text']) && isset($data[$data['model_scope']])) {
                 $data['text'] = $data[$data['model_scope']];
                 unset($data[$data['model_scope']]);
@@ -128,11 +128,11 @@ class ShopTextsController extends AppController
             ])->first();
 
             if (!$shopText) {
-                $shopText = $this->ShopTexts->newEntity($this->request->query);
+                $shopText = $this->ShopTexts->newEntity($this->request->getQuery());
             }
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopText = $this->ShopTexts->patchEntity($shopText, $this->request->data);
+            $shopText = $this->ShopTexts->patchEntity($shopText, $this->request->getData());
             if ($this->ShopTexts->save($shopText)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop text')));
             } else {

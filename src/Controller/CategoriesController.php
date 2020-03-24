@@ -48,7 +48,7 @@ class CategoriesController extends AppController
     public function beforeFilter(Event $event)
     {
         //@TODO Use ShopComponent to override controller layouts by configuration
-        //$this->viewBuilder()->layout(Configure::read('Shop.Categories.layout'));
+        //$this->viewBuilder()->setLayout(Configure::read('Shop.Categories.layout'));
 
         //if ($this->request->getParam('_ext') === 'json') {
         //    $this->viewBuilder()->setLayout(false);

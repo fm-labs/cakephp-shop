@@ -262,10 +262,10 @@ class ShopProductsController extends AppController
      */
     public function _add()
     {
-        $shopProduct = $this->ShopProducts->newEntity($this->request->query, ['validate' => false]);
+        $shopProduct = $this->ShopProducts->newEntity($this->request->getQuery(), ['validate' => false]);
         if ($this->request->is('post')) {
-            //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
-            if ($this->ShopProducts->add($shopProduct, $this->request->data)) {
+            //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->getData());
+            if ($this->ShopProducts->add($shopProduct, $this->request->getData())) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop product')));
 
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
@@ -293,8 +293,8 @@ class ShopProductsController extends AppController
             'media' => true,
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->data);
-            if ($this->ShopProducts->edit($shopProduct, $this->request->data)) {
+            //$shopProduct = $this->ShopProducts->patchEntity($shopProduct, $this->request->getData());
+            if ($this->ShopProducts->edit($shopProduct, $this->request->getData())) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop product')));
 
                 return $this->redirect(['action' => 'edit', $shopProduct->id]);
@@ -383,7 +383,7 @@ class ShopProductsController extends AppController
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $content = $this->ShopProducts->patchEntity($content, $this->request->data);
+            $content = $this->ShopProducts->patchEntity($content, $this->request->getData());
             //$content->$scope = $this->request->data[$scope];
             if ($this->ShopProducts->save($content)) {
                 $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'content')));
