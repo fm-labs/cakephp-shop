@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Checkout\Step;
 
@@ -8,23 +9,22 @@ use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
 use Shop\Controller\Component\CheckoutComponent;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class BaseStep
  *
  * @package Shop\Core\Checkout\Step
- * @property ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
 abstract class BaseStep implements EventListenerInterface
 {
     /**
-     * @var CheckoutComponent
+     * @var \Shop\Controller\Component\CheckoutComponent
      */
     public $Checkout;
 
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      */
     public function __construct(CheckoutComponent $Checkout)
     {
@@ -54,7 +54,7 @@ abstract class BaseStep implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function beforeStep(Event $event)
     {
@@ -62,7 +62,7 @@ abstract class BaseStep implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function afterStep(Event $event)
     {
@@ -70,7 +70,7 @@ abstract class BaseStep implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function beforeRedirect(Event $event)
     {
@@ -85,7 +85,7 @@ abstract class BaseStep implements EventListenerInterface
     public function getId()
     {
         if (!isset($this->id)) {
-            $className = get_class($this);
+            $className = static::class;
             $className = explode('\\', $className);
             $className = array_pop($className);
             $className = substr($className, 0, -4);

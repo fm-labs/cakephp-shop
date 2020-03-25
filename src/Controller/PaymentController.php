@@ -1,17 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller;
 
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\Filesystem\File;
-use Cake\Log\Log;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
-use Shop\Controller\Component\PaymentComponent;
-use Shop\Controller\Component\ShopComponent;
-use Shop\Model\Entity\ShopOrder;
-use Shop\Model\Entity\ShopOrderTransaction;
+use Cake\Log\Log;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -20,9 +14,9 @@ use Shop\Model\Table\ShopOrdersTable;
  * Handle shop order payments.
  *
  * @package Shop\Controller
- * @property ShopComponent $Shop
- * @property PaymentComponent $Payment
- * @property ShopOrdersTable $ShopOrders
+ * @property \Shop\Controller\Component\ShopComponent $Shop
+ * @property \Shop\Controller\Component\PaymentComponent $Payment
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
 class PaymentController extends AppController
 {
@@ -32,12 +26,12 @@ class PaymentController extends AppController
     public $modelClass = "Shop.ShopOrders";
 
     /**
-     * @var ShopOrder
+     * @var \Shop\Model\Entity\ShopOrder
      */
     protected $_order = null;
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -53,7 +47,7 @@ class PaymentController extends AppController
 
     /**
      * @param $orderUUID
-     * @return ShopOrder
+     * @return \Shop\Model\Entity\ShopOrder
      */
     protected function _loadOrder($orderUUID = null)
     {
@@ -75,7 +69,7 @@ class PaymentController extends AppController
 
     /**
      * @param $txnId
-     * @return ShopOrderTransaction
+     * @return \Shop\Model\Entity\ShopOrderTransaction
      */
     protected function _loadTransaction($txnId = null)
     {
@@ -218,7 +212,7 @@ class PaymentController extends AppController
      * HTTP confirmation interface for 3rd party payment providers
      *
      * @param null $txnId
-     * @return null|ShopOrderTransaction
+     * @return null|\Shop\Model\Entity\ShopOrderTransaction
      */
     public function confirm($txnId = null)
     {

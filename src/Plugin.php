@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop;
 
@@ -38,7 +39,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
 
     public function getConfigurationUrl()
     {
-        return (\Cake\Core\Plugin::isLoaded('Settings'))
+        return \Cake\Core\Plugin::isLoaded('Settings')
             ? ['_name' => 'settings:manage', $this->getName()]
             : null;
     }
@@ -62,7 +63,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
 
     /**
      * Build backend routes
-     * @param RouteBuilder $routes
+     * @param \Cake\Routing\RouteBuilder $routes
      */
     public function backendRoutes(RouteBuilder $routes)
     {
@@ -73,8 +74,8 @@ class Plugin extends BasePlugin implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
-     * @param SettingsManager $settings
+     * @param \Cake\Event\Event $event
+     * @param \Settings\SettingsManager $settings
      */
     public function buildSettings(Event $event, SettingsManager $settings)
     {
@@ -82,7 +83,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @param \Banana\Menu\Menu $menu
      */
     public function buildBackendMenu(Event $event, \Banana\Menu\Menu $menu)
@@ -153,7 +154,7 @@ class Plugin extends BasePlugin implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @param \Banana\Menu\Menu $menu
      */
     public function buildBackendSystemMenu(Event $event, \Banana\Menu\Menu $menu)

@@ -1,13 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
 use Content\Lib\ContentManager;
 use Media\Lib\Media\MediaManager;
-use Shop\Controller\Admin\AppController;
 
 /**
  * ShopCategories Controller
@@ -40,7 +39,7 @@ class ShopCategoriesController extends AppController
     ];
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -497,7 +496,7 @@ class ShopCategoriesController extends AppController
     /**
      * @param null $id
      * @return \Cake\Http\Response|null
-     * @throws BadRequestException
+     * @throws \Shop\Controller\Admin\BadRequestException
      * @deprecated
      */
     public function deleteImage($id = null)

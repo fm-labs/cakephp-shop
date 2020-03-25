@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller\Admin;
 
-use Cake\Event\Event;
 use Settings\Form\SettingsForm;
 use Settings\SettingsManager;
 
@@ -15,12 +15,12 @@ use Settings\SettingsManager;
 class SettingsController extends AppController
 {
     /**
-     * @var SettingsManager
+     * @var \Settings\SettingsManager
      */
     public $_settingsManager;
 
     /**
-     * @return SettingsManager
+     * @return \Settings\SettingsManager
      */
     public function settingsManager()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Lib;
 
@@ -22,7 +23,7 @@ class EuVatValidator
     public static $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
 
     /**
-     * @var SoapClient
+     * @var \SoapClient
      */
     protected $_client;
 

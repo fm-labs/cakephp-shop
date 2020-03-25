@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Checkout\Step;
 
@@ -56,7 +57,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return bool|\Cake\Http\Response
      */
     public function execute(Controller $controller)

@@ -1,7 +1,7 @@
 <?php
-namespace Shop\Controller\Admin;
+declare(strict_types=1);
 
-use Shop\Controller\Admin\AppController;
+namespace Shop\Controller\Admin;
 
 /**
  * ShopCustomers Controller
@@ -53,7 +53,7 @@ class ShopCustomersController extends AppController
             'display_name',
             'user' => ['formatter' => function ($val, $row, $args, $view) {
                 //return ($val) ? $view->Html->link($val->display_name, ['plugin' => 'User', 'controller' => 'Users', 'action' => 'view', $val->id]) : null;
-                return ($val) ? $val->display_name : $val;
+                return $val ? $val->display_name : $val;
             }],
             //'user' => ['formatter' => ['related', 'display_name'], 'type' => 'object']
         ]);

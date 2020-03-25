@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Test\TestCase;
 
-use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
@@ -12,10 +12,9 @@ use Shop\Model\Table\ShopOrderTransactionsTable;
 
 class TestPaymentEngine implements PaymentEngineInterface
 {
-
     /**
      * @param CheckoutComponent $Checkout
-     * @return boolean
+     * @return bool
      */
     public function isCheckoutComplete(CheckoutComponent $Checkout)
     {

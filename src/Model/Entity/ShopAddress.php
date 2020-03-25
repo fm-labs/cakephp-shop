@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Entity;
 
 use Cake\ORM\Entity;
-use Cake\Utility\Hash;
 use Shop\Lib\EuVatNumber;
 
 /**
@@ -32,7 +33,6 @@ use Shop\Lib\EuVatNumber;
  */
 class ShopAddress extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -149,7 +149,7 @@ class ShopAddress extends Entity
     protected function _setTaxid($val)
     {
         //@TODO Add support for non-EU taxids
-        return ($val) ? EuVatNumber::normalize($val) : null;
+        return $val ? EuVatNumber::normalize($val) : null;
     }
 
     public function extractAddress()

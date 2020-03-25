@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Service;
 
@@ -26,7 +27,7 @@ class EmailNotificationService extends BaseService
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @return void
      */
     public function afterOrderSubmit(Event $event)
@@ -59,7 +60,7 @@ class EmailNotificationService extends BaseService
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @return void
      */
     public function afterOrderConfirm(Event $event)

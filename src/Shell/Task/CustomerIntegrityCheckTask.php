@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Shell\Task;
-
-use Shop\Model\Table\ShopCustomersTable;
 
 /**
  * Class CustomerIntegrityCheckTask
  *
  * @package Shop\Shell\Task
- * @property ShopCustomersTable $ShopCustomers
+ * @property \Shop\Model\Table\ShopCustomersTable $ShopCustomers
  */
 class CustomerIntegrityCheckTask extends BaseShopTask
 {

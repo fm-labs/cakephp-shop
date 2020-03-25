@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\View;
 
@@ -21,7 +22,7 @@ class ShopProductView extends ShopView
         if ($this->get('shopProduct')) {
             $shopProduct = $this->get('shopProduct');
 
-            $metaTitle = ($shopProduct->meta_title) ?: $shopProduct->name;
+            $metaTitle = $shopProduct->meta_title ?: $shopProduct->name;
             $shopProductUrl = $this->Html->Url->build($shopProduct->url, true);
 
             // shopProduct title
@@ -31,16 +32,16 @@ class ShopProductView extends ShopView
             $this->Html->meta(['link' => $shopProductUrl, 'rel' => 'canonical'], null, ['block' => true]);
 
             // meta tags
-            $metaLang = ($shopProduct->meta_lang) ?: I18n::getLocale();
+            $metaLang = $shopProduct->meta_lang ?: I18n::getLocale();
             $this->Html->meta(['name' => 'language', 'content' => $metaLang], null, ['block' => true]);
 
             $metaRobots = 'index,follow';
             $this->Html->meta(['name' => 'robots', 'content' => $metaRobots], null, ['block' => true]);
 
-            $metaDescription = ($shopProduct->meta_desc) ?: $metaTitle;
+            $metaDescription = $shopProduct->meta_desc ?: $metaTitle;
             $this->Html->meta(['name' => 'description', 'content' => $metaDescription, 'lang' => $metaLang], null, ['block' => true]);
 
-            $metaKeywords = ($shopProduct->meta_keywords) ?: $metaTitle;
+            $metaKeywords = $shopProduct->meta_keywords ?: $metaTitle;
             $this->Html->meta(['name' => 'keywords', 'content' => $metaKeywords, 'lang' => $metaLang], null, ['block' => true]);
 
             //$this->Html->meta(['name' => 'revisit-after', 'content' => '7 days'], null, ['block' => true]);

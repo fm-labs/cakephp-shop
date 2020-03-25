@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\View\View;
-use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -127,7 +127,7 @@ class ShopOrdersController extends AppController
                     return $view->Status->label($val);
                 }],
                 'shop_customer_id' => ['formatter' => function ($val, $row, $args, $view) {
-                    return ($row->shop_customer) ? $view->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
+                    return $row->shop_customer ? $view->Html->link($row->shop_customer->displayName, ['controller' => 'ShopCustomers', 'action' => 'view', $row->shop_customer->id]) : null;
                 }],
                 'submitted' => [],
                 'nr_formatted' => ['formatter' => function ($val, $row, $args, $view) {
@@ -214,7 +214,7 @@ class ShopOrdersController extends AppController
      */
     public function printview($id = null, $mode = null)
     {
-        $mode = ($mode) ?: $this->request->getQuery('mode');
+        $mode = $mode ?: $this->request->getQuery('mode');
 
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
@@ -233,7 +233,7 @@ class ShopOrdersController extends AppController
      */
     public function pdfview($id = null, $mode = null)
     {
-        $mode = ($mode) ?: $this->request->getQuery('mode');
+        $mode = $mode ?: $this->request->getQuery('mode');
 
         $shopOrder = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
@@ -270,7 +270,7 @@ class ShopOrdersController extends AppController
             $this->Flash->success(__d('shop', 'The notification has been sent.'));
         } else {
             $this->Flash->error(__d('shop', 'The notification could not be sent.'));
-        };
+        }
 
         if (Configure::read('debug')) {
             $this->autoRender = false;
@@ -292,7 +292,7 @@ class ShopOrdersController extends AppController
             $this->Flash->success('OK');
         } else {
             $this->Flash->error('FAILED');
-        };
+        }
         //$this->autoRender = false;
         $this->redirect($this->referer(['action' => 'edit', $id]));
     }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
@@ -11,7 +13,6 @@ use Shop\Core\Checkout\CheckoutStepInterface;
  */
 class BillingAddressStep extends BaseStep implements CheckoutStepInterface
 {
-
     /**
      * @return null|string
      */
@@ -48,7 +49,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return bool|\Cake\Http\Response
      */
     public function execute(Controller $controller)

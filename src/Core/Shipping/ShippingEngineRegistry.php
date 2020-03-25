@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Core\Shipping;
 
 use Cake\Core\App;
@@ -10,7 +12,6 @@ use RuntimeException;
  */
 class ShippingEngineRegistry extends ObjectRegistry
 {
-
     /**
      * Resolve a payment engine classname.
      *

@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Checkout;
 
 use Cake\Controller\Controller;
-use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 
 /**
@@ -14,7 +14,7 @@ use Shop\Controller\Component\CheckoutComponent;
 interface CheckoutStepInterface
 {
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      */
     public function __construct(CheckoutComponent $Checkout);
 
@@ -45,8 +45,8 @@ interface CheckoutStepInterface
      * Execute step in controller context.
      * Usually called when the user has been redirected to next step, or this is the active step.
      *
-     * @param Controller $controller
-     * @return null|Response
+     * @param \Cake\Controller\Controller $controller
+     * @return null|\Cake\Http\Response
      */
     public function execute(Controller $controller);
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Test\TestCase\View\Cell;
 
 use Cake\TestSuite\TestCase;
@@ -9,7 +11,6 @@ use Shop\View\Cell\ReportTopSellerCell;
  */
 class ReportTopSellerCellTest extends TestCase
 {
-
     /**
      * Request mock
      *

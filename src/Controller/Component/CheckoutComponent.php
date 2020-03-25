@@ -1,13 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Event\Event;
-use Cake\Log\Log;
 use Cake\Http\Exception\InternalErrorException;
 use Cake\Http\Exception\NotImplementedException;
 use Cake\Http\Response;
+use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Checkout\CheckoutStepRegistry;
@@ -22,29 +23,28 @@ use Shop\Model\Table\ShopOrdersTable;
  * Class CheckoutComponent
  *
  * @package Shop\Controller\Component
- * @property ShopComponent $Shop
- * @property CartComponent $Cart
+ * @property \Shop\Controller\Component\ShopComponent $Shop
+ * @property \Shop\Controller\Component\CartComponent $Cart
  */
 class CheckoutComponent extends Component
 {
-
     /**
      * @var array
      */
     public $components = ['Shop.Shop'];
 
     /**
-     * @var ShopOrdersTable
+     * @var \Shop\Model\Table\ShopOrdersTable
      */
     public $ShopOrders;
 
     /**
-     * @var ShopOrder
+     * @var \Shop\Model\Entity\ShopOrder
      */
     protected $_order;
 
     /**
-     * @var CheckoutStepRegistry
+     * @var \Shop\Core\Checkout\CheckoutStepRegistry
      */
     protected $_stepRegistry;
 
@@ -63,7 +63,7 @@ class CheckoutComponent extends Component
     /**
      * Active step.
      *
-     * @var CheckoutStepInterface
+     * @var \Shop\Core\Checkout\CheckoutStepInterface
      */
     protected $_activeStep;
 
@@ -76,8 +76,8 @@ class CheckoutComponent extends Component
         $this->ShopOrders->getEventManager()->on($this);
         $this->_stepRegistry = new CheckoutStepRegistry($this);
 
-        $steps = (isset($config['steps'])) ? $config['steps'] : [];
-        $steps = ($steps) ?: (array)Shop::config('Shop.Checkout.Steps');
+        $steps = $config['steps'] ?? [];
+        $steps = $steps ?: (array)Shop::config('Shop.Checkout.Steps');
 
         // check if there are any checkout steps
         if (count($steps) < 1) {
@@ -99,14 +99,14 @@ class CheckoutComponent extends Component
 
     /**
      * Startup event
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function startup(\Cake\Event\EventInterface $event)
     {
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function beforeRender(\Cake\Event\EventInterface $event)
     {
@@ -127,8 +127,8 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @param Event $event
-     * @return Response|null
+     * @param \Cake\Event\Event $event
+     * @return \Cake\Http\Response|null
      */
     public function beforeStep(Event $event)
     {
@@ -145,7 +145,7 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function afterStep(Event $event)
     {
@@ -158,7 +158,7 @@ class CheckoutComponent extends Component
 
     /**
      * @param $stepId
-     * @return Response|null
+     * @return \Cake\Http\Response|null
      * @deprecated Use execute() instead
      */
     public function executeStep($stepId)
@@ -168,7 +168,7 @@ class CheckoutComponent extends Component
 
     /**
      * @param null|string $stepId
-     * @return Response|null
+     * @return \Cake\Http\Response|null
      */
     public function execute($stepId = null)
     {
@@ -238,7 +238,7 @@ class CheckoutComponent extends Component
      * Get step by id.
      *
      * @param $stepId
-     * @return CheckoutStepInterface
+     * @return \Shop\Core\Checkout\CheckoutStepInterface
      */
     public function getStep($stepId)
     {
@@ -250,7 +250,7 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @return CheckoutStepInterface
+     * @return \Shop\Core\Checkout\CheckoutStepInterface
      */
     public function nextStep()
     {
@@ -265,7 +265,7 @@ class CheckoutComponent extends Component
     /**
      * Execute step in controller context
      *
-     * @param CheckoutStepInterface $step
+     * @param \Shop\Core\Checkout\CheckoutStepInterface $step
      * @return null|\Cake\Http\Response
      */
     protected function _executeStep(CheckoutStepInterface $step)
@@ -295,7 +295,7 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @param string|CheckoutStepInterface $stepId
+     * @param string|\Shop\Core\Checkout\CheckoutStepInterface $stepId
      * @return array
      */
     public function buildStepUrl($stepId)
@@ -323,7 +323,7 @@ class CheckoutComponent extends Component
     /**
      * Get cart order.
      *
-     * @return ShopOrder
+     * @return \Shop\Model\Entity\ShopOrder
      */
     public function &getOrder()
     {
@@ -337,7 +337,7 @@ class CheckoutComponent extends Component
     /**
      * Set order in cart.
      *
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @param bool $update
      * @return $this
      */
@@ -373,7 +373,7 @@ class CheckoutComponent extends Component
      * Submit order.
      *
      * @param array $data Additional submit data
-     * @return bool|\Cake\Datasource\EntityInterface|mixed|ShopOrder
+     * @return bool|\Cake\Datasource\EntityInterface|mixed|\Shop\Model\Entity\ShopOrder
      * @throws \Exception
      */
     public function submitOrder(array $data = [])
@@ -390,7 +390,7 @@ class CheckoutComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function afterSubmit(Event $event)
     {
@@ -419,8 +419,8 @@ class CheckoutComponent extends Component
     /**
      * Set order billing address.
      *
-     * @param ShopOrderAddress $address
-     * @return bool|\Cake\Datasource\EntityInterface|ShopOrderAddress
+     * @param \Shop\Model\Entity\ShopOrderAddress $address
+     * @return bool|\Cake\Datasource\EntityInterface|\Shop\Model\Entity\ShopOrderAddress
      */
     public function setBillingAddress(ShopOrderAddress $address)
     {
@@ -430,8 +430,8 @@ class CheckoutComponent extends Component
     /**
      * Set order shipping address.
      *
-     * @param ShopOrderAddress $address
-     * @return bool|\Cake\Datasource\EntityInterface|ShopOrderAddress
+     * @param \Shop\Model\Entity\ShopOrderAddress $address
+     * @return bool|\Cake\Datasource\EntityInterface|\Shop\Model\Entity\ShopOrderAddress
      */
     public function setShippingAddress(ShopOrderAddress $address)
     {
@@ -441,7 +441,7 @@ class CheckoutComponent extends Component
     /**
      * @param $type
      * @param array $data
-     * @return bool|CheckoutComponent
+     * @return bool|\Shop\Controller\Component\CheckoutComponent
      */
     public function setPaymentType($type, array $data)
     {
@@ -451,7 +451,7 @@ class CheckoutComponent extends Component
             return false;
         }
 
-        $paymentType = (isset($data['payment_type'])) ? $data['payment_type'] : null;
+        $paymentType = $data['payment_type'] ?? null;
         $validate = 'payment';
 
         switch ($paymentType) {
@@ -479,7 +479,7 @@ class CheckoutComponent extends Component
 
     /**
      * @param null $type
-     * @return bool|CheckoutComponent
+     * @return bool|\Shop\Controller\Component\CheckoutComponent
      */
     public function setShippingType($type = null)
     {

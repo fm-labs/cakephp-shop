@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Cake\ORM\RulesChecker;
@@ -15,9 +17,8 @@ use Shop\Lib\Shop;
  */
 abstract class ShopAddressesTable extends Table
 {
-
-    const TYPE_BILLING = 'B';
-    const TYPE_SHIPPING = 'S';
+    public const TYPE_BILLING = 'B';
+    public const TYPE_SHIPPING = 'S';
 
     /**
      * Initialize method
@@ -106,7 +107,7 @@ abstract class ShopAddressesTable extends Table
         $validator
             ->allowEmptyString('taxid')
             ->add('taxid', 'eu_vat_number', ['rule' => function ($value, $context) {
-                return (EuVatNumber::validate($value));
+                return EuVatNumber::validate($value);
             }]);
 
         return $validator;

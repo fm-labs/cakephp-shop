@@ -1,22 +1,21 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Shop\Model\Entity\ShopOrderItem;
 
 /**
  * ShopOrderItems Model
  *
- * @property ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
 class ShopOrderItemsTable extends Table
 {
-
     /**
      * Initialize method
      *

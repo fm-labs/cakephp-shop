@@ -1,13 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
 use Cake\Http\Response;
 use Shop\Core\Checkout\CheckoutStepInterface;
-use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Core\Payment\PaymentEngineRegistry;
 use Shop\Lib\Shop;
 
@@ -21,7 +20,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     use StaticConfigTrait;
 
     /**
-     * @var PaymentEngineRegistry
+     * @var \Shop\Core\Payment\PaymentEngineRegistry
      */
     protected $_registry;
 
@@ -120,7 +119,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @return null|PaymentEngineInterface
+     * @return null|\Shop\Core\Payment\PaymentEngineInterface
      */
     public function engine()
     {
@@ -137,8 +136,8 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @param Controller $controller
-     * @return Response|null
+     * @param \Cake\Controller\Controller $controller
+     * @return \Cake\Http\Response|null
      */
     public function execute(Controller $controller)
     {

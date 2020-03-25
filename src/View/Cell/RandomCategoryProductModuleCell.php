@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: flow
@@ -9,8 +11,8 @@
 namespace Shop\View\Cell;
 
 use Cake\Core\Configure;
-use Content\View\Cell\ModuleCell;
 use Cake\ORM\TableRegistry;
+use Content\View\Cell\ModuleCell;
 
 class RandomCategoryProductModuleCell extends ModuleCell
 {
@@ -38,7 +40,7 @@ class RandomCategoryProductModuleCell extends ModuleCell
         if (!$catId) {
             $catId = Configure::read('Shop.Catalogue.index_category_id');
         }
-        $element = ($this->params['element']) ?: 'Shop.RandomCategoryProduct/default';
+        $element = $this->params['element'] ?: 'Shop.RandomCategoryProduct/default';
 
         $products = $this->ShopProducts
             ->find('list')

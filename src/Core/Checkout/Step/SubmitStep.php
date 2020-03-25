@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
@@ -24,11 +26,11 @@ class SubmitStep extends BaseStep implements CheckoutStepInterface
      */
     public function isComplete()
     {
-        return ($this->Checkout->getOrder()->is_temporary) ? false : true;
+        return $this->Checkout->getOrder()->is_temporary ? false : true;
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return \Cake\Http\Response|null
      */
     public function execute(Controller $controller)

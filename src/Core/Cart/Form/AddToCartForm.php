@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Cart\Form;
 
@@ -13,10 +14,9 @@ use Cake\Validation\Validator;
  */
 class AddToCartForm extends Form
 {
-
     /**
-     * @param Schema $schema
-     * @return Schema
+     * @param \Cake\Form\Schema $schema
+     * @return \Cake\Form\Schema
      */
     protected function _buildSchema(Schema $schema)
     {
@@ -28,8 +28,8 @@ class AddToCartForm extends Form
     }
 
     /**
-     * @param Validator $validator
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator
+     * @return \Cake\Validation\Validator
      */
     protected function _buildValidator(Validator $validator)
     {

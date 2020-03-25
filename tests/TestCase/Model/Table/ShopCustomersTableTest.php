@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
@@ -9,7 +11,6 @@ use Cake\TestSuite\TestCase;
  */
 class ShopCustomersTableTest extends TestCase
 {
-
     /**
      * Test subject
      *

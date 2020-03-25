@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Lib;
 
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Core\Plugin;
 use Cake\ORM\TableRegistry;
-use Shop\Model\Table\ShopOrdersTable;
 use Tcpdf\View\PdfView;
 
 /**
@@ -21,7 +21,7 @@ class InvoicePdfGenerator
     public static $engineClass = null;
 
     /**
-     * @var ShopOrdersTable
+     * @var \Shop\Model\Table\ShopOrdersTable
      */
     public $ShopOrders;
 

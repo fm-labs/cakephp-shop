@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Entity;
 
 use Cake\Core\Configure;
@@ -173,7 +175,7 @@ class ShopCategory extends Entity
                 $_path .= '/' . $_category->slug;
             }
             $_path = ltrim($_path, '/');
-            $this->_fields['url_path'] = ($_path) ?: false;
+            $this->_fields['url_path'] = $_path ?: false;
         }
 
         return $this->_fields['url_path'];

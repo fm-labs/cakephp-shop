@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Controller;
 
-use Cake\Core\Configure;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * ShopOrders Controller
@@ -13,7 +13,6 @@ use Shop\Model\Table\ShopOrdersTable;
  */
 class OrdersController extends AppController
 {
-
     public $modelClass = "Shop.ShopOrders";
 
     public function initialize(): void

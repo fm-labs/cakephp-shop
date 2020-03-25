@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\View\Cell;
 
 use Cake\View\Cell;
@@ -10,7 +12,6 @@ use Shop\Lib\Shop;
  */
 class AddressFormCell extends Cell
 {
-
     /**
      * List of valid options that can be passed into this
      * cell's constructor.
@@ -46,7 +47,7 @@ class AddressFormCell extends Cell
 
         // countries
         $countries = $options['countries'];
-        $countries = ($countries) ?: $this->loadModel('Shop.ShopCountries')->find('list')->find('published')->all()->toArray();
+        $countries = $countries ?: $this->loadModel('Shop.ShopCountries')->find('list')->find('published')->all()->toArray();
         unset($options['countries']);
 
         $this->set(compact('address', 'countries', 'options'));

@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Cake\Log\Log;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Shop\Model\Entity\ShopOrderAddress;
 
@@ -17,7 +17,6 @@ use Shop\Model\Entity\ShopOrderAddress;
  */
 class ShopCustomerAddressesTable extends ShopAddressesTable
 {
-
     /**
      * Initialize method
      *

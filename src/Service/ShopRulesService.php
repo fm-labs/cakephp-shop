@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Service;
 
@@ -9,7 +10,6 @@ use Shop\Lib\Shop;
 
 class ShopRulesService implements EventListenerInterface
 {
-
     /**
      * {@inheritDoc}
      */
@@ -69,7 +69,7 @@ class ShopRulesService implements EventListenerInterface
                 $discountValue = 0;
                 switch ($customerDiscount->valuetype) {
                     case "percent":
-                        $discountValue = $priceNet * ($customerDiscount->value / 100);
+                        $discountValue = $priceNet * $customerDiscount->value / 100;
                         break;
                     case "value":
                         $discountValue = $customerDiscount->value;

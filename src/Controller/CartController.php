@@ -1,15 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller;
-
-use Shop\Controller\Component\CartComponent;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class CartController
  * @package Shop\Controller
- * @property ShopOrdersTable $ShopOrders
- * @property CartComponent $Cart
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
+ * @property \Shop\Controller\Component\CartComponent $Cart
  */
 class CartController extends AppController
 {

@@ -1,35 +1,32 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Filesystem\File;
-use Cake\Log\Log;
 use Cake\Http\Response;
-use Shop\Core\Payment\PaymentEngineInterface;
+use Cake\Log\Log;
 use Shop\Core\Payment\PaymentEngineRegistry;
-use Shop\Event\PaymentListener;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class PaymentComponent
  *
  * @package Shop\Controller\Component
- * @property ShopComponent $Shop
+ * @property \Shop\Controller\Component\ShopComponent $Shop
  */
 class PaymentComponent extends Component
 {
-
     /**
      * @var array
      */
     public $components = ['Shop.Shop'];
 
     /**
-     * @var ShopOrdersTable
+     * @var \Shop\Model\Table\ShopOrdersTable
      */
     public $ShopOrders;
 
@@ -40,7 +37,7 @@ class PaymentComponent extends Component
     public $engines = [];
 
     /**
-     * @var PaymentEngineRegistry
+     * @var \Shop\Core\Payment\PaymentEngineRegistry
      */
     protected $_engineRegistry;
 
@@ -57,12 +54,12 @@ class PaymentComponent extends Component
     protected $_paymentType;
 
     /**
-     * @var ShopOrder
+     * @var \Shop\Model\Entity\ShopOrder
      */
     protected $_order;
 
     /**
-     * @var ShopOrderTransaction
+     * @var \Shop\Model\Entity\ShopOrderTransaction
      */
     protected $_transaction;
 
@@ -74,8 +71,8 @@ class PaymentComponent extends Component
         $this->ShopOrders = $this->getController()->loadModel('Shop.ShopOrders');
         $this->_engineRegistry = new PaymentEngineRegistry($this);
 
-        $engines = (isset($config['engines'])) ? $config['engines'] : [];
-        $engines = ($engines) ?: (array)Shop::config('Shop.Payment.Engines');
+        $engines = $config['engines'] ?? [];
+        $engines = $engines ?: (array)Shop::config('Shop.Payment.Engines');
 
         if (count($engines) < 1) {
             throw new \RuntimeException('Payment: No payment engines configured');
@@ -103,7 +100,7 @@ class PaymentComponent extends Component
      * Checks if payment type is registered in engine registry
      *
      * @param $paymentType
-     * @return boolean
+     * @return bool
      */
     public function accepts($paymentType)
     {
@@ -114,8 +111,8 @@ class PaymentComponent extends Component
      * Initialize new ShopOrderTransaction from ShopOrder,
      * load payment engine and execute 'pay' method
      *
-     * @param ShopOrder $order
-     * @return Response|null
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return \Cake\Http\Response|null
      */
     public function initTransaction(ShopOrder $order)
     {
@@ -177,10 +174,10 @@ class PaymentComponent extends Component
         // store the confirmation request first
         $engine = $transaction->engine;
         $txnId = $transaction->id;
-        $clientIp =$this->getController()->getRequest()->clientIp();
-        $url =$this->getController()->getRequest()->getUri();
-        $query =$this->getController()->getRequest()->getQuery();
-        $data =$this->getController()->getRequest()->getData();
+        $clientIp = $this->getController()->getRequest()->clientIp();
+        $url = $this->getController()->getRequest()->getUri();
+        $query = $this->getController()->getRequest()->getQuery();
+        $data = $this->getController()->getRequest()->getData();
         $params = $this->getController()->getRequest()->getServerParams();
 
         Log::debug(sprintf('Payment::confirm: [%s] %s', $clientIp, $txnId), ['shop', 'payment']);
@@ -189,7 +186,7 @@ class PaymentComponent extends Component
         $json = json_encode($request);
 
         // dump to file
-        $key = ($txnId) ? $txnId : 'notxnid';
+        $key = $txnId ? $txnId : 'notxnid';
         $key = 'confirm_' . $engine . '_' . time() . '_' . $key;
 
         $path = TMP . 'payment';
@@ -214,7 +211,7 @@ class PaymentComponent extends Component
             'shop_order_transaction_id' => $transaction->id,
             'type' => 'C',
             'engine' => $engine,
-            'request_ip' =>$this->getController()->getRequest()->clientIp(),
+            'request_ip' => $this->getController()->getRequest()->clientIp(),
             'request_json' => $json,
             'is_valid' => false,
             'is_processed' => false,
@@ -228,7 +225,7 @@ class PaymentComponent extends Component
             // Dispatch Shop.Payment.beforeConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.beforeConfirm', [
                 'transaction' => $transaction,
-                'request' =>$this->getController()->getRequest(),
+                'request' => $this->getController()->getRequest(),
             ], $this);
 
             $engine = $this->_engineRegistry->get($transaction->engine);
@@ -237,7 +234,7 @@ class PaymentComponent extends Component
             // Dispatch Shop.Payment.afterConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.afterConfirm', [
                 'transaction' => $transaction,
-                'request' =>$this->getController()->getRequest(),
+                'request' => $this->getController()->getRequest(),
             ], $this);
         } catch (\Exception $ex) {
             Log::error("Payment::confirmTransaction:" . $transaction->engine . ":" . $ex->getMessage());
@@ -267,7 +264,7 @@ class PaymentComponent extends Component
      * Convenience wrapper for redirecting
      *
      * @param $url
-     * @return Response|null
+     * @return \Cake\Http\Response|null
      */
     public function redirect($url)
     {

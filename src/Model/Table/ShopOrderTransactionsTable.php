@@ -1,12 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Banana\Lib\Status;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Shop\Model\Entity\ShopOrderTransaction;
 
 /**
  * ShopOrderTransactions Model
@@ -15,15 +15,14 @@ use Shop\Model\Entity\ShopOrderTransaction;
  */
 class ShopOrderTransactionsTable extends Table
 {
-
-    const STATUS_INIT = 0;
-    const STATUS_ERROR = 1;
-    const STATUS_SUSPENDED = 2;
-    const STATUS_REJECTED = 3;
-    const STATUS_RESERVED = 4;
-    const STATUS_CONFIRMED = 5;
-    const STATUS_REVERSAL = 6;
-    const STATUS_CREDITED = 7;
+    public const STATUS_INIT = 0;
+    public const STATUS_ERROR = 1;
+    public const STATUS_SUSPENDED = 2;
+    public const STATUS_REJECTED = 3;
+    public const STATUS_RESERVED = 4;
+    public const STATUS_CONFIRMED = 5;
+    public const STATUS_REVERSAL = 6;
+    public const STATUS_CREDITED = 7;
 
     /**
      * Initialize method

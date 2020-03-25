@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Shipping;
 
-use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 
 /**
@@ -13,14 +13,14 @@ use Shop\Controller\Component\CheckoutComponent;
 interface ShippingEngineInterface
 {
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      * @return bool
      */
     public function isCheckoutComplete(CheckoutComponent $Checkout);
 
     /**
-     * @param CheckoutComponent $Checkout
-     * @return null|Response
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
+     * @return null|\Cake\Http\Response
      */
     public function checkout(CheckoutComponent $Checkout);
 }

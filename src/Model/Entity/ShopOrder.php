@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Entity;
 
 use Banana\Lib\Status;
-use Cake\Core\Configure;
 use Cake\I18n\Number;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -75,7 +76,6 @@ use Shop\Lib\Taxation;
  */
 class ShopOrder extends Entity
 {
-
     /**
      * @var array
      */
@@ -109,7 +109,7 @@ class ShopOrder extends Entity
     ];
 
     /**
-     * @return ShopOrderAddress
+     * @return \Shop\Model\Entity\ShopOrderAddress
      */
     public function getBillingAddress()
     {
@@ -117,7 +117,7 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return ShopOrderAddress
+     * @return \Shop\Model\Entity\ShopOrderAddress
      */
     public function getShippingAddress()
     {
@@ -151,7 +151,7 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return ShopCustomer|null
+     * @return \Shop\Model\Entity\ShopCustomer|null
      */
     public function getShopCustomer()
     {
@@ -162,7 +162,7 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return ShopCustomer|null
+     * @return \Shop\Model\Entity\ShopCustomer|null
      */
     protected function _getShopCustomer()
     {
@@ -345,7 +345,7 @@ class ShopOrder extends Entity
                 return $this->payment_info_1;
             }
 
-            list($brand, $number) = explode(':', $this->payment_info_1);
+            [$brand, $number] = explode(':', $this->payment_info_1);
 
             return $brand;
         }
@@ -361,7 +361,7 @@ class ShopOrder extends Entity
                 return $this->payment_info_1;
             }
 
-            list($brand, $number) = explode(':', $this->payment_info_1);
+            [$brand, $number] = explode(':', $this->payment_info_1);
 
             return $number;
         }
@@ -410,6 +410,6 @@ class ShopOrder extends Entity
 
     protected function _getItemsValueDisplay()
     {
-        return (Shop::config('Price.displayNet')) ? $this->items_value_net : $this->items_value_taxed;
+        return Shop::config('Price.displayNet') ? $this->items_value_net : $this->items_value_taxed;
     }
 }

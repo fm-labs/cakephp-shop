@@ -1,14 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopOrderTransactionsTable;
 
 /**
- * @property ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
 class PaymentService extends BaseService
 {

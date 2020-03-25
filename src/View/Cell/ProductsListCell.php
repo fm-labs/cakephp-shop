@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\View\Cell;
 
 use Cake\ORM\TableRegistry;
@@ -9,7 +11,6 @@ use Cake\View\Cell;
  */
 class ProductsListCell extends Cell
 {
-
     /**
      * List of valid options that can be passed into this
      * cell's constructor.

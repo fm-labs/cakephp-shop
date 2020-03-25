@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Banana\Lib\Status;
@@ -6,7 +8,6 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\ORM\Query;
@@ -32,26 +33,25 @@ use Shop\Model\Entity\ShopOrderTransaction;
  */
 class ShopOrdersTable extends Table
 {
+    public const ORDER_STATUS_TEMP = 0; // Cart order
+    public const ORDER_STATUS_SUBMITTED = 1; // Order submitted (not payed yet)
+    public const ORDER_STATUS_PENDING = 2; // Waiting for payment
+    public const ORDER_STATUS_CONFIRMED = 3; // Payment provider confirmed payment
+    public const ORDER_STATUS_PAYED = 4; // Order is payed (We received the money)
+    public const ORDER_STATUS_DELIVERED = 5; // Order items have been delivered
+    public const ORDER_STATUS_CLOSED = 6; // Order is invoiced, payed and processed
 
-    const ORDER_STATUS_TEMP = 0; // Cart order
-    const ORDER_STATUS_SUBMITTED = 1; // Order submitted (not payed yet)
-    const ORDER_STATUS_PENDING = 2; // Waiting for payment
-    const ORDER_STATUS_CONFIRMED = 3; // Payment provider confirmed payment
-    const ORDER_STATUS_PAYED = 4; // Order is payed (We received the money)
-    const ORDER_STATUS_DELIVERED = 5; // Order items have been delivered
-    const ORDER_STATUS_CLOSED = 6; // Order is invoiced, payed and processed
-
-    const ORDER_STATUS_STORNO = 80;
-    const ORDER_STATUS_ERROR = 90;
-    const ORDER_STATUS_ERROR_DELIVERY = 91;
+    public const ORDER_STATUS_STORNO = 80;
+    public const ORDER_STATUS_ERROR = 90;
+    public const ORDER_STATUS_ERROR_DELIVERY = 91;
 
     // unused
-    const SHIPPING_STATUS_STANDBY = 0;
-    const SHIPPING_STATUS_PENDING = 1;
-    const SHIPPING_STATUS_DELIVERED = 10;
-    const PAYMENT_STATUS_PENDING = 0;
-    const PAYMENT_STATUS_PARTIAL = 1;
-    const PAYMENT_STATUS_PAYED = 10;
+    public const SHIPPING_STATUS_STANDBY = 0;
+    public const SHIPPING_STATUS_PENDING = 1;
+    public const SHIPPING_STATUS_DELIVERED = 10;
+    public const PAYMENT_STATUS_PENDING = 0;
+    public const PAYMENT_STATUS_PARTIAL = 1;
+    public const PAYMENT_STATUS_PAYED = 10;
 
     /**
      * Initialize method
@@ -151,8 +151,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param Event $event
-     * @param Validator $validator
+     * @param \Cake\Event\Event $event
+     * @param \Cake\Validation\Validator $validator
      * @param $name
      */
     public function buildValidator(\Cake\Event\EventInterface $event, Validator $validator, $name)
@@ -160,8 +160,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param Event $event
-     * @param EntityInterface $entity
+     * @param \Cake\Event\Event $event
+     * @param \Cake\Datasource\EntityInterface $entity
      * @param \ArrayObject $options
      * @param $operation
      */
@@ -170,8 +170,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param Event $event
-     * @param EntityInterface $entity
+     * @param \Cake\Event\Event $event
+     * @param \Cake\Datasource\EntityInterface $entity
      * @param \ArrayObject $options
      */
     public function beforeSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
@@ -182,8 +182,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param Event $event
-     * @param EntityInterface $entity
+     * @param \Cake\Event\Event $event
+     * @param \Cake\Datasource\EntityInterface $entity
      * @param \ArrayObject $options
      */
     public function afterSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
@@ -193,7 +193,7 @@ class ShopOrdersTable extends Table
     /**
      * Find order
      *
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options Query conditions
      * @return mixed
      */
@@ -210,7 +210,7 @@ class ShopOrdersTable extends Table
     /**
      * Find cart order
      *
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options Query conditions
      * @return mixed
      */
@@ -223,10 +223,10 @@ class ShopOrdersTable extends Table
      *
      * Save order address for order
      *
-     * @param ShopOrder $order
-     * @param ShopOrderAddress $address
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrderAddress $address
      * @param $addressType
-     * @return bool|EntityInterface|ShopOrderAddress
+     * @return bool|\Cake\Datasource\EntityInterface|\Shop\Model\Entity\ShopOrderAddress
      */
     public function setOrderAddress(ShopOrder $order, ShopOrderAddress $address, $addressType)
     {
@@ -246,7 +246,7 @@ class ShopOrdersTable extends Table
 
     /**
      * @param $addressType
-     * @return ShopOrderAddress
+     * @return \Shop\Model\Entity\ShopOrderAddress
      */
     public function getOrderAddress(ShopOrder $order, $addressType)
     {
@@ -260,10 +260,10 @@ class ShopOrdersTable extends Table
     /**
      * Set order address from existing customer address entity or id
      *
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @param $address
      * @param $addressType
-     * @return bool|EntityInterface|ShopOrderAddress
+     * @return bool|\Cake\Datasource\EntityInterface|\Shop\Model\Entity\ShopOrderAddress
      * @throws \Exception
      */
     public function setOrderAddressFromCustomerAddress(ShopOrder $order, $address, $addressType)
@@ -299,8 +299,8 @@ class ShopOrdersTable extends Table
      */
     public function getNextOrderNr($orderGroup = null)
     {
-        $orderNr = $orderNrStart = (Shop::config('Shop.Order.nrStart')) ?: 1;
-        $orderGroup = ($orderGroup) ?: Shop::config('Shop.Order.nrGroup');
+        $orderNr = $orderNrStart = Shop::config('Shop.Order.nrStart') ?: 1;
+        $orderGroup = $orderGroup ?: Shop::config('Shop.Order.nrGroup');
 
         $lastOrder = $this->find()
             ->select(['id', 'nr', 'ordergroup'])
@@ -324,8 +324,8 @@ class ShopOrdersTable extends Table
      */
     public function getNextInvoiceNr($orderGroup = null)
     {
-        $nextNr = $orderNrStart = (Shop::config('Shop.Invoice.nrStart')) ?: 1;
-        $orderGroup = ($orderGroup) ?: Shop::config('Shop.Invoice.nrGroup');
+        $nextNr = $orderNrStart = Shop::config('Shop.Invoice.nrStart') ?: 1;
+        $orderGroup = $orderGroup ?: Shop::config('Shop.Invoice.nrGroup');
 
         $lastOrder = $this->find()
             ->select(['id', 'invoice_nr', 'ordergroup'])
@@ -344,7 +344,7 @@ class ShopOrdersTable extends Table
     /**
      * @param $id
      * @param bool|true $update
-     * @return bool|EntityInterface|mixed|ShopOrder
+     * @return bool|\Cake\Datasource\EntityInterface|mixed|\Shop\Model\Entity\ShopOrder
      */
     public function calculate($id, $update = true)
     {
@@ -359,8 +359,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
-     * @return ShopOrder
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return \Shop\Model\Entity\ShopOrder
      */
     public function calculateOrder(ShopOrder $order)
     {
@@ -378,8 +378,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
-     * @return CostCalculator
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return \Shop\Core\Order\CostCalculator
      */
     protected function _calculateOrderCosts(ShopOrder $order)
     {
@@ -409,8 +409,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
-     * @return CostCalculator
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return \Shop\Core\Order\CostCalculator
      */
     protected function _calculateOrderItemsCosts(ShopOrder $order)
     {
@@ -421,7 +421,7 @@ class ShopOrdersTable extends Table
         // items value
         $items = (array)$order->shop_order_items;
         array_walk($items, function ($item) use (&$calculator, $reverseCharge) {
-            $taxRate = ($reverseCharge) ? 0 : $item->tax_rate;
+            $taxRate = $reverseCharge ? 0 : $item->tax_rate;
 
             $calculator->addValue(
                 'order_item:' . $item->id,
@@ -437,9 +437,9 @@ class ShopOrdersTable extends Table
     /**
      * Set a new update status for order
      *
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @param $newStatus
-     * @return bool|ShopOrder
+     * @return bool|\Shop\Model\Entity\ShopOrder
      * @deprecated Use updateStatus() instead
      */
     public function updateOrderStatus(ShopOrder $order, $newStatus)
@@ -450,9 +450,9 @@ class ShopOrdersTable extends Table
     /**
      * Set a new update status for order
      *
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @param $newStatus
-     * @return bool|ShopOrder
+     * @return bool|\Shop\Model\Entity\ShopOrder
      */
     public function updateStatus(ShopOrder $order, $newStatus)
     {
@@ -489,9 +489,9 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
-     * @param ShopOrderTransaction $transaction
-     * @return bool|ShopOrder
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrderTransaction $transaction
+     * @return bool|\Shop\Model\Entity\ShopOrder
      */
     public function updateStatusFromTransaction(ShopOrder $order, ShopOrderTransaction $transaction)
     {
@@ -531,8 +531,8 @@ class ShopOrdersTable extends Table
     /**
      * Assign next available order number
      *
-     * @param ShopOrder $order
-     * @return bool|EntityInterface|mixed|ShopOrder
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return bool|\Cake\Datasource\EntityInterface|mixed|\Shop\Model\Entity\ShopOrder
      */
     public function assignOrderNr(ShopOrder $order)
     {
@@ -554,8 +554,8 @@ class ShopOrdersTable extends Table
     /**
      * Assign next available order number
      *
-     * @param ShopOrder $order
-     * @return bool|EntityInterface|mixed|ShopOrder
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return bool|\Cake\Datasource\EntityInterface|mixed|\Shop\Model\Entity\ShopOrder
      */
     public function assignInvoiceNr(ShopOrder $order)
     {
@@ -575,9 +575,9 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @param array $data
-     * @return bool|EntityInterface|mixed|ShopOrder
+     * @return bool|\Cake\Datasource\EntityInterface|mixed|\Shop\Model\Entity\ShopOrder
      * @throws \Exception
      */
     public function submitOrder(ShopOrder $order, array $data = [])
@@ -594,11 +594,11 @@ class ShopOrdersTable extends Table
 
         // save order
         $submitData = array_merge([
-            'uuid' => ($order->uuid) ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
+            'uuid' => $order->uuid ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
             'submitted' => Time::now(),
             'is_temporary' => false,
             'status' => self::ORDER_STATUS_PENDING,
-            'customer_email' => ($order->customer_email) ?: $order->shop_customer->email,
+            'customer_email' => $order->customer_email ?: $order->shop_customer->email,
         ], $data);
         $order = $this->patchEntity($order, $submitData, ['validate' => 'submit']);
         if ($order->getErrors()) {
@@ -638,8 +638,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
-     * @return ShopOrder
+     * @param \Shop\Model\Entity\ShopOrder $order
+     * @return \Shop\Model\Entity\ShopOrder
      */
     public function confirmOrder(ShopOrder $order)
     {
@@ -680,8 +680,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder|EntityInterface $order
-     * @return bool|ShopOrder|EntityInterface
+     * @param \Shop\Model\Entity\ShopOrder|\Cake\Datasource\EntityInterface $order
+     * @return bool|\Shop\Model\Entity\ShopOrder|\Cake\Datasource\EntityInterface
      */
     public function saveOrder(ShopOrder $order)
     {
@@ -689,7 +689,7 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @return bool
      */
     public function requiresShipping(ShopOrder $order)
@@ -718,7 +718,7 @@ class ShopOrdersTable extends Table
     */
 
     /**
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @return bool
      */
     public function requiresShippingAddress(ShopOrder $order)
@@ -882,8 +882,8 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param Validator $validator
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator
+     * @return \Cake\Validation\Validator
      */
     public function validationPaymentCreditCardInternal(Validator $validator)
     {

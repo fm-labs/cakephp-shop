@@ -1,15 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Payment\Engine;
 
-use Cake\Core\Configure;
-use Mpay24\Mpay24;
 use Mpay24\MPay24Order;
-use Shop\Controller\Component\CheckoutComponent;
-use Shop\Controller\Component\PaymentComponent;
-use Shop\Core\Payment\PaymentEngineInterface;
-use Shop\Model\Entity\ShopOrder;
-use Shop\Model\Entity\ShopOrderTransaction;
 
 /**
  * Class Mpay24SofortPayment
@@ -19,8 +13,8 @@ use Shop\Model\Entity\ShopOrderTransaction;
 class Mpay24SofortPayment extends Mpay24SelectPayment
 {
     /**
-     * @param MPay24Order $mdxi
-     * @return MPay24Order
+     * @param \Mpay24\MPay24Order $mdxi
+     * @return \Mpay24\MPay24Order
      */
     protected function _buildPaymentMDXI(Mpay24Order $mdxi)
     {

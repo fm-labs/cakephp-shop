@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Entity;
 
-use Cake\Auth\AbstractPasswordHasher;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 
@@ -24,7 +25,6 @@ use Cake\ORM\Entity;
  */
 class ShopCustomer extends Entity
 {
-
     public static $passwordHasherClass = 'Cake\\Auth\\DefaultPasswordHasher';
 
     /**
@@ -54,11 +54,11 @@ class ShopCustomer extends Entity
     }
 
     /**
-     * @return AbstractPasswordHasher
+     * @return \Cake\Auth\AbstractPasswordHasher
      */
     public function getPasswordHasher()
     {
-        return (new static::$passwordHasherClass());
+        return new static::$passwordHasherClass();
     }
 
     protected function _getDisplayName()
@@ -72,7 +72,7 @@ class ShopCustomer extends Entity
 
     protected function _getIsGuest()
     {
-        return (!isset($this->_fields['user_id']));
+        return !isset($this->_fields['user_id']);
     }
 
     protected function _getIsDemo()
@@ -81,6 +81,6 @@ class ShopCustomer extends Entity
             return true;
         }
 
-        return (preg_match('/@example\.org$/', $this->email));
+        return preg_match('/@example\.org$/', $this->email);
     }
 }

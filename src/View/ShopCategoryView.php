@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\View;
 
@@ -37,8 +38,8 @@ class ShopCategoryView extends ShopView
         // no shop category is set, it's assumed we are on the category index page
         if (!$this->get('shopCategory')) {
             $metaTitle = $this->Blocks->get('heading');
-            $metaTitle = ($metaTitle) ?: $this->Blocks->get('title');
-            $metaTitle = ($metaTitle) ?: __d('shop', 'All Categories');
+            $metaTitle = $metaTitle ?: $this->Blocks->get('title');
+            $metaTitle = $metaTitle ?: __d('shop', 'All Categories');
             $shopCategoryUrl = ['plugin' => 'Shop', 'controller' => 'Categories', 'action' => 'index'];
 
             // breadcrumbs
@@ -47,10 +48,10 @@ class ShopCategoryView extends ShopView
             $shopCategory = $this->get('shopCategory');
             $shopCategoryUrl = $shopCategory->url;
 
-            $metaTitle = ($shopCategory->meta_title) ?: $shopCategory->name;
-            $metaLang = ($shopCategory->meta_lang) ?: I18n::getLocale();
-            $metaDescription = ($shopCategory->meta_desc) ?: $metaTitle;
-            $metaKeywords = ($shopCategory->meta_keywords) ?: $metaTitle;
+            $metaTitle = $shopCategory->meta_title ?: $shopCategory->name;
+            $metaLang = $shopCategory->meta_lang ?: I18n::getLocale();
+            $metaDescription = $shopCategory->meta_desc ?: $metaTitle;
+            $metaKeywords = $shopCategory->meta_keywords ?: $metaTitle;
 
             // bread crumbs
             $path = $shopCategory->getPath($shopCategory->id)->toArray();

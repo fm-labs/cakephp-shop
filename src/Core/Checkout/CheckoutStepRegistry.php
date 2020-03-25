@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Core\Checkout;
 
 use Cake\Core\App;
@@ -12,7 +14,7 @@ use Shop\Controller\Component\CheckoutComponent;
 class CheckoutStepRegistry extends ObjectRegistry /*implements \Iterator, \SeekableIterator*/
 {
     /**
-     * @var CheckoutComponent
+     * @var \Shop\Controller\Component\CheckoutComponent
      */
     public $Checkout;
 
@@ -22,7 +24,7 @@ class CheckoutStepRegistry extends ObjectRegistry /*implements \Iterator, \Seeka
     protected $_current;
 
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      */
     public function __construct(CheckoutComponent $Checkout)
     {
@@ -120,7 +122,7 @@ class CheckoutStepRegistry extends ObjectRegistry /*implements \Iterator, \Seeka
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return CheckoutStepInterface
+     * @return \Shop\Core\Checkout\CheckoutStepInterface
      * @since 5.0.0
      */
     public function current()
@@ -146,7 +148,7 @@ class CheckoutStepRegistry extends ObjectRegistry /*implements \Iterator, \Seeka
     /**
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
+     * @return bool The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      * @since 5.0.0
      */

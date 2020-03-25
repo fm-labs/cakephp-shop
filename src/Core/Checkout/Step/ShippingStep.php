@@ -1,15 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
-use Cake\Core\App;
-use Cake\Core\Configure;
 use Cake\Core\StaticConfigTrait;
-use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Shop\Core\Checkout\CheckoutStepInterface;
-use Shop\Core\Shipping\ShippingEngineInterface;
 use Shop\Core\Shipping\ShippingEngineRegistry;
 use Shop\Lib\Shop;
 
@@ -18,7 +15,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
     use StaticConfigTrait;
 
     /**
-     * @var ShippingEngineRegistry
+     * @var \Shop\Core\Shipping\ShippingEngineRegistry
      */
     protected $_registry;
 
@@ -81,7 +78,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @return null|ShippingEngineInterface
+     * @return null|\Shop\Core\Shipping\ShippingEngineInterface
      */
     public function engine()
     {
@@ -98,7 +95,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return \Cake\Http\Response
      */
     public function execute(Controller $controller)

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Lib;
 
@@ -9,7 +10,6 @@ namespace Shop\Lib;
  */
 class Taxation
 {
-
     /**
      * Get Taxrate based on TaxID for Austrian businesses
      * !!THIS FUNCTION IS LIMITED TO USAGE IN AUSTRIA!!
@@ -52,7 +52,7 @@ class Taxation
             return false;
         }
 
-        return ($vatNo->getCountryCode() != strtoupper($myCountry));
+        return $vatNo->getCountryCode() != strtoupper($myCountry);
     }
 
     /**
@@ -104,6 +104,6 @@ class Taxation
      */
     public static function extractTax($taxed, $taxRate)
     {
-        return self::withoutTax($taxed, $taxRate) * ($taxRate / 100);
+        return self::withoutTax($taxed, $taxRate) * $taxRate / 100;
     }
 }

@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Cron\Task;
 
 use Cake\ORM\TableRegistry;
-use Cron\Cron\CronTaskResult;
 use Cron\Cron\CronTask;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class ClearCreditcardDataCronTask
@@ -15,11 +14,10 @@ use Shop\Model\Table\ShopOrdersTable;
  *
  *
  * @package Shop\src\Cron
- * @property ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
 class ClearCreditcardDataCronTask extends CronTask
 {
-
     /**
      * @var int Max number of orders processed per task execution
      */
@@ -31,7 +29,7 @@ class ClearCreditcardDataCronTask extends CronTask
     public $daysKeep = 4;
 
     /**
-     * @return bool|CronTaskResult|null|mixed
+     * @return bool|\Cron\Cron\CronTaskResult|null|mixed
      */
     public function execute()
     {

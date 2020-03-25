@@ -1,17 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\View\Cell;
 
 use Cake\View\Cell;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * LatestOrdersCell cell
  *
- * @property ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
 class LatestOrdersCell extends Cell
 {
-
     /**
      * List of valid options that can be passed into this
      * cell's constructor.

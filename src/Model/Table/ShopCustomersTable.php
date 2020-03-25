@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Cake\Datasource\EntityInterface;
-use Cake\ORM\Entity;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -103,7 +104,7 @@ class ShopCustomersTable extends Table
      *
      * @param $userId
      * @param bool|true $save
-     * @return bool|\Cake\Datasource\EntityInterface|Entity|mixed
+     * @return bool|\Cake\Datasource\EntityInterface|\Cake\ORM\Entity|mixed
      */
     public function createFromUserId($userId, $save = true)
     {
@@ -115,10 +116,10 @@ class ShopCustomersTable extends Table
     /**
      * Create shop customer from given user entity
      *
-     * @param EntityInterface $user
+     * @param \Cake\Datasource\EntityInterface $user
      * @param array $data
      * @param bool|true $save
-     * @return bool|EntityInterface|Entity|mixed
+     * @return bool|\Cake\Datasource\EntityInterface|\Shop\Model\Table\Entity|mixed
      */
     public function createFromUser(EntityInterface $user, array $data = [], $save = true)
     {

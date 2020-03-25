@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Payment\Engine;
 
@@ -22,9 +23,8 @@ use Shop\Model\Table\ShopOrderTransactionsTable;
  */
 class Mpay24SelectPayment implements PaymentEngineInterface
 {
-
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      * @return bool
      */
     public function isCheckoutComplete(CheckoutComponent $Checkout)
@@ -33,7 +33,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      * @return \Cake\Http\Response|null
      */
     public function checkout(CheckoutComponent $Checkout)
@@ -58,7 +58,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
     /**
      * @param $testMode
-     * @return Mpay24Config
+     * @return \Mpay24\Mpay24Config
      * @throws \Exception
      */
     protected function _buildMpay24Config($testMode)
@@ -107,8 +107,8 @@ class Mpay24SelectPayment implements PaymentEngineInterface
      * @link https://docs.mpay24.com/docs/working-with-the-mpay24-php-sdk-redirect-integration
      *
      *
-     * @param MPay24Order $mdxi
-     * @return MPay24Order
+     * @param \Mpay24\MPay24Order $mdxi
+     * @return \Mpay24\MPay24Order
      */
     protected function _buildPaymentMDXI(Mpay24Order $mdxi)
     {
@@ -121,9 +121,9 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param PaymentComponent $Payment
-     * @param ShopOrderTransaction $transaction
-     * @param ShopOrder $order
+     * @param \Shop\Controller\Component\PaymentComponent $Payment
+     * @param \Shop\Model\Entity\ShopOrderTransaction $transaction
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @return \Cake\Http\Response|null
      * @throws \Exception
      */
@@ -244,9 +244,9 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param PaymentComponent $Payment
-     * @param ShopOrderTransaction $transaction
-     * @return ShopOrderTransaction
+     * @param \Shop\Controller\Component\PaymentComponent $Payment
+     * @param \Shop\Model\Entity\ShopOrderTransaction $transaction
+     * @return \Shop\Model\Entity\ShopOrderTransaction
      */
     public function confirm(PaymentComponent $Payment, ShopOrderTransaction $transaction)
     {
@@ -267,7 +267,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
         // check ip
 
-        $isTest = ('213.208.153.58' == $Payment->getController()->getRequest()->clientIp());
+        $isTest = ($Payment->getController()->getRequest()->clientIp() == '213.208.153.58');
 
         $query = $Payment->getController()->getRequest()->getQuery(); // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
         if ($transaction->id != $query['TID']) { //@TODO Compary hash instead of id

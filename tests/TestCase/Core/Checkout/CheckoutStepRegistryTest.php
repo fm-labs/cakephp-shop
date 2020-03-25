@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Test\TestCase\Core\Checkout;
 
@@ -7,7 +8,6 @@ use Cake\Controller\Controller;
 use Cake\TestSuite\TestCase;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Core\Checkout\CheckoutStepRegistry;
-use Zend\Diactoros\ServerRequest;
 
 /**
  * Class CheckoutStepRegistryTest

@@ -1,7 +1,7 @@
 <?php
-namespace Shop\Controller\Admin;
+declare(strict_types=1);
 
-use Shop\Controller\Admin\AppController;
+namespace Shop\Controller\Admin;
 
 /**
  * ShopOrderTransactions Controller

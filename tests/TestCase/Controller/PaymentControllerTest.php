@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Test\TestCase\Controller;
 
@@ -6,8 +7,6 @@ use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use Shop\Model\Entity\ShopOrderTransaction;
-use Shop\Model\Table\ShopOrdersTable;
 use Shop\Model\Table\ShopOrderTransactionsTable;
 use Shop\Test\TestCase\TestPaymentEngine;
 

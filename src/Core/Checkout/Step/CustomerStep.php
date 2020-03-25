@@ -1,30 +1,29 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Core\Checkout\Step;
 
 use Cake\Controller\Controller;
-use Cake\Event\Event;
 use Shop\Core\Checkout\CheckoutStepInterface;
-use Shop\Model\Table\ShopCustomersTable;
 
 /**
  * Class CustomerStep
  *
  * @package Shop\Checkout
- * @property ShopCustomersTable $ShopCustomers
+ * @property \Shop\Model\Table\ShopCustomersTable $ShopCustomers
  */
 class CustomerStep extends BaseStep implements CheckoutStepInterface
 {
-
     /**
      * @return bool
      */
     public function isComplete()
     {
-        return ($this->Checkout->Shop->getCustomer()) ? true : false;
+        return $this->Checkout->Shop->getCustomer() ? true : false;
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return bool|\Cake\Http\Response
      * @throws \Exception
      */
@@ -46,7 +45,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return bool|\Cake\Http\Response
      * @throws \Exception
      */
@@ -108,7 +107,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     }
 
     /**
-     * @param Controller $controller
+     * @param \Cake\Controller\Controller $controller
      * @return bool|\Cake\Http\Response
      */
     protected function _executeSignup(Controller $controller)

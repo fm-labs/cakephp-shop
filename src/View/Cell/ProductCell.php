@@ -1,17 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\View\Cell;
 
 use Cake\View\Cell;
-use Shop\Model\Table\ShopProductsTable;
 
 /**
  * CategoriesCell cell
  *
- * @property ShopProductsTable $ShopProducts
+ * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
  */
 class ProductCell extends Cell
 {
-
     public $modelClass = "Shop.ShopProducts";
 
     public $shopProduct;

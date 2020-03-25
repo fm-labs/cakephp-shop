@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Service;
 
@@ -6,14 +7,12 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
-use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderNotification;
-use Shop\Model\Table\ShopOrderNotificationsTable;
 
 class OrderNotificationService implements EventListenerInterface
 {
     /**
-     * @var ShopOrderNotificationsTable
+     * @var \Shop\Model\Table\ShopOrderNotificationsTable
      */
     public $Notifications;
 

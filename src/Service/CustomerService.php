@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
-use Shop\Service\BaseService;
 
 /**
  * Class CustomerService
@@ -30,7 +30,7 @@ class CustomerService extends BaseService
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function onUserRegister(Event $event)
     {
@@ -53,7 +53,7 @@ class CustomerService extends BaseService
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function onUserLogin(Event $event)
     {
@@ -89,7 +89,7 @@ class CustomerService extends BaseService
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function onUserLogout(Event $event)
     {
@@ -100,7 +100,7 @@ class CustomerService extends BaseService
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function afterOrderSubmit(Event $event)
     {

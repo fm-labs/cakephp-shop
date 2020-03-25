@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Shop\Model\Entity\StockTransfer;
 
 /**
  * StockTransfers Model
@@ -17,7 +17,6 @@ use Shop\Model\Entity\StockTransfer;
  */
 class StockTransfersTable extends Table
 {
-
     /**
      * Initialize method
      *

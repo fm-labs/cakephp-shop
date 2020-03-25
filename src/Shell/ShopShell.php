@@ -1,20 +1,18 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Shell;
 
 use Cake\Console\Shell;
-use Shop\Model\Table\ShopOrdersTable;
-use Shop\Model\Table\ShopProductsTable;
-use Shop\Shell\Task\CustomerIntegrityCheckTask;
-use Shop\Shell\Task\ProductImportTask;
 
 /**
  * Class ShopShell
  *
  * @package Shop\Shell
- * @property ProductImportTask $ProductImport
- * @property CustomerIntegrityCheckTask $CustomerIntegrityCheck
- * @property ShopOrdersTable $ShopOrders
- * @property ShopProductsTable $ShopProducts
+ * @property \Shop\Shell\Task\ProductImportTask $ProductImport
+ * @property \Shop\Shell\Task\CustomerIntegrityCheckTask $CustomerIntegrityCheck
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
  */
 class ShopShell extends Shell
 {
@@ -111,7 +109,7 @@ class ShopShell extends Shell
             }
 
             // calculate patch values
-            $taxRatio = (1 + ($taxRate / 100));
+            $taxRatio = 1 + ($taxRate / 100);
             $priceNet = round($product->price / $taxRatio, 3);
             $taxed = round($priceNet * $taxRatio, 3);
 

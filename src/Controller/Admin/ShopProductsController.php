@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Controller\Admin;
 
-use Backend\Controller\Component\ToggleComponent;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
 use Media\Lib\Media\MediaManager;
@@ -12,7 +12,7 @@ use Media\Lib\Media\MediaManager;
  * ShopProducts Controller
  *
  * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
- * @property ToggleComponent $Toggle
+ * @property \Backend\Controller\Component\ToggleComponent $Toggle
  */
 class ShopProductsController extends AppController
 {
@@ -47,7 +47,7 @@ class ShopProductsController extends AppController
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)

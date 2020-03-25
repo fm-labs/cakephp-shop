@@ -1,11 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Event;
 
-use Cake\Controller\Controller;
 use Cake\Event\Event;
-use Shop\Controller\CheckoutController;
-use Shop\Core\Checkout\CheckoutStepInterface;
 
 /**
  * Class CheckoutEvent
@@ -15,7 +13,7 @@ use Shop\Core\Checkout\CheckoutStepInterface;
 class CheckoutEvent extends Event
 {
     /**
-     * @return CheckoutStepInterface
+     * @return \Shop\Core\Checkout\CheckoutStepInterface
      */
     public function getStep()
     {
@@ -27,7 +25,7 @@ class CheckoutEvent extends Event
     }
 
     /**
-     * @return CheckoutController|Controller
+     * @return \Shop\Controller\CheckoutController|\Shop\Event\Controller
      */
     public function getSubject()
     {

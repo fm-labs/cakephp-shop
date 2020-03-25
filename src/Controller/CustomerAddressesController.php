@@ -1,17 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller;
 
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\View\CellTrait;
-use Shop\Model\Table\ShopCustomerAddressesTable;
 
 /**
  * Class CustomerAddressesController
  * @package Shop\Controller
  *
- * @property ShopCustomerAddressesTable $ShopCustomerAddresses
+ * @property \Shop\Model\Table\ShopCustomerAddressesTable $ShopCustomerAddresses
  */
 class CustomerAddressesController extends AppController
 {

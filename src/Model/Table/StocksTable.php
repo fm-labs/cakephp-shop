@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Shop\Model\Entity\Stock;
 
 /**
  * Stocks Model
@@ -15,7 +14,6 @@ use Shop\Model\Entity\Stock;
  */
 class StocksTable extends Table
 {
-
     /**
      * Initialize method
      *

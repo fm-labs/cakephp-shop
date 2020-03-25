@@ -1,20 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Controller;
 
-use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Routing\Router;
-use Shop\Controller\Component\CartComponent;
-use Shop\Controller\Component\ShopComponent;
-use User\Controller\Component\AuthComponent;
 
 /**
  * class ProductsController
  *
  * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
- * @property ShopComponent $Shop
- * @property AuthComponent $Auth
- * @property CartComponent $Cart
+ * @property \Shop\Controller\Component\ShopComponent $Shop
+ * @property \User\Controller\Component\AuthComponent $Auth
+ * @property \Shop\Controller\Component\CartComponent $Cart
  */
 class ProductsController extends AppController
 {

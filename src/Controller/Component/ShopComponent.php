@@ -1,16 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Core\Configure;
-use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Event\Event;
-use Cake\Log\Log;
-use Cake\ORM\ResultSet;
 use Cake\ORM\TableRegistry;
 use Shop\Model\Entity\ShopCustomer;
-use Shop\Model\Table\ShopCustomersTable;
 
 /**
  * Class ShopComponent
@@ -21,7 +17,7 @@ class ShopComponent extends Component
     public $components  = ['Auth'];
 
     /**
-     * @var ShopCustomer
+     * @var \Shop\Model\Entity\ShopCustomer
      */
     protected $_customer;
 
@@ -37,7 +33,7 @@ class ShopComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      * @return void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -52,7 +48,7 @@ class ShopComponent extends Component
     protected function _loadCustomer()
     {
         if ($this->Auth->user()) {
-            /** @var ShopCustomersTable $ShopCustomers */
+            /** @var \Shop\Model\Table\ShopCustomersTable $ShopCustomers */
             $ShopCustomers = TableRegistry::getTableLocator()->get('Shop.ShopCustomers');
             $customer = $ShopCustomers->createFromUserId($this->Auth->user('id'));
             $this->setCustomer($customer);
@@ -60,7 +56,7 @@ class ShopComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function beforeRender(\Cake\Event\EventInterface $event)
     {
@@ -69,7 +65,7 @@ class ShopComponent extends Component
 
     /**
      * @param null $field
-     * @return mixed|null|ShopCustomer
+     * @return mixed|null|\Shop\Model\Entity\ShopCustomer
      */
     public function customer($field = null)
     {
@@ -85,7 +81,7 @@ class ShopComponent extends Component
     }
 
     /**
-     * @return null|ShopCustomer
+     * @return null|\Shop\Model\Entity\ShopCustomer
      */
     public function getCustomer()
     {
@@ -101,7 +97,7 @@ class ShopComponent extends Component
     }
 
     /**
-     * @param ShopCustomer $customer
+     * @param \Shop\Model\Entity\ShopCustomer $customer
      * @return $this
      */
     public function setCustomer(ShopCustomer $customer)
@@ -138,7 +134,7 @@ class ShopComponent extends Component
     }
 
     /**
-     * @return ResultSet
+     * @return \Cake\ORM\ResultSet
      */
     public function getCustomerAddresses()
     {

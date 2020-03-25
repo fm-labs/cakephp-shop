@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class StockValuesFixture extends TestFixture
 {
-
     /**
      * Table name
      *

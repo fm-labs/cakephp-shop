@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Order;
 
@@ -38,11 +39,11 @@ class CostCalculator implements CostValueInterface
 
     /**
      * @param $name
-     * @return CostValueInterface|null
+     * @return \Shop\Core\Order\CostValueInterface|null
      */
     public function getValue($name)
     {
-        return (isset($this->_values[$name])) ? $this->_values[$name] : null;
+        return $this->_values[$name] ?? null;
     }
 
     /**

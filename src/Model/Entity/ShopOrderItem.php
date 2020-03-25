@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Entity;
 
-use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Shop\Core\Product\ShopProductInterface;
@@ -29,7 +30,6 @@ use Shop\Lib\Shop;
  */
 class ShopOrderItem extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -56,13 +56,13 @@ class ShopOrderItem extends Entity
     ];
 
     /**
-     * @var ShopProductInterface
+     * @var \Shop\Core\Product\ShopProductInterface
      */
     protected $_product;
 
     public function requiresShipping()
     {
-        return ($this->type === 'virtual') ? false : true;
+        return $this->type === 'virtual' ? false : true;
     }
 
     /**
@@ -74,7 +74,7 @@ class ShopOrderItem extends Entity
     }
 
     /**
-     * @return EntityInterface
+     * @return \Cake\Datasource\EntityInterface
      */
     protected function _getRef()
     {
@@ -83,7 +83,7 @@ class ShopOrderItem extends Entity
             if (isset($this->_fields['refscope']) && isset($this->_fields['refid'])) {
                 $refid = $this->_fields['refid'];
                 $refscope = $this->_fields['refscope'];
-                list($plugin, $refModel) = pluginSplit($refscope);
+                [$plugin, $refModel] = pluginSplit($refscope);
                 try {
                     $ref = TableRegistry::getTableLocator()->get($refscope)->find('product')->where([$refModel . '.id' => $refid])->first();
                 } catch (\Exception $ex) {
@@ -98,13 +98,13 @@ class ShopOrderItem extends Entity
 
     protected function _getSku()
     {
-        return ($this->getProduct()) ? $this->getProduct()->getSku() : null;
+        return $this->getProduct() ? $this->getProduct()->getSku() : null;
     }
 
     protected function _getTitle()
     {
         if (!isset($this->_fields['title'])) {
-            $this->_fields['title'] = ($this->getProduct()) ? $this->getProduct()->getTitle() : null;
+            $this->_fields['title'] = $this->getProduct() ? $this->getProduct()->getTitle() : null;
         }
 
         return $this->_fields['title'];
@@ -143,7 +143,7 @@ class ShopOrderItem extends Entity
 
     protected function _getItemValueDisplay()
     {
-        return (Shop::config('Price.displayNet')) ? $this->item_value_net : $this->item_value_taxed;
+        return Shop::config('Price.displayNet') ? $this->item_value_net : $this->item_value_taxed;
     }
 
     /**
@@ -180,7 +180,7 @@ class ShopOrderItem extends Entity
      */
 
     /**
-     * @return ShopProductInterface
+     * @return \Shop\Core\Product\ShopProductInterface
      */
     public function getProduct()
     {
@@ -205,7 +205,7 @@ class ShopOrderItem extends Entity
     public function calculate()
     {
         $this->value_net = $this->item_value_net * $this->amount;
-        $this->value_tax = $this->value_net * ($this->tax_rate / 100);
+        $this->value_tax = $this->value_net * $this->tax_rate / 100;
         $this->value_total = $this->value_net + $this->value_tax;
     }
 
@@ -216,7 +216,7 @@ class ShopOrderItem extends Entity
 
     protected function _getValueTax()
     {
-        return $this->value_net * ($this->tax_rate / 100);
+        return $this->value_net * $this->tax_rate / 100;
     }
 
     protected function _getValueTotal()
@@ -226,6 +226,6 @@ class ShopOrderItem extends Entity
 
     protected function _getValueDisplay()
     {
-        return (Shop::config('Price.displayNet')) ? $this->value_net : $this->value_total;
+        return Shop::config('Price.displayNet') ? $this->value_net : $this->value_total;
     }
 }

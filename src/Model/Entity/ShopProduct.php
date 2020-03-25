@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Entity;
 
 use Cake\Core\Configure;
-use Cake\Database\Query;
 use Cake\ORM\Behavior\Translate\TranslateTrait;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -94,7 +95,7 @@ class ShopProduct extends Entity implements ShopProductInterface
             'action' => 'view',
             'product_id' => $this->id,
             'product' => $this->slug,
-            'category' => ($this->shop_category) ? $this->shop_category->url_path : null,
+            'category' => $this->shop_category ? $this->shop_category->url_path : null,
             //$this->id
         ];
     }
@@ -106,7 +107,7 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getPreviewImage()
     {
-        return ($this->_fields['preview_image_file']) ?: $this->featured_image_file;
+        return $this->_fields['preview_image_file'] ?: $this->featured_image_file;
     }
 
     protected function _getShopProducts()
@@ -126,7 +127,7 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getDisplayPrice()
     {
-        return (Shop::config('Price.displayNet')) ? $this->price_net : $this->price;
+        return Shop::config('Price.displayNet') ? $this->price_net : $this->price;
     }
 
     /*** Shop Product Interface ***/

@@ -1,15 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Test\TestCase\Core\Checkout;
 
 use Cake\Controller\Controller;
-use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Core\Checkout\CheckoutStepInterface;
 
 class TestCheckoutStep implements CheckoutStepInterface
 {
-
     /**
      * @param CheckoutComponent $Checkout
      */

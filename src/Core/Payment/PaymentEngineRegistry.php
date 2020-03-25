@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Core\Payment;
 
 use Cake\Core\App;
@@ -10,7 +12,6 @@ use RuntimeException;
  */
 class PaymentEngineRegistry extends ObjectRegistry
 {
-
     /**
      * Resolve a payment engine classname.
      *
@@ -81,7 +82,7 @@ class PaymentEngineRegistry extends ObjectRegistry
      * Get loaded payment engine instance
      *
      * @param string $name
-     * @return null|PaymentEngineInterface
+     * @return null|\Shop\Core\Payment\PaymentEngineInterface
      */
     public function get($name)
     {

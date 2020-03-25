@@ -1,8 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller;
-
-use Cake\Core\Configure;
 
 /**
  * Class ShopController

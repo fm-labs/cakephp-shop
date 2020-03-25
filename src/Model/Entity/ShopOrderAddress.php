@@ -1,7 +1,7 @@
 <?php
-namespace Shop\Model\Entity;
+declare(strict_types=1);
 
-use Cake\ORM\Entity;
+namespace Shop\Model\Entity;
 
 /**
  * ShopOrderAddress Entity.

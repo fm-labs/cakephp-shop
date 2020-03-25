@@ -1,14 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\View\Cell;
 
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
-use Cake\Form\Form;
-use Cake\ORM\Query;
 use Cake\View\Cell;
-use Shop\Core\Cart\Form\AddToCartForm;
-use Shop\Core\Product\ShopProductInterface;
 
 /**
  * Class AddToCartCell
@@ -19,11 +16,10 @@ use Shop\Core\Product\ShopProductInterface;
  */
 class AddToCartCell extends Cell
 {
-
     public $modelClass = "Shop.ShopProducts";
 
     /**
-     * @var ShopProductInterface
+     * @var \Shop\Core\Product\ShopProductInterface
      */
     public $shopProduct;
 
@@ -203,7 +199,7 @@ class AddToCartCell extends Cell
     /**
      * @param $formOptions
      * @param $formInputOptions
-     * @return Form
+     * @return \Cake\Form\Form
      */
     protected function _createForm($formOptions, $formInputs, $formInputOptions)
     {
@@ -237,7 +233,7 @@ class AddToCartCell extends Cell
     }
 
     /**
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     protected function _getProductVersions()
     {

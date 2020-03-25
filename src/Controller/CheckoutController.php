@@ -1,21 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller;
 
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\Utility\Inflector;
-use Shop\Controller\Component\CheckoutComponent;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class CheckoutController
  *
  * @package Shop\Controller
  *
- * @property ShopOrdersTable $ShopOrders
- * @property CheckoutComponent $Checkout
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
+ * @property \Shop\Controller\Component\CheckoutComponent $Checkout
  */
 class CheckoutController extends AppController
 {
@@ -44,7 +42,7 @@ class CheckoutController extends AppController
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
-        $this->viewBuilder()->setLayout((Configure::read('Shop.Checkout.layout')) ?: null); //@TODO Move layout handling to ShopComponent
+        $this->viewBuilder()->setLayout(Configure::read('Shop.Checkout.layout') ?: null); //@TODO Move layout handling to ShopComponent
     }
 
     /**

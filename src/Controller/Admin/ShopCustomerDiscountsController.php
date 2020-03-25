@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Controller\Admin;
 
 /**
@@ -24,12 +26,12 @@ class ShopCustomerDiscountsController extends AppController
         $this->set('fields', [
             'id' => [],
             'shop_customer' => ['formatter' => function ($val, $row, $args, $view) {
-                return ($val)
+                return $val
                     ? $view->Html->link($val->display_name, ['controller' => 'ShopCustomers', 'action' => 'view', $val->id])
                     : __d('shop', 'All customers');
             }],
             'shop_product' => ['formatter' => function ($val, $row, $args, $view) {
-                return ($val)
+                return $val
                     ? $view->Html->link($val->title, ['controller' => 'ShopProducts', 'action' => 'view', $val->id])
                     : __d('shop', 'All products');
             }],

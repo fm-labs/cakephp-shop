@@ -1,19 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Controller\Component\AuthComponent;
-use Shop\Controller\Component\CartComponent;
-use Shop\Controller\Component\ShopComponent;
 
 /**
  * Class AppController
  *
  * @package Shop\Controller
- * @property ShopComponent $Shop
- * @property AuthComponent $Auth
- * @property CartComponent $Cart
+ * @property \Shop\Controller\Component\ShopComponent $Shop
+ * @property \Cake\Controller\Component\AuthComponent $Auth
+ * @property \Shop\Controller\Component\CartComponent $Cart
  */
 class AppController extends Controller
 {

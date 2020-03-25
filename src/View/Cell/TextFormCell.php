@@ -1,17 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\View\Cell;
 
 use Cake\View\Cell;
-use Shop\Model\Table\TextsTable;
 
 /**
  * TextForm cell
  *
- * @property TextsTable $Texts
+ * @property \Shop\Model\Table\TextsTable $Texts
  */
 class TextFormCell extends Cell
 {
-
     /**
      * List of valid options that can be passed into this
      * cell's constructor.

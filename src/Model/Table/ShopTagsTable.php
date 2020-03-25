@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Shop\Model\Entity\ShopTag;
 
 /**
  * ShopTags Model
@@ -14,7 +13,6 @@ use Shop\Model\Entity\ShopTag;
  */
 class ShopTagsTable extends Table
 {
-
     /**
      * Initialize method
      *

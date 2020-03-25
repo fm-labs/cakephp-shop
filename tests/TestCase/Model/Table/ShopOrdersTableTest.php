@@ -1,20 +1,21 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Test\TestCase\Model\Table;
 
 use Cake\Core\Configure;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Shop\Model\Table\ShopOrdersTable;
 use Shop\Service\CustomerService;
 use Shop\Service\EmailNotificationService;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Shop\Model\Table\ShopOrdersTable Test Case
  */
 class ShopOrdersTableTest extends TestCase
 {
-
     /**
      * Test subject
      *

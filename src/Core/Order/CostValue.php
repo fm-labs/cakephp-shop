@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Order;
 
@@ -17,12 +18,12 @@ class CostValue implements CostValueInterface
         if (!is_numeric($net)) {
             throw new \InvalidArgumentException("Net must be numeric");
         }
-        $this->_net = (double)$net;
+        $this->_net = (float)$net;
 
         if (!is_numeric($taxrate) || $taxrate < 0 || $taxrate > 100) {
             throw new \InvalidArgumentException("Taxrate MUST be a value between 0 and 100: Given $taxrate");
         }
-        $this->_taxrate = (double)$taxrate;
+        $this->_taxrate = (float)$taxrate;
 
         $this->_label = (string)$label;
     }

@@ -1,21 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Shell;
 
-use Attachment\Model\Table\AttachmentsTable;
 use Cake\Console\Shell;
-use Shop\Model\Table\ShopCategoriesTable;
-use Shop\Model\Table\ShopCustomersTable;
-use Shop\Model\Table\ShopProductsTable;
 
 /**
  * Class ShopImportShell
  * @package App\Shell
  *
- * @property ShopCustomersTable $ShopCustomers
- * @property ShopCategoriesTable $ShopCategories
- * @property ShopProductsTable $ShopProducts
- * @property AttachmentsTable $Attachments
+ * @property \Shop\Model\Table\ShopCustomersTable $ShopCustomers
+ * @property \Shop\Model\Table\ShopCategoriesTable $ShopCategories
+ * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
+ * @property \Attachment\Model\Table\AttachmentsTable $Attachments
  */
 class ShopImportShell extends Shell
 {
@@ -308,7 +305,7 @@ class ShopImportShell extends Shell
         $file = fopen($importFile, "r");
         if (!$file) {
             $this->abort("Failed to open file $importFile");
-        };
+        }
         $fields = ['Kategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
         $subcategories = false;
         $header = [];
@@ -377,7 +374,7 @@ class ShopImportShell extends Shell
                 }
             }
 
-            $categoryImagePath = (isset($importMap[$fileName])) ? $importMap[$fileName]['image_path'] : '';
+            $categoryImagePath = isset($importMap[$fileName]) ? $importMap[$fileName]['image_path'] : '';
 
             if (!$row['Artikelnummer']) {
                 $this->_importError($i, 'Row error: Artikelnummer MISSING');

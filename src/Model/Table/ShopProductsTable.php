@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Cake\Collection\Collection;
 use Cake\Collection\Iterator\MapReduce;
 use Cake\Core\Plugin;
-use Cake\Event\Event;
 use Cake\ORM\Exception\RolledbackTransactionException;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -15,7 +16,6 @@ use Cake\Validation\Validator;
 use Seo\Sitemap\SitemapLocation;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopProduct;
-use User\Controller\Component\AuthComponent;
 
 /**
  * ShopProducts Model
@@ -25,7 +25,6 @@ use User\Controller\Component\AuthComponent;
  */
 class ShopProductsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -209,19 +208,20 @@ class ShopProductsTable extends Table
      * Applies a MapReduce to the query, which resolves attachment info
      * if an attachment field is present in the query results.
      *
-     * @param Event $event
-     * @param Query $query
+     * @param \Cake\Event\Event $event
+     * @param \Cake\ORM\Query $query
      * @param array $options
      * @param $primary
      */
+
     /**
      * 'beforeFind' callback
      *
      * Applies a MapReduce to the query, which resolves attachment info
      * if an attachment field is present in the query results.
      *
-     * @param Event $event
-     * @param Query $query
+     * @param \Cake\Event\Event $event
+     * @param \Cake\ORM\Query $query
      * @param array $options
      * @param $primary
      */
@@ -273,7 +273,7 @@ class ShopProductsTable extends Table
                 if ($customerDiscount) {
                     switch ($customerDiscount->valuetype) {
                         case "percent":
-                            $discount = $row['price_net_original'] * ($customerDiscount->value / 100);
+                            $discount = $row['price_net_original'] * $customerDiscount->value / 100;
                             break;
 
                         case "value":
@@ -349,7 +349,7 @@ class ShopProductsTable extends Table
 
     /**
      * @param $id
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findPublishedChildren($id)
     {
@@ -358,7 +358,7 @@ class ShopProductsTable extends Table
     }
 
     /**
-     * @return Collection
+     * @return \Cake\Collection\Collection
      */
     public function findSitemap()
     {

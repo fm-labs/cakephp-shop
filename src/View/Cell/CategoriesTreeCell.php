@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\View\Cell;
 
 use Cake\View\Cell;
@@ -8,7 +10,6 @@ use Cake\View\Cell;
  */
 class CategoriesTreeCell extends Cell
 {
-
     public $modelClass = "Shop.ShopCategories";
 
     /**

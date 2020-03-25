@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class ShopOrderItemsFixture extends TestFixture
 {
-
     /**
      * Import
      *

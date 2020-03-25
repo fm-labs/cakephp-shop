@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Mailer;
 
@@ -15,9 +16,9 @@ use Shop\Model\Entity\ShopOrder;
 class CustomerMailer extends Mailer
 {
     /**
-     * @param Email|null $email
+     * @param \Cake\Mailer\Email|null $email
      */
-    public function __construct(Email $email = null)
+    public function __construct(?Email $email = null)
     {
         parent::__construct($email);
 
@@ -27,7 +28,7 @@ class CustomerMailer extends Mailer
     }
 
     /**
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @return void
      */
     public function orderSubmission(ShopOrder $order)
@@ -44,7 +45,7 @@ class CustomerMailer extends Mailer
     }
 
     /**
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @return void
      */
     public function orderConfirmation(ShopOrder $order)

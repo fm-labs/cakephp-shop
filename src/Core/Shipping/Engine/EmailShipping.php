@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Shipping\Engine;
 
@@ -7,7 +8,6 @@ use Shop\Core\Shipping\ShippingEngineInterface;
 
 class EmailShipping implements ShippingEngineInterface
 {
-
     public function isCheckoutComplete(CheckoutComponent $Checkout)
     {
         return true;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Shell\Task;
 
@@ -122,17 +123,17 @@ class ProductImportTask extends BaseShopTask
         //$this->_stop(0);
 
         $fileName = $this->args[0];
-        $dryRun = (isset($this->params['dry-run'])) ? $this->params['dry-run'] : false;
-        $forceParent = (isset($this->params['force-parent'])) ? $this->params['force-parent'] : false;
-        $forceText = (isset($this->params['force-text'])) ? $this->params['force-text'] : false;
-        $forceBuyable = (isset($this->params['force-buyable'])) ? $this->params['force-buyable'] : false;
-        $forcePublished = (isset($this->params['force-published'])) ? $this->params['force-published'] : false;
-        $cleanText = (isset($this->params['clean-text'])) ? $this->params['clean-text'] : false;
-        $wrapText = (isset($this->params['wrap-text'])) ? $this->params['wrap-text'] : false;
-        $usePriceNet = (isset($this->params['price-net'])) ? $this->params['price-net'] : false;
-        $subcategories = (isset($this->params['subcategories'])) ? $this->params['subcategories'] : false;
-        $skipPriority = (isset($this->params['skip-priority'])) ? $this->params['skip-priority'] : false;
-        $imagePathPrefix = (isset($this->params['image-pathprefix'])) ? $this->params['image-pathprefix'] : ''; // $fileName . '/';
+        $dryRun = $this->params['dry-run'] ?? false;
+        $forceParent = $this->params['force-parent'] ?? false;
+        $forceText = $this->params['force-text'] ?? false;
+        $forceBuyable = $this->params['force-buyable'] ?? false;
+        $forcePublished = $this->params['force-published'] ?? false;
+        $cleanText = $this->params['clean-text'] ?? false;
+        $wrapText = $this->params['wrap-text'] ?? false;
+        $usePriceNet = $this->params['price-net'] ?? false;
+        $subcategories = $this->params['subcategories'] ?? false;
+        $skipPriority = $this->params['skip-priority'] ?? false;
+        $imagePathPrefix = $this->params['image-pathprefix'] ?? ''; // $fileName . '/';
 
         $this->loadModel('Shop.ShopCategories');
         $this->loadModel('Shop.ShopProducts');
@@ -147,7 +148,7 @@ class ProductImportTask extends BaseShopTask
         $file = fopen($importFile, "r");
         if (!$file) {
             $this->abort("Failed to open file $importFile");
-        };
+        }
         $fields = ['Kategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
         $subcategories = false;
         $header = [];

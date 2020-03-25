@@ -1,33 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\Component\CookieComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
-use Cake\Log\Log;
 use Cake\Http\Exception\NotFoundException;
-use Cake\ORM\Table;
+use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
-use Composer\EventDispatcher\EventDispatcher;
-use Shop\Core\Product\ShopProductInterface;
 use Shop\Event\CartEvent;
 use Shop\Model\Entity\ShopOrder;
-use Shop\Model\Entity\ShopProduct;
-use Shop\Model\Table\ShopOrdersTable;
-use Shop\Model\Table\ShopProductsTable;
 
 /**
  * Class CartComponent
  * @package Shop\Controller\Component
  *
- * @property ShopOrdersTable $ShopOrders
- * @property ShopProductsTable $ShopProducts
- * @property ShopComponent $Shop
- * @property CookieComponent $Cookie
+ * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
+ * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
+ * @property \Shop\Controller\Component\ShopComponent $Shop
+ * @property \Cake\Controller\Component\CookieComponent $Cookie
  */
 class CartComponent extends Component
 {
@@ -42,7 +36,7 @@ class CartComponent extends Component
     public $components = ['Shop.Shop', 'Flash', 'Cookie'];
 
     /**
-     * @var ShopOrder
+     * @var \Shop\Model\Entity\ShopOrder
      */
     public $order;
 
@@ -75,7 +69,7 @@ class CartComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
@@ -84,7 +78,7 @@ class CartComponent extends Component
 
         // read cart cookies
         $cookie = $this->Cookie->read(self::$cookieName);
-        $cookieCartId = ($cookie && isset($cookie['id'])) ? $cookie['id'] : null;
+        $cookieCartId = $cookie && isset($cookie['id']) ? $cookie['id'] : null;
 
         // read cart session
         $sessionCartId = $this->getRequest()->getSession()->read('Shop.Cart.id');
@@ -110,7 +104,7 @@ class CartComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function beforeRender(\Cake\Event\EventInterface $event)
     {
@@ -121,7 +115,7 @@ class CartComponent extends Component
     }
 
     /**
-     * @param Event $event
+     * @param \Cake\Event\Event $event
      */
     public function shutdown(\Cake\Event\EventInterface $event)
     {
@@ -152,11 +146,11 @@ class CartComponent extends Component
 
     /**
      * @param $modelClass
-     * @return Table
+     * @return \Cake\ORM\Table
      */
     protected function _getProductTable($modelClass)
     {
-        list(, $modelName) = pluginSplit($modelClass);
+        [, $modelName] = pluginSplit($modelClass);
         if (!isset($this->{$modelName})) {
             $this->{$modelName} = $this->getController()->loadModel($modelName);
             //if ($this->{$modelName} instanceof EventDispatcher) {
@@ -174,7 +168,7 @@ class CartComponent extends Component
      * Get product entity with customer discounts applied to net price
      * @param $productId
      * @param string $modelClass
-     * @return ShopProductInterface
+     * @return \Shop\Core\Product\ShopProductInterface
      */
     public function getProductForCustomer($productId, $modelClass = 'Shop.ShopProducts')
     {
@@ -189,7 +183,7 @@ class CartComponent extends Component
      * Get product entity
      * @param $productId
      * @param string $modelClass
-     * @return ShopProductInterface
+     * @return \Shop\Core\Product\ShopProductInterface
      */
     public function getProduct($productId, $modelClass = 'Shop.ShopProducts')
     {
@@ -234,7 +228,7 @@ class CartComponent extends Component
             $product = $this->getProduct($item['refid'], $item['refscope']);
             $item += [
                 'title' => $product->getTitle(),
-                'unit' => ($product->getUnit()) ?: 'x', // @deprecated. Redundant information. Can be resolved from product data.
+                'unit' => $product->getUnit() ?: 'x', // @deprecated. Redundant information. Can be resolved from product data.
                 'item_value_original_net' => $product->getPrice(),
                 'item_value_net' => $product->getPrice(),
                 'tax_rate' => $product->getTaxRate(),
@@ -333,7 +327,7 @@ class CartComponent extends Component
     }
 
     /**
-     * @return ShopOrder
+     * @return \Shop\Model\Entity\ShopOrder
      */
     public function &getOrder()
     {
@@ -343,7 +337,7 @@ class CartComponent extends Component
     }
 
     /**
-     * @param ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder $order
      * @param bool|true $update
      * @throws \Exception
      */
@@ -402,7 +396,7 @@ class CartComponent extends Component
     }
 
     /**
-     * @return $this|CartComponent
+     * @return $this|\Shop\Controller\Component\CartComponent
      * @deprected Use reloadOrder() instead
      */
     public function refresh()

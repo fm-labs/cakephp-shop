@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Shop\Model\Table;
 
 use Cake\Cache\Cache;
@@ -6,14 +8,11 @@ use Cake\Collection\Collection;
 use Cake\Core\Plugin;
 use Cake\Database\Schema\TableSchema;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
 use Seo\Sitemap\SitemapLocation;
-use Shop\Model\Entity\ShopCategory;
 
 /**
  * ShopCategories Model
@@ -26,7 +25,6 @@ use Shop\Model\Entity\ShopCategory;
  */
 class ShopCategoriesTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -206,8 +204,8 @@ class ShopCategoriesTable extends Table
     }
 
     /**
-     * @param Event $event
-     * @param EntityInterface $entity
+     * @param \Cake\Event\Event $event
+     * @param \Cake\Datasource\EntityInterface $entity
      * @param \ArrayObject $options
      */
     public function afterSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
@@ -216,7 +214,7 @@ class ShopCategoriesTable extends Table
     }
 
     /**
-     * @return Collection
+     * @return \Cake\Collection\Collection
      */
     public function findSitemap()
     {

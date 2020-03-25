@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Core\Payment\Engine;
 
-use Cake\Http\Response;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
@@ -18,7 +18,7 @@ use Shop\Model\Table\ShopOrdersTable;
 class MembershipPayment implements PaymentEngineInterface
 {
     /**
-     * @param CheckoutComponent $Checkout
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      * @return bool
      */
     public function isCheckoutComplete(CheckoutComponent $Checkout)
@@ -27,8 +27,8 @@ class MembershipPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param CheckoutComponent $Checkout
-     * @return Response|null
+     * @param \Shop\Controller\Component\CheckoutComponent $Checkout
+     * @return \Cake\Http\Response|null
      */
     public function checkout(CheckoutComponent $Checkout)
     {
@@ -52,9 +52,9 @@ class MembershipPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param PaymentComponent $Payment
-     * @param ShopOrder $transaction
-     * @return null|Response
+     * @param \Shop\Controller\Component\PaymentComponent $Payment
+     * @param \Shop\Model\Entity\ShopOrder $transaction
+     * @return null|\Cake\Http\Response
      */
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
     {
@@ -72,9 +72,9 @@ class MembershipPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param PaymentComponent $Payment
-     * @param ShopOrderTransaction $transaction
-     * @return ShopOrderTransaction
+     * @param \Shop\Controller\Component\PaymentComponent $Payment
+     * @param \Shop\Model\Entity\ShopOrderTransaction $transaction
+     * @return \Shop\Model\Entity\ShopOrderTransaction
      */
     public function confirm(PaymentComponent $Payment, ShopOrderTransaction $transaction)
     {

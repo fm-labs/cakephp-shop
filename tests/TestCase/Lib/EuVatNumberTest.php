@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shop\Test\TestCase\Lib;
 
@@ -11,7 +12,6 @@ use Shop\Lib\EuVatNumber;
  */
 class EuVatNumberTest extends TestCase
 {
-
     /**
      * Test getId method
      */
