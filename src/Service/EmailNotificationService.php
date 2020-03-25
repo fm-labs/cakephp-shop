@@ -17,7 +17,7 @@ class EmailNotificationService extends BaseService
     /**
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Shop.Model.Order.afterSubmit' => 'afterOrderSubmit',

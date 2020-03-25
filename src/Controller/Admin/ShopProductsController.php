@@ -37,7 +37,7 @@ class ShopProductsController extends AppController
     /**
      * Initialize method
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadComponent('Backend.Toggle');
@@ -50,7 +50,7 @@ class ShopProductsController extends AppController
      * @param Event $event
      * @return \Cake\Http\Response|null|void
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->ShopProducts->setLocale($this->locale);

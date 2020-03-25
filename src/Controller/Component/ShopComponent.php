@@ -28,7 +28,7 @@ class ShopComponent extends Component
     /**
      * @param array $config
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $defaultLayout = Configure::read('Shop.Layout.default');
         if ($defaultLayout) {
@@ -40,7 +40,7 @@ class ShopComponent extends Component
      * @param Event $event
      * @return void
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         $this->_loadCustomer();
     }
@@ -62,7 +62,7 @@ class ShopComponent extends Component
     /**
      * @param Event $event
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $event->getSubject()->set('customer', $this->getCustomer());
     }

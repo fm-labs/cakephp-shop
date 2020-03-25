@@ -6,7 +6,7 @@ use Cake\Event\Event;
 
 class DebugService extends BaseService
 {
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Controller.initialize' => 'beforeFilter',

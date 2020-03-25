@@ -64,7 +64,7 @@ class OrderNotificationService implements EventListenerInterface
     /**
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Shop.Model.Order.statusUpdate' => 'onOrderStatusUpdate',

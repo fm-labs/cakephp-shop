@@ -166,11 +166,11 @@ class ShopOrder extends Entity
      */
     protected function _getShopCustomer()
     {
-        if (!isset($this->_properties['shop_customer'])) {
-            $this->_properties['shop_customer'] = $this->getShopCustomer();
+        if (!isset($this->_fields['shop_customer'])) {
+            $this->_fields['shop_customer'] = $this->getShopCustomer();
         }
 
-        return $this->_properties['shop_customer'];
+        return $this->_fields['shop_customer'];
     }
 
     /**
@@ -188,11 +188,11 @@ class ShopOrder extends Entity
      */
     protected function _getOrderItemsCount()
     {
-        if (!isset($this->_properties['order_items_count'])) {
-            $this->_properties['order_items_count'] = $this->getOrderItemsCount();
+        if (!isset($this->_fields['order_items_count'])) {
+            $this->_fields['order_items_count'] = $this->getOrderItemsCount();
         }
 
-        return (int)$this->_properties['order_items_count'];
+        return (int)$this->_fields['order_items_count'];
     }
 
     /**
@@ -221,11 +221,11 @@ class ShopOrder extends Entity
      */
     protected function _getOrderItemsQty()
     {
-        if (!isset($this->_properties['order_items_qty'])) {
-            $this->_properties['order_items_qty'] = $this->getOrderItemsQty();
+        if (!isset($this->_fields['order_items_qty'])) {
+            $this->_fields['order_items_qty'] = $this->getOrderItemsQty();
         }
 
-        return (int)$this->_properties['order_items_qty'];
+        return (int)$this->_fields['order_items_qty'];
     }
 
     /**
@@ -249,11 +249,11 @@ class ShopOrder extends Entity
      */
     protected function _getIsReverseCharge()
     {
-        if (!isset($this->_properties['is_reverse_charge'])) {
-            $this->_properties['is_reverse_charge'] = $this->isReverseCharge();
+        if (!isset($this->_fields['is_reverse_charge'])) {
+            $this->_fields['is_reverse_charge'] = $this->isReverseCharge();
         }
 
-        return $this->_properties['is_reverse_charge'];
+        return $this->_fields['is_reverse_charge'];
     }
 
     /**
@@ -261,14 +261,14 @@ class ShopOrder extends Entity
      */
     protected function _getNrFormatted()
     {
-        if (isset($this->_properties['nr'])) {
+        if (isset($this->_fields['nr'])) {
             $orderCfg = Shop::config('Order');
 
             $prefix = $orderCfg['nrPrefix'];
             $suffix = $orderCfg['nrSuffix'];
             $zeroFill = $orderCfg['nrZerofill'];
-            $grp = $this->_properties['ordergroup'];
-            $nr = $this->_properties['nr'];
+            $grp = $this->_fields['ordergroup'];
+            $nr = $this->_fields['nr'];
 
             if ($zeroFill > 0) {
                 $nrFill = str_repeat("0", $zeroFill) . (string)$nr;
@@ -286,14 +286,14 @@ class ShopOrder extends Entity
      */
     protected function _getInvoiceNrFormatted()
     {
-        if (isset($this->_properties['invoice_nr'])) {
+        if (isset($this->_fields['invoice_nr'])) {
             $orderCfg = Shop::config('Invoice');
 
             $prefix = $orderCfg['nrPrefix'];
             $suffix = $orderCfg['nrSuffix'];
             $zeroFill = $orderCfg['nrZerofill'];
-            $grp = $this->_properties['ordergroup'];
-            $nr = $this->_properties['invoice_nr'];
+            $grp = $this->_fields['ordergroup'];
+            $nr = $this->_fields['invoice_nr'];
 
             if ($zeroFill > 0) {
                 $nrFill = str_repeat("0", $zeroFill) . (string)$nr;
@@ -401,11 +401,11 @@ class ShopOrder extends Entity
      */
     protected function _getOrderValueTax()
     {
-        if (!isset($this->_properties['order_value_tax'])) {
-            $this->_properties['order_value_tax'] = Taxation::extractTax($this->_properties['order_value_total'], 20.00); //@TODO!!
+        if (!isset($this->_fields['order_value_tax'])) {
+            $this->_fields['order_value_tax'] = Taxation::extractTax($this->_fields['order_value_total'], 20.00); //@TODO!!
         }
 
-        return $this->_properties['order_value_tax'];
+        return $this->_fields['order_value_tax'];
     }
 
     protected function _getItemsValueDisplay()

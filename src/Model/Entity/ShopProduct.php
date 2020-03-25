@@ -51,8 +51,8 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     public function getPath()
     {
-        if (isset($this->_properties['shop_category_id'])) {
-            return TableRegistry::getTableLocator()->get('Shop.ShopCategories')->find('path', ['for' => $this->_properties['shop_category_id']]);
+        if (isset($this->_fields['shop_category_id'])) {
+            return TableRegistry::getTableLocator()->get('Shop.ShopCategories')->find('path', ['for' => $this->_fields['shop_category_id']]);
         }
     }
 
@@ -70,7 +70,7 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getShopCategory()
     {
-        if (!isset($this->_properties['shop_category'])) {
+        if (!isset($this->_fields['shop_category'])) {
             $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
             $category = $Table
                 ->find()
@@ -81,7 +81,7 @@ class ShopProduct extends Entity implements ShopProductInterface
             $this->shop_category = $category;
         }
 
-        return $this->_properties['shop_category'];
+        return $this->_fields['shop_category'];
     }
 
     protected function _getUrl()
@@ -106,7 +106,7 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getPreviewImage()
     {
-        return ($this->_properties['preview_image_file']) ?: $this->featured_image_file;
+        return ($this->_fields['preview_image_file']) ?: $this->featured_image_file;
     }
 
     protected function _getShopProducts()

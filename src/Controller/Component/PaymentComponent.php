@@ -69,7 +69,7 @@ class PaymentComponent extends Component
     /**
      * @param array $config
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->ShopOrders = $this->getController()->loadModel('Shop.ShopOrders');
         $this->_engineRegistry = new PaymentEngineRegistry($this);

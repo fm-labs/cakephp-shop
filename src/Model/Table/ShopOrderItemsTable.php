@@ -23,7 +23,7 @@ class ShopOrderItemsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -48,7 +48,7 @@ class ShopOrderItemsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
@@ -107,7 +107,7 @@ class ShopOrderItemsTable extends Table
         return $validator;
     }
 
-    public function beforeRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
+    public function beforeRules(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options, $operation)
     {
         //debug("beforeRules");
         //$entity->calculate();
@@ -119,7 +119,7 @@ class ShopOrderItemsTable extends Table
         //$entity->calculate();
     }
 
-    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    public function beforeSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
         //debug("beforeSave");
         $entity->calculate();
@@ -133,14 +133,14 @@ class ShopOrderItemsTable extends Table
         $entity->options = $options;
     }
 
-    public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    public function afterSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($entity->shop_order_id) {
             $this->ShopOrders->calculate($entity->shop_order_id);
         }
     }
 
-    public function afterDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
+    public function afterDelete(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($entity->shop_order_id) {
             $this->ShopOrders->calculate($entity->shop_order_id);
@@ -154,7 +154,7 @@ class ShopOrderItemsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
     {
         $rules->add($rules->existsIn(['shop_order_id'], 'ShopOrders'));
 

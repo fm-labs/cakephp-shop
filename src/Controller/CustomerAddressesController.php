@@ -19,7 +19,7 @@ class CustomerAddressesController extends AppController
 
     use CellTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->Auth->deny([]);

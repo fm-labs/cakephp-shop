@@ -24,7 +24,7 @@ class CheckoutStepRegistryTest extends TestCase
     /**
      * Setup test
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +42,7 @@ class CheckoutStepRegistryTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->request);
@@ -135,7 +135,7 @@ class CheckoutStepRegistryTest extends TestCase
             'className' => '\\Shop\\Test\\TestCase\\Core\\Checkout\\TestCheckoutStep',
         ]);
 
-        $this->setExpectedException('\\OutOfBoundsException');
+        $this->expectException('\\OutOfBoundsException');
         $this->steps->seek('test4');
     }
 }

@@ -78,11 +78,11 @@ class ShopOrderItem extends Entity
      */
     protected function _getRef()
     {
-        if (!isset($this->_properties['ref'])) {
+        if (!isset($this->_fields['ref'])) {
             $ref = null;
-            if (isset($this->_properties['refscope']) && isset($this->_properties['refid'])) {
-                $refid = $this->_properties['refid'];
-                $refscope = $this->_properties['refscope'];
+            if (isset($this->_fields['refscope']) && isset($this->_fields['refid'])) {
+                $refid = $this->_fields['refid'];
+                $refscope = $this->_fields['refscope'];
                 list($plugin, $refModel) = pluginSplit($refscope);
                 try {
                     $ref = TableRegistry::getTableLocator()->get($refscope)->find('product')->where([$refModel . '.id' => $refid])->first();
@@ -90,10 +90,10 @@ class ShopOrderItem extends Entity
                     debug($ex->getMessage());
                 }
             }
-            $this->_properties['ref'] = $ref;
+            $this->_fields['ref'] = $ref;
         }
 
-        return $this->_properties['ref'];
+        return $this->_fields['ref'];
     }
 
     protected function _getSku()
@@ -103,11 +103,11 @@ class ShopOrderItem extends Entity
 
     protected function _getTitle()
     {
-        if (!isset($this->_properties['title'])) {
-            $this->_properties['title'] = ($this->getProduct()) ? $this->getProduct()->getTitle() : null;
+        if (!isset($this->_fields['title'])) {
+            $this->_fields['title'] = ($this->getProduct()) ? $this->getProduct()->getTitle() : null;
         }
 
-        return $this->_properties['title'];
+        return $this->_fields['title'];
     }
 
     /**
@@ -185,16 +185,16 @@ class ShopOrderItem extends Entity
     public function getProduct()
     {
         $this->_getRef();
-        if (!$this->_properties['ref']) {
+        if (!$this->_fields['ref']) {
             //throw new \RuntimeException(sprintf('ShopOrderItem: Referenced product item not loaded'));
         }
 
-        if (!($this->_properties['ref'] instanceof ShopProductInterface)) {
+        if (!($this->_fields['ref'] instanceof ShopProductInterface)) {
             //throw new \RuntimeException(sprintf('ShopOrderItem: %s is not an instance of ShopProductInterface',
             //    get_class($this->_properties['ref'])));
         }
 
-        return $this->_properties['ref'];
+        return $this->_fields['ref'];
     }
 
     /**

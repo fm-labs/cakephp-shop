@@ -14,7 +14,7 @@ class CatalogueController extends AppController
 {
     public $modelClass = "";
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 

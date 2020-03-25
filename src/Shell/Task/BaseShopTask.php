@@ -14,7 +14,7 @@ class BaseShopTask extends Shell
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
     }

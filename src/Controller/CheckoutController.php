@@ -27,7 +27,7 @@ class CheckoutController extends AppController
     /**
      * Initialize
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -41,7 +41,7 @@ class CheckoutController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->viewBuilder()->setLayout((Configure::read('Shop.Checkout.layout')) ?: null); //@TODO Move layout handling to ShopComponent
@@ -50,7 +50,7 @@ class CheckoutController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $this->set('steps', $this->Checkout->describeSteps());
     }

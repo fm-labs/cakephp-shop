@@ -67,12 +67,12 @@ class ShopCustomer extends Entity
             return sprintf("%s, %s", $this->last_name, $this->first_name);
         }
 
-        return $this->_properties['email'];
+        return $this->_fields['email'];
     }
 
     protected function _getIsGuest()
     {
-        return (!isset($this->_properties['user_id']));
+        return (!isset($this->_fields['user_id']));
     }
 
     protected function _getIsDemo()

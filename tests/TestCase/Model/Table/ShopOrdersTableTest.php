@@ -50,7 +50,7 @@ class ShopOrdersTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
@@ -68,7 +68,7 @@ class ShopOrdersTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->ShopOrders);
 
@@ -106,7 +106,18 @@ class ShopOrdersTableTest extends TestCase
         // check order integrity
         $order = $this->ShopOrders->get(1, ['contain' => ['BillingAddresses', 'ShippingAddresses']]);
         $this->assertInstanceOf('Shop\\Model\\Entity\\ShopOrderAddress', $order->getBillingAddress());
-        $this->assertArraySubset($addressData, $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('first_name', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('last_name', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('street', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('zipcode', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('city', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('country_id', $order->getBillingAddress()->toArray());
+        $this->assertSame('Testme', $order->getBillingAddress()->toArray()['first_name']);
+        $this->assertSame('Testme', $order->getBillingAddress()->toArray()['last_name']);
+        $this->assertSame('Teststreet 1', $order->getBillingAddress()->toArray()['street']);
+        $this->assertSame('1111', $order->getBillingAddress()->toArray()['zipcode']);
+        $this->assertSame('Test', $order->getBillingAddress()->toArray()['city']);
+        $this->assertSame(1, $order->getBillingAddress()->toArray()['country_id']);
 
         // if billing address is already set, patch billing address entry rather than creating a new record
         $billingAddressId = $order->getBillingAddress()->id;
@@ -122,10 +133,32 @@ class ShopOrdersTableTest extends TestCase
         $order = $this->ShopOrders->get(1, ['contain' => ['BillingAddresses', 'ShippingAddresses']]);
         $result = $this->ShopOrders->setOrderAddress($order, $address, 'B');
         $this->assertInstanceOf('Shop\\Model\\Entity\\ShopOrderAddress', $result);
-        $this->assertArraySubset($addressData, $result->toArray());
+        $this->assertArrayHasKey('first_name', $result->toArray());
+        $this->assertArrayHasKey('last_name', $result->toArray());
+        $this->assertArrayHasKey('street', $result->toArray());
+        $this->assertArrayHasKey('zipcode', $result->toArray());
+        $this->assertArrayHasKey('city', $result->toArray());
+        $this->assertArrayHasKey('country_id', $result->toArray());
+        $this->assertSame('Testme2', $result->toArray()['first_name']);
+        $this->assertSame('Testme', $result->toArray()['last_name']);
+        $this->assertSame('Teststreet 2', $result->toArray()['street']);
+        $this->assertSame('1111', $result->toArray()['zipcode']);
+        $this->assertSame('Test', $result->toArray()['city']);
+        $this->assertSame(1, $result->toArray()['country_id']);
 
         $order = $this->ShopOrders->get(1, ['contain' => ['BillingAddresses', 'ShippingAddresses']]);
-        $this->assertArraySubset($addressData, $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('first_name', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('last_name', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('street', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('zipcode', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('city', $order->getBillingAddress()->toArray());
+        $this->assertArrayHasKey('country_id', $order->getBillingAddress()->toArray());
+        $this->assertSame('Testme2', $order->getBillingAddress()->toArray()['first_name']);
+        $this->assertSame('Testme', $order->getBillingAddress()->toArray()['last_name']);
+        $this->assertSame('Teststreet 2', $order->getBillingAddress()->toArray()['street']);
+        $this->assertSame('1111', $order->getBillingAddress()->toArray()['zipcode']);
+        $this->assertSame('Test', $order->getBillingAddress()->toArray()['city']);
+        $this->assertSame(1, $order->getBillingAddress()->toArray()['country_id']);
         $this->assertEquals($billingAddressId, $order->getBillingAddress()->id);
     }
 

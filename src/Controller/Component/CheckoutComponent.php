@@ -70,7 +70,7 @@ class CheckoutComponent extends Component
     /**
      * @param array $config
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
         $this->ShopOrders->getEventManager()->on($this);
@@ -101,14 +101,14 @@ class CheckoutComponent extends Component
      * Startup event
      * @param Event $event
      */
-    public function startup(Event $event)
+    public function startup(\Cake\Event\EventInterface $event)
     {
     }
 
     /**
      * @param Event $event
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $event->getSubject()->set('order', $this->_order);
         $event->getSubject()->set('step', $this->_activeStep);
@@ -501,7 +501,7 @@ class CheckoutComponent extends Component
     /**
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         $events = parent::implementedEvents();
 

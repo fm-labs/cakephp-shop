@@ -6,7 +6,7 @@ use Cake\Event\Event;
 
 class CartService extends BaseService
 {
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Shop.Cart.beforeItemAdd' => 'beforeAdd',

@@ -26,7 +26,7 @@ class ProductsController extends AppController
     /**
      * Initialize
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 

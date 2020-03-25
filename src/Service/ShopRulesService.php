@@ -13,7 +13,7 @@ class ShopRulesService implements EventListenerInterface
     /**
      * {@inheritDoc}
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Shop.Cart.beforeItemUpdate' => 'cartBeforeItemUpdate',

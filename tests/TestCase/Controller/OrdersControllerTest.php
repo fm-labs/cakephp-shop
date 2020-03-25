@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\tests\TestCase\Controller;
+namespace Shop\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;

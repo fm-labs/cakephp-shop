@@ -59,7 +59,7 @@ class CartComponent extends Component
     /**
      * @param array $config
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
         $this->ShopProducts = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
@@ -77,7 +77,7 @@ class CartComponent extends Component
     /**
      * @param Event $event
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         $this->order = null;
         $this->sessionId = $this->getRequest()->getSession()->id();
@@ -112,7 +112,7 @@ class CartComponent extends Component
     /**
      * @param Event $event
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $this->updateSession();
         if ($event->getSubject() instanceof Controller) {
@@ -123,7 +123,7 @@ class CartComponent extends Component
     /**
      * @param Event $event
      */
-    public function shutdown(Event $event)
+    public function shutdown(\Cake\Event\EventInterface $event)
     {
         //@TODO Detach table event listeners
         //@TODO Unload tables
@@ -451,9 +451,6 @@ class CartComponent extends Component
         $this->getController()->getRequest()->getSession()->delete('Shop.Order');
     }
 
-    /**
-     *
-     */
     protected function _createOrder()
     {
         $order = $this->ShopOrders->newEntity([

@@ -109,11 +109,11 @@ class ShopCategory extends Entity
     protected function _getParent()
     {
         if (
-            !isset($this->_properties['parent_shop_category'])
-            && isset($this->_properties['parent_id'])
+            !isset($this->_fields['parent_shop_category'])
+            && isset($this->_fields['parent_id'])
             //&& !empty($this->_properties['parent_id'])
         ) {
-            $this->parent_shop_category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($this->_properties['parent_id']);
+            $this->parent_shop_category = TableRegistry::getTableLocator()->get('Shop.ShopCategories')->get($this->_fields['parent_id']);
         }
 
         return $this->parent_shop_category;
@@ -164,7 +164,7 @@ class ShopCategory extends Entity
      */
     protected function _getUrlPath()
     {
-        if (!isset($this->_properties['url_path'])) {
+        if (!isset($this->_fields['url_path'])) {
             $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
             $_path = "";
             $_categories = $Table->find('path', ['for' => $this->id])->toArray();
@@ -173,10 +173,10 @@ class ShopCategory extends Entity
                 $_path .= '/' . $_category->slug;
             }
             $_path = ltrim($_path, '/');
-            $this->_properties['url_path'] = ($_path) ?: false;
+            $this->_fields['url_path'] = ($_path) ?: false;
         }
 
-        return $this->_properties['url_path'];
+        return $this->_fields['url_path'];
     }
 
     /**

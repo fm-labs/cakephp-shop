@@ -2,14 +2,10 @@
 
 namespace Shop\Controller;
 
-use Cake\Event\Event;
-use Content\Controller\ContentController;
-use Content\Controller\Component\FrontendComponent;
+use Cake\Controller\Controller;
 use Cake\Controller\Component\AuthComponent;
-use Cake\Utility\Text;
 use Shop\Controller\Component\CartComponent;
 use Shop\Controller\Component\ShopComponent;
-use Shop\Model\Table\ShopOrdersTable;
 
 /**
  * Class AppController
@@ -19,10 +15,9 @@ use Shop\Model\Table\ShopOrdersTable;
  * @property AuthComponent $Auth
  * @property CartComponent $Cart
  */
-class AppController extends ContentController
+class AppController extends Controller
 {
-
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 

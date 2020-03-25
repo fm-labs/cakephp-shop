@@ -17,7 +17,7 @@ class CustomerService extends BaseService
     /**
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'User.Auth.login' => 'onUserLogin',

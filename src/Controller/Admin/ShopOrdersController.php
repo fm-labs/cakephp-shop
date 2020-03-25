@@ -31,7 +31,7 @@ class ShopOrdersController extends AppController
     /**
      * Initialize method
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         //$this->loadComponent('RequestHandler');
@@ -366,7 +366,7 @@ class ShopOrdersController extends AppController
     /**
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         $events = parent::implementedEvents();
 

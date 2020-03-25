@@ -16,7 +16,7 @@ class OrdersController extends AppController
 
     public $modelClass = "Shop.ShopOrders";
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->Auth->deny([]);

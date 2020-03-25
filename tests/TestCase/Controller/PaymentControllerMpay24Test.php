@@ -16,7 +16,7 @@ class PaymentControllerMpay24Test extends PaymentControllerTest
     /**
      * Setup
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

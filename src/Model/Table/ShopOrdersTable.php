@@ -59,7 +59,7 @@ class ShopOrdersTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -155,7 +155,7 @@ class ShopOrdersTable extends Table
      * @param Validator $validator
      * @param $name
      */
-    public function buildValidator(Event $event, Validator $validator, $name)
+    public function buildValidator(\Cake\Event\EventInterface $event, Validator $validator, $name)
     {
     }
 
@@ -165,7 +165,7 @@ class ShopOrdersTable extends Table
      * @param \ArrayObject $options
      * @param $operation
      */
-    public function afterRules(Event $event, EntityInterface $entity, \ArrayObject $options, $operation)
+    public function afterRules(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options, $operation)
     {
     }
 
@@ -174,7 +174,7 @@ class ShopOrdersTable extends Table
      * @param EntityInterface $entity
      * @param \ArrayObject $options
      */
-    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    public function beforeSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($entity->isNew() && !$entity->uuid) {
             $entity->uuid = Text::uuid();
@@ -186,7 +186,7 @@ class ShopOrdersTable extends Table
      * @param EntityInterface $entity
      * @param \ArrayObject $options
      */
-    public function afterSave(Event $event, EntityInterface $entity, \ArrayObject $options)
+    public function afterSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
     }
 
@@ -732,7 +732,7 @@ class ShopOrdersTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
@@ -948,7 +948,7 @@ class ShopOrdersTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
     {
         $rules->add($rules->existsIn(['shop_customer_id'], 'ShopCustomers'));
 

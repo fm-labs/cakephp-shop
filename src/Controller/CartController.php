@@ -21,7 +21,7 @@ class CartController extends AppController
     /**
      * Intialize
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 

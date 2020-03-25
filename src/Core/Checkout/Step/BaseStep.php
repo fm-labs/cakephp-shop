@@ -36,7 +36,7 @@ abstract class BaseStep implements EventListenerInterface
     /**
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Shop.Checkout.beforeStep' => 'beforeStep',
