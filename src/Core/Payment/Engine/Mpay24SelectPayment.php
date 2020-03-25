@@ -4,7 +4,6 @@ namespace Shop\Core\Payment\Engine;
 
 use Cake\Core\Configure;
 use Cake\Log\Log;
-use Cake\Http\ServerRequest as Request;
 use Cake\Routing\Router;
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Config;
@@ -264,13 +263,13 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         SUSPENDED   Expecting external interface confirmation. The transaction is suspended temporarily.
         WITHDRAWN   The payout was successful. The amount will be transfered to the customer.
          */
-        $clientIp = $Payment->request->clientIp();
+        $clientIp = $Payment->getController()->getRequest()->clientIp();
 
         // check ip
 
-        $isTest = ('213.208.153.58' == $Payment->request->clientIp());
+        $isTest = ('213.208.153.58' == $Payment->getController()->getRequest()->clientIp());
 
-        $query = $Payment->request->getQuery(); // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
+        $query = $Payment->getController()->getRequest()->getQuery(); // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
         if ($transaction->id != $query['TID']) { //@TODO Compary hash instead of id
             throw new \RuntimeException('Mpay24Payment::confirm: Transaction Ids do not match');
         }

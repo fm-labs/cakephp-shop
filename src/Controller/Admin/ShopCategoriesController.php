@@ -57,7 +57,7 @@ class ShopCategoriesController extends AppController
     public function quick()
     {
         if ($this->request->is(['post', 'put'])) {
-            $id = $this->request->data('shop_category_id');
+            $id = $this->request->getData('shop_category_id');
             if ($id) {
                 $this->redirect(['action' => 'edit', $id]);
 
@@ -517,7 +517,7 @@ class ShopCategoriesController extends AppController
             throw new BadRequestException('Invalid scope');
         }
 
-        $content->accessible($scope, true);
+        $content->setAccess($scope, true);
         $content->set($scope, '');
 
         if ($this->ShopCategories->save($content)) {

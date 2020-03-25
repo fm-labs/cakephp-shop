@@ -157,48 +157,48 @@ class ShopProductsTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create')
+            ->allowEmptyString('id', 'create')
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->allowEmpty('sku');
+            ->allowEmptyString('sku');
             //->add('sku', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']); //@TODO
 
         $validator
             ->requirePresence('title', 'create')
-            ->notEmpty('title');
+            ->notEmptyString('title');
 
         $validator
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmptyString('type');
 
         $validator
-            ->allowEmpty('slug');
+            ->allowEmptyString('slug');
 
         $validator
-            ->allowEmpty('desc_short_text');
+            ->allowEmptyString('desc_short_text');
 
         $validator
-            ->allowEmpty('desc_long_text');
+            ->allowEmptyString('desc_long_text');
 
         $validator
-            ->allowEmpty('preview_image_file');
+            ->allowEmptyString('preview_image_file');
 
         $validator
-            ->allowEmpty('featured_image_file');
+            ->allowEmptyString('featured_image_file');
 
         $validator
             ->add('is_published', 'valid', ['rule' => 'boolean'])
             //->requirePresence('is_published', 'create')
-            ->allowEmpty('is_published');
+            ->allowEmptyString('is_published');
 
         $validator
             ->add('publish_start_date', 'valid', ['rule' => 'date'])
-            ->allowEmpty('publish_start_date');
+            ->allowEmptyString('publish_start_date');
 
         $validator
             ->add('publish_end_date', 'valid', ['rule' => 'date'])
-            ->allowEmpty('publish_end_date');
+            ->allowEmptyString('publish_end_date');
 
         return $validator;
     }

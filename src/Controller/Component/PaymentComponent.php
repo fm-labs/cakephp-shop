@@ -152,8 +152,8 @@ class PaymentComponent extends Component
             $response = $engine->pay($this, $this->_transaction, $this->_order);
 
             // capture redirect url, if any
-            if ($response && $response instanceof Response && $response->location()) {
-                $this->_transaction->redirect_url = $response->location();
+            if ($response && $response instanceof Response && $response->getHeaderLine('Location')) {
+                $this->_transaction->redirect_url = $response->getHeaderLine('Location');
             }
         } catch (\Exception $ex) {
             // capture errors, if any
@@ -177,15 +177,15 @@ class PaymentComponent extends Component
         // store the confirmation request first
         $engine = $transaction->engine;
         $txnId = $transaction->id;
-        $clientIp = $this->request->clientIp();
-        $url = $this->request->url;
-        $params = $this->request->params;
-        $query = $this->request->getQuery();
-        $data = $this->request->getData();
+        $clientIp =$this->getController()->getRequest()->clientIp();
+        $url =$this->getController()->getRequest()->getUri();
+        $query =$this->getController()->getRequest()->getQuery();
+        $data =$this->getController()->getRequest()->getData();
+        $params = $this->getController()->getRequest()->getServerParams();
 
         Log::debug(sprintf('Payment::confirm: [%s] %s', $clientIp, $txnId), ['shop', 'payment']);
 
-        $request = compact('txnId', 'engine', 'clientIp', 'url', 'params', 'query', 'data');
+        $request = compact('txnId', 'engine', 'clientIp', 'url', 'query', 'data', 'params');
         $json = json_encode($request);
 
         // dump to file
@@ -214,7 +214,7 @@ class PaymentComponent extends Component
             'shop_order_transaction_id' => $transaction->id,
             'type' => 'C',
             'engine' => $engine,
-            'request_ip' => $this->request->clientIp(),
+            'request_ip' =>$this->getController()->getRequest()->clientIp(),
             'request_json' => $json,
             'is_valid' => false,
             'is_processed' => false,
@@ -228,7 +228,7 @@ class PaymentComponent extends Component
             // Dispatch Shop.Payment.beforeConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.beforeConfirm', [
                 'transaction' => $transaction,
-                'request' => $this->request,
+                'request' =>$this->getController()->getRequest(),
             ], $this);
 
             $engine = $this->_engineRegistry->get($transaction->engine);
@@ -237,7 +237,7 @@ class PaymentComponent extends Component
             // Dispatch Shop.Payment.afterConfirm event
             $this->getController()->dispatchEvent('Shop.Payment.afterConfirm', [
                 'transaction' => $transaction,
-                'request' => $this->request,
+                'request' =>$this->getController()->getRequest(),
             ], $this);
         } catch (\Exception $ex) {
             Log::error("Payment::confirmTransaction:" . $transaction->engine . ":" . $ex->getMessage());
@@ -248,7 +248,7 @@ class PaymentComponent extends Component
             throw new \RuntimeException("Payment::confirmTransaction: Response of payment engine MUST be an instance of ShopOrderTransaction");
         }
 
-        if ($transaction->dirty() && !$this->ShopOrders->ShopOrderTransactions->save($transaction)) {
+        if ($transaction->isDirty() && !$this->ShopOrders->ShopOrderTransactions->save($transaction)) {
             debug($transaction->getErrors());
             throw new \RuntimeException("Payment::confirmTransaction: Failed to update transaction");
         }

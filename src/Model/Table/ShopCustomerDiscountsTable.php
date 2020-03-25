@@ -52,33 +52,33 @@ class ShopCustomerDiscountsTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmptyString('type');
 
         $validator
             ->requirePresence('valuetype', 'create')
-            ->notEmpty('valuetype');
+            ->notEmptyString('valuetype');
 
         $validator
             ->add('value', 'valid', ['rule' => 'decimal'])
             ->requirePresence('value', 'create')
-            ->notEmpty('value');
+            ->notEmptyString('value');
 
         $validator
             ->add('is_published', 'valid', ['rule' => 'boolean'])
             ->requirePresence('is_published', 'create')
-            ->notEmpty('is_published');
+            ->notEmptyString('is_published');
 
         $validator
             ->add('publish_start', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('publish_start');
+            ->allowEmptyString('publish_start');
 
         $validator
             ->add('publish_end', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('publish_end');
+            ->allowEmptyString('publish_end');
 
         return $validator;
     }

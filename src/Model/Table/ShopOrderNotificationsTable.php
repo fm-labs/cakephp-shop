@@ -57,26 +57,26 @@ class ShopOrderNotificationsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmptyString('type');
 
         $validator
-            ->allowEmpty('message');
+            ->allowEmptyString('message');
 
         $validator
             ->integer('order_status')
-            ->allowEmpty('order_status');
+            ->allowEmptyString('order_status');
 
         $validator
             ->boolean('owner_notified')
-            ->allowEmpty('owner_notified');
+            ->allowEmptyString('owner_notified');
 
         $validator
             ->boolean('customer_notified')
-            ->allowEmpty('customer_notified');
+            ->allowEmptyString('customer_notified');
 
         return $validator;
     }

@@ -50,10 +50,10 @@ class InvoicePdfGenerator
 
         $view = new PdfView();
         $view->plugin = 'Shop';
-        $view->layoutPath(null);
-        $view->templatePath('Admin/ShopOrders');
-        $view->layout('Shop.print');
-        $view->template('Shop.printview');
+        $view->setLayoutPath(null);
+        $view->setTemplatePath('Admin/ShopOrders');
+        $view->setLayout('Shop.print');
+        $view->setTemplate('Shop.printview');
 
         $pdf = array_merge([
             'title' => $shopOrder->title,

@@ -3,9 +3,7 @@
 namespace Shop\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Shop\Model\Entity\ShopOrderTransaction;

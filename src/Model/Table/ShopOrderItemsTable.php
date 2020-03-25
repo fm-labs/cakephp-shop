@@ -52,57 +52,57 @@ class ShopOrderItemsTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
-            ->allowEmpty('refscope');
+            ->allowEmptyString('refscope');
 
         $validator
             ->add('refid', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('refid');
+            ->allowEmptyString('refid');
 
         /*
         $validator
             ->requirePresence('title', 'create')
-            ->notEmpty('title');
+            ->notEmptyString('title');
         */
 
         $validator
             ->add('amount', 'valid', ['rule' => 'numeric'])
             ->requirePresence('amount', 'create')
-            ->notEmpty('amount');
+            ->notEmptyString('amount');
 
         $validator
             ->requirePresence('unit', 'create')
-            ->notEmpty('unit');
+            ->notEmptyString('unit');
 
         $validator
             ->add('item_value_net', 'valid', ['rule' => 'numeric'])
             ->requirePresence('item_value_net', 'create')
-            ->notEmpty('item_value_net');
+            ->notEmptyString('item_value_net');
 
         $validator
             ->add('tax_rate', 'valid', ['rule' => 'numeric'])
             ->requirePresence('tax_rate', 'create')
-            ->notEmpty('tax_rate');
+            ->notEmptyString('tax_rate');
 
         $validator
             ->add('value_net', 'valid', ['rule' => 'numeric'])
             ->requirePresence('value_net', 'create')
-            ->notEmpty('value_net');
+            ->notEmptyString('value_net');
 
         $validator
             ->add('value_tax', 'valid', ['rule' => 'numeric'])
             ->requirePresence('value_tax', 'create')
-            ->notEmpty('value_tax');
+            ->notEmptyString('value_tax');
 
         $validator
             ->add('value_total', 'valid', ['rule' => 'numeric'])
             ->requirePresence('value_total', 'create')
-            ->notEmpty('value_total');
+            ->notEmptyString('value_total');
 
         $validator
-            ->allowEmpty('options');
+            ->allowEmptyString('options');
 
         return $validator;
     }

@@ -35,13 +35,13 @@ class AddToCartForm extends Form
     {
         $validator
             ->requirePresence('amount')
-            ->notEmpty('amount')
+            ->notEmptyString('amount')
 
             ->requirePresence('refid')
-            ->notEmpty('refid')
+            ->notEmptyString('refid')
 
             ->requirePresence('refscope')
-            ->notEmpty('refscope');
+            ->notEmptyString('refscope');
 
         return $validator;
     }

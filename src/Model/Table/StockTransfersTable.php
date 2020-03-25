@@ -64,24 +64,24 @@ class StockTransfersTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->add('op', 'valid', ['rule' => 'numeric'])
             ->requirePresence('op', 'create')
-            ->notEmpty('op');
+            ->notEmptyString('op');
 
         $validator
             ->add('amount', 'valid', ['rule' => 'numeric'])
             ->requirePresence('amount', 'create')
-            ->notEmpty('amount');
+            ->notEmptyString('amount');
 
         $validator
             ->add('date', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('date');
+            ->allowEmptyString('date');
 
         $validator
-            ->allowEmpty('comment');
+            ->allowEmptyString('comment');
 
         return $validator;
     }

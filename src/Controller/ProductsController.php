@@ -88,8 +88,8 @@ class ProductsController extends AppController
         if ($id === null) {
             if ($this->request->getQuery('id')) {
                 $id = $this->request->getQuery('id');
-            } elseif (isset($this->request->query['product_id'])) {
-                $id = $this->request->query['product_id'];
+            } elseif ($this->request->getQuery('product_id')) {
+                $id = $this->request->getQuery('product_id');
             } elseif ($this->request->getParam('product_id')) {
                 $id = $this->request->getParam('product_id');
             }

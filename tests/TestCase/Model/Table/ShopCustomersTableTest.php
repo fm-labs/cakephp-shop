@@ -48,7 +48,7 @@ class ShopCustomersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('ShopCustomers') ? [] : ['className' => 'Shop\Model\Table\ShopCustomersTable'];
+        $config = TableRegistry::getTableLocator()->exists('ShopCustomers') ? [] : ['className' => 'Shop\Model\Table\ShopCustomersTable'];
         $this->ShopCustomers = TableRegistry::getTableLocator()->get('ShopCustomers', $config);
     }
 
@@ -56,7 +56,7 @@ class ShopCustomersTableTest extends TestCase
     {
 
         $user = $this->ShopCustomers->Users->newEntity();
-        $user->accessible('*', true);
+        $user->setAccess('*', true);
         $user = $this->ShopCustomers->Users->patchEntity($user, $this->_testUserData, ['validate' => false]);
 
         if (!$save) {

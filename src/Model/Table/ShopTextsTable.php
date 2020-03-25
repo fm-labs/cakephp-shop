@@ -48,26 +48,26 @@ class ShopTextsTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('model', 'create')
-            ->notEmpty('model');
+            ->notEmptyString('model');
 
         $validator
-            ->allowEmpty('model_scope');
+            ->allowEmptyString('model_scope');
 
         $validator
-            ->allowEmpty('locale');
+            ->allowEmptyString('locale');
 
         $validator
-            ->allowEmpty('format');
+            ->allowEmptyString('format');
 
         $validator
-            ->allowEmpty('text');
+            ->allowEmptyString('text');
 
         $validator
-            ->allowEmpty('class');
+            ->allowEmptyString('class');
 
         return $validator;
     }

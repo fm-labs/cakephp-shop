@@ -238,7 +238,7 @@ class PaymentController extends AppController
         } catch (\Exception $ex) {
             Log::debug("Payment::error: " . $ex->getMessage(), ['shop', 'payment']);
             debug($ex->getMessage());
-            $this->response->statusCode(400);
+            $this->response = $this->response->withStatus(400);
         }
     }
 }

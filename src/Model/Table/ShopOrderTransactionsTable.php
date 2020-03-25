@@ -85,44 +85,44 @@ class ShopOrderTransactionsTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmptyString('type');
 
         $validator
             ->requirePresence('engine', 'create')
-            ->notEmpty('engine');
+            ->notEmptyString('engine');
 
         $validator
             ->requirePresence('currency_code', 'create')
-            ->notEmpty('currency_code');
+            ->notEmptyString('currency_code');
 
         $validator
             ->add('value', 'valid', ['rule' => 'decimal'])
             ->requirePresence('value', 'create')
-            ->notEmpty('value');
+            ->notEmptyString('value');
 
         $validator
             ->add('status', 'valid', ['rule' => 'numeric'])
             ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->notEmptyString('status');
 
         $validator
-            ->allowEmpty('ext_txnid');
+            ->allowEmptyString('ext_txnid');
 
         $validator
-            ->allowEmpty('ext_status');
+            ->allowEmptyString('ext_status');
 
         $validator
-            ->allowEmpty('redirect_url');
+            ->allowEmptyString('redirect_url');
 
         $validator
-            ->allowEmpty('custom1');
+            ->allowEmptyString('custom1');
 
         $validator
-            ->allowEmpty('custom2');
+            ->allowEmptyString('custom2');
 
         return $validator;
     }

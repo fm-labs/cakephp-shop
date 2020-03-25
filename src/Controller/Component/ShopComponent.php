@@ -107,7 +107,7 @@ class ShopComponent extends Component
     public function setCustomer(ShopCustomer $customer)
     {
         $this->_customer = $customer;
-        $this->request->getSession()->write('Shop.Customer', $this->_customer->toArray());
+        $this->getController()->getRequest()->getSession()->write('Shop.Customer', $this->_customer->toArray());
 
         return $this;
     }
@@ -118,7 +118,7 @@ class ShopComponent extends Component
     public function resetCustomer()
     {
         $this->_customer = null;
-        $this->request->getSession()->delete('Shop.Customer');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Customer');
 
         return $this;
     }

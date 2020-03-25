@@ -51,60 +51,60 @@ abstract class ShopAddressesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+            ->notEmptyString('first_name');
 
         $validator
             ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+            ->notEmptyString('last_name');
 
         $validator
             ->requirePresence('street', 'create')
-            ->notEmpty('street');
+            ->notEmptyString('street');
 
         $validator
             //->requirePresence('street2', 'create')
-            ->allowEmpty('street2');
+            ->allowEmptyString('street2');
 
         $validator
             ->requirePresence('zipcode', 'create')
-            ->notEmpty('zipcode');
+            ->notEmptyString('zipcode');
 
         $validator
             ->requirePresence('city', 'create')
-            ->notEmpty('city');
+            ->notEmptyString('city');
 
         $validator
-            ->allowEmpty('country'); //@TODO Drop deprecated 'country' field
+            ->allowEmptyString('country'); //@TODO Drop deprecated 'country' field
 
         $validator
-            ->allowEmpty('country_iso2'); //@TODO VAlidate ISO2 country format
+            ->allowEmptyString('country_iso2'); //@TODO VAlidate ISO2 country format
 
         $validator
             ->add('country_id', 'valid', ['rule' => 'numeric'])
             ->requirePresence('country_id', 'create')
-            ->notEmpty('country_id');
+            ->notEmptyString('country_id');
 
         $validator
             ->add('is_archived', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_archived');
+            ->allowEmptyString('is_archived');
 
         // optional company name
         if (Shop::config('Shop.Address.useCompanyName')) {
             $validator->requirePresence('company_name', 'create');
         }
         $validator
-            ->allowEmpty('company_name');
+            ->allowEmptyString('company_name');
 
         // optional taxid
         if (Shop::config('Shop.Address.useTaxId')) {
             $validator->requirePresence('taxid', 'create');
         }
         $validator
-            ->allowEmpty('taxid')
+            ->allowEmptyString('taxid')
             ->add('taxid', 'eu_vat_number', ['rule' => function ($value, $context) {
                 return (EuVatNumber::validate($value));
             }]);

@@ -29,7 +29,7 @@ class CustomerIntegrityCheckTask extends BaseShopTask
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__d('shop', "Check shop customer data integrity"));
+            ->setDescription(__d('shop', "Check shop customer data integrity"));
 
         return $parser;
     }

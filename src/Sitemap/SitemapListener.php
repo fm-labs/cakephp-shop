@@ -5,6 +5,7 @@ namespace Shop\Sitemap;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
+use Seo\Sitemap\SitemapLocationsCollector;
 
 class SitemapListener implements EventListenerInterface
 {
@@ -19,16 +20,16 @@ class SitemapListener implements EventListenerInterface
         ];
     }
 
-    public function getSitemap(Event $event)
+    public function getSitemap(Event $event, SitemapLocationsCollector $sitemaps)
     {
         // Shop categories
         $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
         $ShopCategories->addBehavior('Seo.Sitemap', ['fields' => ['loc' => 'url', 'lastmod' => 'modified']]);
-        $event->getSubject()->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_categories');
+        $sitemaps->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_categories');
 
         // Shop products
         $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
         $ShopCategories->addBehavior('Seo.Sitemap', ['fields' => ['loc' => 'url', 'lastmod' => 'modified']]);
-        $event->getSubject()->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_products');
+        $sitemaps->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_products');
     }
 }

@@ -30,8 +30,6 @@ class ShopOrderItemsController extends AppController
             'contain' => ['ShopOrders'],
         ];
 
-        $this->helpers['Banana.Status'] = [];
-
         $dataUrl = ['rows' => 1];
         $query = $this->ShopOrderItems->find();
         if ($this->request->getQuery('order_id')) {

@@ -186,7 +186,7 @@ class CategoriesController extends AppController
 
         // force canonical url
         if (Configure::read('Shop.Router.forceCanonical')) {
-            $here = Router::normalize($this->request->here);
+            $here = Router::normalize($this->request->getUri()->getPath());
             $canonical = Router::normalize($shopCategory->url);
 
             if ($here != $canonical) {

@@ -34,7 +34,7 @@ class OrderNotificationService implements EventListenerInterface
 
     protected function _createNotification(Event $event, array $notify = [])
     {
-        $data = $event->data();
+        $data = $event->getData();
         $order = $data['order'];
 
         $default = [

@@ -53,7 +53,7 @@ class ShopOrdersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
+        $config = TableRegistry::getTableLocator()->exists('ShopOrders') ? [] : ['className' => 'Shop\Model\Table\ShopOrdersTable'];
         $this->ShopOrders = TableRegistry::getTableLocator()->get('ShopOrders', $config);
         $this->ShopOrders->getEventManager()->on(new CustomerService());
         $this->ShopOrders->getEventManager()->on(new EmailNotificationService());

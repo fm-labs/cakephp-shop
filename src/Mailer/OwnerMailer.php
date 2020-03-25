@@ -24,7 +24,7 @@ class OwnerMailer extends Mailer
         //@todo automatically setup merchant email configuration, if not configured
         // fallback to 'owner' config
         $profile = (Configure::check('Shop.Email.merchantProfile')) ?: 'owner';
-        $this->_email->profile($profile);
+        $this->_email->setProfile($profile);
     }
 
     /**
@@ -34,9 +34,9 @@ class OwnerMailer extends Mailer
     public function orderSubmissionNotify(ShopOrder $order)
     {
         $this
-            ->subject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
-            ->template('Shop.merchant/order_submit')
-            ->viewVars(['order' => $order]);
+            ->setSubject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
+            ->setTemplate('Shop.merchant/order_submit')
+            ->setViewVars(['order' => $order]);
     }
 
     /**
@@ -46,8 +46,8 @@ class OwnerMailer extends Mailer
     public function orderConfirmationNotify(ShopOrder $order)
     {
         $this
-            ->subject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
-            ->template('Shop.merchant/order_submit')
-            ->viewVars(['order' => $order]);
+            ->setSubject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
+            ->setTemplate('Shop.merchant/order_submit')
+            ->setViewVars(['order' => $order]);
     }
 }

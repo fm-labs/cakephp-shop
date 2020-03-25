@@ -58,39 +58,39 @@ class ShopOrderInvoicesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('group', 'create')
-            ->notEmpty('group');
+            ->notEmptyString('group');
 
         $validator
             ->add('nr', 'valid', ['rule' => 'numeric'])
             ->requirePresence('nr', 'create')
-            ->notEmpty('nr');
+            ->notEmptyString('nr');
 
         $validator
             ->add('date_invoice', 'valid', ['rule' => 'date'])
             ->requirePresence('date_invoice', 'create')
-            ->notEmpty('date_invoice');
+            ->notEmptyString('date_invoice');
 
         $validator
-            ->allowEmpty('title');
+            ->allowEmptyString('title');
 
         $validator
             ->add('value_total', 'valid', ['rule' => 'decimal'])
             ->requirePresence('value_total', 'create')
-            ->notEmpty('value_total');
+            ->notEmptyString('value_total');
 
         $validator
             ->add('status', 'valid', ['rule' => 'numeric'])
             ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->notEmptyString('status');
 
         $validator
             ->add('customer_notify_sent', 'valid', ['rule' => 'boolean'])
             ->requirePresence('customer_notify_sent', 'create')
-            ->notEmpty('customer_notify_sent');
+            ->notEmptyString('customer_notify_sent');
 
         return $validator;
     }

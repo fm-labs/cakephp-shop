@@ -29,8 +29,8 @@ class CheckoutEvent extends Event
     /**
      * @return CheckoutController|Controller
      */
-    public function subject()
+    public function getSubject()
     {
-        return parent::subject();
+        return parent::getSubject();
     }
 }

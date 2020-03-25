@@ -47,35 +47,35 @@ class ShopCountriesTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('iso2', 'create')
-            ->notEmpty('iso2')
+            ->notEmptyString('iso2')
             ->add('iso2', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('iso3', 'create')
-            ->notEmpty('iso3')
+            ->notEmptyString('iso3')
             ->add('iso3', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
             ->requirePresence('name_de', 'create')
-            ->notEmpty('name_de');
+            ->notEmptyString('name_de');
 
         $validator
             ->integer('priority')
             ->requirePresence('priority', 'create')
-            ->notEmpty('priority');
+            ->notEmptyString('priority');
 
         $validator
             ->boolean('is_published')
             ->requirePresence('is_published', 'create')
-            ->notEmpty('is_published');
+            ->notEmptyString('is_published');
 
         return $validator;
     }

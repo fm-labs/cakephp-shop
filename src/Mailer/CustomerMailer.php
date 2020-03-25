@@ -22,7 +22,7 @@ class CustomerMailer extends Mailer
         parent::__construct($email);
 
         if (Configure::check('Shop.Email.profile')) {
-            $this->_email->profile(Configure::read('Shop.Email.profile'));
+            $this->_email->setProfile(Configure::read('Shop.Email.profile'));
         }
     }
 
@@ -37,10 +37,10 @@ class CustomerMailer extends Mailer
         }
 
         $this
-            ->subject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
+            ->setSubject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
             ->to($order->shop_customer->user->email)
-            ->template('Shop.customer/order_submit')
-            ->viewVars(['order' => $order]);
+            ->setTemplate('Shop.customer/order_submit')
+            ->setViewVars(['order' => $order]);
     }
 
     /**
@@ -54,9 +54,9 @@ class CustomerMailer extends Mailer
         }
 
         $this
-            ->subject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
+            ->setSubject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
             ->to($order->shop_customer->user->email)
-            ->template('Shop.customer/order_submit')
-            ->viewVars(['order' => $order]);
+            ->setTemplate('Shop.customer/order_submit')
+            ->setViewVars(['order' => $order]);
     }
 }

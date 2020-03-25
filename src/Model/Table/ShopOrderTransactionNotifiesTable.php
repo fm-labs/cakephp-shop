@@ -48,34 +48,34 @@ class ShopOrderTransactionNotifiesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmptyString('type');
 
         $validator
             ->requirePresence('engine', 'create')
-            ->notEmpty('engine');
+            ->notEmptyString('engine');
 
         $validator
-            ->allowEmpty('request_ip');
+            ->allowEmptyString('request_ip');
 
         $validator
-            ->allowEmpty('request_url');
+            ->allowEmptyString('request_url');
 
         $validator
-            ->allowEmpty('request_json');
+            ->allowEmptyString('request_json');
 
         $validator
             ->add('is_valid', 'valid', ['rule' => 'boolean'])
             ->requirePresence('is_valid', 'create')
-            ->notEmpty('is_valid');
+            ->notEmptyString('is_valid');
 
         $validator
             ->add('is_processed', 'valid', ['rule' => 'boolean'])
             ->requirePresence('is_processed', 'create')
-            ->notEmpty('is_processed');
+            ->notEmptyString('is_processed');
 
         return $validator;
     }

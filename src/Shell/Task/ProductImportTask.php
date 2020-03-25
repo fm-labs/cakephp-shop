@@ -36,7 +36,7 @@ class ProductImportTask extends BaseShopTask
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__d('shop', "Import products from CSV file"))
+            ->setDescription(__d('shop', "Import products from CSV file"))
             /*
             ->addOption('path', [
                 'help' => 'File path',
@@ -141,12 +141,12 @@ class ProductImportTask extends BaseShopTask
 
         $importFile = DATA . 'import' . DS . $fileName . '.csv';
         if (!is_file($importFile)) {
-            $this->error("Import file not found: " . $importFile);
+            $this->abort("Import file not found: " . $importFile);
         }
 
         $file = fopen($importFile, "r");
         if (!$file) {
-            $this->error("Failed to open file $importFile");
+            $this->abort("Failed to open file $importFile");
         };
         $fields = ['Kategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
         $subcategories = false;
@@ -172,11 +172,11 @@ class ProductImportTask extends BaseShopTask
                     //$subcategories = true;
                     $this->out("Subcategories enabled");
                 } elseif (count($header) != count($fields)) {
-                    $this->error("Malformed header: Count mismatch");
+                    $this->abort("Malformed header: Count mismatch");
                 }
                 for ($j = 0; $j < count($fields); $j++) {
                     if ($header[$j] != $fields[$j]) {
-                        $this->error("Malformed header: Invalid field $fields[$j] on position $j");
+                        $this->abort("Malformed header: Invalid field $fields[$j] on position $j");
                     }
                 }
 
@@ -208,7 +208,7 @@ class ProductImportTask extends BaseShopTask
                     $category = $this->_createCategory($row['Subkategorie'], $categoryId);
                     if (!$category) {
                         $this->_importError($i, 'Row error: Failed to create subcategory: ' . $row['Subkategorie']);
-                        $this->error("Aborted");
+                        $this->abort("Aborted");
                         continue;
                     }
                     $categoryId = $category->id;
@@ -345,7 +345,7 @@ class ProductImportTask extends BaseShopTask
                 continue;
             }
 
-            if (!$product->dirty()) {
+            if (!$product->isDirty()) {
                 $this->_import['clean']++;
                 continue;
             }

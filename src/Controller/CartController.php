@@ -170,8 +170,8 @@ class CartController extends AppController
             $changed = [];
             foreach ($order->shop_order_items as $item) {
                 $amountKey = 'amount_' . $item->id;
-                if ($this->request->data($amountKey)) {
-                    $newAmount = $this->request->data($amountKey);
+                if ($this->request->getData($amountKey)) {
+                    $newAmount = $this->request->getData($amountKey);
                     if ($newAmount != $item->amount) {
                         $this->Cart->updateItemById($item->id, ['amount' => $newAmount]);
                         $changed[$item->id] = true;

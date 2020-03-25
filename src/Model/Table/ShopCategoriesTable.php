@@ -162,32 +162,32 @@ class ShopCategoriesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->add('parent_id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('parent_id');
+            ->allowEmptyString('parent_id');
 
         $validator
-            ->allowEmpty('lft');
+            ->allowEmptyString('lft');
 
         $validator
-            ->allowEmpty('rght');
+            ->allowEmptyString('rght');
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
-            ->allowEmpty('preview_image_file');
+            ->allowEmptyString('preview_image_file');
 
         $validator
-            ->allowEmpty('featured_image_file');
+            ->allowEmptyString('featured_image_file');
 
         $validator
             ->add('is_published', 'valid', ['rule' => 'boolean'])
             ->requirePresence('is_published', 'create')
-            ->notEmpty('is_published');
+            ->notEmptyString('is_published');
 
         return $validator;
     }

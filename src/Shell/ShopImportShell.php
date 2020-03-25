@@ -25,7 +25,7 @@ class ShopImportShell extends Shell
 
     public function importShopCustomersBak($fileName)
     {
-        $this->error('!!!!!! This method is deprecated - Use importShopCustomers() instead!!!!!!');
+        $this->abort('!!!!!! This method is deprecated - Use importShopCustomers() instead!!!!!!');
 
         $this->loadModel('Shop.ShopCustomers');
 
@@ -33,12 +33,12 @@ class ShopImportShell extends Shell
 
         $importFile = DATA . 'import' . DS . $fileName . '.csv';
         if (!is_file($importFile)) {
-            $this->error("Import file not found: " . $importFile);
+            $this->abort("Import file not found: " . $importFile);
         }
 
         $file = fopen($importFile, "r");
         if (!$file) {
-            $this->error("Failed to open file $importFile");
+            $this->abort("Failed to open file $importFile");
         }
 
         $fields = ['Anrede', 'Vorname', 'Zuname', 'Strasse', 'PLZ', 'Ort', 'Land', 'Passwort', 'Tel', 'Fax', 'Email'];
@@ -64,12 +64,12 @@ class ShopImportShell extends Shell
                 //}
 
                 if (count($header) != count($fields)) {
-                    $this->error("Malformed header: Count mismatch");
+                    $this->abort("Malformed header: Count mismatch");
                 }
 
                 for ($j = 0; $j < count($fields); $j++) {
                     if ($header[$j] != $fields[$j]) {
-                        $this->error("Malformed header: Invalid field $fields[$j] on position $j");
+                        $this->abort("Malformed header: Invalid field $fields[$j] on position $j");
                     }
                 }
 
@@ -106,7 +106,7 @@ class ShopImportShell extends Shell
                 'fax' => $row['Fax'],
             ];
 
-            $customer->accessible('*', true);
+            $customer->setAccess('*', true);
             $customer = $this->ShopCustomers->patchEntity($customer, $entityData);
             if ($customer->getErrors()) {
                 $this->_importError($i, 'Customer has errors', 'fail');
@@ -114,7 +114,7 @@ class ShopImportShell extends Shell
                 continue;
             }
 
-            if (!$customer->dirty()) {
+            if (!$customer->isDirty()) {
                 $this->_import['clean']++;
                 continue;
             }
@@ -151,12 +151,12 @@ class ShopImportShell extends Shell
 
         $importFile = DATA . 'import' . DS . $fileName . '.csv';
         if (!is_file($importFile)) {
-            $this->error("Import file not found: " . $importFile);
+            $this->abort("Import file not found: " . $importFile);
         }
 
         $file = fopen($importFile, "r");
         if (!$file) {
-            $this->error("Failed to open file $importFile");
+            $this->abort("Failed to open file $importFile");
         }
 
         $fields = ['greeting', 'first_name', 'last_name', 'street', 'zipcode', 'city', 'country', 'password', 'phone', 'fax', 'email'];
@@ -182,12 +182,12 @@ class ShopImportShell extends Shell
                 //}
 
                 if (count($header) != count($fields)) {
-                    $this->error("Malformed header: Count mismatch");
+                    $this->abort("Malformed header: Count mismatch");
                 }
 
                 for ($j = 0; $j < count($fields); $j++) {
                     if ($header[$j] != $fields[$j]) {
-                        $this->error("Malformed header: Invalid field $fields[$j] on position $j");
+                        $this->abort("Malformed header: Invalid field $fields[$j] on position $j");
                     }
                 }
 
@@ -233,7 +233,7 @@ class ShopImportShell extends Shell
                 $this->_import['updatepass']++;
             }
 
-            $customer->accessible('*', true);
+            $customer->setAccess('*', true);
             $customer = $this->ShopCustomers->patchEntity($customer, $entityData);
             if ($customer->getErrors()) {
                 $this->_importError($i, 'Customer has errors', 'fail');
@@ -241,7 +241,7 @@ class ShopImportShell extends Shell
                 continue;
             }
 
-            if (!$customer->dirty()) {
+            if (!$customer->isDirty()) {
                 $this->_import['clean']++;
                 continue;
             }
@@ -302,12 +302,12 @@ class ShopImportShell extends Shell
 
         $importFile = DATA . 'import' . DS . 'shop_products_' . $fileName . '.csv';
         if (!is_file($importFile)) {
-            $this->error("Import file not found: " . $importFile);
+            $this->abort("Import file not found: " . $importFile);
         }
 
         $file = fopen($importFile, "r");
         if (!$file) {
-            $this->error("Failed to open file $importFile");
+            $this->abort("Failed to open file $importFile");
         };
         $fields = ['Kategorie', 'Titel', 'Text', 'Bild', 'Artikelnummer', 'Preis', 'Reihung'];
         $subcategories = false;
@@ -332,11 +332,11 @@ class ShopImportShell extends Shell
                     $subcategories = true;
                     $this->out("Subcategories enabled");
                 } elseif (count($header) != count($fields)) {
-                    $this->error("Malformed header: Count mismatch");
+                    $this->abort("Malformed header: Count mismatch");
                 }
                 for ($j = 0; $j < count($fields); $j++) {
                     if ($header[$j] != $fields[$j]) {
-                        $this->error("Malformed header: Invalid field $fields[$j] on position $j");
+                        $this->abort("Malformed header: Invalid field $fields[$j] on position $j");
                     }
                 }
 
@@ -368,7 +368,7 @@ class ShopImportShell extends Shell
                     $category = $this->_createCategory($row['Subkategorie'], $categoryId);
                     if (!$category) {
                         $this->_importError($i, 'Row error: Failed to create subcategory: ' . $row['Subkategorie']);
-                        $this->error("Aborted");
+                        $this->abort("Aborted");
                         continue;
                     }
                     $categoryId = $category->id;
@@ -455,7 +455,7 @@ class ShopImportShell extends Shell
                 continue;
             }
 
-            if (!$product->dirty()) {
+            if (!$product->isDirty()) {
                 $this->_import['clean']++;
                 continue;
             }
@@ -545,7 +545,7 @@ class ShopImportShell extends Shell
 
         $category = $this->ShopCategories->get($categoryId);
         if (!$category) {
-            $this->error("Category #$categoryId not found");
+            $this->abort("Category #$categoryId not found");
         }
 
         $products = $this->ShopProducts->find()->where(['shop_category_id' => $categoryId]);

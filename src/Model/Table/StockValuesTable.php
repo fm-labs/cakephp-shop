@@ -54,20 +54,20 @@ class StockValuesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->add('value', 'valid', ['rule' => 'numeric'])
             ->requirePresence('value', 'create')
-            ->notEmpty('value');
+            ->notEmptyString('value');
 
         $validator
             ->add('last_transfer_in', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('last_transfer_in');
+            ->allowEmptyString('last_transfer_in');
 
         $validator
             ->add('last_transfer_out', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('last_transfer_out');
+            ->allowEmptyString('last_transfer_out');
 
         return $validator;
     }

@@ -35,8 +35,7 @@ class ShopOrderInvoicesController extends AppController
 
     /**
      * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
     {

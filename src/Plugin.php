@@ -38,7 +38,9 @@ class Plugin extends BasePlugin implements EventListenerInterface
 
     public function getConfigurationUrl()
     {
-        return (\Cake\Core\Plugin::isLoaded('Settings')) ? ['_name' => 'settings:manage', $this->getName()] : null;
+        return (\Cake\Core\Plugin::isLoaded('Settings'))
+            ? ['_name' => 'settings:manage', $this->getName()]
+            : null;
     }
 
     /**

@@ -57,7 +57,7 @@ class ShopCustomerAddressesTable extends ShopAddressesTable
         $validator
             ->add('shop_customer_id', 'valid', ['rule' => 'numeric'])
             ->requirePresence('shop_customer_id')
-            ->notEmpty('shop_customer_id');
+            ->notEmptyString('shop_customer_id');
 
         return $validator;
     }

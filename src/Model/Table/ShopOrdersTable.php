@@ -566,7 +566,7 @@ class ShopOrdersTable extends Table
 
         $config = Shop::config('Shop.Order');
 
-        return $this->connection()->transactional(function ($conn) use (&$order, $config) {
+        return $this->getConnection()->transactional(function ($conn) use (&$order, $config) {
             $order->invoice_nr = $this->getNextInvoiceNr();
             $order->invoiced = Time::now();
 
@@ -736,133 +736,133 @@ class ShopOrdersTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->add('uuid', 'valid', ['rule' => 'uuid'])
-            ->allowEmpty('uuid');
+            ->allowEmptyString('uuid');
 
         $validator
             ->add('cartid', 'valid', ['rule' => 'uuid'])
-            ->allowEmpty('cartid');
+            ->allowEmptyString('cartid');
 
         $validator
-            ->allowEmpty('sessionid');
+            ->allowEmptyString('sessionid');
 
         $validator
             ->add('nr', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('nr');
+            ->allowEmptyString('nr');
 
         $validator
-            ->allowEmpty('title');
+            ->allowEmptyString('title');
 
         $validator
             ->add('items_value_net', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('items_value_net');
+            ->allowEmptyString('items_value_net');
 
         $validator
             ->add('items_value_tax', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('items_value_tax');
+            ->allowEmptyString('items_value_tax');
 
         $validator
             ->add('items_value_taxed', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('items_value_taxed');
+            ->allowEmptyString('items_value_taxed');
 
         $validator
-            ->allowEmpty('shipping_type');
+            ->allowEmptyString('shipping_type');
 
         $validator
             ->add('shipping_value_net', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('shipping_value_net');
+            ->allowEmptyString('shipping_value_net');
 
         $validator
             ->add('shipping_value_tax', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('shipping_value_tax');
+            ->allowEmptyString('shipping_value_tax');
 
         $validator
             ->add('shipping_value_taxed', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('shipping_value_taxed');
+            ->allowEmptyString('shipping_value_taxed');
 
         $validator
             ->add('order_value_total', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('order_value_total');
+            ->allowEmptyString('order_value_total');
 
         $validator
-            ->allowEmpty('status');
+            ->allowEmptyString('status');
 
         $validator
             ->add('submitted', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('submitted');
+            ->allowEmptyString('submitted');
 
         $validator
             ->add('confirmed', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('confirmed');
+            ->allowEmptyString('confirmed');
 
         $validator
             ->add('delivered', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('delivered');
+            ->allowEmptyString('delivered');
 
         $validator
             ->add('invoiced', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('invoiced');
+            ->allowEmptyString('invoiced');
 
         $validator
             ->add('payed', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('payed');
+            ->allowEmptyString('payed');
 
         $validator
-            ->allowEmpty('customer_notes');
+            ->allowEmptyString('customer_notes');
 
         $validator
-            ->allowEmpty('staff_notes');
+            ->allowEmptyString('staff_notes');
 
         $validator
             ->add('shipping_use_billing', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('shipping_use_billing');
+            ->allowEmptyString('shipping_use_billing');
 
         $validator
-            ->allowEmpty('customer_phone');
+            ->allowEmptyString('customer_phone');
 
         $validator
-            ->allowEmpty('customer_email');
+            ->allowEmptyString('customer_email');
 
         $validator
-            ->allowEmpty('customer_ip');
+            ->allowEmptyString('customer_ip');
 
         $validator
-            ->allowEmpty('payment_type');
+            ->allowEmptyString('payment_type');
 
         $validator
-            ->allowEmpty('payment_info_1');
+            ->allowEmptyString('payment_info_1');
 
         $validator
-            ->allowEmpty('payment_info_2');
+            ->allowEmptyString('payment_info_2');
 
         $validator
-            ->allowEmpty('payment_info_3');
+            ->allowEmptyString('payment_info_3');
 
         $validator
             ->add('is_temporary', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_temporary');
+            ->allowEmptyString('is_temporary');
 
         $validator
             ->add('is_storno', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_storno');
+            ->allowEmptyString('is_storno');
 
         $validator
             ->add('is_deleted', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_deleted');
+            ->allowEmptyString('is_deleted');
 
         $validator
             ->add('agree_terms', 'valid', ['rule' => 'boolean'])
-            ->notEmpty('agree_terms');
+            ->notEmptyString('agree_terms');
 
         $validator
             ->add('agree_newsletter', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('agree_newsletter');
+            ->allowEmptyString('agree_newsletter');
 
         $validator
-            ->allowEmpty('locale');
+            ->allowEmptyString('locale');
 
         return $validator;
     }
@@ -876,7 +876,7 @@ class ShopOrdersTable extends Table
     public function validationPayment(Validator $validator)
     {
         $validator
-            ->notEmpty('payment_type');
+            ->notEmptyString('payment_type');
 
         return $validator;
     }
@@ -888,20 +888,20 @@ class ShopOrdersTable extends Table
     public function validationPaymentCreditCardInternal(Validator $validator)
     {
         $validator
-            ->notEmpty('cc_brand')
+            ->notEmptyString('cc_brand')
             ->requirePresence('cc_brand');
 
         $validator
-            ->notEmpty('cc_holder_name')
+            ->notEmptyString('cc_holder_name')
             ->requirePresence('cc_holder_name');
 
         $validator
             ->add('cc_number', 'valid', ['rule' => 'numeric'])
-            ->notEmpty('cc_number')
+            ->notEmptyString('cc_number')
             ->requirePresence('cc_number');
 
         $validator
-            ->notEmpty('cc_expires_at')
+            ->notEmptyString('cc_expires_at')
             ->requirePresence('cc_expires_at');
 
         return $validator;
@@ -923,9 +923,9 @@ class ShopOrdersTable extends Table
             ->requirePresence('status')
             ->requirePresence('uuid')
             ->requirePresence('customer_email')
-            ->notEmpty('customer_email')
+            ->notEmptyString('customer_email')
             ->requirePresence('agree_terms')
-            ->notEmpty('agree_terms')
+            ->notEmptyString('agree_terms')
             ->add('agree_terms', 'checked', ['rule' => function ($value) {
 
                 return $value > 0;
@@ -934,7 +934,7 @@ class ShopOrdersTable extends Table
         // optional: customer phone
         if (Configure::read('Shop.Checkout.customerPhone')) {
             $validator
-                ->notEmpty('customer_phone')
+                ->notEmptyString('customer_phone')
                 ->isPresenceRequired('customer_phone', true);
         }
 

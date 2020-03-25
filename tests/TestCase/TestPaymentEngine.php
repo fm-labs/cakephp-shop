@@ -47,9 +47,9 @@ class TestPaymentEngine implements PaymentEngineInterface
     public function confirm(PaymentComponent $Payment, ShopOrderTransaction $transaction)
     {
         $transaction->is_test = true;
-        $transaction->ext_txnid = $Payment->request->getQuery('txnid');
+        $transaction->ext_txnid = $Payment->getController()->getRequest()->getQuery('txnid');
 
-        switch ($Payment->request->getQuery('test_status')) {
+        switch ($Payment->getController()->getRequest()->getQuery('test_status')) {
             case "denied":
                 $transaction->ext_status = "DENIED";
                 $transaction->status = ShopOrderTransactionsTable::STATUS_REJECTED;

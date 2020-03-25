@@ -50,15 +50,15 @@ class StocksTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->requirePresence('title', 'create')
-            ->notEmpty('title');
+            ->notEmptyString('title');
 
         $validator
             ->add('is_default', 'valid', ['rule' => 'boolean'])
-            ->allowEmpty('is_default');
+            ->allowEmptyString('is_default');
 
         return $validator;
     }

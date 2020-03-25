@@ -139,7 +139,7 @@ class ShopProductsController extends AppController
      */
     public function search()
     {
-        $query = $this->ShopProducts->find('search', ['search' => $this->request->query]);
+        $query = $this->ShopProducts->find('search', ['search' => $this->request->getQuery()]);
         $this->set('shopProducts', $this->paginate($query));
         $this->set('_serialize', ['shopProducts']);
         $this->render('index');
@@ -161,7 +161,7 @@ class ShopProductsController extends AppController
     public function quick()
     {
         if ($this->request->is(['post', 'put'])) {
-            $id = $this->request->data('shop_product_id');
+            $id = $this->request->getData('shop_product_id');
             if ($id) {
                 $this->redirect(['action' => 'edit', $id]);
 
@@ -425,7 +425,7 @@ class ShopProductsController extends AppController
             throw new BadRequestException('Invalid scope');
         }
 
-        $content->accessible($scope, true);
+        $content->setAccess($scope, true);
         $content->set($scope, '');
 
         if ($this->ShopProducts->save($content)) {

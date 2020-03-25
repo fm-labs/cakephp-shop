@@ -42,7 +42,7 @@ class ShopCustomerAddressesController extends AppController
         //    $this->paginate['conditions'] = $filter;
         //}
 
-        if (isset($this->request->query['shop_customer_id'])) {
+        if ($this->request->getQuery('shop_customer_id')) {
             $this->paginate['conditions']['ShopCustomerAddresses.shop_customer_id'] = (int)$filter['shop_customer_id'];
         }
 

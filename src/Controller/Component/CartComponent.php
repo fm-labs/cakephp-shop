@@ -80,14 +80,14 @@ class CartComponent extends Component
     public function beforeFilter(Event $event)
     {
         $this->order = null;
-        $this->sessionId = $this->request->getSession()->id();
+        $this->sessionId = $this->getRequest()->getSession()->id();
 
         // read cart cookies
         $cookie = $this->Cookie->read(self::$cookieName);
         $cookieCartId = ($cookie && isset($cookie['id'])) ? $cookie['id'] : null;
 
         // read cart session
-        $sessionCartId = $this->request->getSession()->read('Shop.Cart.id');
+        $sessionCartId = $this->getRequest()->getSession()->read('Shop.Cart.id');
 
         if ($sessionCartId) { // restore from session
             $this->cartId = $sessionCartId;
@@ -106,7 +106,7 @@ class CartComponent extends Component
             $this->Cookie->write(self::$cookieName . '.id', $this->cartId);
         }
 
-        $this->request->getSession()->write('Shop.Cart.id', $this->cartId);
+        $this->getRequest()->getSession()->write('Shop.Cart.id', $this->cartId);
     }
 
     /**
@@ -438,8 +438,8 @@ class CartComponent extends Component
             $cart['itemsQty'] = $order->getOrderItemsQty();
         }
 
-        $this->request->getSession()->write('Shop.Cart', $cart);
-        //$this->request->getSession()->write('Shop.Order', $order->toArray());
+        $this->getRequest()->getSession()->write('Shop.Cart', $cart);
+        //$this->getRequest()->getSession()->write('Shop.Order', $order->toArray());
     }
 
     /**
@@ -447,8 +447,8 @@ class CartComponent extends Component
      */
     public function resetSession()
     {
-        $this->request->getSession()->delete('Shop.Cart');
-        $this->request->getSession()->delete('Shop.Order');
+        $this->getRequest()->getSession()->delete('Shop.Cart');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Order');
     }
 
     /**
