@@ -18,7 +18,7 @@ class AddToCartForm extends Form
      * @param \Cake\Form\Schema $schema
      * @return \Cake\Form\Schema
      */
-    protected function _buildSchema(Schema $schema)
+    protected function _buildSchema(Schema $schema): Schema
     {
         $schema->addField('amount', ['type' => 'string']);
         $schema->addField('refid', ['type' => 'string']);
@@ -50,7 +50,7 @@ class AddToCartForm extends Form
      * @param array $data
      * @return bool|void
      */
-    protected function _execute(array $data)
+    protected function _execute(array $data): bool
     {
     }
 }

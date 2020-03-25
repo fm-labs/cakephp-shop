@@ -6,6 +6,7 @@ namespace Shop\Controller;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
+use Closure;
 
 /**
  * Class CheckoutController
@@ -89,10 +90,10 @@ class CheckoutController extends AppController
      *
      * @return \Cake\Http\Response|mixed|null
      */
-    public function invokeAction()
+    public function invokeAction(Closure $action, array $args): void
     {
         try {
-            return parent::invokeAction();
+            parent::invokeAction($action, $args);
         } catch (MissingActionException $ex) {
             // read stepID from request
             $stepId = $this->request->getParam('action');

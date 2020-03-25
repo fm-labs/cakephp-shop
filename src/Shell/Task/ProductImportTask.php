@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Shop\Shell\Task;
 
+use Cake\Console\ConsoleOptionParser;
+
 /**
  * Class ProductImportTask
  *
@@ -33,7 +35,7 @@ class ProductImportTask extends BaseShopTask
     /**
      * @return \Cake\Console\ConsoleOptionParser
      */
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $parser = parent::getOptionParser();
         $parser

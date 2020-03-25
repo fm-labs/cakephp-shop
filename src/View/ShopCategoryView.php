@@ -19,7 +19,7 @@ class ShopCategoryView extends ShopView
      * @param null $layout
      * @return null|string
      */
-    public function render($view = null, $layout = null)
+    public function render(?string $template = null, $layout = null): string
     {
         $metaDescription = $metaKeywords = null;
         $metaRobots = 'index,follow';

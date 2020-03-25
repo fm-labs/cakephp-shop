@@ -6,6 +6,7 @@ namespace Shop\Model\Table;
 use Cake\Collection\Collection;
 use Cake\Collection\Iterator\MapReduce;
 use Cake\Core\Plugin;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\Exception\RolledbackTransactionException;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -139,7 +140,7 @@ class ShopProductsTable extends Table
         }
     }
 
-    protected function _initializeSchema(\Cake\Database\Schema\TableSchema $schema)
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         $schema->setColumnType('image_files', 'media_file');
 

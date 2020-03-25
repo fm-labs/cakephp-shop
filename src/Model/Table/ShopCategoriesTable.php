@@ -7,6 +7,7 @@ use Cake\Cache\Cache;
 use Cake\Collection\Collection;
 use Cake\Core\Plugin;
 use Cake\Database\Schema\TableSchema;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -141,7 +142,7 @@ class ShopCategoriesTable extends Table
         }
     }
 
-    protected function _initializeSchema(TableSchema $schema)
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         //$schema->setColumnType('preview_image_file', 'media_file');
         //$schema->setColumnType('featured_image_file', 'media_file');

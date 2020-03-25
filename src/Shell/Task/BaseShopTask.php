@@ -23,7 +23,7 @@ class BaseShopTask extends Shell
     /**
      * {@inheritDoc}
      */
-    public function startup()
+    public function startup(): void
     {
         parent::startup();
     }

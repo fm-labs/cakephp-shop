@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 
 /**
@@ -27,7 +28,7 @@ class ShopShell extends Shell
     /**
      * @return \Cake\Console\ConsoleOptionParser
      */
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $parser = parent::getOptionParser();
         $parser->addSubcommand('product_import', [
@@ -196,15 +197,5 @@ class ShopShell extends Shell
         }
 
         $this->out("<info>Patched: $patched - Failed: $failed</info>");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function _welcome()
-    {
-        $this->out();
-        $this->out(sprintf('<info>Welcome to Shop Console</info>'));
-        $this->hr();
     }
 }

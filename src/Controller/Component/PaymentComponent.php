@@ -89,14 +89,6 @@ class PaymentComponent extends Component
     }
 
     /**
-     * @return \Cake\Controller\Controller
-     */
-    public function getController()
-    {
-        return $this->getController();
-    }
-
-    /**
      * Checks if payment type is registered in engine registry
      *
      * @param $paymentType
