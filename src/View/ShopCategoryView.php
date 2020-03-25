@@ -15,7 +15,7 @@ use Cake\Routing\Exception\MissingRouteException;
 class ShopCategoryView extends ShopView
 {
     /**
-     * @param null $view
+     * @param null $template
      * @param null $layout
      * @return null|string
      */

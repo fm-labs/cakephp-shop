@@ -13,7 +13,7 @@ use Cake\I18n\I18n;
 class ShopProductView extends ShopView
 {
     /**
-     * @param null $view
+     * @param null $template
      * @param null $layout
      * @return null|string
      */

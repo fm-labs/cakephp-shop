@@ -6,7 +6,6 @@ namespace Shop\Model\Table;
 use Cake\Cache\Cache;
 use Cake\Collection\Collection;
 use Cake\Core\Plugin;
-use Cake\Database\Schema\TableSchema;
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\RulesChecker;
