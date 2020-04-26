@@ -39,7 +39,7 @@ class ShopOrderTransactionNotifiesController extends AppController
      */
     public function add()
     {
-        $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->newEntity();
+        $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopOrderTransactionNotify = $this->ShopOrderTransactionNotifies->patchEntity($shopOrderTransactionNotify, $this->request->getData());
             if ($this->ShopOrderTransactionNotifies->save($shopOrderTransactionNotify)) {

@@ -66,7 +66,7 @@ class ShopOrderTransactionsController extends AppController
      */
     public function add()
     {
-        $shopOrderTransaction = $this->ShopOrderTransactions->newEntity();
+        $shopOrderTransaction = $this->ShopOrderTransactions->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopOrderTransaction = $this->ShopOrderTransactions->patchEntity($shopOrderTransaction, $this->request->getData());
             if ($this->ShopOrderTransactions->save($shopOrderTransaction)) {

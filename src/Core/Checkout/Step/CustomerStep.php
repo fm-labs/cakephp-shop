@@ -113,7 +113,7 @@ class CustomerStep extends BaseStep implements CheckoutStepInterface
     protected function _executeSignup(Controller $controller)
     {
         $controller->loadModel('Shop.ShopCustomers');
-        $customer = $controller->ShopCustomers->newEntity();
+        $customer = $controller->ShopCustomers->newEmptyEntity();
         $user = $controller->ShopCustomers->Users->newEntity(null, ['validate' => 'register']);
         if ($controller->getRequest()->is(['put', 'post'])) {
             //debug($controller->getRequest()->data);

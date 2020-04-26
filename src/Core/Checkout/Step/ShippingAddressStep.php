@@ -69,7 +69,7 @@ class ShippingAddressStep extends BaseStep implements CheckoutStepInterface
             $customerData = $this->Checkout->Shop->getCustomer()->extract(['first_name', 'last_name']);
             $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($customerData, ['validate' => false]);
         } else {
-            $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
+            $shippingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEmptyEntity();
         }
 
         if ($controller->getRequest()->is(['put', 'post'])) {

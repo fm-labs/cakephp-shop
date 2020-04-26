@@ -34,7 +34,7 @@ class ShopCountriesTable extends Table
         $this->setDisplayField('name_de');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Banana.Publishable');
+        $this->addBehavior('Banana.Publish');
     }
 
     /**

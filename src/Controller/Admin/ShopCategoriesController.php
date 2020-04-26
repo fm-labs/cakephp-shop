@@ -353,7 +353,7 @@ class ShopCategoriesController extends AppController
      */
     public function add()
     {
-        $shopCategory = $this->ShopCategories->newEntity();
+        $shopCategory = $this->ShopCategories->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
             if ($this->ShopCategories->save($shopCategory)) {

@@ -14,7 +14,7 @@ class ShopOrderInvoicesFixture extends TestFixture
      *
      * @var array
      */
-    // @codingStandardsIgnoreStart
+    // phpcs::disable
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'parent_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
@@ -36,7 +36,7 @@ class ShopOrderInvoicesFixture extends TestFixture
             'collation' => 'utf8_general_ci'
         ],
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs::enable
 
     /**
      * Records

@@ -56,7 +56,7 @@ class ShopCustomersTableTest extends TestCase
     protected function _createUser($save = true)
     {
 
-        $user = $this->ShopCustomers->Users->newEntity();
+        $user = $this->ShopCustomers->Users->newEmptyEntity();
         $user->setAccess('*', true);
         $user = $this->ShopCustomers->Users->patchEntity($user, $this->_testUserData, ['validate' => false]);
 

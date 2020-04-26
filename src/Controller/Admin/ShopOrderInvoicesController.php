@@ -38,7 +38,7 @@ class ShopOrderInvoicesController extends AppController
      */
     public function add()
     {
-        $shopOrderInvoice = $this->ShopOrderInvoices->newEntity();
+        $shopOrderInvoice = $this->ShopOrderInvoices->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopOrderInvoice = $this->ShopOrderInvoices->patchEntity($shopOrderInvoice, $this->request->getData());
             if ($this->ShopOrderInvoices->save($shopOrderInvoice)) {

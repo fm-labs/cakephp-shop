@@ -21,7 +21,6 @@ use Shop\Model\Entity\ShopOrder;
  * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
  * @property \Shop\Controller\Component\ShopComponent $Shop
- * @property \Cake\Controller\Component\CookieComponent $Cookie
  */
 class CartComponent extends Component
 {
@@ -58,6 +57,8 @@ class CartComponent extends Component
         $this->ShopOrders = TableRegistry::getTableLocator()->get('Shop.ShopOrders');
         $this->ShopProducts = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
 
+        //@TODO Migrate shop cookie to cakephp 4.0
+        /*
         $this->Cookie->configKey(self::$cookieName, [
             //'path' => '/',
             'expires' => '+99 days',
@@ -66,6 +67,7 @@ class CartComponent extends Component
             'secure' => true,
             'encryption' => true,
         ]);
+        */
     }
 
     /**
@@ -74,14 +76,14 @@ class CartComponent extends Component
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         $this->order = null;
-        $this->sessionId = $this->getRequest()->getSession()->id();
+        $this->sessionId = $this->getController()->getRequest()->getSession()->id();
 
         // read cart cookies
-        $cookie = $this->Cookie->read(self::$cookieName);
+        $cookie = null; //$this->Cookie->read(self::$cookieName);
         $cookieCartId = $cookie && isset($cookie['id']) ? $cookie['id'] : null;
 
         // read cart session
-        $sessionCartId = $this->getRequest()->getSession()->read('Shop.Cart.id');
+        $sessionCartId = $this->getController()->getRequest()->getSession()->read('Shop.Cart.id');
 
         if ($sessionCartId) { // restore from session
             $this->cartId = $sessionCartId;
@@ -97,10 +99,10 @@ class CartComponent extends Component
         // set cookie
         if (!$cookieCartId) {
             //debug("write cookie " . $this->cartId);
-            $this->Cookie->write(self::$cookieName . '.id', $this->cartId);
+            //$this->Cookie->write(self::$cookieName . '.id', $this->cartId);
         }
 
-        $this->getRequest()->getSession()->write('Shop.Cart.id', $this->cartId);
+        $this->getController()->getRequest()->getSession()->write('Shop.Cart.id', $this->cartId);
     }
 
     /**
@@ -432,8 +434,8 @@ class CartComponent extends Component
             $cart['itemsQty'] = $order->getOrderItemsQty();
         }
 
-        $this->getRequest()->getSession()->write('Shop.Cart', $cart);
-        //$this->getRequest()->getSession()->write('Shop.Order', $order->toArray());
+        $this->getController()->getRequest()->getSession()->write('Shop.Cart', $cart);
+        //$this->getController()->getRequest()->getSession()->write('Shop.Order', $order->toArray());
     }
 
     /**
@@ -441,7 +443,7 @@ class CartComponent extends Component
      */
     public function resetSession()
     {
-        $this->getRequest()->getSession()->delete('Shop.Cart');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Cart');
         $this->getController()->getRequest()->getSession()->delete('Shop.Order');
     }
 
@@ -474,17 +476,17 @@ class CartComponent extends Component
      */
     protected function _resumeOrder(array $options = [])
     {
-
         $options += ['create' => false, 'force' => false];
+        $cartId = $this->cartId;
 
         if (!$this->order || $options['force']) {
             //@TODO check if cart is owned by customer
             $this->order = $this->ShopOrders->find('cart', [
                 //'sessionid' => $this->sessionId,
-                'cartid' => $this->cartId,
+                'cartid' => $cartId,
                 //'shop_customer_id IS' => $this->Shop->getCustomerId(),
                 'is_temporary' => true,
-            ]);
+            ])->first();
 
             //debug("resuming order with cardid " . $this->cartId);
 

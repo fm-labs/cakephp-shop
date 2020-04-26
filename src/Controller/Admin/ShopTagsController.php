@@ -44,7 +44,7 @@ class ShopTagsController extends AppController
      */
     public function add()
     {
-        $shopTag = $this->ShopTags->newEntity();
+        $shopTag = $this->ShopTags->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopTag = $this->ShopTags->patchEntity($shopTag, $this->request->getData());
             if ($this->ShopTags->save($shopTag)) {

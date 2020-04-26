@@ -45,10 +45,10 @@ class CustomerService extends BaseService
 
         if ($customer) {
             Log::debug('[shop] Set customer for user ' . $user->id);
-            //$event->getSubject()->request->getSession()->write('Shop.Customer', $customer->toArray());
+            //$event->getSubject()->getController()->getRequest()->getSession()->write('Shop.Customer', $customer->toArray());
         } else {
             Log::alert('[shop] Failed to create customer for user ' . $user->id);
-            //$event->getSubject()->request->getSession()->delete('Shop.Customer');
+            //$event->getSubject()->getController()->getRequest()->getSession()->delete('Shop.Customer');
         }
     }
 
@@ -81,10 +81,10 @@ class CustomerService extends BaseService
 
         if ($customer) {
             Log::debug('[shop] Set customer for user ' . $userId);
-            $event->getSubject()->request->getSession()->write('Shop.Customer', $customer->toArray());
+            $event->getSubject()->getController()->getRequest()->getSession()->write('Shop.Customer', $customer->toArray());
         } else {
             Log::alert('[shop] Failed to create customer for user ' . $userId);
-            $event->getSubject()->request->getSession()->delete('Shop.Customer');
+            $event->getSubject()->getController()->getRequest()->getSession()->delete('Shop.Customer');
         }
     }
 
@@ -93,10 +93,10 @@ class CustomerService extends BaseService
      */
     public function onUserLogout(Event $event)
     {
-        $event->getSubject()->request->getSession()->delete('Shop.Customer');
-        $event->getSubject()->request->getSession()->delete('Shop.Order');
-        $event->getSubject()->request->getSession()->delete('Shop.Cart');
-        $event->getSubject()->request->getSession()->delete('Shop.Checkout');
+        $event->getSubject()->getController()->getRequest()->getSession()->delete('Shop.Customer');
+        $event->getSubject()->getController()->getRequest()->getSession()->delete('Shop.Order');
+        $event->getSubject()->getController()->getRequest()->getSession()->delete('Shop.Cart');
+        $event->getSubject()->getController()->getRequest()->getSession()->delete('Shop.Checkout');
     }
 
     /**

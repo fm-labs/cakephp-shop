@@ -126,7 +126,7 @@ class ShopCustomersTable extends Table
         // check if customer with email already exists
         $customer = $this->find()->where(['email' => $user->get('email')])->first();
         if (!$customer) {
-            $customer = $this->newEntity();
+            $customer = $this->newEmptyEntity();
         }
 
         $customer->user_id = $user->get('id');

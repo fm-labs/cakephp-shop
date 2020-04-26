@@ -85,7 +85,7 @@ class ShopImportShell extends Shell
                 ->first();
 
             if (!$customer) {
-                $customer = $this->ShopCustomers->newEntity();
+                $customer = $this->ShopCustomers->newEmptyEntity();
             }
 
             $entityData = [
@@ -205,7 +205,7 @@ class ShopImportShell extends Shell
 
             if (!$customer) {
                 $count = 'added';
-                $customer = $this->ShopCustomers->newEntity();
+                $customer = $this->ShopCustomers->newEmptyEntity();
             }
 
             $entityData = [
@@ -427,7 +427,7 @@ class ShopImportShell extends Shell
                 ];
             } else {
                 $stat = 'added';
-                $product = $this->ShopProducts->newEntity();
+                $product = $this->ShopProducts->newEmptyEntity();
                 $entityData = [
                     'shop_category_id' => $categoryId,
                     'title' => $title,
@@ -556,7 +556,7 @@ class ShopImportShell extends Shell
 
             // create new category from product
             if (!$cat) {
-                $cat = $this->ShopCategories->newEntity();
+                $cat = $this->ShopCategories->newEmptyEntity();
 
                 $this->out("Creating category for product " . $product->id . " in Category $categoryId");
             }

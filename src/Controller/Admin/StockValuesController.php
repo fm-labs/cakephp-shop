@@ -47,7 +47,7 @@ class StockValuesController extends AppController
      */
     public function add()
     {
-        $stockValue = $this->StockValues->newEntity();
+        $stockValue = $this->StockValues->newEmptyEntity();
         if ($this->request->is('post')) {
             $stockValue = $this->StockValues->patchEntity($stockValue, $this->request->getData());
             if ($this->StockValues->save($stockValue)) {

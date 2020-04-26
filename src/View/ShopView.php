@@ -7,7 +7,7 @@ use Content\View\ContentView;
 
 class ShopView extends ContentView
 {
-    public function initialize(): void)
+    public function initialize(): void
     {
         parent::initialize();
 

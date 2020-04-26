@@ -12,7 +12,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
-use Seo\Sitemap\SitemapLocation;
+use Seo\Sitemap\SitemapUrl;
 
 /**
  * ShopCategories Model
@@ -108,10 +108,10 @@ class ShopCategoriesTable extends Table
 
         //$this->addBehavior('Eav.Attributes');
 
-        $this->addBehavior('Banana.Sluggable', [
+        $this->addBehavior('Banana.Slug', [
             'field' => 'name',
         ]);
-        $this->addBehavior('Banana.Publishable');
+        $this->addBehavior('Banana.Publish');
 
         $this->addBehavior('Tree.Tree', [
             'level' => 'level',
@@ -238,7 +238,7 @@ class ShopCategoriesTable extends Table
             $lastmod = $category->modified;
             $changefreq = 'weekly';
 
-            $locations[] = new SitemapLocation($url, $priority, $lastmod, $changefreq);
+            $locations[] = new SitemapUrl($url, $priority, $lastmod, $changefreq);
 
             if ($category->children) {
                 $this->_buildSitemap($locations, $category->children, $level + 1);

@@ -14,7 +14,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
-use Seo\Sitemap\SitemapLocation;
+use Seo\Sitemap\SitemapUrl;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopProduct;
 
@@ -85,13 +85,13 @@ class ShopProductsTable extends Table
             ]);
         }
 
-        $this->addBehavior('Banana.Sluggable', [
+        $this->addBehavior('Banana.Slug', [
             'field' => 'title',
         ]);
 
         //$this->addBehavior('Eav.Attributes');
 
-        $this->addBehavior('Banana.Publishable');
+        $this->addBehavior('Banana.Publish');
 
         $this->addBehavior('Translate', [
             'fields' => ['title', 'slug', 'desc_long_text', 'desc_short_text'],
@@ -393,7 +393,7 @@ class ShopProductsTable extends Table
             $lastmod = $product->modified;
             $changefreq = 'weekly';
 
-            $locations[] = new SitemapLocation($url, $priority, $lastmod, $changefreq);
+            $locations[] = new SitemapUrl($url, $priority, $lastmod, $changefreq);
         }
     }
 }

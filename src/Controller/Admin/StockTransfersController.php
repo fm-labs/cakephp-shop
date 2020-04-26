@@ -47,7 +47,7 @@ class StockTransfersController extends AppController
      */
     public function add()
     {
-        $stockTransfer = $this->StockTransfers->newEntity();
+        $stockTransfer = $this->StockTransfers->newEmptyEntity();
         if ($this->request->is('post')) {
             $stockTransfer = $this->StockTransfers->patchEntity($stockTransfer, $this->request->getData());
             if ($this->StockTransfers->save($stockTransfer)) {

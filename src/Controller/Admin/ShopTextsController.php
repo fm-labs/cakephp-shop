@@ -47,7 +47,7 @@ class ShopTextsController extends AppController
      */
     public function add()
     {
-        $shopText = $this->ShopTexts->newEntity();
+        $shopText = $this->ShopTexts->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopText = $this->ShopTexts->patchEntity($shopText, $this->request->getData());
             if ($this->ShopTexts->save($shopText)) {

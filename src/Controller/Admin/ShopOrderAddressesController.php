@@ -59,7 +59,7 @@ class ShopOrderAddressesController extends AppController
      */
     public function add()
     {
-        $shopOrderAddress = $this->ShopOrderAddresses->newEntity();
+        $shopOrderAddress = $this->ShopOrderAddresses->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopOrderAddress = $this->ShopOrderAddresses->patchEntity($shopOrderAddress, $this->request->getData());
             if ($this->ShopOrderAddresses->save($shopOrderAddress)) {

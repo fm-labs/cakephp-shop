@@ -204,7 +204,7 @@ class ShopOrdersTable extends Table
             ->where($options)
             ->contain(['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']]);
 
-        return $query->first();
+        return $query;
     }
 
     /**
@@ -232,7 +232,7 @@ class ShopOrdersTable extends Table
     {
         $orderAddress = $this->getOrderAddress($order, $addressType);
         if (!$orderAddress) {
-            $orderAddress = $this->ShopOrderAddresses->newEntity();
+            $orderAddress = $this->ShopOrderAddresses->newEmptyEntity();
         }
 
         $orderAddress = $this->ShopOrderAddresses->patchEntity($orderAddress, $address->toArray());

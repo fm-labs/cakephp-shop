@@ -61,7 +61,7 @@ class BillingAddressStep extends BaseStep implements CheckoutStepInterface
             $customerData = $this->Checkout->Shop->getCustomer()->extract(['first_name', 'last_name']);
             $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity($customerData, ['validate' => false]);
         } else {
-            $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEntity();
+            $billingAddress = $this->Checkout->ShopOrders->ShopOrderAddresses->newEmptyEntity();
         }
 
         if ($controller->getRequest()->is(['put', 'post'])) {

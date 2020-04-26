@@ -303,7 +303,7 @@ class ProductImportTask extends BaseShopTask
                 ];
             } else {
                 $stat = 'added';
-                $product = $this->ShopProducts->newEntity();
+                $product = $this->ShopProducts->newEmptyEntity();
                 $entityData = [
                     'shop_category_id' => $categoryId,
                     'type' => 'simple',

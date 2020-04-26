@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
 use Media\Lib\Media\MediaManager;
@@ -41,9 +42,12 @@ class ShopProductsController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Backend.Toggle');
-        $this->loadComponent('Search.Prg', [
-            'actions' => ['index', 'search'],
-        ]);
+
+        if (Plugin::isLoaded('Search')) {
+            $this->loadComponent('Search.Prg', [
+                'actions' => ['index', 'search'],
+            ]);
+        }
     }
 
     /**

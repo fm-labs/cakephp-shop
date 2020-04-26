@@ -78,7 +78,7 @@ class ShopCustomerAddressesController extends AppController
      */
     public function add()
     {
-        $shopCustomerAddress = $this->ShopCustomerAddresses->newEntity();
+        $shopCustomerAddress = $this->ShopCustomerAddresses->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopCustomerAddress = $this->ShopCustomerAddresses->patchEntity($shopCustomerAddress, $this->request->getData());
             if ($this->ShopCustomerAddresses->save($shopCustomerAddress)) {

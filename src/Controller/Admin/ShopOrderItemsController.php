@@ -93,7 +93,7 @@ class ShopOrderItemsController extends AppController
      */
     public function add()
     {
-        $shopOrderItem = $this->ShopOrderItems->newEntity();
+        $shopOrderItem = $this->ShopOrderItems->newEmptyEntity();
         if ($this->request->is('post')) {
             $shopOrderItem = $this->ShopOrderItems->patchEntity($shopOrderItem, $this->request->getData());
             if ($this->ShopOrderItems->save($shopOrderItem)) {
