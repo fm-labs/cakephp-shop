@@ -13,7 +13,7 @@ use Media\Lib\Media\MediaManager;
  * ShopProducts Controller
  *
  * @property \Shop\Model\Table\ShopProductsTable $ShopProducts
- * @property \Backend\Controller\Component\ToggleComponent $Toggle
+ * @property \Admin\Controller\Component\ToggleComponent $Toggle
  */
 class ShopProductsController extends AppController
 {
@@ -26,13 +26,13 @@ class ShopProductsController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
-        'view'      => 'Backend.View',
-        'add'       => 'Backend.Add',
-        'edit'      => 'Backend.Edit',
-        'media'      => 'Backend.Media',
-        'publish'   => 'Backend.Publish',
-        'unpublish'   => 'Backend.Unpublish',
+        'index'     => 'Admin.Index',
+        'view'      => 'Admin.View',
+        'add'       => 'Admin.Add',
+        'edit'      => 'Admin.Edit',
+        'media'      => 'Admin.Media',
+        'publish'   => 'Admin.Publish',
+        'unpublish'   => 'Admin.Unpublish',
     ];
 
     /**
@@ -41,7 +41,7 @@ class ShopProductsController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadComponent('Backend.Toggle');
+        $this->loadComponent('Admin.Toggle');
 
         if (Plugin::isLoaded('Search')) {
             $this->loadComponent('Search.Prg', [

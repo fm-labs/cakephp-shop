@@ -12,6 +12,6 @@
     ['action' => 'repair'],
     ['data-icon' => 'wrench', 'confirm' => __d('shop', 'Do you really want to repair the category tree?')]
 ) ?>
-<?php $this->extend('Backend./Base/index_jstree_ajax'); ?>
+<?php $this->extend('Admin./Base/index_jstree_ajax'); ?>
 <?php $this->assign('title', __d('shop','Shop Categories')); ?>
 <?php //$this->assign('treeHeading', __d('shop','Shop Categories')); ?>

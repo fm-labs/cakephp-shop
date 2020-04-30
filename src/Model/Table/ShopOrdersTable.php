@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Model\Table;
 
-use Banana\Lib\Status;
+use Cupcake\Lib\Status;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\EntityInterface;
@@ -109,7 +109,7 @@ class ShopOrdersTable extends Table
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderNotifications',
         ]);
-        $this->addBehavior('Banana.Statusable');
+        //$this->addBehavior('Cupcake.Statusable');
 
         if (Plugin::isLoaded('Search')) {
             // Add the behaviour to your table

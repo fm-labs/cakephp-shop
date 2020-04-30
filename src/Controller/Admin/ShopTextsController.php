@@ -109,7 +109,7 @@ class ShopTextsController extends AppController
      */
     public function edit_iframe($id = null)
     {
-        $this->layout = "Backend.iframe";
+        $this->layout = "Admin.iframe";
         if ($id !== null) {
             $shopText = $this->ShopTexts->get($id, [
                 'contain' => [],

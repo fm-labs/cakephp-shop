@@ -108,10 +108,10 @@ class ShopCategoriesTable extends Table
 
         //$this->addBehavior('Eav.Attributes');
 
-        $this->addBehavior('Banana.Slug', [
+        $this->addBehavior('Cupcake.Slug', [
             'field' => 'name',
         ]);
-        $this->addBehavior('Banana.Publish');
+        $this->addBehavior('Cupcake.Publish');
 
         $this->addBehavior('Tree.Tree', [
             'level' => 'level',

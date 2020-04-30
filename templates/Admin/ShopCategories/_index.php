@@ -8,12 +8,12 @@
     ['data-icon' => 'plus', 'class' => 'link-frame-modal']
 ) ?>
 <?php $this->Toolbar->addLink(__d('shop', 'Sort'),
-    ['plugin' => 'Backend', 'controller' => 'Tree', 'action' => 'index', 'model' => 'Shop.ShopCategories'],
+    ['plugin' => 'Admin', 'controller' => 'Tree', 'action' => 'index', 'model' => 'Shop.ShopCategories'],
     ['class' => 'link-modal-frame', 'data-icon' => 'sitemap']); ?>
 <?php $this->assign('title', __d('shop','Shop Categories')); ?>
 <?php $shopCategoriesTree = $this->get('shopCategoriesTree', []); ?>
 
-<?= $this->cell('Backend.DataTable', [[
+<?= $this->cell('Admin.DataTable', [[
     'paginate' => true,
     'model' => 'Shop.ShopCategories',
     'data' => $shopCategories,

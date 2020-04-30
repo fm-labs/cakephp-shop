@@ -24,17 +24,17 @@ class ShopCategoriesController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.TreeIndex',
-        //'view'      => 'Backend.View',
-        'add'       => 'Backend.Add',
-        'edit'      => 'Backend.Edit',
-        'delete'    => 'Backend.Delete',
-        'publish'   => 'Backend.Publish',
-        'unpublish' => 'Backend.Unpublish',
-        'sort'      => 'Backend.TreeSort',
+        'index'     => 'Admin.TreeIndex',
+        //'view'      => 'Admin.View',
+        'add'       => 'Admin.Add',
+        'edit'      => 'Admin.Edit',
+        'delete'    => 'Admin.Delete',
+        'publish'   => 'Admin.Publish',
+        'unpublish' => 'Admin.Unpublish',
+        'sort'      => 'Admin.TreeSort',
         /*
-        'moveUp'    => 'Backend.TreeMoveUp',
-        'moveDown'  => 'Backend.TreeMoveDown',
+        'moveUp'    => 'Admin.TreeMoveUp',
+        'moveDown'  => 'Admin.TreeMoveDown',
         */
     ];
 

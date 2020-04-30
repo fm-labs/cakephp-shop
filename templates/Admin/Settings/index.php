@@ -1,4 +1,4 @@
-<?php $this->loadHelper('Backend.Box'); ?>
+<?php $this->loadHelper('Admin.Box'); ?>
 <?php $this->loadHelper('Bootstrap.Ui'); ?>
 <?php $this->assign('title', __('Shop Settings')); ?>
 <?php /** @var \Settings\Form\SettingsForm $form */ ?>

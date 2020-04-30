@@ -25,7 +25,7 @@
 
     <?php $fields = [
     'id','shop_customer_id','shop_product_id','type','valuetype','value','is_published','publish_start','publish_end',    ] ?>
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.ShopCustomerDiscounts',
         'data' => $shopCustomerDiscounts,

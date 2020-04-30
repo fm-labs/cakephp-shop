@@ -1,6 +1,6 @@
 <?php $this->Breadcrumbs->add(__d('shop','My Account'), ['controller' => 'Customer', 'action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Latest Orders'), ['action' => 'index']); ?>
-<?php $this->loadHelper('Banana.Status'); ?>
+<?php $this->loadHelper('Cupcake.Status'); ?>
 <?php $this->loadHelper('Time'); ?>
 <?php $this->assign('title', __d('shop','Latest orders')); ?>
 <div class="shopOrders index container">

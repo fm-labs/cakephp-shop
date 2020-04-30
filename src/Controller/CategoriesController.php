@@ -36,11 +36,11 @@ class CategoriesController extends AppController
         $this->loadComponent('Shop.Cart');
         $this->Frontend->setRefScope('Shop.ShopCategories');
 
-        $this->Auth->allow();
+        $this->Authentication->allowUnauthenticated(['index', 'productslisting', 'view', 'browse']);
     }
 
     /**
-     * @param \Cake\Event\Event $event
+     * @param \Cake\Event\EventInterface $event
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -57,11 +57,11 @@ class CategoriesController extends AppController
     /**
      * Index method
      *
+     * @param null $id
      * @return void
      */
-    public function index($id = null)
+    public function index($id = null): void
     {
-
         if ($id === null && Configure::read('Shop.Catalogue.index_category_id')) {
             $id = Configure::read('Shop.Catalogue.index_category_id');
             $this->redirect(['action' => 'view', $id]);
@@ -85,9 +85,10 @@ class CategoriesController extends AppController
     /**
      * Index method
      *
+     * @param null $categoryId
      * @return void
      */
-    public function productslisting($categoryId = null)
+    public function productslisting($categoryId = null): void
     {
         $this->loadModel('Shop.ShopProducts');
         $this->loadModel('Shop.ShopCategories');
@@ -128,7 +129,7 @@ class CategoriesController extends AppController
      * @return void
      * @throws \Cake\Http\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($id = null): void
     {
         //debug($this->request);
 
@@ -215,7 +216,7 @@ class CategoriesController extends AppController
         $this->render($template);
     }
 
-    public function browse($id = null)
+    public function browse($id = null): void
     {
         $this->setAction('index', $id);
     }

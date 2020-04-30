@@ -1,6 +1,6 @@
 <div class="shop categories related products">
 
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => false,
         'model' => 'Shop.ShopProducts',
         'data' => $shopProduct->child_shop_products,

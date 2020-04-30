@@ -16,11 +16,11 @@ class ShopCustomerAddressesController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
-        'view'      => 'Backend.View',
-        'add'       => 'Backend.Add',
-        'edit'      => 'Backend.Edit',
-        'delete'    => 'Backend.Delete',
+        'index'     => 'Admin.Index',
+        'view'      => 'Admin.View',
+        'add'       => 'Admin.Add',
+        'edit'      => 'Admin.Edit',
+        'delete'    => 'Admin.Delete',
     ];
 
     /**

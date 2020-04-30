@@ -27,7 +27,7 @@ class CartController extends AppController
         $this->loadComponent('Shop.Checkout');
         $this->Frontend->setRefScope('Shop.Cart');
 
-        $this->Auth->allow(['index', 'refresh', 'abort', 'add', 'remove', 'update', 'cartUpdate', 'reset']);
+        $this->Authentication->allowUnauthenticated(['index', 'refresh', 'abort', 'add', 'remove', 'update', 'cartUpdate', 'reset']);
     }
 
     /**

@@ -25,7 +25,7 @@
 
     <?php $fields = [
     'id','shop_stock_id','shop_product_id','value','last_transfer_in','last_transfer_out','created','modified',    ] ?>
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.StockValues',
         'data' => $stockValues,

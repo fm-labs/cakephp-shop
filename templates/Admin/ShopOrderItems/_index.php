@@ -1,5 +1,5 @@
 <?php $this->Breadcrumbs->add(__d('shop','Shop Order Items')); ?>
-<?php $this->loadHelper('Banana.Status'); ?>
+<?php $this->loadHelper('Cupcake.Status'); ?>
 <?php $this->Toolbar->addLink(__d('shop','New {0}', __d('shop','Shop Order Item')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <?php $this->Toolbar->addLink(
     __d('shop','List {0}', __d('shop','Shop Orders')),
@@ -14,7 +14,7 @@
 <div class="shopOrderItems index">
 
 
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.ShopOrderItems',
         'data' => $shopOrderItems,

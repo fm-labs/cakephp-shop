@@ -2,7 +2,7 @@
 
 <?php $this->Toolbar->addLink(__d('shop', 'New {0}', __d('shop', 'Shop Text')), ['action' => 'add'], ['data-icon' => 'plus']); ?>
 <div class="shopTexts index">
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.ShopTexts',
         'data' => $shopTexts,

@@ -1,5 +1,5 @@
 <?php
-use Backend\View\Widget\ImageSelectWidget;
+use Admin\View\Widget\ImageSelectWidget;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 //$this->extend('base');

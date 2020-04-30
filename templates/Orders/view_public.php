@@ -3,7 +3,7 @@ $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => '
 $this->Breadcrumbs->add(__d('shop','My Orders'), ['controller' => 'Orders', 'action' => 'index', 'ref' => 'breadcrumb']);
 $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controller' => 'Orders', 'action' => 'view', $order->uuid, 'ref' => 'breadcrumb']);
 ?>
-<?php $this->loadHelper('Banana.Status'); ?>
+<?php $this->loadHelper('Cupcake.Status'); ?>
 <?php $this->assign('title', __d('shop', 'Order {0}', $order->nr_formatted)); ?>
 <div class="shop order view container">
 

@@ -1,6 +1,6 @@
 <?php
 $this->loadHelper('Time');
-$this->loadHelper('Banana.Status');
+$this->loadHelper('Cupcake.Status');
 ?>
 <div class="shop order element-info element">
     <dl class="dl-horizontal">

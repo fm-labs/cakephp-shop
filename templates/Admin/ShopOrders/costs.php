@@ -1,6 +1,6 @@
-<?php $this->extend('Backend./Base/index'); ?>
+<?php $this->extend('Admin./Base/index'); ?>
 <?php $this->loadHelper('Bootstrap.Tabs'); ?>
-<?php $this->loadHelper('Banana.Status'); ?>
+<?php $this->loadHelper('Cupcake.Status'); ?>
 <?php $this->loadHelper('Number'); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:admin:index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Shop Orders'), ['action' => 'index']); ?>

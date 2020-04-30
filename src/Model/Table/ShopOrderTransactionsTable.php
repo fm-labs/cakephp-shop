@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Model\Table;
 
-use Banana\Lib\Status;
+use Cupcake\Lib\Status;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -39,7 +39,7 @@ class ShopOrderTransactionsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-        $this->addBehavior('Banana.Statusable');
+        //$this->addBehavior('Cupcake.Statusable');
 
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',

@@ -15,11 +15,13 @@ class OrdersController extends AppController
 {
     public $modelClass = "Shop.ShopOrders";
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(): void
     {
         parent::initialize();
-        $this->Auth->deny([]);
-        $this->Auth->allow(['view', 'process']);
+        $this->Authentication->allowUnauthenticated(['view', 'process']);
     }
 
     /**

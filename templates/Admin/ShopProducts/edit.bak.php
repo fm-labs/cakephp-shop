@@ -1,5 +1,5 @@
 <?php
-$this->extend('Backend./Admin/Action/edit');
+$this->extend('Admin./Admin/Action/edit');
 
 $this->loadHelper('Bootstrap.Tabs');
 $this->loadHelper('Media.Media');

@@ -1,8 +1,8 @@
 <?php
 $this->loadHelper('Number');
-$this->loadHelper('Banana.Status');
+$this->loadHelper('Cupcake.Status');
 
-echo $this->cell('Backend.DataTable', [[
+echo $this->cell('Admin.DataTable', [[
     'paginate' => false,
     'filter' => false,
     'model' => 'Shop.ShopOrders',

@@ -12,7 +12,7 @@
     ['data-icon' => 'plus']
 ) ?>
 <div class="shopTags index">
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.ShopTags',
         'data' => $shopTags,

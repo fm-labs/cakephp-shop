@@ -5,7 +5,7 @@
 
     <?php $fields = [
     'id','iso2','iso3','name','name_de','priority','is_published',    ] ?>
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.ShopCountries',
         'data' => $shopCountries,

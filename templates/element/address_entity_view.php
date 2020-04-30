@@ -4,7 +4,7 @@
 }
 ?>
 <div class="address">
-    <?= $this->cell('Backend.EntityView', [ $address ], [
+    <?= $this->cell('Admin.EntityView', [ $address ], [
         'title' => false,
         'model' => 'Shop.ShopOrderAddresses',
         'whitelist' => ['company_name', 'first_name', 'last_name', 'street', 'street2', 'zipcode', 'city', 'country_name'],

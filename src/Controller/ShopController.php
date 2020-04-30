@@ -17,11 +17,14 @@ class ShopController extends AppController
 {
     public $modelClass = false;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(): void
     {
         parent::initialize();
 
-        $this->Auth->allow();
+        $this->Authentication->allowUnauthenticated(['index']);
     }
 
     public function index()

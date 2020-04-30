@@ -25,7 +25,7 @@
 
     <?php $fields = [
     'id','title','is_default',    ] ?>
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.Stocks',
         'data' => $stocks,

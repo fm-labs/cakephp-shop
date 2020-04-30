@@ -42,7 +42,7 @@ class PaymentController extends AppController
         $this->loadComponent('Shop.Payment');
 
         //@TODO Add configurable option, to enable/disable authentication on payment controller methods
-        $this->Auth->allow(['index', 'pay', 'success', 'error', 'confirm']);
+        $this->Authentication->allowUnauthenticated(['index', 'pay', 'success', 'error', 'confirm']);
     }
 
     /**

@@ -35,7 +35,7 @@
 
     <?php $fields = [
     'id','parent_id','shop_stock_id','shop_product_id','op','amount','date','comment','created','modified',    ] ?>
-    <?= $this->cell('Backend.DataTable', [[
+    <?= $this->cell('Admin.DataTable', [[
         'paginate' => true,
         'model' => 'Shop.StockTransfers',
         'data' => $stockTransfers,

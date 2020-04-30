@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Shop;
 
-use Banana\Plugin\BasePlugin;
+use Cupcake\Plugin\BasePlugin;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -56,16 +56,16 @@ class Plugin extends BasePlugin implements EventListenerInterface
     {
         return [
             'Settings.build' => 'buildSettings',
-            'Backend.Menu.build.admin_primary' => ['callable' => 'buildBackendMenu', 'priority' => 5 ],
-            'Backend.Menu.build.admin_system' => ['callable' => 'buildBackendSystemMenu' ],
+            'Admin.Menu.build.admin_primary' => ['callable' => 'buildAdminMenu', 'priority' => 5 ],
+            'Admin.Menu.build.admin_system' => ['callable' => 'buildAdminSystemMenu' ],
         ];
     }
 
     /**
-     * Build backend routes
+     * Build admin routes
      * @param \Cake\Routing\RouteBuilder $routes
      */
-    public function backendRoutes(RouteBuilder $routes)
+    public function adminRoutes(RouteBuilder $routes)
     {
         //$routes->addExtensions(['pdf']);
         $routes->connect('/', ['controller' => 'Shop', 'action' => 'index'], ['_name' => 'index']);
@@ -84,9 +84,9 @@ class Plugin extends BasePlugin implements EventListenerInterface
 
     /**
      * @param \Cake\Event\Event $event
-     * @param \Banana\Menu\Menu $menu
+     * @param \Cupcake\Menu\Menu $menu
      */
-    public function buildBackendMenu(Event $event, \Banana\Menu\Menu $menu)
+    public function buildAdminMenu(Event $event, \Cupcake\Menu\Menu $menu)
     {
         $menu->addItem([
             'title' => __d('shop', 'Shop'),
@@ -155,9 +155,9 @@ class Plugin extends BasePlugin implements EventListenerInterface
 
     /**
      * @param \Cake\Event\Event $event
-     * @param \Banana\Menu\Menu $menu
+     * @param \Cupcake\Menu\Menu $menu
      */
-    public function buildBackendSystemMenu(Event $event, \Banana\Menu\Menu $menu)
+    public function buildAdminSystemMenu(Event $event, \Cupcake\Menu\Menu $menu)
     {
         $menu->addItem([
             'title' => __d('shop', 'Shop Countries'),

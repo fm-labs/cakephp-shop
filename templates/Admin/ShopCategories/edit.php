@@ -1,5 +1,5 @@
 <?php
-use Backend\View\Widget\ImageSelectWidget;
+use Admin\View\Widget\ImageSelectWidget;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 //$this->extend('base');
@@ -9,7 +9,7 @@ $this->loadHelper('Bootstrap.Tabs');
 
 $this->Breadcrumbs->add(__d('shop', 'Shop Categories'), ['action' => 'index']);
 $this->Breadcrumbs->add(__d('shop', 'Edit {0}', __d('shop', 'Shop Category')));
-$this->extend('Backend./Base/form');
+$this->extend('Admin./Base/form');
 ?>
 <?php /* $this->Toolbar->addLink(
     __d('shop', 'New {0}', __d('shop', 'Shop Product')),

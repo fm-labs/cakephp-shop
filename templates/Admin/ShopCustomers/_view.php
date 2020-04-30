@@ -53,7 +53,7 @@
         <?= $this->Html->link(__d('shop','Edit'), ['action' => 'edit', $shopCustomer->id], ['class' => 'btn btn-primary btn-edit']); ?>
     </div>
 
-    <?= $this->cell('Backend.EntityView', [ $shopCustomer ], [
+    <?= $this->cell('Admin.EntityView', [ $shopCustomer ], [
         'title' => false,
         'model' => 'Shop.ShopCustomers',
         'fields' => [

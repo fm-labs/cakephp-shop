@@ -4,7 +4,7 @@
         Debug
     </div>
     <div class="panel-body">
-    <?= $this->cell('Backend.EntityView', [ $shopCategory ], [
+    <?= $this->cell('Admin.EntityView', [ $shopCategory ], [
         'title' => false,
         'model' => 'Shop.ShopCategories',
         'fields' => [
@@ -46,7 +46,7 @@
     <?php foreach ((array) $shopCategory->shop_products as $shopProduct): ?>
         <div>
 
-            <?= $this->cell('Backend.EntityView', [ $shopProduct ], [
+            <?= $this->cell('Admin.EntityView', [ $shopProduct ], [
                 'title' => 'Product: ' . $shopProduct->title,
                 'model' => 'Shop.ShopProducts'
             ]); ?>

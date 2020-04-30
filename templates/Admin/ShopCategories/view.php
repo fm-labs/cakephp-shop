@@ -1,7 +1,7 @@
 <?php
 use Cake\Core\Configure;
 
-$this->extend('Backend./Admin/Action/view');
+$this->extend('Admin./Admin/Action/view');
 $this->loadHelper('Media.Media');
 
 $shopCategory = $this->get('entity')
@@ -14,7 +14,7 @@ $shopCategory = $this->get('entity')
         <?= $this->Html->link(__d('shop','Edit'), ['action' => 'edit', $shopCategory->id], ['class' => 'btn btn-primary btn-edit']); ?>
     </div>
 
-    <?= $this->cell('Backend.EntityView', [ $shopCategory ], [
+    <?= $this->cell('Admin.EntityView', [ $shopCategory ], [
         'title' => false,
         'model' => 'Shop.ShopCategories',
         'fields' => [

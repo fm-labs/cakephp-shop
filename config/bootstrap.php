@@ -1,13 +1,13 @@
 <?php
-use Banana\Lib\ClassRegistry;
+use Cupcake\Lib\ClassRegistry;
 use Cake\Core\Configure;
 use Cake\Log\Log;
 
 /**
  * Check dependencies
  */
-//if (!Plugin::isLoaded('Banana')) {
-//    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Banana']);
+//if (!Plugin::isLoaded('Cupcake')) {
+//    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Cupcake']);
 //}
 //if (!Plugin::isLoaded('Content')) {
 //    throw new \Cake\Core\Exception\MissingPluginException(['plugin' => 'Content']);

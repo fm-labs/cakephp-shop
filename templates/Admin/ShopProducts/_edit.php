@@ -1,7 +1,7 @@
 <?php
-$this->extend('Backend./Admin/Action/edit');
+$this->extend('Admin./Admin/Action/edit');
 
-$this->loadHelper('Backend.FooTable');
+$this->loadHelper('Admin.FooTable');
 $this->loadHelper('Media.Media');
 
 //$this->Breadcrumbs->add(__d('shop', 'Shop Products'), ['action' => 'index']);

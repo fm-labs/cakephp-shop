@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Model\Entity;
 
-use Banana\Lib\Status;
+use Cupcake\Lib\Status;
 use Cake\I18n\Number;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;

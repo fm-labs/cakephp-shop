@@ -3,7 +3,7 @@ $this->loadHelper('time');
 $title = sprintf("%s - %s", $this->Time->format($dateStart, "dd.MM.YYYY"), $this->Time->format($dateEnd, "dd.MM.YYYY"));
 ?>
 <?php
-    echo $this->cell('Backend.DataTable', [[
+    echo $this->cell('Admin.DataTable', [[
         'paginate' => false,
         'filter' => false,
         'model' => null,

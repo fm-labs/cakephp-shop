@@ -16,7 +16,7 @@ class CatalogueController extends AppController
     {
         parent::initialize();
 
-        $this->Auth->allow(['index']);
+        $this->Authentication->allowUnauthenticated(['index']);
     }
 
     public function index()

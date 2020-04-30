@@ -11,8 +11,8 @@ namespace Shop\Controller\Admin;
 class ShopOrderTransactionsController extends AppController
 {
     public $actions = [
-        'index' => 'Backend.Index',
-        'view' => 'Backend.View',
+        'index' => 'Admin.Index',
+        'view' => 'Admin.View',
     ];
 
     public $paginate = [

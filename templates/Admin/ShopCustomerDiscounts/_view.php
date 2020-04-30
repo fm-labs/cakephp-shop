@@ -48,7 +48,7 @@
     </h2>
 
     <?php
-    echo $this->cell('Backend.EntityView', [ $shopCustomerDiscount ], [
+    echo $this->cell('Admin.EntityView', [ $shopCustomerDiscount ], [
         'title' => $shopCustomerDiscount->title,
         'model' => 'Shop.ShopCustomerDiscounts',
     ]);

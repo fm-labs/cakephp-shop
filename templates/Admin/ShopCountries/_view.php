@@ -28,7 +28,7 @@
     </h2>
 
     <?php
-    echo $this->cell('Backend.EntityView', [ $shopCountry ], [
+    echo $this->cell('Admin.EntityView', [ $shopCountry ], [
         'title' => $shopCountry->title,
         'model' => 'Shop.ShopCountries',
     ]);

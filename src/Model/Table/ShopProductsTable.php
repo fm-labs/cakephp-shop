@@ -85,13 +85,13 @@ class ShopProductsTable extends Table
             ]);
         }
 
-        $this->addBehavior('Banana.Slug', [
+        $this->addBehavior('Cupcake.Slug', [
             'field' => 'title',
         ]);
 
         //$this->addBehavior('Eav.Attributes');
 
-        $this->addBehavior('Banana.Publish');
+        $this->addBehavior('Cupcake.Publish');
 
         $this->addBehavior('Translate', [
             'fields' => ['title', 'slug', 'desc_long_text', 'desc_short_text'],

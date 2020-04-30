@@ -11,7 +11,7 @@ use Shop\Model\Table\ShopOrdersTable;
  * ShopOrders Controller
  *
  * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
- * @property \Backend\Controller\Component\ActionComponent $Action
+ * @property \Admin\Controller\Component\ActionComponent $Action
  */
 class ShopOrdersController extends AppController
 {
@@ -24,8 +24,8 @@ class ShopOrdersController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Backend.Index',
-        'view'      => 'Backend.View',
+        'index'     => 'Admin.Index',
+        'view'      => 'Admin.View',
     ];
 
     /**
@@ -122,7 +122,7 @@ class ShopOrdersController extends AppController
             'fields.whitelist' => true,
             'fields' => [
                 '_status' => ['formatter' => function ($val, $row, $args, View $view) {
-                    $view->loadHelper('Banana.Status');
+                    $view->loadHelper('Cupcake.Status');
 
                     return $view->Status->label($val);
                 }],

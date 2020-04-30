@@ -14,8 +14,8 @@ class ShopOrderNotificationsController extends AppController
      * @var array
      */
     public $actions = [
-        'index' => 'Backend.Index',
-        'view' => 'Backend.View',
+        'index' => 'Admin.Index',
+        'view' => 'Admin.View',
     ];
 
     /**

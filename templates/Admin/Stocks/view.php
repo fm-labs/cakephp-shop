@@ -48,7 +48,7 @@
     </h2>
 
     <?=
-    $this->cell('Backend.EntityView', [ $post ], [
+    $this->cell('Admin.EntityView', [ $post ], [
         'title' => $post->title,
         'model' => 'stocks',
     ]);

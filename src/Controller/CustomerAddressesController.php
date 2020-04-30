@@ -19,12 +19,6 @@ class CustomerAddressesController extends AppController
 
     use CellTrait;
 
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->Auth->deny([]);
-    }
-
     public function index()
     {
         $this->paginate = [

@@ -48,7 +48,7 @@ class ShopProductView extends ShopView
             //$this->Html->meta(['name' => 'expires', 'content' => 0], null, ['block' => true]);
             //$this->Html->meta(['name' => 'abstract', 'content' => $metaDescription], null, ['block' => true]);
             //$this->Html->meta(['name' => 'distribution', 'content' => 'global'], null, ['block' => true]);
-            //$this->Html->meta(['name' => 'generator', 'content' => 'Banana Cake x.x.x'], null, ['block' => true]);
+            //$this->Html->meta(['name' => 'generator', 'content' => 'Cupcake Cake x.x.x'], null, ['block' => true]);
             //$this->Html->meta(['name' => 'googlebot', 'content' => ''], null, ['block' => true]);
             //$this->Html->meta(['name' => 'no-email-collection', 'content' => 'http://www.metatags.nl/nospamharvesting'], null, ['block' => true]);
             //$this->Html->meta(['name' => 'rating', 'content' => 'general'], null, ['block' => true]);
