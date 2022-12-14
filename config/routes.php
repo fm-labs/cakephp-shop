@@ -1,8 +1,8 @@
 <?php
-use Cake\Routing\Router;
+/** @var \Cake\Routing\RouteBuilder $routes */
 
 // Shop frontend routes
-Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function (\Cake\Routing\RouteBuilder $routes) {
+$routes->scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function (\Cake\Routing\RouteBuilder $routes) {
 
     //$routes->addExtensions(['json', 'xml']);
     //$routes->routeClass('Cake\Routing\Route\DashedRoute');
@@ -18,20 +18,20 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['_name' => 'cart']
     );
     $routes->connect(
-        '/cart/:action',
+        '/cart/{action}',
         ['controller' => 'Cart']
     );
     $routes->connect(
-        '/cart/:action/*',
+        '/cart/{action}/*',
         ['controller' => 'Cart']
     );
     $routes->connect(
-        '/payment/:action/*',
+        '/payment/{action}/*',
         ['controller' => 'Payment'],
         []
     );
     $routes->connect(
-        '/payment/:action',
+        '/payment/{action}',
         ['controller' => 'Payment'],
         []
     );
@@ -41,12 +41,12 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['pass' => []]
     );
     $routes->connect(
-        '/orders/:action/*',
+        '/orders/{action}/*',
         ['controller' => 'Orders'],
         []
     );
     $routes->connect(
-        '/orders/:action',
+        '/orders/{action}',
         ['controller' => 'Orders'],
         []
     );
@@ -56,17 +56,17 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['pass' => []]
     );
     $routes->connect(
-        '/checkout/:action/:cartid/*',
+        '/checkout/{action}/{cartid}/*',
         ['controller' => 'Checkout'],
         ['pass' => ['cartid']]
     );
     $routes->connect(
-        '/checkout/:action/:cartid',
+        '/checkout/{action}/{cartid}',
         ['controller' => 'Checkout'],
         ['pass' => ['cartid']]
     );
     $routes->connect(
-        '/checkout/:action',
+        '/checkout/{action}',
         ['controller' => 'Checkout'],
         ['pass' => []]
     );
@@ -77,11 +77,11 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     );
 
     $routes->connect(
-        '/customer/:action/*',
+        '/customer/{action}/*',
         ['controller' => 'Customer', 'action' => 'index']
     );
     $routes->connect(
-        '/customer/:action',
+        '/customer/{action}',
         ['controller' => 'Customer', 'action' => 'index']
     );
     $routes->connect(
@@ -90,25 +90,25 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         ['_name' => 'customer']
     );
     $routes->connect(
-        '/customer-addresses/:action/*',
+        '/customer-addresses/{action}/*',
         ['controller' => 'CustomerAddresses', 'action' => 'index']
     );
     $routes->connect(
-        '/customer-addresses/:action',
+        '/customer-addresses/{action}',
         ['controller' => 'CustomerAddresses', 'action' => 'index']
     );
     $routes->connect(
-        '/categories/:action/:id/*',
+        '/categories/{action}/{id}/*',
         ['controller' => 'Categories'],
         ['pass' => ['id']]
     );
     $routes->connect(
-        '/categories/:action/:id',
+        '/categories/{action}/{id}',
         ['controller' => 'Categories'],
         ['pass' => ['id']]
     );
     $routes->connect(
-        '/categories/:action',
+        '/categories/{action}',
         ['controller' => 'Categories'],
         ['pass' => []]
     );
@@ -118,39 +118,39 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
         //@TODO add product_id regex pattern
         //@TODO add product regex pattern
         $routes->connect(
-            '/:category/:product/product/:product_id',
+            '/{category}/{product}/product/{product_id}',
             ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => ['product_id'], 'category' => '[\w\/\-\_]+']
         );
         //@TODO add product regex pattern
         //@TODO add product regex pattern
         $routes->connect(
-            '/:category/:product/product',
+            '/{category}/{product}/product',
             ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => [], 'category' => '[\w\/\-\_]+']
         );
         //@TODO add product_id regex pattern
         //@TODO add product regex pattern
         $routes->connect(
-            '/:product/product/:product_id',
+            '/{product}/product/{product_id}',
             ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => ['product_id']]
         );
         //@TODO add product_id regex pattern
         $routes->connect(
-            '/product/:product_id',
+            '/product/{product_id}',
             ['plugin' => 'Shop', 'controller' => 'Products', 'action' => 'view'],
             ['pass' => ['product_id']]
         );
 
         // shop category routes
         $routes->connect(
-            '/:category/:category_id',
+            '/{category}/{category_id}',
             ['plugin' => 'Shop', 'controller' => 'Categories', 'action' => 'view'],
             ['pass' => ['category_id'], 'category' => '[\w\/\-\_]+']
         );
         /*
-        $routes->connect('/:category',
+        $routes->connect('/{category}',
             ['plugin' => 'Shop', 'controller' => 'ShopCategories', 'action' => 'view'],
             ['pass' => ['category_id'], 'category' => '[\w\/\-\_]+']
         );
@@ -158,21 +158,21 @@ Router::scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function 
     endif;
 
     $routes->connect(
-        '/products/:action/:id/*',
+        '/products/{action}/{id}/*',
         ['controller' => 'Products'],
         ['pass' => ['id']]
     );
     $routes->connect(
-        '/products/:action/:id',
+        '/products/{action}/{id}',
         ['controller' => 'Products'],
         ['pass' => ['id']]
     );
     $routes->connect(
-        '/products/:action',
+        '/products/{action}',
         ['controller' => 'Products'],
         ['pass' => []]
     );
-    //$routes->connect('/:controller/:action');
-    //$routes->connect('/:controller');
+    //$routes->connect('/{controller}/{action}');
+    //$routes->connect('/{controller}');
     $routes->fallbacks('DashedRoute');
 });

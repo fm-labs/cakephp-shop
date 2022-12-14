@@ -59,14 +59,26 @@ class ShopCategory extends Entity
      */
     public function getViewUrl()
     {
+        if (\Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')) {
+            return [
+                'prefix' => false,
+                'plugin' => 'Shop',
+                'controller' => 'Categories',
+                'action' => 'view',
+                'category_id' => $this->id,
+                //'category' => $this->slug,
+                'category' => $this->url_path,
+            ];
+        }
+
         return [
             'prefix' => false,
             'plugin' => 'Shop',
             'controller' => 'Categories',
             'action' => 'view',
-            'category_id' => $this->id,
+            'id' => $this->id,
             //'category' => $this->slug,
-            'category' => $this->url_path,
+            //'category' => $this->url_path,
         ];
     }
 

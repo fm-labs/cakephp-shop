@@ -45,6 +45,7 @@ class CategoriesController extends AppController
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
+        parent::beforeFilter($event);
         //@TODO Use ShopComponent to override controller layouts by configuration
         //$this->viewBuilder()->setLayout(Configure::read('Shop.Categories.layout'));
 

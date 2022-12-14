@@ -210,7 +210,7 @@ class ShopCategoriesTable extends Table
      */
     public function afterSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
-        Cache::clear(false, 'content_menu');
+        Cache::clear('content_menu');
     }
 
     /**

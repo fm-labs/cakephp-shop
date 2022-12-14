@@ -11,6 +11,8 @@ use Cake\Core\Exception\Exception;
  *
  * @package Shop\Controller
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
+ * @property \User\Controller\Component\AuthComponent $Auth
+ * @property \Content\Controller\Component\FrontendComponent $Frontend
  * @property \Shop\Controller\Component\ShopComponent $Shop
  * @property \Shop\Controller\Component\CartComponent $Cart
  */
@@ -18,17 +20,24 @@ class AppController extends BaseAppController
 {
     /**
      * {@inheritDoc}
+     * @throws \Exception
      */
     public function initialize(): void
     {
         parent::initialize();
 
-        $this->viewBuilder()->setClassName('Shop.Shop');
-        $this->loadComponent('Content.Frontend');
-        $this->loadComponent('Shop.Shop');
+        $this->Flash = $this->loadComponent('Flash');
+        $this->Auth = $this->loadComponent('User.Auth');
+        $this->Authentication = $this->Auth->Authentication;
+        //$this->loadComponent('Authentication.Authentication'); // loaded by User.Auth component
+
+        $this->Frontend = $this->loadComponent('Content.Frontend');
+        $this->Shop = $this->loadComponent('Shop.Shop');
 
         if (!$this->components()->has('Authentication')) {
             throw new Exception('Shop requires an authentication component to be loaded');
         }
+
+        $this->viewBuilder()->setClassName('Shop.Shop');
     }
 }

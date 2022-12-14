@@ -5,7 +5,9 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\View\View;
+use Cupcake\Lib\Status;
 use Shop\Model\Table\ShopOrdersTable;
+use Sugar\View\Helper\FormatterHelper;
 
 /**
  * ShopOrders Controller
@@ -39,7 +41,7 @@ class ShopOrdersController extends AppController
         $this->Action->registerInline('viewOrder', ['label' => __d('shop', 'View Order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
         //$this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
-        //$this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
+        $this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
         //$this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Send order confirmation'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
@@ -67,6 +69,7 @@ class ShopOrdersController extends AppController
         $this->set('order', $order);
 
         //$this->setAction('viewOrder', $id);
+        $this->render("storno");
     }
 
     /**
@@ -86,6 +89,16 @@ class ShopOrdersController extends AppController
         $this->set('paginate', true);
         $this->set('sortable', true);
         $this->set('ajax', true);
+        $this->set('helpers', ['Bootstrap.Label']);
+
+        FormatterHelper::register('status', function ($val, $extra, $params, $view) {
+            if ($val instanceof Status) {
+                return $view->Label->create($val->getLabel(), [
+                    'class' => $val->getClass()
+                ]);
+            }
+            return sprintf('<span class="status">STATUS' . $val . '</span>', $val);
+        });;
 
         $this->set('fields', [
             'submitted',
@@ -93,6 +106,7 @@ class ShopOrdersController extends AppController
             'invoice_nr_formatted'  => ['label' => __d('shop', 'Invoice Nr')],
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
             'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-right'],
+            //'status' => ['label' => 'Status0', 'formatter' => 'status', 'type' => 'object'],
             'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object'],
         ]);
         $this->set('fields.whitelist', ['submitted', 'nr_formatted', 'invoice_nr_formatted', 'shop_customer', 'order_value_total', 'status__status']);
@@ -201,7 +215,9 @@ class ShopOrdersController extends AppController
         ]);
         $this->set('entity', $shopOrder);
         $this->set('_serialize', 'entity');
+
         $this->Action->execute('view');
+        $this->render("view_order");
     }
 
     public function viewInvoice($id = null)

@@ -1,8 +1,10 @@
-<?php $this->Breadcrumbs->add(__d('shop','Your account'), ['controller' => 'Customer', 'action' => 'index']); ?>
+<?php
+$this->loadHelper("User.Auth");
+$this->Breadcrumbs->add(__d('shop','Your account'), ['controller' => 'Customer', 'action' => 'index']); ?>
 
 <div class="shop customer view container">
 
-    <h1>Welcome, <?= $this->request->getSession()->read('Auth.User.display_name'); ?></h1>
+    <h1>Welcome, <?= $this->Auth->getUser('display_name'); ?></h1>
 
     <div class="row">
         <div class="col-md-12">

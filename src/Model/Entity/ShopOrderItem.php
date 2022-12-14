@@ -83,11 +83,22 @@ class ShopOrderItem extends Entity
             if (isset($this->_fields['refscope']) && isset($this->_fields['refid'])) {
                 $refid = $this->_fields['refid'];
                 $refscope = $this->_fields['refscope'];
+
+                // refscope fix
+                if ($refscope === "Cnt.ProductVersions") {
+                    $refscope = "Ontalents.CntProductVersions";
+                }
+
+
                 [$plugin, $refModel] = pluginSplit($refscope);
                 try {
-                    $ref = TableRegistry::getTableLocator()->get($refscope)->find('product')->where([$refModel . '.id' => $refid])->first();
+                    $ref = TableRegistry::getTableLocator()->get($refscope)
+                        //->find('product')
+                        ->find()
+                        ->where([$refModel . '.id' => $refid])
+                        ->first();
                 } catch (\Exception $ex) {
-                    debug($ex->getMessage());
+                    debug("REF:" . $refscope . ":" . $refid . "|" . $refModel .":" . $ex->getMessage());
                 }
             }
             $this->_fields['ref'] = $ref;

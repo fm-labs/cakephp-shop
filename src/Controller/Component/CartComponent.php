@@ -119,7 +119,7 @@ class CartComponent extends Component
     /**
      * @param \Cake\Event\Event $event
      */
-    public function shutdown(\Cake\Event\EventInterface $event)
+    public function afterFilter(\Cake\Event\EventInterface $event)
     {
         //@TODO Detach table event listeners
         //@TODO Unload tables

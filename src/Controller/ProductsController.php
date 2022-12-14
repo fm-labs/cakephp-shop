@@ -28,10 +28,11 @@ class ProductsController extends AppController
         parent::initialize();
 
         $this->loadComponent('Shop.Cart');
+        $this->loadComponent('Content.Locale');
 
         $this->Frontend->setRefScope('Shop.ShopProducts');
 
-        $this->Authentication->allowUnauthenticated(null);
+        $this->Authentication->allowUnauthenticated([]);
     }
 
     /**

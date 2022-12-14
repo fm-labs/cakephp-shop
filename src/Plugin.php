@@ -8,6 +8,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Routing\RouteBuilder;
+use Cupcake\Model\EntityTypeRegistry;
 use Cupcake\Plugin\BasePlugin;
 
 /**
@@ -34,6 +35,11 @@ class Plugin extends BasePlugin implements EventListenerInterface
         $eventManager->on(new \Shop\Service\ShopRulesService());
         $eventManager->on(new \Shop\Sitemap\SitemapListener());
         $eventManager->on($this);
+
+        EntityTypeRegistry::register('Content.Menu', 'shop_category', [
+            'label' => __('Shop Category'),
+            'className' => '\\Content\\Model\\Entity\\Menu\\ShopCategoryMenuType',
+        ]);
     }
 
     public function getConfigurationUrl()

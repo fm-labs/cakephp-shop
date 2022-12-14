@@ -11,10 +11,11 @@ use Shop\Model\Entity\ShopCustomer;
 /**
  * Class ShopComponent
  * @package Shop\Controller\Component
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  */
 class ShopComponent extends Component
 {
-    public $components  = ['Auth'];
+    public $components  = ['Authentication'];
 
     /**
      * @var \Shop\Model\Entity\ShopCustomer
@@ -30,6 +31,7 @@ class ShopComponent extends Component
         if ($defaultLayout) {
             $this->getController()->viewBuilder()->setLayout($defaultLayout);
         }
+        $this->getController()->viewBuilder()->addHelper('User.Auth');
     }
 
     /**
@@ -47,10 +49,10 @@ class ShopComponent extends Component
      */
     protected function _loadCustomer()
     {
-        if ($this->Auth->user()) {
+        if ($this->Authentication->getIdentity()) {
             /** @var \Shop\Model\Table\ShopCustomersTable $ShopCustomers */
             $ShopCustomers = TableRegistry::getTableLocator()->get('Shop.ShopCustomers');
-            $customer = $ShopCustomers->createFromUserId($this->Auth->user('id'));
+            $customer = $ShopCustomers->createFromUserId($this->Authentication->getIdentityData('id'));
             $this->setCustomer($customer);
         }
     }
@@ -134,7 +136,7 @@ class ShopComponent extends Component
     }
 
     /**
-     * @return \Cake\ORM\ResultSet
+     * @return \Cake\ORM\Query|null
      */
     public function getCustomerAddresses()
     {

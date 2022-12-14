@@ -87,15 +87,27 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getUrl()
     {
+        if (\Cake\Core\Configure::read('Shop.Router.enablePrettyUrls')) {
+            return [
+                'prefix' => false,
+                'plugin' => 'Shop',
+                'controller' => 'Products',
+                'action' => 'view',
+                'product_id' => $this->id,
+                'product' => $this->slug,
+                'category' => $this->shop_category ? $this->shop_category->url_path : null,
+                //$this->id
+            ];
+        }
 
         return [
             'prefix' => false,
             'plugin' => 'Shop',
             'controller' => 'Products',
             'action' => 'view',
-            'product_id' => $this->id,
-            'product' => $this->slug,
-            'category' => $this->shop_category ? $this->shop_category->url_path : null,
+            'id' => $this->id,
+            //'product' => $this->slug,
+            //'category' => $this->shop_category ? $this->shop_category->url_path : null,
             //$this->id
         ];
     }

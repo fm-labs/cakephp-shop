@@ -23,7 +23,7 @@ class ShopProductView extends ShopView
             $shopProduct = $this->get('shopProduct');
 
             $metaTitle = $shopProduct->meta_title ?: $shopProduct->name;
-            $shopProductUrl = $this->Html->Url->build($shopProduct->url, true);
+            $shopProductUrl = $this->Html->Url->build($shopProduct->url, ['full' => true]);
 
             // shopProduct title
             $this->assign('title', $metaTitle);
@@ -83,6 +83,6 @@ class ShopProductView extends ShopView
             }
         }
 
-        return parent::render($view, $layout);
+        return parent::render($template, $layout);
     }
 }

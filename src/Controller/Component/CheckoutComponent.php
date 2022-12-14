@@ -95,6 +95,9 @@ class CheckoutComponent extends Component
         if ($this->_registry->has('Auth')) {
             $this->_registry->get('Auth')->allow($this->_stepRegistry->loaded());
         }
+        elseif ($this->_registry->has('Authentication')) {
+            $this->_registry->get('Authentication')->allowUnauthenticated($this->_stepRegistry->loaded());
+        }
     }
 
     /**

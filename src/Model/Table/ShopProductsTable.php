@@ -232,10 +232,14 @@ class ShopProductsTable extends Table
         //    return;
         //}
 
-        $mapper = function ($row, $key, MapReduce $mapReduce) use ($options) {
+        if (!$primary) {
+            return;
+        }
 
-            $row['price_net_original'] = $row['price_net'];
-            //$row['price_net'] = $row['price_net'];
+        $mapper = function ($row, $key, MapReduce $mapReduce) use ($options) {
+            if (isset($p['price_net'])) {
+                $row['price_net_original'] = $row['price_net'];
+            }
 
             if (Shop::config('Shop.CustomerDiscounts.enabled') == true && isset($options['for_customer'])) {
                 $ShopCustomerDiscounts = TableRegistry::getTableLocator()->get('Shop.ShopCustomerDiscounts');

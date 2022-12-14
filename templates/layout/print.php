@@ -4,8 +4,9 @@
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $this->fetch('title') ?>
+        <?= $this->fetch('title') ?> | Print view
     </title>
+    <?= $this->Html->css("Shop.print"); ?>
 </head>
 <body class="print" style="width: 297mm; margin: 0 auto;">
     <!--

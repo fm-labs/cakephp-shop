@@ -47,7 +47,8 @@ class ShopCountriesController extends AppController
 
         $this->set('paginate', true);
         $this->set('limit', 200);
-
         $this->set('fields.whitelist', ['id', 'iso2', 'iso3', 'name_de', 'name', 'is_published']);
+        $this->set('template', 'index');
+        $this->Action->execute();
     }
 }
