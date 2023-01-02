@@ -1,5 +1,8 @@
-<?php $this->extend('Shop.Checkout/base'); ?>
 <?php
+$this->extend('Shop.Checkout/base');
+
+/** @var \Shop\Model\Entity\ShopOrder $order */
+$order = $this->get('order')
 //$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
 //$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
 //$this->Breadcrumbs->add(__d('shop','Review order'), ['controller' => 'Checkout', 'action' => 'review', 'ref' => 'breadcrumb']);
@@ -13,7 +16,9 @@
 
             <h2>
                 <?= __d('shop','Billing address'); ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'billing_address', $order->cartid, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(
+                        __d('shop','Edit'),
+                        ['action' => 'billing_address', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
             </h2>
             <?= $this->element('Shop.Order/billing_address'); ?>
 
@@ -23,7 +28,9 @@
 
             <h2>
                 <?= __d('shop','Shipping address'); ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping_address', $order->cartid, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(
+                        __d('shop','Edit'),
+                        ['action' => 'shipping_address', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
             </h2>
             <?= $this->element('Shop.Order/shipping_address'); ?>
 
@@ -35,7 +42,9 @@
 
             <h2>
                 <?= __d('shop','Payment Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'payment', $order->cartid, 'change' => 1, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(
+                        __d('shop','Edit'),
+                        ['action' => 'payment', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
             </h2>
             <div class="inner">
                 <div class="desc payment-desc">
@@ -53,7 +62,9 @@
 
             <h2>
                 <?= __d('shop','Shipping Method') ?>
-                <small><?= $this->Html->link(__d('shop','Change'), ['action' => 'shipping', $order->cartid, 'ref' => 'review']); ?></small>
+                <small><?= $this->Html->link(
+                        __d('shop','Edit'),
+                        ['action' => 'shipping', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
             </h2>
             <div class="inner">
                 <div class="desc shipping-desc">

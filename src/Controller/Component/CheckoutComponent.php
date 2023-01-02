@@ -14,6 +14,7 @@ use Shop\Core\Checkout\CheckoutStepInterface;
 use Shop\Core\Checkout\CheckoutStepRegistry;
 use Shop\Core\Checkout\Step\SubmitStep;
 use Shop\Event\CheckoutEvent;
+use Shop\Exception\CheckoutException;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
@@ -126,7 +127,7 @@ class CheckoutComponent extends Component
         if (!$cartId) {
             throw new \InvalidArgumentException("Checkout: Unable to init from cart: Cart ID missing");
         }
-        $this->_order = $this->ShopOrders->find('cart', ['ShopOrders.cartid' => $cartId]);
+        $this->_order = $this->ShopOrders->find('cart', ['ShopOrders.cartid' => $cartId])->first();
     }
 
     /**
@@ -157,6 +158,14 @@ class CheckoutComponent extends Component
             $order = $this->_order->toArray();
         }
         $this->getController()->getRequest()->getSession()->write('Shop.Order', $order);
+    }
+
+    /**
+     * @param $stepId
+     * @return bool
+     */
+    public function hasStep($stepId): bool {
+        return $this->_stepRegistry->has($stepId);
     }
 
     /**
@@ -279,10 +288,10 @@ class CheckoutComponent extends Component
 
         // before step
         $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.beforeStep', $this, compact('step')));
-        if ($event->result instanceof Response) {
-            return $event->result;
-        } elseif ($event->result instanceof CheckoutStepInterface) {
-            $step = $event->result;
+        if ($event->getResult() instanceof Response) {
+            return $event->getResult();
+        } elseif ($event->getResult() instanceof CheckoutStepInterface) {
+            $step = $event->getResult();
         }
 
         // execute
@@ -290,8 +299,8 @@ class CheckoutComponent extends Component
 
         // after step
         $event = $this->getController()->getEventManager()->dispatch(new CheckoutEvent('Shop.Checkout.afterStep', $this, ['step' => $this->_activeStep]));
-        if ($event->result instanceof Response) {
-            return $event->result;
+        if ($event->getResult() instanceof Response) {
+            return $event->getResult();
         }
 
         return $response;
@@ -306,7 +315,6 @@ class CheckoutComponent extends Component
         if ($stepId instanceof CheckoutStepInterface) {
             $stepId = $stepId->getId();
         }
-
         return ['plugin' => 'Shop', 'controller' => 'Checkout', 'action' => $stepId, $this->getOrder()->cartid];
     }
 
@@ -321,6 +329,7 @@ class CheckoutComponent extends Component
         if ($step) {
             return $this->getController()->redirect($this->buildStepUrl($step));
         }
+        return null;
     }
 
     /**
@@ -348,18 +357,26 @@ class CheckoutComponent extends Component
     {
         $this->_order = $order;
         if ($update) {
-            return $this->saveOrder();
+            if (!$this->saveOrder()) {
+
+            }
         }
 
-        return $this->_order;
+        return $this;
     }
 
     /**
-     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     * @return \Cake\Datasource\EntityInterface
+     * @throws \Shop\Exception\CheckoutException
+     * @throws \Cake\ORM\Exception\PersistenceFailedException
      */
     public function saveOrder()
     {
-        return $this->ShopOrders->save($this->getOrder());
+        $order = $this->getOrder();
+        if (!$order) {
+            throw new CheckoutException("No order found");
+        }
+        return $this->ShopOrders->saveOrFail($order);
     }
 
     /**
@@ -476,7 +493,6 @@ class CheckoutComponent extends Component
         $order = $this->getOrder();
         $order->setAccess(array_keys($data), true);
         $order = $this->ShopOrders->patchEntity($order, $data, ['validate' => $validate]);
-
         return $this->setOrder($order, true);
     }
 

@@ -137,6 +137,7 @@ class ShopComponent extends Component
 
     /**
      * @return \Cake\ORM\Query|null
+     * @todo Return array instead of Query?
      */
     public function getCustomerAddresses()
     {
@@ -158,7 +159,7 @@ class ShopComponent extends Component
         $list = [];
         $addresses = $this->getCustomerAddresses();
         if ($addresses) {
-            $addresses->each(function ($address) use (&$list) {
+            $addresses->all()->each(function ($address) use (&$list) {
                 $list[$address->id] = $address->oneline;
             });
         }

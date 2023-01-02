@@ -43,7 +43,7 @@ class CheckoutController extends AppController
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
-        $this->viewBuilder()->setLayout(Configure::read('Shop.Checkout.layout') ?: null); //@TODO Move layout handling to ShopComponent
+        //$this->viewBuilder()->setLayout(Configure::read('Shop.Checkout.layout') ?: null); //@TODO Move layout handling to ShopComponent
     }
 
     /**
@@ -66,12 +66,10 @@ class CheckoutController extends AppController
         if (!$cartId) {
             //@TODO Log bad request
             $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
-
             return $this->redirect(['_name' => 'shop:cart']);
         }
 
         $this->Checkout->initFromCartId($cartId);
-
         return $this->Checkout->redirectNext();
     }
 
@@ -84,42 +82,94 @@ class CheckoutController extends AppController
         $this->setAction('index', $cartId);
     }
 
-    /**
-     * Invokes controller actions or fallback to checkout step,
-     * where the controller action is mapped to checkout stepID of same name
-     *
-     * @return \Cake\Http\Response|mixed|null
-     */
-    public function invokeAction(Closure $action, array $args): void
+//    public function isAction(string $action): bool
+//    {
+//        try {
+//            return parent::isAction($action);
+//        } catch (MissingActionException $ex) {
+//            if ($this->Checkout->hasStep($action)) {
+//                return true;
+//            }
+//            throw $ex;
+//        }
+//    }
+
+    public function getAction(): Closure
     {
         try {
-            parent::invokeAction($action, $args);
+            return parent::getAction();
         } catch (MissingActionException $ex) {
-            // read stepID from request
-            $stepId = $this->request->getParam('action');
-            $stepId = Inflector::underscore($stepId);
-
-            // read cartID from request
-            $cartId = $this->request->getParam('cartid');
-            if (!$cartId) {
-                //@TODO Log bad request
-                $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
-
-                return $this->redirect(['_name' => 'shop:cart']);
+            $request = $this->request;
+            $action = $request->getParam('action');
+            if (!$this->Checkout->hasStep($action)) {
+                throw $ex;
             }
 
-            // load order for cartID
-            $this->Checkout->initFromCartId($cartId);
+            return function() {
+                // read stepID from request
+                $stepId = $this->request->getParam('action');
+                $stepId = Inflector::underscore($stepId);
 
-            // execute checkout step
-            return $this->Checkout->executeStep($stepId);
+                // read cartID from request
+                $cartId = $this->request->getParam('cartid');
+                if (!$cartId) {
+                    //@TODO Log bad request
+                    $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+
+                    $this->redirect(['_name' => 'shop:cart']);
+                    return;
+                }
+
+                // load order for cartID
+                $this->Checkout->initFromCartId($cartId);
+
+                // execute checkout step
+                $this->Checkout->executeStep($stepId);
+            };
         }
-
-        throw new MissingActionException([
-            'controller' => $this->name . "Controller",
-            'action' => $this->request->getParam('action'),
-            'prefix' => $this->request->getParam('prefix'),
-            'plugin' => $this->request->getParam('plugin'),
-        ]);
     }
+
+//    /**
+//     * Invokes controller actions or fallback to checkout step,
+//     * where the controller action is mapped to checkout stepID of same name
+//     *
+//     * @return \Cake\Http\Response|mixed|null
+//     */
+//    public function invokeAction(Closure $action, array $args): void
+//    {
+//        try {
+//            parent::invokeAction($action, $args);
+//            return;
+//        } catch (MissingActionException $ex) {
+//            debug($ex->getMessage());
+//            die($ex->getMessage());
+//            // read stepID from request
+//            $stepId = $this->request->getParam('action');
+//            $stepId = Inflector::underscore($stepId);
+//
+//            // read cartID from request
+//            $cartId = $this->request->getParam('cartid');
+//            if (!$cartId) {
+//                //@TODO Log bad request
+//                $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+//
+//                $this->redirect(['_name' => 'shop:cart']);
+//                return;
+//            }
+//
+//            // load order for cartID
+//            $this->Checkout->initFromCartId($cartId);
+//
+//            // execute checkout step
+//            $this->Checkout->executeStep($stepId);
+//            return;
+//        }
+//
+//        throw new MissingActionException([
+//            'controller' => $this->name . "Controller",
+//            'action' => $this->request->getParam('action'),
+//            'prefix' => $this->request->getParam('prefix'),
+//            'plugin' => $this->request->getParam('plugin'),
+//        ]);
+//    }
 }

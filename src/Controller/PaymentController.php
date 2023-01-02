@@ -57,10 +57,13 @@ class PaymentController extends AppController
 
         if ($this->_order === null || $this->_order->uuid != $orderUUID) {
             $this->loadModel('Shop.ShopOrders');
-            $order = $this->ShopOrders->find('order', ['uuid' => $orderUUID]);
-            if (!$order) {
-                throw new NotFoundException();
-            }
+            $order = $this->ShopOrders
+                ->find('order', ['uuid' => $orderUUID])
+                ->firstOrFail();
+
+//            if (!$order) {
+//                throw new NotFoundException();
+//            }
             $this->_order = $order;
         }
 
@@ -95,10 +98,13 @@ class PaymentController extends AppController
 
         $this->set(compact('order'));
 
-        $shopOrder = $this->ShopOrders->find('order', ['ShopOrders.uuid' => $orderUUID]);
-        if (!$shopOrder) {
-            throw new NotFoundException();
-        }
+        $shopOrder = $this->ShopOrders
+            ->find('order', ['ShopOrders.uuid' => $orderUUID])
+            ->firstOrFail();
+
+//        if (!$shopOrder) {
+//            throw new NotFoundException();
+//        }
 
         $redirectUrl = ['controller' => 'Orders', 'action' => 'view', $orderUUID];
         switch ($shopOrder->status) {

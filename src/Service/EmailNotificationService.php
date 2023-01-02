@@ -36,7 +36,8 @@ class EmailNotificationService extends BaseService
 
         $orderId = $event->getData('order')['id'];
         $order = $ShopOrders
-            ->find('order', ['ShopOrders.id' => $orderId]);
+            ->find('order', ['ShopOrders.id' => $orderId])
+            ->first();
 
         if (!$order) {
             Log::error('Unable to send order notification: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
@@ -69,7 +70,8 @@ class EmailNotificationService extends BaseService
 
         $orderId = $event->getData('order')['id'];
         $order = $ShopOrders
-            ->find('order', ['ShopOrders.id' => $orderId]);
+            ->find('order', ['ShopOrders.id' => $orderId])
+            ->first();
 
         if (!$order) {
             Log::error('Unable to send order confirmation: Order not found [ID:' . $orderId . ']', ['mail', 'shop']);
