@@ -11,6 +11,7 @@ class ShopView extends ContentView
     {
         parent::initialize();
 
+        $this->loadHelper('Bootstrap.Form');
         $this->loadHelper('Bootstrap.Ui');
         $this->loadHelper('Media.Media');
         $this->loadHelper('Paginator', [
