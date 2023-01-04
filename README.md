@@ -1,16 +1,18 @@
 # Shop plugin for CakePHP
 
-A ecommerce plugin for CakePHP application based on the BananaCake framework extension 
+An ecommerce plugin for CupCake - An opinionated extension of the CakePHP framework.
+ 
+**This plugin is still under development - Use at your own risk ;)**
+
 
 ## Requirements
 
-CakePHP v3.1+
-BananaCake v1.4+
+CakePHP v4
 
 ## Dependencies
 
-fm-labs/cakephp-banana
-fm-labs/cakephp-backend
+* fm-labs/cakephp-cupcake - Opinionated toolset for Cakephp
+* fm-labs/cakephp-admin - Opinionated admin toolset for Cakephp 
 
 ## Installation
 
@@ -22,20 +24,38 @@ The recommended way to install composer packages is:
 composer require fm-labs/cakephp-shop
 ```
 
-- Enable in your ROOT/config/bootstrap.php
+- Enable in your Application.php
 
-    Plugin::load('Shop', ['bootstrap' => true, 'routes' => true]);
+```php
+class Application extends \Cupcake\Application {
+    public function bootstrap() : void{
+        parent::bootstrap();
+        
+        // load shop plugin
+        $this->addPlugin('Shop')
+    }
+}
+```
 
 
-- Copy default config from plugins/Shop/config/backend.default.php to ROOT/config/backend.php
-    Edit configuration settings, if necessary
+- Copy default config to application's config directory
+        
+
+    $ cp ./plugins/Shop/config/shop.php to ./config/plugins/shop.php
+    
+    # Edit configuration settings, if necessary
 
 
 ## Features
 
-* Shop Categories
-* Shop Products
-* Shop Catalogue
-* Minimal Order System
-* to be developed ...
+* Shop Products Management
+* Minimal Ordering System
+* Payment processing
+  * Klarna
+  * MPAY24
+* Customer discounts
+* Email notifications
+* PDF generator for order confirmations and invoices
+* Coupons
+* ...
 
