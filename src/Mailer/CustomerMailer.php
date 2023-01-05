@@ -39,9 +39,10 @@ class CustomerMailer extends Mailer
 
         $this
             ->setSubject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
-            ->to($order->shop_customer->user->email)
-            ->setTemplate('Shop.customer/order_submit')
-            ->setViewVars(['order' => $order]);
+            ->setTo($order->shop_customer->user->email)
+            ->setViewVars(['order' => $order])
+            ->viewBuilder()
+                ->setTemplate('Shop.customer/order_submit');
     }
 
     /**
@@ -55,9 +56,10 @@ class CustomerMailer extends Mailer
         }
 
         $this
-            ->setSubject("Ihre Bestellung " . $order->nr_formatted) //@TODO i18n
-            ->to($order->shop_customer->user->email)
-            ->setTemplate('Shop.customer/order_submit')
-            ->setViewVars(['order' => $order]);
+            ->setSubject("Bestätigung Ihrer Bestellung " . $order->nr_formatted) //@TODO i18n
+            ->setTo($order->shop_customer->user->email)
+            ->setViewVars(['order' => $order])
+            ->viewBuilder()
+                ->setTemplate('Shop.customer/order_confirm');
     }
 }
