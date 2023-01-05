@@ -80,4 +80,12 @@ class MembershipPayment implements PaymentEngineInterface
     {
         return $transaction;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancel(PaymentComponent $Payment, ShopOrderTransaction $transaction)
+    {
+        return $transaction;
+    }
 }

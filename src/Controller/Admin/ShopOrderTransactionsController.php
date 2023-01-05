@@ -37,7 +37,7 @@ class ShopOrderTransactionsController extends AppController
             'shop_order' => ['formatter' => ['related', 'nr_formatted']],
             'type', 'engine', 'currency_code',
             'value' => ['formatter' => ['currency', ['currency_field' => 'currency_code']]],
-            'status' => ['formatter' => 'status'],
+            'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object'],
             'ext_status', 'last_message', 'is_test',
         ]);
         $this->set('fields.whitelist', ['shop_order', 'type', 'engine', 'currency_code', 'value', 'status', 'ext_status', 'last_message', 'is_test']);

@@ -40,6 +40,15 @@ class Plugin extends BasePlugin implements EventListenerInterface
             'label' => __('Shop Category'),
             'className' => '\\Content\\Model\\Entity\\Menu\\ShopCategoryMenuType',
         ]);
+
+        \Sugar\View\Helper\FormatterHelper::register('status', function ($val, $extra, $params, $view) {
+            if ($val instanceof \Cupcake\Lib\Status) {
+                return $view->Label->create($val->getLabel(), [
+                    'class' => $val->getClass()
+                ]);
+            }
+            return sprintf('<span class="status">STATUS' . $val . '</span>', $val);
+        });
     }
 
     public function getConfigurationUrl()

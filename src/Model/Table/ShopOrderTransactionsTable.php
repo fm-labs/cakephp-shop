@@ -23,6 +23,7 @@ class ShopOrderTransactionsTable extends Table
     public const STATUS_CONFIRMED = 5;
     public const STATUS_REVERSAL = 6;
     public const STATUS_CREDITED = 7;
+    public const STATUS_USER_ABORT = -1;
 
     /**
      * Initialize method
@@ -39,7 +40,7 @@ class ShopOrderTransactionsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-        //$this->addBehavior('Cupcake.Statusable');
+        $this->addBehavior('Cupcake.Statusable');
 
         $this->belongsTo('ShopOrders', [
             'foreignKey' => 'shop_order_id',
@@ -70,6 +71,7 @@ class ShopOrderTransactionsTable extends Table
                 new Status(self::STATUS_CONFIRMED, __d('shop', 'Confirmed'), 'success'),
                 new Status(self::STATUS_REVERSAL, __d('shop', 'Reversal'), 'default'),
                 new Status(self::STATUS_CREDITED, __d('shop', 'Credited'), 'default'),
+                new Status(self::STATUS_USER_ABORT, __d('shop', 'Aborted by user'), 'warning'),
             ],
         ];
     }

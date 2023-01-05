@@ -134,7 +134,10 @@ class Mpay24SelectPayment implements PaymentEngineInterface
              * Use test system with demo user
              */
             $testMode = false;
-            if (Configure::read('Shop.Demo.enabled') && $order->shop_customer->email == Configure::read('Shop.Demo.username')) {
+            if (Configure::read('Shop.Payment.testMode')) {
+                $testMode = true;
+            }
+            else if (Configure::read('Shop.Demo.enabled') && $order->shop_customer->email == Configure::read('Shop.Demo.username')) {
                 $testMode = true;
             }
 
@@ -266,8 +269,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
         $clientIp = $Payment->getController()->getRequest()->clientIp();
 
         // check ip
-
-        $isTest = ($Payment->getController()->getRequest()->clientIp() == '213.208.153.58');
+        $isTestsystemIp = ($Payment->getController()->getRequest()->clientIp() == '213.208.153.58');
 
         $query = $Payment->getController()->getRequest()->getQuery(); // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
         if ($transaction->id != $query['TID']) { //@TODO Compary hash instead of id
@@ -278,7 +280,7 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $transaction->ext_txnid = $query['MPAYTID'];
             $transaction->ext_status = $query['STATUS'];
             $transaction->last_message = $query['OPERATION'] . ":" . $query['STATUS'];
-            $transaction->is_test = $isTest;
+            $transaction->is_test = $isTestsystemIp;
 
             switch ($query['STATUS']) {
                 case "ERROR":
@@ -306,6 +308,14 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             }
         }
 
+        return $transaction;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancel(PaymentComponent $Payment, ShopOrderTransaction $transaction)
+    {
         return $transaction;
     }
 

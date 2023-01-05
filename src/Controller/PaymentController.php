@@ -208,6 +208,7 @@ class PaymentController extends AppController
 
         $transaction = $this->_loadTransaction($txnId);
         $orderUUID = $transaction->shop_order->uuid;
+        $this->Payment->cancelTransaction($transaction);
 
         $this->Flash->error(__d('shop', 'The payment has been canceled'));
 

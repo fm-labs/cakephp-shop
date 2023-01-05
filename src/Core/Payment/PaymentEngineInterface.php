@@ -41,4 +41,11 @@ interface PaymentEngineInterface
      * @return \Shop\Model\Entity\ShopOrderTransaction
      */
     public function confirm(PaymentComponent $Payment, ShopOrderTransaction $transaction);
+
+    /**
+     * @param \Shop\Controller\Component\PaymentComponent $Payment
+     * @param \Shop\Model\Entity\ShopOrderTransaction $transaction
+     * @return \Shop\Model\Entity\ShopOrderTransaction
+     */
+    public function cancel(PaymentComponent $Payment, ShopOrderTransaction $transaction);
 }

@@ -5,9 +5,8 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\View\View;
-use Cupcake\Lib\Status;
+use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Table\ShopOrdersTable;
-use Sugar\View\Helper\FormatterHelper;
 
 /**
  * ShopOrders Controller
@@ -92,15 +91,6 @@ class ShopOrdersController extends AppController
         $this->set('sortable', true);
         $this->set('ajax', true);
         $this->set('helpers', ['Bootstrap.Label']);
-
-        FormatterHelper::register('status', function ($val, $extra, $params, $view) {
-            if ($val instanceof Status) {
-                return $view->Label->create($val->getLabel(), [
-                    'class' => $val->getClass()
-                ]);
-            }
-            return sprintf('<span class="status">STATUS' . $val . '</span>', $val);
-        });;
 
         $this->set('fields', [
             'submitted',
@@ -324,18 +314,20 @@ class ShopOrdersController extends AppController
      */
     public function costs($id = null)
     {
-        $shopOrder = $this->ShopOrders->get($id, [
+        /** @var ShopOrder $order */
+        $order = $this->ShopOrders->get($id, [
             'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true,
         ]);
-        $calculator = $this->ShopOrders->calculateOrderCosts($shopOrder);
-        $this->set('shopOrder', $shopOrder);
+        $calculator = $this->ShopOrders->calculateOrderCosts($order);
+        $this->set('shopOrder', $order);
         $this->set('calculator', $calculator);
         $this->set('_serialize', ['shopOrder']);
     }
 
     public function confirm($id = null)
     {
+        /** @var ShopOrder $order */
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
         if ($order->status >= ShopOrdersTable::ORDER_STATUS_CONFIRMED) {
@@ -351,6 +343,7 @@ class ShopOrdersController extends AppController
 
     public function invoice($id = null)
     {
+        /** @var ShopOrder $order */
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
         if ($order->invoice_nr) {
@@ -368,6 +361,7 @@ class ShopOrdersController extends AppController
 
     public function payed($id = null)
     {
+        /** @var ShopOrder $order */
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
         if ($order->status >= ShopOrdersTable::ORDER_STATUS_PAYED) {

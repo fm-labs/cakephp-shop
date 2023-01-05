@@ -11,6 +11,7 @@ use Shop\Core\Payment\PaymentEngineRegistry;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
+use Shop\Model\Table\ShopOrderTransactionsTable;
 
 /**
  * Class PaymentComponent
@@ -250,6 +251,39 @@ class PaymentComponent extends Component
         }
 
         return $transaction;
+    }
+    
+    public function cancelTransaction(ShopOrderTransaction $transaction) {
+        try {
+            // Dispatch Shop.Payment.beforeCancel event
+            $this->getController()->dispatchEvent('Shop.Payment.beforeCancel', [
+                'transaction' => $transaction,
+                'request' => $this->getController()->getRequest(),
+            ], $this);
+
+            $engine = $this->_engineRegistry->get($transaction->engine);
+
+            $transaction->status = ShopOrderTransactionsTable::STATUS_USER_ABORT;
+            $transaction = $engine->cancel($this, $transaction);
+
+            if (!($transaction instanceof ShopOrderTransaction)) {
+                throw new \RuntimeException("Response of payment engine MUST be an instance of ShopOrderTransaction");
+            }
+
+            if ($transaction->isDirty() && !$this->ShopOrders->ShopOrderTransactions->save($transaction)) {
+                debug($transaction->getErrors());
+                throw new \RuntimeException("Failed to update transaction");
+            }
+
+            // Dispatch Shop.Payment.afterCancel event
+            $this->getController()->dispatchEvent('Shop.Payment.afterCancel', [
+                'transaction' => $transaction,
+                'request' => $this->getController()->getRequest(),
+            ], $this);
+        } catch (\Exception $ex) {
+            Log::error("Payment::cancelTransaction:" . $transaction->engine . ":" . $ex->getMessage());
+            throw $ex;
+        }
     }
 
     /**
