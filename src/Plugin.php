@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Shop;
 
+use Cake\Core\BasePlugin;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Routing\RouteBuilder;
 use Cupcake\Model\EntityTypeRegistry;
-use Cupcake\Plugin\BasePlugin;
 
 /**
  * Class ShopPlugin
@@ -40,15 +40,6 @@ class Plugin extends BasePlugin implements EventListenerInterface
             'label' => __('Shop Category'),
             'className' => '\\Content\\Model\\Entity\\Menu\\ShopCategoryMenuType',
         ]);
-
-        \Sugar\View\Helper\FormatterHelper::register('status', function ($val, $extra, $params, $view) {
-            if ($val instanceof \Cupcake\Lib\Status) {
-                return $view->Label->create($val->getLabel(), [
-                    'class' => $val->getClass()
-                ]);
-            }
-            return sprintf('<span class="status">STATUS' . $val . '</span>', $val);
-        });
     }
 
     public function getConfigurationUrl()
