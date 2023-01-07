@@ -73,6 +73,11 @@ use Shop\Lib\Taxation;
  * @property \Cake\I18n\Time $modified
  * @property \Cake\I18n\Time $created
  * @property \Shop\Model\Entity\ShopOrderItem[] $shop_order_items
+ * @property string $nr_formatted
+ * @property string $invoice_nr_formatted
+ * @property bool $is_billing_selected
+ * @property bool $is_shipping_selected
+ * @property bool $is_payment_selected
  */
 class ShopOrder extends Entity
 {
@@ -109,7 +114,7 @@ class ShopOrder extends Entity
     ];
 
     /**
-     * @return \Shop\Model\Entity\ShopOrderAddress
+     * @return \Shop\Model\Entity\ShopAddress
      */
     public function getBillingAddress()
     {
@@ -117,7 +122,7 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return \Shop\Model\Entity\ShopOrderAddress
+     * @return \Shop\Model\Entity\ShopAddress
      */
     public function getShippingAddress()
     {
@@ -155,13 +160,17 @@ class ShopOrder extends Entity
      */
     public function getShopCustomer()
     {
-        return TableRegistry::getTableLocator()->get('Shop.ShopCustomers')
+        /** @var \Shop\Model\Entity\ShopCustomer|null $customer */
+        $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')
             ->find()
             ->where(['ShopCustomers.id' => $this->shop_customer_id])
             ->first();
+        return $customer;
     }
 
     /**
+     * Lazy-load related shop customer.
+     *
      * @return \Shop\Model\Entity\ShopCustomer|null
      */
     protected function _getShopCustomer()
@@ -180,10 +189,13 @@ class ShopOrder extends Entity
     {
         return (int)TableRegistry::getTableLocator()->get('Shop.ShopOrderItems')
             ->find('list')
-            ->where(['shop_order_id' => $this->id])->count();
+            ->where(['shop_order_id' => $this->id])
+            ->count();
     }
 
     /**
+     * Lazy-load related order items count.
+     *
      * @return int
      */
     protected function _getOrderItemsCount()

@@ -1,7 +1,26 @@
-<?php $this->loadHelper('Number'); ?>
-<?php $this->loadHelper('Cupcake.Status'); ?>
-<?php $this->loadHelper('Bootstrap.Button'); ?>
-<?php $this->extend('Admin./Base/form'); ?>
+<?php
+$this->loadHelper('Number');
+$this->loadHelper('Cupcake.Status');
+$this->loadHelper('Bootstrap.Button');
+$this->extend('Admin./Base/form');
+
+/** @var \Shop\Model\Entity\ShopOrder $entity */
+$entity = $this->get('entity');
+
+$this->assign('title', $entity->nr_formatted);
+
+$this->Toolbar->addLink(__d('shop', 'Print'),
+    ['action' => 'printview', $entity->id, 'mode' => 'order'],
+    ['data-icon' => 'print', 'target' => '_blank']);
+
+$this->Toolbar->addLink(__d('shop', 'Generate Order PDF'),
+    ['action' => 'pdfview', $entity->id, 'mode' => 'order'],
+    ['data-icon' => 'file-pdf-o', 'target' => '_blank', 'type' => 'primary', 'class' => '']);
+
+$this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
+    ['action' => 'sendorder', $entity->id, 'mode' => 'invoice'],
+    ['data-icon' => 'envelope-o']);
+?>
 <style>
     .invoice {
         position: relative;
@@ -37,10 +56,13 @@
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <b><?= __d('shop', 'Order ID'); ?>:</b> <?= h($entity->nr_formatted); ?><br>
-                <b><?= __d('shop', 'Order Date'); ?>:</b> <?= $this->Time->nice($entity->submitted); ?><br>
+                <b><?= __d('shop', 'Order ID'); ?>:</b>
+                <?= h($entity->nr_formatted); ?><br>
+                <b><?= __d('shop', 'Order Date'); ?>:</b>
+                <?= $this->Time->nice($entity->submitted); ?><br>
                 <?php if ($entity->shop_customer): ?>
-                <b><?= __d('shop', 'Customer'); ?>:</b> <?= $this->Html->link($entity->shop_customer->display_name,
+                <b><?= __d('shop', 'Customer'); ?>:</b>
+                    <?= $this->Html->link($entity->shop_customer->display_name,
                     [ 'controller' => 'ShopCustomers', 'action' => 'view', $entity->shop_customer_id]); ?>
                 <?php endif; ?>
                 <br /><br />
@@ -52,7 +74,7 @@
 
         <!-- title row -->
         <div class="row">
-            <!--
+            <!-- col -->
             <div class="col-xs-12">
                 <h3 class="page-header">
                     <?= __d('shop', 'Order Items'); ?>

@@ -37,7 +37,7 @@ class ShopOrdersController extends AppController
         parent::initialize();
         //$this->loadComponent('RequestHandler');
 
-        $this->Action->registerInline('viewOrder', ['label' => __d('shop', 'View Order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
+        $this->Action->registerInline('detailview', ['label' => __d('shop', 'View Order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
         //$this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
@@ -46,6 +46,8 @@ class ShopOrdersController extends AppController
         $this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         $this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Send order confirmation'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
+
+        $this->viewBuilder()->addHelper('Cupcake.Status');
     }
 
     public function storno($id = null)
@@ -198,7 +200,7 @@ class ShopOrdersController extends AppController
         $this->Action->execute();
     }
 
-    public function viewOrder($id = null)
+    public function detailview($id = null)
     {
         Configure::write('debug', true);
         $shopOrder = $this->ShopOrders->get($id, [
@@ -208,8 +210,8 @@ class ShopOrdersController extends AppController
         $this->set('entity', $shopOrder);
         $this->set('_serialize', 'entity');
 
-        $this->Action->execute('view');
-        $this->render("Shop.view_order");
+        //$this->Action->execute('view');
+        $this->render("detailview");
     }
 
     public function viewInvoice($id = null)
