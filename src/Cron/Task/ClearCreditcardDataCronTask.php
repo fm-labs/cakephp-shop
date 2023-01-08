@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Shop\Cron\Task;
 
 use Cake\ORM\TableRegistry;
-use Cron\Cron\CronTask;
+use Cron\Cron\Task\BaseCronTask;
 
 /**
  * Class ClearCreditcardDataCronTask
@@ -16,7 +16,7 @@ use Cron\Cron\CronTask;
  * @package Shop\src\Cron
  * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
-class ClearCreditcardDataCronTask extends CronTask
+class ClearCreditcardDataCronTask extends BaseCronTask
 {
     /**
      * @var int Max number of orders processed per task execution

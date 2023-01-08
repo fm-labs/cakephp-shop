@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Shop;
 
 use Cake\Core\BasePlugin;
+use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Event\EventManager;
+use Cake\Log\Log;
 use Cupcake\Model\EntityTypeRegistry;
 
 /**
@@ -17,7 +19,27 @@ class Plugin extends BasePlugin
 {
     public function bootstrap(PluginApplicationInterface $app): void
     {
-        parent::bootstrap($app);
+        /**
+         * Log configuration
+         */
+        if (!Log::getConfig('shop')) {
+            Log::setConfig('shop', [
+                'className' => 'Cake\Log\Engine\FileLog',
+                'path' => LOGS,
+                'file' => 'shop',
+                //'levels' => ['notice', 'info', 'debug'],
+                'scopes' => ['shop', 'order', 'payment', 'invoice', 'checkout'],
+            ]);
+        }
+
+        /**
+         * Load default config
+         */
+        Configure::load('Shop.shop');
+        //Configure::load('Shop.content');
+        Configure::load('Shop.html_editor');
+
+
 
         $app->addPlugin('Content');
         $app->addPlugin('Media');
@@ -43,6 +65,15 @@ class Plugin extends BasePlugin
         if (\Cake\Core\Plugin::isLoaded('Admin')) {
             \Admin\Admin::addPlugin(new \Shop\Admin());
         }
+
+        /**
+         * Register Cron tasks
+         */
+        if (\Cake\Core\Plugin::isLoaded('Cron')) {
+            \Cake\Core\Configure::load('Shop.cron');
+            \Cron\Cron::setConfig(\Cake\Core\Configure::consume('Cron.tasks'));
+        }
+
     }
 
     public function getConfigurationUrl()
