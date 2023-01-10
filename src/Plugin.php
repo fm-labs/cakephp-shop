@@ -39,11 +39,15 @@ class Plugin extends BasePlugin
         //Configure::load('Shop.content');
         Configure::load('Shop.html_editor');
 
-
-
         $app->addPlugin('Content');
         $app->addPlugin('Media');
+        //$app->addOptionalPlugin('Admin');
+        $app->addOptionalPlugin('Seo');
+        $app->addOptionalPlugin('Cron');
 
+        /**
+         * Services
+         */
         $eventManager = EventManager::instance();
         $eventManager->on(new \Shop\Service\CartService());
         $eventManager->on(new \Shop\Service\CustomerService());
@@ -52,22 +56,33 @@ class Plugin extends BasePlugin
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Service\PaymentService());
         $eventManager->on(new \Shop\Service\ShopRulesService());
-        $eventManager->on(new \Shop\Sitemap\SitemapListener());
-
+        //$eventManager->on(new \Shop\Service\SitemapService());
         EntityTypeRegistry::register('Content.Menu', 'shop_category', [
             'label' => __('Shop Category'),
             'className' => '\\Content\\Model\\Entity\\Menu\\ShopCategoryMenuType',
         ]);
 
         /**
-         * Register Admin Plugin
+         * Admin Plugin
          */
         if (\Cake\Core\Plugin::isLoaded('Admin')) {
             \Admin\Admin::addPlugin(new \Shop\Admin());
         }
 
         /**
-         * Register Cron tasks
+         * Seo plugin
+         */
+        if (\Cake\Core\Plugin::isLoaded('Seo')) {
+            \Seo\Sitemap\Sitemap::setConfig('shop_categories', [
+                'className' => 'Shop.ShopCategorySitemap',
+            ]);
+            \Seo\Sitemap\Sitemap::setConfig('shop_products', [
+                'className' => 'Shop.ShopProductSitemap',
+            ]);
+        }
+
+        /**
+         * Cron plugin
          */
         if (\Cake\Core\Plugin::isLoaded('Cron')) {
             \Cake\Core\Configure::load('Shop.cron');

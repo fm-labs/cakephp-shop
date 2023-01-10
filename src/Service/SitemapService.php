@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Shop\Sitemap;
+namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
-use Seo\Sitemap\SitemapLocationsCollector;
 
-class SitemapListener implements EventListenerInterface
+class SitemapService implements EventListenerInterface
 {
     /**
      * Implemented events
@@ -16,21 +15,22 @@ class SitemapListener implements EventListenerInterface
     public function implementedEvents(): array
     {
         return [
-            'Seo.Sitemap.get' => 'getSitemap',
-            'Sitemap.get' => 'getSitemap',
+            //'Seo.Sitemap.build' => 'buildSitemap',
         ];
     }
 
-    public function getSitemap(Event $event, SitemapLocationsCollector $sitemaps)
+    public function buildSitemap(Event $event)
     {
+        $sitemap = $event->getSubject();
+
         // Shop categories
         $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
         $ShopCategories->addBehavior('Seo.Sitemap', ['fields' => ['loc' => 'url', 'lastmod' => 'modified']]);
-        $sitemaps->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_categories');
+        //$sitemap->addUrl($ShopCategories->find('published')->find('sitemap')->toArray());
 
         // Shop products
         $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
         $ShopCategories->addBehavior('Seo.Sitemap', ['fields' => ['loc' => 'url', 'lastmod' => 'modified']]);
-        $sitemaps->add($ShopCategories->find('published')->find('sitemap')->toArray(), 'shop_products');
+        //$sitemap->addUrl($ShopCategories->find('published')->find('sitemap')->toArray());
     }
 }

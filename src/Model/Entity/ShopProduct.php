@@ -178,4 +178,9 @@ class ShopProduct extends Entity implements ShopProductInterface
     {
         return $this->get('admin_url');
     }
+
+    public function getViewUrl()
+    {
+        return $this->get('url');
+    }
 }
