@@ -150,11 +150,11 @@ class ShopProductsController extends AppController
     }
 
     /**
-     * @param null $id
+     * @param $id
      * @param $field
      * @todo Refactore with ToggleAction
      */
-    public function toggle($id = null, $field)
+    public function toggle($id, $field)
     {
         $this->Toggle->toggleBoolean($this->ShopProducts, $id, $field);
     }

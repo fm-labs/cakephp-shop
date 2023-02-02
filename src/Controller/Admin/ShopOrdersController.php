@@ -62,7 +62,7 @@ class ShopOrdersController extends AppController
             if ($this->ShopOrders->save($order)) {
                 $this->Flash->success(__d('shop', 'Updated'));
 
-                return $this->redirect(['action' => 'viewOrder', $id]);
+                return $this->redirect(['action' => 'detailview', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'Operation failed'));
                 debug($order->getErrors());
