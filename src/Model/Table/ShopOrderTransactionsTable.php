@@ -63,14 +63,14 @@ class ShopOrderTransactionsTable extends Table
     {
         return [
             'status' => [
-                new Status(self::STATUS_INIT, __d('shop', 'Initialized'), 'default'),
+                new Status(self::STATUS_INIT, __d('shop', 'Initialized'), 'info'),
                 new Status(self::STATUS_ERROR, __d('shop', 'Error'), 'danger'),
                 new Status(self::STATUS_SUSPENDED, __d('shop', 'Suspended'), 'danger'),
                 new Status(self::STATUS_REJECTED, __d('shop', 'Rejected'), 'danger'),
                 new Status(self::STATUS_RESERVED, __d('shop', 'Reserved'), 'info'),
                 new Status(self::STATUS_CONFIRMED, __d('shop', 'Confirmed'), 'success'),
-                new Status(self::STATUS_REVERSAL, __d('shop', 'Reversal'), 'default'),
-                new Status(self::STATUS_CREDITED, __d('shop', 'Credited'), 'default'),
+                new Status(self::STATUS_REVERSAL, __d('shop', 'Reversal'), 'dark'),
+                new Status(self::STATUS_CREDITED, __d('shop', 'Credited'), 'success'),
                 new Status(self::STATUS_USER_ABORT, __d('shop', 'Aborted by user'), 'warning'),
             ],
         ];

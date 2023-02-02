@@ -963,14 +963,14 @@ class ShopOrdersTable extends Table
     {
         return [
             'status' => [
-                new Status(self::ORDER_STATUS_TEMP, __d('shop', 'Quote'), 'default'),
-                new Status(self::ORDER_STATUS_SUBMITTED, __d('shop', 'Purchased'), 'default'),
+                new Status(self::ORDER_STATUS_TEMP, __d('shop', 'Quote'), 'info'),
+                new Status(self::ORDER_STATUS_SUBMITTED, __d('shop', 'Purchased'), 'info'),
                 new Status(self::ORDER_STATUS_PENDING, __d('shop', 'Waiting for payment'), 'warning'),
                 new Status(self::ORDER_STATUS_CONFIRMED, __d('shop', 'Processing payment'), 'success'),
                 new Status(self::ORDER_STATUS_PAYED, __d('shop', 'Payed'), 'success'),
                 new Status(self::ORDER_STATUS_DELIVERED, __d('shop', 'Delivered'), 'success'),
                 new Status(self::ORDER_STATUS_CLOSED, __d('shop', 'Closed'), 'success'),
-                new Status(self::ORDER_STATUS_STORNO, __d('shop', 'Storno'), 'default'),
+                new Status(self::ORDER_STATUS_STORNO, __d('shop', 'Storno'), 'dark'),
                 new Status(self::ORDER_STATUS_ERROR, __d('shop', 'Error'), 'danger'),
                 new Status(self::ORDER_STATUS_ERROR_DELIVERY, __d('shop', 'Error Delivery'), 'danger'),
             ],
