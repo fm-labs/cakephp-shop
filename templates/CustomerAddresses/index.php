@@ -22,7 +22,7 @@ $this->Breadcrumbs->add(__d('shop','Saved addresses'), ['controller' => 'Custome
             <?php foreach ($addresses as $address): ?>
                 <div class="col-md-4">
                     <?php echo $this->element('Shop.address', compact('address')); ?>
-                    <?= $this->Html->link(__d('shop','Edit address'), ['action' => 'edit', $address->id], ['class' => 'btn btn-default']); ?>
+                    <?= $this->Html->link(__d('shop','Edit address'), ['action' => 'edit', $address->id], ['class' => 'btn btn-sm btn-outline-primary']); ?>
                 </div>
                 <?php if (++$i % 3 == 0) echo '</div><div class="row">'; ?>
             <?php endforeach; ?>
