@@ -13,40 +13,42 @@ $order = $this->get('order')
 
     <div class="row">
         <div class="col-md-6">
-
-            <h2>
-                <?= __d('shop','Billing address'); ?>
+            <div class="d-flex flex-row justify-content-between border-bottom my-3">
+                <div class="h4">
+                    <?= __d('shop','Billing address'); ?>
+                </div>
                 <small><?= $this->Html->link(
                         __d('shop','Edit'),
                         ['action' => 'billing_address', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
-            </h2>
+            </div>
             <?= $this->element('Shop.Order/billing_address'); ?>
-
-
         </div>
-        <div class="col-md-6">
 
-            <h2>
-                <?= __d('shop','Shipping address'); ?>
+        <div class="col-md-6">
+            <div class="d-flex flex-row justify-content-between border-bottom my-3">
+                <div class="h4">
+                    <?= __d('shop','Shipping address'); ?>
+                </div>
                 <small><?= $this->Html->link(
                         __d('shop','Edit'),
                         ['action' => 'shipping_address', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
-            </h2>
+            </div>
             <?= $this->element('Shop.Order/shipping_address'); ?>
-
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
 
-            <h2>
-                <?= __d('shop','Payment Method') ?>
+            <div class="d-flex flex-row justify-content-between border-bottom my-3">
+                <div class="h4">
+                    <?= __d('shop','Payment Method') ?>
+                </div>
                 <small><?= $this->Html->link(
                         __d('shop','Edit'),
                         ['action' => 'payment', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
-            </h2>
-            <div class="inner">
+            </div>
+            <div class="inner mb-3">
                 <div class="desc payment-desc">
                     <?php
                     $element = 'Shop.Payment/' . $order->payment_type . '/order';
@@ -60,13 +62,15 @@ $order = $this->get('order')
         </div>
         <div class="col-md-6">
 
-            <h2>
-                <?= __d('shop','Shipping Method') ?>
+            <div class="d-flex flex-row justify-content-between border-bottom my-3">
+                <div class="h4">
+                    <?= __d('shop','Shipping Method') ?>
+                </div>
                 <small><?= $this->Html->link(
                         __d('shop','Edit'),
                         ['action' => 'shipping', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
-            </h2>
-            <div class="inner">
+            </div>
+            <div class="inner mb-3">
                 <div class="desc shipping-desc">
                     <?php
                     $element = 'Shop.Shipping/' . $order->shipping_type . '/order';
