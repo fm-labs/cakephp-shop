@@ -41,7 +41,7 @@
     <?php endforeach; ?>
 
     <?php if ($order->payment_type): ?>
-    <div class="text-right">
+    <div class="text-end">
         <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next'], ['class' => 'btn btn-primary']); ?>
     </div>
     <?php endif; ?>

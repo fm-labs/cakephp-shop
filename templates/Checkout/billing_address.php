@@ -12,7 +12,7 @@
         <?= $this->Form->create(null); ?>
             <?= $this->Form->hidden('_op', ['value' => 'billing-customer-select']); ?>
             <?= $this->Form->control('customer_address_id', ['label' => __d('shop','Saved addresses'), 'options' => $billingAddresses]); ?>
-            <div class="text-right">
+            <div class="text-end">
                 <?= $this->Form->button(__d('shop','Use this address'), ['class' => 'btn btn-primary']); ?>
             </div>
         <?= $this->Form->end(); ?>

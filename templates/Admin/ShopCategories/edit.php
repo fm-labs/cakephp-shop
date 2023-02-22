@@ -34,7 +34,7 @@ $this->Toolbar->addLink(
 <?php $this->assign('title', $shopCategory->name); ?>
 <div class="shop categories form">
 
-    <div style="margin: 0;" class="text-right">
+    <div style="margin: 0;" class="text-end">
         <?= __d('shop', 'Languages') ?>:
         <?php $_locales = Configure::read('Shop.locales'); ?>
         <?php foreach($_locales as $_locale => $_localeName): ?>

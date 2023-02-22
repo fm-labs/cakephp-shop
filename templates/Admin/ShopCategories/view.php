@@ -10,7 +10,7 @@ $shopCategory = $this->get('entity')
 <?php $this->Breadcrumbs->add($shopCategory->name); ?>
 <div class="shopCategories view">
 
-    <div class="actions text-right">
+    <div class="actions text-end">
         <?= $this->Html->link(__d('shop','Edit'), ['action' => 'edit', $shopCategory->id], ['class' => 'btn btn-primary btn-edit']); ?>
     </div>
 

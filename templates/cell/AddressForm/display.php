@@ -14,7 +14,7 @@
         <?= $this->Form->control('taxid', ['label' => __d('shop','Tax Id')]); ?>
     <?php endif; ?>
 
-    <div class="actions text-right">
+    <div class="actions text-end">
         <?= $this->Form->submit($options['submit'], ['class' => 'btn btn-primary']); ?>
     </div>
     <?= $this->Form->end(); ?>

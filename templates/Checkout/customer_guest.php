@@ -17,7 +17,7 @@
         </div>
         <?php endif; ?>
 
-        <div class="actions text-right" style="margin-top: 1em;">
+        <div class="actions text-end" style="margin-top: 1em;">
             <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
         </div>
         <?= $this->Form->end(); ?>

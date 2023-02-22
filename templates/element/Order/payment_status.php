@@ -25,7 +25,7 @@ if ($this->elementExists($element)) {
         <div class="col-md-6">
             <h3 style="margin: 0; padding: 0;"><?= __d('shop','Payment status: UNPAYED'); ?></h3>
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-6 text-end">
             <?= $this->Html->link(__d('shop', 'Go to payment page'),
                 ['controller' => 'Payment', 'action' => 'index', $order->uuid],
                 ['class' => 'btn btn-primary']

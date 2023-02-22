@@ -40,7 +40,7 @@
     <?php endforeach; ?>
 
     <?php if ($order->shipping_type): ?>
-        <div class="text-right">
+        <div class="text-end">
             <?= $this->Html->link(__d('shop','Continue'), ['action' => 'next', $order->cartid], ['class' => 'btn btn-primary']); ?>
         </div>
     <?php endif; ?>

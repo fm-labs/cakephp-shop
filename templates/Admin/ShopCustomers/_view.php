@@ -49,7 +49,7 @@
     <?php $this->Tabs->create(); ?>
     <?php $this->Tabs->add(__d('shop','Customer')); ?>
 
-    <div class="actions text-right">
+    <div class="actions text-end">
         <?= $this->Html->link(__d('shop','Edit'), ['action' => 'edit', $shopCustomer->id], ['class' => 'btn btn-primary btn-edit']); ?>
     </div>
 

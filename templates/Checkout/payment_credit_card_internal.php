@@ -31,7 +31,7 @@ $this->Form->context(new \Cake\View\Form\EntityContext($this->request, [
                 ['step' => 'payment', $order->cartid, 'change' => 1],
                 ['class' => 'btn btn-default']); ?>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-6 text-end">
             <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
         </div>
     </div>

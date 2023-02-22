@@ -1,5 +1,8 @@
 <?php
 use Cake\Core\Configure;
+
+/** @var \Shop\Model\Entity\ShopProduct $shopProduct */
+$shopProduct = $this->get('shopProduct');
 ?>
 <div class="product-info-item product-info-price" itemprop="price">
     <?php if (Configure::read('Shop.Price.requireAuth') && !$this->request->getSession()->read('Shop.Customer.id')): ?>

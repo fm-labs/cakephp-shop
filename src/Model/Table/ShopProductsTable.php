@@ -237,7 +237,7 @@ class ShopProductsTable extends Table
         }
 
         $mapper = function ($row, $key, MapReduce $mapReduce) use ($options) {
-            if (isset($p['price_net'])) {
+            if (isset($row['price_net'])) {
                 $row['price_net_original'] = $row['price_net'];
             }
 
@@ -276,6 +276,7 @@ class ShopProductsTable extends Table
 
                 // apply customer discount
                 if ($customerDiscount) {
+                    debug($customerDiscount);
                     switch ($customerDiscount->valuetype) {
                         case "percent":
                             $discount = $row['price_net_original'] * $customerDiscount->value / 100;
@@ -291,8 +292,9 @@ class ShopProductsTable extends Table
 
                     // make sure discount is not higher than original price
                     if (isset($discount)) {
+                        debug($row['price_net_original']);
+                        debug($discount);
                         $discount = min($row['price_net_original'], $discount);
-
                         $row['price_net'] = $row['price_net_original'] - $discount;
                     }
                 }

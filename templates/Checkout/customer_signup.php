@@ -27,7 +27,7 @@ $this->Breadcrumbs->add(__d('shop','Customer'), ['controller' => 'Checkout', 'ac
         <?= $this->Form->control('password1', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Password')]); ?>
         <?= $this->Form->control('password2', ['type' => 'password', 'autocomplete' => 'off', 'label' => __d('shop','Repeat Password')]); ?>
 
-        <div class="actions text-right" style="margin-top: 1em;">
+        <div class="actions text-end" style="margin-top: 1em;">
             <?= $this->Form->button(__d('shop','Continue'), ['class' => 'btn btn-primary']); ?>
         </div>
         <?= $this->Form->end(); ?>

@@ -12,15 +12,15 @@ $this->assign('title', __d('shop', 'Cart'));
 
     <h1><?= __d('shop','Your shopping cart'); ?></h1>
 
-    <?= $this->Form->create(null, ['url' => ['action' => 'cart_update', $cart->id]]); ?>
+    <?= $this->Form->create(null, ['url' => ['action' => 'cartUpdate', $cart->id]]); ?>
     <?= $this->Form->hidden('id', ['value' => $cart->id]); ?>
     <table class="table table-striped">
         <thead>
         <tr>
             <th colspan="2"><?= __d('shop','Product'); ?></th>
             <th class="number"><?= __d('shop','Amount'); ?></th>
-            <th class="number currency text-right"><?= __d('shop','Item Price'); ?></th>
-            <th class="number currency text-right"><?= __d('shop','Total'); ?></th>
+            <th class="number currency text-end"><?= __d('shop','Item Price'); ?></th>
+            <th class="number currency text-end"><?= __d('shop','Total'); ?></th>
         </tr>
         </thead>
         <?php foreach ($cart->shop_order_items as $item): ?>
@@ -54,16 +54,16 @@ $this->assign('title', __d('shop', 'Cart'));
                     'style' => 'max-width: 75px;'
                 ]); ?>
             </td>
-            <td class="number currency text-right"><?= $this->Number->currency($item->item_value_display, 'EUR'); ?></td>
-            <td class="number currency text-right"><?= $this->Number->currency($item->value_display, 'EUR'); ?></td>
+            <td class="number currency text-end"><?= $this->Number->currency($item->item_value_display, 'EUR'); ?></td>
+            <td class="number currency text-end"><?= $this->Number->currency($item->value_display, 'EUR'); ?></td>
         </tr>
         <?php endforeach; ?>
         <tr style="font-weight: bold; font-size: 1.3em;">
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td class="currency text-right"><?= __d('shop', 'Order total'); ?></td>
-            <td class="currency text-right"><?= $this->Number->currency($cart->items_value_display, 'EUR'); ?></td>
+            <td class="currency text-end"><?= __d('shop', 'Order total'); ?></td>
+            <td class="currency text-end"><?= $this->Number->currency($cart->items_value_display, 'EUR'); ?></td>
         </tr>
     </table>
 
