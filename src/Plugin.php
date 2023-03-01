@@ -33,6 +33,13 @@ class Plugin extends BasePlugin
             ]);
         }
 
+        $app->addPlugin('Content');
+        $app->addPlugin('Media');
+        //$app->addOptionalPlugin('Admin');
+        $app->addOptionalPlugin('Settings');
+        $app->addOptionalPlugin('Seo');
+        $app->addOptionalPlugin('Cron');
+
         /**
          * Load default config
          */
@@ -40,11 +47,9 @@ class Plugin extends BasePlugin
         //Configure::load('Shop.content');
         Configure::load('Shop.html_editor');
 
-        $app->addPlugin('Content');
-        $app->addPlugin('Media');
-        //$app->addOptionalPlugin('Admin');
-        $app->addOptionalPlugin('Seo');
-        $app->addOptionalPlugin('Cron');
+        if (\Cake\Core\Plugin::isLoaded('Settings')) {
+            Configure::load('Shop', 'settings');
+        }
 
         /**
          * Services
