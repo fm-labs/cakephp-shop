@@ -9,6 +9,7 @@ use Cake\Core\PluginApplicationInterface;
 use Cake\Event\EventManager;
 use Cake\Log\Log;
 use Cupcake\Model\EntityTypeRegistry;
+use Shop\Model\Entity\Menu\ShopCategoryMenuType;
 
 /**
  * Class ShopPlugin
@@ -59,7 +60,7 @@ class Plugin extends BasePlugin
         //$eventManager->on(new \Shop\Service\SitemapService());
         EntityTypeRegistry::register('Content.Menu', 'shop_category', [
             'label' => __('Shop Category'),
-            'className' => '\\Shop\\Model\\Entity\\Menu\\ShopCategoryMenuType',
+            'className' => ShopCategoryMenuType::class,
         ]);
 
         /**
@@ -81,21 +82,16 @@ class Plugin extends BasePlugin
             ]);
         }
 
-        /**
-         * Cron plugin
-         */
-        if (\Cake\Core\Plugin::isLoaded('Cron')) {
-            \Cake\Core\Configure::load('Shop.cron');
-            \Cron\Cron::setConfig(\Cake\Core\Configure::consume('Cron.tasks'));
-        }
-
+//        /**
+//         * Cron plugin
+//         */
+//        if (\Cake\Core\Plugin::isLoaded('Cron')) {
+//            if (!\Cron\Cron::getConfig('shop_clear_cc_data')) {
+//                \Cron\Cron::setConfig('shop_clear_cc_data', [
+//                    'className' => \Shop\Cron\Task\ClearCreditcardDataCronTask::class,
+//                    'interval' => 'weekly'
+//                ]);
+//            }
+//        }
     }
-
-    public function getConfigurationUrl()
-    {
-        return \Cake\Core\Plugin::isLoaded('Settings')
-            ? ['_name' => 'settings:manage', $this->getName()]
-            : null;
-    }
-
 }

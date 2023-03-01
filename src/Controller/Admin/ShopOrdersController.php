@@ -358,7 +358,7 @@ class ShopOrdersController extends AppController
             $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
 
-        $this->redirect($this->referer(['action' => 'view_order', $id]));
+        $this->redirect($this->referer(['action' => 'detailview', $id]));
     }
 
     public function payed($id = null)
