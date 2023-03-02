@@ -1,6 +1,6 @@
 <?php $this->loadHelper('Admin.Box'); ?>
 <?php $this->loadHelper('Bootstrap.Ui'); ?>
-<?php $this->assign('title', __('Shop Settings')); ?>
+<?php $this->assign('title', __d('shop', 'Shop Settings')); ?>
 <?php /** @var \Settings\Form\SettingsForm $form */ ?>
 <div class="index">
     <?php
@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-8">
-            <?php $this->Box->create(__('Owner')); ?>
+            <?php $this->Box->create(__d('shop', 'Owner')); ?>
             <?= $this->Form->controls($form->getInputs([
                 'Shop.Owner.name',
                 'Shop.Owner.street1',
@@ -25,14 +25,14 @@
             ]), ['fieldset' => false]); ?>
             <?= $this->Box->render(); ?>
 
-            <?= $this->Box->create(__('Numbering')); ?>
+            <?= $this->Box->create(__d('shop', 'Numbering')); ?>
             <?= $this->Form->controls([
                 'Shop.Order.nrPrefix',
                 'Shop.Invoice.nrPrefix',
             ], ['fieldset' => false]); ?>
             <?= $this->Box->render(); ?>
 
-            <?= $this->Box->create(__('Pricing')); ?>
+            <?= $this->Box->create(__d('shop', 'Pricing')); ?>
             <?= $this->Form->controls($form->getInputs([
                 'Shop.Price.baseCurrency',
                 'Shop.Price.displayNet',
@@ -40,7 +40,7 @@
             ]), ['fieldset' => false]); ?>
             <?= $this->Box->render(); ?>
 
-            <?= $this->Box->create(__('Layout')); ?>
+            <?= $this->Box->create(__d('shop', 'Layout')); ?>
             <?= $this->Form->controls([
                 'Shop.Layout.default',
                 'Shop.Layout.checkout',
@@ -49,7 +49,7 @@
             ], ['fieldset' => false]); ?>
             <?= $this->Box->render(); ?>
 
-            <?= $this->Box->create(__('Routing')); ?>
+            <?= $this->Box->create(__d('shop', 'Routing')); ?>
             <?= $this->Form->controls([
                 'Shop.Router.enablePrettyUrls',
                 'Shop.Router.forceCanonical',

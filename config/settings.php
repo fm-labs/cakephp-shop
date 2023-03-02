@@ -3,31 +3,31 @@ return ['Settings' => [
     'Shop' => [
         'groups' => [
             'Shop.Owner' => [
-                'label' => __('Shop Owner'),
+                'label' => __d('shop', 'Shop Owner'),
             ],
             'Shop.Content' => [
-                'label' => __('Shop Content'),
+                'label' => __d('shop', 'Shop Content'),
             ],
             'Shop.Cart' => [
-                'label' => __('Shop Cart'),
+                'label' => __d('shop', 'Shop Cart'),
             ],
             'Shop.Order' => [
-                'label' => __('Shop Order'),
+                'label' => __d('shop', 'Shop Order'),
             ],
             'Shop.Invoice' => [
-                'label' => __('Shop Invoice'),
+                'label' => __d('shop', 'Shop Invoice'),
             ],
             'Shop.Design' => [
-                'label' => __('Shop Design'),
+                'label' => __d('shop', 'Shop Design'),
             ],
             'Shop.Catalogue' => [
-                'label' => __('Shop Catalogue'),
+                'label' => __d('shop', 'Shop Catalogue'),
             ],
             'Shop.System' => [
-                'label' => __('Shop System'),
+                'label' => __d('shop', 'Shop System'),
             ],
             'Shop.Demo' => [
-                'label' => __('Shop Demo'),
+                'label' => __d('shop', 'Shop Demo'),
             ],
         ],
         'schema' => [
@@ -164,7 +164,7 @@ return ['Settings' => [
                 'group' => 'Shop.Catalogue',
                 'type' => 'integer',
                 'input' => [
-                    'empty' => __('Select shop category'),
+                    'empty' => __d('shop', 'Select shop category'),
                     'options' => function () {
                         $Categories = \Cake\ORM\TableRegistry::getTableLocator()->get('Shop.ShopCategories');
 

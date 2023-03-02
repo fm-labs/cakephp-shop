@@ -64,7 +64,7 @@ class Plugin extends BasePlugin
         $eventManager->on(new \Shop\Service\ShopRulesService());
         //$eventManager->on(new \Shop\Service\SitemapService());
         EntityTypeRegistry::register('Content.Menu', 'shop_category', [
-            'label' => __('Shop Category'),
+            'label' => __d('shop', 'Shop Category'),
             'className' => ShopCategoryMenuType::class,
         ]);
 
