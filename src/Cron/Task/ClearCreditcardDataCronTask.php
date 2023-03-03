@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Shop\Cron\Task;
 
 use Cake\ORM\TableRegistry;
-use Cron\Cron\Task\BaseCronTask;
+use Cron\Cron\BaseCronTask;
 
 /**
  * Class ClearCreditcardDataCronTask
