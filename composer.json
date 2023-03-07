@@ -7,6 +7,7 @@
         "php": ">=7.2",
         "cakephp/cakephp": "^4.0",
         "fm-labs/cakephp-settings": "^1.0.0",
+        "fm-labs/cakephp-cron": "^2.0.0",
         "fm-labs/cakephp-content": "*",
         "fm-labs/cakephp-cupcake": "*"
     },
