@@ -16,7 +16,7 @@ use Shop\Model\Entity\Menu\ShopCategoryMenuType;
  *
  * @package Shop
  */
-class Plugin extends BasePlugin
+class ShopPlugin extends BasePlugin
 {
     public function bootstrap(PluginApplicationInterface $app): void
     {
@@ -72,7 +72,7 @@ class Plugin extends BasePlugin
          * Admin Plugin
          */
         if (\Cake\Core\Plugin::isLoaded('Admin')) {
-            \Admin\Admin::addPlugin(new \Shop\Admin());
+            \Admin\Admin::addPlugin(new \Shop\ShopAdmin());
         }
 
         /**
