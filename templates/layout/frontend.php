@@ -58,7 +58,7 @@
                 <?= $this->Flash->render() ?>
                 <h1><?= $this->fetch('heading'); ?></h1>
             </div>
-            <?= $this->fetch('content', [false]) ?>
+            <?= $this->section('content', [false]) ?>
         </main>
 
         <footer class="container">

@@ -11,6 +11,7 @@ use Cake\Core\Exception\Exception;
  *
  * @package Shop\Controller
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
+ * @property \Cupcake\Controller\Component\ThemeComponent $Theme
  * @property \User\Controller\Component\AuthComponent $Auth
  * @property \Content\Controller\Component\FrontendComponent $Frontend
  * @property \Shop\Controller\Component\ShopComponent $Shop
@@ -31,6 +32,7 @@ class AppController extends BaseAppController
         $this->Authentication = $this->Auth->Authentication;
         //$this->loadComponent('Authentication.Authentication'); // loaded by User.Auth component
 
+        $this->Theme = $this->loadComponent('Cupcake.Theme');
         $this->Frontend = $this->loadComponent('Content.Frontend');
         $this->Shop = $this->loadComponent('Shop.Shop');
 

@@ -18,14 +18,9 @@ class OwnerMailer extends Mailer
     /**
      * @param \Cake\Mailer\Email|null $email
      */
-    public function __construct(?Email $email = null)
+    public function __construct()
     {
-        parent::__construct($email);
-
-        //@todo automatically setup merchant email configuration, if not configured
-        // fallback to 'owner' config
-        $profile = Configure::check('Shop.Email.merchantProfile') ?: 'owner';
-        $this->_email->setProfile($profile);
+        parent::__construct(Configure::read('Shop.Email.merchantProfile'));
     }
 
     /**

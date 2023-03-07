@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BananaCakePHP Shop\n"
 "POT-Creation-Date: 2018-03-04 19:54+0100\n"
-"PO-Revision-Date: 2018-03-04 20:02+0100\n"
+"PO-Revision-Date: 2023-03-07 23:22+0100\n"
 "Last-Translator: fm-labs <flowmotionlabs@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: ShopPlugin.php:70 Template/Admin/ShopCustomers/_view.ctp:69
 #: Template/Customer/index.ctp:11
@@ -379,7 +379,7 @@ msgstr "Rechnungsnummer"
 
 #: Controller/Admin/ShopOrdersController.php:287
 msgid "The notification has been sent."
-msgstr "Die Benachrichtigung wurde gesendet"
+msgstr "Die Benachrichtigung wurde gesendet."
 
 #: Controller/Admin/ShopOrdersController.php:289
 msgid "The notification could not be sent."
@@ -1703,7 +1703,7 @@ msgstr "Rechnung erstellt am"
 
 #: Template/Admin/ShopOrders/view_order.ctp:215
 msgid "Invoice #"
-msgstr "Rechnung Nr. "
+msgstr "Rechnung Nr."
 
 #: Template/Admin/ShopOrders/view_order.ctp:216
 msgid "Invoice date"
@@ -2038,7 +2038,7 @@ msgstr "In den Warenkorb"
 
 #: Template/Cell/AddToCart/display.ctp:2
 msgid "This item is currently not available in our online store"
-msgstr "Dieser Artikel ist zur Zeit nicht in unserem Online-Store erhältlich."
+msgstr "Dieser Artikel ist zur Zeit nicht in unserem Online-Store erhältlich"
 
 #: Template/Cell/AddToCart/display.ctp:19
 msgid "Login to purchase this product"
@@ -2151,7 +2151,7 @@ msgstr "Weiter ohne Kundenregistrierung"
 #: Template/Checkout/customer_guest.ctp:3
 #: Template/Checkout/customer_signup.ctp:8
 msgid "Already registered? Sign in here"
-msgstr "Bereits registriert? Hier anmelden."
+msgstr "Bereits registriert? Hier anmelden"
 
 #: Template/Checkout/customer_guest.ctp:13
 msgid "This email is already registered"
@@ -2283,7 +2283,7 @@ msgstr "Jetzt kostenpflichtig bestellen"
 
 #: Template/Checkout/success.ctp:2
 msgid "Your order was successful!"
-msgstr "Ihre Bestellung war erfolgreich"
+msgstr "Ihre Bestellung war erfolgreich!"
 
 #: Template/Customer/index.ctp:1
 msgid "Your account"
@@ -2330,7 +2330,7 @@ msgstr "Adresse bearbeiten"
 #: Template/CustomerAddresses/index.ctp:10
 msgid "This addresses can be used during the checkout process"
 msgstr ""
-"Die gespeicherten Adressen können Sie während des Bestellvorgangs auswählen."
+"Die gespeicherten Adressen können Sie während des Bestellvorgangs auswählen"
 
 #: Template/CustomerAddresses/index.ctp:17
 msgid "No saved addresses"
@@ -2367,7 +2367,7 @@ msgstr "Bestellung wurde abgeschickt"
 
 #: Template/Element/Order/messages.ctp:5
 msgid "A confirmation email has been sent."
-msgstr "Eine Bestätigungsemail wurde gesendet"
+msgstr "Eine Bestätigungsemail wurde gesendet."
 
 #: Template/Element/Order/order_info.ctp:7
 msgid "Order reference"
@@ -2375,7 +2375,7 @@ msgstr "Referenz Nr."
 
 #: Template/Element/Order/order_info.ctp:9
 msgid "Date of purchase"
-msgstr "Bestelldatum:"
+msgstr "Bestelldatum"
 
 #: Template/Element/Order/payment_status.ctp:19
 msgid "We are processing your payment"

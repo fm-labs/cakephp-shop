@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Shop\Mailer;
 
 use Cake\Core\Configure;
-use Cake\Mailer\Email;
 use Cake\Mailer\Mailer;
 use Shop\Model\Entity\ShopOrder;
 
@@ -16,15 +15,11 @@ use Shop\Model\Entity\ShopOrder;
 class CustomerMailer extends Mailer
 {
     /**
-     * @param \Cake\Mailer\Email|null $email
+     * @inheritDoc
      */
-    public function __construct(?Email $email = null)
+    public function __construct()
     {
-        parent::__construct($email);
-
-        if (Configure::check('Shop.Email.profile')) {
-            $this->_email->setProfile(Configure::read('Shop.Email.profile'));
-        }
+        parent::__construct(Configure::read('Shop.Email.profile'));
     }
 
     /**
