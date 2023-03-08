@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Shop\Model\Table;
 
+use Cake\I18n\FrozenTime;
 use Cupcake\Lib\Status;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\I18n\Time;
 use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -568,7 +568,7 @@ class ShopOrdersTable extends Table
 
         return $this->getConnection()->transactional(function ($conn) use (&$order, $config) {
             $order->invoice_nr = $this->getNextInvoiceNr();
-            $order->invoiced = Time::now();
+            $order->invoiced = FrozenTime::now();
 
             return $this->save($order);
         });
@@ -595,7 +595,7 @@ class ShopOrdersTable extends Table
         // save order
         $submitData = array_merge([
             'uuid' => $order->uuid ?: Text::uuid(), //@TODO This can be ommited, as uuid is already injected in the 'beforeSave' callback
-            'submitted' => Time::now(),
+            'submitted' => FrozenTime::now(),
             'is_temporary' => false,
             'status' => self::ORDER_STATUS_PENDING,
             'customer_email' => $order->customer_email ?: $order->shop_customer->email,

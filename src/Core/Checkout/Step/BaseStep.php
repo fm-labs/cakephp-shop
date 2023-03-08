@@ -18,6 +18,8 @@ use Shop\Controller\Component\CheckoutComponent;
  */
 abstract class BaseStep implements EventListenerInterface
 {
+    protected string $id;
+
     /**
      * @var \Shop\Controller\Component\CheckoutComponent
      */

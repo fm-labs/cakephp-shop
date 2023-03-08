@@ -27,7 +27,7 @@ class CartComponent extends Component
     /**
      * @var string
      */
-    public static $cookieName = 'Cart';
+    public static string $cookieName = 'Cart';
 
     /**
      * @var array
@@ -35,9 +35,9 @@ class CartComponent extends Component
     public $components = ['Shop.Shop', 'Flash', 'Cookie'];
 
     /**
-     * @var \Shop\Model\Entity\ShopOrder
+     * @var \Shop\Model\Entity\ShopOrder|null
      */
-    public $order;
+    public ?ShopOrder $order;
 
     /**
      * @var string

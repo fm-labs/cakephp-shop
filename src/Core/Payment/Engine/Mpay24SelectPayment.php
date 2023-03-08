@@ -12,6 +12,7 @@ use Mpay24\MPay24Order;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
 use Shop\Core\Payment\PaymentEngineInterface;
+use Shop\Logging\TransactionLoggingTrait;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrderTransactionsTable;
@@ -23,6 +24,8 @@ use Shop\Model\Table\ShopOrderTransactionsTable;
  */
 class Mpay24SelectPayment implements PaymentEngineInterface
 {
+    use TransactionLoggingTrait;
+
     /**
      * @param \Shop\Controller\Component\CheckoutComponent $Checkout
      * @return bool
@@ -141,6 +144,8 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 $testMode = true;
             }
 
+            $this->logTransaction($transaction, "Mpay24 TestMode: $testMode");
+
             // Initialize Mpay24
             $config = $this->_buildMpay24Config($testMode);
             $mpay24 = new Mpay24($config);
@@ -221,15 +226,21 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $mdxi->Order->URL->Cancel = Router::url($Payment->getCancelUrl(), true);
 
             //debug($mdxi->toXML());
+            @file_put_contents(TMP . "payment" . DS . "mpay24_" . $transaction->id . "_" . $order->uuid . "_mdxi.xml", $mdxi->toXML());
+
             if (!$mdxi->validate()) {
                 //@TODO Log invalid mdxi xml
                 throw new \RuntimeException('Failed to validate MDXI.');
             }
 
             $mpay24Response = $mpay24->paymentPage($mdxi);
+            @file_put_contents(TMP . "payment" . DS . "mpay24_" . $transaction->id . "_" . $order->uuid . "_response.xml", $mpay24Response->getXml());
+
             $paymentPageURL = $mpay24Response->getLocation(); // redirect location to the payment page
+            $this->logTransaction($transaction, "Mpay24 Payment Page Url: $paymentPageURL");
             if ($paymentPageURL) {
                 return $Payment->redirect($paymentPageURL);
+                //return $Payment->transactionIframe($transaction->id, $paymentPageURL);
             }
 
             // debug

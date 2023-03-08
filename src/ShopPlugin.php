@@ -62,6 +62,7 @@ class ShopPlugin extends BasePlugin
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Service\PaymentService());
         $eventManager->on(new \Shop\Service\ShopRulesService());
+        $eventManager->on(new \Shop\Service\HealthCheckService());
         //$eventManager->on(new \Shop\Service\SitemapService());
         EntityTypeRegistry::register('Content.Menu', 'shop_category', [
             'label' => __d('shop', 'Shop Category'),

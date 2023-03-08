@@ -31,7 +31,7 @@ class AddToCartForm extends Form
      * @param \Cake\Validation\Validator $validator
      * @return \Cake\Validation\Validator
      */
-    protected function _buildValidator(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->requirePresence('amount')

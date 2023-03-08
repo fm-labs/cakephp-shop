@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Shop\Cron\Task;
+namespace Shop\Cron;
 
 use Cake\ORM\TableRegistry;
 use Cron\Cron\BaseCronTask;
+use Cron\Cron\CronTaskResult;
 
 /**
  * Class ClearCreditcardDataCronTask
@@ -29,7 +30,7 @@ class ClearCreditcardDataCronTask extends BaseCronTask
     public $daysKeep = 4;
 
     /**
-     * @return bool|\Cron\Cron\CronTaskResult|null|mixed
+     * @inheritDoc
      */
     public function execute()
     {
@@ -63,12 +64,12 @@ class ClearCreditcardDataCronTask extends BaseCronTask
 
         //@TODO Send admin notification email
 
-        return [true, sprintf(
+        return new CronTaskResult(true, sprintf(
             "Found %d orders, %d processed, %d failed, %d successful",
             count($orders),
             $processed,
             $failed,
             $processed - $failed
-        )];
+        ));
     }
 }

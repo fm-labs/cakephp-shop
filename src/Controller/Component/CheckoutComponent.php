@@ -268,7 +268,7 @@ class CheckoutComponent extends Component
     {
         foreach ($this->_stepRegistry as $step) {
             if (!$step->isComplete()) {
-                //debug("step not complete: " . $stepId);
+                //debug("step not complete: " . $step->getId());
                 return $step;
             }
         }
@@ -409,16 +409,22 @@ class CheckoutComponent extends Component
         return $this->ShopOrders->submitOrder($this->getOrder(), $data);
     }
 
+    public function cleanup()
+    {
+        $this->getController()->getRequest()->getSession()->delete('Shop.Cart');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Checkout');
+        $this->getController()->getRequest()->getSession()->delete('Shop.Order');
+        $this->_order = null;
+        $this->_activeStep = null;
+        $this->_active = null;
+    }
+
     /**
      * @param \Cake\Event\Event $event
      */
     public function afterSubmit(Event $event)
     {
-        $this->_order = null;
-
-        $this->getController()->getRequest()->getSession()->delete('Shop.Cart');
-        $this->getController()->getRequest()->getSession()->delete('Shop.Checkout');
-        $this->getController()->getRequest()->getSession()->delete('Shop.Order');
+        $this->cleanup();
     }
 
     /**

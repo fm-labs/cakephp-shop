@@ -5,7 +5,9 @@ namespace Shop\Controller;
 
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use Cake\Log\Log;
+use Shop\Logging\TransactionLoggingTrait;
 use Shop\Model\Table\ShopOrdersTable;
 
 /**
@@ -20,6 +22,8 @@ use Shop\Model\Table\ShopOrdersTable;
  */
 class PaymentController extends AppController
 {
+    use TransactionLoggingTrait;
+
     /**
      * @var string
      */
@@ -49,7 +53,7 @@ class PaymentController extends AppController
      * @param $orderUUID
      * @return \Shop\Model\Entity\ShopOrder
      */
-    protected function _loadOrder($orderUUID = null)
+    protected function _loadOrder(?string $orderUUID = null)
     {
         if (!$orderUUID) {
             throw new BadRequestException();
@@ -74,7 +78,7 @@ class PaymentController extends AppController
      * @param $txnId
      * @return \Shop\Model\Entity\ShopOrderTransaction
      */
-    protected function _loadTransaction($txnId = null)
+    protected function _loadTransaction(?string $txnId = null)
     {
         if (!$txnId) {
             throw new BadRequestException();
@@ -88,10 +92,10 @@ class PaymentController extends AppController
     }
 
     /**
-     * @param null $orderUUID
-     * @return \Cake\Http\Response|null
+     * @param string|null $orderUUID
+     * @return Response|null
      */
-    public function index($orderUUID = null)
+    public function index(?string $orderUUID = null)
     {
         $order = $this->_loadOrder($orderUUID);
         //$this->redirect(['action' => 'pay', $orderUUID]);
@@ -122,8 +126,8 @@ class PaymentController extends AppController
 
             case ShopOrdersTable::ORDER_STATUS_SUBMITTED:
             case ShopOrdersTable::ORDER_STATUS_PENDING:
-                // continue to paymant
-                return $this->setAction('pay', $orderUUID);
+                // continue to payment page
+                $redirectUrl = ['action' => 'pay', $orderUUID];
                 break;
 
             case ShopOrdersTable::ORDER_STATUS_CONFIRMED:
@@ -143,17 +147,17 @@ class PaymentController extends AppController
      * Initialize payment with selected payment engine
      * Redirects to 3rd party site, if necessary.
      *
-     * @param null $orderUUID
-     * @return \Cake\Http\Response|null
+     * @param string|null $orderUUID
+     * @return void
      */
-    public function pay($orderUUID = null)
+    public function pay(?string $orderUUID = null)
     {
         $order = $this->_loadOrder($orderUUID);
 
         $this->set('order', $order);
         $this->set('engines', $this->Payment->engines);
         try {
-            Log::debug("Payment::initTransaction: $orderUUID", ['shop', 'payment']);
+            Log::info("Payment::initTransaction for order with UUID: $orderUUID", ['shop', 'payment']);
             $this->Payment->initTransaction($order);
         } catch (\Exception $ex) {
             $this->Flash->error($ex->getMessage());
@@ -163,14 +167,13 @@ class PaymentController extends AppController
     /**
      * Return URL for successful payments
      *
-     * @param null $txnId
-     * @return \Cake\Http\Response|null
+     * @param string|null $txnId
+     * @return Response|null
      */
-    public function success($txnId = null)
+    public function success(?string $txnId = null)
     {
-        Log::debug("Payment::success: $txnId", ['shop', 'payment']);
-
         $transaction = $this->_loadTransaction($txnId);
+        $this->logTransaction($transaction, "Payment::Controller::success", 'info');
         $orderUUID = $transaction->shop_order->uuid;
 
         $this->Flash->success(__d('shop', 'Your payment was successful'));
@@ -181,14 +184,13 @@ class PaymentController extends AppController
     /**
      * Return URL for failed payments
      *
-     * @param null $txnId
-     * @return \Cake\Http\Response|null
+     * @param string|null $txnId
+     * @return Response|null
      */
-    public function error($txnId = null)
+    public function error(?string $txnId = null)
     {
-        Log::error("Payment::error: $txnId", ['shop', 'payment']);
-
         $transaction = $this->_loadTransaction($txnId);
+        $this->logTransaction($transaction, "Payment::Controller::error", 'error');
         $orderUUID = $transaction->shop_order->uuid;
 
         $this->Flash->error(__d('shop', 'The payment could not be completed'));
@@ -199,16 +201,19 @@ class PaymentController extends AppController
     /**
      * Return URL for failed payments
      *
-     * @param null $txnId
-     * @return \Cake\Http\Response|null
+     * @param string|null $txnId
+     * @return Response|null
      */
-    public function cancel($txnId = null)
+    public function cancel(?string $txnId = null)
     {
-        Log::error("Payment::cancel: $txnId", ['shop', 'payment']);
-
         $transaction = $this->_loadTransaction($txnId);
-        $orderUUID = $transaction->shop_order->uuid;
-        $this->Payment->cancelTransaction($transaction);
+        try {
+            $this->logTransaction($transaction, "Payment::Controller::cancel", 'warning');
+            $orderUUID = $transaction->shop_order->uuid;
+            $this->Payment->cancelTransaction($transaction);
+        } catch (\Exception $ex) {
+            $this->logTransaction($transaction,'Payment::Controller::cancel: ERROR: ' . $ex->getMessage(), 'error');
+        }
 
         $this->Flash->error(__d('shop', 'The payment has been canceled'));
 
@@ -218,28 +223,32 @@ class PaymentController extends AppController
     /**
      * HTTP confirmation interface for 3rd party payment providers
      *
-     * @param null $txnId
-     * @return null|\Shop\Model\Entity\ShopOrderTransaction
+     * @param string|null $txnId
+     * @return void|null
      */
-    public function confirm($txnId = null)
+    public function confirm(?string $txnId = null)
     {
         $this->autoRender = false;
 
         // process the request with the appropriate payment engine
         if (!$txnId) {
-            Log::warning("Payment::confirm: No transaction id");
-
+            Log::critical("Payment::Controller::confirm: No transaction id", ['shop', 'payment']);
             return null;
         }
 
+        $t = $this->_loadTransaction($txnId);
         try {
-            Log::debug("Payment::confirm: $txnId", ['shop', 'payment']);
-            $t = $this->_loadTransaction($txnId);
+            $this->logTransaction($t, "Payment::Controller::confirm");
             $this->Payment->confirmTransaction($t);
         } catch (\Exception $ex) {
-            Log::debug("Payment::error: " . $ex->getMessage(), ['shop', 'payment']);
-            debug($ex->getMessage());
+            $this->logTransaction($t,'Payment::Controller::confirm: ERROR: ' . $ex->getMessage(), 'error');
             $this->response = $this->response->withStatus(400);
         }
+    }
+
+    public function external(?string $txnId = null)
+    {
+        $external = $this->getRequest()->getSession()->read('Shop.Payment.external');
+        $this->set(compact('txnId', 'external'));
     }
 }

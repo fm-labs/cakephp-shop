@@ -79,7 +79,8 @@ class CheckoutController extends AppController
      */
     public function next($cartId = null)
     {
-        $this->setAction('index', $cartId);
+        $this->Checkout->cleanup();
+        $this->redirect(['action' => 'index', $cartId]);
     }
 
 //    public function isAction(string $action): bool

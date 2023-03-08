@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Shop\Test\TestCase\Model\Table;
 
 use Cake\Core\Configure;
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Shop\Model\Table\ShopOrdersTable;
@@ -222,7 +222,7 @@ class ShopOrdersTableTest extends TestCase
             for ($i = 1; $i < 3; $i++) {
                 $order = $this->ShopOrders->newEntity([
                     'is_temporary' => false,
-                    'submitted' => Time::now(),
+                    'submitted' => FrozenTime::now(),
                     'ordergroup' => $ordergroup,
                     'nr' => 1000 + $i,
                 ], ['validate' => false]);

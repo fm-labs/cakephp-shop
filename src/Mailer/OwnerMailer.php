@@ -31,8 +31,10 @@ class OwnerMailer extends Mailer
     {
         $this
             ->setSubject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
-            ->setTemplate('Shop.merchant/order_submit')
-            ->setViewVars(['order' => $order]);
+            ->setViewVars(['order' => $order])
+            ->viewBuilder()
+                ->setTemplate('Shop.merchant/order_submit')
+        ;
     }
 
     /**
@@ -43,7 +45,9 @@ class OwnerMailer extends Mailer
     {
         $this
             ->setSubject("Neue Webshop Bestellung " . $order->nr_formatted) //@TODO i18n
+            ->setViewVars(['order' => $order])
+            ->viewBuilder()
             ->setTemplate('Shop.merchant/order_submit')
-            ->setViewVars(['order' => $order]);
+        ;
     }
 }

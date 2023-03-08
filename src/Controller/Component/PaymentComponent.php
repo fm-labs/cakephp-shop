@@ -9,6 +9,7 @@ use Cake\Http\Response;
 use Cake\Log\Log;
 use Shop\Core\Payment\PaymentEngineRegistry;
 use Shop\Lib\Shop;
+use Shop\Logging\TransactionLoggingTrait;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderTransaction;
 use Shop\Model\Table\ShopOrderTransactionsTable;
@@ -21,6 +22,8 @@ use Shop\Model\Table\ShopOrderTransactionsTable;
  */
 class PaymentComponent extends Component
 {
+    use TransactionLoggingTrait;
+
     /**
      * @var array
      */
@@ -134,11 +137,15 @@ class PaymentComponent extends Component
             throw new \RuntimeException("Payment::initTransaction: Failed to create transaction");
         }
 
+        $this->logTransaction($this->_transaction, sprintf(
+            "Created new txn with Id %s for order with UUID %s", $this->_transaction->id, $order->uuid));
+
         $response = null;
         try {
             $engine = $this->_engineRegistry->get($order->payment_type);
 
             // initialize payment with selected payment engine
+            $this->logTransaction($this->_transaction, "INIT");
             $response = $engine->pay($this, $this->_transaction, $this->_order);
 
             // capture redirect url, if any
@@ -149,6 +156,7 @@ class PaymentComponent extends Component
             // capture errors, if any
             $this->_transaction->message = $ex->getMessage();
             $this->_transaction->status = -1;
+            $this->logTransaction($this->_transaction, "PAY:FAILED: " . $ex->getMessage(), 'error');
 
             $this->getController()->Flash->error($ex->getMessage());
         } finally {
@@ -173,7 +181,7 @@ class PaymentComponent extends Component
         $data = $this->getController()->getRequest()->getData();
         $params = $this->getController()->getRequest()->getServerParams();
 
-        Log::debug(sprintf('Payment::confirm: [%s] %s', $clientIp, $txnId), ['shop', 'payment']);
+        $this->logTransaction($transaction, sprintf('CONFIRM [ClientIp:%s]', $clientIp));
 
         $request = compact('txnId', 'engine', 'clientIp', 'url', 'query', 'data', 'params');
         $json = json_encode($request);
@@ -211,7 +219,7 @@ class PaymentComponent extends Component
         ]);
         if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
             debug($notification->getErrors());
-            Log::error("Payment::confirmTransaction: Failed to save transaction notification");
+            $this->logTransaction($transaction, "Failed to save transaction notification", 'error');
         }
 
         try {
@@ -230,7 +238,7 @@ class PaymentComponent extends Component
                 'request' => $this->getController()->getRequest(),
             ], $this);
         } catch (\Exception $ex) {
-            Log::error("Payment::confirmTransaction:" . $transaction->engine . ":" . $ex->getMessage());
+            $this->logTransaction($transaction, sprintf("CONFIRM:FAILED: %s", $ex->getMessage()));
             throw $ex;
         }
 
@@ -247,7 +255,7 @@ class PaymentComponent extends Component
         $notification->is_processed = ($transaction->status == 1);
         if (!$this->ShopOrders->ShopOrderTransactions->ShopOrderTransactionNotifies->save($notification)) {
             debug($notification->getErrors());
-            Log::error("Payment::confirmTransaction: Failed to update transaction notification");
+            $this->logTransaction($transaction, "Failed to update transaction notification", 'error');
         }
 
         return $transaction;
@@ -263,8 +271,10 @@ class PaymentComponent extends Component
 
             $engine = $this->_engineRegistry->get($transaction->engine);
 
+            $this->logTransaction($transaction, "CANCEL");
             $transaction->status = ShopOrderTransactionsTable::STATUS_USER_ABORT;
             $transaction = $engine->cancel($this, $transaction);
+            $this->logTransaction($transaction, "CANCELED");
 
             if (!($transaction instanceof ShopOrderTransaction)) {
                 throw new \RuntimeException("Response of payment engine MUST be an instance of ShopOrderTransaction");
@@ -281,7 +291,7 @@ class PaymentComponent extends Component
                 'request' => $this->getController()->getRequest(),
             ], $this);
         } catch (\Exception $ex) {
-            Log::error("Payment::cancelTransaction:" . $transaction->engine . ":" . $ex->getMessage());
+            $this->logTransaction($transaction, $ex->getMessage(), 'error');
             throw $ex;
         }
     }
@@ -295,6 +305,15 @@ class PaymentComponent extends Component
     public function redirect($url)
     {
         return $this->getController()->redirect($url);
+    }
+
+    public function transactionIframe($txnId, $url)
+    {
+        $this->getController()->getRequest()->getSession()->write('Shop.Payment.external', [
+            'txnId' => $txnId,
+            'url' => $url
+        ]);
+        return $this->getController()->redirect(['plugin' => 'Shop', 'controller' => 'Payment', 'action' => 'external', $txnId]);
     }
 
     /**
@@ -356,4 +375,5 @@ class PaymentComponent extends Component
 
         return ['plugin' => 'Shop', 'controller' => 'Payment', 'action' => $action, $this->_transaction->id,  'o' => $this->_order->uuid];
     }
+
 }
