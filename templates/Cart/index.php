@@ -7,6 +7,9 @@ $this->Html->meta('robots', 'noindex,nofollow', ['block' => true]);
 $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index']);
 $this->Breadcrumbs->add(__d('shop','Cart'), ['action' => 'index']);
 $this->assign('title', __d('shop', 'Cart'));
+
+/** @var \Shop\Model\Entity\ShopOrder $cart */
+$cart = $this->get('cart');
 ?>
 <div class="shop cart index container">
 
@@ -33,15 +36,16 @@ $this->assign('title', __d('shop', 'Cart'));
                 <td>&nbsp;</td>
             <?php endif; ?>
             <td class="title">
-                <?= $this->Html->link($item->title, $item->getProduct()->url); ?>
-                <br />
-                <small>
-                    <?= $this->Ui->link(
+                <div class="cart-item-title">
+                    <?= $this->Html->link($item->title, $item->getProduct()->url); ?>
+                </div>
+                <div class="cart-item-remove">
+                    <?= $this->Html->link(
                         __d('shop','Remove from cart'),
                         ['action' => 'remove', $cart->id, $item->id],
                         ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure?')]
                     ); ?>
-                </small>
+                </div>
             </td>
             <td class="number">
                 <?= $this->Form->text('amount_' . $item->id, [

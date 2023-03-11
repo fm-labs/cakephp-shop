@@ -16,7 +16,7 @@ $shopProduct = $this->get('shopProduct');
 
         <?php if ($shopProduct->price >= 0): ?>
             <div class="price price-big" itemprop="price">
-                <?= __d('shop','Price'); ?>:
+                <span class="price-title fw-bold d-block"><?= __d('shop','Price'); ?></span>
                 <span class="price-item"><?= $this->Number->currency($shopProduct->displayPrice, 'EUR'); ?></span>
             </div>
             <?php if ($shopProduct->price_net_original != $shopProduct->price_net) : ?>

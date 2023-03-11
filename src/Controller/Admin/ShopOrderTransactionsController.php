@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Shop\Controller\Admin;
 
+use Shop\Model\Entity\ShopOrder;
+use Shop\Model\Entity\ShopOrderTransaction;
+
 /**
  * ShopOrderTransactions Controller
  *
@@ -34,7 +37,13 @@ class ShopOrderTransactionsController extends AppController
         }
 
         $this->set('fields', [
-            'shop_order' => ['formatter' => ['related', 'nr_formatted']],
+            //'shop_order' => ['formatter' => ['related', 'nr_formatted']],
+            'shop_order' => ['formatter' => ['link', function (ShopOrder $order, ShopOrderTransaction $entity) {
+                return [
+                    'url' => ['controller' => 'ShopOrders', 'action' => 'view', $order->id],
+                    'title' => $order->nr_formatted
+                ];
+            }]],
             'type', 'engine', 'currency_code',
             'value' => ['formatter' => ['currency', ['currency_field' => 'currency_code']]],
             'status__status' => ['label' => 'Status', 'formatter' => 'status', 'type' => 'object'],

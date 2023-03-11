@@ -9,6 +9,7 @@ use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
 use Shop\Controller\Component\CheckoutComponent;
+use Shop\Core\Checkout\CheckoutStepInterface;
 
 /**
  * Class BaseStep
@@ -16,7 +17,7 @@ use Shop\Controller\Component\CheckoutComponent;
  * @package Shop\Core\Checkout\Step
  * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
-abstract class BaseStep implements EventListenerInterface
+abstract class BaseStep implements EventListenerInterface, CheckoutStepInterface
 {
     protected string $id;
 

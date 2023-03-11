@@ -56,6 +56,5 @@ class Application extends \Cupcake\Application {
 * Customer discounts
 * Email notifications
 * PDF generator for order confirmations and invoices
-* Coupons
-* ...
+* Customer Discounts / Customer Group Discounts
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Controller\Admin;
 
+use Admin\Action\ViewAction;
 use Cake\Core\Configure;
 use Cake\View\View;
 use Shop\Model\Entity\ShopOrder;
@@ -25,8 +26,9 @@ class ShopOrdersController extends AppController
      * @var array
      */
     public $actions = [
-        'index'     => 'Admin.Index',
-        'view'      => 'Admin.View',
+        'index' => 'Admin.Index',
+        'view' => 'Admin.View',
+        //'detailview' => ['className' => 'Admin.View', 'label' => 'Detail view'],
     ];
 
     /**
@@ -37,14 +39,24 @@ class ShopOrdersController extends AppController
         parent::initialize();
         //$this->loadComponent('RequestHandler');
 
-        $this->Action->registerInline('detailview', ['label' => __d('shop', 'View Order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
+        $detailViewAction = new ViewAction([
+            '_action' => 'detailview',
+            'label' => __d('shop', 'Detail view'),
+            'scope' => ['form', 'table'],
+            'attrs' => ['data-icon' => 'eye']
+        ]);
+        $this->Action->getActionRegistry()->load('detailview', [
+            '_action' => 'detailview',
+            'type' => 'entity',
+            'className' => $detailViewAction,
+        ]);
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
         //$this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
         $this->Action->registerInline('pdfview', ['label' => __d('shop', 'PDF view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
 
-        $this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
-        $this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
+        $this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
+        $this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Send order confirmation'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
 
         $this->viewBuilder()->addHelper('Cupcake.Status');
@@ -62,7 +74,7 @@ class ShopOrdersController extends AppController
             if ($this->ShopOrders->save($order)) {
                 $this->Flash->success(__d('shop', 'Updated'));
 
-                return $this->redirect(['action' => 'detailview', $id]);
+                return $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->Flash->error(__d('shop', 'Operation failed'));
                 debug($order->getErrors());
@@ -83,7 +95,10 @@ class ShopOrdersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['ShopCustomers'/*, 'ShopOrderAddresses' => ['Countries'], 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']*/],
+            'contain' => [
+                'ShopCustomers'
+                /*, 'ShopOrderAddresses' => ['Countries'], 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']*/
+            ],
             'conditions' => ['ShopOrders.is_temporary' => false],
             'order' => ['ShopOrders.id' => 'DESC'],
             'status' => true,
@@ -96,8 +111,16 @@ class ShopOrdersController extends AppController
 
         $this->set('fields', [
             'submitted',
-            'nr_formatted' => ['label' => __d('shop', 'Order Nr')],
-            'invoice_nr_formatted'  => ['label' => __d('shop', 'Invoice Nr')],
+            'nr_formatted' => [
+                'label' => __d('shop', 'Order Nr'),
+                'formatter' => ['link', function($val, $entity) {
+                    return [
+                        'url' => ['action' => 'view', $entity->id],
+                        'title' => $entity->nr_formatted,
+                    ];
+                }]
+            ],
+            'invoice_nr_formatted' => ['label' => __d('shop', 'Invoice Nr')],
             'shop_customer' => ['formatter' => ['related', 'display_name'], 'type' => 'object'],
             'order_value_total' => ['label' => 'Total Value', 'formatter' => ['currency', ['currency' => 'EUR']], 'class' => 'text-end'],
             //'status' => ['label' => 'Status0', 'formatter' => 'status', 'type' => 'object'],
@@ -118,7 +141,36 @@ class ShopOrdersController extends AppController
     public function view($id = null)
     {
         $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
+            'contain' => [
+                'ShopCustomers' => ['Users'],
+                'ShopOrderItems',
+                'BillingAddresses' => ['Countries'],
+                'ShippingAddresses' => ['Countries'],
+                'ShopOrderTransactions',
+                'ShopOrderAddresses',
+                'ShopOrderNotifications'
+            ],
+            'status' => true,
+        ]);
+        $this->set('entity', $shopOrder);
+        $this->set('_serialize', 'entity');
+
+        //$this->Action->execute();
+        //$this->render("view");
+    }
+
+    public function detailview($id = null)
+    {
+        $shopOrder = $this->ShopOrders->get($id, [
+            'contain' => [
+                'ShopCustomers' => ['Users'],
+                'ShopOrderItems',
+                'BillingAddresses' => ['Countries'],
+                'ShippingAddresses' => ['Countries'],
+                'ShopOrderTransactions',
+                'ShopOrderAddresses',
+                'ShopOrderNotifications'
+            ],
             'status' => true,
         ]);
         $this->set('entity', $shopOrder);
@@ -197,25 +249,15 @@ class ShopOrdersController extends AppController
             ],
         ]);
 
-        $this->Action->execute();
-    }
-
-    public function detailview($id = null)
-    {
-        Configure::write('debug', true);
-        $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
-            'status' => true,
-        ]);
-        $this->set('entity', $shopOrder);
-        $this->set('_serialize', 'entity');
-
-        //$this->Action->execute('view');
-        $this->render("detailview");
-    }
-
-    public function viewInvoice($id = null)
-    {
+//        Configure::write('debug', true);
+//        $shopOrder = $this->ShopOrders->get($id, [
+//            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries'], 'ShopOrderTransactions', 'ShopOrderAddresses', 'ShopOrderNotifications'],
+//            'status' => true,
+//        ]);
+//        $this->set('entity', $shopOrder);
+//        $this->set('_serialize', 'entity');
+        $this->Action->execute('view');
+        //$this->render("detailview");
     }
 
     /**
@@ -256,7 +298,7 @@ class ShopOrdersController extends AppController
 
         $this->set('pdfEngine', Configure::read('Shop.Pdf.engine'));
         $this->set('pdf', [
-            'title' => $shopOrder->title,
+            'title' => $shopOrder->nr_formatted,
             'subject' => $shopOrder->nr_formatted,
             'keywords' => $shopOrder->nr_formatted,
             //'output' => 'browser'
@@ -358,7 +400,7 @@ class ShopOrdersController extends AppController
             $this->Flash->error(__d('shop', 'Failed to create invoice'));
         }
 
-        $this->redirect($this->referer(['action' => 'detailview', $id]));
+        $this->redirect($this->referer(['action' => 'view', $id]));
     }
 
     public function payed($id = null)

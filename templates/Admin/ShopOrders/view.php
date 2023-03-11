@@ -9,17 +9,22 @@ $entity = $this->get('entity');
 
 $this->assign('title', $entity->nr_formatted);
 
-$this->Toolbar->addLink(__d('shop', 'Print'),
-    ['action' => 'printview', $entity->id, 'mode' => 'order'],
-    ['data-icon' => 'print', 'target' => '_blank']);
+$this->Toolbar->addLink(__d('shop', 'Detail view'),
+    ['action' => 'detailview', $entity->id],
+    ['data-icon' => 'eye']);
 
-$this->Toolbar->addLink(__d('shop', 'Generate Order PDF'),
-    ['action' => 'pdfview', $entity->id, 'mode' => 'order'],
-    ['data-icon' => 'file-pdf-o', 'target' => '_blank', 'type' => 'primary', 'class' => '']);
 
-$this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
-    ['action' => 'sendorder', $entity->id, 'mode' => 'invoice'],
-    ['data-icon' => 'envelope-o']);
+//$this->Toolbar->addLink(__d('shop', 'Print'),
+//    ['action' => 'printview', $entity->id, 'mode' => 'order'],
+//    ['data-icon' => 'print', 'target' => '_blank']);
+//
+//$this->Toolbar->addLink(__d('shop', 'Generate Order PDF'),
+//    ['action' => 'pdfview', $entity->id, 'mode' => 'order'],
+//    ['data-icon' => 'file-pdf-o', 'target' => '_blank', 'type' => 'primary', 'class' => '']);
+//
+//$this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
+//    ['action' => 'sendorder', $entity->id, 'mode' => 'invoice'],
+//    ['data-icon' => 'envelope-o']);
 ?>
 <style>
     .invoice {
@@ -33,16 +38,6 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
 <div class="view">
 
     <section class="invoice">
-        <!-- title row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
-                    <?= __d('shop', 'Order'); ?>  <?= h($entity->nr_formatted); ?>
-                    <small class="pull-right"><?= __d('shop', 'Ordered') ?>: <?= h($entity->submitted); ?></small>
-                </h2>
-            </div>
-            <!-- /.col -->
-        </div>
         <!-- info row -->
         <div class="row invoice-info" style="margin: 1.3em 0;">
             <div class="col-sm-4 invoice-col">
@@ -72,17 +67,16 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
         </div>
         <!-- /.row -->
 
-        <!-- title row -->
+        <!-- title row
         <div class="row">
-            <!-- col -->
             <div class="col-xs-12">
                 <h3 class="page-header">
                     <?= __d('shop', 'Order Items'); ?>
                     <small class="pull-right">Delivered: <?= h($entity->delivered); ?></small>
                 </h3>
             </div>
-            <!-- /.col -->
         </div>
+        -->
 
         <!-- Table row -->
         <div class="row">
@@ -163,18 +157,31 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
             <!-- /.col -->
         </div>
         <!-- /.row -->
+    </section>
+
+    <section class="invoice">
 
         <div class="row" style="margin-bottom: 2em;">
             <!-- accepted payments column -->
-            <div class="col-xs-6">
+            <div class="col col-xs-6">
 
                 <h3 class="page-header">
                     <?= __d('shop', 'Payment'); ?>
-                    <small class="pull-right"><?= __d('shop', 'Payed') ?>: <?= h($entity->payed); ?></small>
                 </h3>
-
-                <h4><?= __d('shop', 'Payment Type'); ?></h4>
-                <p><?= h($entity->payment_type); ?></p>
+                <div>
+                    <div>
+                        <strong><?= __d('shop', 'Payment status') ?>:</strong>
+                        ?
+                    </div>
+                    <div>
+                        <strong><?= __d('shop', 'Payed on') ?>:</strong>
+                        <?= h($entity->payed); ?>
+                    </div>
+                    <div>
+                        <strong><?= __d('shop', 'Payment Type'); ?>:</strong>
+                        <?= h($entity->payment_type); ?>
+                    </div>
+                </div>
                 <?php
                 $element = 'Shop.Admin/Payment/' . $entity->payment_type . '/order';
                 if ($this->elementExists($element)) {
@@ -185,15 +192,25 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
                 ?>
             </div>
             <!-- /.col -->
-            <div class="col-xs-6">
+            <div class="col col-xs-6">
 
                 <h3 class="page-header">
                     <?= __d('shop', 'Shipping'); ?>
-                    <small class="pull-right"><?= __d('shop', 'Delivered'); ?>: <?= h($entity->delivered); ?></small>
                 </h3>
-
-                <h4><?= __d('shop', 'Shipping Type'); ?></h4>
-                <p><?= h($entity->shipping_type); ?></p>
+                <div>
+                    <div>
+                        <strong><?= __d('shop', 'Delivery status') ?>:</strong>
+                        ?
+                    </div>
+                    <div>
+                        <strong><?= __d('shop', 'Delivered on') ?>:</strong>
+                        <?= h($entity->delivered); ?>
+                    </div>
+                    <div>
+                        <strong><?= __d('shop', 'Shipping Type'); ?>:</strong>
+                        <?= h($entity->shipping_type); ?>
+                    </div>
+                </div>
                 <?php
                 $element = 'Shop.Admin/Shipping/' . $entity->shipping_type . '/order';
                 if ($this->elementExists($element)) {
@@ -210,16 +227,16 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
         <!-- this row will not appear when printing -->
         <div class="row no-print">
             <div class="col-xs-12">
-                <?= $this->Button->link(__d('shop', 'Print'),
-                    ['action' => 'printview', $entity->id, 'mode' => 'order'],
-                    ['data-icon' => 'print', 'target' => '_blank', 'class' => 'pull-right']); ?>
+                <?= $this->Button->link(__d('shop', 'Print order'),
+                    ['action' => 'printview', $entity->id, '?' => ['mode' => 'order']],
+                    ['data-icon' => 'print', 'target' => '_blank']); ?>
 
-                <?= $this->Button->link(__d('shop', 'Generate Order PDF'),
-                    ['action' => 'pdfview', $entity->id, 'mode' => 'order'],
-                    ['data-icon' => 'file-pdf-o', 'target' => '_blank', 'type' => 'primary', 'class' => '']); ?>
+                <?= $this->Button->link(__d('shop', 'Order PDF'),
+                    ['action' => 'pdfview', $entity->id, '?' => ['mode' => 'order']],
+                    ['data-icon' => 'file-pdf-o', 'target' => '_blank']); ?>
 
                 <?= $this->Button->link(__d('shop', 'Send Order confirmation'),
-                    ['action' => 'sendorder', $entity->id, 'mode' => 'invoice'],
+                    ['action' => 'sendorder', $entity->id, '?' => ['mode' => 'invoice']],
                     ['data-icon' => 'envelope-o']); ?>
             </div>
         </div>
@@ -231,7 +248,6 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <?= __d('shop', 'Invoice'); ?> <?= h($entity->invoice_nr_formatted); ?>
-                    <small class="pull-right"><?= __d('shop', 'Invoiced') ?>: <?= h($entity->invoiced); ?></small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -264,23 +280,20 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
         <div class="row no-print">
             <div class="col-xs-12">
                 <?php if ($entity->invoice_nr): ?>
-                <!--
-                <?= $this->Button->link(__d('shop', 'Print'),
-                    ['action' => 'printview', $entity->id, 'mode' => 'invoice'],
-                    ['data-icon' => 'print', 'target' => '_blank', 'class' => 'pull-right']); ?>
-                -->
+                <?= $this->Button->link(__d('shop', 'Print invoice'),
+                    ['action' => 'printview', $entity->id, '?' => ['mode' => 'invoice']],
+                    ['data-icon' => 'print', 'target' => '_blank']); ?>
 
-                <?= $this->Button->link(__d('shop', 'Generate Invoice PDF'),
-                    ['action' => 'pdfview', $entity->id, 'mode' => 'invoice'],
-                    ['data-icon' => 'file-pdf-o', 'target' => '_blank', 'type' => 'primary']); ?>
+                <?= $this->Button->link(__d('shop', 'Invoice PDF'),
+                    ['action' => 'pdfview', $entity->id, '?' => ['mode' => 'invoice']],
+                    ['data-icon' => 'file-pdf-o', 'target' => '_blank']); ?>
 
-                <!--
                 <?= $this->Button->link(__d('shop', 'Send Invoice'),
-                    ['action' => 'sendinvoice', $entity->id, 'mode' => 'invoice'],
+                    ['action' => 'sendinvoice', $entity->id, '?' => ['mode' => 'invoice']],
                     ['data-icon' => 'envelope-o']); ?>
-                -->
 
                 <?php elseif (!$entity->invoice_nr && $entity->getStatus() >= \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
+
                 <?= $this->Button->link(__d('shop', 'Create invoice'),
                     ['action' => 'invoice', $entity->id],
                     ['data-icon' => 'refresh']); ?>
@@ -291,7 +304,6 @@ $this->Toolbar->addLink(__d('shop', 'Send Order confirmation'),
                     <?= $this->Button->link(__d('shop', 'Mark PAYED'),
                         ['action' => 'payed', $entity->id],
                         ['data-icon' => 'money']); ?>
-
                 <?php endif; ?>
 
             </div>

@@ -58,7 +58,6 @@ class ShopPlugin extends BasePlugin
         $eventManager->on(new \Shop\Service\CartService());
         $eventManager->on(new \Shop\Service\CustomerService());
         $eventManager->on(new \Shop\Service\EmailNotificationService());
-        $eventManager->on(new \Shop\Service\OrderService());
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Service\PaymentService());
         $eventManager->on(new \Shop\Service\ShopRulesService());

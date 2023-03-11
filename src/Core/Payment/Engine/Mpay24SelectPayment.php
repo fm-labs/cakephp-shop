@@ -8,9 +8,10 @@ use Cake\Log\Log;
 use Cake\Routing\Router;
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Config;
-use Mpay24\MPay24Order;
+//use Mpay24\MPay24Order;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
+use Shop\Core\Payment\Engine\Mpay24\Mpay24Order;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Logging\TransactionLoggingTrait;
 use Shop\Model\Entity\ShopOrder;
@@ -67,13 +68,13 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     protected function _buildMpay24Config($testMode)
     {
         if ($testMode) {
-            $merchantID = Configure::read('Mpay24.Test.merchantID');
-            $soapPassword = Configure::read('Mpay24.Test.soapPassword');
-            $debug = (bool)Configure::read('Mpay24.debug');
+            $merchantID = Configure::read('Mpay24.testing.merchantId');
+            $soapPassword = Configure::read('Mpay24.testing.merchantPassword');
+            $debug = (bool)Configure::read('Mpay24.testing.debug', true);
         } else {
-            $merchantID = Configure::read('Mpay24.merchantID');
-            $soapPassword = Configure::read('Mpay24.soapPassword');
-            $debug = (bool)Configure::read('Mpay24.debug');
+            $merchantID = Configure::read('Mpay24.production.merchantId');
+            $soapPassword = Configure::read('Mpay24.production.merchantPassword');
+            $debug = (bool)Configure::read('Mpay24.production.debug', false);
         }
 
         //debug(Configure::read('Mpay24'));
@@ -138,6 +139,9 @@ class Mpay24SelectPayment implements PaymentEngineInterface
              */
             $testMode = false;
             if (Configure::read('Shop.Payment.testMode')) {
+                $testMode = true;
+            }
+            elseif (Configure::read('Mpay24.useTestSystem')) {
                 $testMode = true;
             }
             else if (Configure::read('Shop.Demo.enabled') && $order->shop_customer->email == Configure::read('Shop.Demo.username')) {

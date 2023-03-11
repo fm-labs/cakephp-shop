@@ -2,6 +2,10 @@
 <?php $this->assign('step_active', 'payment'); ?>
 <?php $this->assign('heading', __d('shop','Select your payment method')); ?>
 <?php
+/** @var \Shop\Model\Entity\ShopOrder $order */
+$order = $this->get('order');
+/** @var array $paymentMethods */
+$paymentMethods = $this->get('paymentMethods', []);
 //$this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
 //$this->Breadcrumbs->add(__d('shop','Checkout'), ['controller' => 'Checkout', 'action' => 'index', 'ref' => 'breadcrumb']);
 //$this->Breadcrumbs->add(__d('shop','Payment'), ['controller' => 'Checkout', 'action' => 'payment', 'ref' => 'breadcrumb']);
