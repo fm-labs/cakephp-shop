@@ -13,15 +13,15 @@ class Mpay24ConfigHealthCheck implements HealthCheckInterface
      */
     public function getHealthStatus(): HealthStatus
     {
-        if (Configure::read('Shop.Payment.testMode')) {
+        if (Configure::read('Shop.Payment.testMode') || Configure::read('Mpay24.useTestSystem')) {
             $testMode = true;
         }
         if ($testMode) {
-            $merchantID = Configure::read('Mpay24.Test.merchantID');
-            $soapPassword = Configure::read('Mpay24.Test.soapPassword');
+            $merchantID = Configure::read('Mpay24.testing.merchantId');
+            $soapPassword = Configure::read('Mpay24.testing.merchantPassword');
         } else {
-            $merchantID = Configure::read('Mpay24.merchantID');
-            $soapPassword = Configure::read('Mpay24.soapPassword');
+            $merchantID = Configure::read('Mpay24.production.merchantId');
+            $soapPassword = Configure::read('Mpay24.production.merchantPassword');
         }
 
         if (!$merchantID) {
@@ -30,6 +30,13 @@ class Mpay24ConfigHealthCheck implements HealthCheckInterface
         if (!$soapPassword) {
             return HealthStatus::crit("Mpay24 Merchant password missing");
         }
+
+        if ($testMode && !Configure::read('debug')) {
+            return HealthStatus::crit("Testmode enabled in non-debug environment");
+        } elseif ($testMode) {
+            return HealthStatus::warn("Testmode enabled");
+        }
+
         return HealthStatus::ok('Ok');
     }
 }

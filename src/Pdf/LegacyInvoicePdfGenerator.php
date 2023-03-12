@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Shop\Lib;
+namespace Shop\Pdf;
 
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Core\Plugin;
@@ -13,7 +13,7 @@ use Tcpdf\View\PdfView;
  *
  * @package Shop\Lib
  */
-class InvoicePdfGenerator
+class LegacyInvoicePdfGenerator
 {
     /**
      * @var null|string
@@ -37,7 +37,7 @@ class InvoicePdfGenerator
      * @param null $orderId
      * @param array $pdf
      */
-    public function createFromOrder($orderId = null, $pdf = [])
+    public function createFromOrder($orderId = null, array $pdf = [])
     {
         $shopOrder = $this->ShopOrders->get($orderId, [
             'contain' => ['ShopCustomers', 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
@@ -49,10 +49,9 @@ class InvoicePdfGenerator
         }
 
         $view = new PdfView();
-        $view->plugin = 'Shop';
-        $view->setLayoutPath(null);
-        $view->setTemplatePath('Admin/ShopOrders');
+        $view->setPlugin('Shop');
         $view->setLayout('Shop.print');
+        $view->setTemplatePath('Admin/ShopOrders');
         $view->setTemplate('Shop.printview');
 
         $pdf = array_merge([

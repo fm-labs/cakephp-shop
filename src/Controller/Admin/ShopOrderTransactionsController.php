@@ -66,7 +66,7 @@ class ShopOrderTransactionsController extends AppController
      */
     public function view($id = null)
     {
-        $this->set('related', ['ShopOrderTransactionNotifies', 'ShopOrders']);
+        $this->set('related', ['ShopOrderTransactionNotifies']);
         $this->Action->execute();
     }
 }

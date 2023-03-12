@@ -82,15 +82,18 @@ class ShopOrdersTable extends Table
         $this->hasMany('ShopOrderItems', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderItems',
+            'dependent' => true,
         ]);
         $this->hasMany('ShopOrderAddresses', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderAddresses',
+            'dependent' => false,
             //'contain' => ['Countries']
         ]);
         $this->hasMany('ShopOrderTransactions', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderTransactions',
+            'dependent' => false,
             //'contain' => ['Countries']
         ]);
         $this->hasOne('BillingAddresses', [
@@ -98,12 +101,14 @@ class ShopOrdersTable extends Table
             'className' => 'Shop.ShopOrderAddresses',
             'conditions' => ['BillingAddresses.type' => 'B'],
             'contain' => ['Countries'],
+            'dependent' => false,
         ]);
         $this->hasOne('ShippingAddresses', [
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderAddresses',
             'conditions' => ['ShippingAddresses.type' => 'S'],
             'contain' => ['Countries'],
+            'dependent' => false,
         ]);
         $this->hasMany('ShopOrderNotifications', [
             'foreignKey' => 'shop_order_id',
@@ -188,6 +193,15 @@ class ShopOrdersTable extends Table
      */
     public function afterSave(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
+    }
+
+    public function beforeDelete(\Cake\Event\EventInterface $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        if ($entity->status !== self::ORDER_STATUS_STORNO) {
+            $event->stopPropagation();
+            $event->setResult(false);
+            return;
+        }
     }
 
     /**

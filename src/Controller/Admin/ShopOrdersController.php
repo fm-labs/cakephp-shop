@@ -8,6 +8,7 @@ use Cake\Core\Configure;
 use Cake\View\View;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Table\ShopOrdersTable;
+use Shop\Pdf\InvoicePdfGenerator;
 
 /**
  * ShopOrders Controller
@@ -29,6 +30,7 @@ class ShopOrdersController extends AppController
         'index' => 'Admin.Index',
         'view' => 'Admin.View',
         //'detailview' => ['className' => 'Admin.View', 'label' => 'Detail view'],
+        'delete' => 'Admin.Delete'
     ];
 
     /**
@@ -53,10 +55,10 @@ class ShopOrdersController extends AppController
         $this->Action->registerInline('storno', ['label' => __d('shop', 'Cancel order'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'trash']]);
         //$this->Action->registerInline('viewInvoice', ['label' => __d('shop', 'View Invoice'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file']]);
         $this->Action->registerInline('printview', ['label' => __d('shop', 'Print view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
-        $this->Action->registerInline('pdfview', ['label' => __d('shop', 'PDF view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
+        //$this->Action->registerInline('pdfview', ['label' => __d('shop', 'PDF view'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'print']]);
 
-        $this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
-        $this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
+        //$this->Action->registerInline('orderpdf', ['label' => __d('shop', 'Order PDF'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
+        //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Invoice PDF'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
         //$this->Action->registerInline('invoicepdf', ['label' => __d('shop', 'Send order confirmation'), 'scope' => ['form', 'table'], 'attrs' => ['data-icon' => 'file-pdf-o']]);
 
         $this->viewBuilder()->addHelper('Cupcake.Status');
@@ -107,8 +109,6 @@ class ShopOrdersController extends AppController
         $this->set('paginate', true);
         $this->set('sortable', true);
         $this->set('ajax', true);
-        $this->set('helpers', ['Bootstrap.Label']);
-
         $this->set('fields', [
             'submitted',
             'nr_formatted' => [
@@ -287,25 +287,29 @@ class ShopOrdersController extends AppController
     {
         $mode = $mode ?: $this->request->getQuery('mode');
 
-        $shopOrder = $this->ShopOrders->get($id, [
-            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
-            'status' => true,
-        ]);
-        $this->set('shopOrder', $shopOrder);
+//        $shopOrder = $this->ShopOrders->get($id, [
+//            'contain' => ['ShopCustomers' => ['Users'], 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
+//            'status' => true,
+//        ]);
+//        $this->set('shopOrder', $shopOrder);
+//        $this->viewBuilder()->setClassName('Tcpdf.Pdf');
+//        $this->viewBuilder()->setLayout('Shop.print');
+//
+//        $this->set('pdfEngine', Configure::read('Shop.Pdf.engine'));
+//        $this->set('pdf', [
+//            'title' => $shopOrder->nr_formatted,
+//            'subject' => $shopOrder->nr_formatted,
+//            'keywords' => $shopOrder->nr_formatted,
+//            //'output' => 'browser'
+//        ]);
+//        $this->set('mode', $mode);
+//        $this->render('printview');
+        $this->autoRender = false;
 
-        $this->viewBuilder()->setClassName('Tcpdf.Pdf');
-        $this->viewBuilder()->setLayout('Shop.print');
-
-        $this->set('pdfEngine', Configure::read('Shop.Pdf.engine'));
-        $this->set('pdf', [
-            'title' => $shopOrder->nr_formatted,
-            'subject' => $shopOrder->nr_formatted,
-            'keywords' => $shopOrder->nr_formatted,
-            //'output' => 'browser'
-        ]);
-        $this->set('mode', $mode);
-
-        $this->render('printview');
+        $pdfGen = new InvoicePdfGenerator();
+        //$pdfGen->generate(['orderId' => $id, 'mode' => $mode], ['output' => 'I']);
+        $pdfGen->generate(['orderId' => $id, 'mode' => $mode], ['output' => 'S']);
+        return $pdfGen->getView()->getResponse();
     }
 
     /**
