@@ -16,7 +16,7 @@ $this->Breadcrumbs->add(__d('shop','Payment via secure payment partner'));
     <hr />
     <p class="text-muted text-center">
         Payment page not showing or problems with the payment?
-        <?php echo $this->Html->link(__('Click here'), $external['url']); ?>
+        <?php echo $this->Html->link(__d('shop', 'Click here'), $external['url']); ?>
     </p>
 </div>
 
