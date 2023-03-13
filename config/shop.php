@@ -113,5 +113,9 @@ return [
             'engine' => '\\Tcpdf\\Lib\\CakeTcpdf',
         ],
 
+        'Mailer' => [
+            'customerProfile' => 'shop_customer',
+            'merchantProfile' => 'shop_merchant',
+        ]
     ],
 ];

@@ -26,6 +26,9 @@ return ['Settings' => [
             'Shop.System' => [
                 'label' => __d('shop', 'Shop System'),
             ],
+            'Shop.Mailer' => [
+                'label' => __d('shop', 'Shop Mailer'),
+            ],
             'Shop.Demo' => [
                 'label' => __d('shop', 'Shop Demo'),
             ],
@@ -70,6 +73,18 @@ return ['Settings' => [
             'Shop.Owner.taxId' => [
                 'group' => 'Shop.Owner',
                 'type' => 'string',
+            ],
+
+            // Mailer
+            'Shop.Mailer.customerProfile' => [
+                'group' => 'Shop.Mailer',
+                'type' => 'string',
+                'default' => 'default'
+            ],
+            'Shop.Mailer.merchantProfile' => [
+                'group' => 'Shop.Mailer',
+                'type' => 'string',
+                'default' => 'owner'
             ],
 
             // Pages

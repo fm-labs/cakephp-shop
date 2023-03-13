@@ -5,8 +5,8 @@ namespace Shop\Service;
 
 use Cake\Event\Event;
 use Cake\Log\Log;
-use Shop\Mailer\CustomerMailer;
-use Shop\Mailer\OwnerMailer;
+use Shop\Mailer\ShopCustomerMailer;
+use Shop\Mailer\ShopOwnerMailer;
 
 /**
  * Class EmailNotificationService
@@ -47,14 +47,14 @@ class EmailNotificationService extends BaseService
 
         // Email to User
         try {
-            (new CustomerMailer())->send('orderSubmission', [$order]);
+            (new ShopCustomerMailer())->send('orderSubmission', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }
 
         // Email to Owner
         try {
-            (new OwnerMailer())->send('orderSubmissionNotify', [$order]);
+            (new ShopOwnerMailer())->send('orderSubmissionNotify', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }
@@ -81,14 +81,14 @@ class EmailNotificationService extends BaseService
 
         // Email to User
         try {
-            (new CustomerMailer())->send('orderConfirmation', [$order]);
+            (new ShopCustomerMailer())->send('orderConfirmation', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }
 
         // Email to Owner
         try {
-            (new OwnerMailer())->send('orderConfirmationNotify', [$order]);
+            (new ShopOwnerMailer())->send('orderConfirmationNotify', [$order]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage(), ['shop']);
         }

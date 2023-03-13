@@ -12,6 +12,7 @@ use Tcpdf\View\PdfView;
  * Class InvoicePdfGenerator
  *
  * @package Shop\Lib
+ * @deprecated Use InvoicePdfGenerator instead.
  */
 class LegacyInvoicePdfGenerator
 {
