@@ -179,15 +179,18 @@ class ShopCategory extends Entity
     protected function _getUrlPath()
     {
         if (!isset($this->_fields['url_path'])) {
-            $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
-            $_path = "";
-            $_categories = $Table->find('path', ['for' => $this->id])->toArray();
-            //array_pop($_categories); // drop last element (this category)
-            foreach ($_categories as $_category) {
-                $_path .= '/' . $_category->slug;
+            $path = null;
+            if ($this->id) {
+                $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
+                $_path = "";
+                $_categories = $Table->find('path', ['for' => $this->id])->toArray();
+                //array_pop($_categories); // drop last element (this category)
+                foreach ($_categories as $_category) {
+                    $_path .= '/' . $_category->slug;
+                }
+                $path = ltrim($_path, '/');
             }
-            $_path = ltrim($_path, '/');
-            $this->_fields['url_path'] = $_path ?: false;
+            $this->_fields['url_path'] = $path;
         }
 
         return $this->_fields['url_path'];

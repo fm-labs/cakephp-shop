@@ -6,7 +6,7 @@ namespace Shop\Controller\Admin;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Content\Lib\ContentManager;
-use Media\Lib\Media\MediaManager;
+use Media\MediaManager;
 
 /**
  * ShopCategories Controller
@@ -132,9 +132,24 @@ class ShopCategoriesController extends AppController
         $url = $shopCategory->getViewUrl();
         $url['prefix'] = false;
         $url['admin'] = false;
-        $url['_tk'] = uniqid(time());
+        $url['_tk'] = uniqid((string)time());
 
         $this->redirect($url);
+    }
+
+    public function add()
+    {
+        $this->set('fields', [
+            //'lft' => ['type' => 'hidden'],
+            //'rght'=> ['type' => 'hidden'],
+            //'level'=> ['type' => 'hidden'],
+            'parent_id',
+            'name',
+            'is_published'
+        ]);
+        $this->set('fields.whitelist', ['parent_id', 'name', 'is_published']);
+
+        $this->Action->execute();
     }
 
     /**
@@ -150,17 +165,17 @@ class ShopCategoriesController extends AppController
             ->contain(['ParentShopCategories', 'ShopTags', 'ShopProducts'/*, 'ContentModules' => ['Modules']*/])
             ->first();
 
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
-            if ($this->ShopCategories->save($shopCategory)) {
-                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
-
-                return;
-                //return $this->redirect(['action' => 'edit', $id]);
-            } else {
-                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
-            }
-        }
+//        if ($this->request->is(['patch', 'post', 'put'])) {
+//            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
+//            if ($this->ShopCategories->save($shopCategory)) {
+//                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+//
+//                return;
+//                //return $this->redirect(['action' => 'edit', $id]);
+//            } else {
+//                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
+//            }
+//        }
         $parentShopCategories = $this->ShopCategories->find('treeList');
         //$parentShopCategories = $this->ShopCategories->find('list');
 
@@ -168,7 +183,51 @@ class ShopCategoriesController extends AppController
 
         $this->set(compact('shopCategory', 'parentShopCategories', 'tagList'));
 
-        $this->noActionTemplate = true;
+        $this->set('fieldsets', [
+           ['legend' => __d('shop', 'Category'), 'fields' => [
+               'lft' => ['type' => 'hidden'],
+               'rght'=> ['type' => 'hidden'],
+               'level'=> ['type' => 'hidden'],
+               'parent_id'
+           ]],
+            ['legend' => __d('shop', 'Descriptions'), 'fields' => [
+                'name',
+                'slug',
+                'teaser_html' => ['type' => 'htmleditor'],
+                'desc_html' => ['type' => 'htmleditor'],
+            ]],
+            ['legend' => __d('shop', 'Images'), 'fields' => [
+                'preview_image_file' => ['type' => 'media_select', 'config' => 'shop'],
+                'featured_image_file' => ['type' => 'media_select', 'config' => 'shop'],
+                'image_files' => ['type' => 'media_select', 'config' => 'shop', 'multiple' => true],
+            ]],
+            ['legend' => __d('shop', 'Publishing'), 'fields' => [
+                'teaser_template',
+                'view_template',
+                'is_published',
+                'is_alias',
+                'alias_id',
+            ]],
+            ['legend' => __d('shop', 'Custom'), 'fields' => [
+                'custom1',
+                'custom2',
+                'custom3',
+                'custom4',
+                'custom5',
+                'custom_text1',
+                'custom_text2',
+                'custom_text3',
+                'custom_text4',
+                'custom_text5',
+                'custom_file1' => ['type' => 'media_select', 'config' => 'files'],
+                'custom_file2' => ['type' => 'media_select', 'config' => 'files'],
+                'custom_file3' => ['type' => 'media_select', 'config' => 'files'],
+                'custom_file4' => ['type' => 'media_select', 'config' => 'files'],
+                'custom_file5' => ['type' => 'media_select', 'config' => 'files'],
+            ]],
+        ]);
+
+        //$this->noActionTemplate = true;
         $this->Action->execute();
     }
 
@@ -178,6 +237,7 @@ class ShopCategoriesController extends AppController
      * @param string|null $id Shop Category id.
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Http\Exception\NotFoundException When record not found.
+     * @deprecated Use edit instead
      */
     public function manage($id = null)
     {
@@ -346,31 +406,31 @@ class ShopCategoriesController extends AppController
         $this->set('_serialize', ['content', 'sections', 'availableModules']);
     }
 
-    /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $shopCategory = $this->ShopCategories->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
-            if ($this->ShopCategories->save($shopCategory)) {
-                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
-
-                return $this->redirect(['action' => 'edit', $shopCategory->id]);
-            } else {
-                debug($shopCategory->getErrors());
-                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
-            }
-        } else {
-            $this->ShopCategories->patchEntity($shopCategory, $this->request->getQuery(), ['validate' => false]);
-        }
-        $parentShopCategories = $this->ShopCategories->find('treeList');
-        $this->set(compact('shopCategory', 'parentShopCategories'));
-        $this->set('_serialize', ['shopCategory']);
-    }
+//    /**
+//     * Add method
+//     *
+//     * @return void Redirects on successful add, renders view otherwise.
+//     */
+//    public function add()
+//    {
+//        $shopCategory = $this->ShopCategories->newEmptyEntity();
+//        if ($this->request->is('post')) {
+//            $shopCategory = $this->ShopCategories->patchEntity($shopCategory, $this->request->getData());
+//            if ($this->ShopCategories->save($shopCategory)) {
+//                $this->Flash->success(__d('shop', 'The {0} has been saved.', __d('shop', 'shop category')));
+//
+//                return $this->redirect(['action' => 'edit', $shopCategory->id]);
+//            } else {
+//                debug($shopCategory->getErrors());
+//                $this->Flash->error(__d('shop', 'The {0} could not be saved. Please, try again.', __d('shop', 'shop category')));
+//            }
+//        } else {
+//            $this->ShopCategories->patchEntity($shopCategory, $this->request->getQuery(), ['validate' => false]);
+//        }
+//        $parentShopCategories = $this->ShopCategories->find('treeList');
+//        $this->set(compact('shopCategory', 'parentShopCategories'));
+//        $this->set('_serialize', ['shopCategory']);
+//    }
 
     /**
      * @param null $id
@@ -404,15 +464,16 @@ class ShopCategoriesController extends AppController
      */
     public function delete($id = null)
     {
-        //$this->request->allowMethod(['post', 'delete']);
-        $shopCategory = $this->ShopCategories->get($id);
-        if ($this->ShopCategories->delete($shopCategory)) {
-            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop category')));
-        } else {
-            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop category')));
-        }
-
-        return $this->redirect(['action' => 'index']);
+//        //$this->request->allowMethod(['post', 'delete']);
+//        $shopCategory = $this->ShopCategories->get($id);
+//        if ($this->ShopCategories->delete($shopCategory)) {
+//            $this->Flash->success(__d('shop', 'The {0} has been deleted.', __d('shop', 'shop category')));
+//        } else {
+//            $this->Flash->error(__d('shop', 'The {0} could not be deleted. Please, try again.', __d('shop', 'shop category')));
+//        }
+//
+//        return $this->redirect(['action' => 'index']);
+        $this->Action->execute();
     }
 
     /**

@@ -7,7 +7,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
-use Media\Lib\Media\MediaManager;
+use Media\MediaManager;
 
 /**
  * ShopProducts Controller
