@@ -71,7 +71,7 @@ class ShopProduct extends Entity implements ShopProductInterface
 
     protected function _getShopCategory()
     {
-        if (!isset($this->_fields['shop_category'])) {
+        if (!isset($this->_fields['shop_category']) && $this->shop_category_id) {
             $Table = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
             $category = $Table
                 ->find()
@@ -82,7 +82,7 @@ class ShopProduct extends Entity implements ShopProductInterface
             $this->shop_category = $category;
         }
 
-        return $this->_fields['shop_category'];
+        return $this->_fields['shop_category'] ?? null;
     }
 
     protected function _getUrl()

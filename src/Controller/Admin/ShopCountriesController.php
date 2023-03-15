@@ -11,6 +11,17 @@ namespace Shop\Controller\Admin;
 class ShopCountriesController extends AppController
 {
     /**
+     * @inheritdoc
+     * @deprecated
+     */
+    public $modelClass = "Shop.ShopCountries";
+
+    /**
+     * @inheritdoc
+     */
+    public $defaultTable = "Shop.ShopCountries";
+
+    /**
      * @var array
      */
     public $paginate = [

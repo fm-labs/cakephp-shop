@@ -5,7 +5,6 @@ namespace Shop\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-use Content\Lib\ContentManager;
 use Media\MediaManager;
 
 /**

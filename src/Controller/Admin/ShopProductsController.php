@@ -19,8 +19,11 @@ class ShopProductsController extends AppController
 {
     /**
      * @var string
+     * @deprecated
      */
     public $modelClass = "Shop.ShopProducts";
+
+    //public $defaultTable = "Shop.ShopProducts";
 
     /**
      * @var array
@@ -93,6 +96,8 @@ class ShopProductsController extends AppController
             $query->where(['ShopProducts.parent_id' => $parentId]);
         }
 
+        $action = $this->Action->getAction('index');
+
         $fields = [
             'preview_image_file' => [
                 'title' => 'Image',
@@ -122,20 +127,22 @@ class ShopProductsController extends AppController
             ],
             'is_buyable' => [
                 'title' => __d('shop', 'Buyable'),
-                'formatter' => null,
+                'formatter' => 'boolean',
             ],
             'is_published' => [
                 'title' => __d('shop', 'Published'),
-                'formatter' => null,
+                'formatter' => 'boolean',
             ],
         ];
-        $this->set('queryObj', $query);
-        $this->set('paginate', true);
-        $this->set('ajax', true);
-        $this->set('filter', false);
-        $this->set('fields', $fields);
-        $this->set('fields.whitelist', array_keys($fields));
-        $this->Action->execute();
+        $action
+            ->set('queryObj', $query)
+            ->set('paginate', true)
+            ->set('ajax', true)
+            ->set('filter', false)
+            ->set('fields', $fields)
+            ->set('fields.whitelist', array_keys($fields))
+        ;
+        $this->Action->dispatch($action);
     }
 
     /**
@@ -237,22 +244,22 @@ class ShopProductsController extends AppController
                 'desc_html' => ['type' => 'htmleditor'],
             ]],
             ['legend' => __d('shop', 'Images'), 'fields' => [
-                'preview_image_file' => ['type' => 'media_picker', 'config' => 'shop'],
-                'featured_image_file' => ['type' => 'media_picker'],
-                'image_files' => ['type' => 'media_picker', 'multiple' => true],
+                'preview_image_file' => ['type' => 'media_select', 'config' => 'shop'],
+                'featured_image_file' => ['type' => 'media_select', 'config' => 'shop'],
+                'image_files' => ['type' => 'media_select', 'config' => 'shop', 'multiple' => true],
             ]],
             ['legend' => __d('shop', 'Price'), 'fields' => ['is_buyable', 'price', 'price_net', 'tax_rate']],
             ['legend' => __d('shop', 'Publish'), 'fields' => ['is_published', 'publish_start_date', 'publish_end_date']],
             ['legend' => __d('shop', 'Sorting'), 'fields' => ['priority'], 'collapsed' => true],
         ]);
 
-        $this->set('fields', [
-            'teaser_html' => ['type' => 'htmleditor'],
-            'desc_html' => ['type' => 'htmleditor'],
-            'preview_image_file' => ['type' => 'media_picker'],
-            'featured_image_file' => ['type' => 'media_picker'],
-            'image_files' => ['type' => 'media_picker', 'multiple' => true],
-        ]);
+//        $this->set('fields', [
+//            'teaser_html' => ['type' => 'htmleditor'],
+//            'desc_html' => ['type' => 'htmleditor'],
+//            'preview_image_file' => ['type' => 'media_select', 'config' => 'shop'],
+//            'featured_image_file' => ['type' => 'media_select', 'config' => 'shop'],
+//            'image_files' => ['type' => 'media_select', 'config' => 'shop', 'multiple' => true],
+//        ]);
 
         $this->set('types', ['parent' => __d('shop', 'Parent Product'), 'child' => __d('shop', 'Child Product')]);
 
