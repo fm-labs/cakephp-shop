@@ -14,7 +14,7 @@ class ShopOrderTransactionNotifiesFixture extends TestFixture
      *
      * @var array
      */
-    public $import = ['table' => 'shop_order_transaction_notifies'];
+    //public $import = ['table' => 'shop_order_transaction_notifies'];
 
     /**
      * Records

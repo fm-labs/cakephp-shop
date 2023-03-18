@@ -7,6 +7,8 @@ use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use Shop\Model\Table\ShopOrdersTable;
+use User\Model\Table\UsersTable;
 
 /**
  * Class CheckoutControllerTest
@@ -41,15 +43,25 @@ class CheckoutControllerTest extends TestCase
         //'plugin.Shop.shipping_address'
         'plugin.User.Users',
         'plugin.User.Groups',
-        'plugin.User.GroupsUsers',
-        'plugin.Content.ContentModules',
-        'plugin.Content.Modules',
+        //'plugin.User.GroupsUsers',
+        //'plugin.Content.ContentModules',
+        //'plugin.Content.Modules',
     ];
 
     /**
      * @var ShopOrdersTable
      */
-    public $ShopOrders;
+    public \Cake\ORM\Table $ShopOrders;
+
+    /**
+     * @var UsersTable
+     */
+    public \Cake\ORM\Table $Users;
+
+    /**
+     * @var \Cake\ORM\Table
+     */
+    public \Cake\ORM\Table $ShopCustomers;
 
     /**
      * {@inheritDoc}
@@ -228,7 +240,11 @@ class CheckoutControllerTest extends TestCase
         }
 
         // Check if we prepared a customer profile for that user
-        $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')->find()->where(['user_id' => $user->id])->first();
+        $customer = TableRegistry::getTableLocator()
+            ->get('Shop.ShopCustomers')
+            ->find()
+            ->where(['user_id' => $user->id])
+            ->first();
         if (!$customer) {
             $this->fail('No test customer found for test user with id ' . $user->id);
         }
@@ -242,7 +258,7 @@ class CheckoutControllerTest extends TestCase
         ]);
 
         // expects a new & authenticated user
-        $this->assertSession($user->id, 'Auth.User.id');
+        $this->assertSession($user->id, 'Auth.id');
         // expects a new shop customer profile
         $this->assertSession($customer->id, 'Shop.Customer.id');
         // expects customer id set in order
@@ -269,7 +285,7 @@ class CheckoutControllerTest extends TestCase
         // setup cart order
         $order = $this->_setupCart(2);
 
-        $this->session(['Auth.User' => $customer->user->toArray()]);
+        $this->session(['Auth' => $customer->user]);
         $this->session(['Shop.Customer' => $customer->toArray()]);
 
         $this->get('/shop/checkout/shipping-address/' . $order->cartid);

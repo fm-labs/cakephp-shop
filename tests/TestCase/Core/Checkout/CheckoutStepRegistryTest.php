@@ -22,6 +22,16 @@ class CheckoutStepRegistryTest extends TestCase
     public $steps;
 
     /**
+     * @var \Cake\Http\ServerRequest
+     */
+    public $request;
+
+    /**
+     * @var CheckoutComponent
+     */
+    public $Checkout;
+
+    /**
      * Setup test
      */
     public function setUp(): void

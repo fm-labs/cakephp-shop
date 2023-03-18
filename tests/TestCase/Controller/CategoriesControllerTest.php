@@ -40,13 +40,13 @@ class CategoriesControllerTest extends TestCase
         'plugin.Shop.ShopCategories',
         'plugin.Shop.ShopProducts',
         'plugin.Shop.ShopCountries',
-        'plugin.Shop.ShopTags',
-        'plugin.Shop.ShopCategoriesTags',
+        //'plugin.Shop.ShopTags',
+        //'plugin.Shop.ShopCategoriesTags',
         //'plugin.Shop.billing_address',
         //'plugin.Shop.shipping_address'
         'plugin.User.Users',
         'plugin.User.Groups',
-        'plugin.User.GroupsUsers',
+        //'plugin.User.GroupsUsers',
         //'plugin.Content.ContentModules',
         //'plugin.Content.Modules',
     ];
@@ -61,7 +61,7 @@ class CategoriesControllerTest extends TestCase
         Configure::write('Shop.Categories.layout', false);
         Configure::write('Shop.Router.enablePrettyUrls', false);
 
-        TableRegistry::getTableLocator()->get('Shop.ShopCategories')->behaviors()->unload('Media');
+        //TableRegistry::getTableLocator()->get('Shop.ShopCategories')->behaviors()->unload('Media');
     }
 
     /**
@@ -89,11 +89,9 @@ class CategoriesControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete();
         $this->get('/shop/categories');
         $this->assertResponseOk();
 
-        $this->markTestIncomplete();
         $this->assertRedirect('/shop/categories/1');
     }
 
@@ -102,7 +100,6 @@ class CategoriesControllerTest extends TestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete();
         $this->get('/shop/categories/view/1');
         $this->assertResponseOk();
     }
@@ -112,7 +109,6 @@ class CategoriesControllerTest extends TestCase
      */
     public function testViewWithPrettyUrls()
     {
-        $this->markTestIncomplete();
         $this->_setupPrettyRoutes();
 
         $this->get('/shop/test-root-category/1');

@@ -14,7 +14,7 @@ class ShopCustomerAddressesFixture extends TestFixture
      *
      * @var array
      */
-    public $import = ['table' => 'shop_customer_addresses'];
+    //public $import = ['table' => 'shop_customer_addresses'];
 
     /**
      * Records

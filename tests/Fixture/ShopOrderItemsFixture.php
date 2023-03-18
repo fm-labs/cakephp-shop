@@ -14,7 +14,7 @@ class ShopOrderItemsFixture extends TestFixture
      *
      * @var array
      */
-    public $import = ['table' => 'shop_order_items'];
+    //public $import = ['table' => 'shop_order_items'];
 
     /**
      * Records

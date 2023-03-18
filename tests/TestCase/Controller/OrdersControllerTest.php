@@ -37,9 +37,9 @@ class OrdersControllerTest extends TestCase
         //'plugin.Shop.shipping_address'
         'plugin.User.Users',
         'plugin.User.Groups',
-        'plugin.User.GroupsUsers',
-        'plugin.Content.ContentModules',
-        'plugin.Content.Modules',
+        //'plugin.User.GroupsUsers',
+        //'plugin.Content.ContentModules',
+        //'plugin.Content.Modules',
     ];
 
     public function testIndex()

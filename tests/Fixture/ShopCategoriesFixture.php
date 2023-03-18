@@ -14,7 +14,7 @@ class ShopCategoriesFixture extends TestFixture
      *
      * @var array
      */
-    public $import = ['table' => 'shop_categories'];
+    ////public $import = ['table' => 'shop_categories'];
 
     /**
      * Records
