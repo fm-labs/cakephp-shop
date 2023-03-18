@@ -160,12 +160,15 @@ class ShopOrder extends Entity
      */
     public function getShopCustomer()
     {
-        /** @var \Shop\Model\Entity\ShopCustomer|null $customer */
-        $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')
-            ->find()
-            ->where(['ShopCustomers.id' => $this->shop_customer_id])
-            ->first();
-        return $customer;
+        if ($this->shop_customer_id) {
+            /** @var \Shop\Model\Entity\ShopCustomer|null $customer */
+            $customer = TableRegistry::getTableLocator()->get('Shop.ShopCustomers')
+                ->find()
+                ->where(['ShopCustomers.id' => $this->shop_customer_id])
+                ->first();
+            return $customer;
+        }
+        return null;
     }
 
     /**

@@ -38,7 +38,7 @@ class ShippingStep extends BaseStep implements CheckoutStepInterface
     public function initialize()
     {
         $this->_registry = new ShippingEngineRegistry();
-        foreach (Shop::config('Shop.Shipping.Engines') as $alias => $config) {
+        foreach ((array)Shop::config('Shop.Shipping.Engines') as $alias => $config) {
             // skip disabled engines
             if (!isset($config['enabled']) || $config['enabled'] !== true) {
                 continue;

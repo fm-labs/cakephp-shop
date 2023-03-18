@@ -114,7 +114,12 @@ class ShopOrdersTable extends Table
             'foreignKey' => 'shop_order_id',
             'className' => 'Shop.ShopOrderNotifications',
         ]);
-        $this->addBehavior('Cupcake.Statusable');
+
+
+        if (Plugin::isLoaded('Cupcake')) {
+            $this->addBehavior('Cupcake.Statusable');
+        }
+
 
         if (Plugin::isLoaded('Search')) {
             // Add the behaviour to your table

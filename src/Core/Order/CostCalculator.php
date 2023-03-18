@@ -8,13 +8,13 @@ class CostCalculator implements CostValueInterface
     /**
      * @var array
      */
-    protected $_values = [];
+    protected array $_values = [];
 
     /**
      * @param $name string
-     * @param $net float|CostValueInterface
-     * @param $taxrate float|null
-     * @param $label float|null
+     * @param $net double|CostValueInterface
+     * @param $taxrate double|null
+     * @param $label double|null
      * @return $this
      */
     public function addValue($name, $net, $taxrate, $label)
@@ -67,7 +67,7 @@ class CostCalculator implements CostValueInterface
     }
 
     /**
-     * @return float
+     * @return double
      */
     public function getNetValue()
     {
@@ -80,7 +80,7 @@ class CostCalculator implements CostValueInterface
     }
 
     /**
-     * @return float
+     * @return double
      */
     public function getTaxValue()
     {
@@ -93,7 +93,7 @@ class CostCalculator implements CostValueInterface
     }
 
     /**
-     * @return float
+     * @return double
      */
     public function getTotalValue()
     {

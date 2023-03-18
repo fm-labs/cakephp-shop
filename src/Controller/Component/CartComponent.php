@@ -37,17 +37,17 @@ class CartComponent extends Component
     /**
      * @var \Shop\Model\Entity\ShopOrder|null
      */
-    public ?ShopOrder $order;
+    public ?ShopOrder $order = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    public $sessionId;
+    public ?string $sessionId = null;
 
     /**
-     * @var string uuid
+     * @var string|null Cart uuid
      */
-    public $cartId;
+    public ?string $cartId;
 
     /**
      * @param array $config
@@ -230,7 +230,7 @@ class CartComponent extends Component
             $product = $this->getProduct($item['refid'], $item['refscope']);
             $item += [
                 'title' => $product->getTitle(),
-                'unit' => $product->getUnit() ?: 'x', // @deprecated. Redundant information. Can be resolved from product data.
+                'unit' => $product->getUnit() ?: 'x', // @todo getUnit() MUST return a unit string
                 'item_value_original_net' => $product->getPrice(),
                 'item_value_net' => $product->getPrice(),
                 'tax_rate' => $product->getTaxRate(),
@@ -273,9 +273,16 @@ class CartComponent extends Component
             'customer' => $this->Shop->getCustomer(),
         ]));
 
-        $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity($orderItem, $event->getData('data'));
+        $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity(
+            $orderItem,
+            $event->getData('data'),
+            ['fields' => ['amount']]
+        );
         $orderItem->calculate();
         $success = $this->ShopOrders->ShopOrderItems->save($orderItem);
+        if (!$success) {
+            Log::warning("Failed to save order item: " . json_encode($orderItem->getErrors()), ['shop']);
+        }
 
         $this->reloadOrder();
 

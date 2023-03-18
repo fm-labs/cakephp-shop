@@ -9,6 +9,7 @@ use Cake\Core\PluginApplicationInterface;
 use Cake\Event\EventManager;
 use Cake\Log\Log;
 use Cupcake\Model\EntityTypeRegistry;
+use RdKafka\Conf;
 use Shop\Model\Entity\Menu\ShopCategoryMenuType;
 
 /**

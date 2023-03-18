@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Controller\Component;
 
+use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Component;
 use Cake\Event\Event;
 use Cake\Http\Exception\InternalErrorException;
@@ -93,12 +94,12 @@ class CheckoutComponent extends Component
         $this->_steps = $steps;
         $this->_active = key($steps);
 
-        if ($this->_registry->has('Auth')) {
-            $this->_registry->get('Auth')->allow($this->_stepRegistry->loaded());
+        if (!$this->_registry->has('Authentication')) {
+            throw new InternalErrorException('Authentication component not loaded');
         }
-        elseif ($this->_registry->has('Authentication')) {
-            $this->_registry->get('Authentication')->allowUnauthenticated($this->_stepRegistry->loaded());
-        }
+        /** @var AuthenticationComponent $authentication */
+        $authentication = $this->_registry->get('Authentication');
+        $authentication->addUnauthenticatedActions($this->_stepRegistry->loaded());
     }
 
     /**

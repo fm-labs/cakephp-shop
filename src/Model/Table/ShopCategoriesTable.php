@@ -57,12 +57,12 @@ class ShopCategoriesTable extends Table
             'conditions' => ['ShopTexts.model' => 'Shop.ShopCategories'],
         ]);
 
-        $this->belongsToMany('ShopTags', [
-            //'foreignKey' => 'shop_tag_id',
-            'className' => 'Shop.ShopTags',
-            'propertyName' => 'tags',
-            'joinTable' => 'shop_categories_tags',
-        ]);
+//        $this->belongsToMany('ShopTags', [
+//            //'foreignKey' => 'shop_tag_id',
+//            'className' => 'Shop.ShopTags',
+//            'propertyName' => 'tags',
+//            'joinTable' => 'shop_categories_tags',
+//        ]);
         $this->addBehavior('Content.ContentModule', [
             'alias' => 'ContentModules',
             'scope' => 'Shop.ShopCategories',
@@ -108,10 +108,12 @@ class ShopCategoriesTable extends Table
 
         //$this->addBehavior('Eav.Attributes');
 
-        $this->addBehavior('Cupcake.Slug', [
-            'field' => 'name',
-        ]);
-        $this->addBehavior('Cupcake.Publish');
+        if (Plugin::isLoaded('Cupcake')) {
+            $this->addBehavior('Cupcake.Slug', [
+                'field' => 'name',
+            ]);
+            $this->addBehavior('Cupcake.Publish');
+        }
 
         $this->addBehavior('Tree.Tree', [
             'level' => 'level',

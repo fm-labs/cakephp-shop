@@ -169,7 +169,7 @@ class CategoriesController extends AppController
         $this->Frontend->setRefId($id);
 
         $shopCategory = $this->ShopCategories->get($id, [
-            'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts', 'ShopTags'],
+            'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts'/*, 'ShopTags'*/],
             //'published' => true,
             'media' => true,
         ]);
@@ -177,7 +177,7 @@ class CategoriesController extends AppController
         // Aliasing
         if ($shopCategory->is_alias) {
             $shopCategory = $this->ShopCategories->get($shopCategory->alias_id, [
-                'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts', 'ShopTags'],
+                'contain' => ['ParentShopCategories', 'ChildShopCategories', 'ShopProducts'/*, 'ShopTags'*/],
                 'media' => true,
             ]);
 

@@ -52,8 +52,11 @@ class ShopComponent extends Component
         if ($this->Authentication->getIdentity()) {
             /** @var \Shop\Model\Table\ShopCustomersTable $ShopCustomers */
             $ShopCustomers = TableRegistry::getTableLocator()->get('Shop.ShopCustomers');
-            $customer = $ShopCustomers->createFromUserId($this->Authentication->getIdentityData('id'));
-            $this->setCustomer($customer);
+            $userId = $this->Authentication->getIdentityData('id');
+            if ($userId) {
+                $customer = $ShopCustomers->createFromUserId($userId);
+                $this->setCustomer($customer);
+            }
         }
     }
 

@@ -18,12 +18,12 @@ class EuVatNumber
     /**
      * @var string VAT ID
      */
-    protected $_id;
+    protected string $_id;
 
     /**
-     * @param $id
+     * @param string $id
      */
-    public function __construct($id)
+    public function __construct(string $id)
     {
         $this->_id = $id;
     }
@@ -33,7 +33,7 @@ class EuVatNumber
      *
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->_id;
     }
@@ -41,12 +41,12 @@ class EuVatNumber
     /**
      * Get country code of VAT ID (first 2 chars)
      *
-     * @return bool|string
+     * @return string|null
      */
-    public function getCountryCode()
+    public function getCountryCode(): ?string
     {
         if (!$this->isValid()) {
-            return false;
+            return null;
         }
 
         return substr($this->_id, 0, 2);
@@ -55,12 +55,12 @@ class EuVatNumber
     /**
      * Get VAT number without country code
      *
-     * @return bool|string
+     * @return string|null
      */
-    public function getNumber()
+    public function getNumber(): ?string
     {
         if (!$this->isValid()) {
-            return false;
+            return null;
         }
 
         return substr($this->_id, 2);
@@ -71,7 +71,7 @@ class EuVatNumber
      *
      * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return static::validate($this->_id);
     }
@@ -89,9 +89,9 @@ class EuVatNumber
      * Removes spaces and special characters
      *
      * @param $id
-     * @return mixed|string
+     * @return string
      */
-    public static function normalize($id)
+    public static function normalize($id): string
     {
         $id = strtoupper($id);
         $id = preg_replace('/[ -,.]/', '', $id);
@@ -105,7 +105,7 @@ class EuVatNumber
      * @param string $id Taxation ID, e.g. ATU99999999 for Austria.
      * @return bool
      */
-    public static function validate($id)
+    public static function validate(string $id): bool
     {
         $id = static::normalize($id);
 

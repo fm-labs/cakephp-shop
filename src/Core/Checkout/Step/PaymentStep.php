@@ -48,7 +48,7 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     public function initialize()
     {
         $this->_registry = new PaymentEngineRegistry();
-        foreach (Shop::config('Shop.Payment.Engines') as $alias => $config) {
+        foreach ((array)Shop::config('Shop.Payment.Engines') as $alias => $config) {
             // skip disabled engines
             if (!isset($config['enabled']) || $config['enabled'] !== true) {
                 continue;

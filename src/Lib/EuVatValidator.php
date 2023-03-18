@@ -9,18 +9,18 @@ use SoapClient;
 /**
  * Class EuVatValidator
  *
- * http://ec.europa.eu/taxation_customs/vies/faq.html
- * http://ec.europa.eu/taxation_customs/vies/technicalInformation.html
- * http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl (Webservice API)
- * http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl (Test Webservice API)
- * http://ec.europa.eu/taxation_customs/vies/vatRequest.html
+ * https://ec.europa.eu/taxation_customs/vies/faq.html
+ * https://ec.europa.eu/taxation_customs/vies/technicalInformation.html
+ * https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl (Webservice API)
+ * https://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl (Test Webservice API)
+ * https://ec.europa.eu/taxation_customs/vies/vatRequest.html
  *
  * @package Shop\Lib
  */
 class EuVatValidator
 {
-    //static public $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl";
-    public static $wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
+    //static public $wsdl = "https://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl";
+    public static $wsdl = "https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
 
     /**
      * @var \SoapClient

@@ -149,11 +149,13 @@ class ShopOrderItem extends Entity
      */
     protected function _getItemValueTaxed()
     {
+        //@todo Add precision
         return $this->item_value_net * (1 + $this->tax_rate / 100);
     }
 
     protected function _getItemValueDisplay()
     {
+        //@todo Add precision
         return Shop::config('Price.displayNet') ? $this->item_value_net : $this->item_value_taxed;
     }
 
@@ -215,6 +217,7 @@ class ShopOrderItem extends Entity
      */
     public function calculate()
     {
+        //@todo Add precision
         $this->value_net = $this->item_value_net * $this->amount;
         $this->value_tax = $this->value_net * $this->tax_rate / 100;
         $this->value_total = $this->value_net + $this->value_tax;
@@ -222,21 +225,25 @@ class ShopOrderItem extends Entity
 
     protected function _getValueNet()
     {
+        //@todo Add precision
         return $this->item_value_net * $this->amount;
     }
 
     protected function _getValueTax()
     {
+        //@todo Add precision
         return $this->value_net * $this->tax_rate / 100;
     }
 
     protected function _getValueTotal()
     {
+        //@todo Add precision
         return $this->value_net + $this->value_tax;
     }
 
     protected function _getValueDisplay()
     {
+        //@todo Add precision
         return Shop::config('Price.displayNet') ? $this->value_net : $this->value_total;
     }
 }

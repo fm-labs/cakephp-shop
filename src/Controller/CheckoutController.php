@@ -102,6 +102,7 @@ class CheckoutController extends AppController
         } catch (MissingActionException $ex) {
             $request = $this->request;
             $action = $request->getParam('action');
+            $action = Inflector::underscore($action);
             if (!$this->Checkout->hasStep($action)) {
                 throw $ex;
             }
