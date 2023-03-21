@@ -1,5 +1,4 @@
 <?php
-use Cake\Core\Configure;
 
 $this->loadHelper('Bootstrap.Ui');
 $this->loadHelper('Media.Media');
@@ -43,7 +42,7 @@ $cart = $this->get('cart');
                     <?= $this->Html->link(
                         __d('shop','Remove from cart'),
                         ['action' => 'remove', $cart->id, $item->id],
-                        ['data-icon' => 'trash', 'confirm' => __d('shop', 'Are you sure?')]
+                        ['data-icon' => 'trash', 'confirm' => __d('shop', 'Do you really want to remove this item from cart?')]
                     ); ?>
                 </div>
             </td>
@@ -66,9 +65,43 @@ $cart = $this->get('cart');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td class="currency text-end"><?= __d('shop', 'Order total'); ?></td>
+            <td class="currency text-end"><?= __d('shop', 'Order Items total'); ?></td>
             <td class="currency text-end"><?= $this->Number->currency($cart->items_value_display, 'EUR'); ?></td>
         </tr>
+        <tr style="">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="currency text-end"><?= __d('shop', 'Order Tax'); ?></td>
+            <td class="currency text-end"><?= $this->Number->currency($cart->order_value_tax, 'EUR'); ?></td>
+        </tr>
+        <tr style="font-weight: bold; font-size: 1.3em;">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="currency text-end"><?= __d('shop', 'Order total'); ?></td>
+            <td class="currency text-end"><?= $this->Number->currency($cart->order_value_total, 'EUR'); ?></td>
+        </tr>
+
+        <?php if ($cart->coupon_code): ?>
+        <tr style="">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="currency text-end">
+                <?= __d('shop', 'Coupon {0}', $cart->coupon_code); ?><br />
+                <?= $this->Html->link(__('Remove coupon'), ['controller' => 'Cart', 'action' => 'removeCoupon']); ?>
+            </td>
+            <td class="currency text-end"><?= $this->Number->currency($cart->coupon_value * -1, 'EUR'); ?></td>
+        </tr>
+        <tr style="font-weight: bold; font-size: 1.3em;">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="currency text-end"><?= __d('shop', 'Payable'); ?></td>
+            <td class="currency text-end"><?= $this->Number->currency($cart->order_value_total - $cart->coupon_value, 'EUR'); ?></td>
+        </tr>
+        <?php endif; ?>
     </table>
 
     <div class="actions" style="text-align: right;">
@@ -81,6 +114,18 @@ $cart = $this->get('cart');
     <?= $this->element('Shop.Cart/customer_info'); ?>
 
     <?= $this->Form->end(); ?>
+
+
+    <?= $this->Form->create(null, [
+            'url' => ['action' => 'addCoupon']
+    ]); ?>
+    <?= $this->Form->hidden('op', ['value' => 'cart_add_coupon']); ?>
+    <?= $this->Form->hidden('cart_id', ['value' => $cart->cartid]); ?>
+    <?= $this->Form->control('coupon_code'); ?>
+    <?= $this->Form->button(__d('shop','Redeem coupon'), ['class' => 'btn btn-primary']); ?>&nbsp;&nbsp;
+    <?= $this->Form->end(); ?>
+
+
 
     <?php debug($cart); ?>
     <?php debug($this->request->getSession()->read('Shop')); ?>

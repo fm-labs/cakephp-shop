@@ -188,7 +188,7 @@ class ShopOrder extends Entity
     /**
      * @return int
      */
-    public function getOrderItemsCount()
+    public function getOrderItemsCount(): int
     {
         return (int)TableRegistry::getTableLocator()->get('Shop.ShopOrderItems')
             ->find('list')
@@ -201,7 +201,7 @@ class ShopOrder extends Entity
      *
      * @return int
      */
-    protected function _getOrderItemsCount()
+    protected function _getOrderItemsCount(): int
     {
         if (!isset($this->_fields['order_items_count'])) {
             $this->_fields['order_items_count'] = $this->getOrderItemsCount();
@@ -213,7 +213,7 @@ class ShopOrder extends Entity
     /**
      * @return int
      */
-    public function getOrderItemsQty()
+    public function getOrderItemsQty(): int
     {
         $orderItems = TableRegistry::getTableLocator()->get('Shop.ShopOrderItems')
             ->find()
@@ -234,7 +234,7 @@ class ShopOrder extends Entity
     /**
      * @return int
      */
-    protected function _getOrderItemsQty()
+    protected function _getOrderItemsQty(): int
     {
         if (!isset($this->_fields['order_items_qty'])) {
             $this->_fields['order_items_qty'] = $this->getOrderItemsQty();
@@ -244,12 +244,12 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function isReverseCharge()
+    public function isReverseCharge(): bool
     {
         if (!$this->getBillingAddress()) {
-            return null;
+            return false;
         }
         $taxid = $this->getBillingAddress()->taxid;
         if (!$taxid) {
@@ -260,9 +260,9 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    protected function _getIsReverseCharge()
+    protected function _getIsReverseCharge(): bool
     {
         if (!isset($this->_fields['is_reverse_charge'])) {
             $this->_fields['is_reverse_charge'] = $this->isReverseCharge();
@@ -274,7 +274,7 @@ class ShopOrder extends Entity
     /**
      * @return null|string
      */
-    protected function _getNrFormatted()
+    protected function _getNrFormatted(): ?string
     {
         if (isset($this->_fields['nr'])) {
             $orderCfg = Shop::config('Order');
@@ -299,7 +299,7 @@ class ShopOrder extends Entity
     /**
      * @return null|string
      */
-    protected function _getInvoiceNrFormatted()
+    protected function _getInvoiceNrFormatted(): ?string
     {
         if (isset($this->_fields['invoice_nr'])) {
             $orderCfg = Shop::config('Invoice');
@@ -321,7 +321,7 @@ class ShopOrder extends Entity
         return null;
     }
 
-    protected function _getOrderValueTotalFormatted()
+    protected function _getOrderValueTotalFormatted(): string
     {
         $Number = new Number();
 
@@ -334,7 +334,7 @@ class ShopOrder extends Entity
      * @return string
      * @todo Implement currency support for orders
      */
-    protected function _getCurrency()
+    protected function _getCurrency(): string
     {
         return 'EUR';
     }
@@ -345,7 +345,7 @@ class ShopOrder extends Entity
      * @return string
      * @todo Implement currency support for orders
      */
-    protected function _getBaseCurrency()
+    protected function _getBaseCurrency(): string
     {
         return 'EUR';
     }
@@ -353,7 +353,7 @@ class ShopOrder extends Entity
     /**
      * @return string|null
      */
-    protected function _getCcBrand()
+    protected function _getCcBrand(): ?string
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
             if ($this->payment_info_1 == 'DELETED') {
@@ -364,12 +364,13 @@ class ShopOrder extends Entity
 
             return $brand;
         }
+        return null;
     }
 
     /**
      * @return string|null
      */
-    protected function _getCcNumber()
+    protected function _getCcNumber(): ?string
     {
         if ($this->payment_type == 'credit_card_internal' && $this->payment_info_1) {
             if ($this->payment_info_1 == 'DELETED') {
@@ -380,26 +381,29 @@ class ShopOrder extends Entity
 
             return $number;
         }
+        return null;
     }
 
     /**
      * @return string
      */
-    protected function _getCcHolderName()
+    protected function _getCcHolderName(): ?string
     {
         if ($this->payment_type == 'credit_card_internal') {
             return $this->payment_info_2;
         }
+        return null;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    protected function _getCcExpiresAt()
+    protected function _getCcExpiresAt(): ?string
     {
         if ($this->payment_type == 'credit_card_internal') {
             return $this->payment_info_3;
         }
+        return null;
     }
 
     /**
@@ -416,11 +420,11 @@ class ShopOrder extends Entity
      */
     protected function _getOrderValueTax()
     {
-        if (!isset($this->_fields['order_value_tax'])) {
-            $this->_fields['order_value_tax'] = Taxation::extractTax($this->_fields['order_value_total'], 20.00); //@TODO!!
-        }
+//        if (!isset($this->_fields['order_value_tax'])) {
+//            $this->_fields['order_value_tax'] = Taxation::extractTax($this->_fields['order_value_total'], 20.00); //@TODO!!
+//        }
 
-        return $this->_fields['order_value_tax'];
+        return $this->_fields['order_value_tax'] ?? null;
     }
 
     protected function _getItemsValueDisplay()

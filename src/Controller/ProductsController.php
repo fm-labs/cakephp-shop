@@ -32,7 +32,7 @@ class ProductsController extends AppController
 
         $this->Frontend->setRefScope('Shop.ShopProducts');
 
-        $this->Authentication->allowUnauthenticated([]);
+        $this->Authentication->allowUnauthenticated(['index', 'view']);
     }
 
     /**

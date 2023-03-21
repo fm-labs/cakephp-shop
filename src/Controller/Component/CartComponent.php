@@ -247,7 +247,7 @@ class CartComponent extends Component
         $this->getController()->getEventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
             'item' => $orderItem,
         ]));
-        Log::debug('Added order item to order with ID ' . $this->order->id);
+        Log::debug('Added order item to order with ID ' . $this->order->id, ['shop']);
 
         return $orderItem;
     }
@@ -309,9 +309,9 @@ class CartComponent extends Component
 
     /**
      * @param $orderItem
-     * @return bool|mixed
+     * @return bool
      */
-    public function removeItem($orderItem)
+    public function removeItem($orderItem): bool
     {
         $this->getController()->getEventManager()->dispatch(new CartEvent('Shop.Cart.beforeItemRemove', $this, ['item' => $orderItem]));
 
@@ -326,9 +326,9 @@ class CartComponent extends Component
 
     /**
      * @param $orderItemId
-     * @return bool|mixed
+     * @return bool
      */
-    public function removeItemById($orderItemId)
+    public function removeItemById($orderItemId): bool
     {
         $orderItem = $this->ShopOrders->ShopOrderItems->get($orderItemId, ['contain' => []]);
 
@@ -338,7 +338,7 @@ class CartComponent extends Component
     /**
      * @return \Shop\Model\Entity\ShopOrder
      */
-    public function &getOrder()
+    public function getOrder(): ?ShopOrder
     {
         $this->_resumeOrder();
 
@@ -486,6 +486,7 @@ class CartComponent extends Component
         $options += ['create' => false, 'force' => false];
         $cartId = $this->cartId;
 
+        //debug("resuming order with cardid " . $this->cartId);
         if (!$this->order || $options['force']) {
             //@TODO check if cart is owned by customer
             $this->order = $this->ShopOrders->find('cart', [
@@ -495,26 +496,6 @@ class CartComponent extends Component
                 'is_temporary' => true,
             ])->first();
 
-            //debug("resuming order with cardid " . $this->cartId);
-
-            /*
-            $scope = [
-                //'sessionid' => $this->sessionId,
-                'cartid' => $this->cartId,
-                'is_temporary' => true,
-            ];
-
-            if ($this->Shop->getCustomer()) {
-                $scope['shop_customer_id'] = $this->Shop->getCustomer()['id'];
-            }
-
-            $this->order = $this->ShopOrders
-                ->find()
-                ->where($scope)
-                ->contain(['ShopOrderItems', 'BillingAddress', 'ShippingAddress'])
-                ->first();
-
-            */
             if (!$this->order && $options['create']) {
                 $this->_createOrder();
             }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Shop\Controller;
 
+use Cake\ORM\Locator\TableLocator;
+
 /**
  * Class CartController
  * @package Shop\Controller
@@ -35,6 +37,7 @@ class CartController extends AppController
      */
     public function index()
     {
+
         $order = $this->Cart->getOrder();
         $view = null;
 
@@ -196,10 +199,68 @@ class CartController extends AppController
     public function reset()
     {
         if ($this->Cart->reset()) {
-            $this->Flash->success(__d('shop', 'The order has been reseted'));
+            $this->Flash->success(__d('shop', 'The order has been reset'));
         } else {
             $this->Flash->error(__d('shop', 'Failed to reset order'));
         }
         $this->redirect($this->referer(['action' => 'index']));
+    }
+
+    public function addCoupon()
+    {
+        $order = $this->Cart->getOrder();
+        if ($order) {
+            if ($this->request->is(['put', 'post'])) {
+                $coupon_code = $this->getRequest()->getData('coupon_code');
+                $ShopCoupons = $this->fetchTable('Shop.ShopCoupons');
+                $coupon = $ShopCoupons->find()
+                    ->where(['code' => $coupon_code])
+                    ->first();
+                if (!$coupon) {
+                    $this->Flash->error(__d('shop', 'Invalid coupon code'));
+                    return $this->redirect($this->referer(['action' => 'index']));
+                }
+
+                // check coupon usage
+                $usedByCustomer = $this->ShopOrders->find()
+                    ->where([
+                        'shop_customer_id' => $this->Shop->getCustomerId(),
+                        'status >' => 0,
+                        'coupon_code' => $coupon_code
+                    ])
+                    ->count();
+                $this->Flash->info(__('Used {0} times', $usedByCustomer));
+
+                $order->coupon_code = $coupon_code;
+                if ($coupon->valuetype == "total") {
+                    $order->coupon_value = $coupon->value;
+                } elseif ($coupon->valuetype == "percent") {
+                    //@todo precission
+                    $order->coupon_value = $order->order_value_total / 100 * $coupon->value;
+                }
+
+                $order = $this->ShopOrders->calculateOrder($order);
+                $this->Cart->setOrder($order, true);
+
+                $this->Flash->success(__d('shop', 'Coupon has been added'));
+            } else {
+                $this->Flash->error(__d('shop', 'Failed add coupon'));
+            }
+        }
+        return $this->redirect($this->referer(['action' => 'index']));
+    }
+
+
+    public function removeCoupon()
+    {
+        $order = $this->Cart->getOrder();
+        if ($order) {
+            $order->coupon_code = null;
+            $order->coupon_value = 0;
+            $order = $this->ShopOrders->calculateOrder($order);
+            $this->Cart->setOrder($order, true);
+            $this->Flash->success(__d('shop', 'Coupon has been removed'));
+        }
+        return $this->redirect($this->referer(['action' => 'index']));
     }
 }

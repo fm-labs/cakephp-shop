@@ -384,14 +384,17 @@ class ShopOrdersTable extends Table
     public function calculateOrder(ShopOrder $order)
     {
         $calculator = $this->_calculateOrderCosts($order);
-        $itemsValue = $calculator->getValue('order_items');
 
+        $itemsValue = $calculator->getValue('order_items');
         $order->items_value_net = $itemsValue->getNetValue();
         $order->items_value_tax = $itemsValue->getTaxValue();
         $order->items_value_taxed = $itemsValue->getTotalValue();
 
+        //$couponValue = $calculator->getValue('coupon');
+        //$order->coupon_value = $couponValue->getTotalValue();
+
         $order->order_value_tax = $calculator->getTaxValue();
-        $order->order_value_total = $calculator->getTotalValue();
+        $order->order_value_total = $calculator->getTotalValue() + $order->shipping_value_taxed - $order->coupon_value;
 
         return $order;
     }
@@ -419,7 +422,8 @@ class ShopOrdersTable extends Table
         */
 
         // coupon
-        //$calculator->addValue('order_coupon', -100, 0, "Coupon");
+        //$calculator->addValue('coupon', $order->coupon_value * -1, 0, "Coupon");
+        //$calculator->addValue('coupon', $order->coupon_value, 10, "Coupon");
 
         // shipping
         //$calculator->addValue('shipping', 32, 10, "Shipping costs");

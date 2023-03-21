@@ -26,6 +26,19 @@ $routes->scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function
         ['controller' => 'Cart']
     );
     $routes->connect(
+        '/carts',
+        ['controller' => 'Carts', 'action' => 'index'],
+        ['_name' => 'carts']
+    );
+    $routes->connect(
+        '/carts/{action}',
+        ['controller' => 'Carts']
+    );
+    $routes->connect(
+        '/carts/{action}/*',
+        ['controller' => 'Carts']
+    );
+    $routes->connect(
         '/payment/{action}/*',
         ['controller' => 'Payment'],
         []

@@ -144,7 +144,7 @@ $this->Toolbar->addLink(__d('shop', 'Detail view'),
                         </tr>
                         <tr class="text-end">
                             <th><?= __d('shop', 'Discount') ?>:</th>
-                            <td><?= $this->Number->currency($entity->coupon_value, $entity->currency); ?></td>
+                            <td><?= $this->Number->currency($entity->coupon_value * -1, $entity->currency); ?></td>
                         </tr>
                         <tr class="text-end">
                             <th><?= __d('shop', 'Order total') ?>:</th>

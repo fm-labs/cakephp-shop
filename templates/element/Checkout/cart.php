@@ -35,12 +35,12 @@
                 <td class="text-end"><?= $this->Number->currency($order->order_value_tax, 'EUR'); ?></td>
             </tr>
             <tr style="font-weight: bold;">
-                <td colspan="4" style="border-top: 2px solid #333; border-bottom: 2px solid #333;">&nbsp;</td>
-                <td class="text-end" style="border-top: 2px solid #333; border-bottom: 2px solid #333;">Summe inkl. MwSt.</td>
-                <td class="text-end" style="border-top: 2px solid #333; border-bottom: 2px solid #333;"><?= $this->Number->currency($order->items_value_taxed, 'EUR'); ?></td>
+                <td colspan="4" style="border-top: 2px solid #333;">&nbsp;</td>
+                <td class="text-end" style="border-top: 2px solid #333;">Summe inkl. MwSt.</td>
+                <td class="text-end" style="border-top: 2px solid #333;"><?= $this->Number->currency($order->items_value_taxed, 'EUR'); ?></td>
             </tr>
         <?php else: ?>
-            <tr style="font-weight: bold; font-size: 133%;">
+            <tr style="font-weight: bold;">
                 <td colspan="4" style="border-top: 2px solid #333; border-bottom: 2px solid #333;">&nbsp;</td>
                 <td class="text-end" style="border-top: 2px solid #333; border-bottom: 2px solid #333;">Gesamt</td>
                 <td class="text-end" style="border-top: 2px solid #333; border-bottom: 2px solid #333;"><?= $this->Number->currency($order->items_value_taxed, 'EUR'); ?></td>
@@ -48,9 +48,25 @@
             <tr style="">
                 <td colspan="4">&nbsp;</td>
                 <td class="text-end"><?= __d('shop', 'includes 20% Tax'); ?></td>
-                <td class="text-end"><?= $this->Number->currency($order->order_value_tax, 'EUR'); ?></td>
+                <td class="text-end"><?= $this->Number->currency($order->items_value_tax, 'EUR'); ?></td>
             </tr>
-            </tr>
+        <?php endif; ?>
+
+        <?php if ($order->coupon_value): ?>
+        <tr style="">
+            <td colspan="4">&nbsp;</td>
+            <td class="text-end"><?= __d('shop', 'Coupon {0}', $order->coupon_code); ?></td>
+            <td class="text-end"><?= $this->Number->currency($order->coupon_value * -1, 'EUR'); ?></td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td colspan="4" style="border-top: 2px solid #333;">&nbsp;</td>
+            <td class="text-end" style="border-top: 2px solid #333;">
+                <?= __d('shop', 'Payable amount'); ?>
+            </td>
+            <td class="text-end" style="border-top: 2px solid #333;">
+                <?= $this->Number->currency($order->order_value_total, 'EUR'); ?>
+            </td>
+        </tr>
         <?php endif; ?>
     <?php endif; ?>
 </table>

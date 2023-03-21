@@ -9,7 +9,9 @@ $shopProduct = $this->get('shopProduct');
         <div class="alert alert-info">
             <strong><i class="fa fa-lock"></i>&nbsp;<?= __d('shop','Price is only available for logged in customers'); ?></strong>
             <p><?php
-                $url = ['_name' => 'user:login', 'goto' => urlencode($this->Html->Url->build($shopProduct->url))];
+                $url = ['_name' => 'user:login', '?' => [
+                        'redirect' => urlencode($this->Html->Url->build($shopProduct->url))
+                ]];
                 echo $this->Html->link(__d('shop','Please login to see prices'), $url, ['class' => 'btn btn-default']); ?></p>
         </div>
     <?php elseif ($shopProduct->is_buyable): ?>

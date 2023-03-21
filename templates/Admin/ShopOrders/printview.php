@@ -1,7 +1,10 @@
 <?php
 use Cake\Core\Configure;
-use Shop\Lib\Taxation;
+
+/** @var \Shop\Model\Entity\ShopOrder $shopOrder */
+$shopOrder = $this->get('shopOrder');
 $billingAddress = $shopOrder->getBillingAddress();
+$mode = $this->get('mode');
 ?>
 <div class="view">
     <div class="print_sender">
@@ -49,12 +52,14 @@ $billingAddress = $shopOrder->getBillingAddress();
     <div class="print_items">
         <table style="width:180mm; margin-bottom: 10mm;" cellpadding="5" cellspacing="0">
             <tr>
-                <th style="width:15mm; background-color:#CCC; border-bottom:1px solid #000;"><?php
+                <th style="width:10mm; background-color:#CCC; border-bottom:1px solid #000;"><?php
                     echo __d('shop', 'Nr.'); ?></th>
                 <th style="width:15mm; background-color:#CCC; border-bottom:1px solid #000;"><?php
                     echo __d('shop', 'Menge'); ?></th>
-                <th style="width:120mm; background-color:#CCC; border-bottom:1px solid #000;"><?php
+                <th style="width:100mm; background-color:#CCC; border-bottom:1px solid #000;"><?php
                     echo __d('shop', 'Bezeichnung'); ?></th>
+                <th style="width:25mm;text-align:right; background-color:#CCC; border-bottom:1px solid #000;"><?php
+                    echo __d('shop', 'Preis'); ?></th>
                 <th style="width:30mm;text-align:right; background-color:#CCC; border-bottom:1px solid #000;"><?php
                     echo __d('shop', 'Betrag'); ?></th>
             </tr>
@@ -66,39 +71,40 @@ $billingAddress = $shopOrder->getBillingAddress();
                     <td><?php echo ++$i; ?></td>
                     <td><?php echo $item->amount; ?>x</td>
                     <td><?php echo $item->title; ?></td>
+                    <td style="text-align:right;"><?php echo $this->Number->currency($item->item_value_net, 'EUR'); ?></td>
                     <td style="text-align:right;"><?php echo $this->Number->currency($item->value_net, 'EUR'); ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="5">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align:right;font-weight:bold"><?php echo __d('shop', 'Summe exkl. MwSt.'); ?></td>
+                <td colspan="4" style="text-align:right;font-weight:bold"><?php echo __d('shop', 'Summe exkl. MwSt.'); ?></td>
                 <td style="text-align:right;font-weight:bold"><?php echo $this->Number->currency($shopOrder->items_value_net, 'EUR'); ?></td>
             </tr>
-            <?php if ($shopOrder['value_coupon'] > 0):?>
+            <tr>
+                <td colspan="4" style="text-align:right;"><?php echo __d('shop', '{0}% MwSt.', 20); ?></td>
+                <td style="text-align:right;"><?php echo $this->Number->currency($shopOrder->items_value_tax, 'EUR'); ?></td>
+            </tr>
+            <?php if ($shopOrder['coupon_value'] > 0):?>
                 <tr>
-                    <td colspan="3" style="text-align:right;"><?php echo __d('shop', 'Gutschein Rabatt'); ?></td>
-                    <td style="text-align:right;text-align:right;">- <?php echo $this->Number->currency($shopOrder['value_coupon'], 'EUR'); ?></td>
+                    <td colspan="4" style="text-align:right;font-weight:bold"><?php echo __d('shop', 'Summe inkl. MwSt.'); ?></td>
+                    <td style="text-align:right;font-weight:bold;"><?php echo $this->Number->currency($shopOrder->items_value_taxed, 'EUR'); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align:right;font-weight:700;"><?php echo __d('shop', 'Endsumme exkl. MwSt.'); ?></td>
-                    <td style="text-align:right;font-weight:700;"><?php echo $this->Number->currency($shopOrder['sum'], 'EUR'); ?></td>
+                    <td colspan="4" style="text-align:right;"><?php echo __d('shop', 'Gutschein Rabatt'); ?></td>
+                    <td style="text-align:right;">- <?php echo $this->Number->currency($shopOrder['coupon_value'], 'EUR'); ?></td>
                 </tr>
             <?php endif;?>
             <tr>
-                <td colspan="3" style="text-align:right;"><?php echo __d('shop', '{0}% MwSt.', 20); ?></td>
-                <td style="text-align:right;"><?php echo $this->Number->currency($shopOrder->order_value_tax, 'EUR'); ?></td>
-            </tr>
-            <tr>
-                <td colspan="3" style="text-align:right;font-weight:bold"><?php echo __d('shop', 'Gesamtsumme'); ?></td>
+                <td colspan="4" style="text-align:right;font-weight:bold;"><?php echo __d('shop', 'Rechnungsbetrag'); ?></td>
                 <td style="text-align:right;font-weight:bold"><?php echo $this->Number->currency($shopOrder->order_value_total, 'EUR'); ?></td>
             </tr>
         </table>
     </div>
 
     <div>
-        <p style="font-size: 90%;">Rechnungsdatum = Liefer- bzw. Leistungsdatum</p>
+        <p style="text-align:center;font-size: 90%;">Rechnungsdatum = Liefer- bzw. Leistungsdatum</p>
 
         <?= $this->element('Shop.Order/reverse_charge'); ?>
 
