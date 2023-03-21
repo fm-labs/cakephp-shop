@@ -9,7 +9,6 @@ use Cake\Core\PluginApplicationInterface;
 use Cake\Event\EventManager;
 use Cake\Log\Log;
 use Cupcake\Model\EntityTypeRegistry;
-use RdKafka\Conf;
 use Shop\Model\Entity\Menu\ShopCategoryMenuType;
 
 /**
@@ -86,6 +85,15 @@ class ShopPlugin extends BasePlugin
             \Seo\Sitemap\Sitemap::setConfig('shop_products', [
                 'className' => 'Shop.ShopProductSitemap',
             ]);
+        }
+
+        /**
+         * DebugKit
+         */
+        if (\Cake\Core\Plugin::isLoaded('DebugKit')) {
+            $panels = Configure::read('DebugKit.panels', []);
+            $panels['Shop.Shop'] = true;
+            Configure::write('DebugKit.panels', $panels);
         }
 
 //        /**
