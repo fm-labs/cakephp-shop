@@ -6,12 +6,12 @@ namespace Shop\Core\Payment\Engine;
 use Cake\Core\Configure;
 use Cake\Log\Log;
 use Cake\Routing\Router;
+use FmLabs\Mpay24\Lib\Mpay24Client;
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Config;
-//use Mpay24\MPay24Order;
+use FmLabs\Mpay24\Lib\Mpay24Order;
 use Shop\Controller\Component\CheckoutComponent;
 use Shop\Controller\Component\PaymentComponent;
-use Shop\Core\Payment\Engine\Mpay24\Mpay24Order;
 use Shop\Core\Payment\PaymentEngineInterface;
 use Shop\Logging\TransactionLoggingTrait;
 use Shop\Model\Entity\ShopOrder;
@@ -61,49 +61,6 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     }
 
     /**
-     * @param $testMode
-     * @return \Mpay24\Mpay24Config
-     * @throws \Exception
-     */
-    protected function _buildMpay24Config($testMode)
-    {
-        if ($testMode) {
-            $merchantID = Configure::read('Mpay24.testing.merchantId');
-            $soapPassword = Configure::read('Mpay24.testing.merchantPassword');
-            $debug = (bool)Configure::read('Mpay24.testing.debug', true);
-        } else {
-            $merchantID = Configure::read('Mpay24.production.merchantId');
-            $soapPassword = Configure::read('Mpay24.production.merchantPassword');
-            $debug = (bool)Configure::read('Mpay24.production.debug', false);
-        }
-
-        //debug(Configure::read('Mpay24'));
-        //debug($merchantID . '_' . $soapPassword . '_' . $debug . '_' . $test);
-
-        $config = new Mpay24Config();
-        $config->setMerchantID($merchantID);
-        $config->setSoapPassword($soapPassword);
-        $config->useTestSystem($testMode);
-        $config->setDebug($debug);
-        //$config->setProxyHost($proxyHost);
-        //$config->setProxyPort($proxyPort);
-        //$config->setProxyHost($proxyUser);
-        //$config->setProxyPass($proxyPass);
-        //$config->setVerifyPeer($verifyPeer);
-        $config->setLogPath(LOGS);
-        $config->setLogFile('mpay24.log');
-        $config->setCurlLogFile('mpay24_curl.log');
-        $config->setEnableCurlLog($debug);
-
-        // FLEX
-        //$config->setSpid($spid);
-        //$config->setFlexLinkPassword($flexLinkPassword);
-        //$config->useFlexLinkTestSystem($flexLinkTestSystem);
-
-        return $config;
-    }
-
-    /**
      * Build the mPAY24 order MDXI
      *
      * @link https://docs.mpay24.com/docs/mdxi-xml
@@ -134,6 +91,10 @@ class Mpay24SelectPayment implements PaymentEngineInterface
     public function pay(PaymentComponent $Payment, ShopOrderTransaction $transaction, ShopOrder $order)
     {
         try {
+            if (!\Cake\Core\Plugin::isLoaded('FmLabs/Mpay24')) {
+                throw new \RuntimeException('Mpay24 plugin not loaded');
+            }
+
             /**
              * Use test system with demo user
              */
@@ -151,13 +112,12 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             $this->logTransaction($transaction, "Mpay24 TestMode: $testMode");
 
             // Initialize Mpay24
-            $config = $this->_buildMpay24Config($testMode);
-            $mpay24 = new Mpay24($config);
+            //$config = $this->_buildMpay24Config($testMode);
+            //$mpay24 = new Mpay24($config);
+            $mpay24 = new Mpay24Client($testMode);
 
-            // @TODO this 'class_exists' call is necessary otherwise PHP throws 'class not found' ?!
-            // possibly because this repo is currently overlapping with the legacy source ?!
-            // even though we using composer ?!
-            if (!class_exists('Mpay24\Mpay24Order')) {
+            // @TODO Fix: 'class_exists' call is necessary otherwise PHP throws 'class not found' ?!
+            if (!class_exists('Mpay24\\Mpay24Order')) {
                 throw new \RuntimeException('Class Mpay24Order not found');
             }
 
