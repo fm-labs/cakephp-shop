@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Model\Table;
 
+use Cake\Http\Exception\NotImplementedException;
 use Cake\I18n\FrozenTime;
 use Cupcake\Lib\Status;
 use Cake\Core\Configure;
@@ -15,7 +16,10 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use Shop\Core\Address\AddressInterface;
 use Shop\Core\Order\CostCalculator;
+use Shop\Core\Order\OrderInterface;
+use Shop\Core\Order\OrderTableInterface;
 use Shop\Lib\Shop;
 use Shop\Model\Entity\ShopOrder;
 use Shop\Model\Entity\ShopOrderAddress;
@@ -31,7 +35,7 @@ use Shop\Model\Entity\ShopOrderTransaction;
  * @property \Cake\ORM\Association\HasMany $ShopOrderItems
  * @property \Cake\ORM\Association\HasMany $ShopOrderAddresses
  */
-class ShopOrdersTable extends Table
+class ShopOrdersTable extends Table implements OrderTableInterface
 {
     public const ORDER_STATUS_TEMP = 0; // Cart order
     public const ORDER_STATUS_SUBMITTED = 1; // Order submitted (not payed yet)
@@ -52,6 +56,8 @@ class ShopOrdersTable extends Table
     public const PAYMENT_STATUS_PENDING = 0;
     public const PAYMENT_STATUS_PARTIAL = 1;
     public const PAYMENT_STATUS_PAYED = 10;
+    public const ADDRESS_TYPE_BILLING = "B";
+    public const ADDRESS_TYPE_SHIPPING = "S";
 
     /**
      * Initialize method
@@ -383,7 +389,7 @@ class ShopOrdersTable extends Table
      */
     public function calculateOrder(ShopOrder $order)
     {
-        $calculator = $this->_calculateOrderCosts($order);
+        $calculator = $this->getOrderCalculator($order);
 
         $itemsValue = $calculator->getValue('order_items');
         $order->items_value_net = $itemsValue->getNetValue();
@@ -394,39 +400,29 @@ class ShopOrdersTable extends Table
         //$order->coupon_value = $couponValue->getTotalValue();
 
         $order->order_value_tax = $calculator->getTaxValue();
-        $order->order_value_total = $calculator->getTotalValue() + $order->shipping_value_taxed - $order->coupon_value;
+        $order->order_value_total = $calculator->getTotalValue();
 
         return $order;
     }
 
-    /**
-     * @param \Shop\Model\Entity\ShopOrder $order
-     * @return \Shop\Core\Order\CostCalculator
-     */
-    protected function _calculateOrderCosts(ShopOrder $order)
+    public function getOrderCalculator(ShopOrder $order): CostCalculator
     {
         $calculator = new CostCalculator();
 
-        $calculator->addValue('order_items', $this->_calculateOrderItemsCosts($order), null, null);
-
-        // items value
-        /*
-        array_walk($order->shop_order_items, function ($item) use (&$calculator) {
-            $calculator->addValue(
-                'order_item:' . $item->id,
-                $item->value_net,
-                $item->tax_rate,
-                sprintf("%sx %s", $item->amount, $item->title)
-            );
-        });
-        */
+        // order items
+        $calculator->addValue('order_items', $this->getOrderItemsCalculator($order), null, __("Order items"));
 
         // coupon
-        //$calculator->addValue('coupon', $order->coupon_value * -1, 0, "Coupon");
-        //$calculator->addValue('coupon', $order->coupon_value, 10, "Coupon");
+        // @todo coupon tax calculation
+        $calculator->addValue('coupon', $order->coupon_value * -1, 20, __("Coupon"));
 
         // shipping
-        //$calculator->addValue('shipping', 32, 10, "Shipping costs");
+        // @todo shipping cost calculation
+        $calculator->addValue('shipping', 0, 0, __("Shipping costs"));
+
+        // other fees
+        // @todo order fees calculation
+        //$calculator->addValue('fees', 0, 0, __("Additional fees"));
 
         return $calculator;
     }
@@ -435,7 +431,7 @@ class ShopOrdersTable extends Table
      * @param \Shop\Model\Entity\ShopOrder $order
      * @return \Shop\Core\Order\CostCalculator
      */
-    protected function _calculateOrderItemsCosts(ShopOrder $order)
+    protected function getOrderItemsCalculator(ShopOrder $order): CostCalculator
     {
         $calculator = new CostCalculator();
 
@@ -598,12 +594,12 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param \Shop\Model\Entity\ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder|\Shop\Core\Order\OrderInterface $order
      * @param array $data
-     * @return bool|\Cake\Datasource\EntityInterface|mixed|\Shop\Model\Entity\ShopOrder
+     * @return false|\Cake\Datasource\EntityInterface|\Shop\Model\Entity\ShopOrder|\Shop\Core\Order\OrderInterface
      * @throws \Exception
      */
-    public function submitOrder(ShopOrder $order, array $data = [])
+    public function submitOrder(OrderInterface $order, array $data = []): OrderInterface
     {
         // force reload order
         //$order = $this->get($order->id);
@@ -661,10 +657,10 @@ class ShopOrdersTable extends Table
     }
 
     /**
-     * @param \Shop\Model\Entity\ShopOrder $order
+     * @param \Shop\Model\Entity\ShopOrder|\Shop\Core\Order\OrderInterface $order
      * @return \Shop\Model\Entity\ShopOrder
      */
-    public function confirmOrder(ShopOrder $order)
+    public function confirmOrder(OrderInterface $order): OrderInterface
     {
         if ($order->status >= self::ORDER_STATUS_CONFIRMED) {
             //throw new \Exception("Order already confirmed");
@@ -706,7 +702,7 @@ class ShopOrdersTable extends Table
      * @param \Shop\Model\Entity\ShopOrder|\Cake\Datasource\EntityInterface $order
      * @return bool|\Shop\Model\Entity\ShopOrder|\Cake\Datasource\EntityInterface
      */
-    public function saveOrder(ShopOrder $order)
+    public function saveOrder(OrderInterface $order): OrderInterface
     {
         return $this->save($order);
     }
@@ -1004,9 +1000,36 @@ class ShopOrdersTable extends Table
             ],
             'payment_status' => [
                 new Status(self::PAYMENT_STATUS_PENDING, __d('shop', 'Waiting for payment'), 'warning'),
-                new Status(self::PAYMENT_STATUS_PARTIAL, __d('shop', 'Teilzahlung erhalten'), 'warning'),
+                new Status(self::PAYMENT_STATUS_PARTIAL, __d('shop', 'Partial payment'), 'warning'),
                 new Status(self::PAYMENT_STATUS_PAYED, __d('shop', 'Payed'), 'success'),
             ],
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancelOrder(OrderInterface $order): OrderInterface
+    {
+        throw new NotImplementedException("Order canceling not implemented yet");
+        //return $order;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setBillingAddress(OrderInterface $order, AddressInterface $address): OrderInterface
+    {
+        $order->billing_address = $this->setOrderAddress($order, $address, self::ADDRESS_TYPE_BILLING);
+        return $order;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setShippingAddress(OrderInterface $order, AddressInterface $address): OrderInterface
+    {
+        $order->shipping_address = $this->setOrderAddress($order, $address, self::ADDRESS_TYPE_SHIPPING);
+        return $order;
     }
 }

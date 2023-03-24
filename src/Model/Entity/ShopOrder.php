@@ -7,6 +7,7 @@ use Cupcake\Lib\Status;
 use Cake\I18n\Number;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Shop\Core\Order\OrderInterface;
 use Shop\Lib\Shop;
 use Shop\Lib\Taxation;
 
@@ -79,7 +80,7 @@ use Shop\Lib\Taxation;
  * @property bool $is_shipping_selected
  * @property bool $is_payment_selected
  */
-class ShopOrder extends Entity
+class ShopOrder extends Entity implements OrderInterface
 {
     /**
      * @var array
@@ -114,17 +115,17 @@ class ShopOrder extends Entity
     ];
 
     /**
-     * @return \Shop\Model\Entity\ShopAddress
+     * @return \Shop\Model\Entity\ShopAddress|null
      */
-    public function getBillingAddress()
+    public function getBillingAddress(): ?ShopAddress
     {
         return $this->billing_address;
     }
 
     /**
-     * @return \Shop\Model\Entity\ShopAddress
+     * @return \Shop\Model\Entity\ShopAddress|null
      */
-    public function getShippingAddress()
+    public function getShippingAddress(): ?ShopAddress
     {
         return $this->shipping_address;
     }
@@ -132,7 +133,7 @@ class ShopOrder extends Entity
     /**
      * @return mixed
      */
-    protected function _getQty()
+    protected function _getQty(): ?int
     {
         return $this->amount;
     }
@@ -158,7 +159,7 @@ class ShopOrder extends Entity
     /**
      * @return \Shop\Model\Entity\ShopCustomer|null
      */
-    public function getShopCustomer()
+    public function getShopCustomer(): ?ShopCustomer
     {
         if ($this->shop_customer_id) {
             /** @var \Shop\Model\Entity\ShopCustomer|null $customer */
@@ -176,7 +177,7 @@ class ShopOrder extends Entity
      *
      * @return \Shop\Model\Entity\ShopCustomer|null
      */
-    protected function _getShopCustomer()
+    protected function _getShopCustomer(): ?ShopCustomer
     {
         if (!isset($this->_fields['shop_customer'])) {
             $this->_fields['shop_customer'] = $this->getShopCustomer();
@@ -385,7 +386,7 @@ class ShopOrder extends Entity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function _getCcHolderName(): ?string
     {
@@ -430,5 +431,25 @@ class ShopOrder extends Entity
     protected function _getItemsValueDisplay()
     {
         return Shop::config('Price.displayNet') ? $this->items_value_net : $this->items_value_taxed;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    public function getOrderNrFormatted(): ?string
+    {
+        return $this->nr_formatted;
+    }
+
+    public function getInvoiceNrFormatted(): ?string
+    {
+        return $this->invoice_nr_formatted;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Shop\Model\Entity;
 
 use Cake\ORM\Entity;
+use Shop\Core\Address\AddressInterface;
 use Shop\Lib\EuVatNumber;
 
 /**
@@ -30,8 +31,15 @@ use Shop\Lib\EuVatNumber;
  * @property bool $is_archived
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * Virtual:
+ * @property string $name
+ * @property string $display_name
+ * @property string $country_name
+ * @property string $oneline
+ * @property string $short
+ * @property string $formatted
  */
-class ShopAddress extends Entity
+class ShopAddress extends Entity implements AddressInterface
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -55,15 +63,22 @@ class ShopAddress extends Entity
         'country_name',
         'display_name',
         'oneline',
-        //'formatted'
+        'short',
+        'formatted',
     ];
 
-    protected function _getName()
+    /**
+     * @return string
+     */
+    protected function _getName(): string
     {
         return sprintf("%s %s", $this->first_name, $this->last_name);
     }
 
-    protected function _getDisplayName()
+    /**
+     * @return string|null
+     */
+    protected function _getDisplayName(): ?string
     {
         if ($this->company_name) {
             return sprintf("%s, %s, %s", $this->company_name, $this->last_name, $this->first_name);
@@ -71,9 +86,14 @@ class ShopAddress extends Entity
         if ($this->last_name && $this->first_name) {
             return sprintf("%s, %s", $this->last_name, $this->first_name);
         }
+
+        return $this->name;
     }
 
-    protected function _getOneline()
+    /**
+     * @return string|null
+     */
+    protected function _getOneline(): ?string
     {
         if ($this->is_company) {
             return sprintf(
@@ -95,7 +115,11 @@ class ShopAddress extends Entity
         );
     }
 
-    protected function _getCountryName()
+    /**
+     * @return string|null
+     * @todo Remove this dirty workaround
+     */
+    protected function _getCountryName(): ?string
     {
         if ($this->relcountry) {
             return $this->relcountry->get('name_de');
@@ -104,7 +128,10 @@ class ShopAddress extends Entity
         return null;
     }
 
-    protected function _getShort()
+    /**
+     * @return string|null
+     */
+    protected function _getShort(): ?string
     {
         if ($this->company_name) {
             return sprintf(
@@ -122,7 +149,7 @@ class ShopAddress extends Entity
         );
     }
 
-    protected function _getFormatted()
+    protected function _getFormatted(): ?string
     {
         if ($this->company_name) {
             return sprintf(
@@ -149,6 +176,7 @@ class ShopAddress extends Entity
     protected function _setTaxid($val)
     {
         //@TODO Add support for non-EU taxids
+        //@TODO Move to beforeValidation callback in model table
         return $val ? EuVatNumber::normalize($val) : null;
     }
 
@@ -186,5 +214,61 @@ class ShopAddress extends Entity
         }
 
         return $address;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName(): ?string
+    {
+        return $this->display_name;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStreetLine1(): ?string
+    {
+        return $this->street1;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStreetLine2(): ?string
+    {
+        return $this->street2;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getZipCode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCountryIso2(): ?string
+    {
+        return $this->country_iso2;
     }
 }

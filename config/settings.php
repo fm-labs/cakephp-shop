@@ -35,9 +35,9 @@ return ['Settings' => [
             'Shop.Payment' => [
                 'label' => __d('shop', 'Shop Payment'),
             ],
-            'Shop.Payment.Mpay24' => [
-                'label' => __d('shop', 'Mpay24 Payment Engine'),
-            ],
+//            'Shop.Payment.Mpay24' => [
+//                'label' => __d('shop', 'Mpay24 Payment Engine'),
+//            ],
         ],
         'schema' => [
             // Owner
@@ -214,44 +214,44 @@ return ['Settings' => [
             ],
 
 
-            // Mpay24
-
-            'Mpay24.useTestSystem' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'boolean',
-                'default' => false,
-            ],
-
-            'Mpay24.production.merchantId' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'string',
-                'default' => '',
-            ],
-            'Mpay24.production.merchantPassword' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'password',
-                'default' => '',
-            ],
-            'Mpay24.production.debug' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'boolean',
-                'default' => false,
-            ],
-            'Mpay24.testing.merchantId' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'string',
-                'default' => '',
-            ],
-            'Mpay24.testing.merchantPassword' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'password',
-                'default' => '',
-            ],
-            'Mpay24.testing.debug' => [
-                'group' => 'Shop.Payment.Mpay24',
-                'type' => 'boolean',
-                'default' => false,
-            ],
+//            // Mpay24
+//
+//            'Mpay24.useTestSystem' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'boolean',
+//                'default' => false,
+//            ],
+//
+//            'Mpay24.production.merchantId' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'string',
+//                'default' => '',
+//            ],
+//            'Mpay24.production.merchantPassword' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'password',
+//                'default' => '',
+//            ],
+//            'Mpay24.production.debug' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'boolean',
+//                'default' => false,
+//            ],
+//            'Mpay24.testing.merchantId' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'string',
+//                'default' => '',
+//            ],
+//            'Mpay24.testing.merchantPassword' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'password',
+//                'default' => '',
+//            ],
+//            'Mpay24.testing.debug' => [
+//                'group' => 'Shop.Payment.Mpay24',
+//                'type' => 'boolean',
+//                'default' => false,
+//            ],
         ],
     ],
 ]];

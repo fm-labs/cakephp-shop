@@ -43,7 +43,11 @@ class CostCalculator implements CostValueInterface
      */
     public function getValue($name)
     {
-        return $this->_values[$name] ?? null;
+        $value = $this->_values[$name] ?? null;
+        if ($value === null) {
+            $value = new CostValue(0,0, 'NULL');
+        }
+        return $value;
     }
 
     /**
@@ -117,5 +121,10 @@ class CostCalculator implements CostValueInterface
             'total' => $this->getTotalValue(),
             'taxes' => $this->getTaxes(),
         ];
+    }
+
+    public function __debugInfo()
+    {
+        return $this->toArray();
     }
 }

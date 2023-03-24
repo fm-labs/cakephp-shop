@@ -10,7 +10,7 @@ use Cake\Routing\Exception\MissingRouteException;
  * Class ShopCategoryView
  *
  * @package Shop\View
- * @property \Content\View\Helper\MetaHelper $Meta
+ * @property \Cupcake\View\Helper\MetaHelper $Meta
  */
 class ShopCategoryView extends ShopView
 {

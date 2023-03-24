@@ -64,7 +64,14 @@ class ShopOrdersController extends AppController
         $this->viewBuilder()->addHelper('Cupcake.Status');
     }
 
-    public function storno($id = null)
+    public function calculation($id = null): void
+    {
+        $order = $this->ShopOrders->get($id, ['contain' => []]);
+        $this->set('order', $order);
+        //$this->render("calculation");
+    }
+
+    public function storno($id = null): ?\Cake\Http\Response
     {
         $order = $this->ShopOrders->get($id, ['contain' => []]);
 
@@ -84,9 +91,9 @@ class ShopOrdersController extends AppController
         }
 
         $this->set('order', $order);
-
         //$this->setAction('viewOrder', $id);
-        $this->render("storno");
+        //$this->render("storno");
+        return null;
     }
 
     /**

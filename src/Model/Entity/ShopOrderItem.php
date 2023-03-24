@@ -27,6 +27,11 @@ use Shop\Lib\Shop;
  * @property string $options
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * Virtual:
+ * @property ShopProductInterface|object|null $ref
+ * @property float $item_value_display @deprecated Use interface method instead
+ * @property float $item_value_taxed @deprecated Use interface method instead
+ * @property float $value_display @deprecated Use interface method instead
  */
 class ShopOrderItem extends Entity
 {
@@ -45,14 +50,18 @@ class ShopOrderItem extends Entity
     ];
 
     protected $_virtual = [
-        'product',
-        'title',
-        'sku',
-        'currency',
-        'base_currency',
-        'value_net',
-        'value_tax',
-        'value_total',
+        //'product', // @deprecated Use interface method instead
+        'ref', // @deprecated Use interface method instead
+        //'sku', // @deprecated Use interface method instead
+        //'title', // @deprecated Use interface method instead
+        'currency', // @deprecated Use interface method instead
+        'base_currency', // @deprecated Use interface method instead
+        'item_value_display', // @deprecated Use interface method instead
+        'item_value_taxed', // @deprecated Use interface method instead
+        //'value_net', // @deprecated Use interface method instead
+        //'value_tax', // @deprecated Use interface method instead
+        //'value_total', // @deprecated Use interface method instead
+        'value_display', // @deprecated Use interface method instead
     ];
 
     /**
@@ -146,6 +155,8 @@ class ShopOrderItem extends Entity
 
     /**
      * @return float
+     * @deprecated Use a calculator value instead
+     * @todo Remove ad-hoc calculated properties
      */
     protected function _getItemValueTaxed()
     {
@@ -153,6 +164,11 @@ class ShopOrderItem extends Entity
         return $this->item_value_net * (1 + $this->tax_rate / 100);
     }
 
+    /**
+     * @return float|mixed
+     * @deprecated Use a calculator value instead
+     * @todo Remove ad-hoc calculated properties
+     */
     protected function _getItemValueDisplay()
     {
         //@todo Add precision
@@ -223,24 +239,40 @@ class ShopOrderItem extends Entity
         $this->value_total = $this->value_net + $this->value_tax;
     }
 
+    /**
+     * @return float|mixed
+     * @todo Refactor/Remove this method
+     */
     protected function _getValueNet()
     {
         //@todo Add precision
         return $this->item_value_net * $this->amount;
     }
 
+    /**
+     * @return float|mixed
+     * @todo Refactor/Remove this method
+     */
     protected function _getValueTax()
     {
         //@todo Add precision
         return $this->value_net * $this->tax_rate / 100;
     }
 
+    /**
+     * @return float|mixed
+     * @todo Refactor/Remove this method
+     */
     protected function _getValueTotal()
     {
         //@todo Add precision
         return $this->value_net + $this->value_tax;
     }
 
+    /**
+     * @return float|mixed
+     * @todo Refactor/Remove this method
+     */
     protected function _getValueDisplay()
     {
         //@todo Add precision

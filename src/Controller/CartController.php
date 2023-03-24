@@ -45,6 +45,10 @@ class CartController extends AppController
             $view = 'empty';
         }
 
+        if ($order) {
+            $this->set('calculator', $this->ShopOrders->getOrderCalculator($order));
+        }
+
         $this->autoRender = false;
         $this->render($view);
     }
