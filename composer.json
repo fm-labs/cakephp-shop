@@ -3,8 +3,7 @@
     "description": "Shop plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
-        "ext-soap": "*",
-        "php": ">=7.4",
+        "php": ">=8.0",
         "cakephp/cakephp": "^4.4",
         "fm-labs/cakephp-settings": "^1.0.0",
         "fm-labs/cakephp-cron": "^2.0.0",
@@ -14,6 +13,9 @@
     "require-dev": {
         "phpunit/phpunit": "*",
         "dms/phpunit-arraysubset-asserts": "^0.4.0"
+    },
+    "suggest": {
+        "fm-labs/cakephp-mpay24": "Enables MPay24/Unzer payment provider support"
     },
     "autoload": {
         "psr-4": {
