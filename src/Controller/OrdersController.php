@@ -55,13 +55,15 @@ class OrdersController extends AppController
             throw new BadRequestException();
         }
 
-        $shopOrder = $this->ShopOrders->find('order', ['ShopOrders.uuid' => $uuid])->first();
+        $shopOrder = $this->ShopOrders->find('order', ['ShopOrders.uuid' => $uuid])->firstOrFail();
+        $calculator = $this->ShopOrders->getOrderCalculator($shopOrder);
 
         if (!$this->Authentication->getIdentity() || $this->Shop->getCustomerId() != $shopOrder->shop_customer_id) {
             $this->viewBuilder()->setTemplate('view_public');
         }
 
         $this->set('order', $shopOrder);
+        $this->set('calculator', $calculator);
         $this->set('_serialize', ['shopOrder']);
     }
 

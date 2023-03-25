@@ -4,9 +4,12 @@ namespace Shop\Pdf;
 
 use Cake\ORM\TableRegistry;
 
+/**
+ * InvoicePdfGenerator
+ */
 class InvoicePdfGenerator extends ShopPdfGenerator
 {
-    private \Cake\ORM\Table $ShopOrders;
+    private \Shop\Model\Table\ShopOrdersTable $ShopOrders;
 
     /**
      * Constructor
@@ -56,7 +59,7 @@ class InvoicePdfGenerator extends ShopPdfGenerator
 //    }
 
     /**
-     * @param null $orderId
+     * @param array $vars
      * @param array $pdf
      * @throws \Exception
      */
@@ -69,11 +72,21 @@ class InvoicePdfGenerator extends ShopPdfGenerator
             'contain' => ['ShopCustomers', 'ShopOrderItems', 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']],
             'status' => true,
         ]);
+        $calculator = $this->ShopOrders->getOrderCalculator($shopOrder);
+
+        $title = $mode == "order" ? $shopOrder->nr_formatted : $shopOrder->invoice_nr_formatted;
+        $pdf['title'] = $pdf['title'] ?? $title;
+        //$pdf['subject'] = $pdf['subject'] ?? $title;
+        //$pdf['keywords'] = $pdf['keywords'] ?? $title;
+
 
         $this->setViewVars([
             'shopOrder' => $shopOrder,
+            'calculator' => $calculator,
             'mode' => $mode,
         ]);
+        $this->view->loadHelper('Bootstrap.Bootstrap');
+        //$this->view->Html->css();
         $this->render($pdf);
     }
 }

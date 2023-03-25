@@ -51,6 +51,17 @@ class ShopCustomerDiscountsController extends AppController
         $this->set('valuetypes', $this->ShopCustomerDiscounts->listValueTypes());
         //$this->set('shopCustomers', $this->ShopCustomerDiscounts->ShopCustomers->find('list'));
         //$this->set('shopProducts', $this->ShopCustomerDiscounts->ShopProducts->find('list'));
+        $this->set('fields', [
+            'shop_customer_id' => [
+                'type' => 'select',
+                'empty' => __('All customers'),
+            ],
+            'shop_product_id' => [
+                'type' => 'select',
+                'empty' => __('All products'),
+            ],
+        ]);
+
         $this->set('fields.blacklist', ['publish_start', 'publish_end']);
         $this->Action->execute();
     }
@@ -61,6 +72,7 @@ class ShopCustomerDiscountsController extends AppController
         $this->set('valuetypes', $this->ShopCustomerDiscounts->listValueTypes());
         //$this->set('shopCustomers', $this->ShopCustomerDiscounts->ShopCustomers->find('list'));
         //$this->set('shopProducts', $this->ShopCustomerDiscounts->ShopProducts->find('list'));
+
         $this->set('fields.blacklist', ['publish_start', 'publish_end']);
         $this->Action->execute();
     }

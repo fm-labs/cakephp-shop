@@ -12,7 +12,7 @@ $currentCart = $this->get('cart');
         <span>UUID: <?php echo h($_cart['uuid']); ?></span>
         <span>SessionID: <?php echo h($_cart['sessionid']); ?></span>
         <span>Created: <?php echo h($_cart['created']); ?></span>
-        <span><?= __('{0} items', count($_cart['shop_order_items'] ?? [])); ?></span>
+        <span><?= __d('shop', '{0} items', count($_cart['shop_order_items'] ?? [])); ?></span>
         <hr />
     </div>
     <?php endforeach; ?>

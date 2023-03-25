@@ -64,6 +64,11 @@ class ShopOrdersController extends AppController
         $this->viewBuilder()->addHelper('Cupcake.Status');
     }
 
+    /**
+     * @param $id
+     * @return void
+     * @deprecated
+     */
     public function calculation($id = null): void
     {
         $order = $this->ShopOrders->get($id, ['contain' => []]);
@@ -160,8 +165,8 @@ class ShopOrdersController extends AppController
             'status' => true,
         ]);
         $this->set('entity', $shopOrder);
+        $this->set('calculator', $this->ShopOrders->getOrderCalculator($shopOrder));
         $this->set('_serialize', 'entity');
-
         //$this->Action->execute();
         //$this->render("view");
     }
@@ -270,6 +275,7 @@ class ShopOrdersController extends AppController
     /**
      * @param null $id
      * @param null $mode
+     * @todo Refactor shop order printview: The default print layout is ugly
      */
     public function printview($id = null, $mode = null)
     {
@@ -280,6 +286,7 @@ class ShopOrdersController extends AppController
             'status' => true,
         ]);
         $this->set('shopOrder', $shopOrder);
+        $this->set('calculator', $this->ShopOrders->getOrderCalculator($shopOrder));
         $this->set('mode', $mode);
 
         $this->viewBuilder()->setLayout('Shop.print');

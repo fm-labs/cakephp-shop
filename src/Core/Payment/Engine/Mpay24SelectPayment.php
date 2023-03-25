@@ -111,10 +111,8 @@ class Mpay24SelectPayment implements PaymentEngineInterface
 
             $this->logTransaction($transaction, "Mpay24 TestMode: $testMode");
 
-            // Initialize Mpay24
-            //$config = $this->_buildMpay24Config($testMode);
-            //$mpay24 = new Mpay24($config);
-            $mpay24 = new Mpay24Client($testMode);
+            // @todo Properly initialize Mpay24
+            $mpay24 = new Mpay24Client($testMode ? 'testing' : 'production');
 
             // @TODO Fix: 'class_exists' call is necessary otherwise PHP throws 'class not found' ?!
             if (!class_exists('Mpay24\\Mpay24Order')) {

@@ -4,16 +4,20 @@ declare(strict_types=1);
 namespace Shop\Service;
 
 use Cake\Event\Event;
+use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
+use Shop\Event\ShopEventLoggerTrait;
 
 /**
  * Class CustomerService
  *
  * @package Shop\Event
  */
-class CustomerService extends BaseService
+class CustomerService implements EventListenerInterface
 {
+    use ShopEventLoggerTrait;
+
     /**
      * @return array
      */

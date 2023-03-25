@@ -7,6 +7,9 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
 
+/**
+ * @deprecated
+ */
 abstract class BaseService implements EventListenerInterface
 {
     protected function _logEvent($eventName, Event $event)

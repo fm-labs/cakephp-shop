@@ -410,19 +410,19 @@ class ShopOrdersTable extends Table implements OrderTableInterface
         $calculator = new CostCalculator();
 
         // order items
-        $calculator->addValue('order_items', $this->getOrderItemsCalculator($order), null, __("Order items"));
+        $calculator->addValue('order_items', $this->getOrderItemsCalculator($order), null, __d('shop', "Order items"));
 
         // coupon
         // @todo coupon tax calculation
-        $calculator->addValue('coupon', $order->coupon_value * -1, 20, __("Coupon"));
+        $calculator->addValue('coupon', $order->coupon_value * -1, 20, __d('shop', "Coupon"));
 
         // shipping
         // @todo shipping cost calculation
-        $calculator->addValue('shipping', 0, 0, __("Shipping costs"));
+        $calculator->addValue('shipping', 0, 0, __d('shop', "Shipping costs"));
 
         // other fees
         // @todo order fees calculation
-        //$calculator->addValue('fees', 0, 0, __("Additional fees"));
+        //$calculator->addValue('fees', 0, 0, __d('shop', "Additional fees"));
 
         return $calculator;
     }

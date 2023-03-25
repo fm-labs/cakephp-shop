@@ -29,6 +29,8 @@ class ShopOrderTransactionsController extends AppController
      */
     public function index()
     {
+        //$this->viewBuilder()->addHelper('Cupcake.Status');
+
         $dataUrl = ['rows' => 1];
         $query = $this->ShopOrderTransactions->find('all', ['status' => true, 'contain' => ['ShopOrders']]);
         if ($this->request->getQuery('shop_order_id')) {

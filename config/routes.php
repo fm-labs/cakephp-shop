@@ -2,10 +2,21 @@
 /** @var \Cake\Routing\RouteBuilder $routes */
 
 // Shop frontend routes
+use Cake\Core\Configure;
+use Cake\Http\Middleware\EncryptedCookieMiddleware;
+
 $routes->scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function (\Cake\Routing\RouteBuilder $routes) {
 
     //$routes->addExtensions(['json', 'xml']);
     //$routes->routeClass('Cake\Routing\Route\DashedRoute');
+
+    $cookies = new EncryptedCookieMiddleware(
+        // Names of cookies to protect
+        ['_shpct'],
+        Configure::read('Security.cookieKey')
+    );
+    $routes->registerMiddleware('shop_cookies', $cookies);
+    $routes->applyMiddleware('shop_cookies');
 
     $routes->connect(
         '/',
@@ -189,3 +200,4 @@ $routes->scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function
     //$routes->connect('/{controller}');
     $routes->fallbacks('DashedRoute');
 });
+return $routes;

@@ -7,7 +7,7 @@ $shopProduct = $this->get('shopProduct');
 <div class="product-info-item product-info-price" itemprop="price">
     <?php if (Configure::read('Shop.Price.requireAuth') && !$this->request->getSession()->read('Shop.Customer.id')): ?>
         <div class="alert alert-info">
-            <strong><i class="fa fa-lock"></i>&nbsp;<?= __d('shop','Price is only available for logged in customers'); ?></strong>
+            <strong><i class="fa fa-lock"></i>&nbsp;<?= __d('shop','Price information is only visible for registered customers'); ?></strong>
             <p><?php
                 $url = ['_name' => 'user:login', '?' => [
                         'redirect' => urlencode($this->Html->Url->build($shopProduct->url))

@@ -8,6 +8,7 @@ use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Event\EventManager;
 use Cake\Log\Log;
+use Cake\Routing\RouteBuilder;
 use Cupcake\Model\EntityTypeRegistry;
 use Shop\Model\Entity\Menu\ShopCategoryMenuType;
 
@@ -18,6 +19,10 @@ use Shop\Model\Entity\Menu\ShopCategoryMenuType;
  */
 class ShopPlugin extends BasePlugin
 {
+    public $bootstrapEnabled = true;
+
+    public $routesEnabled = true;
+
     public function bootstrap(PluginApplicationInterface $app): void
     {
         /**
@@ -60,7 +65,7 @@ class ShopPlugin extends BasePlugin
         $eventManager->on(new \Shop\Service\EmailNotificationService());
         $eventManager->on(new \Shop\Service\OrderNotificationService());
         $eventManager->on(new \Shop\Service\PaymentService());
-        $eventManager->on(new \Shop\Service\ShopRulesService());
+        $eventManager->on(new \Shop\Service\CustomerDiscountService());
         $eventManager->on(new \Shop\Service\HealthCheckService());
         //$eventManager->on(new \Shop\Service\SitemapService());
         EntityTypeRegistry::register('Content.Menu', 'shop_category', [
@@ -107,5 +112,10 @@ class ShopPlugin extends BasePlugin
 //                ]);
 //            }
 //        }
+    }
+
+    public function routes(RouteBuilder $routes): void
+    {
+        parent::routes($routes);
     }
 }

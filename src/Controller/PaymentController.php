@@ -161,6 +161,7 @@ class PaymentController extends AppController
             $this->Payment->initTransaction($order);
         } catch (\Exception $ex) {
             $this->Flash->error($ex->getMessage());
+            //throw $ex;
         }
     }
 
@@ -191,10 +192,10 @@ class PaymentController extends AppController
     {
         $transaction = $this->_loadTransaction($txnId);
         $this->logTransaction($transaction, "Payment::Controller::error", 'error');
-        $orderUUID = $transaction->shop_order->uuid;
 
         $this->Flash->error(__d('shop', 'The payment could not be completed'));
 
+        $orderUUID = $transaction->shop_order->uuid;
         return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'error']);
     }
 
@@ -209,14 +210,14 @@ class PaymentController extends AppController
         $transaction = $this->_loadTransaction($txnId);
         try {
             $this->logTransaction($transaction, "Payment::Controller::cancel", 'warning');
-            $orderUUID = $transaction->shop_order->uuid;
             $this->Payment->cancelTransaction($transaction);
         } catch (\Exception $ex) {
-            $this->logTransaction($transaction,'Payment::Controller::cancel: ERROR: ' . $ex->getMessage(), 'error');
+            $this->logTransaction($transaction,"Payment::Controller::cancel: ERROR: " . $ex->getMessage(), 'error');
         }
 
         $this->Flash->error(__d('shop', 'The payment has been canceled'));
 
+        $orderUUID = $transaction->shop_order->uuid;
         return $this->redirect(['controller' => 'Orders', 'action' => 'view', $orderUUID, 'payment' => 'cancel']);
     }
 

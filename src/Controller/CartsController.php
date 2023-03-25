@@ -68,9 +68,9 @@ class CartsController extends AppController
             $this->Cart->setOrder($cart, true);
             $this->Cart->updateSession();
             //$this->Cart->restoreFromId($cartId);
-            $this->Flash->success(__('Cart restored'));
+            $this->Flash->success(__d('shop', 'Cart restored'));
         } else {
-            $this->Flash->error(__('Cart not found'));
+            $this->Flash->error(__d('shop', 'Cart not found'));
         }
 
         $this->redirect(['controller' => 'Cart', 'action' => 'index']);

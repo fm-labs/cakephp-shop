@@ -129,7 +129,7 @@ class PaymentComponent extends Component
             'currency_code' => $order->currency,
             'type' => 'P',
             'engine' => $order->payment_type,
-            'status' => 0,
+            'status' => ShopOrderTransactionsTable::STATUS_INIT,
         ]);
 
         if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
@@ -155,10 +155,11 @@ class PaymentComponent extends Component
         } catch (\Exception $ex) {
             // capture errors, if any
             $this->_transaction->message = $ex->getMessage();
-            $this->_transaction->status = -1;
+            $this->_transaction->status = ShopOrderTransactionsTable::STATUS_INTERNAL_ERROR;
             $this->logTransaction($this->_transaction, "PAY:FAILED: " . $ex->getMessage(), 'error');
 
             $this->getController()->Flash->error($ex->getMessage());
+            //throw $ex;
         } finally {
             if (!$this->ShopOrders->ShopOrderTransactions->save($this->_transaction)) {
                 debug($this->_transaction->getErrors());

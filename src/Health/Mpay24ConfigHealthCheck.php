@@ -13,6 +13,10 @@ class Mpay24ConfigHealthCheck implements HealthCheckInterface
      */
     public function getHealthStatus(): HealthStatus
     {
+        if (!\Cake\Core\Plugin::isLoaded('FmLabs/Mpay24')) {
+            return HealthStatus::crit("Mpay24 plugin not loaded");
+        }
+
         if (Configure::read('Shop.Payment.testMode') || Configure::read('Mpay24.useTestSystem')) {
             $testMode = true;
         }
@@ -32,9 +36,9 @@ class Mpay24ConfigHealthCheck implements HealthCheckInterface
         }
 
         if ($testMode && !Configure::read('debug')) {
-            return HealthStatus::crit("Testmode enabled in non-debug environment");
+            return HealthStatus::crit("Mpay24 Testmode enabled in non-debug environment");
         } elseif ($testMode) {
-            return HealthStatus::warn("Testmode enabled");
+            return HealthStatus::warn("Mpay24 Testmode enabled");
         }
 
         return HealthStatus::ok('Ok');

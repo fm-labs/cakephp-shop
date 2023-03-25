@@ -19,7 +19,8 @@ $this->Breadcrumbs->add(__d('shop','View order details and status'), ['controlle
     <div class="row">
         <div class="col-md-12">
             <h2><?= __d('shop','Order Items') ?></h2>
-            <?= $this->element('Shop.Checkout/cart'); ?>
+            <?= $this->element('Shop.Order/order_items_table'); ?>
+            <?= $this->element('Shop.Order/calculation_table'); ?>
         </div>
     </div>
     <hr />

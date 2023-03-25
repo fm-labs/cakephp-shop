@@ -4,9 +4,13 @@ declare(strict_types=1);
 namespace Shop\Service;
 
 use Cake\Event\Event;
+use Cake\Event\EventListenerInterface;
+use Shop\Event\ShopEventLoggerTrait;
 
-class CartService extends BaseService
+class CartService implements EventListenerInterface
 {
+    use ShopEventLoggerTrait;
+
     public function implementedEvents(): array
     {
         return [

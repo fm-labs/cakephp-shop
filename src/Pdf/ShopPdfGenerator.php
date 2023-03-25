@@ -20,9 +20,10 @@ class ShopPdfGenerator
     use InstanceConfigTrait;
 
     protected array $_defaultConfig = [
-        'title' => 'CakePHP Shop',
-        'subject' => 'CakePHP Shop',
-        'keywords' => 'CakePHP Shop',
+        'title' => 'document',
+        'subject' => '',
+        'keywords' => '',
+        'author' => 'CakePHP Shop',
         'creator' => 'CakePHP Shop',
     ];
 

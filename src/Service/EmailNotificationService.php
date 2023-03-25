@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Shop\Service;
 
 use Cake\Event\Event;
+use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
+use Shop\Event\ShopEventLoggerTrait;
 use Shop\Mailer\ShopCustomerMailer;
 use Shop\Mailer\ShopOwnerMailer;
 
@@ -13,8 +15,10 @@ use Shop\Mailer\ShopOwnerMailer;
  *
  * @package Shop\Event
  */
-class EmailNotificationService extends BaseService
+class EmailNotificationService implements EventListenerInterface
 {
+    use ShopEventLoggerTrait;
+
     /**
      * @return array
      */

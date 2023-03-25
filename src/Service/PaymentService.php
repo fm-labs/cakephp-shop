@@ -4,14 +4,18 @@ declare(strict_types=1);
 namespace Shop\Service;
 
 use Cake\Event\Event;
+use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
+use Shop\Event\ShopEventLoggerTrait;
 use Shop\Model\Table\ShopOrderTransactionsTable;
 
 /**
  * @property \Shop\Model\Table\ShopOrdersTable $ShopOrders
  */
-class PaymentService extends BaseService
+class PaymentService implements EventListenerInterface
 {
+    use ShopEventLoggerTrait;
+
     public function implementedEvents(): array
     {
         return [

@@ -7,6 +7,7 @@
         <?= $this->fetch('title') ?> | Print view
     </title>
     <?= $this->Html->css("Shop.print"); ?>
+    <?= $this->fetch('css') ?>
 </head>
 <body class="print" style="width: 297mm; margin: 0 auto;">
     <!--

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shop\Controller;
 
+use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\Locator\TableLocator;
 
 /**
@@ -125,11 +126,14 @@ class CartController extends AppController
     /**
      * Remove cart item
      *
-     * @param null $orderId
-     * @param null $orderItemId
+     * @param string|null $cartId
+     * @param string|null $orderItemId
      */
-    public function remove($orderId = null, $orderItemId = null)
+    public function remove(?string $cartId = null, ?string $orderItemId = null)
     {
+        if ($cartId != $this->Cart->getCartId()) {
+            throw new BadRequestException();
+        }
         //@TODO Allow POST only
         if ($this->Cart->removeItemById($orderItemId)) {
             $this->Flash->success(__d('shop', 'Item has been removed from cart'));
@@ -142,12 +146,16 @@ class CartController extends AppController
     /**
      * Update cart item
      *
-     * @param null $orderId
-     * @param null $orderItemId
+     * @param string|null $cartId
+     * @param string|null $orderItemId
      */
-    public function update($orderId = null, $orderItemId = null)
+    public function update(?string $cartId = null, ?string $orderItemId = null)
     {
+        if ($cartId != $this->Cart->getCartId()) {
+            throw new BadRequestException();
+        }
 
+        //@TODO Allow POST only
         if ($this->request->is(['post', 'put'])) {
             if ($this->Cart->updateItemById($orderItemId, $this->request->getData())) {
                 $this->Flash->success(__d('shop', 'Updated item'));
@@ -162,8 +170,12 @@ class CartController extends AppController
     /**
      * Update cart
      */
-    public function cartUpdate()
+    public function cartUpdate(?string $cartId = null)
     {
+        if ($cartId != $this->Cart->getCartId()) {
+            throw new BadRequestException();
+        }
+
         if (!$this->Cart->getOrder()) {
             $this->Flash->warning(__d('shop', 'Order not found'));
             $this->redirect(['action' => 'index']);
@@ -215,8 +227,13 @@ class CartController extends AppController
         $order = $this->Cart->getOrder();
         if ($order) {
             if ($this->request->is(['put', 'post'])) {
+                if ($order->cartid != $this->request->getData('cartid')) {
+                    throw new BadRequestException();
+                }
+
                 $coupon_code = $this->getRequest()->getData('coupon_code');
                 $ShopCoupons = $this->fetchTable('Shop.ShopCoupons');
+                /** @var \Shop\Model\Entity\ShopCoupon $coupon */
                 $coupon = $ShopCoupons->find()
                     ->where(['code' => $coupon_code])
                     ->first();
@@ -226,15 +243,41 @@ class CartController extends AppController
                 }
 
                 // check coupon usage
-                $usedByCustomer = $this->ShopOrders->find()
-                    ->where([
-                        'shop_customer_id' => $this->Shop->getCustomerId(),
-                        'status >' => 0,
-                        'coupon_code' => $coupon_code
-                    ])
-                    ->count();
-                $this->Flash->info(__('Used {0} times', $usedByCustomer));
+                if ($coupon->max_use > 0) {
+                    $used = $this->ShopOrders->find()
+                        ->where([
+                            'status >' => 0,
+                            'coupon_code' => $coupon_code
+                        ])
+                        ->count();
+                    if ($used >= $coupon->max_use) {
+                        $this->Flash->error(__d('shop', 'Maximum coupon usage limit has been reached'));
+                        return $this->redirect($this->referer(['action' => 'index']));
+                    }
+                }
+                if ($coupon->max_use_per_customer > 0) {
+                    $usedByCustomer = $this->ShopOrders->find()
+                        ->where([
+                            'shop_customer_id' => $this->Shop->getCustomerId(),
+                            'status >' => 0,
+                            'coupon_code' => $coupon_code
+                        ])
+                        ->count();
 
+                    if ($usedByCustomer >= $coupon->max_use_per_customer) {
+                        if ($coupon->max_use_per_customer == 1) {
+                            $this->Flash->error(__d('shop', 'You have already used this coupon', $usedByCustomer));
+                        } else {
+                            $this->Flash->error(__d('shop', 'Maximum coupon usage limit has been reached: Used {0} times', $usedByCustomer));
+                        }
+                        return $this->redirect($this->referer(['action' => 'index']));
+                    }
+                    //else {
+                    //    $this->Flash->info(__d('shop', 'You have used the coupon {0} times', $usedByCustomer));
+                    //}
+                }
+
+                //@todo Move coupon value calculation to order calculator
                 $order->coupon_code = $coupon_code;
                 if ($coupon->valuetype == "total") {
                     $order->coupon_value = $coupon->value;
@@ -259,11 +302,20 @@ class CartController extends AppController
     {
         $order = $this->Cart->getOrder();
         if ($order) {
-            $order->coupon_code = null;
-            $order->coupon_value = 0;
-            $order = $this->ShopOrders->calculateOrder($order);
-            $this->Cart->setOrder($order, true);
-            $this->Flash->success(__d('shop', 'Coupon has been removed'));
+
+            if ($this->request->is(['post', 'put'])) {
+                if ($order->cartid != $this->request->getData('cartid')) {
+                    throw new BadRequestException();
+                }
+
+                $order->coupon_code = null;
+                $order->coupon_value = 0;
+                $order = $this->ShopOrders->calculateOrder($order);
+                $this->Cart->setOrder($order, true);
+                $this->Flash->success(__d('shop', 'Coupon has been removed'));
+            }
+
+
         }
         return $this->redirect($this->referer(['action' => 'index']));
     }

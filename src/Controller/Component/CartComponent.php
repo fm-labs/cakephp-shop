@@ -5,8 +5,11 @@ namespace Shop\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Event\Event;
+use Cake\Http\Cookie\Cookie;
+use Cake\Http\Cookie\CookieInterface;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
@@ -77,32 +80,31 @@ class CartComponent extends Component
     {
         $this->order = null;
         $this->sessionId = $this->getController()->getRequest()->getSession()->id();
+        //$this->Flash->info("SessionId: " . $this->sessionId);
+        $this->restore();
+    }
 
-        // read cart cookies
-        $cookie = null; //$this->Cookie->read(self::$cookieName);
-        $cookieCartId = $cookie && isset($cookie['id']) ? $cookie['id'] : null;
+    protected function restore()
+    {
+        $cartId = null;
 
-        // read cart session
+        // restore from session
         $sessionCartId = $this->getController()->getRequest()->getSession()->read('Shop.Cart.id');
-
-        if ($sessionCartId) { // restore from session
-            $this->cartId = $sessionCartId;
-        } elseif ($cookieCartId) { // restore from cookie
-            debug("cart restored from cookie");
-            $this->cartId = $cookieCartId;
-        } else { // New cart
-            $this->cartId = Text::uuid();
-            //debug("write cookie " . $this->cartId);
-            //$this->Cookie->write('cartid', $this->cartId);
+        if ($sessionCartId) {
+            //$this->Flash->info("SessionCartId: " . $sessionCartId);
+            $cartId = $sessionCartId;
         }
 
-        // set cookie
-        if (!$cookieCartId) {
-            //debug("write cookie " . $this->cartId);
-            //$this->Cookie->write(self::$cookieName . '.id', $this->cartId);
+        if (!$cartId) {
+            $cartId = Text::uuid();
         }
 
+        // @todo restore from cookie
+
+        $this->cartId = $cartId;
         $this->getController()->getRequest()->getSession()->write('Shop.Cart.id', $this->cartId);
+
+        $this->writeCookie();
     }
 
     /**
@@ -170,7 +172,7 @@ class CartComponent extends Component
      * Get product entity with customer discounts applied to net price
      * @param $productId
      * @param string $modelClass
-     * @return \Shop\Core\Product\ShopProductInterface
+     * @return \Shop\Core\Product\ShopProductInterface|\Shop\Model\Entity\ShopProduct
      */
     public function getProductForCustomer($productId, $modelClass = 'Shop.ShopProducts')
     {
@@ -185,13 +187,19 @@ class CartComponent extends Component
      * Get product entity
      * @param $productId
      * @param string $modelClass
-     * @return \Shop\Core\Product\ShopProductInterface
+     * @return \Shop\Core\Product\ShopProductInterface|\Shop\Model\Entity\ShopProduct
      */
     public function getProduct($productId, $modelClass = 'Shop.ShopProducts')
     {
-        $product = $this->_getProductTable($modelClass)->get($productId);
+        //$product = $this->_getProductTable($modelClass)->get($productId);
 
-        return $product;
+        $shopProduct = $this->_getProductTable($modelClass)->get($productId, [
+            'contain' => ['ParentShopProducts'],
+            'media' => true,
+            'for_customer' => $this->Shop->getCustomerId(),
+        ]);
+
+        return $shopProduct;
     }
 
     /**
@@ -231,7 +239,7 @@ class CartComponent extends Component
             $item += [
                 'title' => $product->getTitle(),
                 'unit' => $product->getUnit() ?: 'x', // @todo getUnit() MUST return a unit string
-                'item_value_original_net' => $product->getPrice(),
+                'item_value_original_net' => $product->price_net_original ?? $product->getPrice(),
                 'item_value_net' => $product->getPrice(),
                 'tax_rate' => $product->getTaxRate(),
                 'amount' => 1,
@@ -353,7 +361,7 @@ class CartComponent extends Component
     public function setOrder(ShopOrder $order, $update = true)
     {
         if (!$order) {
-            debug("Warning: setOrder() received empty order");
+            throw new \LogicException("Warning: setOrder() received empty order");
         }
 
         $this->order = $order;
@@ -430,7 +438,6 @@ class CartComponent extends Component
      */
     public function updateSession()
     {
-        $order = null;
         $cart = [
             'id' => $this->cartId,
         ];
@@ -442,7 +449,33 @@ class CartComponent extends Component
         }
 
         $this->getController()->getRequest()->getSession()->write('Shop.Cart', $cart);
-        //$this->getController()->getRequest()->getSession()->write('Shop.Order', $order->toArray());
+
+        $this->writeCookie();
+    }
+
+    protected function writeCookie()
+    {
+        //$cookies = $this->getController()->getRequest()->getCookieCollection();
+        //$shopCookie = $cookies->has('shop') ? $cookies->get('shop') : null;
+
+        $cookieData = [
+            'cartid' => $this->cartId,
+            'sessionid' => $this->sessionId,
+            'shop_customer_id' => $this->Shop->getCustomerId(),
+        ];
+
+        $shopCookie = new Cookie(
+            '_shpct', // name
+            $cookieData,
+            new \DateTime('+1 year'), // expiration time, if applicable
+            '/', // path, if applicable
+            null, // domain
+            false, // secure only
+            true, // http only
+            CookieInterface::SAMESITE_STRICT
+        );
+        $response = $this->getController()->getResponse()->withCookie($shopCookie);
+        $this->getController()->setResponse($response);
     }
 
     /**

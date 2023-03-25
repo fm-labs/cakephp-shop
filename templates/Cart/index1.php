@@ -77,7 +77,7 @@ $cart = $this->get('cart');
                 <td>&nbsp;</td>
                 <td class="currency text-end">
                     <?= __d('shop', 'Coupon {0}', $cart->coupon_code); ?><br />
-                    <?= $this->Html->link(__('Remove coupon'), ['controller' => 'Cart', 'action' => 'removeCoupon']); ?>
+                    <?= $this->Html->link(__d('shop', 'Remove coupon'), ['controller' => 'Cart', 'action' => 'removeCoupon']); ?>
                 </td>
                 <td class="currency text-end"><?= $this->Number->currency($cart->coupon_value * -1, 'EUR'); ?></td>
             </tr>

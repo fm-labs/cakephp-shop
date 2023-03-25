@@ -123,36 +123,11 @@ $this->Toolbar->addLink(__d('shop', 'Detail view'),
             <!-- /.col -->
             <div class="col-xs-12">
 
-                <div class="table-responsive">
-                    <table class="table table-condensed">
-                        <tbody>
-                        <tr class="text-end">
-                            <th style="width:50%"><?= __d('shop', 'Subtotal') ?>:</th>
-                            <td><?= $this->Number->currency($entity->items_value_net, $entity->currency); ?></td>
-                        </tr>
-                        <tr class="text-end">
-                            <th><?= __d('shop', 'Shipping') ?>:</th>
-                            <td><?= $this->Number->currency($entity->shipping_value_net, $entity->currency); ?></td>
-                        </tr>
-                        <tr class="text-end">
-                            <th><?= __d('shop', 'Tax') ?>:</th>
-                            <td><?= $this->Number->currency($entity->items_value_tax, $entity->currency); ?></td>
-                        </tr>
-                        <tr class="text-end">
-                            <th><?= __d('shop', 'Total') ?>:</th>
-                            <td><?= $this->Number->currency($entity->items_value_taxed, $entity->currency); ?></td>
-                        </tr>
-                        <tr class="text-end">
-                            <th><?= __d('shop', 'Discount') ?>:</th>
-                            <td><?= $this->Number->currency($entity->coupon_value * -1, $entity->currency); ?></td>
-                        </tr>
-                        <tr class="text-end">
-                            <th><?= __d('shop', 'Order total') ?>:</th>
-                            <td><?= $this->Number->currency($entity->order_value_total, $entity->currency); ?></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <?= $this->element('Shop.Order/calculation_table', [
+                    'order' => $this->get('entity'),
+                    'calculator' => $this->get('calculator')
+                ]); ?>
+
             </div>
             <!-- /.col -->
         </div>

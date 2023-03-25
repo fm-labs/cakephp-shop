@@ -24,6 +24,7 @@ class ShopOrderTransactionsTable extends Table
     public const STATUS_REVERSAL = 6;
     public const STATUS_CREDITED = 7;
     public const STATUS_USER_ABORT = -1;
+    public const STATUS_INTERNAL_ERROR = -2;
 
     /**
      * Initialize method
