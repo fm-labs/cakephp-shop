@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CakePHP Shop\n"
-"POT-Creation-Date: 2023-03-13 00:11+0000\n"
-"PO-Revision-Date: 2023-03-13 01:54+0100\n"
+"POT-Creation-Date: 2023-03-25 15:30+0000\n"
+"PO-Revision-Date: 2023-03-25 16:37+0100\n"
 "Last-Translator: fm-labs <flowmotionlabs@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -15,17 +15,44 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:50
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:49
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:40
 msgid "Preview"
 msgstr "Vorschau"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:156
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:195
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:260
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:360
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:475
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:520
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:186
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Products/view.bak.php:6
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info.php:8
+msgid "Category"
+msgstr "Kategorie"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:192
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:242
+msgid "Descriptions"
+msgstr "Beschreibungen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:198
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:246
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Products/view.php:36
+msgid "Images"
+msgstr "Bilder"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:203
+msgid "Publishing"
+msgstr "Veröffentlichen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:210
+#, fuzzy
+#| msgid "Customer"
+msgid "Custom"
+msgstr "Kunde"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:254
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:319
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:535
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:580
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:85
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:112
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderAddressesController.php:66
@@ -36,10 +63,10 @@ msgstr "Vorschau"
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderItemsController.php:127
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:46
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:73
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:273
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:302
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:393
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:436
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:280
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:309
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:400
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:443
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:51
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:77
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTextsController.php:54
@@ -54,29 +81,21 @@ msgstr "Vorschau"
 msgid "The {0} has been saved."
 msgstr "{0} wurde gespeichert."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:156
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:161
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:195
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:199
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:260
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:264
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:360
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:365
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:410
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:412
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:426
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:428
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:441
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:443
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:254
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:258
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:319
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:323
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:486
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:488
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:501
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:503
 msgid "shop category"
 msgstr "Shop Kategorie"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:161
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:199
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:264
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:365
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:481
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:522
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:258
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:323
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:541
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:582
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:89
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:116
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderAddressesController.php:70
@@ -87,10 +106,10 @@ msgstr "Shop Kategorie"
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderItemsController.php:131
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:50
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:77
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:278
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:306
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:399
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:438
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:285
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:313
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:406
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:445
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:55
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:81
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTextsController.php:58
@@ -105,69 +124,39 @@ msgstr "Shop Kategorie"
 msgid "The {0} could not be saved. Please, try again."
 msgstr "{0} konnte nicht gespeichert werden. Bitte nochmals probieren."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:389
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:448
 msgid "The content module has been saved for Shop Category {0}."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:391
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:450
 msgid "The content module could not be saved for Shop Category {0}."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:410
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:136
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderAddressesController.php:121
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderInvoicesController.php:98
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderItemsController.php:151
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:97
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:357
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:100
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTextsController.php:158
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockTransfersController.php:109
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockValuesController.php:107
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StocksController.php:100
-msgid "The {0} has been deleted."
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:412
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:138
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderAddressesController.php:123
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderInvoicesController.php:100
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderItemsController.php:153
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:99
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:359
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:102
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTextsController.php:160
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockTransfersController.php:111
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockValuesController.php:109
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StocksController.php:102
-msgid "The {0} could not be deleted. Please, try again."
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:426
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:486
 msgid "The {0} has been moved up."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:428
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:443
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:488
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:503
 msgid "The {0} could not be moved. Please, try again."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:441
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:501
 msgid "The {0} has been moved down."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:451
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:511
 msgid "Shop Category tree recovery has been executed"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:475
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:481
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:520
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:522
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:393
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:399
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:436
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:438
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:535
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:541
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:580
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCategoriesController.php:582
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:400
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:406
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:443
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:445
 msgid "content"
 msgstr ""
 
@@ -180,11 +169,41 @@ msgstr ""
 msgid "shop address"
 msgstr "Adresse"
 
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:136
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderAddressesController.php:121
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderInvoicesController.php:98
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderItemsController.php:151
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:97
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:364
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:100
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTextsController.php:158
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockTransfersController.php:109
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockValuesController.php:107
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StocksController.php:100
+msgid "The {0} has been deleted."
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerAddressesController.php:138
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderAddressesController.php:123
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderInvoicesController.php:100
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderItemsController.php:153
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrderTransactionNotifiesController.php:99
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:366
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTagsController.php:102
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopTextsController.php:160
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockTransfersController.php:111
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StockValuesController.php:109
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/StocksController.php:102
+msgid "The {0} could not be deleted. Please, try again."
+msgstr ""
+
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerDiscountsController.php:31
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerDiscountsController.php:57
 msgid "All customers"
 msgstr "Alle Kunden"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerDiscountsController.php:36
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopCustomerDiscountsController.php:61
 msgid "All products"
 msgstr "Alle Produkte"
 
@@ -249,136 +268,128 @@ msgstr "Bestellung stornieren"
 msgid "Print view"
 msgstr "Druckansicht"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:77
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:89
 msgid "Updated"
 msgstr "Aktualisiert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:81
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:93
 msgid "Operation failed"
 msgstr "Aktion ist fehlgeschlagen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:115
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:127
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/index.php:18
 msgid "Order Nr"
 msgstr "Bestellnummer"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:123
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:135
 msgid "Invoice Nr"
 msgstr "Rechnungsnummer"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:326
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:340
 msgid "The notification has been sent."
 msgstr "Die Benachrichtigung wurde gesendet."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:328
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:342
 msgid "The notification could not be sent."
 msgstr "Die Benachrichtigung konnte nicht gesendet werden."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:382
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:396
 msgid "Failed to confirm order: Invalid order status"
 msgstr "Bestellung konnte nicht bestätigt werden: Ungültiger Bestellstatus"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:384
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:398
 msgid "Order confirmed"
 msgstr "Bestellung bestätigt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:386
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:404
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:400
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:418
 msgid "Failed to create invoice"
 msgstr "Fehler beim Erstellen der Rechnung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:398
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:412
 msgid "Failed to create invoice: Already invoiced"
 msgstr "Fehler beim Erstellen der Rechnung: Rechnung bereits erstellt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:400
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:414
 msgid "Failed to create invoice: Invalid order status: "
 msgstr "Rechnung konnte nicht generiert werden: Ungültiger Bestellstatus: "
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:402
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:416
 msgid "Invoice created"
 msgstr "Rechnung erstellt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:416
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:430
 msgid "Failed to change order status: Invalid status"
 msgstr "Bestellstatus konnte nicht geändert werden: Ungültiger Status"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:418
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:432
 msgid "Status updated"
 msgstr "Status aktualisiert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:420
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopOrdersController.php:434
 msgid "Failed to update status"
 msgstr "Status konnte nicht aktualisiert werden"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:84
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:87
 msgid "Product net prices for customer {0} (CustomerID: {1})"
 msgstr "Netto Produktpreise für Kunde {0} (KundenID: {1})"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:86
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:89
 msgid "Customer not found"
 msgstr "Kunde nicht gefunden"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:124
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:129
 msgid "Buyable"
 msgstr "Kaufbar"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:128
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:121
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:133
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:121
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:66
 msgid "Published"
 msgstr "Veröffentlicht"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:194
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:319
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:201
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:326
 msgid "Productversions"
 msgstr "Produktversionen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:216
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:257
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:223
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:264
 msgid "Parent Product"
 msgstr "Übergeordnetes Produkt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:216
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:257
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:223
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:264
 msgid "Child Product"
 msgstr "Untergeordnetes Produkt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:235
-msgid "Descriptions"
-msgstr "Beschreibungen"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:239
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Products/view.php:36
-msgid "Images"
-msgstr "Bilder"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:244
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:251
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info_price.php:19
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/order_items_table.php:13
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info_price.php:21
 msgid "Price"
 msgstr "Preis"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:245
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:252
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:70
 msgid "Publish"
 msgstr "Veröffentlichen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:246
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:253
 msgid "Sorting"
 msgstr "Sortierung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:273
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:278
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:302
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:306
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:357
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:359
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:280
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:285
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:309
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:313
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:364
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:366
 msgid "shop product"
 msgstr "Produkt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:324
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:115
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Admin/ShopProductsController.php:331
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:115
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:80
 msgid "Media"
 msgstr ""
@@ -430,72 +441,108 @@ msgstr ""
 msgid "stock"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:63
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:71
 msgid "Cart refreshed"
 msgstr "Warenkorb aktualisiert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:65
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:73
 msgid "Failed to refresh cart"
 msgstr "Fehler beim Aktualisieren des Warenkorbs"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:77
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:85
 msgid "The order has been aborted"
 msgstr "Bestellung wurde abgebrochen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:79
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:87
 msgid "Failed to abort order"
 msgstr "Fehler beim Abruch der Bestellung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:107
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:115
 msgid "Added item to cart"
 msgstr "Artikel wurde dem Warenkorb hinzugefügt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:109
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:117
 msgid "Adding item to cart failed: {0}"
 msgstr "Artikel konte nicht dem Warenkorb hinzugefügt werden: {0}"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:128
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:139
 msgid "Item has been removed from cart"
 msgstr "Artikel wurde aus dem Warenkorb entfernt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:130
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:141
 msgid "Failed to remove item from cart"
 msgstr "Fehler beim Entfernen des Artikels"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:146
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:161
 msgid "Updated item"
 msgstr "Artikel aktualisiert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:148
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:163
 msgid "Failed to update item"
 msgstr "Fehler beim Aktualisieren"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:161
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:180
 msgid "Order not found"
 msgstr "Bestellung nicht gefunden"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:181
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:200
 msgid "{0} item(s) updated"
 msgstr "{0} Artikel aktualisiert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:199
-msgid "The order has been reseted"
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:218
+msgid "The order has been reset"
 msgstr "Bestellung wurde zurückgesetzt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:201
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:220
 msgid "Failed to reset order"
 msgstr "Fehler beim Zurücksetzen der Bestellung"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:241
+msgid "Invalid coupon code"
+msgstr "Ungültiger Gutscheincode"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:254
+msgid "Maximum coupon usage limit has been reached"
+msgstr "Die maximale Nutzung des Gutscheins wurde erreicht"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:269
+msgid "You have already used this coupon"
+msgstr "Der Gutschein wurde bereits eingelöst"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:271
+msgid "Maximum coupon usage limit has been reached: Used {0} times"
+msgstr "DIe maximale Nutzung des Gutscheins wurde erreicht: {0} mal verwendet"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:292
+msgid "Coupon has been added"
+msgstr "Gutschein wurde eingelöst"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:294
+msgid "Failed add coupon"
+msgstr "Hinzufügen des Gutscheins ist fehlgeschlagen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartController.php:315
+msgid "Coupon has been removed"
+msgstr "Gutschein wurde entfernt"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartsController.php:71
+msgid "Cart restored"
+msgstr "Warenkorb wiederhergestellt"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CartsController.php:73
+msgid "Cart not found"
+msgstr "Warenkorb nicht gefunden"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CategoriesController.php:165
 msgid "Sorry, nothing there"
 msgstr "Leider nichts gefunden"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CheckoutController.php:68
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CheckoutController.php:118
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/CheckoutController.php:119
 msgid "Something went wrong. Please try again."
 msgstr "Da ist etwas schiefgegangen. Bitte nochmal probieren."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Component/CheckoutComponent.php:141
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/Component/CheckoutComponent.php:142
 msgid "Checkout aborted: Your cart is empty"
 msgstr "Kaufvorgang abgebrochen: Ihr Warenkorb ist leer"
 
@@ -511,11 +558,11 @@ msgstr "Gespeichert"
 msgid "Please fill all required fields"
 msgstr "Bitte füllen Sie alle Pflichtfelder aus"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/OrdersController.php:110
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/OrdersController.php:112
 msgid "The {0} could not be cancled. Please, try again."
 msgstr "{0} konnte nicht abgebrochen werden. Bitte nochmals probieren."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/OrdersController.php:110
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/OrdersController.php:112
 msgid "shop order"
 msgstr "Bestellung"
 
@@ -535,7 +582,7 @@ msgstr "Die Bestellung ist bereits abgeschlossen"
 msgid "We are processing your order"
 msgstr "Ihre Bestellung wird bearbeitet"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/PaymentController.php:179
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Controller/PaymentController.php:180
 msgid "Your payment was successful"
 msgstr "Ihre Zahlung war erfolgreich"
 
@@ -574,7 +621,7 @@ msgid "Signup was successful"
 msgstr "Anmeldung erfolgreich"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Core/Checkout/Step/PaymentStep.php:42
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:181
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:156
 msgid "Payment Type"
 msgstr "Zahlungsart"
 
@@ -588,8 +635,10 @@ msgid "Shipping address has been updated"
 msgstr "Lieferadresse wurde aktualisiert"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Core/Checkout/Step/ShippingStep.php:32
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:134
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:198
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:173
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:32
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table_old.php:12
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:29
 msgid "Shipping"
 msgstr "Versand"
 
@@ -601,7 +650,7 @@ msgstr "Überprüfen"
 msgid "Order has been submitted"
 msgstr "Bestellung wurde abgeschickt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Core/Payment/Engine/Mpay24SelectPayment.php:177
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Core/Payment/Engine/Mpay24SelectPayment.php:135
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/costs.php:17
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:4
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:7
@@ -609,7 +658,7 @@ msgstr "Bestellung wurde abgeschickt"
 msgid "Order {0}"
 msgstr "Bestellung {0}"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Core/Payment/Engine/Mpay24SelectPayment.php:260
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Core/Payment/Engine/Mpay24SelectPayment.php:218
 msgid "Payment failed"
 msgstr "Zahlung ist fehlgeschlagen"
 
@@ -629,97 +678,110 @@ msgstr ""
 msgid "Prozent"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:66
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:67
 msgid "Initialized"
 msgstr "Initialisiert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:67
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:988
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:68
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:993
 msgid "Error"
 msgstr "Fehler"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:68
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:69
 msgid "Suspended"
 msgstr "Angehalten"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:69
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:70
 msgid "Rejected"
 msgstr "Abgelehnt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:70
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:71
 msgid "Reserved"
 msgstr "Reserviert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:71
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:72
 msgid "Confirmed"
 msgstr "Bestätigt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:72
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:73
 msgid "Reversal"
 msgstr "Storniert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:73
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:74
 msgid "Credited"
 msgstr "Zahlung erhalten"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:74
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrderTransactionsTable.php:75
 msgid "Aborted by user"
 msgstr "Abgebrochen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:946
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:413
+msgid "Order items"
+msgstr "Bestellartikel"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:417
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:95
+msgid "Coupon"
+msgstr "Gutschein"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:421
+msgid "Shipping costs"
+msgstr "Versandkosten"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:951
 msgid "Please agree to the general terms & conditions"
 msgstr "Bitte stimmen Sie den Allgemeinen Geschäftsbedingungen zu"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:980
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:985
 msgid "Quote"
 msgstr "Im Warenkorb"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:981
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:986
 msgid "Purchased"
 msgstr "Bestellt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:982
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:997
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:987
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:1002
 msgid "Waiting for payment"
 msgstr "Warten auf Zahlung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:983
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:988
 msgid "Processing payment"
 msgstr "Zahlung wird bearbeitet"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:984
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:999
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:989
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:1004
 msgid "Payed"
 msgstr "Bezahlt"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:985
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:994
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:990
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:999
 msgid "Delivered"
 msgstr "Geliefert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:986
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:991
 msgid "Closed"
 msgstr "Abgeschlossen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:987
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:992
 msgid "Storno"
 msgstr "Storniert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:989
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:994
 msgid "Error Delivery"
 msgstr "Fehler bei Lieferung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:992
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:997
 msgid "Not delivered"
 msgstr "Nicht geliefert"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:993
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:998
 msgid "Pending"
 msgstr "Warten auf Bestätigung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:998
-msgid "Teilzahlung erhalten"
-msgstr ""
+#: mnt/DATA/workspaces/php/cakephp-shop/src/Model/Table/ShopOrdersTable.php:1003
+msgid "Partial payment"
+msgstr "Teilweise Zahlung"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Shell/ShopImportShell.php:131
 #: mnt/DATA/workspaces/php/cakephp-shop/src/Shell/ShopImportShell.php:472
@@ -752,7 +814,8 @@ msgstr "Produkte von CSV Datei importieren"
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/costs.php:5
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:2
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/empty.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:7
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:12
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:6
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/cart.php:5
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/customer_signup.php:2
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/CustomerAddresses/add.php:2
@@ -783,7 +846,7 @@ msgid "Categories"
 msgstr "Kategorien"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/src/ShopAdmin.php:75
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:174
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:174
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:48
 msgid "Products"
 msgstr "Produkte"
@@ -807,10 +870,10 @@ msgstr "Kundenrabatte"
 msgid "Shop Countries"
 msgstr "Länder"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/src/ShopPlugin.php:67
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:34
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:11
+#: mnt/DATA/workspaces/php/cakephp-shop/src/ShopPlugin.php:72
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:34
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:11
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:4
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:10
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:16
@@ -830,11 +893,11 @@ msgstr "Menge"
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:1
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:10
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:3
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:13
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:1
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:10
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:2
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:16
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:9
@@ -843,11 +906,11 @@ msgstr "Alle Kategorien"
 msgid "Shop Categories"
 msgstr "Shop Kategorien"
 
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:27
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:4
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:6
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:27
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:4
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:6
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:13
@@ -962,20 +1025,347 @@ msgstr "Shop Kategorien"
 msgid "New {0}"
 msgstr "{0} hinzufügen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:38
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Products/view.bak.php:6
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info.php:8
-msgid "Category"
-msgstr "Kategorie"
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:6
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:12
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:34
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:8
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:19
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:30
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:41
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:32
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/index.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:35
+msgid "List {0}"
+msgstr "{0} auflisten"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:10
+msgid "Parent Shop Categories"
+msgstr "Übergeordnete Shopkategorien"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:16
+msgid "Parent Shop Category"
+msgstr "Übergeordnete Shopkategorie"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:1
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:7
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:32
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:35
+msgid "Shop Products"
+msgstr "Produkte"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:6
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:13
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/related_products.php:51
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:33
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:20
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:66
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:8
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/related_products.php:51
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:44
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:30
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:50
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:80
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:33
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:20
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:66
+msgid "Shop Product"
+msgstr "Produkt"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:34
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_add.php:12
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_add.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:34
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:34
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:58
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/add.php:12
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:34
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:34
+msgid "Add {0}"
+msgstr "{0} hinzufügen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_add.php:48
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/related_custom_texts.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/related_page_meta.php:17
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_add.php:26
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:32
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:52
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:58
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_add.php:21
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:56
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:61
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:50
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:51
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:57
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:51
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:39
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:44
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:50
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:123
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:144
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:44
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/related_page_meta.php:17
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:37
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:43
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/add.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit_iframe.php:22
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:60
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:66
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:47
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:53
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:44
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:50
+msgid "Submit"
+msgstr "Senden"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:11
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:10
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:18
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/costs.php:9
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:8
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:14
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:18
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:51
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:4
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:2
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:40
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:4
+msgid "Edit {0}"
+msgstr "{0} bearbeiten"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:56
+msgid "Languages"
+msgstr "Sprachen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:43
+msgid "{0}"
+msgstr "{0}"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:49
+msgid "Current"
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:56
+msgid "General"
+msgstr "Allgemein"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:66
+msgid "Manage Parent: {0}"
+msgstr "Übergeordnetes Element bearbeiten: {0}"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:77
+msgid "Teaser"
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:84
+msgid "Description"
+msgstr "Beschreibung"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:93
+msgid "Layout"
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:94
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:95
+msgid "Default"
+msgstr "Standardwert"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:99
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_edit.php:45
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:87
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:104
+msgid "Tags"
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:130
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:147
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:165
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_edit.php:53
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:52
+msgid "Save Changes"
+msgstr "Änderungen übernehmen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:134
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:137
+msgid "Custom Texts"
+msgstr "Texte"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:152
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_edit.php:155
+msgid "Custom Files"
+msgstr "Dateien"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/_index.php:6
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:95
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:14
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:23
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:26
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:22
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/cell/ReportTopSeller/products.php:15
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:8
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/order_items_table.php:11
 msgid "Product"
 msgstr "Produkt"
 
@@ -1093,338 +1483,6 @@ msgstr "Löschen"
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:157
 msgid "Are you sure you want to delete # {0}?"
 msgstr "# {0} wirklich löschen?"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:35
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:35
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:6
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:12
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:34
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:8
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:19
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:30
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:41
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:32
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:38
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:35
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:35
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:16
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/index.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:35
-msgid "List {0}"
-msgstr "{0} auflisten"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:10
-msgid "Parent Shop Categories"
-msgstr "Übergeordnete Shopkategorien"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:16
-msgid "Parent Shop Category"
-msgstr "Übergeordnete Shopkategorie"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:35
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:1
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:7
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:32
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:38
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:35
-msgid "Shop Products"
-msgstr "Produkte"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:6
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:13
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/related_products.php:51
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:33
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_index.php:20
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:66
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:8
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/related_products.php:51
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:38
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:44
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/index.php:30
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:50
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:80
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:27
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:33
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/index.php:20
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:66
-msgid "Shop Product"
-msgstr "Produkt"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:34
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_add.php:12
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_add.php:5
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:34
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:34
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:58
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:23
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/add.php:12
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:34
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:34
-msgid "Add {0}"
-msgstr "{0} hinzufügen"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/add.php:48
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/related_custom_texts.php:25
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/related_page_meta.php:17
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_add.php:26
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:32
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/add.php:52
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:58
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_add.php:21
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:56
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_add.php:61
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:50
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/add.php:51
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:57
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/add.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:51
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/add.php:39
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/add.php:44
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:50
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/add.php:123
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/edit.php:144
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_add.php:44
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/related_page_meta.php:17
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/add.php:37
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:43
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/add.php:29
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:35
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit_iframe.php:22
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/add.php:60
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:66
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/add.php:47
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:53
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/add.php:44
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:50
-msgid "Submit"
-msgstr "Senden"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:11
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/manage.php:10
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_edit.php:18
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCountries/_view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/_view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerAddresses/edit.php:29
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_edit.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomerDiscounts/_view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_edit.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCustomers/_view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderInvoices/edit.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/edit.php:29
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactionNotifies/edit.php:29
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderTransactions/edit.php:29
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/costs.php:9
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:8
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:14
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:15
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/edit.php:29
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTags/view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/edit.php:18
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopTexts/view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/edit.php:51
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/edit.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockValues/view.php:4
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:2
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/edit.php:40
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:4
-msgid "Edit {0}"
-msgstr "{0} bearbeiten"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:38
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:56
-msgid "Languages"
-msgstr "Sprachen"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:43
-msgid "{0}"
-msgstr "{0}"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:49
-msgid "Current"
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:56
-msgid "General"
-msgstr "Allgemein"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:66
-msgid "Manage Parent: {0}"
-msgstr "Übergeordnetes Element bearbeiten: {0}"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:77
-msgid "Teaser"
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:84
-msgid "Description"
-msgstr "Beschreibung"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:93
-msgid "Layout"
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:94
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:95
-msgid "Default"
-msgstr "Standardwert"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:99
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_edit.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:87
-msgid "Advanced"
-msgstr "Erweitert"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:104
-msgid "Tags"
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:130
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:147
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:165
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/_edit.php:53
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopProducts/edit.bak.php:52
-msgid "Save Changes"
-msgstr "Änderungen übernehmen"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:134
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:137
-msgid "Custom Texts"
-msgstr "Texte"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:152
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/edit.php:155
-msgid "Custom Files"
-msgstr "Dateien"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopCategories/index_tree.php:11
 msgid "Repair"
@@ -1858,8 +1916,11 @@ msgid "Shop Order Item"
 msgstr "Bestellartikel"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrderItems/_index.php:51
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:142
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:26
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:29
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:64
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table_old.php:20
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:59
 msgid "Total"
 msgstr "Gesamt"
 
@@ -1885,8 +1946,10 @@ msgstr ""
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:98
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/StockTransfers/view.php:130
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/Stocks/view.php:90
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:24
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:27
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:23
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:6
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/order_items_table.php:9
 msgid "Amount"
 msgstr "Menge"
 
@@ -1973,56 +2036,69 @@ msgstr "Bestellungsrechner"
 msgid "Edit {0} {1}"
 msgstr "{0} bearbeiten ({1})"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:35
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:38
 msgid "Date of order: {0}"
 msgstr "Bestelldatum: {0}"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:39
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:42
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:42
 msgid "Rechnungsdatum: {0}"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:46
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:49
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:49
 msgid "Order: {0}"
 msgstr "Bestellung: {0}"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:47
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:50
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:50
 msgid "Invoice: {0}"
 msgstr "Rechnung: {0}"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:53
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:56
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/order_items_table.php:7
 msgid "Nr."
 msgstr "Nr."
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:55
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:58
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/order_items_table.php:9
 msgid "Menge"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:57
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:60
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/order_items_table.php:11
 msgid "Bezeichnung"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:59
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:62
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/order_items_table.php:13
+msgid "Preis"
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:64
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/order_items_table.php:15
 msgid "Betrag"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:76
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:82
 msgid "Summe exkl. MwSt."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:81
-msgid "Gutschein Rabatt"
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:85
-msgid "Endsumme exkl. MwSt."
-msgstr ""
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:90
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:86
 msgid "{0}% MwSt."
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview.php:94
-msgid "Gesamtsumme"
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:91
+msgid "Summe inkl. MwSt."
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:95
+msgid "Gutschein Rabatt"
+msgstr ""
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/printview1.php:100
+msgid "Rechnungsbetrag"
 msgstr ""
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/storno.php:2
@@ -2036,14 +2112,14 @@ msgstr "Bestellung stornieren"
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:44
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/billing_address.php:3
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/submit.php:18
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:30
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:31
 msgid "Billing address"
 msgstr "Rechnungsadresse"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:49
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/shipping_address.php:3
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/submit.php:30
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:38
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:39
 msgid "Shipping address"
 msgstr "Lieferadresse"
 
@@ -2069,6 +2145,7 @@ msgstr "Bestellartikel"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:92
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:5
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/order_items_table.php:8
 msgid "Pos"
 msgstr "Pos"
 
@@ -2081,98 +2158,85 @@ msgid "Serial"
 msgstr "Art.Nr."
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:96
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:130
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table_old.php:8
 msgid "Subtotal"
 msgstr "Zwischensumme"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:138
-msgid "Tax"
-msgstr "Steuer"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:146
-msgid "Discount"
-msgstr "Rabatte"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:150
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:69
-msgid "Order total"
-msgstr "Gesamtsumme"
-
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:169
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:144
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Payment/pay.php:3
 msgid "Payment"
 msgstr "Zahlung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:173
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:148
 msgid "Payment status"
 msgstr "Zahlungsstatus"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:177
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:152
 msgid "Payed on"
 msgstr "Bezahlt am"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:190
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:219
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:165
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:194
 msgid "Element missing: "
 msgstr "Element nicht gefunden: "
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:202
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:177
 msgid "Delivery status"
 msgstr ""
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:206
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:181
 msgid "Delivered on"
 msgstr "Geliefert am"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:210
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:185
 msgid "Shipping Type"
 msgstr "Versandart"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:230
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:205
 msgid "Print order"
 msgstr "Bestellungen drucken"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:234
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:209
 msgid "Order PDF"
 msgstr "Bestellungs PDF"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:238
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:213
 msgid "Send Order confirmation"
 msgstr "Bestellbenachrichtigung senden"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:250
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:225
 msgid "Invoice"
 msgstr "Rechnung"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:260
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:235
 msgid "Invoice #"
 msgstr "Rechnung #"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:261
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:236
 msgid "Invoice date"
 msgstr "Rechnungsdatum"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:273
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:248
 msgid "No invoice"
 msgstr "Keine Rechnung vorhanden"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:283
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:258
 msgid "Print invoice"
 msgstr "Rechnung drucken"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:287
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:262
 msgid "Invoice PDF"
 msgstr "Rechnungs PDF"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:291
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:266
 msgid "Send Invoice"
 msgstr "Rechnung senden"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:297
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:272
 msgid "Create invoice"
 msgstr "Rechnung erstellen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:304
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Admin/ShopOrders/view.php:279
 msgid "Mark PAYED"
 msgstr "Als BEZAHLT markieren"
 
@@ -2497,8 +2561,10 @@ msgstr ""
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/empty.php:3
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/empty.php:4
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/empty.php:9
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:8
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:9
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:13
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:15
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:7
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:8
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/base.php:4
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/cart.php:3
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/cart.php:7
@@ -2513,38 +2579,97 @@ msgstr "Sie haben noch keinen Artikel im Warenkorb"
 msgid "View products"
 msgstr "Produkte ansehen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:16
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:19
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:15
 msgid "Your shopping cart"
 msgstr "Ihr Warenkorb"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:25
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:28
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:24
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:9
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/order_items_table.php:12
 msgid "Item Price"
 msgstr "Einzelpreis"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:44
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:48
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:43
 msgid "Remove from cart"
 msgstr "Aus dem Warenkorb entfernen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:46
-msgid "Are you sure?"
-msgstr "Sind Sie sicher?"
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:50
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:45
+msgid "Do you really want to remove this item from cart?"
+msgstr "Wollen Sie wirklich diesen Artikel vom Warenkorb entfernen?"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:75
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:81
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:111
 msgid "Update cart"
 msgstr "Warenkorb aktualisieren"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:76
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:82
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:112
 msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:77
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:84
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:113
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/base.php:5
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/cart.php:6
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/customer_signup.php:3
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/shipping_type.php:3
 msgid "Checkout"
 msgstr "Zur Kasse"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:96
+msgid "You are using the coupon code: {0}"
+msgstr "Eingelöster Gutschein: {0}"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:105
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:80
+msgid "Remove coupon"
+msgstr "Gutschein entfernen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:107
+msgid "Do you really want to remove this coupon?"
+msgstr "Gutschein wirklich entfernen?"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:111
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:123
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:128
+msgid "Redeem coupon"
+msgstr "Gutschein einlösen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index.php:121
+msgid "Enter coupon code here"
+msgstr "Gutschein Code hier eintragen"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:68
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:28
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:25
+msgid "Order Items total"
+msgstr "Bestellartikel Summe"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:79
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:58
+msgid "Coupon {0}"
+msgstr "Gutschein {0}"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:88
+msgid "Payable"
+msgstr "Zahlbar"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:98
+msgid "Order Tax"
+msgstr "Steuern"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Cart/index1.php:105
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table_old.php:28
+msgid "Order total"
+msgstr "Gesamtsumme"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Carts/index.php:15
+msgid "{0} items"
+msgstr "{0} Artikel"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Categories/view.php:82
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Categories/view_products.php:48
@@ -2745,12 +2870,12 @@ msgid "Review your order"
 msgstr "Überprüfen Sie Ihre Bestellung"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/submit.php:45
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:51
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:52
 msgid "Payment Method"
 msgstr "Zahlungsart"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/Checkout/submit.php:67
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:72
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:73
 msgid "Shipping Method"
 msgstr "Versandart"
 
@@ -2875,7 +3000,7 @@ msgstr "Bestellungsdetails und Status ansehen"
 msgid "Order purchased on {0}"
 msgstr "Bestellung vom {0}"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:96
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/Orders/view.php:97
 msgid "List all orders"
 msgstr "Alle Bestellungen auflisten"
 
@@ -2992,6 +3117,43 @@ msgstr "zzgl. 20% MwSt."
 msgid "includes 20% Tax"
 msgstr "inkl. 20% MwSt."
 
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Checkout/cart.php:64
+msgid "Payable amount"
+msgstr "Zahlbarer Betrag"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:39
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:35
+msgid "Coupon discount"
+msgstr "Gutscheinrabatt"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:48
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:43
+msgid "Subtotal excl. tax"
+msgstr "Zwischensumme exkl. Steuern"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:54
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:49
+msgid "Tax {0}%"
+msgstr "Steuer {0}%"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:59
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:54
+msgid "Total incl. tax"
+msgstr "Summe inkl. Steuern"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table.php:70
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/pdf/summary_table.php:65
+msgid "Incl. Tax {0}%"
+msgstr "Inkl. Steuer {0}%"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table_old.php:16
+msgid "Tax"
+msgstr "Steuer"
+
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/calculation_table_old.php:24
+msgid "Discount"
+msgstr "Rabatte"
+
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Order/messages.php:4
 msgid "Your order has been submitted"
 msgstr "Bestellung wurde abgeschickt"
@@ -3058,10 +3220,10 @@ msgid "Online 24/7"
 msgstr "Online 24/7"
 
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info_price.php:10
-msgid "Price is only available for logged in customers"
-msgstr "Preise sind nur für angemeldete Benutzer sichtbar"
+msgid "Price information is only visible for registered customers"
+msgstr "Preise sind nur für registrierte Benutzer sichtbar"
 
-#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info_price.php:13
+#: mnt/DATA/workspaces/php/cakephp-shop/templates/element/Products/product_info_price.php:15
 msgid "Please login to see prices"
 msgstr "Bitte melden Sie sich an, um Preise zu sehen"
 
@@ -3088,6 +3250,9 @@ msgstr "Hallo, {0}"
 #: mnt/DATA/workspaces/php/cakephp-shop/templates/layout/frontend.php:36
 msgid "Logout"
 msgstr "Abmelden"
+
+#~ msgid "Are you sure?"
+#~ msgstr "Sind Sie sicher?"
 
 #~ msgid "shop country"
 #~ msgstr "Land"
@@ -3328,9 +3493,6 @@ msgstr "Abmelden"
 #~ msgid "Please select your prefered shipping method"
 #~ msgstr "Bitte wählen Sie Ihre bevorzugte Versandart"
 
-#~ msgid "Invalid password"
-#~ msgstr "Ungültiges Passwort"
-
 #~ msgid "Passwords do not match"
 #~ msgstr "Die Passwörter stimmen nicht überein"
 
@@ -3418,9 +3580,6 @@ msgstr "Abmelden"
 #~ msgid "Add billing address and continue"
 #~ msgstr "Rechnungsadresse hinzufügen und weiter"
 
-#~ msgid "Remove"
-#~ msgstr "Löschen"
-
 #~ msgid "Select Payment Method"
 #~ msgstr "Zahlungsart wählen"
 
@@ -3432,9 +3591,6 @@ msgstr "Abmelden"
 
 #~ msgid "or"
 #~ msgstr "oder"
-
-#~ msgid "New customer has been added"
-#~ msgstr "Neuer Kunde wurde hinzugefügt"
 
 #~ msgid "Added {0} {1} to cart"
 #~ msgstr "{0} {1} wurde dem Warenkorb hinzugefügt"

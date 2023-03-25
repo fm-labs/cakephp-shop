@@ -54,11 +54,11 @@ class ShopCustomerDiscountsController extends AppController
         $this->set('fields', [
             'shop_customer_id' => [
                 'type' => 'select',
-                'empty' => __('All customers'),
+                'empty' => __d('shop', 'All customers'),
             ],
             'shop_product_id' => [
                 'type' => 'select',
-                'empty' => __('All products'),
+                'empty' => __d('shop', 'All products'),
             ],
         ]);
 
