@@ -79,7 +79,10 @@ class CheckoutController extends AppController
      */
     public function next($cartId = null)
     {
-        $this->Checkout->cleanup();
+        //$this->Checkout->cleanup();
+        if (!$cartId) {
+            $cartId = $this->Cart->getCartId();
+        }
         $this->redirect(['action' => 'index', $cartId]);
     }
 
@@ -104,7 +107,12 @@ class CheckoutController extends AppController
             $action = $request->getParam('action');
             $action = Inflector::underscore($action);
             if (!$this->Checkout->hasStep($action)) {
-                throw $ex;
+                //throw $ex;
+                return function() {
+                    //@TODO Log bad request
+                    $this->Flash->error(__d('shop', 'Something went wrong. Please try again.'));
+                    return $this->redirect(['action' => 'index']);
+                };
             }
 
             return function() {

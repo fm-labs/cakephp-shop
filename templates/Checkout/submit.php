@@ -29,7 +29,7 @@ $order = $this->get('order')
                 <div class="h4">
                     <?= __d('shop','Shipping address'); ?>
                 </div>
-                <small><?= $this->Html->link(
+                <small><?php $this->Html->link(
                         __d('shop','Edit'),
                         ['action' => 'shipping_address', $order->cartid, '?' => ['edit' => 1, 'ref' => 'order-summary']]); ?></small>
             </div>

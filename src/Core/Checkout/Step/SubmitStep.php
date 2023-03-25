@@ -48,6 +48,10 @@ class SubmitStep extends BaseStep implements CheckoutStepInterface
             }
         }
 
+        $order = $this->Checkout->getOrder();
+        $calculator = $this->Checkout->ShopOrders->getOrderCalculator($order);
+        $controller->set(compact('order', 'calculator'));
+
         return $controller->render('submit');
     }
 }

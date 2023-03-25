@@ -359,7 +359,7 @@ class CheckoutComponent extends Component
         $this->_order = $order;
         if ($update) {
             if (!$this->saveOrder()) {
-
+                debug("Failed to save order");
             }
         }
 
@@ -470,7 +470,7 @@ class CheckoutComponent extends Component
      * @param array $data
      * @return bool|\Shop\Controller\Component\CheckoutComponent
      */
-    public function setPaymentType($type, array $data)
+    public function setPaymentType($type, array $data = [])
     {
         if (!$this->getOrder()) {
             Log::warning('Checkout: Failed to patch order shipping type: No order');
@@ -478,10 +478,10 @@ class CheckoutComponent extends Component
             return false;
         }
 
-        $paymentType = $data['payment_type'] ?? null;
+        $data['payment_type'] = $type;
         $validate = 'payment';
 
-        switch ($paymentType) {
+        switch ($data['payment_type']) {
             case "credit_card_internal":
                 if (isset($data['cc_brand']) && isset($data['cc_number'])) {
                     $data['payment_info_1'] = sprintf("%s:%s", $data['cc_brand'], $data['cc_number']);

@@ -142,7 +142,10 @@ class PaymentStep extends BaseStep implements CheckoutStepInterface
     public function execute(Controller $controller)
     {
         $engine = $this->engine();
-        if (!$engine || $controller->getRequest()->getData('op') == "change" || $controller->getRequest()->getQuery('change') == true) {
+        if (!$engine
+            || $controller->getRequest()->getData('op') == "change"
+            || $controller->getRequest()->getQuery('edit'))
+        {
             if ($controller->getRequest()->is(['post', 'put'])) {
                 $paymentType = $controller->getRequest()->getData('payment_type');
 
