@@ -10,7 +10,7 @@ $shopProduct = $this->get('shopProduct');
             <strong><i class="fa fa-lock"></i>&nbsp;<?= __d('shop','Price information is only visible for registered customers'); ?></strong>
             <p><?php
                 $url = ['_name' => 'user:login', '?' => [
-                        'redirect' => urlencode($this->Html->Url->build($shopProduct->url))
+                        'redirect' => $this->Html->Url->build($shopProduct->url)
                 ]];
                 echo $this->Html->link(__d('shop','Please login to see prices'), $url, ['class' => 'btn btn-default']); ?></p>
         </div>
