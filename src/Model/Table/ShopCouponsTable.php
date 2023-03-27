@@ -45,7 +45,9 @@ class ShopCouponsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Cupcake.Publish', [
-            'statusField' => 'is_published'
+            'statusField' => 'is_published',
+            'startField' => 'valid_from',
+            'endField' => 'valid_until',
         ]);
     }
 
