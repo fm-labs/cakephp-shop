@@ -235,6 +235,7 @@ class CartController extends AppController
                 $ShopCoupons = $this->fetchTable('Shop.ShopCoupons');
                 /** @var \Shop\Model\Entity\ShopCoupon $coupon */
                 $coupon = $ShopCoupons->find()
+                    ->find('published')
                     ->where(['code' => $coupon_code])
                     ->first();
                 if (!$coupon) {
@@ -277,15 +278,7 @@ class CartController extends AppController
                     //}
                 }
 
-                //@todo Move coupon value calculation to order calculator
                 $order->coupon_code = $coupon_code;
-                if ($coupon->valuetype == "total") {
-                    $order->coupon_value = $coupon->value;
-                } elseif ($coupon->valuetype == "percent") {
-                    //@todo precission
-                    $order->coupon_value = $order->order_value_total / 100 * $coupon->value;
-                }
-
                 $order = $this->ShopOrders->calculateOrder($order);
                 $this->Cart->setOrder($order, true);
 

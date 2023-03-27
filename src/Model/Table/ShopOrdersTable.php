@@ -5,6 +5,7 @@ namespace Shop\Model\Table;
 
 use Cake\Http\Exception\NotImplementedException;
 use Cake\I18n\FrozenTime;
+use Cake\ORM\TableRegistry;
 use Cupcake\Lib\Status;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
@@ -18,6 +19,8 @@ use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use Shop\Core\Address\AddressInterface;
 use Shop\Core\Order\CostCalculator;
+use Shop\Core\Order\CostValue;
+use Shop\Core\Order\CostValueInterface;
 use Shop\Core\Order\OrderInterface;
 use Shop\Core\Order\OrderTableInterface;
 use Shop\Lib\Shop;
@@ -396,8 +399,8 @@ class ShopOrdersTable extends Table implements OrderTableInterface
         $order->items_value_tax = $itemsValue->getTaxValue();
         $order->items_value_taxed = $itemsValue->getTotalValue();
 
-        //$couponValue = $calculator->getValue('coupon');
-        //$order->coupon_value = $couponValue->getTotalValue();
+        $couponValue = $calculator->getValue('coupon');
+        $order->coupon_value = $couponValue->getNetValue();
 
         $order->order_value_tax = $calculator->getTaxValue();
         $order->order_value_total = $calculator->getTotalValue();
@@ -415,8 +418,11 @@ class ShopOrdersTable extends Table implements OrderTableInterface
 
         // coupon
         // @todo coupon tax calculation
-        $couponValue = min($order->coupon_value, $orderItemsCalculator->getNetValue());
-        $calculator->addValue('coupon', $couponValue * -1, 20, __d('shop', "Coupon"));
+        //$couponValue = min($order->coupon_value, $orderItemsCalculator->getNetValue());
+        //$calculator->addValue('coupon', $couponValue * -1, 20, __d('shop', "Coupon"));
+
+        $couponValue = $this->calculateCouponValue($order);
+        $calculator->addValue('coupon', $couponValue);
 
         // shipping
         // @todo shipping cost calculation
@@ -427,6 +433,43 @@ class ShopOrdersTable extends Table implements OrderTableInterface
         //$calculator->addValue('fees', 0, 0, __d('shop', "Additional fees"));
 
         return $calculator;
+    }
+
+    protected function calculateCouponValue(ShopOrder $order): CostValueInterface
+    {
+        $couponValue = 0;
+        $taxRate = 20; // @TODO Handle multiple tax rates?!
+
+        if ($order->coupon_code) {
+            try {
+                $ShopCoupons = TableRegistry::getTableLocator()->get('Shop.ShopCoupons');
+                $coupon = $ShopCoupons->find()
+                    ->where(['code' => $order->coupon_code])
+                    ->first();
+
+                if ($coupon) {
+                    $itemsCalculator = $this->getOrderItemsCalculator($order);
+
+                    if ($coupon->valuetype == "total") {
+                        $couponValue = $coupon->value;
+                    } elseif ($coupon->valuetype == "percent") {
+                        $couponValue = round($itemsCalculator->getNetValue() * $coupon->value / 100, 2, PHP_ROUND_HALF_UP);
+                    } else {
+                        throw new \RuntimeException("Invalid coupon valuetype");
+                    }
+
+                    // coupon value can not be higher than items value
+                    $couponValue = min($couponValue, $itemsCalculator->getNetValue());
+                }
+            } catch (\Exception $ex) {
+                $couponValue = 0;
+                //@todo handle exception
+                debug($ex->getMessage());
+                //throw $ex;
+            }
+        }
+
+        return new CostValue($couponValue, $taxRate, __d("shop", "Coupon"));
     }
 
     /**

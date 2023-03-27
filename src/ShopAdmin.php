@@ -49,57 +49,62 @@ class ShopAdmin extends BaseAdminPlugin implements EventListenerInterface
             'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
             'data-icon' => 'shopping-cart',
             'children' => [
-                'orders' => [
+                'shop_orders' => [
                     'title' => __d('shop', 'Orders'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'index'],
                     'data-icon' => 'list',
                 ],
                 /*
-                'order_invoices' => [
+                'shop_order_invoices' => [
                     'title' => 'Invoices',
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderInvoices', 'action' => 'index'],
                     'data-icon' => 'eur'
                 ],
                 */
-                'order_transactions' => [
+                'shop_order_transactions' => [
                     'title' => __d('shop', 'Transactions'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopOrderTransactions', 'action' => 'index'],
                     'data-icon' => 'usd',
                 ],
-                'categories' => [
+                'shop_categories' => [
                     'title' => __d('shop', 'Categories'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopCategories', 'action' => 'index'],
                     'data-icon' => 'folder',
                 ],
-                'products' => [
+                'shop_products' => [
                     'title' => __d('shop', 'Products'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopProducts', 'action' => 'index'],
                     'data-icon' => 'archive',
                 ],
-                'customers' => [
+                'shop_customers' => [
                     'title' => __d('shop', 'Customers'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomers', 'action' => 'index'],
                     'data-icon' => 'users',
                 ],
                 /*
-                'customer_addresses' => [
+                'shop_customer_addresses' => [
                     'title' => __d('shop', 'Customer Addresses'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerAddresses', 'action' => 'index'],
                     'data-icon' => 'address-book'
                 ],
                 */
-                'customer_discounts' => [
+                'shop_customer_discounts' => [
                     'title' => __d('shop', 'Customer Discounts'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'ShopCustomerDiscounts', 'action' => 'index'],
                     'data-icon' => 'user-plus',
                 ],
+                'shop_coupons' => [
+                    'title' => __d('shop', 'Coupons'),
+                    'url' => ['plugin' => 'Shop', 'controller' => 'ShopCoupons', 'action' => 'index'],
+                    'data-icon' => 'gift',
+                ],
                 /*
-                'stocks' => [
+                'shop_stocks' => [
                     'title' => __d('shop', 'Stock'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'Stocks', 'action' => 'index'],
                     'data-icon' => 'truck'
                 ],
-                'stock_transfers' => [
+                'shop_stock_transfers' => [
                     'title' => __d('shop', 'Stock Transfers'),
                     'url' => ['plugin' => 'Shop', 'controller' => 'StockTransfers', 'action' => 'index'],
                     'data-icon' => 'truck'

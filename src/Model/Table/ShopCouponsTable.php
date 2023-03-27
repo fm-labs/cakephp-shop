@@ -44,6 +44,9 @@ class ShopCouponsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Cupcake.Publish', [
+            'statusField' => 'is_published'
+        ]);
     }
 
     /**
@@ -88,11 +91,11 @@ class ShopCouponsTable extends Table
             ->notEmptyString('is_published');
 
         $validator
-            ->dateTime('valid_from')
+            ->date('valid_from')
             ->allowEmptyDateTime('valid_from');
 
         $validator
-            ->dateTime('valid_until')
+            ->date('valid_until')
             ->allowEmptyDateTime('valid_until');
 
         return $validator;

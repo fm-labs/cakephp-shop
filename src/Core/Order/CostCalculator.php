@@ -17,7 +17,7 @@ class CostCalculator implements CostValueInterface
      * @param $label double|null
      * @return $this
      */
-    public function addValue($name, $net, $taxrate, $label)
+    public function addValue($name, $net, $taxrate = null, $label = null)
     {
         if ($net instanceof CostValueInterface) {
             $val = $net;
