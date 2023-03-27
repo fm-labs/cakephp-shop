@@ -102,9 +102,9 @@ class Mpay24SelectPayment implements PaymentEngineInterface
             if (Configure::read('Shop.Payment.testMode')) {
                 $testMode = true;
             }
-            elseif (Configure::read('Mpay24.useTestSystem')) {
-                $testMode = true;
-            }
+            //elseif (Configure::read('Mpay24.useTestSystem')) {
+            //    $testMode = true;
+            //}
             else if (Configure::read('Shop.Demo.enabled') && $order->shop_customer->email == Configure::read('Shop.Demo.username')) {
                 $testMode = true;
             }

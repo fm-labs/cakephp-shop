@@ -3,44 +3,54 @@
 namespace Shop\Health;
 
 use Cake\Core\Configure;
-use Cupcake\Health\HealthCheckInterface;
+use Cupcake\Health\HealthCheckGeneratorInterface;
 use Cupcake\Health\HealthStatus;
 
-class Mpay24ConfigHealthCheck implements HealthCheckInterface
+class Mpay24ConfigHealthCheck implements HealthCheckGeneratorInterface
 {
     /**
      * @inheritDoc
      */
-    public function getHealthStatus(): HealthStatus
+    public function getHealthStatus(): \Generator
     {
         if (!\Cake\Core\Plugin::isLoaded('FmLabs/Mpay24')) {
-            return HealthStatus::crit("Mpay24 plugin not loaded");
+            yield HealthStatus::crit("Mpay24 plugin not loaded");
         }
 
-        if (Configure::read('Shop.Payment.testMode') || Configure::read('Mpay24.useTestSystem')) {
-            $testMode = true;
-        }
-        if ($testMode) {
-            $merchantID = Configure::read('Mpay24.testing.merchantId');
-            $soapPassword = Configure::read('Mpay24.testing.merchantPassword');
-        } else {
-            $merchantID = Configure::read('Mpay24.production.merchantId');
-            $soapPassword = Configure::read('Mpay24.production.merchantPassword');
+        if (!Configure::check('Mpay24')) {
+            yield HealthStatus::crit("Mpay24 not configured");
         }
 
-        if (!$merchantID) {
-            return HealthStatus::crit("Mpay24 Merchant ID missing");
-        }
-        if (!$soapPassword) {
-            return HealthStatus::crit("Mpay24 Merchant password missing");
+        $mpay24ConfCheck = function (string $profile) {
+            $merchantID = Configure::read(sprintf('Mpay24.%s.merchantId', $profile));
+            $soapPassword = Configure::read(sprintf('Mpay24.%s.merchantPassword', $profile));
+            $useTestSystem = Configure::read(sprintf('Mpay24.%s.useTestSystem', $profile));
+            //$debug = Configure::read(sprintf('Mpay24.%s.debug', $profile));
+
+            if (!$merchantID) {
+                yield HealthStatus::crit("Mpay24 profile '{$profile}': Merchant ID missing");
+            }
+            if (!$soapPassword) {
+                yield HealthStatus::crit("Mpay24 profile '{$profile}': Merchant password missing");
+            }
+
+            if (str_contains($profile, "test") && !$useTestSystem) {
+                yield HealthStatus::crit(sprintf("Mpay24 profile '%s' is assumed to be a testing profile, but is not using the Mpay24 Test API endpoints", $profile));
+            }
+        };
+        foreach (array_keys(Configure::read('Mpay24', [])) as $profile) {
+            foreach ($mpay24ConfCheck($profile) as $_result) {
+                yield $_result;
+            }
         }
 
+        $testMode = (bool)Configure::read('Shop.Payment.testMode');
         if ($testMode && !Configure::read('debug')) {
-            return HealthStatus::crit("Mpay24 Testmode enabled in non-debug environment");
+            yield HealthStatus::crit("Payment Testmode enabled in non-debug environment");
         } elseif ($testMode) {
-            return HealthStatus::warn("Mpay24 Testmode enabled");
+            yield HealthStatus::warn("Payment Testmode enabled");
         }
 
-        return HealthStatus::ok('Ok');
+        //yield HealthStatus::ok('Ok');
     }
 }
