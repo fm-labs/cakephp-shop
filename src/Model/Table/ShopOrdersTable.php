@@ -450,16 +450,19 @@ class ShopOrdersTable extends Table implements OrderTableInterface
                 if ($coupon) {
                     $itemsCalculator = $this->getOrderItemsCalculator($order);
 
+                    $baseValue = abs((float)$coupon->value);
                     if ($coupon->valuetype == "total") {
-                        $couponValue = $coupon->value;
+                        $couponValue = $baseValue;
                     } elseif ($coupon->valuetype == "percent") {
-                        $couponValue = round($itemsCalculator->getNetValue() * $coupon->value / 100, 2, PHP_ROUND_HALF_UP);
+                        $couponValue = round($itemsCalculator->getNetValue() * $baseValue / 100, 2, PHP_ROUND_HALF_UP);
                     } else {
                         throw new \RuntimeException("Invalid coupon valuetype");
                     }
 
                     // coupon value can not be higher than items value
                     $couponValue = min($couponValue, $itemsCalculator->getNetValue());
+                    // coupon value reduces the costs ;)
+                    $couponValue *= -1;
                 }
             } catch (\Exception $ex) {
                 $couponValue = 0;
