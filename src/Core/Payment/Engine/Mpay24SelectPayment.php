@@ -95,6 +95,8 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 throw new \RuntimeException('Mpay24 plugin not loaded');
             }
 
+            $calculator = $Payment->ShopOrders->getOrderCalculator($order);
+
             /**
              * Use test system with demo user
              */
@@ -150,15 +152,22 @@ class Mpay24SelectPayment implements PaymentEngineInterface
                 $mdxi->Order->ShoppingCart->Item($i)->ProductNr = $item->sku;
                 $mdxi->Order->ShoppingCart->Item($i)->Description = $item->title;
                 $mdxi->Order->ShoppingCart->Item($i)->Quantity = $item->amount;
-                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item->value_total);
+                $mdxi->Order->ShoppingCart->Item($i)->Price = self::formatPrice($item->value_net);
                 $i++;
             }
-            //$mdxi->Order->ShoppingCart->SubTotal = self::formatPrice($order->items_value_taxed);
-            //$mdxi->Order->ShoppingCart->ShippingCosts = self::formatPrice(0); //@TODO Add shipping costs
-            //$mdxi->Order->ShoppingCart->Discount = self::formatPrice(0); //@TODO Add discount value
-            //$mdxi->Order->ShoppingCart->Tax = self::formatPrice($order->order_value_tax);
+            $mdxi->Order->ShoppingCart->SubTotal = self::formatPrice($order->items_value_net);
 
-            $mdxi->Order->Price = self::formatPrice($order->order_value_total);
+            $shippingValue = $calculator->getValue('shipping');
+            $mdxi->Order->ShoppingCart->ShippingCosts = self::formatPrice($shippingValue->getNetValue());
+
+            $couponValue = $calculator->getValue('coupon');
+            $mdxi->Order->ShoppingCart->Discount = self::formatPrice($couponValue->getNetValue());
+
+            //$mdxi->Order->ShoppingCart->Tax = self::formatPrice($order->order_value_tax);
+            $mdxi->Order->ShoppingCart->Tax = self::formatPrice($calculator->getTaxValue());
+
+            //$mdxi->Order->Price = self::formatPrice($order->order_value_total);
+            $mdxi->Order->Price = self::formatPrice($calculator->getTotalValue());
             $mdxi->Order->Currency = $order->currency;
 
             // Set personal data only if user is logged in
