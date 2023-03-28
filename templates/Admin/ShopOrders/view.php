@@ -210,9 +210,11 @@ $this->Toolbar->addLink(__d('shop', 'Detail view'),
                     ['action' => 'pdfview', $entity->id, '?' => ['mode' => 'order']],
                     ['data-icon' => 'file-pdf-o', 'target' => '_blank']); ?>
 
+                <!--
                 <?= $this->Button->link(__d('shop', 'Send Order confirmation'),
                     ['action' => 'sendorder', $entity->id, '?' => ['mode' => 'invoice']],
                     ['data-icon' => 'envelope-o']); ?>
+                -->
             </div>
         </div>
     </section>
@@ -263,10 +265,11 @@ $this->Toolbar->addLink(__d('shop', 'Detail view'),
                     ['action' => 'pdfview', $entity->id, '?' => ['mode' => 'invoice']],
                     ['data-icon' => 'file-pdf-o', 'target' => '_blank']); ?>
 
+                <!--
                 <?= $this->Button->link(__d('shop', 'Send Invoice'),
                     ['action' => 'sendinvoice', $entity->id, '?' => ['mode' => 'invoice']],
                     ['data-icon' => 'envelope-o']); ?>
-
+                -->
                 <?php elseif (!$entity->invoice_nr && $entity->getStatus() >= \Shop\Model\Table\ShopOrdersTable::ORDER_STATUS_CONFIRMED): ?>
 
                 <?= $this->Button->link(__d('shop', 'Create invoice'),
