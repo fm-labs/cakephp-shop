@@ -12,7 +12,7 @@ echo $this->cell('Admin.DataTable', [[
         'submitted' => [],
         'nr_formatted' => [
             'formatter' => function($val, $row) {
-                return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'detailview', $row['id']], ['class' => 'link-frame']);
+                return $this->Html->link($val, ['plugin' => 'Shop', 'controller' => 'ShopOrders', 'action' => 'view', $row['id']], ['class' => 'link-frame']);
             }
         ],
         'order_value_total' => [
