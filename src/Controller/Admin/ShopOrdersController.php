@@ -114,7 +114,7 @@ class ShopOrdersController extends AppController
                 /*, 'ShopOrderAddresses' => ['Countries'], 'BillingAddresses' => ['Countries'], 'ShippingAddresses' => ['Countries']*/
             ],
             'conditions' => ['ShopOrders.is_temporary' => false],
-            'order' => ['ShopOrders.id' => 'DESC'],
+            'order' => ['ShopOrders.submitted' => 'DESC'],
             'status' => true,
         ];
 
