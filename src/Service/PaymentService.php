@@ -16,6 +16,11 @@ class PaymentService implements EventListenerInterface
 {
     use ShopEventLoggerTrait;
 
+    /**
+     * @var \Shop\Model\Table\ShopOrdersTable|null
+     */
+    protected ?\Shop\Model\Table\ShopOrdersTable $ShopOrders;
+
     public function implementedEvents(): array
     {
         return [
