@@ -12,7 +12,7 @@ class ShopProductSitemapProvider implements SitemapProviderInterface
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator(): \Generator|iterable
     {
         $ShopProducts = TableRegistry::getTableLocator()->get('Shop.ShopProducts');
         foreach ($ShopProducts->find()->where(['ShopProducts.type' => 'parent'])->find('published') as $product) {

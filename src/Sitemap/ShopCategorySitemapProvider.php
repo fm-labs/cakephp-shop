@@ -12,7 +12,7 @@ class ShopCategorySitemapProvider implements SitemapProviderInterface
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator(): \Generator|iterable
     {
         $ShopCategories = TableRegistry::getTableLocator()->get('Shop.ShopCategories');
         foreach ($ShopCategories->find()->find('published') as $category) {
