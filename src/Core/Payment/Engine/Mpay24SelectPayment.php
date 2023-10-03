@@ -250,8 +250,15 @@ class Mpay24SelectPayment implements PaymentEngineInterface
          */
         $clientIp = $Payment->getController()->getRequest()->clientIp();
 
+        // @todo Move IP checking to Mpay24 plugin
         // check ip
-        $isTestsystemIp = ($Payment->getController()->getRequest()->clientIp() == '213.208.153.58');
+        // Mpay24/Unzer System changes (2023-09-05):
+        // ---
+        // Der neue IP-Adressenbereich für unsere Produktivumgebung lautet: 37.221.72.0/24
+        // Die neue IP-Adresse für unsere Testumgebung lautet: 18.192.138.119
+        // ---
+        //$isTestsystemIp = ($Payment->getController()->getRequest()->clientIp() == '213.208.153.58');
+        $isTestsystemIp = ($Payment->getController()->getRequest()->clientIp() == '18.192.138.119');
 
         $query = $Payment->getController()->getRequest()->getQuery(); // + ['OPERATION' => null, 'TID' => null, 'MPAYTID' => null, 'STATUS' => null];
         if ($transaction->id != $query['TID']) { //@TODO Compary hash instead of id
