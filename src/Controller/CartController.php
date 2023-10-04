@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Shop\Controller;
 
+use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\Locator\TableLocator;
 
@@ -94,6 +96,9 @@ class CartController extends AppController
      */
     public function add()
     {
+        $event = new Event("Shop.Cart.Controller.beforeItemAdd", $this);
+        $this->getEventManager()->dispatch($event);
+
         if ($this->request->is('ajax')) {
             $this->viewBuilder()->setClassName('Json');
 

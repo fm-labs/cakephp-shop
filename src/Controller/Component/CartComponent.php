@@ -250,6 +250,11 @@ class CartComponent extends Component
         } else {
             $item['amount'] += $orderItem->amount;
         }
+
+//        $this->getController()->getEventManager()->dispatch(new Event('Shop.Cart.beforeItemAdd', $this, [
+//            'item' => $orderItem,
+//        ]));
+
         $orderItem = $this->updateItem($orderItem, $item);
 
         $this->getController()->getEventManager()->dispatch(new Event('Shop.Cart.afterItemAdd', $this, [
@@ -280,6 +285,9 @@ class CartComponent extends Component
             'data' => $data,
             'customer' => $this->Shop->getCustomer(),
         ]));
+        if ($event->getResult() === false) {
+            return false;
+        }
 
         $orderItem = $this->ShopOrders->ShopOrderItems->patchEntity(
             $orderItem,
@@ -498,7 +506,7 @@ class CartComponent extends Component
 
         if (!$this->ShopOrders->save($order)) {
             debug($order->getErrors());
-            throw new Exception('Fatal error: Failed to create cart order');
+            throw new \Exception('Fatal error: Failed to create cart order');
         }
         Log::info("Created cart order with id " . $order->id . " cartId: " . $order->cartid);
 

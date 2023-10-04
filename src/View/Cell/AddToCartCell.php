@@ -204,7 +204,7 @@ class AddToCartCell extends Cell
     protected function _createForm($formOptions, $formInputs, $formInputOptions)
     {
         if (!class_exists($this->formClass)) {
-            throw new Exception('AddToCartForm class not found in ' . $this->formClass);
+            throw new \Exception('AddToCartForm class not found in ' . $this->formClass);
         }
 
         $form = new $this->formClass();

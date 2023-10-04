@@ -189,7 +189,7 @@ $routes->scope('/shop', ['plugin' => 'Shop', '_namePrefix' => 'shop:'], function
     $routes->connect(
         '/products/{action}/{id}',
         ['controller' => 'Products'],
-        ['pass' => ['id']]
+        ['_name' => 'product:view', 'pass' => ['id']]
     );
     $routes->connect(
         '/products/{action}',
