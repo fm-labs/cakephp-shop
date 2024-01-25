@@ -1,7 +1,7 @@
 <?php $this->Breadcrumbs->add(__d('shop','My Account'), ['controller' => 'Customer', 'action' => 'index']); ?>
 <?php $this->Breadcrumbs->add(__d('shop','Latest Orders'), ['action' => 'index']); ?>
 <?php $this->loadHelper('Cupcake.Status'); ?>
-<?php $this->loadHelper('Time'); ?>
+<?php $this->loadHelper('Time', ['outputTimezone' => 'Europe/Vienna']); ?>
 <?php $this->assign('title', __d('shop','Latest orders')); ?>
 <div class="shopOrders index container">
 
@@ -24,7 +24,7 @@
             <?php foreach($shopOrders as $order): ?>
             <tr>
                 <td><?= $this->Html->link($order->nr_formatted, ['action' => 'view', $order->uuid]); ?></td>
-                <td><?= $this->Time->format($order->submitted); ?></td>
+                <td><?= $this->Time->i18nFormat($order->submitted); ?></td>
                 <td><?= $this->Number->currency($order->order_value_total, $order->currency); ?></td>
                 <td><?= $this->Status->label($order->status__status); ?></td>
                 <td class="actions">

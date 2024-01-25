@@ -268,6 +268,9 @@ class ShopOrdersController extends AppController
 //        ]);
 //        $this->set('entity', $shopOrder);
 //        $this->set('_serialize', 'entity');
+        //$this->viewBuilder()->setTemplatePath('Admin/ShopOrders');
+        $this->viewBuilder()->setTemplate('Shop.view');
+
         $this->Action->execute('view');
         //$this->render("detailview");
     }

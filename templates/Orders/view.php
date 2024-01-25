@@ -1,13 +1,14 @@
 <?php
 $this->Breadcrumbs->add(__d('shop','Shop'), ['_name' => 'shop:index', 'ref' => 'breadcrumb']);
 $this->Breadcrumbs->add(__d('shop','My Orders'), ['controller' => 'Orders', 'action' => 'index', 'ref' => 'breadcrumb']);
-$this->Breadcrumbs->add(__d('shop','View order details and status'), ['controller' => 'Orders', 'action' => 'view', $order->uuid, 'ref' => 'breadcrumb']);
+$this->Breadcrumbs->add(__d('shop', 'Order {0}', $order->nr_formatted), ['controller' => 'Orders', 'action' => 'view', $order->uuid, 'ref' => 'breadcrumb']);
 ?>
 <?php $this->loadHelper('Cupcake.Status'); ?>
+<?php $this->loadHelper('Time', ['outputTimezone' => 'Europe/Vienna']); ?>
 <?php $this->assign('title', __d('shop', 'Order {0}', $order->nr_formatted)); ?>
 <div class="shop order view container">
 
-    <h2><?= __d('shop','Order purchased on {0}', $this->Time->nice($order->submitted)); ?></h2>
+    <h2><?= __d('shop','Order {0}', $order->nr_formatted); ?></h2>
 
     <hr />
 
