@@ -46,12 +46,12 @@ $getValueFormatted = function(\Shop\Core\Order\CostValueInterface $value) {
         <?php foreach ($calculator->getTaxes() as $tax): ?>
             <?php if ($tax['value'] == 0): continue; endif; ?>
             <tr style="">
-                <td class="currency text-start"><?= __d('shop', 'Tax {0}%', $tax['taxRate']); ?></td>
+                <td class="currency text-start"><?= __d('shop', 'VAT {0}%', $tax['taxRate']); ?></td>
                 <td style="text-align:right;"><?= $this->Number->currency($tax['value'], 'EUR'); ?></td>
             </tr>
         <?php endforeach; ?>
         <tr style="font-weight: bold; border-top: 2px solid #333;">
-            <td class="currency text-start"><?= __d('shop', 'Total incl. tax'); ?></td>
+            <td class="currency text-start"><?= __d('shop', 'Total incl. VAT'); ?></td>
             <td style="text-align:right;"><?= $this->Number->currency($calculator->getTotalValue(), 'EUR'); ?></td>
         </tr>
     <?php else: ?>
@@ -62,7 +62,7 @@ $getValueFormatted = function(\Shop\Core\Order\CostValueInterface $value) {
         <?php foreach ($calculator->getTaxes() as $tax): ?>
             <?php if ($tax['value'] == 0): continue; endif; ?>
             <tr style="">
-                <td class="currency text-start"><?= __d('shop', 'Incl. Tax {0}%', $tax['taxRate']); ?></td>
+                <td class="currency text-start"><?= __d('shop', 'Incl. VAT {0}%', $tax['taxRate']); ?></td>
                 <td style="text-align:right;"><?= $this->Number->currency($tax['value'], 'EUR'); ?></td>
             </tr>
         <?php endforeach; ?>

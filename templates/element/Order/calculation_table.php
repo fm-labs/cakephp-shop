@@ -45,18 +45,18 @@ $getValueFormatted = function(\Shop\Core\Order\CostValueInterface $value) {
 
         <?php if (\Cake\Core\Configure::read('Shop.Price.displayNet')): ?>
             <tr class ="fw-bold" style="border-top: 2px solid #333;">
-                <td class="currency text-start"><?= __d('shop', 'Subtotal excl. tax'); ?></td>
+                <td class="currency text-start"><?= __d('shop', 'Subtotal excl. VAT'); ?></td>
                 <td class="currency text-end"><?= $this->Number->currency($calculator->getNetValue(), 'EUR'); ?></td>
             </tr>
             <?php foreach ($calculator->getTaxes() as $tax): ?>
                 <?php if ($tax['value'] == 0): continue; endif; ?>
                 <tr style="">
-                    <td class="currency text-start"><?= __d('shop', 'Tax {0}%', $tax['taxRate']); ?></td>
+                    <td class="currency text-start"><?= __d('shop', 'VAT {0}%', $tax['taxRate']); ?></td>
                     <td class="currency text-end"><?= $this->Number->currency($tax['value'], 'EUR'); ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr class ="fw-bold" style="border-top: 2px solid #333;">
-                <td class="currency text-start"><?= __d('shop', 'Total incl. tax'); ?></td>
+                <td class="currency text-start"><?= __d('shop', 'Total incl. VAT'); ?></td>
                 <td class="currency text-end"><?= $this->Number->currency($calculator->getTotalValue(), 'EUR'); ?></td>
             </tr>
         <?php else: ?>
@@ -67,7 +67,7 @@ $getValueFormatted = function(\Shop\Core\Order\CostValueInterface $value) {
             <?php foreach ($calculator->getTaxes() as $tax): ?>
                 <?php if ($tax['value'] == 0): continue; endif; ?>
                 <tr style="">
-                    <td class="currency text-start"><?= __d('shop', 'Incl. Tax {0}%', $tax['taxRate']); ?></td>
+                    <td class="currency text-start"><?= __d('shop', 'Incl. VAT {0}%', $tax['taxRate']); ?></td>
                     <td class="currency text-end"><?= $this->Number->currency($tax['value'], 'EUR'); ?></td>
                 </tr>
             <?php endforeach; ?>

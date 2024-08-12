@@ -39,7 +39,7 @@ $mode = $this->get('mode');
         <?php if ($mode == "invoice" && $shopOrder->submitted):?>
             <br />
             <?php
-            echo __d('shop', 'Rechnungsdatum: {0}', $shopOrder->submitted->format("d.m.Y"));
+            echo __d('shop', 'Date of invoice: {0}', $shopOrder->submitted->format("d.m.Y"));
             ?>
         <?php endif; ?>
         <br />
