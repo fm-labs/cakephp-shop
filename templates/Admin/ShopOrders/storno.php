@@ -3,8 +3,8 @@
     <?= $this->Form->postLink(__d('shop', 'Storno order'), [], ['class' => 'btn btn-primary']); ?>
     <hr />
     <?php echo $this->cell('Admin.EntityView', [$order], [
-        'model' => 'Shop.ShopOrders',
+        'modelClass' => 'Shop.ShopOrders',
         'whitelist' => ['nr_formatted', 'created', 'customer_email']
-    ]);?>
+    ])->render('table');?>
 
 </div>

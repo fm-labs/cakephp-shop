@@ -10,10 +10,15 @@ namespace Shop\Controller\Admin;
  */
 class ShopCouponsController extends AppController
 {
+    //    /**
+    //     * @var string
+    //     */
+    //    public $modelClass = "Shop.ShopCoupons";
+
     /**
      * @var string
      */
-    public $modelClass = "Shop.ShopCoupons";
+    public $defaultTable = "Shop.ShopCoupons";
 
     /**
      * @var array

@@ -10,6 +10,8 @@ namespace Shop\Controller\Admin;
  */
 class ShopOrderInvoicesController extends AppController
 {
+    public $defaultTable = "Shop.ShopOrderInvoices";
+
     /**
      * Index method
      *

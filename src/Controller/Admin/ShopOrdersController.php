@@ -24,6 +24,11 @@ class ShopOrdersController extends AppController
     public $modelClass = "Shop.ShopOrders";
 
     /**
+     * @var string
+     */
+    public $defaultTable = "Shop.ShopOrders";
+
+    /**
      * @var array
      */
     public $actions = [

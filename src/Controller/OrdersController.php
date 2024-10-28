@@ -15,6 +15,8 @@ class OrdersController extends AppController
 {
     public $modelClass = "Shop.ShopOrders";
 
+    public $defaultTable = "Shop.ShopOrders";
+
     /**
      * {@inheritDoc}
      */

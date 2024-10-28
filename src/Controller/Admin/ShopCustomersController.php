@@ -16,6 +16,11 @@ class ShopCustomersController extends AppController
     public $modelClass = "Shop.ShopCustomers";
 
     /**
+     * @var string
+     */
+    public $defaultTable = "Shop.ShopCustomers";
+
+    /**
      * @var array
      */
     public $paginate = [

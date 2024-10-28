@@ -20,6 +20,11 @@ class ShopCategoriesController extends AppController
     public $modelClass = "Shop.ShopCategories";
 
     /**
+     * @var string
+     */
+    public $defaultTable = "Shop.ShopCategories";
+
+    /**
      * @var array
      */
     public $actions = [

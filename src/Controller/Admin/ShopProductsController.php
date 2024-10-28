@@ -21,9 +21,9 @@ class ShopProductsController extends AppController
      * @var string
      * @deprecated
      */
-    public $modelClass = "Shop.ShopProducts";
+    //public $modelClass = "Shop.ShopProducts";
 
-    //public $defaultTable = "Shop.ShopProducts";
+    public $defaultTable = "Shop.ShopProducts";
 
     /**
      * @var array
@@ -225,10 +225,11 @@ class ShopProductsController extends AppController
         $this->Action->execute();
     }
 
-    public function edit()
+    public function edit($id = null)
     {
         //$this->helpers['Media'] = ['className' => 'Media.Media'];
         //$this->helpers['MediaPicker'] = ['className' => 'Media.MediaPicker'];
+        $this->set('modelId', $id);
 
         $this->set('fieldsets', [
             ['fields' => [

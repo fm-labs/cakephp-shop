@@ -10,6 +10,8 @@ namespace Shop\Controller\Admin;
  */
 class ShopOrderItemsController extends AppController
 {
+    public $defaultTable = "Shop.ShopOrderItems";
+
     /**
      * @var array
      */
